@@ -1,0 +1,55 @@
+{
+ "schema": "wonky-bakeoff-fixture/1",
+ "case": "plate-blind-pocket",
+ "category": "holes",
+ "deviationMm": 0.01,
+ "location": "fixtures/bakeoff/jobs",
+ "job": "fixtures/bakeoff/jobs/plate-blind-pocket.job",
+ "csgJob": "fixtures/bakeoff/jobs/plate-blind-pocket.csg.job",
+ "jobBytes": 2190,
+ "jobSha256": "641a85ba6fcee31bdb2a98a38923984ab0b3f6683c1ac8f4461e07aa5588de49",
+ "csgJobSha256": "f27da1d53dfa3a5a8faafe98f9661bbfbb59a454aac9cf9da36ec27b393cd287",
+ "leaves": 2,
+ "faces": 12,
+ "vertices": 16,
+ "triangles": 24,
+ "deviationMeasuredMaxMm": 0,
+ "leafInfo": [
+  {
+   "leaf": 0,
+   "prim": "box",
+   "vertices": 8,
+   "triangles": 12,
+   "tags": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5
+   ],
+   "deviationMeasuredMm": 0,
+   "deviationMethod": "exact-planar",
+   "vertexOnSurfaceMaxMm": 0,
+   "analyticVolume": 6000
+  },
+  {
+   "leaf": 1,
+   "prim": "box",
+   "vertices": 8,
+   "triangles": 12,
+   "tags": [
+    6,
+    7,
+    8,
+    9,
+    10,
+    11
+   ],
+   "deviationMeasuredMm": 0,
+   "deviationMethod": "exact-planar",
+   "vertexOnSurfaceMaxMm": 0,
+   "analyticVolume": 1120
+  }
+ ]
+}

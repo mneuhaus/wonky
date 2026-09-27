@@ -1,0 +1,169 @@
+{
+ "schema": "wonky-rust-planar-spike-calls/1",
+ "purpose": "K0 (docs/rust-migration.md 6): the decision spike's 9 captured planar-Boolean calls, replayed by scripts/rust/planar-spike/compare.mjs against the Rust port",
+ "capture": {
+  "rev": "65688ce1dbc93b4d2f280f5110ea33944cdfb457",
+  "kernelClean": true,
+  "backend": "js (loadKernel, WONKY_BACKEND=js)",
+  "codec": {
+   "generator": "scripts/native-bridge/gen-wire.mjs",
+   "ops": [
+    "ports/planar-boolean.bend:union",
+    "ports/planar-boolean.bend:subtract"
+   ],
+   "wireMjsSha256": "d37836751923eec576935d7dab38a0c92ab2eb8c7696273bee2d82ec969123c7"
+  },
+  "node": "22.23.1"
+ },
+ "inputs": {
+  "fixtures/performance-build123d/cases/planar-union.py": "44dca3fe64c29b98ffb6fa108748b9a6cc9a3a6cf6c6ca6a7cb706caa19b6d20",
+  "fixtures/performance-build123d/cases/planar-pocket.py": "bc54c7583eb1034bc17111d0d72317cf02fdd079590b8359465a98f1fda78171",
+  "fixtures/performance-build123d/cases/frame-with-tab.py": "3c9e72765f2389b51bfc18548961f37154c66ae9e16d7ab4c4f68388c98e4137",
+  "fixtures/public-boolean-regressions/adapted/fuse-g1.fs": "43d44d1823cdbe84cd99ec452e9375df5175a2c3c1d0791a3c5375f0252b5830",
+  "fixtures/public-boolean-regressions/adapted/cut-h1.fs": "0362fa2d346939ee4a70dc805c8227e68bcdd9972467ca1cae5d24186a9c4a8d",
+  "fixtures/rust/planar-spike/inputs/kt6_coplanar_union/case.fs": "c4db3896d8ae62d203b0b6d5af2d7547f3d09a02b0c4bbda4e45112deff15cba"
+ },
+ "workloads": [
+  {
+   "id": "py-planar-union",
+   "argv": [
+    "bin/wonky-python.mjs",
+    "fixtures/performance-build123d/cases/planar-union.py",
+    "--python",
+    "out/build123d-performance/reference-venv/bin/python"
+   ]
+  },
+  {
+   "id": "py-planar-pocket",
+   "argv": [
+    "bin/wonky-python.mjs",
+    "fixtures/performance-build123d/cases/planar-pocket.py",
+    "--python",
+    "out/build123d-performance/reference-venv/bin/python"
+   ]
+  },
+  {
+   "id": "py-frame-with-tab",
+   "argv": [
+    "bin/wonky-python.mjs",
+    "fixtures/performance-build123d/cases/frame-with-tab.py",
+    "--python",
+    "out/build123d-performance/reference-venv/bin/python"
+   ]
+  },
+  {
+   "id": "fs-fuse-g1",
+   "argv": [
+    "bin/wonky.mjs",
+    "fixtures/public-boolean-regressions/adapted/fuse-g1.fs",
+    "--format",
+    "step"
+   ]
+  },
+  {
+   "id": "fs-cut-h1",
+   "argv": [
+    "bin/wonky.mjs",
+    "fixtures/public-boolean-regressions/adapted/cut-h1.fs",
+    "--format",
+    "step"
+   ]
+  },
+  {
+   "id": "r20-kt6",
+   "argv": [
+    "bin/wonky.mjs",
+    "fixtures/rust/planar-spike/inputs/kt6_coplanar_union/case.fs",
+    "--feature",
+    "kt6CoplanarUnion",
+    "--format",
+    "print",
+    "--deviation-mm",
+    "0.01"
+   ]
+  }
+ ],
+ "calls": [
+  {
+   "workload": "py-planar-union",
+   "call": 0,
+   "operation": "union",
+   "requestWords": 892,
+   "requestSha256": "d9bcd8969cdf17e9af221a76616a48257d304cfa2efddd2af392aa63d6e6f8bc",
+   "bendResultSha256": "0e531c01d8ed28baf975e32c668548490bb766b41dbda2f282f98d99a51b1a68",
+   "bendStatus": "Bodies"
+  },
+  {
+   "workload": "py-planar-pocket",
+   "call": 0,
+   "operation": "subtract",
+   "requestWords": 892,
+   "requestSha256": "f7622a723a66efbaec9414204eac636377cd26023777d268fc3867f8b63eddac",
+   "bendResultSha256": "518c125b17d1b33e3bf929bb5918b7788a90e0779f4a813239a648c550f17d14",
+   "bendStatus": "Bodies"
+  },
+  {
+   "workload": "py-frame-with-tab",
+   "call": 0,
+   "operation": "subtract",
+   "requestWords": 892,
+   "requestSha256": "10c948ed7cb9129067725801f2ea2765652a6e0a2972593871b62910c6732ac1",
+   "bendResultSha256": "ac93264f2ccf4e1d704c382eeb4f13683c1029a3d83fe9f3095343522b23e681",
+   "bendStatus": "Bodies"
+  },
+  {
+   "workload": "py-frame-with-tab",
+   "call": 1,
+   "operation": "union",
+   "requestWords": 3046,
+   "requestSha256": "6bdfa814306992252626718de131cfb964956f8561dab1bf81dd513f153586d8",
+   "bendResultSha256": "8513cb216e8581c74259364f513de8312ec22b53ceb704e2d2750dbd3bc18259",
+   "bendStatus": "Bodies"
+  },
+  {
+   "workload": "fs-fuse-g1",
+   "call": 0,
+   "operation": "union",
+   "requestWords": 892,
+   "requestSha256": "99d17e16c839909062cc5dafdf4d068c1b9d1319622f5b840608509d9487f0f8",
+   "bendResultSha256": "91c71025aa85ebd4b23b3d4cac3607e3fa1876b44fcc1de1ea02d654b22a1c8c",
+   "bendStatus": "Bodies"
+  },
+  {
+   "workload": "fs-cut-h1",
+   "call": 0,
+   "operation": "subtract",
+   "requestWords": 1284,
+   "requestSha256": "ab47faaa84896e69db670ace42ad7a2b57f5d6ba4c23616ccbc8caa6c15a420e",
+   "bendResultSha256": "f6ab38b7a004609ef093a90cffc8de5e6bb3543b295f55f9d604b781db74d291",
+   "bendStatus": "Bodies"
+  },
+  {
+   "workload": "r20-kt6",
+   "call": 0,
+   "operation": "union",
+   "requestWords": 892,
+   "requestSha256": "8b69a2393fdf3824c6232827ce7ffe83dcaae444f0d76f20d689c43b6dbd233f",
+   "bendResultSha256": "16f6cde9653b3ae3dd80304d95710760a48ab8253fb223188faf6d69414355e6",
+   "bendStatus": "Bodies"
+  },
+  {
+   "workload": "r20-kt6",
+   "call": 1,
+   "operation": "union",
+   "requestWords": 1600,
+   "requestSha256": "1920c57764f56640738aaca801b4dc0418efba0bd866f63fbc06bd2a5be3bda8",
+   "bendResultSha256": "8e68e1d187d70d9ea81dccc3417ff2b6de732012fdeffa84f62e57f363f15893",
+   "bendStatus": "Unresolved"
+  },
+  {
+   "workload": "r20-kt6",
+   "call": 2,
+   "operation": "union",
+   "requestWords": 1284,
+   "requestSha256": "5d0a6224502d22d410d9c45cbb3977427e357305cad46a32b64cfea4590249e3",
+   "bendResultSha256": "bbfe8bd0f338172d54abd445c81f689e3db06de8d69cfed8b1c7a2e578678f95",
+   "bendStatus": "Bodies"
+  }
+ ]
+}

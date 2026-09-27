@@ -1,0 +1,13 @@
+[package]
+name = "wonky-alg"
+version = "0.1.0"
+edition = "2021"
+description = "Exact univariate rational polynomial algebra and certified real algebraic roots"
+publish = false
+
+[dependencies]
+# Already vendored and locked in the workspace; no external geometry kernel.
+num-bigint = "0.4"
+num-rational = "0.4"
+num-traits = "0.2"
+wonky-num = { path = "../wonky-num" }

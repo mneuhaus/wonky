@@ -1,0 +1,58 @@
+{
+ "id": "hard-near-full-round-r4.99",
+ "jobSha256": "5c0b9dccffd47f8ef32f9f247d462c2eaa8d7cb324e03f9e6ab237d0ac2c57db",
+ "jobBytes": 1862,
+ "sourceSha256": "5fc4cd2b8f52416029199034430875971e457f630a9e7031c290a9c7647e2fc8",
+ "buildMs": 2.229457999999795,
+ "kernel": {
+  "closed": true,
+  "volumeMm3": 999.9999999999999,
+  "areaMm2": 600,
+  "precision": "F32x2",
+  "geometry": "planar"
+ },
+ "counts": {
+  "vertices": 8,
+  "edges": 12,
+  "faces": 6
+ },
+ "surfaces": {
+  "plane": 6
+ },
+ "quantizationErrorMm": 0,
+ "selected": [
+  {
+   "edge": 4,
+   "curve": "line",
+   "faces": [
+    "plane",
+    "plane"
+   ],
+   "convexity": "convex",
+   "dihedralDeg": 90,
+   "length": 10,
+   "sample": [
+    5,
+    0,
+    10
+   ]
+  },
+  {
+   "edge": 6,
+   "curve": "line",
+   "faces": [
+    "plane",
+    "plane"
+   ],
+   "convexity": "convex",
+   "dihedralDeg": 90,
+   "length": 10,
+   "sample": [
+    5,
+    10,
+    10
+   ]
+  }
+ ],
+ "step": "out/fillet/input-step/hard-near-full-round-r4.99.step"
+}

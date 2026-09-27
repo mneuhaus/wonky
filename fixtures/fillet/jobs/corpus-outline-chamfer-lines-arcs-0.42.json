@@ -1,0 +1,123 @@
+{
+ "id": "corpus-outline-chamfer-lines-arcs-0.42",
+ "jobSha256": "b415b9832a38e48f10c88dfb59fb1ff191cdd7dbb9d979dc997e27f27e6b8569",
+ "jobBytes": 3368,
+ "sourceSha256": "df27b2cb7388dc5e1c61cff662b9301b026fc948b321df59bf8e6e81d6c3ea93",
+ "buildMs": 44.959957999999915,
+ "kernel": {
+  "closed": true,
+  "volumeMm3": 5957.079632679495,
+  "areaMm2": null,
+  "precision": "F32x2",
+  "geometry": "analytic"
+ },
+ "counts": {
+  "vertices": 12,
+  "edges": 18,
+  "faces": 8
+ },
+ "surfaces": {
+  "plane": 6,
+  "cylinder": 2
+ },
+ "quantizationErrorMm": 0,
+ "selected": [
+  {
+   "edge": 6,
+   "curve": "line",
+   "faces": [
+    "plane",
+    "plane"
+   ],
+   "convexity": "convex",
+   "dihedralDeg": 90,
+   "length": 44.99999999999992,
+   "sample": [
+    22.49999999999996,
+    0,
+    4
+   ]
+  },
+  {
+   "edge": 7,
+   "curve": "circle",
+   "faces": [
+    "plane",
+    "cylinder"
+   ],
+   "convexity": "convex",
+   "dihedralDeg": 90,
+   "length": 7.853969313193291,
+   "sample": [
+    48.535533905933,
+    1.4644660940670056,
+    4
+   ]
+  },
+  {
+   "edge": 8,
+   "curve": "line",
+   "faces": [
+    "plane",
+    "plane"
+   ],
+   "convexity": "convex",
+   "dihedralDeg": 90,
+   "length": 20,
+   "sample": [
+    50,
+    15,
+    4
+   ]
+  },
+  {
+   "edge": 9,
+   "curve": "circle",
+   "faces": [
+    "plane",
+    "cylinder"
+   ],
+   "convexity": "convex",
+   "dihedralDeg": 90,
+   "length": 7.853969313193283,
+   "sample": [
+    48.53553390593299,
+    28.535533905932994,
+    4
+   ]
+  },
+  {
+   "edge": 10,
+   "curve": "line",
+   "faces": [
+    "plane",
+    "plane"
+   ],
+   "convexity": "convex",
+   "dihedralDeg": 90,
+   "length": 44.99999999999995,
+   "sample": [
+    22.49999999999996,
+    30,
+    4
+   ]
+  },
+  {
+   "edge": 11,
+   "curve": "line",
+   "faces": [
+    "plane",
+    "plane"
+   ],
+   "convexity": "convex",
+   "dihedralDeg": 90,
+   "length": 30,
+   "sample": [
+    0,
+    15,
+    4
+   ]
+  }
+ ],
+ "step": "out/fillet/input-step/corpus-outline-chamfer-lines-arcs-0.42.step"
+}

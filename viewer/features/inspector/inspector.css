@@ -1,0 +1,335 @@
+/* Inspector column and selection inspector (host: help-a11y). Tokens only; text >= 11 px. */
+
+.inspector-tabs {
+  height: 56px;
+  align-items: flex-end;
+  gap: 28px;
+}
+
+.inspector-panel {
+  min-height: 0;
+  flex: 1;
+  overflow: auto;
+}
+
+.selection-content {
+  padding: 22px 21px;
+}
+
+.empty-inspector {
+  padding: 23px 0 18px;
+  text-align: center;
+}
+
+.empty-inspector .empty-icon {
+  margin-bottom: 13px;
+}
+
+.empty-inspector .empty-icon svg {
+  height: 30px;
+  width: 30px;
+}
+
+.empty-inspector h2 {
+  font-size: var(--text-md);
+  font-weight: 550;
+}
+
+.empty-inspector p {
+  font-size: var(--text-xs);
+  line-height: 1.7;
+  margin: 9px auto 0;
+  max-width: 205px;
+}
+
+.inspector-section {
+  margin-top: 24px;
+  padding-top: 20px;
+  border-top: 1px solid var(--line);
+}
+
+.inspector-section h3 {
+  font-size: var(--text-xs);
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: var(--muted);
+  font-weight: 550;
+  margin-bottom: 12px;
+}
+
+.selection-heading {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin-bottom: 17px;
+}
+
+.selection-symbol {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 9px;
+  background: var(--copper-soft);
+  color: var(--copper);
+}
+
+.selection-heading h2 {
+  font-size: var(--text-lg);
+  font-weight: 600;
+  letter-spacing: -.3px;
+}
+
+.selection-heading p {
+  font-size: var(--text-xs);
+  color: var(--muted);
+  margin-top: 4px;
+  overflow-wrap: anywhere;
+}
+
+.properties {
+  margin: 0;
+  display: grid;
+  grid-template-columns: auto minmax(0,1fr);
+  column-gap: 15px;
+  row-gap: 12px;
+  font-size: var(--text-xs);
+  align-items: start;
+}
+
+.properties dt {
+  color: var(--muted);
+}
+
+.properties dd {
+  margin: 0;
+  text-align: right;
+  overflow-wrap: anywhere;
+}
+
+.properties code {
+  font-size: var(--text-xs);
+  word-break: break-all;
+}
+
+.selection-actions {
+  display: flex;
+  gap: 7px;
+  margin-top: 20px;
+}
+
+.selection-actions .button {
+  font-size: var(--text-xs);
+  min-height: 34px;
+  padding: 0 9px;
+  flex: 1;
+}
+
+.selection-actions svg {
+  width: 14px;
+  height: 14px;
+}
+
+.source-path {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  line-height: 1.7;
+  overflow-wrap: anywhere;
+  background: var(--sunken);
+  padding: 9px 10px;
+  border-radius: 5px;
+  color: var(--muted);
+}
+
+.source-location {
+  display: block;
+  color: var(--green);
+  margin-top: 5px;
+}
+
+.body-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.body-row {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  width: 100%;
+  padding: 9px;
+  background: var(--sunken);
+  color: var(--ink);
+  border: 0;
+  border-radius: 5px;
+  text-align: left;
+  font-size: var(--text-xs);
+  line-height: 1.5;
+}
+
+.body-row span:last-child {
+  overflow-wrap: anywhere;
+}
+
+.body-row svg {
+  width: 14px;
+  height: 14px;
+  color: var(--green);
+  flex-shrink: 0;
+}
+
+.body-row:hover {
+  background: var(--green-soft);
+}
+
+/* Honesty-critical notes (display approximations, unresolved correspondence):
+   prominent, full ink on the copper tint. */
+.display-note {
+  margin-top: 16px;
+  border-left: 3px solid var(--copper);
+  border-radius: 0 6px 6px 0;
+  padding: 8px 10px;
+  background: var(--copper-soft);
+  font-size: var(--text-sm);
+  color: var(--ink);
+  line-height: 1.6;
+}
+
+.inspector-footer {
+  display: flex;
+  align-items: flex-start;
+  gap: 7px;
+  padding: 14px 18px;
+  border-top: 1px solid var(--line);
+  font-size: var(--text-xs);
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+.inspector-footer svg {
+  height: 13px;
+  width: 13px;
+  margin-top: 1px;
+  flex-shrink: 0;
+}
+
+.model-warning {
+  font-size: var(--text-xs);
+  line-height: 1.6;
+  color: var(--copper);
+  margin: 10px 0;
+}
+
+.display-note details {
+  margin-top: 5px;
+}
+
+.display-note summary {
+  cursor: pointer;
+  color: var(--copper);
+  font-weight: 550;
+}
+
+.display-note ul {
+  margin: 7px 0 0;
+  padding-left: 15px;
+}
+
+.display-note li+li {
+  margin-top: 5px;
+}
+
+@media (max-width: 1150px) {
+  .selection-content {
+    padding: 21px 17px;
+  }
+  .inspector-tabs {
+    gap: 22px;
+    padding: 0 17px;
+  }
+}
+
+@media (max-width: 900px) {
+  .inspector-tabs {
+    height: 45px;
+    flex-shrink: 0;
+    /* The generic .tabs rule of this breakpoint (styles/base.css) came after
+       this one before the split; repeat its values so the cascade holds. */
+    padding-left: 14px;
+    gap: 15px;
+  }
+  .inspector-footer {
+    display: none;
+  }
+  .inspector-panel {
+    flex: 1;
+  }
+  .selection-content {
+    padding: 15px;
+  }
+  .empty-inspector {
+    padding: 0;
+    text-align: left;
+  }
+  .empty-inspector .empty-icon {
+    display: none;
+  }
+  .empty-inspector p {
+    margin: 6px 0 0;
+    max-width: none;
+  }
+  .empty-inspector+.inspector-section {
+    display: none;
+  }
+  .inspector-section {
+    margin-top: 17px;
+    padding-top: 15px;
+  }
+}
+
+@media (max-width: 650px) {
+  .inspector-panel {
+    overflow: auto;
+    max-height: 340px;
+    flex: auto;
+  }
+  .inspector-tabs {
+    height: 44px;
+    padding: 0 18px;
+  }
+  .selection-content {
+    padding: 18px;
+  }
+  .empty-inspector {
+    padding: 5px 0 12px;
+  }
+  .empty-inspector+.inspector-section {
+    display: block;
+  }
+  .selection-content>.inspector-section:last-child {
+    display: none;
+  }
+}
+
+.inspector-identity {
+  margin-top: 4px;
+}
+
+#inspector-heading:focus {
+  outline: none;
+}
+
+#inspector-heading:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 3px;
+  border-radius: 3px;
+}
+
+/* Former inline styles of the inspector notes. */
+.inspector-note {
+  margin-top: 9px;
+}
+.inspector-note-relaxed {
+  line-height: 1.7;
+}

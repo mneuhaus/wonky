@@ -1,0 +1,3970 @@
+{
+ "schema": "wonky-bakeoff-cases/1",
+ "units": "mm",
+ "generator": "out/bakeoff/adversarial-sdf/gen.mjs (round 1, adv-sdf-*) + gen2.mjs (round 2, adv2-sdf-*), verifiers of the sdf prototype",
+ "conventions": "same as fixtures/bakeoff/cases.json",
+ "cases": [
+  {
+   "id": "adv-sdf-box-union-nudge-1e-9",
+   "category": "perturbation",
+   "fdmRationale": "B top 1e-9 mm below A top (sub-F32 step)",
+   "deviationMm": 0.01,
+   "expect": "solid",
+   "csg": {
+    "op": "union",
+    "children": [
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        0,
+        0,
+        0
+       ],
+       "max": [
+        20,
+        20,
+        20
+       ]
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     },
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        10,
+        5,
+        5
+       ],
+       "max": [
+        30,
+        15,
+        19.999999999
+       ]
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "adv-sdf-box-union-nudge-1e-6",
+   "category": "perturbation",
+   "fdmRationale": "B top 1e-6 mm below A top",
+   "deviationMm": 0.01,
+   "expect": "solid",
+   "csg": {
+    "op": "union",
+    "children": [
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        0,
+        0,
+        0
+       ],
+       "max": [
+        20,
+        20,
+        20
+       ]
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     },
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        10,
+        5,
+        5
+       ],
+       "max": [
+        30,
+        15,
+        19.999999
+       ]
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "adv-sdf-hole-tangent-inside-1e-6",
+   "category": "perturbation",
+   "fdmRationale": "hole-tangent-edge with the hole moved 1e-6 mm inward: closed 1e-6 mm wall (genus 1)",
+   "deviationMm": 0.01,
+   "expect": "solid",
+   "csg": {
+    "op": "subtract",
+    "children": [
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        0,
+        0,
+        0
+       ],
+       "max": [
+        30,
+        20,
+        5
+       ]
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     },
+     {
+      "prim": "cylinder",
+      "params": {
+       "radius": 3,
+       "height": 7
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        3.000001,
+        10,
+        -1
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "adv-sdf-hole-tangent-outside-1e-6",
+   "category": "perturbation",
+   "fdmRationale": "hole moved 1e-6 mm outward: breaks through (genus 0 notch)",
+   "deviationMm": 0.01,
+   "expect": "solid",
+   "csg": {
+    "op": "subtract",
+    "children": [
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        0,
+        0,
+        0
+       ],
+       "max": [
+        30,
+        20,
+        5
+       ]
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     },
+     {
+      "prim": "cylinder",
+      "params": {
+       "radius": 3,
+       "height": 7
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        2.999999,
+        10,
+        -1
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "adv-sdf-pipe-tee-rot",
+   "category": "rotation",
+   "fdmRationale": "pipe-tee under a random rotation",
+   "deviationMm": 0.01,
+   "expect": "solid",
+   "csg": {
+    "op": "subtract",
+    "children": [
+     {
+      "op": "union",
+      "children": [
+       {
+        "prim": "cylinder",
+        "params": {
+         "radius": 6,
+         "height": 40
+        },
+        "transform": {
+         "rotate": [
+          {
+           "axis": "y",
+           "deg": 90
+          },
+          {
+           "axis": "z",
+           "deg": 37.1
+          },
+          {
+           "axis": "x",
+           "deg": 12.9
+          },
+          {
+           "axis": "y",
+           "deg": -23.3
+          }
+         ],
+         "translate": [
+          -13.585428848594246,
+          -11.759674769605509,
+          -8.78328937886524
+         ]
+        }
+       },
+       {
+        "prim": "cylinder",
+        "params": {
+         "radius": 4,
+         "height": 20
+        },
+        "transform": {
+         "rotate": [
+          {
+           "axis": "z",
+           "deg": 37.1
+          },
+          {
+           "axis": "x",
+           "deg": 12.9
+          },
+          {
+           "axis": "y",
+           "deg": -23.3
+          }
+         ],
+         "translate": [
+          0,
+          0,
+          0
+         ]
+        }
+       }
+      ]
+     },
+     {
+      "op": "union",
+      "children": [
+       {
+        "prim": "cylinder",
+        "params": {
+         "radius": 5,
+         "height": 42
+        },
+        "transform": {
+         "rotate": [
+          {
+           "axis": "y",
+           "deg": 90
+          },
+          {
+           "axis": "z",
+           "deg": 37.1
+          },
+          {
+           "axis": "x",
+           "deg": 12.9
+          },
+          {
+           "axis": "y",
+           "deg": -23.3
+          }
+         ],
+         "translate": [
+          -14.264700291023958,
+          -12.347658508085784,
+          -9.2224538478085
+         ]
+        }
+       },
+       {
+        "prim": "cylinder",
+        "params": {
+         "radius": 3,
+         "height": 22
+        },
+        "transform": {
+         "rotate": [
+          {
+           "axis": "z",
+           "deg": 37.1
+          },
+          {
+           "axis": "x",
+           "deg": 12.9
+          },
+          {
+           "axis": "y",
+           "deg": -23.3
+          }
+         ],
+         "translate": [
+          0,
+          0,
+          0
+         ]
+        }
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "id": "adv-sdf-box-touching-merge-rot",
+   "category": "rotation",
+   "fdmRationale": "box-touching-merge under a random rotation",
+   "deviationMm": 0.01,
+   "expect": "solid",
+   "csg": {
+    "op": "union",
+    "children": [
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        0,
+        0,
+        0
+       ],
+       "max": [
+        10,
+        10,
+        10
+       ]
+      },
+      "transform": {
+       "rotate": [
+        {
+         "axis": "z",
+         "deg": 37.1
+        },
+        {
+         "axis": "x",
+         "deg": 12.9
+        },
+        {
+         "axis": "y",
+         "deg": -23.3
+        }
+       ],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     },
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        10,
+        0,
+        0
+       ],
+       "max": [
+        20,
+        10,
+        10
+       ]
+      },
+      "transform": {
+       "rotate": [
+        {
+         "axis": "z",
+         "deg": 37.1
+        },
+        {
+         "axis": "x",
+         "deg": 12.9
+        },
+        {
+         "axis": "y",
+         "deg": -23.3
+        }
+       ],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "adv-sdf-box-edge-contact",
+   "category": "tangent",
+   "fdmRationale": "two boxes sharing only an edge line",
+   "deviationMm": 0.01,
+   "expect": "non-manifold-contact",
+   "csg": {
+    "op": "union",
+    "children": [
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        0,
+        0,
+        0
+       ],
+       "max": [
+        10,
+        10,
+        10
+       ]
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     },
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        10,
+        10,
+        0
+       ],
+       "max": [
+        20,
+        20,
+        10
+       ]
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "adv-sdf-sphere-point-contact",
+   "category": "tangent",
+   "fdmRationale": "sphere resting on a box face (point contact)",
+   "deviationMm": 0.01,
+   "expect": "non-manifold-contact",
+   "csg": {
+    "op": "union",
+    "children": [
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        0,
+        0,
+        0
+       ],
+       "max": [
+        20,
+        20,
+        20
+       ]
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     },
+     {
+      "prim": "sphere",
+      "params": {
+       "radius": 5
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        10,
+        10,
+        25
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "adv-sdf-cylinders-line-contact",
+   "category": "tangent",
+   "fdmRationale": "two parallel cylinders touching along a line",
+   "deviationMm": 0.01,
+   "expect": "non-manifold-contact",
+   "csg": {
+    "op": "union",
+    "children": [
+     {
+      "prim": "cylinder",
+      "params": {
+       "radius": 5,
+       "height": 10
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     },
+     {
+      "prim": "cylinder",
+      "params": {
+       "radius": 5,
+       "height": 10
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        10,
+        0,
+        0
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "adv-sdf-gap-0.02",
+   "category": "near-contact",
+   "fdmRationale": "two boxes 0.02 mm apart (2x deviation): 2 components",
+   "deviationMm": 0.01,
+   "expect": "solid",
+   "csg": {
+    "op": "union",
+    "children": [
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        0,
+        0,
+        0
+       ],
+       "max": [
+        20,
+        20,
+        10
+       ]
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     },
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        20.02,
+        0,
+        0
+       ],
+       "max": [
+        40,
+        20,
+        10
+       ]
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "adv-sdf-gap-0.2-fdm-clearance",
+   "category": "near-contact",
+   "fdmRationale": "two boxes 0.2 mm apart (typical FDM print-in-place clearance): 2 components",
+   "deviationMm": 0.01,
+   "expect": "solid",
+   "csg": {
+    "op": "union",
+    "children": [
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        0,
+        0,
+        0
+       ],
+       "max": [
+        20,
+        20,
+        10
+       ]
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     },
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        20.2,
+        0,
+        0
+       ],
+       "max": [
+        40,
+        20,
+        10
+       ]
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "adv-sdf-pin-in-hole-0.2",
+   "category": "near-contact",
+   "fdmRationale": "pin r=2.8 inside a hole r=3.0 in a block (0.2 mm clearance, print-in-place): 2 components",
+   "deviationMm": 0.01,
+   "expect": "solid",
+   "csg": {
+    "op": "union",
+    "children": [
+     {
+      "op": "subtract",
+      "children": [
+       {
+        "prim": "box",
+        "params": {
+         "min": [
+          0,
+          0,
+          0
+         ],
+         "max": [
+          20,
+          20,
+          10
+         ]
+        },
+        "transform": {
+         "rotate": [],
+         "translate": [
+          0,
+          0,
+          0
+         ]
+        }
+       },
+       {
+        "prim": "cylinder",
+        "params": {
+         "radius": 3,
+         "height": 12
+        },
+        "transform": {
+         "rotate": [],
+         "translate": [
+          10,
+          10,
+          -1
+         ]
+        }
+       }
+      ]
+     },
+     {
+      "prim": "cylinder",
+      "params": {
+       "radius": 2.8,
+       "height": 14
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        10,
+        10,
+        -2
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "adv-sdf-rib-0.4",
+   "category": "thin",
+   "fdmRationale": "plate 60x40x2 with a 0.4 mm (one nozzle) x 10 mm rib",
+   "deviationMm": 0.01,
+   "expect": "solid",
+   "csg": {
+    "op": "union",
+    "children": [
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        0,
+        0,
+        0
+       ],
+       "max": [
+        60,
+        40,
+        2
+       ]
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     },
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        30,
+        0,
+        2
+       ],
+       "max": [
+        30.4,
+        40,
+        12
+       ]
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "adv-sdf-rib-0.1",
+   "category": "thin",
+   "fdmRationale": "plate 60x40x2 with a 0.1 mm x 10 mm fin",
+   "deviationMm": 0.01,
+   "expect": "solid",
+   "csg": {
+    "op": "union",
+    "children": [
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        0,
+        0,
+        0
+       ],
+       "max": [
+        60,
+        40,
+        2
+       ]
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     },
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        30,
+        0,
+        2
+       ],
+       "max": [
+        30.1,
+        40,
+        12
+       ]
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "adv-sdf-slit-0.3",
+   "category": "thin",
+   "fdmRationale": "block 40x20x10 cut through by a 0.3 mm slit: 2 components",
+   "deviationMm": 0.01,
+   "expect": "solid",
+   "csg": {
+    "op": "subtract",
+    "children": [
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        0,
+        0,
+        0
+       ],
+       "max": [
+        40,
+        20,
+        10
+       ]
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     },
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        20,
+        -1,
+        -1
+       ],
+       "max": [
+        20.3,
+        21,
+        11
+       ]
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "adv-sdf-membrane-0.3",
+   "category": "thin",
+   "fdmRationale": "block 40x20x10 with pockets from both sides leaving a 0.3 mm membrane (genus 0)",
+   "deviationMm": 0.01,
+   "expect": "solid",
+   "csg": {
+    "op": "subtract",
+    "children": [
+     {
+      "op": "subtract",
+      "children": [
+       {
+        "prim": "box",
+        "params": {
+         "min": [
+          0,
+          0,
+          0
+         ],
+         "max": [
+          40,
+          20,
+          10
+         ]
+        },
+        "transform": {
+         "rotate": [],
+         "translate": [
+          0,
+          0,
+          0
+         ]
+        }
+       },
+       {
+        "prim": "box",
+        "params": {
+         "min": [
+          10,
+          5,
+          -1
+         ],
+         "max": [
+          30,
+          15,
+          4.85
+         ]
+        },
+        "transform": {
+         "rotate": [],
+         "translate": [
+          0,
+          0,
+          0
+         ]
+        }
+       }
+      ]
+     },
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        10,
+        5,
+        5.15
+       ],
+       "max": [
+        30,
+        15,
+        11
+       ]
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "adv-sdf-thin-tube-0.2",
+   "category": "thin",
+   "fdmRationale": "tube r 3.2 / 3.0, 10 long (0.2 mm wall, genus 1)",
+   "deviationMm": 0.01,
+   "expect": "solid",
+   "csg": {
+    "op": "subtract",
+    "children": [
+     {
+      "prim": "cylinder",
+      "params": {
+       "radius": 3.2,
+       "height": 10
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     },
+     {
+      "prim": "cylinder",
+      "params": {
+       "radius": 3,
+       "height": 12
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        -1
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "adv-sdf-scale-1e-3-plate-4-holes",
+   "category": "scale",
+   "fdmRationale": "plate-4-holes scaled by 1e-3 (deviation scaled)",
+   "deviationMm": 0.00001,
+   "expect": "solid",
+   "csg": {
+    "op": "subtract",
+    "children": [
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        0,
+        0,
+        0
+       ],
+       "max": [
+        0.05,
+        0.04,
+        0.004
+       ]
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     },
+     {
+      "op": "union",
+      "children": [
+       {
+        "op": "union",
+        "children": [
+         {
+          "prim": "cylinder",
+          "params": {
+           "radius": 0.0017,
+           "height": 0.006
+          },
+          "transform": {
+           "rotate": [],
+           "translate": [
+            0.006,
+            0.006,
+            -0.001
+           ]
+          }
+         },
+         {
+          "prim": "cylinder",
+          "params": {
+           "radius": 0.0017,
+           "height": 0.006
+          },
+          "transform": {
+           "rotate": [],
+           "translate": [
+            0.044,
+            0.006,
+            -0.001
+           ]
+          }
+         }
+        ]
+       },
+       {
+        "op": "union",
+        "children": [
+         {
+          "prim": "cylinder",
+          "params": {
+           "radius": 0.0017,
+           "height": 0.006
+          },
+          "transform": {
+           "rotate": [],
+           "translate": [
+            0.044,
+            0.034,
+            -0.001
+           ]
+          }
+         },
+         {
+          "prim": "cylinder",
+          "params": {
+           "radius": 0.0017,
+           "height": 0.006
+          },
+          "transform": {
+           "rotate": [],
+           "translate": [
+            0.006,
+            0.034,
+            -0.001
+           ]
+          }
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "id": "adv-sdf-scale-1e3-plate-through-hole",
+   "category": "scale",
+   "fdmRationale": "plate-through-hole scaled by 1e3 (deviation scaled)",
+   "deviationMm": 10,
+   "expect": "solid",
+   "csg": {
+    "op": "subtract",
+    "children": [
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        0,
+        0,
+        0
+       ],
+       "max": [
+        40000,
+        30000,
+        5000
+       ]
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     },
+     {
+      "prim": "cylinder",
+      "params": {
+       "radius": 3200,
+       "height": 7000
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        20000,
+        15000,
+        -1000
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "adv-sdf-far-1e4-plate-through-hole",
+   "category": "scale",
+   "fdmRationale": "plate-through-hole translated to (1e4,1e4,1e4), deviation 0.01",
+   "deviationMm": 0.01,
+   "expect": "solid",
+   "csg": {
+    "op": "subtract",
+    "children": [
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        0,
+        0,
+        0
+       ],
+       "max": [
+        40,
+        30,
+        5
+       ]
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        10000,
+        10000,
+        10000
+       ]
+      }
+     },
+     {
+      "prim": "cylinder",
+      "params": {
+       "radius": 3.2,
+       "height": 7
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        10020,
+        10015,
+        9999
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "adv-sdf-far-1e5-box-rotated-intersect",
+   "category": "scale",
+   "fdmRationale": "box-rotated-intersect translated to (1e5,1e5,1e5), deviation 0.01",
+   "deviationMm": 0.01,
+   "expect": "solid",
+   "csg": {
+    "op": "intersect",
+    "children": [
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        0,
+        0,
+        0
+       ],
+       "max": [
+        20,
+        20,
+        20
+       ]
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        100000,
+        100000,
+        100000
+       ]
+      }
+     },
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        -10,
+        -10,
+        -10
+       ],
+       "max": [
+        10,
+        10,
+        10
+       ]
+      },
+      "transform": {
+       "rotate": [
+        {
+         "axis": "z",
+         "deg": 30
+        },
+        {
+         "axis": "x",
+         "deg": 20
+        },
+        {
+         "axis": "y",
+         "deg": -11
+        }
+       ],
+       "translate": [
+        100012,
+        100009,
+        100011
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "adv-sdf-big-cyl-tiny-pin",
+   "category": "scale",
+   "fdmRationale": "cylinder r40 h40 with a r0.05 pin on top (multi-scale: global h from min radius)",
+   "deviationMm": 0.01,
+   "expect": "solid",
+   "csg": {
+    "op": "union",
+    "children": [
+     {
+      "prim": "cylinder",
+      "params": {
+       "radius": 40,
+       "height": 40
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     },
+     {
+      "prim": "cylinder",
+      "params": {
+       "radius": 0.05,
+       "height": 5
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        39
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "adv-sdf-cone-apex-leaf",
+   "category": "cone-apex",
+   "fdmRationale": "single cone r1=5 r2=0 h=10 (apex on the surface)",
+   "deviationMm": 0.01,
+   "expect": "solid",
+   "csg": {
+    "prim": "cone",
+    "params": {
+     "r1": 5,
+     "r2": 0,
+     "height": 10
+    },
+    "transform": {
+     "rotate": [],
+     "translate": [
+      0,
+      0,
+      0
+     ]
+    }
+   }
+  },
+  {
+   "id": "adv-sdf-drill-point-hole",
+   "category": "cone-apex",
+   "fdmRationale": "blind drill hole: cylinder r2 + 118deg point cone, apex inside the block",
+   "deviationMm": 0.01,
+   "expect": "solid",
+   "csg": {
+    "op": "subtract",
+    "children": [
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        0,
+        0,
+        0
+       ],
+       "max": [
+        20,
+        20,
+        10
+       ]
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     },
+     {
+      "op": "union",
+      "children": [
+       {
+        "prim": "cylinder",
+        "params": {
+         "radius": 2,
+         "height": 6
+        },
+        "transform": {
+         "rotate": [],
+         "translate": [
+          10,
+          10,
+          5
+         ]
+        }
+       },
+       {
+        "prim": "cone",
+        "params": {
+         "r1": 0,
+         "r2": 2,
+         "height": 1.2017212380551212
+        },
+        "transform": {
+         "rotate": [],
+         "translate": [
+          10,
+          10,
+          3.7982787619448786
+         ]
+        }
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "id": "adv-sdf-sliver-prism-pocket",
+   "category": "sliver",
+   "fdmRationale": "non-convex prism with a vertex 1e-7 mm off a straight side, pocket across it",
+   "deviationMm": 0.01,
+   "expect": "solid",
+   "csg": {
+    "op": "subtract",
+    "children": [
+     {
+      "prim": "prism",
+      "params": {
+       "points": [
+        [
+         0,
+         0
+        ],
+        [
+         10,
+         1e-7
+        ],
+        [
+         20,
+         0
+        ],
+        [
+         20,
+         10
+        ],
+        [
+         0,
+         10
+        ]
+       ],
+       "height": 5
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     },
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        5,
+        -1,
+        1
+       ],
+       "max": [
+        15,
+        5,
+        4
+       ]
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "adv-sdf-needle-hole",
+   "category": "sliver",
+   "fdmRationale": "hole of radius 1e-3 mm through a plate",
+   "deviationMm": 0.01,
+   "expect": "solid",
+   "csg": {
+    "op": "subtract",
+    "children": [
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        0,
+        0,
+        0
+       ],
+       "max": [
+        10,
+        10,
+        3
+       ]
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     },
+     {
+      "prim": "cylinder",
+      "params": {
+       "radius": 0.001,
+       "height": 5
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        5,
+        5,
+        -1
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "adv-sdf-iterated-self-union-4",
+   "category": "iterated",
+   "fdmRationale": "((A u A) u A) u A, identical cylinders",
+   "deviationMm": 0.01,
+   "expect": "solid",
+   "csg": {
+    "op": "union",
+    "children": [
+     {
+      "op": "union",
+      "children": [
+       {
+        "op": "union",
+        "children": [
+         {
+          "prim": "cylinder",
+          "params": {
+           "radius": 5,
+           "height": 10
+          },
+          "transform": {
+           "rotate": [],
+           "translate": [
+            0,
+            0,
+            0
+           ]
+          }
+         },
+         {
+          "prim": "cylinder",
+          "params": {
+           "radius": 5,
+           "height": 10
+          },
+          "transform": {
+           "rotate": [],
+           "translate": [
+            0,
+            0,
+            0
+           ]
+          }
+         }
+        ]
+       },
+       {
+        "prim": "cylinder",
+        "params": {
+         "radius": 5,
+         "height": 10
+        },
+        "transform": {
+         "rotate": [],
+         "translate": [
+          0,
+          0,
+          0
+         ]
+        }
+       }
+      ]
+     },
+     {
+      "prim": "cylinder",
+      "params": {
+       "radius": 5,
+       "height": 10
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "adv-sdf-iterated-rot-union-6",
+   "category": "iterated",
+   "fdmRationale": "union of 6 boxes rotated by k*1e-6 deg about z",
+   "deviationMm": 0.01,
+   "expect": "solid",
+   "csg": {
+    "op": "union",
+    "children": [
+     {
+      "op": "union",
+      "children": [
+       {
+        "op": "union",
+        "children": [
+         {
+          "op": "union",
+          "children": [
+           {
+            "op": "union",
+            "children": [
+             {
+              "prim": "box",
+              "params": {
+               "min": [
+                -10,
+                -10,
+                -10
+               ],
+               "max": [
+                10,
+                10,
+                10
+               ]
+              },
+              "transform": {
+               "rotate": [],
+               "translate": [
+                0,
+                0,
+                0
+               ]
+              }
+             },
+             {
+              "prim": "box",
+              "params": {
+               "min": [
+                -10,
+                -10,
+                -10
+               ],
+               "max": [
+                10,
+                10,
+                10
+               ]
+              },
+              "transform": {
+               "rotate": [
+                {
+                 "axis": "z",
+                 "deg": 0.000001
+                }
+               ],
+               "translate": [
+                0,
+                0,
+                0
+               ]
+              }
+             }
+            ]
+           },
+           {
+            "prim": "box",
+            "params": {
+             "min": [
+              -10,
+              -10,
+              -10
+             ],
+             "max": [
+              10,
+              10,
+              10
+             ]
+            },
+            "transform": {
+             "rotate": [
+              {
+               "axis": "z",
+               "deg": 0.000002
+              }
+             ],
+             "translate": [
+              0,
+              0,
+              0
+             ]
+            }
+           }
+          ]
+         },
+         {
+          "prim": "box",
+          "params": {
+           "min": [
+            -10,
+            -10,
+            -10
+           ],
+           "max": [
+            10,
+            10,
+            10
+           ]
+          },
+          "transform": {
+           "rotate": [
+            {
+             "axis": "z",
+             "deg": 0.000003
+            }
+           ],
+           "translate": [
+            0,
+            0,
+            0
+           ]
+          }
+         }
+        ]
+       },
+       {
+        "prim": "box",
+        "params": {
+         "min": [
+          -10,
+          -10,
+          -10
+         ],
+         "max": [
+          10,
+          10,
+          10
+         ]
+        },
+        "transform": {
+         "rotate": [
+          {
+           "axis": "z",
+           "deg": 0.000004
+          }
+         ],
+         "translate": [
+          0,
+          0,
+          0
+         ]
+        }
+       }
+      ]
+     },
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        -10,
+        -10,
+        -10
+       ],
+       "max": [
+        10,
+        10,
+        10
+       ]
+      },
+      "transform": {
+       "rotate": [
+        {
+         "axis": "z",
+         "deg": 0.0000049999999999999996
+        }
+       ],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "adv-sdf-intersect-face-contact-empty",
+   "category": "empty",
+   "fdmRationale": "intersection of face-touching boxes (measure zero)",
+   "deviationMm": 0.01,
+   "expect": "empty",
+   "csg": {
+    "op": "intersect",
+    "children": [
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        0,
+        0,
+        0
+       ],
+       "max": [
+        10,
+        10,
+        10
+       ]
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     },
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        10,
+        0,
+        0
+       ],
+       "max": [
+        20,
+        10,
+        10
+       ]
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "adv-sdf-intersect-spheres-empty",
+   "category": "empty",
+   "fdmRationale": "disjoint spheres whose bounding boxes overlap",
+   "deviationMm": 0.01,
+   "expect": "empty",
+   "csg": {
+    "op": "intersect",
+    "children": [
+     {
+      "prim": "sphere",
+      "params": {
+       "radius": 10
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     },
+     {
+      "prim": "sphere",
+      "params": {
+       "radius": 10
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        16,
+        16,
+        0
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "adv-sdf-subtract-contained-empty",
+   "category": "empty",
+   "fdmRationale": "small box minus a box containing it",
+   "deviationMm": 0.01,
+   "expect": "empty",
+   "csg": {
+    "op": "subtract",
+    "children": [
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        2,
+        2,
+        2
+       ],
+       "max": [
+        8,
+        8,
+        8
+       ]
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     },
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        0,
+        0,
+        0
+       ],
+       "max": [
+        10,
+        10,
+        10
+       ]
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "adv-sdf-union-spheres-disjoint",
+   "category": "disjoint",
+   "fdmRationale": "disjoint spheres whose bounding boxes overlap: 2 components",
+   "deviationMm": 0.01,
+   "expect": "solid",
+   "csg": {
+    "op": "union",
+    "children": [
+     {
+      "prim": "sphere",
+      "params": {
+       "radius": 10
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     },
+     {
+      "prim": "sphere",
+      "params": {
+       "radius": 10
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        16,
+        16,
+        0
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "adv-sdf-void-island",
+   "category": "disjoint",
+   "fdmRationale": "hollow box united with an island inside the void: 3 shells",
+   "deviationMm": 0.01,
+   "expect": "solid",
+   "csg": {
+    "op": "union",
+    "children": [
+     {
+      "op": "subtract",
+      "children": [
+       {
+        "prim": "box",
+        "params": {
+         "min": [
+          0,
+          0,
+          0
+         ],
+         "max": [
+          20,
+          20,
+          20
+         ]
+        },
+        "transform": {
+         "rotate": [],
+         "translate": [
+          0,
+          0,
+          0
+         ]
+        }
+       },
+       {
+        "prim": "box",
+        "params": {
+         "min": [
+          5,
+          5,
+          5
+         ],
+         "max": [
+          15,
+          15,
+          15
+         ]
+        },
+        "transform": {
+         "rotate": [],
+         "translate": [
+          0,
+          0,
+          0
+         ]
+        }
+       }
+      ]
+     },
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        8,
+        8,
+        8
+       ],
+       "max": [
+        12,
+        12,
+        12
+       ]
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "adv-sdf-membrane-0.5",
+   "category": "thin",
+   "fdmRationale": "block 40x20x10, pockets from both sides leaving a 0.5 mm membrane (sacrificial bridge layer)",
+   "deviationMm": 0.01,
+   "expect": "solid",
+   "csg": {
+    "op": "subtract",
+    "children": [
+     {
+      "op": "subtract",
+      "children": [
+       {
+        "prim": "box",
+        "params": {
+         "min": [
+          0,
+          0,
+          0
+         ],
+         "max": [
+          40,
+          20,
+          10
+         ]
+        },
+        "transform": {
+         "rotate": [],
+         "translate": [
+          0,
+          0,
+          0
+         ]
+        }
+       },
+       {
+        "prim": "box",
+        "params": {
+         "min": [
+          10,
+          5,
+          -1
+         ],
+         "max": [
+          30,
+          15,
+          4.75
+         ]
+        },
+        "transform": {
+         "rotate": [],
+         "translate": [
+          0,
+          0,
+          0
+         ]
+        }
+       }
+      ]
+     },
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        10,
+        5,
+        5.25
+       ],
+       "max": [
+        30,
+        15,
+        11
+       ]
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "adv-sdf-large-plate-rib-1.2",
+   "category": "thin",
+   "fdmRationale": "plate 200x150x3 with a 1.2 mm (3 perimeters) x 20 mm rib",
+   "deviationMm": 0.01,
+   "expect": "solid",
+   "csg": {
+    "op": "union",
+    "children": [
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        0,
+        0,
+        0
+       ],
+       "max": [
+        200,
+        150,
+        3
+       ]
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     },
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        100,
+        0,
+        3
+       ],
+       "max": [
+        101.2,
+        150,
+        23
+       ]
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "adv-sdf-large-membrane-0.6",
+   "category": "thin",
+   "fdmRationale": "block 200x150x20, pockets from both sides leaving a 0.6 mm membrane",
+   "deviationMm": 0.01,
+   "expect": "solid",
+   "csg": {
+    "op": "subtract",
+    "children": [
+     {
+      "op": "subtract",
+      "children": [
+       {
+        "prim": "box",
+        "params": {
+         "min": [
+          0,
+          0,
+          0
+         ],
+         "max": [
+          200,
+          150,
+          20
+         ]
+        },
+        "transform": {
+         "rotate": [],
+         "translate": [
+          0,
+          0,
+          0
+         ]
+        }
+       },
+       {
+        "prim": "box",
+        "params": {
+         "min": [
+          20,
+          20,
+          -1
+         ],
+         "max": [
+          180,
+          130,
+          9.7
+         ]
+        },
+        "transform": {
+         "rotate": [],
+         "translate": [
+          0,
+          0,
+          0
+         ]
+        }
+       }
+      ]
+     },
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        20,
+        20,
+        10.3
+       ],
+       "max": [
+        180,
+        130,
+        21
+       ]
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "adv-sdf-large-gap-0.5",
+   "category": "near-contact",
+   "fdmRationale": "two 100x150x20 blocks 0.5 mm apart (print-in-place clearance): 2 components",
+   "deviationMm": 0.01,
+   "expect": "solid",
+   "csg": {
+    "op": "union",
+    "children": [
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        0,
+        0,
+        0
+       ],
+       "max": [
+        100,
+        150,
+        20
+       ]
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     },
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        100.5,
+        0,
+        0
+       ],
+       "max": [
+        200.5,
+        150,
+        20
+       ]
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "adv-sdf-plate-200x150x3",
+   "category": "thin",
+   "fdmRationale": "single box 200x150x3 mm (a plain FDM base plate), no Boolean",
+   "deviationMm": 0.01,
+   "expect": "solid",
+   "csg": {
+    "prim": "box",
+    "params": {
+     "min": [
+      0,
+      0,
+      0
+     ],
+     "max": [
+      200,
+      150,
+      3
+     ]
+    },
+    "transform": {
+     "rotate": [],
+     "translate": [
+      0,
+      0,
+      0
+     ]
+    }
+   }
+  },
+  {
+   "id": "adv-sdf-plate-200x150x3-hole",
+   "category": "thin",
+   "fdmRationale": "200x150x3 plate minus one 3.2 mm hole",
+   "deviationMm": 0.01,
+   "expect": "solid",
+   "csg": {
+    "op": "subtract",
+    "children": [
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        0,
+        0,
+        0
+       ],
+       "max": [
+        200,
+        150,
+        3
+       ]
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     },
+     {
+      "prim": "cylinder",
+      "params": {
+       "radius": 1.6,
+       "height": 5
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        100,
+        75,
+        -1
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "adv-sdf-plate-union-200x150x2",
+   "category": "thin",
+   "fdmRationale": "two overlapping 120x150x2 plates (union)",
+   "deviationMm": 0.01,
+   "expect": "solid",
+   "csg": {
+    "op": "union",
+    "children": [
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        0,
+        0,
+        0
+       ],
+       "max": [
+        120,
+        150,
+        2
+       ]
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     },
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        80,
+        0,
+        0
+       ],
+       "max": [
+        200,
+        150,
+        2
+       ]
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "adv2-sdf-enclosure-wall-1.2",
+   "category": "thin-wall",
+   "fdmRationale": "open-top box 100x60x40 with 1.2 mm walls and floor (a typical FDM enclosure, 3 perimeters): genus 0",
+   "deviationMm": 0.01,
+   "expect": "solid",
+   "csg": {
+    "op": "subtract",
+    "children": [
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        0,
+        0,
+        0
+       ],
+       "max": [
+        100,
+        60,
+        40
+       ]
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     },
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        1.2,
+        1.2,
+        1.2
+       ],
+       "max": [
+        98.8,
+        58.8,
+        45
+       ]
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "adv2-sdf-l-bracket-1.0",
+   "category": "thin-wall",
+   "fdmRationale": "L bracket of two 80x80 plates 1.0 mm thick",
+   "deviationMm": 0.01,
+   "expect": "solid",
+   "csg": {
+    "op": "union",
+    "children": [
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        0,
+        0,
+        0
+       ],
+       "max": [
+        80,
+        80,
+        1
+       ]
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     },
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        0,
+        0,
+        0
+       ],
+       "max": [
+        1,
+        80,
+        80
+       ]
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "adv2-sdf-far-small-cubes",
+   "category": "disjoint",
+   "fdmRationale": "two 5 mm cubes 500 mm apart (disjoint union, extent/64 = 7.9 mm > cube)",
+   "deviationMm": 0.01,
+   "expect": "solid",
+   "csg": {
+    "op": "union",
+    "children": [
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        0,
+        0,
+        0
+       ],
+       "max": [
+        5,
+        5,
+        5
+       ]
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     },
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        500,
+        0,
+        0
+       ],
+       "max": [
+        505,
+        5,
+        5
+       ]
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "adv2-sdf-sliver-wedge-blade",
+   "category": "sliver",
+   "fdmRationale": "block united with a 40 mm long triangular blade tapering from 0.05 mm to 0 (acute sliver, angle 1.25e-3 rad)",
+   "deviationMm": 0.01,
+   "expect": "solid",
+   "csg": {
+    "op": "union",
+    "children": [
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        0,
+        -5,
+        0
+       ],
+       "max": [
+        10,
+        5,
+        10
+       ]
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     },
+     {
+      "prim": "prism",
+      "params": {
+       "points": [
+        [
+         0,
+         0
+        ],
+        [
+         50,
+         0
+        ],
+        [
+         0,
+         0.05
+        ]
+       ],
+       "height": 10
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "adv2-sdf-flush-pocket-rot",
+   "category": "coplanar",
+   "fdmRationale": "block minus a pocket whose top is coplanar with the block top, under a random rotation",
+   "deviationMm": 0.01,
+   "expect": "solid",
+   "csg": {
+    "op": "subtract",
+    "children": [
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        0,
+        0,
+        0
+       ],
+       "max": [
+        30,
+        20,
+        10
+       ]
+      },
+      "transform": {
+       "rotate": [
+        {
+         "axis": "x",
+         "deg": 71.3
+        },
+        {
+         "axis": "z",
+         "deg": -19.7
+        },
+        {
+         "axis": "y",
+         "deg": 41.1
+        }
+       ],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     },
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        5,
+        5,
+        4
+       ],
+       "max": [
+        25,
+        15,
+        10
+       ]
+      },
+      "transform": {
+       "rotate": [
+        {
+         "axis": "x",
+         "deg": 71.3
+        },
+        {
+         "axis": "z",
+         "deg": -19.7
+        },
+        {
+         "axis": "y",
+         "deg": 41.1
+        }
+       ],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "adv2-sdf-plate-4-holes-rot",
+   "category": "rotation",
+   "fdmRationale": "plate-4-holes under a random rotation",
+   "deviationMm": 0.01,
+   "expect": "solid",
+   "csg": {
+    "op": "subtract",
+    "children": [
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        0,
+        0,
+        0
+       ],
+       "max": [
+        50,
+        40,
+        4
+       ]
+      },
+      "transform": {
+       "rotate": [
+        {
+         "axis": "x",
+         "deg": 71.3
+        },
+        {
+         "axis": "z",
+         "deg": -19.7
+        },
+        {
+         "axis": "y",
+         "deg": 41.1
+        }
+       ],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     },
+     {
+      "op": "union",
+      "children": [
+       {
+        "op": "union",
+        "children": [
+         {
+          "prim": "cylinder",
+          "params": {
+           "radius": 1.7,
+           "height": 6
+          },
+          "transform": {
+           "rotate": [
+            {
+             "axis": "x",
+             "deg": 71.3
+            },
+            {
+             "axis": "z",
+             "deg": -19.7
+            },
+            {
+             "axis": "y",
+             "deg": 41.1
+            }
+           ],
+           "translate": [
+            8.511289540097508,
+            0.6802851472257038,
+            -0.30848416991940053
+           ]
+          }
+         },
+         {
+          "prim": "cylinder",
+          "params": {
+           "radius": 1.7,
+           "height": 6
+          },
+          "transform": {
+           "rotate": [
+            {
+             "axis": "x",
+             "deg": 71.3
+            },
+            {
+             "axis": "z",
+             "deg": -19.7
+            },
+            {
+             "axis": "y",
+             "deg": 41.1
+            }
+           ],
+           "translate": [
+            35.47068356512147,
+            -12.129334672851414,
+            -23.82666254046056
+           ]
+          }
+         }
+        ]
+       },
+       {
+        "op": "union",
+        "children": [
+         {
+          "prim": "cylinder",
+          "params": {
+           "radius": 1.7,
+           "height": 6
+          },
+          "transform": {
+           "rotate": [
+            {
+             "axis": "x",
+             "deg": 71.3
+            },
+            {
+             "axis": "z",
+             "deg": -19.7
+            },
+            {
+             "axis": "y",
+             "deg": 41.1
+            }
+           ],
+           "translate": [
+            55.18591895145669,
+            -3.6775994390770395,
+            -5.830061050191
+           ]
+          }
+         },
+         {
+          "prim": "cylinder",
+          "params": {
+           "radius": 1.7,
+           "height": 6
+          },
+          "transform": {
+           "rotate": [
+            {
+             "axis": "x",
+             "deg": 71.3
+            },
+            {
+             "axis": "z",
+             "deg": -19.7
+            },
+            {
+             "axis": "y",
+             "deg": 41.1
+            }
+           ],
+           "translate": [
+            28.226524926432724,
+            9.13202038100008,
+            17.688117320350155
+           ]
+          }
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "id": "adv2-sdf-scale-1e-3-steinmetz",
+   "category": "scale",
+   "fdmRationale": "steinmetz intersect scaled by 1e-3 (deviation scaled)",
+   "deviationMm": 0.00001,
+   "expect": "solid",
+   "csg": {
+    "op": "intersect",
+    "children": [
+     {
+      "prim": "cylinder",
+      "params": {
+       "radius": 0.005,
+       "height": 0.02
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        -0.01
+       ]
+      }
+     },
+     {
+      "prim": "cylinder",
+      "params": {
+       "radius": 0.005,
+       "height": 0.02
+      },
+      "transform": {
+       "rotate": [
+        {
+         "axis": "y",
+         "deg": 90
+        }
+       ],
+       "translate": [
+        -0.01,
+        0,
+        0
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "adv2-sdf-scale-1e3-sphere-minus-box",
+   "category": "scale",
+   "fdmRationale": "sphere r 10 m minus an 8 m box corner (scaled by 1e3, deviation scaled)",
+   "deviationMm": 10,
+   "expect": "solid",
+   "csg": {
+    "op": "subtract",
+    "children": [
+     {
+      "prim": "sphere",
+      "params": {
+       "radius": 10000
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     },
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        0,
+        0,
+        0
+       ],
+       "max": [
+        12000,
+        12000,
+        12000
+       ]
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "adv2-sdf-iterated-subtract-5",
+   "category": "iterated",
+   "fdmRationale": "block minus the same hole five times (left-deep)",
+   "deviationMm": 0.01,
+   "expect": "solid",
+   "csg": {
+    "op": "subtract",
+    "children": [
+     {
+      "op": "subtract",
+      "children": [
+       {
+        "op": "subtract",
+        "children": [
+         {
+          "op": "subtract",
+          "children": [
+           {
+            "op": "subtract",
+            "children": [
+             {
+              "prim": "box",
+              "params": {
+               "min": [
+                0,
+                0,
+                0
+               ],
+               "max": [
+                30,
+                20,
+                10
+               ]
+              },
+              "transform": {
+               "rotate": [],
+               "translate": [
+                0,
+                0,
+                0
+               ]
+              }
+             },
+             {
+              "prim": "cylinder",
+              "params": {
+               "radius": 3,
+               "height": 12
+              },
+              "transform": {
+               "rotate": [],
+               "translate": [
+                15,
+                10,
+                -1
+               ]
+              }
+             }
+            ]
+           },
+           {
+            "prim": "cylinder",
+            "params": {
+             "radius": 3,
+             "height": 12
+            },
+            "transform": {
+             "rotate": [],
+             "translate": [
+              15,
+              10,
+              -1
+             ]
+            }
+           }
+          ]
+         },
+         {
+          "prim": "cylinder",
+          "params": {
+           "radius": 3,
+           "height": 12
+          },
+          "transform": {
+           "rotate": [],
+           "translate": [
+            15,
+            10,
+            -1
+           ]
+          }
+         }
+        ]
+       },
+       {
+        "prim": "cylinder",
+        "params": {
+         "radius": 3,
+         "height": 12
+        },
+        "transform": {
+         "rotate": [],
+         "translate": [
+          15,
+          10,
+          -1
+         ]
+        }
+       }
+      ]
+     },
+     {
+      "prim": "cylinder",
+      "params": {
+       "radius": 3,
+       "height": 12
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        15,
+        10,
+        -1
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "adv2-sdf-iterated-intersect-self-3",
+   "category": "iterated",
+   "fdmRationale": "((C n C) n C) for a cylinder C",
+   "deviationMm": 0.01,
+   "expect": "solid",
+   "csg": {
+    "op": "intersect",
+    "children": [
+     {
+      "op": "intersect",
+      "children": [
+       {
+        "prim": "cylinder",
+        "params": {
+         "radius": 5,
+         "height": 10
+        },
+        "transform": {
+         "rotate": [],
+         "translate": [
+          0,
+          0,
+          0
+         ]
+        }
+       },
+       {
+        "prim": "cylinder",
+        "params": {
+         "radius": 5,
+         "height": 10
+        },
+        "transform": {
+         "rotate": [],
+         "translate": [
+          0,
+          0,
+          0
+         ]
+        }
+       }
+      ]
+     },
+     {
+      "prim": "cylinder",
+      "params": {
+       "radius": 5,
+       "height": 10
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "adv2-sdf-subtract-superset-empty",
+   "category": "empty",
+   "fdmRationale": "A - (A u B): empty",
+   "deviationMm": 0.01,
+   "expect": "empty",
+   "csg": {
+    "op": "subtract",
+    "children": [
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        0,
+        0,
+        0
+       ],
+       "max": [
+        30,
+        20,
+        10
+       ]
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     },
+     {
+      "op": "union",
+      "children": [
+       {
+        "prim": "box",
+        "params": {
+         "min": [
+          0,
+          0,
+          0
+         ],
+         "max": [
+          30,
+          20,
+          10
+         ]
+        },
+        "transform": {
+         "rotate": [],
+         "translate": [
+          0,
+          0,
+          0
+         ]
+        }
+       },
+       {
+        "prim": "box",
+        "params": {
+         "min": [
+          10,
+          10,
+          5
+         ],
+         "max": [
+          40,
+          30,
+          20
+         ]
+        },
+        "transform": {
+         "rotate": [],
+         "translate": [
+          0,
+          0,
+          0
+         ]
+        }
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "id": "adv2-sdf-intersect-disjoint-cyl-empty",
+   "category": "empty",
+   "fdmRationale": "intersection of two parallel cylinders 0.5 mm apart (bounding boxes overlap): empty",
+   "deviationMm": 0.01,
+   "expect": "empty",
+   "csg": {
+    "op": "intersect",
+    "children": [
+     {
+      "prim": "cylinder",
+      "params": {
+       "radius": 5,
+       "height": 10
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     },
+     {
+      "prim": "cylinder",
+      "params": {
+       "radius": 5,
+       "height": 10
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        10.5,
+        0,
+        0
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "adv2-sdf-rot-union-1e-7deg",
+   "category": "perturbation",
+   "fdmRationale": "box united with the same box rotated by 1e-7 deg about a skew axis sequence",
+   "deviationMm": 0.01,
+   "expect": "solid",
+   "csg": {
+    "op": "union",
+    "children": [
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        0,
+        0,
+        0
+       ],
+       "max": [
+        20,
+        20,
+        20
+       ]
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     },
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        0,
+        0,
+        0
+       ],
+       "max": [
+        20,
+        20,
+        20
+       ]
+      },
+      "transform": {
+       "rotate": [
+        {
+         "axis": "x",
+         "deg": 1e-7
+        },
+        {
+         "axis": "y",
+         "deg": 1e-7
+        }
+       ],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "adv2-sdf-coaxial-cap-nudge-1e-7",
+   "category": "perturbation",
+   "fdmRationale": "coaxial cylinders r5 and r3, the r3 top 1e-7 mm above the r5 top (sub-deviation step on a coplanar cap)",
+   "deviationMm": 0.01,
+   "expect": "solid",
+   "csg": {
+    "op": "union",
+    "children": [
+     {
+      "prim": "cylinder",
+      "params": {
+       "radius": 5,
+       "height": 10
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     },
+     {
+      "prim": "cylinder",
+      "params": {
+       "radius": 3,
+       "height": 10.0000001
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "adv2-sdf-internal-tangent-hole",
+   "category": "tangent",
+   "fdmRationale": "cylinder r5 minus an r3 hole offset by 2 mm: the hole is internally tangent to the outer wall (zero wall along a line)",
+   "deviationMm": 0.01,
+   "expect": "non-manifold-contact",
+   "csg": {
+    "op": "subtract",
+    "children": [
+     {
+      "prim": "cylinder",
+      "params": {
+       "radius": 5,
+       "height": 10
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     },
+     {
+      "prim": "cylinder",
+      "params": {
+       "radius": 3,
+       "height": 12
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        2,
+        0,
+        -1
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "adv2-sdf-box-corner-contact",
+   "category": "tangent",
+   "fdmRationale": "two cubes sharing only a corner point",
+   "deviationMm": 0.01,
+   "expect": "non-manifold-contact",
+   "csg": {
+    "op": "union",
+    "children": [
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        0,
+        0,
+        0
+       ],
+       "max": [
+        10,
+        10,
+        10
+       ]
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     },
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        10,
+        10,
+        10
+       ],
+       "max": [
+        20,
+        20,
+        20
+       ]
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "adv2-sdf-thin-torus",
+   "category": "thin",
+   "fdmRationale": "torus R 20 r 0.3 (thin ring, genus 1)",
+   "deviationMm": 0.01,
+   "expect": "solid",
+   "csg": {
+    "prim": "torus",
+    "params": {
+     "major": 20,
+     "minor": 0.3
+    },
+    "transform": {
+     "rotate": [],
+     "translate": [
+      0,
+      0,
+      0
+     ]
+    }
+   }
+  },
+  {
+   "id": "adv2-sdf-tiny-void",
+   "category": "multi-scale",
+   "fdmRationale": "box 40 minus a sphere r 0.2 at its centre (internal void, 2 shells)",
+   "deviationMm": 0.01,
+   "expect": "solid",
+   "csg": {
+    "op": "subtract",
+    "children": [
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        0,
+        0,
+        0
+       ],
+       "max": [
+        40,
+        40,
+        40
+       ]
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     },
+     {
+      "prim": "sphere",
+      "params": {
+       "radius": 0.2
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        20,
+        20,
+        20
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "adv2-sdf-slot-0.4",
+   "category": "thin-gap",
+   "fdmRationale": "plate 60x40x5 with a 0.4 x 20 mm through slot (genus 1)",
+   "deviationMm": 0.01,
+   "expect": "solid",
+   "csg": {
+    "op": "subtract",
+    "children": [
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        0,
+        0,
+        0
+       ],
+       "max": [
+        60,
+        40,
+        5
+       ]
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     },
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        20,
+        19.8,
+        -1
+       ],
+       "max": [
+        40,
+        20.2,
+        6
+       ]
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "adv2-sdf-countersink-rot",
+   "category": "rotation",
+   "fdmRationale": "plate with a 90 deg countersink cone (frustum, apex outside) + through hole, random rotation",
+   "deviationMm": 0.01,
+   "expect": "solid",
+   "csg": {
+    "op": "subtract",
+    "children": [
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        0,
+        0,
+        0
+       ],
+       "max": [
+        30,
+        30,
+        6
+       ]
+      },
+      "transform": {
+       "rotate": [
+        {
+         "axis": "x",
+         "deg": 71.3
+        },
+        {
+         "axis": "z",
+         "deg": -19.7
+        },
+        {
+         "axis": "y",
+         "deg": 41.1
+        }
+       ],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     },
+     {
+      "op": "union",
+      "children": [
+       {
+        "prim": "cylinder",
+        "params": {
+         "radius": 1.7,
+         "height": 8
+        },
+        "transform": {
+         "rotate": [
+          {
+           "axis": "x",
+           "deg": 71.3
+          },
+          {
+           "axis": "z",
+           "deg": -19.7
+          },
+          {
+           "axis": "y",
+           "deg": 41.1
+          }
+         ],
+         "translate": [
+          21.23344912321093,
+          0.36305700370258454,
+          -0.09395713956618956
+         ]
+        }
+       },
+       {
+        "prim": "cone",
+        "params": {
+         "r1": 1.7,
+         "r2": 4.2,
+         "height": 2.5
+        },
+        "transform": {
+         "rotate": [
+          {
+           "axis": "x",
+           "deg": 71.3
+          },
+          {
+           "axis": "z",
+           "deg": -19.7
+          },
+          {
+           "axis": "y",
+           "deg": 41.1
+          }
+         ],
+         "translate": [
+          21.099124942112418,
+          -3.6499105893824355,
+          1.9378027161307472
+         ]
+        }
+       }
+      ]
+     }
+    ]
+   }
+  }
+ ]
+}

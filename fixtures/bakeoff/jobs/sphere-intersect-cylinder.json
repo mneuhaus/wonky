@@ -1,0 +1,49 @@
+{
+ "schema": "wonky-bakeoff-fixture/1",
+ "case": "sphere-intersect-cylinder",
+ "category": "spheres",
+ "deviationMm": 0.01,
+ "location": "out/bakeoff/jobs (generated on demand, gitignored)",
+ "job": "out/bakeoff/jobs/sphere-intersect-cylinder.job",
+ "csgJob": "out/bakeoff/jobs/sphere-intersect-cylinder.csg.job",
+ "jobBytes": 480736,
+ "jobSha256": "1c73c76dd3579b1fbdaf7d04dd520c16aa5bccf724eb99d68ed134d017236434",
+ "csgJobSha256": "ee578771b19839199feeffca4b4d139d576b595552cde8b04acd4b1f058ca3fa",
+ "leaves": 2,
+ "faces": 4,
+ "vertices": 5024,
+ "triangles": 10040,
+ "deviationMeasuredMaxMm": 0.009861495406427778,
+ "leafInfo": [
+  {
+   "leaf": 0,
+   "prim": "sphere",
+   "vertices": 4902,
+   "triangles": 9800,
+   "tags": [
+    0
+   ],
+   "segments": 100,
+   "deviationMeasuredMm": 0.009861495406427778,
+   "deviationMethod": "closest-point (exact for inscribed convex mesh)",
+   "vertexOnSurfaceMaxMm": 1.5987211554602254e-14,
+   "analyticVolume": 4188.790204786391
+  },
+  {
+   "leaf": 1,
+   "prim": "cylinder",
+   "vertices": 122,
+   "triangles": 240,
+   "tags": [
+    1,
+    2,
+    3
+   ],
+   "segments": 60,
+   "deviationMeasuredMm": 0.009593256717987053,
+   "deviationMethod": "barycentric-grid-8 (max lies on sampled chord midlines)",
+   "vertexOnSurfaceMaxMm": 5.329070518200751e-15,
+   "analyticVolume": 3694.5129606215964
+  }
+ ]
+}

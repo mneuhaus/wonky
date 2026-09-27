@@ -1,0 +1,13 @@
+# Rust kernel workspace (docs/rust-migration.md 3.1). Dependencies are vendored
+# (rust/vendor, .cargo/config.toml) and pinned by Cargo.lock; the toolchain is
+# pinned by rust-toolchain.toml. Build only through scripts/rust/build.mjs, which
+# keys every build by a sourceHash over these files (scripts/rust/build-key.mjs).
+[workspace]
+resolver = "2"
+members = ["wonky-num", "wonky-ops", "wonky-replay", "wonky-wire", "wonky-node", "wonky-alg", "wonky-oracle", "wonky-validated", "wonky-n2", "wonky-radical3", "wonky-brep", "wonky-sketch", "wonky-contract"]
+
+[profile.release]
+opt-level = 3
+debug = 1
+codegen-units = 1
+lto = "thin"

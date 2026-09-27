@@ -1,0 +1,3868 @@
+{
+ "cases": {
+  "pp-box-vertical-edge-r2": {
+   "input": {
+    "volume": 1600.0000000000005,
+    "area": 880,
+    "faces": 6,
+    "faceTypes": {
+     "plane": 6
+    },
+    "edges": 12,
+    "vertices": 8,
+    "solids": 1,
+    "shells": 1,
+    "valid": true,
+    "freeEdges": 0,
+    "badOrientation": false
+   },
+   "edgesMatched": 1,
+   "ms": 1.6477500321343541,
+   "faultyContours": 0,
+   "faultyVertices": 0,
+   "status": "done",
+   "result": {
+    "volume": 1593.1327412287185,
+    "area": 871.4159265358978,
+    "faces": 7,
+    "faceTypes": {
+     "plane": 6,
+     "cylinder": 1
+    },
+    "edges": 15,
+    "vertices": 10,
+    "solids": 1,
+    "shells": 1,
+    "valid": true,
+    "freeEdges": 0,
+    "badOrientation": false
+   },
+   "dumped": true,
+   "jobSha256": "48035c0dae5630c9606d8188e0c68b574218b9e7a45867d062e333dc7086384c",
+   "inputVolumeRelErrVsKernel": 1.4210854715202002e-16,
+   "closedForm": {
+    "expectedVolume": 1593.1327412287187,
+    "absErr": 2.2737367544323206e-13,
+    "relErr": 1.4272111140460772e-16,
+    "agrees": true
+   }
+  },
+  "pp-plate-4-vertical-edges-r4.2": {
+   "input": {
+    "volume": 14400,
+    "area": 4080,
+    "faces": 6,
+    "faceTypes": {
+     "plane": 6
+    },
+    "edges": 12,
+    "vertices": 8,
+    "solids": 1,
+    "shells": 1,
+    "valid": true,
+    "freeEdges": 0,
+    "badOrientation": false
+   },
+   "edgesMatched": 4,
+   "ms": 3.82470793556422,
+   "faultyContours": 0,
+   "faultyVertices": 0,
+   "status": "done",
+   "result": {
+    "volume": 14218.292332911886,
+    "area": 3963.187928300499,
+    "faces": 10,
+    "faceTypes": {
+     "plane": 6,
+     "cylinder": 4
+    },
+    "edges": 24,
+    "vertices": 16,
+    "solids": 1,
+    "shells": 1,
+    "valid": true,
+    "freeEdges": 0,
+    "badOrientation": false
+   },
+   "dumped": true,
+   "jobSha256": "e69954b9b3c4c8594c08330059db39a4b70678e3102760c63552f1096ce04764",
+   "inputVolumeRelErrVsKernel": 0,
+   "closedForm": {
+    "expectedVolume": 14218.292332911888,
+    "absErr": 1.8189894035458565e-12,
+    "relErr": 1.2793304293901303e-16,
+    "agrees": true
+   }
+  },
+  "pp-roundx-r3": {
+   "input": {
+    "volume": 12000,
+    "area": 3680,
+    "faces": 6,
+    "faceTypes": {
+     "plane": 6
+    },
+    "edges": 12,
+    "vertices": 8,
+    "solids": 1,
+    "shells": 1,
+    "valid": true,
+    "freeEdges": 0,
+    "badOrientation": false
+   },
+   "edgesMatched": 4,
+   "ms": 5.435707978904247,
+   "faultyContours": 0,
+   "faultyVertices": 0,
+   "status": "done",
+   "result": {
+    "volume": 11613.716694115405,
+    "area": 3407.0264638415547,
+    "faces": 10,
+    "faceTypes": {
+     "plane": 6,
+     "cylinder": 4
+    },
+    "edges": 24,
+    "vertices": 16,
+    "solids": 1,
+    "shells": 1,
+    "valid": true,
+    "freeEdges": 0,
+    "badOrientation": false
+   },
+   "dumped": true,
+   "jobSha256": "d826b9f96eafc5c6dfcf7ae2f0821e7ba959c7b1fe512cd104b9a5244952b17f",
+   "inputVolumeRelErrVsKernel": 0,
+   "closedForm": {
+    "expectedVolume": 11613.716694115406,
+    "absErr": 1.8189894035458565e-12,
+    "relErr": 1.5662422732143332e-16,
+    "agrees": true
+   }
+  },
+  "pp-box-top-edge-r1": {
+   "input": {
+    "volume": 1600.0000000000005,
+    "area": 880,
+    "faces": 6,
+    "faceTypes": {
+     "plane": 6
+    },
+    "edges": 12,
+    "vertices": 8,
+    "solids": 1,
+    "shells": 1,
+    "valid": true,
+    "freeEdges": 0,
+    "badOrientation": false
+   },
+   "edgesMatched": 1,
+   "ms": 1.3088330160826445,
+   "faultyContours": 0,
+   "faultyVertices": 0,
+   "status": "done",
+   "result": {
+    "volume": 1595.7079632679493,
+    "area": 870.9867228626928,
+    "faces": 7,
+    "faceTypes": {
+     "plane": 6,
+     "cylinder": 1
+    },
+    "edges": 15,
+    "vertices": 10,
+    "solids": 1,
+    "shells": 1,
+    "valid": true,
+    "freeEdges": 0,
+    "badOrientation": false
+   },
+   "dumped": true,
+   "jobSha256": "a5088c89ba807f05ad930c3b135093ecf06ae69f366a59c5feaed22336002193",
+   "inputVolumeRelErrVsKernel": 1.4210854715202002e-16,
+   "closedForm": {
+    "expectedVolume": 1595.7079632679495,
+    "absErr": 2.2737367544323206e-13,
+    "relErr": 1.4249078194582635e-16,
+    "agrees": true
+   }
+  },
+  "pp-box-two-of-three-mitre-r2": {
+   "input": {
+    "volume": 1600.0000000000005,
+    "area": 880,
+    "faces": 6,
+    "faceTypes": {
+     "plane": 6
+    },
+    "edges": 12,
+    "vertices": 8,
+    "solids": 1,
+    "shells": 1,
+    "valid": true,
+    "freeEdges": 0,
+    "badOrientation": false
+   },
+   "edgesMatched": 2,
+   "ms": 2.8873749542981386,
+   "faultyContours": 0,
+   "faultyVertices": 0,
+   "status": "done",
+   "result": {
+    "volume": 1576.7315569897676,
+    "area": 853.6814089783112,
+    "faces": 8,
+    "faceTypes": {
+     "plane": 6,
+     "cylinder": 2
+    },
+    "edges": 17,
+    "vertices": 11,
+    "solids": 1,
+    "shells": 1,
+    "valid": true,
+    "freeEdges": 0,
+    "badOrientation": false
+   },
+   "dumped": true,
+   "jobSha256": "d49389549fc73384305044118237a95cff523c8151566039121210dfd509b719",
+   "inputVolumeRelErrVsKernel": 1.4210854715202002e-16,
+   "closedForm": {
+    "expectedVolume": 1576.7315570194887,
+    "absErr": 2.972114998556208e-8,
+    "relErr": 1.8849847872483928e-11,
+    "agrees": true
+   }
+  },
+  "pp-box-top-loop-r2": {
+   "input": {
+    "volume": 6000,
+    "area": 2200,
+    "faces": 6,
+    "faceTypes": {
+     "plane": 6
+    },
+    "edges": 12,
+    "vertices": 8,
+    "solids": 1,
+    "shells": 1,
+    "valid": true,
+    "freeEdges": 0,
+    "badOrientation": false
+   },
+   "edgesMatched": 4,
+   "ms": 4.056624951772392,
+   "faultyContours": 0,
+   "faultyVertices": 0,
+   "status": "done",
+   "result": {
+    "volume": 5917.227116102545,
+    "area": 2111.893782864002,
+    "faces": 10,
+    "faceTypes": {
+     "plane": 6,
+     "cylinder": 4
+    },
+    "edges": 20,
+    "vertices": 12,
+    "solids": 1,
+    "shells": 1,
+    "valid": true,
+    "freeEdges": 0,
+    "badOrientation": false
+   },
+   "dumped": true,
+   "jobSha256": "1feb3f2bc119230da58624a27b5ea99feb57bb6fcf60c14b2d4cc11c12f6fd2c",
+   "inputVolumeRelErrVsKernel": 0,
+   "closedForm": {
+    "expectedVolume": 5917.227116234876,
+    "absErr": 1.3233147910796106e-7,
+    "relErr": 2.2363765410472094e-11,
+    "agrees": true
+   }
+  },
+  "pp-box-corner-3-r2": {
+   "input": {
+    "volume": 8000.000000000003,
+    "area": 2400,
+    "faces": 6,
+    "faceTypes": {
+     "plane": 6
+    },
+    "edges": 12,
+    "vertices": 8,
+    "solids": 1,
+    "shells": 1,
+    "valid": true,
+    "freeEdges": 0,
+    "badOrientation": false
+   },
+   "edgesMatched": 3,
+   "ms": 139.745790977031,
+   "faultyContours": 0,
+   "faultyVertices": 0,
+   "status": "done",
+   "result": {
+    "volume": 7949.834793498634,
+    "area": 2345.3539665617977,
+    "faces": 10,
+    "faceTypes": {
+     "plane": 6,
+     "cylinder": 3,
+     "sphere": 1
+    },
+    "edges": 22,
+    "vertices": 13,
+    "solids": 1,
+    "shells": 1,
+    "valid": true,
+    "freeEdges": 0,
+    "badOrientation": false
+   },
+   "dumped": true,
+   "jobSha256": "adc20dcf164a3f6def413f2ee355dfa3ed736b541218f3acfdd3184cc2b7bf10",
+   "inputVolumeRelErrVsKernel": 4.547473508864641e-16,
+   "closedForm": {
+    "expectedVolume": 7949.834793498638,
+    "absErr": 3.637978807091713e-12,
+    "relErr": 4.576169067144447e-16,
+    "agrees": true
+   }
+  },
+  "pp-box-all-edges-r2": {
+   "input": {
+    "volume": 3840.000000000001,
+    "area": 1504,
+    "faces": 6,
+    "faceTypes": {
+     "plane": 6
+    },
+    "edges": 12,
+    "vertices": 8,
+    "solids": 1,
+    "shells": 1,
+    "valid": true,
+    "freeEdges": 0,
+    "badOrientation": false
+   },
+   "edgesMatched": 12,
+   "ms": 6.408708984963596,
+   "faultyContours": 0,
+   "faultyVertices": 0,
+   "status": "done",
+   "result": {
+    "volume": 3685.8996637552214,
+    "area": 1334.6548245743668,
+    "faces": 26,
+    "faceTypes": {
+     "plane": 6,
+     "cylinder": 12,
+     "sphere": 8
+    },
+    "edges": 56,
+    "vertices": 24,
+    "solids": 1,
+    "shells": 1,
+    "valid": true,
+    "freeEdges": 0,
+    "badOrientation": false
+   },
+   "dumped": true,
+   "jobSha256": "6c3096ec101efdcd0984078cee512f67d2b63bd37d3261455079da955397406e",
+   "inputVolumeRelErrVsKernel": 2.3684757858670006e-16,
+   "closedForm": {
+    "expectedVolume": 3685.8996637552223,
+    "absErr": 9.094947017729282e-13,
+    "relErr": 2.467497177734698e-16,
+    "agrees": true
+   }
+  },
+  "corpus-probestab-all-edges-r1": {
+   "input": {
+    "volume": 2159.9999999999995,
+    "area": 1511.9999999999995,
+    "faces": 6,
+    "faceTypes": {
+     "plane": 6
+    },
+    "edges": 12,
+    "vertices": 8,
+    "solids": 1,
+    "shells": 1,
+    "valid": true,
+    "freeEdges": 0,
+    "badOrientation": false
+   },
+   "edgesMatched": 12,
+   "ms": 6.443707970902324,
+   "faultyContours": 0,
+   "faultyVertices": 0,
+   "status": "done",
+   "result": {
+    "volume": 2099.5339053417124,
+    "area": 1387.2566008882113,
+    "faces": 26,
+    "faceTypes": {
+     "plane": 6,
+     "cylinder": 12,
+     "sphere": 8
+    },
+    "edges": 56,
+    "vertices": 24,
+    "solids": 1,
+    "shells": 1,
+    "valid": true,
+    "freeEdges": 0,
+    "badOrientation": false
+   },
+   "dumped": true,
+   "jobSha256": "9762ba888767a1805b1083b74b2798696b0fd0f28de9c915a1bf7ed8683a8f08",
+   "inputVolumeRelErrVsKernel": 2.1053118096595562e-16,
+   "closedForm": {
+    "expectedVolume": 2099.5339053417124,
+    "absErr": 0,
+    "relErr": 0,
+    "agrees": true
+   }
+  },
+  "corpus-u-plate-vertical-edges-r4.2": {
+   "input": {
+    "volume": 24000,
+    "area": 6879.999999999999,
+    "faces": 10,
+    "faceTypes": {
+     "plane": 10
+    },
+    "edges": 24,
+    "vertices": 16,
+    "solids": 1,
+    "shells": 1,
+    "valid": true,
+    "freeEdges": 0,
+    "badOrientation": false
+   },
+   "edgesMatched": 8,
+   "ms": 11.933208093978465,
+   "faultyContours": 0,
+   "faultyVertices": 0,
+   "status": "done",
+   "result": {
+    "volume": 23818.292332911882,
+    "area": 6676.660467782348,
+    "faces": 18,
+    "faceTypes": {
+     "plane": 10,
+     "cylinder": 8
+    },
+    "edges": 48,
+    "vertices": 32,
+    "solids": 1,
+    "shells": 1,
+    "valid": true,
+    "freeEdges": 0,
+    "badOrientation": false
+   },
+   "dumped": true,
+   "jobSha256": "a6a20c65094ae50748d1d04b3be5d06898bbd8b8d1aa82bc260ec6ec136548d9",
+   "inputVolumeRelErrVsKernel": 0,
+   "closedForm": {
+    "expectedVolume": 23818.292332911886,
+    "absErr": 3.637978807091713e-12,
+    "relErr": 1.527388595388423e-16,
+    "agrees": true
+   }
+  },
+  "perf-comb-vertical-edges-r0.5": {
+   "input": {
+    "volume": 3023.9999999999964,
+    "area": 2400,
+    "faces": 52,
+    "faceTypes": {
+     "plane": 52
+    },
+    "edges": 150,
+    "vertices": 100,
+    "solids": 1,
+    "shells": 1,
+    "valid": true,
+    "freeEdges": 0,
+    "badOrientation": false
+   },
+   "edgesMatched": 50,
+   "ms": 524.8771249316633,
+   "faultyContours": 0,
+   "faultyVertices": 0,
+   "status": "done",
+   "result": {
+    "volume": 3022.712388980392,
+    "area": 2335.1902453460316,
+    "faces": 102,
+    "faceTypes": {
+     "plane": 52,
+     "cylinder": 50
+    },
+    "edges": 300,
+    "vertices": 200,
+    "solids": 1,
+    "shells": 1,
+    "valid": true,
+    "freeEdges": 0,
+    "badOrientation": false
+   },
+   "dumped": true,
+   "jobSha256": "2133932b70ef28fa490f1758a4c0807fd9d0068be60907a3ce5b49019ef3199e",
+   "inputVolumeRelErrVsKernel": 1.2030353198054606e-15,
+   "closedForm": {
+    "expectedVolume": 3022.712388980381,
+    "absErr": 1.0913936421275139e-11,
+    "relErr": 3.610643361592407e-15,
+    "agrees": true
+   }
+  },
+  "ch-box-vertical-edge-d1": {
+   "input": {
+    "volume": 1600.0000000000005,
+    "area": 880,
+    "faces": 6,
+    "faceTypes": {
+     "plane": 6
+    },
+    "edges": 12,
+    "vertices": 8,
+    "solids": 1,
+    "shells": 1,
+    "valid": true,
+    "freeEdges": 0,
+    "badOrientation": false
+   },
+   "edgesMatched": 1,
+   "ms": 1.2690420262515545,
+   "status": "done",
+   "result": {
+    "volume": 1596,
+    "area": 874.3137084989847,
+    "faces": 7,
+    "faceTypes": {
+     "plane": 7
+    },
+    "edges": 15,
+    "vertices": 10,
+    "solids": 1,
+    "shells": 1,
+    "valid": true,
+    "freeEdges": 0,
+    "badOrientation": false
+   },
+   "dumped": true,
+   "jobSha256": "b5a45e4f9b2ed38207f2e0c921aea5fbc9f56437f2d97a72ac05a3393fddf3ac",
+   "inputVolumeRelErrVsKernel": 1.4210854715202002e-16,
+   "closedForm": {
+    "expectedVolume": 1596.0000000000005,
+    "absErr": 4.547473508864641e-13,
+    "relErr": 2.8492941784866166e-16,
+    "agrees": true
+   }
+  },
+  "ch-plate-top-loop-0.42": {
+   "input": {
+    "volume": 6000,
+    "area": 3100,
+    "faces": 6,
+    "faceTypes": {
+     "plane": 6
+    },
+    "edges": 12,
+    "vertices": 8,
+    "solids": 1,
+    "shells": 1,
+    "valid": true,
+    "freeEdges": 0,
+    "badOrientation": false
+   },
+   "edgesMatched": 4,
+   "ms": 3.5835830494761467,
+   "status": "done",
+   "result": {
+    "volume": 5987.750783999999,
+    "area": 3065.2634883779274,
+    "faces": 10,
+    "faceTypes": {
+     "plane": 10
+    },
+    "edges": 20,
+    "vertices": 12,
+    "solids": 1,
+    "shells": 1,
+    "valid": true,
+    "freeEdges": 0,
+    "badOrientation": false
+   },
+   "dumped": true,
+   "jobSha256": "e8414ab97dd8594729fba0de3c6e6aaf5e3e57c519cc9ae34e4d2207a84cfd15",
+   "inputVolumeRelErrVsKernel": 0,
+   "closedForm": {
+    "expectedVolume": 5987.750784,
+    "absErr": 9.094947017729282e-13,
+    "relErr": 1.5189254439299793e-16,
+    "agrees": true
+   }
+  },
+  "ch-plate-both-loops-0.42": {
+   "input": {
+    "volume": 6000,
+    "area": 3100,
+    "faces": 6,
+    "faceTypes": {
+     "plane": 6
+    },
+    "edges": 12,
+    "vertices": 8,
+    "solids": 1,
+    "shells": 1,
+    "valid": true,
+    "freeEdges": 0,
+    "badOrientation": false
+   },
+   "edgesMatched": 8,
+   "ms": 65.54954207967967,
+   "status": "done",
+   "result": {
+    "volume": 5975.501568000001,
+    "area": 3030.526976755855,
+    "faces": 14,
+    "faceTypes": {
+     "plane": 14
+    },
+    "edges": 28,
+    "vertices": 16,
+    "solids": 1,
+    "shells": 1,
+    "valid": true,
+    "freeEdges": 0,
+    "badOrientation": false
+   },
+   "dumped": true,
+   "jobSha256": "2631a6ea151cca623fbff5ff5500dc8ee75d594b80a73f02d9e02373164a76e5",
+   "inputVolumeRelErrVsKernel": 0,
+   "closedForm": {
+    "expectedVolume": 5975.501568,
+    "absErr": 9.094947017729282e-13,
+    "relErr": 1.5220390981795627e-16,
+    "agrees": true
+   }
+  },
+  "ch-box-corner-3-d1": {
+   "input": {
+    "volume": 8000.000000000003,
+    "area": 2400,
+    "faces": 6,
+    "faceTypes": {
+     "plane": 6
+    },
+    "edges": 12,
+    "vertices": 8,
+    "solids": 1,
+    "shells": 1,
+    "valid": true,
+    "freeEdges": 0,
+    "badOrientation": false
+   },
+   "edgesMatched": 3,
+   "ms": 48.12420892994851,
+   "status": "done",
+   "result": {
+    "volume": 7970.666666666666,
+    "area": 2362.976198459051,
+    "faces": 10,
+    "faceTypes": {
+     "plane": 10
+    },
+    "edges": 21,
+    "vertices": 13,
+    "solids": 1,
+    "shells": 1,
+    "valid": true,
+    "freeEdges": 0,
+    "badOrientation": false
+   },
+   "dumped": true,
+   "jobSha256": "6ac63506566ba0019de705b81c49297ef0e7d1dbf35e22667bed809fef3cadcc",
+   "inputVolumeRelErrVsKernel": 4.547473508864641e-16,
+   "closedForm": {
+    "expectedVolume": 7970.750000000003,
+    "absErr": 0.08333333333666815,
+    "relErr": 0.00001045489236730146,
+    "agrees": false,
+    "relErrVs_cornerTriangle": 4.564208941650692e-16,
+    "matchesAlternative": "cornerTriangle"
+   }
+  },
+  "corpus-outline-chamfer-lines-arcs-0.42": {
+   "input": {
+    "volume": 5957.079632679507,
+    "area": 3601.3716694115533,
+    "faces": 8,
+    "faceTypes": {
+     "plane": 6,
+     "cylinder": 2
+    },
+    "edges": 18,
+    "vertices": 12,
+    "solids": 1,
+    "shells": 1,
+    "valid": true,
+    "freeEdges": 0,
+    "badOrientation": false
+   },
+   "edgesMatched": 6,
+   "ms": 27.824374963529408,
+   "status": "done",
+   "result": {
+    "volume": 5943.434374705357,
+    "area": 3562.801883556235,
+    "faces": 14,
+    "faceTypes": {
+     "plane": 10,
+     "cone": 2,
+     "cylinder": 2
+    },
+    "edges": 30,
+    "vertices": 18,
+    "solids": 1,
+    "shells": 1,
+    "valid": true,
+    "freeEdges": 0,
+    "badOrientation": false
+   },
+   "dumped": true,
+   "jobSha256": "b415b9832a38e48f10c88dfb59fb1ff191cdd7dbb9d979dc997e27f27e6b8569",
+   "inputVolumeRelErrVsKernel": 1.9847696945642283e-15,
+   "closedForm": {
+    "expectedVolume": 5943.434374705361,
+    "absErr": 3.637978807091713e-12,
+    "relErr": 6.121004418883757e-16,
+    "agrees": true
+   }
+  },
+  "corpus-r22-guide-outline-chamfer-0.42": {
+   "input": {
+    "volume": 2544.7688426074365,
+    "area": 1888.0269722628364,
+    "faces": 11,
+    "faceTypes": {
+     "plane": 9,
+     "cylinder": 2
+    },
+    "edges": 27,
+    "vertices": 18,
+    "solids": 1,
+    "shells": 1,
+    "valid": true,
+    "freeEdges": 0,
+    "badOrientation": false
+   },
+   "edgesMatched": 9,
+   "ms": 5.82008296623826,
+   "status": "done",
+   "result": {
+    "volume": 2530.6617842432106,
+    "area": 1848.1366209637968,
+    "faces": 20,
+    "faceTypes": {
+     "plane": 16,
+     "cone": 2,
+     "cylinder": 2
+    },
+    "edges": 45,
+    "vertices": 27,
+    "solids": 1,
+    "shells": 1,
+    "valid": true,
+    "freeEdges": 0,
+    "badOrientation": false
+   },
+   "dumped": true,
+   "jobSha256": "9ba9484ffb794d15dc13e031c33357a8bf93663e33b3f533d5aa8918c5bff9a2",
+   "inputVolumeRelErrVsKernel": 2.1443866017497408e-15,
+   "closedForm": {
+    "expectedVolume": 2530.6617842432092,
+    "absErr": 1.3642420526593924e-12,
+    "relErr": 5.390850966943285e-16,
+    "agrees": true
+   }
+  },
+  "ch-hole-rim-0.42": {
+   "input": {
+    "volume": 5098.407105255379,
+    "area": 2570.265482457436,
+    "faces": 7,
+    "faceTypes": {
+     "plane": 6,
+     "cylinder": 1
+    },
+    "edges": 15,
+    "vertices": 10,
+    "solids": 1,
+    "shells": 1,
+    "valid": true,
+    "freeEdges": 0,
+    "badOrientation": false
+   },
+   "edgesMatched": 1,
+   "ms": 0.5426669958978891,
+   "status": "done",
+   "result": {
+    "volume": 5096.112812706833,
+    "area": 2564.3116141037226,
+    "faces": 8,
+    "faceTypes": {
+     "plane": 6,
+     "cone": 1,
+     "cylinder": 1
+    },
+    "edges": 17,
+    "vertices": 11,
+    "solids": 1,
+    "shells": 1,
+    "valid": true,
+    "freeEdges": 0,
+    "badOrientation": false
+   },
+   "dumped": true,
+   "jobSha256": "d48aac76efba332616ed1ca7c83df913ce6f194a0a8aba877285155b643e9e13",
+   "inputVolumeRelErrVsKernel": 3.567760216069964e-16,
+   "closedForm": {
+    "expectedVolume": 5096.112812706833,
+    "absErr": 0,
+    "relErr": 0,
+    "agrees": true
+   }
+  },
+  "ch-post-rim-0.42": {
+   "input": {
+    "volume": 785.3981633974481,
+    "area": 471.23889803846873,
+    "faces": 3,
+    "faceTypes": {
+     "plane": 2,
+     "cylinder": 1
+    },
+    "edges": 3,
+    "vertices": 2,
+    "solids": 1,
+    "shells": 1,
+    "valid": true,
+    "freeEdges": 0,
+    "badOrientation": false
+   },
+   "edgesMatched": 1,
+   "ms": 0.5259170429781079,
+   "status": "done",
+   "result": {
+    "volume": 782.7048634491553,
+    "area": 463.2800804823817,
+    "faces": 4,
+    "faceTypes": {
+     "plane": 2,
+     "cone": 1,
+     "cylinder": 1
+    },
+    "edges": 5,
+    "vertices": 3,
+    "solids": 1,
+    "shells": 1,
+    "valid": true,
+    "freeEdges": 0,
+    "badOrientation": false
+   },
+   "dumped": true,
+   "jobSha256": "9b6e332b2da05c9d95c00a6425396a5d1a14211acfbe6b1294ad067e726339c1",
+   "inputVolumeRelErrVsKernel": 1.1580046200244074e-15,
+   "closedForm": {
+    "expectedVolume": 782.704863449155,
+    "absErr": 2.2737367544323206e-13,
+    "relErr": 2.9049733310875536e-16,
+    "agrees": true
+   }
+  },
+  "corpus-two-hole-rims-chamfer-0.42": {
+   "input": {
+    "volume": 3803.6504591506387,
+    "area": 2278.539816339745,
+    "faces": 8,
+    "faceTypes": {
+     "plane": 6,
+     "cylinder": 2
+    },
+    "edges": 18,
+    "vertices": 12,
+    "solids": 1,
+    "shells": 1,
+    "valid": true,
+    "freeEdges": 0,
+    "badOrientation": false
+   },
+   "edgesMatched": 2,
+   "ms": 0.9235000470653176,
+   "status": "done",
+   "result": {
+    "volume": 3800.7244048858265,
+    "area": 2271.2696416022513,
+    "faces": 10,
+    "faceTypes": {
+     "plane": 6,
+     "cone": 2,
+     "cylinder": 2
+    },
+    "edges": 22,
+    "vertices": 14,
+    "solids": 1,
+    "shells": 1,
+    "valid": true,
+    "freeEdges": 0,
+    "badOrientation": false
+   },
+   "dumped": true,
+   "jobSha256": "002bad539529ed5066bf4b6e17fe1251c26e80380912267bcbde9550196e3fca",
+   "inputVolumeRelErrVsKernel": 1.1955550484205376e-16,
+   "closedForm": {
+    "expectedVolume": 3800.7244048858265,
+    "absErr": 0,
+    "relErr": 0,
+    "agrees": true
+   }
+  },
+  "ch-slot-outline-0.42": {
+   "input": {
+    "volume": 1114.15926535898,
+    "area": 842.7433388230816,
+    "faces": 6,
+    "faceTypes": {
+     "plane": 4,
+     "cylinder": 2
+    },
+    "edges": 12,
+    "vertices": 8,
+    "solids": 1,
+    "shells": 1,
+    "valid": true,
+    "freeEdges": 0,
+    "badOrientation": false
+   },
+   "edgesMatched": 4,
+   "ms": 0.9815830271691084,
+   "status": "done",
+   "result": {
+    "volume": 1107.937965410687,
+    "area": 824.9433091148626,
+    "faces": 10,
+    "faceTypes": {
+     "plane": 6,
+     "cone": 2,
+     "cylinder": 2
+    },
+    "edges": 20,
+    "vertices": 12,
+    "solids": 1,
+    "shells": 1,
+    "valid": true,
+    "freeEdges": 0,
+    "badOrientation": false
+   },
+   "dumped": true,
+   "jobSha256": "94972ef95af55dde0f4ad36b77e1ed84a67ab02471caf971f3bb38725399571b",
+   "inputVolumeRelErrVsKernel": 4.08152914062915e-16,
+   "closedForm": {
+    "expectedVolume": 1107.937965410687,
+    "absErr": 0,
+    "relErr": 0,
+    "agrees": true
+   }
+  },
+  "perf-hole-grid-rims-0.42": {
+   "input": {
+    "volume": 7526.017763138451,
+    "area": 4584.389342116931,
+    "faces": 18,
+    "faceTypes": {
+     "plane": 6,
+     "cylinder": 12
+    },
+    "edges": 48,
+    "vertices": 32,
+    "solids": 1,
+    "shells": 1,
+    "valid": true,
+    "freeEdges": 0,
+    "badOrientation": false
+   },
+   "edgesMatched": 16,
+   "ms": 115.3597499942407,
+   "status": "done",
+   "result": {
+    "volume": 7497.420483214139,
+    "area": 4509.402178718488,
+    "faces": 34,
+    "faceTypes": {
+     "plane": 10,
+     "cone": 12,
+     "cylinder": 12
+    },
+    "edges": 80,
+    "vertices": 48,
+    "solids": 1,
+    "shells": 1,
+    "valid": true,
+    "freeEdges": 0,
+    "badOrientation": false
+   },
+   "dumped": true,
+   "jobSha256": "1f2a8ab42b5e4b59d158b132dca58544a40f22ac86e57ed1fa81cb4e36c5909b",
+   "inputVolumeRelErrVsKernel": 6.888264103623213e-15,
+   "closedForm": {
+    "expectedVolume": 7497.420483214137,
+    "absErr": 1.8189894035458565e-12,
+    "relErr": 2.426153645268216e-16,
+    "agrees": true
+   }
+  },
+  "pp-concave-270-r2": {
+   "input": {
+    "volume": 4160,
+    "area": 2031.9999999999998,
+    "faces": 8,
+    "faceTypes": {
+     "plane": 8
+    },
+    "edges": 18,
+    "vertices": 12,
+    "solids": 1,
+    "shells": 1,
+    "valid": true,
+    "freeEdges": 0,
+    "badOrientation": false
+   },
+   "edgesMatched": 1,
+   "ms": 1.455040997825563,
+   "faultyContours": 0,
+   "faultyVertices": 0,
+   "status": "done",
+   "result": {
+    "volume": 4168.584073464102,
+    "area": 2025.132741228718,
+    "faces": 9,
+    "faceTypes": {
+     "plane": 8,
+     "cylinder": 1
+    },
+    "edges": 21,
+    "vertices": 14,
+    "solids": 1,
+    "shells": 1,
+    "valid": true,
+    "freeEdges": 0,
+    "badOrientation": false
+   },
+   "dumped": true,
+   "jobSha256": "677d29ea5f5d6193f019d6ae1bf29a5393c07023e07dd72c43a5084b6acf0bae",
+   "inputVolumeRelErrVsKernel": 0,
+   "closedForm": {
+    "expectedVolume": 4168.584073464102,
+    "absErr": 0,
+    "relErr": 0,
+    "agrees": true
+   }
+  },
+  "ch-concave-270-d1": {
+   "input": {
+    "volume": 4160,
+    "area": 2031.9999999999998,
+    "faces": 8,
+    "faceTypes": {
+     "plane": 8
+    },
+    "edges": 18,
+    "vertices": 12,
+    "solids": 1,
+    "shells": 1,
+    "valid": true,
+    "freeEdges": 0,
+    "badOrientation": false
+   },
+   "edgesMatched": 1,
+   "ms": 3.1575829489156604,
+   "status": "done",
+   "result": {
+    "volume": 4165,
+    "area": 2027.1421356237306,
+    "faces": 9,
+    "faceTypes": {
+     "plane": 9
+    },
+    "edges": 21,
+    "vertices": 14,
+    "solids": 1,
+    "shells": 1,
+    "valid": true,
+    "freeEdges": 0,
+    "badOrientation": false
+   },
+   "dumped": true,
+   "jobSha256": "8a81519dfae8bf40d0e383865a9b0b83b120aa20cf6df5735150175286fd8f8e",
+   "inputVolumeRelErrVsKernel": 0,
+   "closedForm": {
+    "expectedVolume": 4165,
+    "absErr": 0,
+    "relErr": 0,
+    "agrees": true
+   }
+  },
+  "pp-l-concave-and-convex-r2": {
+   "input": {
+    "volume": 4160,
+    "area": 2031.9999999999998,
+    "faces": 8,
+    "faceTypes": {
+     "plane": 8
+    },
+    "edges": 18,
+    "vertices": 12,
+    "solids": 1,
+    "shells": 1,
+    "valid": true,
+    "freeEdges": 0,
+    "badOrientation": false
+   },
+   "edgesMatched": 2,
+   "ms": 2.510208054445684,
+   "faultyContours": 0,
+   "faultyVertices": 0,
+   "status": "done",
+   "result": {
+    "volume": 4142.831853071797,
+    "area": 1997.6637061435915,
+    "faces": 10,
+    "faceTypes": {
+     "plane": 8,
+     "cylinder": 2
+    },
+    "edges": 24,
+    "vertices": 16,
+    "solids": 1,
+    "shells": 1,
+    "valid": true,
+    "freeEdges": 0,
+    "badOrientation": false
+   },
+   "dumped": true,
+   "jobSha256": "74e2738d0713bea8da51c3a049981b0057bb74efd2e64daaa61d9b6a49365100",
+   "inputVolumeRelErrVsKernel": 0,
+   "closedForm": {
+    "expectedVolume": 4142.831853071796,
+    "absErr": 9.094947017729282e-13,
+    "relErr": 2.1953454400968816e-16,
+    "agrees": true
+   }
+  },
+  "pp-rib-root-concave-r2": {
+   "input": {
+    "volume": 4160.000000000002,
+    "area": 2656,
+    "faces": 10,
+    "faceTypes": {
+     "plane": 10
+    },
+    "edges": 24,
+    "vertices": 16,
+    "solids": 1,
+    "shells": 1,
+    "valid": true,
+    "freeEdges": 0,
+    "badOrientation": false
+   },
+   "edgesMatched": 2,
+   "ms": 2.7816660003736615,
+   "faultyContours": 0,
+   "faultyVertices": 0,
+   "status": "done",
+   "result": {
+    "volume": 4194.33629385641,
+    "area": 2625.097335529232,
+    "faces": 12,
+    "faceTypes": {
+     "plane": 10,
+     "cylinder": 2
+    },
+    "edges": 30,
+    "vertices": 20,
+    "solids": 1,
+    "shells": 1,
+    "valid": true,
+    "freeEdges": 0,
+    "badOrientation": false
+   },
+   "dumped": true,
+   "jobSha256": "5b3441d204de0025d06bb4716a8ce4553dfc659468cb736cef23f2a51e9bc6bd",
+   "inputVolumeRelErrVsKernel": 4.372570681600617e-16,
+   "closedForm": {
+    "expectedVolume": 4194.3362938564105,
+    "absErr": 9.094947017729282e-13,
+    "relErr": 2.1683876495671e-16,
+    "agrees": true
+   }
+  },
+  "corpus-notch-trial-r6": {
+   "input": {
+    "volume": 4710,
+    "area": 2350,
+    "faces": 10,
+    "faceTypes": {
+     "plane": 10
+    },
+    "edges": 24,
+    "vertices": 16,
+    "solids": 1,
+    "shells": 1,
+    "valid": true,
+    "freeEdges": 0,
+    "badOrientation": false
+   },
+   "edgesMatched": 2,
+   "ms": 5.221124971285462,
+   "faultyContours": 2,
+   "faultyVertices": 0,
+   "status": "not-done",
+   "jobSha256": "95e77545ad308b0cec6705028f049222dc050a74669ba761151d063de424953b",
+   "inputVolumeRelErrVsKernel": 0,
+   "closedForm": null
+  },
+  "corpus-notch-trial-r3": {
+   "input": {
+    "volume": 4710,
+    "area": 2350,
+    "faces": 10,
+    "faceTypes": {
+     "plane": 10
+    },
+    "edges": 24,
+    "vertices": 16,
+    "solids": 1,
+    "shells": 1,
+    "valid": true,
+    "freeEdges": 0,
+    "badOrientation": false
+   },
+   "edgesMatched": 2,
+   "ms": 18.57870805542916,
+   "faultyContours": 2,
+   "faultyVertices": 0,
+   "status": "not-done",
+   "jobSha256": "8c155910436e925d225b11747d7eff8d772cfc6c1a7fab0371dad1e683836e2b",
+   "inputVolumeRelErrVsKernel": 0,
+   "closedForm": null
+  },
+  "corpus-notch-trial-r1.5": {
+   "input": {
+    "volume": 4710,
+    "area": 2350,
+    "faces": 10,
+    "faceTypes": {
+     "plane": 10
+    },
+    "edges": 24,
+    "vertices": 16,
+    "solids": 1,
+    "shells": 1,
+    "valid": true,
+    "freeEdges": 0,
+    "badOrientation": false
+   },
+   "edgesMatched": 2,
+   "ms": 2.1740420488640666,
+   "faultyContours": 0,
+   "faultyVertices": 2,
+   "status": "not-done",
+   "jobSha256": "ac688d92b69bead0550802083a8891d14c2a24344d9615092f53f4f1037795d5",
+   "inputVolumeRelErrVsKernel": 0,
+   "closedForm": null
+  },
+  "corpus-notch-trial-r1": {
+   "input": {
+    "volume": 4710,
+    "area": 2350,
+    "faces": 10,
+    "faceTypes": {
+     "plane": 10
+    },
+    "edges": 24,
+    "vertices": 16,
+    "solids": 1,
+    "shells": 1,
+    "valid": true,
+    "freeEdges": 0,
+    "badOrientation": false
+   },
+   "edgesMatched": 2,
+   "ms": 3.481416031718254,
+   "faultyContours": 0,
+   "faultyVertices": 0,
+   "status": "done",
+   "result": {
+    "volume": 4712.575222039231,
+    "area": 2345.707963267949,
+    "faces": 12,
+    "faceTypes": {
+     "plane": 10,
+     "cylinder": 2
+    },
+    "edges": 30,
+    "vertices": 20,
+    "solids": 1,
+    "shells": 1,
+    "valid": true,
+    "freeEdges": 0,
+    "badOrientation": false
+   },
+   "dumped": true,
+   "jobSha256": "a60eedd87f35dcf13ec96475f802f51fe97e362628a2f492a24c11130d28b2b2",
+   "inputVolumeRelErrVsKernel": 0,
+   "closedForm": {
+    "expectedVolume": 4712.5752220392305,
+    "absErr": 9.094947017729282e-13,
+    "relErr": 1.9299314258571574e-16,
+    "agrees": true
+   }
+  },
+  "pp-concave-240-r2": {
+   "input": {
+    "volume": 4700.96182823181,
+    "area": 1986.60253156624,
+    "faces": 7,
+    "faceTypes": {
+     "plane": 7
+    },
+    "edges": 15,
+    "vertices": 10,
+    "solids": 1,
+    "shells": 1,
+    "valid": true,
+    "freeEdges": 0,
+    "badOrientation": false
+   },
+   "edgesMatched": 1,
+   "ms": 1.391374971717596,
+   "faultyContours": 0,
+   "faultyVertices": 0,
+   "status": "done",
+   "result": {
+    "volume": 4703.111888269204,
+    "area": 1984.882483536326,
+    "faces": 8,
+    "faceTypes": {
+     "plane": 7,
+     "cylinder": 1
+    },
+    "edges": 18,
+    "vertices": 12,
+    "solids": 1,
+    "shells": 1,
+    "valid": true,
+    "freeEdges": 0,
+    "badOrientation": false
+   },
+   "dumped": true,
+   "jobSha256": "7f76f140dedac28dd7072361c86ee8213a722bfcf56d545797176b5a2a2caf15",
+   "inputVolumeRelErrVsKernel": 3.869398369971532e-16,
+   "closedForm": {
+    "expectedVolume": 4703.111887975463,
+    "absErr": 2.937413228210062e-7,
+    "relErr": 6.245680090495407e-11,
+    "agrees": true
+   }
+  },
+  "pp-convex-150-r2": {
+   "input": {
+    "volume": 3602.8856277465825,
+    "area": 1531.1599777666243,
+    "faces": 7,
+    "faceTypes": {
+     "plane": 7
+    },
+    "edges": 15,
+    "vertices": 10,
+    "solids": 1,
+    "shells": 1,
+    "valid": true,
+    "freeEdges": 0,
+    "badOrientation": false
+   },
+   "edgesMatched": 1,
+   "ms": 1.3983329990878701,
+   "faultyContours": 0,
+   "faultyVertices": 0,
+   "status": "done",
+   "result": {
+    "volume": 3602.6396356270684,
+    "area": 1530.8647872232075,
+    "faces": 8,
+    "faceTypes": {
+     "plane": 7,
+     "cylinder": 1
+    },
+    "edges": 18,
+    "vertices": 12,
+    "solids": 1,
+    "shells": 1,
+    "valid": true,
+    "freeEdges": 0,
+    "badOrientation": false
+   },
+   "dumped": true,
+   "jobSha256": "aea545daac7c5f1fdb9773a18cc021be1d4724f368502947d19afb8f69bc72fc",
+   "inputVolumeRelErrVsKernel": 1.2621753723858422e-16,
+   "closedForm": {
+    "expectedVolume": 3602.6396355613037,
+    "absErr": 6.576465239049867e-8,
+    "relErr": 1.825457415760994e-11,
+    "agrees": true
+   }
+  },
+  "pp-ridge-150-horizontal-r2": {
+   "input": {
+    "volume": 7205.771255493165,
+    "area": 2341.742829983932,
+    "faces": 7,
+    "faceTypes": {
+     "plane": 7
+    },
+    "edges": 15,
+    "vertices": 10,
+    "solids": 1,
+    "shells": 1,
+    "valid": true,
+    "freeEdges": 0,
+    "badOrientation": false
+   },
+   "edgesMatched": 1,
+   "ms": 1.5819160034880042,
+   "faultyContours": 0,
+   "faultyVertices": 0,
+   "status": "done",
+   "result": {
+    "volume": 7205.279271254137,
+    "area": 2341.201647321001,
+    "faces": 8,
+    "faceTypes": {
+     "plane": 7,
+     "cylinder": 1
+    },
+    "edges": 18,
+    "vertices": 12,
+    "solids": 1,
+    "shells": 1,
+    "valid": true,
+    "freeEdges": 0,
+    "badOrientation": false
+   },
+   "dumped": true,
+   "jobSha256": "82317c7d8c8b048bdd60e2a0fe9bac38655abcd84d5f8ad74366d3c51bf56f19",
+   "inputVolumeRelErrVsKernel": 1.2621753723858422e-16,
+   "closedForm": {
+    "expectedVolume": 7205.2792711226075,
+    "absErr": 1.3152930478099734e-7,
+    "relErr": 1.825457415760994e-11,
+    "agrees": true
+   }
+  },
+  "pp-convex-120-hex-r2": {
+   "input": {
+    "volume": 2598.076343536377,
+    "area": 1119.6152839704607,
+    "faces": 8,
+    "faceTypes": {
+     "plane": 8
+    },
+    "edges": 18,
+    "vertices": 12,
+    "solids": 1,
+    "shells": 1,
+    "valid": true,
+    "freeEdges": 0,
+    "badOrientation": false
+   },
+   "edgesMatched": 1,
+   "ms": 1.6148749273270369,
+   "faultyContours": 0,
+   "faultyVertices": 0,
+   "status": "done",
+   "result": {
+    "volume": 2595.926284086464,
+    "area": 1117.0352126305652,
+    "faces": 9,
+    "faceTypes": {
+     "plane": 8,
+     "cylinder": 1
+    },
+    "edges": 21,
+    "vertices": 14,
+    "solids": 1,
+    "shells": 1,
+    "valid": true,
+    "freeEdges": 0,
+    "badOrientation": false
+   },
+   "dumped": true,
+   "jobSha256": "6ec34d7f2642fcc0418d37572cb5a4b2760f3b72676ec1d4573177167f29afcb",
+   "inputVolumeRelErrVsKernel": 1.7503232805987675e-16,
+   "closedForm": {
+    "expectedVolume": 2595.926283792724,
+    "absErr": 2.937399585789535e-7,
+    "relErr": 1.1315419872007724e-10,
+    "agrees": true
+   }
+  },
+  "pp-concave-300-r1": {
+   "input": {
+    "volume": 8102.885627746579,
+    "area": 3320.57713192597,
+    "faces": 7,
+    "faceTypes": {
+     "plane": 7
+    },
+    "edges": 15,
+    "vertices": 10,
+    "solids": 1,
+    "shells": 1,
+    "valid": true,
+    "freeEdges": 0,
+    "badOrientation": false
+   },
+   "edgesMatched": 1,
+   "ms": 1.3141250237822533,
+   "faultyContours": 0,
+   "faultyVertices": 0,
+   "status": "done",
+   "result": {
+    "volume": 8109.734160494382,
+    "area": 3308.2497729799297,
+    "faces": 8,
+    "faceTypes": {
+     "plane": 7,
+     "cylinder": 1
+    },
+    "edges": 18,
+    "vertices": 12,
+    "solids": 1,
+    "shells": 1,
+    "valid": true,
+    "freeEdges": 0,
+    "badOrientation": false
+   },
+   "dumped": true,
+   "jobSha256": "ae6159ab8a1b7bb5e03d672691a59acbfc37fcb19214246b7c92882e12c07699",
+   "inputVolumeRelErrVsKernel": 3.367299293940026e-16,
+   "closedForm": {
+    "expectedVolume": 8109.734160310302,
+    "absErr": 1.8407990864943713e-7,
+    "relErr": 2.2698636602706307e-11,
+    "agrees": true
+   }
+  },
+  "pp-convex-60-r2": {
+   "input": {
+    "volume": 1732.050895690918,
+    "area": 946.4101944013689,
+    "faces": 5,
+    "faceTypes": {
+     "plane": 5
+    },
+    "edges": 9,
+    "vertices": 6,
+    "solids": 1,
+    "shells": 1,
+    "valid": true,
+    "freeEdges": 0,
+    "badOrientation": false
+   },
+   "edgesMatched": 1,
+   "ms": 1.3187499716877937,
+   "faultyContours": 0,
+   "faultyVertices": 0,
+   "status": "done",
+   "result": {
+    "volume": 1704.6567627923662,
+    "area": 913.5372349231061,
+    "faces": 6,
+    "faceTypes": {
+     "plane": 5,
+     "cylinder": 1
+    },
+    "edges": 12,
+    "vertices": 8,
+    "solids": 1,
+    "shells": 1,
+    "valid": true,
+    "freeEdges": 0,
+    "badOrientation": false
+   },
+   "dumped": true,
+   "jobSha256": "a26fa3855161a29f9c02134ae13fd636f8f4c877d15c9ff978f8e03496be31f5",
+   "inputVolumeRelErrVsKernel": 0,
+   "closedForm": {
+    "expectedVolume": 1704.6567654360267,
+    "absErr": 0.0000026436605367052834,
+    "relErr": 1.5508462409023867e-9,
+    "agrees": true
+   }
+  },
+  "pp-convex-30-acute-r1": {
+   "input": {
+    "volume": 4000.0000066585194,
+    "area": 1807.0552190342355,
+    "faces": 5,
+    "faceTypes": {
+     "plane": 5
+    },
+    "edges": 9,
+    "vertices": 6,
+    "solids": 1,
+    "shells": 1,
+    "valid": true,
+    "freeEdges": 0,
+    "badOrientation": false
+   },
+   "edgesMatched": 1,
+   "ms": 1.4505829894915223,
+   "faultyContours": 0,
+   "faultyVertices": 0,
+   "status": "done",
+   "result": {
+    "volume": 3975.769470727904,
+    "area": 1753.748039986878,
+    "faces": 6,
+    "faceTypes": {
+     "plane": 5,
+     "cylinder": 1
+    },
+    "edges": 12,
+    "vertices": 8,
+    "solids": 1,
+    "shells": 1,
+    "valid": true,
+    "freeEdges": 0,
+    "badOrientation": false
+   },
+   "dumped": true,
+   "jobSha256": "90130ab1e23c88f2b8e94ce1cb416b5ec2e0c904c4edbdad4b0e9bdb2f37ce16",
+   "inputVolumeRelErrVsKernel": 1.136868375323695e-16,
+   "closedForm": {
+    "expectedVolume": 3975.769467972788,
+    "absErr": 0.0000027551159291760996,
+    "relErr": 6.929767813174818e-10,
+    "agrees": true
+   }
+  },
+  "ch-convex-60-d1": {
+   "input": {
+    "volume": 1732.050895690918,
+    "area": 946.4101944013689,
+    "faces": 5,
+    "faceTypes": {
+     "plane": 5
+    },
+    "edges": 9,
+    "vertices": 6,
+    "solids": 1,
+    "shells": 1,
+    "valid": true,
+    "freeEdges": 0,
+    "badOrientation": false
+   },
+   "edgesMatched": 1,
+   "ms": 1.2156669981777668,
+   "status": "done",
+   "result": {
+    "volume": 1727.7207687821488,
+    "area": 935.5441686380354,
+    "faces": 6,
+    "faceTypes": {
+     "plane": 6
+    },
+    "edges": 12,
+    "vertices": 8,
+    "solids": 1,
+    "shells": 1,
+    "valid": true,
+    "freeEdges": 0,
+    "badOrientation": false
+   },
+   "dumped": true,
+   "jobSha256": "4fd209125df0b6c9095376cd19b17cee4a18b07e1bdf899607776d46782fceea",
+   "inputVolumeRelErrVsKernel": 0,
+   "closedForm": {
+    "expectedVolume": 1719.0605146341513,
+    "absErr": 8.66025414799742,
+    "relErr": 0.00503778318114676,
+    "agrees": false,
+    "relErrVs_inSupport": 6.37562493055784e-11,
+    "matchesAlternative": "inSupport"
+   }
+  },
+  "pc-post-top-rim-r1": {
+   "input": {
+    "volume": 785.3981633974481,
+    "area": 471.23889803846873,
+    "faces": 3,
+    "faceTypes": {
+     "plane": 2,
+     "cylinder": 1
+    },
+    "edges": 3,
+    "vertices": 2,
+    "solids": 1,
+    "shells": 1,
+    "valid": true,
+    "freeEdges": 0,
+    "badOrientation": false
+   },
+   "edgesMatched": 1,
+   "ms": 3.6172090331092477,
+   "faultyContours": 0,
+   "faultyVertices": 0,
+   "status": "done",
+   "result": {
+    "volume": 778.957433419712,
+    "area": 457.31024053179976,
+    "faces": 4,
+    "faceTypes": {
+     "plane": 2,
+     "torus": 1,
+     "cylinder": 1
+    },
+    "edges": 5,
+    "vertices": 3,
+    "solids": 1,
+    "shells": 1,
+    "valid": true,
+    "freeEdges": 0,
+    "badOrientation": false
+   },
+   "dumped": true,
+   "jobSha256": "ef2f1b0b9b9e8a1dadac7a3a801e404e5912d977ea3d3f39d617301f9e6931dc",
+   "inputVolumeRelErrVsKernel": 1.1580046200244074e-15,
+   "closedForm": {
+    "expectedVolume": 778.957433419712,
+    "absErr": 0,
+    "relErr": 0,
+    "agrees": true
+   }
+  },
+  "pc-post-top-rim-spindle-r3.5": {
+   "input": {
+    "volume": 785.3981633974481,
+    "area": 471.23889803846873,
+    "faces": 3,
+    "faceTypes": {
+     "plane": 2,
+     "cylinder": 1
+    },
+    "edges": 3,
+    "vertices": 2,
+    "solids": 1,
+    "shells": 1,
+    "valid": true,
+    "freeEdges": 0,
+    "badOrientation": false
+   },
+   "edgesMatched": 1,
+   "ms": 0.401749974116683,
+   "faultyContours": 0,
+   "faultyVertices": 0,
+   "status": "done",
+   "result": {
+    "volume": 715.7230288054776,
+    "area": 418.5963654123274,
+    "faces": 4,
+    "faceTypes": {
+     "plane": 2,
+     "torus": 1,
+     "cylinder": 1
+    },
+    "edges": 5,
+    "vertices": 3,
+    "solids": 1,
+    "shells": 1,
+    "valid": true,
+    "freeEdges": 0,
+    "badOrientation": false
+   },
+   "dumped": true,
+   "jobSha256": "22c50714f4c2fc4db97a7de4d32a77c4acd997143da47e6c415dcaaa2068a15d",
+   "inputVolumeRelErrVsKernel": 1.1580046200244074e-15,
+   "closedForm": {
+    "expectedVolume": 715.7230288054776,
+    "absErr": 0,
+    "relErr": 0,
+    "agrees": true
+   }
+  },
+  "pc-post-top-rim-r4.99": {
+   "input": {
+    "volume": 785.3981633974481,
+    "area": 471.23889803846873,
+    "faces": 3,
+    "faceTypes": {
+     "plane": 2,
+     "cylinder": 1
+    },
+    "edges": 3,
+    "vertices": 2,
+    "solids": 1,
+    "shells": 1,
+    "valid": true,
+    "freeEdges": 0,
+    "badOrientation": false
+   },
+   "edgesMatched": 1,
+   "ms": 0.52370794583112,
+   "faultyContours": 0,
+   "faultyVertices": 0,
+   "status": "done",
+   "result": {
+    "volume": 654.9465491702063,
+    "area": 392.8783581707755,
+    "faces": 4,
+    "faceTypes": {
+     "plane": 2,
+     "torus": 1,
+     "cylinder": 1
+    },
+    "edges": 5,
+    "vertices": 3,
+    "solids": 1,
+    "shells": 1,
+    "valid": true,
+    "freeEdges": 0,
+    "badOrientation": false
+   },
+   "dumped": true,
+   "jobSha256": "8422eb7d73b4c82806bbabd7d6702c9c5b92976dea4fd3565bb35d616bfbe2e1",
+   "inputVolumeRelErrVsKernel": 1.1580046200244074e-15,
+   "closedForm": {
+    "expectedVolume": 654.9465491702065,
+    "absErr": 2.2737367544323206e-13,
+    "relErr": 3.4716371241486236e-16,
+    "agrees": true
+   }
+  },
+  "pc-post-top-rim-sphere-r5": {
+   "input": {
+    "volume": 785.3981633974481,
+    "area": 471.23889803846873,
+    "faces": 3,
+    "faceTypes": {
+     "plane": 2,
+     "cylinder": 1
+    },
+    "edges": 3,
+    "vertices": 2,
+    "solids": 1,
+    "shells": 1,
+    "valid": true,
+    "freeEdges": 0,
+    "badOrientation": false
+   },
+   "edgesMatched": 1,
+   "ms": 0.4754170076921582,
+   "faultyContours": 0,
+   "faultyVertices": 0,
+   "status": "done",
+   "result": {
+    "volume": 654.4984694978735,
+    "area": 392.69908169872394,
+    "faces": 3,
+    "faceTypes": {
+     "cylinder": 1,
+     "sphere": 1,
+     "plane": 1
+    },
+    "edges": 5,
+    "vertices": 3,
+    "solids": 1,
+    "shells": 1,
+    "valid": true,
+    "freeEdges": 0,
+    "badOrientation": false
+   },
+   "dumped": true,
+   "jobSha256": "d048362e62d178fb781fda11aa20b28a283369fe4ce6b25b9d83b8602c26f82d",
+   "inputVolumeRelErrVsKernel": 1.1580046200244074e-15,
+   "closedForm": {
+    "expectedVolume": 654.4984694978734,
+    "absErr": 1.1368683772161603e-13,
+    "relErr": 1.737006930036609e-16,
+    "agrees": true
+   }
+  },
+  "pc-hole-rim-r1": {
+   "input": {
+    "volume": 5098.407105255379,
+    "area": 2570.265482457436,
+    "faces": 7,
+    "faceTypes": {
+     "plane": 6,
+     "cylinder": 1
+    },
+    "edges": 15,
+    "vertices": 10,
+    "solids": 1,
+    "shells": 1,
+    "valid": true,
+    "freeEdges": 0,
+    "badOrientation": false
+   },
+   "edgesMatched": 1,
+   "ms": 0.6311249453574419,
+   "faultyContours": 0,
+   "faultyVertices": 0,
+   "status": "done",
+   "result": {
+    "volume": 5092.712387273403,
+    "area": 2559.9232440446767,
+    "faces": 8,
+    "faceTypes": {
+     "plane": 6,
+     "torus": 1,
+     "cylinder": 1
+    },
+    "edges": 17,
+    "vertices": 11,
+    "solids": 1,
+    "shells": 1,
+    "valid": true,
+    "freeEdges": 0,
+    "badOrientation": false
+   },
+   "dumped": true,
+   "jobSha256": "0cdcd5ce70a3651eaa0ca8e6114cbb0f41c7a6fd7e8c9f004ec4be3b41f5e324",
+   "inputVolumeRelErrVsKernel": 3.567760216069964e-16,
+   "closedForm": {
+    "expectedVolume": 5092.712387273401,
+    "absErr": 1.8189894035458565e-12,
+    "relErr": 3.571749718463346e-16,
+    "agrees": true
+   }
+  },
+  "pc-hole-both-rims-r1": {
+   "input": {
+    "volume": 5098.407105255379,
+    "area": 2570.265482457436,
+    "faces": 7,
+    "faceTypes": {
+     "plane": 6,
+     "cylinder": 1
+    },
+    "edges": 15,
+    "vertices": 10,
+    "solids": 1,
+    "shells": 1,
+    "valid": true,
+    "freeEdges": 0,
+    "badOrientation": false
+   },
+   "edgesMatched": 2,
+   "ms": 0.8386659901589155,
+   "faultyContours": 0,
+   "faultyVertices": 0,
+   "status": "done",
+   "result": {
+    "volume": 5087.017669291425,
+    "area": 2549.581005631918,
+    "faces": 9,
+    "faceTypes": {
+     "plane": 6,
+     "torus": 2,
+     "cylinder": 1
+    },
+    "edges": 19,
+    "vertices": 12,
+    "solids": 1,
+    "shells": 1,
+    "valid": true,
+    "freeEdges": 0,
+    "badOrientation": false
+   },
+   "dumped": true,
+   "jobSha256": "4c06236336e4ba61c716162959813168bf50ebb84d28c0b82d3afe7fa45b3702",
+   "inputVolumeRelErrVsKernel": 3.567760216069964e-16,
+   "closedForm": {
+    "expectedVolume": 5087.017669291423,
+    "absErr": 1.8189894035458565e-12,
+    "relErr": 3.5757481530415556e-16,
+    "agrees": true
+   }
+  },
+  "pc-post-both-rims-r1": {
+   "input": {
+    "volume": 785.3981633974481,
+    "area": 471.23889803846873,
+    "faces": 3,
+    "faceTypes": {
+     "plane": 2,
+     "cylinder": 1
+    },
+    "edges": 3,
+    "vertices": 2,
+    "solids": 1,
+    "shells": 1,
+    "valid": true,
+    "freeEdges": 0,
+    "badOrientation": false
+   },
+   "edgesMatched": 2,
+   "ms": 0.6366251036524773,
+   "faultyContours": 0,
+   "faultyVertices": 0,
+   "status": "done",
+   "result": {
+    "volume": 772.5167034419758,
+    "area": 443.3815830251307,
+    "faces": 5,
+    "faceTypes": {
+     "plane": 2,
+     "torus": 2,
+     "cylinder": 1
+    },
+    "edges": 7,
+    "vertices": 4,
+    "solids": 1,
+    "shells": 1,
+    "valid": true,
+    "freeEdges": 0,
+    "badOrientation": false
+   },
+   "dumped": true,
+   "jobSha256": "9be549433e035620874d54057036411f94f5d28884bf8c21e2f549d3bdf9c27e",
+   "inputVolumeRelErrVsKernel": 1.1580046200244074e-15,
+   "closedForm": {
+    "expectedVolume": 772.5167034419757,
+    "absErr": 1.1368683772161603e-13,
+    "relErr": 1.4716424540088295e-16,
+    "agrees": true
+   }
+  },
+  "fl-slot-outline-r1": {
+   "input": {
+    "volume": 1114.15926535898,
+    "area": 842.7433388230816,
+    "faces": 6,
+    "faceTypes": {
+     "plane": 4,
+     "cylinder": 2
+    },
+    "edges": 12,
+    "vertices": 8,
+    "solids": 1,
+    "shells": 1,
+    "valid": true,
+    "freeEdges": 0,
+    "badOrientation": false
+   },
+   "edgesMatched": 4,
+   "ms": 1.097167027182877,
+   "faultyContours": 0,
+   "faultyVertices": 0,
+   "status": "done",
+   "result": {
+    "volume": 1099.1344619171418,
+    "area": 811.6465343882085,
+    "faces": 10,
+    "faceTypes": {
+     "plane": 4,
+     "cylinder": 4,
+     "torus": 2
+    },
+    "edges": 20,
+    "vertices": 12,
+    "solids": 1,
+    "shells": 1,
+    "valid": true,
+    "freeEdges": 0,
+    "badOrientation": false
+   },
+   "dumped": true,
+   "jobSha256": "aa4b7ba0945134977b4b8b1c2c877ff6f1a13477cabec6a9ebe07542264d7a49",
+   "inputVolumeRelErrVsKernel": 4.08152914062915e-16,
+   "closedForm": {
+    "expectedVolume": 1099.1344619171418,
+    "absErr": 0,
+    "relErr": 0,
+    "agrees": true
+   }
+  },
+  "fl-slot-one-line-propagate-r1": {
+   "input": {
+    "volume": 1114.15926535898,
+    "area": 842.7433388230816,
+    "faces": 6,
+    "faceTypes": {
+     "plane": 4,
+     "cylinder": 2
+    },
+    "edges": 12,
+    "vertices": 8,
+    "solids": 1,
+    "shells": 1,
+    "valid": true,
+    "freeEdges": 0,
+    "badOrientation": false
+   },
+   "edgesMatched": 1,
+   "ms": 1.0211669141426682,
+   "faultyContours": 0,
+   "faultyVertices": 0,
+   "status": "done",
+   "result": {
+    "volume": 1099.1344619171418,
+    "area": 811.6465343882085,
+    "faces": 10,
+    "faceTypes": {
+     "plane": 4,
+     "cylinder": 4,
+     "torus": 2
+    },
+    "edges": 20,
+    "vertices": 12,
+    "solids": 1,
+    "shells": 1,
+    "valid": true,
+    "freeEdges": 0,
+    "badOrientation": false
+   },
+   "dumped": true,
+   "jobSha256": "83a2cf2599c8381b80e230a088fe044ec8f7e2318e5cfca27731dc91b2bd13c3",
+   "inputVolumeRelErrVsKernel": 4.08152914062915e-16,
+   "closedForm": {
+    "expectedVolume": 1099.1344619171418,
+    "absErr": 0,
+    "relErr": 0,
+    "agrees": true
+   }
+  },
+  "ch-cone-rim-0.42": {
+   "input": {
+    "volume": 1350.884841043613,
+    "area": 705.99121915454,
+    "faces": 3,
+    "faceTypes": {
+     "plane": 2,
+     "cone": 1
+    },
+    "edges": 3,
+    "vertices": 2,
+    "solids": 1,
+    "shells": 1,
+    "valid": true,
+    "freeEdges": 0,
+    "badOrientation": false
+   },
+   "edgesMatched": 1,
+   "ms": 77.26137503050268,
+   "status": "not-done",
+   "jobSha256": "3432e33c1c97d22eabd7cf7796b3323641c6e7d50b78a45650d8e6ac5b8381a1",
+   "inputVolumeRelErrVsKernel": 4.039551000085147e-15,
+   "closedForm": null
+  },
+  "pc-cone-rim-r1": {
+   "input": {
+    "volume": 1350.884841043613,
+    "area": 705.99121915454,
+    "faces": 3,
+    "faceTypes": {
+     "plane": 2,
+     "cone": 1
+    },
+    "edges": 3,
+    "vertices": 2,
+    "solids": 1,
+    "shells": 1,
+    "valid": true,
+    "freeEdges": 0,
+    "badOrientation": false
+   },
+   "edgesMatched": 1,
+   "ms": 0.427749939262867,
+   "faultyContours": 0,
+   "faultyVertices": 0,
+   "status": "done",
+   "result": {
+    "volume": 1347.6809909619801,
+    "area": 699.170387928727,
+    "faces": 4,
+    "faceTypes": {
+     "plane": 2,
+     "torus": 1,
+     "cone": 1
+    },
+    "edges": 5,
+    "vertices": 3,
+    "solids": 1,
+    "shells": 1,
+    "valid": true,
+    "freeEdges": 0,
+    "badOrientation": false
+   },
+   "dumped": true,
+   "jobSha256": "13991f817f66f79b1e536017b1626357d18e633f28eb52bbf7e4a9eb96825e98",
+   "inputVolumeRelErrVsKernel": 4.039551000085147e-15,
+   "closedForm": {
+    "expectedVolume": 1347.680990961981,
+    "absErr": 9.094947017729282e-13,
+    "relErr": 6.748590414736997e-16,
+    "agrees": true
+   }
+  },
+  "pc-bump-generator-concave-r1": {
+   "input": {
+    "volume": 2714.159265358981,
+    "area": 1364.2035224833376,
+    "faces": 8,
+    "faceTypes": {
+     "plane": 7,
+     "cylinder": 1
+    },
+    "edges": 18,
+    "vertices": 12,
+    "solids": 1,
+    "shells": 1,
+    "valid": true,
+    "freeEdges": 0,
+    "badOrientation": false
+   },
+   "edgesMatched": 2,
+   "ms": 2.3681670427322388,
+   "faultyContours": 0,
+   "faultyVertices": 0,
+   "status": "done",
+   "result": {
+    "volume": 2716.7715017992364,
+    "area": 1359.257030687435,
+    "faces": 10,
+    "faceTypes": {
+     "plane": 7,
+     "cylinder": 3
+    },
+    "edges": 24,
+    "vertices": 16,
+    "solids": 1,
+    "shells": 1,
+    "valid": true,
+    "freeEdges": 0,
+    "badOrientation": false
+   },
+   "dumped": true,
+   "jobSha256": "338f48ceaa83b5259952d00bb73a83016877e117b1af6cf43b69fb69cb1fce24",
+   "inputVolumeRelErrVsKernel": 8.37731515409649e-16,
+   "closedForm": {
+    "expectedVolume": 2716.771501799238,
+    "absErr": 1.8189894035458565e-12,
+    "relErr": 6.695408142868081e-16,
+    "agrees": true
+   }
+  },
+  "pc-post-base-concave-r1": {
+   "input": {
+    "volume": 1445.132620651305,
+    "area": 1068.1415022205292,
+    "faces": 6,
+    "faceTypes": {
+     "plane": 4,
+     "cylinder": 2
+    },
+    "edges": 7,
+    "vertices": 5,
+    "solids": 1,
+    "shells": 1,
+    "valid": true,
+    "freeEdges": 0,
+    "badOrientation": false
+   },
+   "edgesMatched": 1,
+   "ms": 0.5490420153364539,
+   "faultyContours": 0,
+   "faultyVertices": 0,
+   "status": "done",
+   "result": {
+    "volume": 1450.8273386332826,
+    "area": 1057.7992638077706,
+    "faces": 7,
+    "faceTypes": {
+     "cylinder": 2,
+     "torus": 1,
+     "plane": 4
+    },
+    "edges": 9,
+    "vertices": 6,
+    "solids": 1,
+    "shells": 1,
+    "valid": true,
+    "freeEdges": 0,
+    "badOrientation": false
+   },
+   "dumped": true,
+   "jobSha256": "0f7dc8cd7b44ea0163822b417a37b8635549a6a9b9a36dfdc92e0d7f9ca13736",
+   "inputVolumeRelErrVsKernel": 4.40545235878848e-15,
+   "closedForm": {
+    "expectedVolume": 1450.8273386332828,
+    "absErr": 2.2737367544323206e-13,
+    "relErr": 1.567200102924887e-16,
+    "agrees": true
+   }
+  },
+  "pc-dflat-generator-convex-r1": {
+   "input": {
+    "volume": 2694.2974355881806,
+    "area": 1141.7189742352712,
+    "faces": 4,
+    "faceTypes": {
+     "plane": 3,
+     "cylinder": 1
+    },
+    "edges": 6,
+    "vertices": 4,
+    "solids": 1,
+    "shells": 1,
+    "valid": true,
+    "freeEdges": 0,
+    "badOrientation": false
+   },
+   "edgesMatched": 2,
+   "ms": 1.8784590065479279,
+   "faultyContours": 0,
+   "faultyVertices": 0,
+   "status": "done",
+   "result": {
+    "volume": 2693.476984725309,
+    "area": 1139.9624589498258,
+    "faces": 6,
+    "faceTypes": {
+     "plane": 3,
+     "cylinder": 3
+    },
+    "edges": 12,
+    "vertices": 8,
+    "solids": 1,
+    "shells": 1,
+    "valid": true,
+    "freeEdges": 0,
+    "badOrientation": false
+   },
+   "dumped": true,
+   "jobSha256": "0d7ef4aa8d12114e36a3dcb5b1a9439748f4d6beee84ce659ac7088361e7addc",
+   "inputVolumeRelErrVsKernel": 2.3629398997741603e-15,
+   "closedForm": {
+    "expectedVolume": 2693.4769847253083,
+    "absErr": 9.094947017729282e-13,
+    "relErr": 3.376656666942644e-16,
+    "agrees": true
+   }
+  },
+  "hard-single-edge-r-too-large-r12": {
+   "input": {
+    "volume": 1000.0000000000003,
+    "area": 600,
+    "faces": 6,
+    "faceTypes": {
+     "plane": 6
+    },
+    "edges": 12,
+    "vertices": 8,
+    "solids": 1,
+    "shells": 1,
+    "valid": true,
+    "freeEdges": 0,
+    "badOrientation": false
+   },
+   "edgesMatched": 1,
+   "ms": 2.5152909802272916,
+   "faultyContours": 1,
+   "faultyVertices": 0,
+   "status": "not-done",
+   "jobSha256": "f72d9f29558b362236913a65fdc2d72c6aad84b44aeceb74da140af6499038ac",
+   "inputVolumeRelErrVsKernel": 4.547473508864641e-16,
+   "closedForm": null
+  },
+  "hard-single-edge-r-equals-width-r10": {
+   "input": {
+    "volume": 1000.0000000000003,
+    "area": 600,
+    "faces": 6,
+    "faceTypes": {
+     "plane": 6
+    },
+    "edges": 12,
+    "vertices": 8,
+    "solids": 1,
+    "shells": 1,
+    "valid": true,
+    "freeEdges": 0,
+    "badOrientation": false
+   },
+   "edgesMatched": 1,
+   "ms": 3.047749982215464,
+   "faultyContours": 1,
+   "faultyVertices": 0,
+   "status": "not-done",
+   "jobSha256": "1f0506d085dea75ca831f0d89173ffeed360fffb4b4c1e578f40e3d0d0f103fd",
+   "inputVolumeRelErrVsKernel": 4.547473508864641e-16,
+   "closedForm": null
+  },
+  "hard-single-edge-r9.999": {
+   "input": {
+    "volume": 1000.0000000000003,
+    "area": 600,
+    "faces": 6,
+    "faceTypes": {
+     "plane": 6
+    },
+    "edges": 12,
+    "vertices": 8,
+    "solids": 1,
+    "shells": 1,
+    "valid": true,
+    "freeEdges": 0,
+    "badOrientation": false
+   },
+   "edgesMatched": 1,
+   "ms": 1.3239590916782618,
+   "faultyContours": 0,
+   "faultyVertices": 0,
+   "status": "done",
+   "result": {
+    "volume": 785.4410816187508,
+    "area": 514.1721410399718,
+    "faces": 7,
+    "faceTypes": {
+     "plane": 6,
+     "cylinder": 1
+    },
+    "edges": 15,
+    "vertices": 10,
+    "solids": 1,
+    "shells": 1,
+    "valid": true,
+    "freeEdges": 0,
+    "badOrientation": false
+   },
+   "dumped": true,
+   "jobSha256": "29051c731ba32846122c104ef12b3ca839f6430183f8a4dbc7509af46dfc7fae",
+   "inputVolumeRelErrVsKernel": 4.547473508864641e-16,
+   "closedForm": {
+    "expectedVolume": 785.4410816187508,
+    "absErr": 0,
+    "relErr": 0,
+    "agrees": true
+   }
+  },
+  "hard-full-round-r5": {
+   "input": {
+    "volume": 1000.0000000000003,
+    "area": 600,
+    "faces": 6,
+    "faceTypes": {
+     "plane": 6
+    },
+    "edges": 12,
+    "vertices": 8,
+    "solids": 1,
+    "shells": 1,
+    "valid": true,
+    "freeEdges": 0,
+    "badOrientation": false
+   },
+   "edgesMatched": 2,
+   "ms": 1.7380419885739684,
+   "faultyContours": 0,
+   "faultyVertices": 2,
+   "status": "not-done",
+   "jobSha256": "91e35fbd8c85b0f0b2695a12536acf5509486615d8aa6b18355dbdffd043af09",
+   "inputVolumeRelErrVsKernel": 4.547473508864641e-16,
+   "closedForm": null
+  },
+  "hard-near-full-round-r4.99": {
+   "input": {
+    "volume": 1000.0000000000003,
+    "area": 600,
+    "faces": 6,
+    "faceTypes": {
+     "plane": 6
+    },
+    "edges": 12,
+    "vertices": 8,
+    "solids": 1,
+    "shells": 1,
+    "valid": true,
+    "freeEdges": 0,
+    "badOrientation": false
+   },
+   "edgesMatched": 2,
+   "ms": 2.1712080342695117,
+   "faultyContours": 0,
+   "faultyVertices": 0,
+   "status": "done",
+   "result": {
+    "volume": 893.1278561682562,
+    "area": 535.791044647782,
+    "faces": 8,
+    "faceTypes": {
+     "plane": 6,
+     "cylinder": 2
+    },
+    "edges": 18,
+    "vertices": 12,
+    "solids": 1,
+    "shells": 1,
+    "valid": true,
+    "freeEdges": 0,
+    "badOrientation": false
+   },
+   "dumped": true,
+   "jobSha256": "5c0b9dccffd47f8ef32f9f247d462c2eaa8d7cb324e03f9e6ab237d0ac2c57db",
+   "inputVolumeRelErrVsKernel": 4.547473508864641e-16,
+   "closedForm": {
+    "expectedVolume": 893.1278561682564,
+    "absErr": 1.1368683772161603e-13,
+    "relErr": 1.2729066385787273e-16,
+    "agrees": true
+   }
+  },
+  "hard-overlapping-blends-thin-wall-r1": {
+   "input": {
+    "volume": 300,
+    "area": 490,
+    "faces": 6,
+    "faceTypes": {
+     "plane": 6
+    },
+    "edges": 12,
+    "vertices": 8,
+    "solids": 1,
+    "shells": 1,
+    "valid": true,
+    "freeEdges": 0,
+    "badOrientation": false
+   },
+   "edgesMatched": 2,
+   "ms": 1.7549589974805713,
+   "faultyContours": 0,
+   "faultyVertices": 2,
+   "status": "not-done",
+   "jobSha256": "b8d328cb95b8f3f337c60cc9504e4e44ec7e676ea9987d76c64af09da88b0827",
+   "inputVolumeRelErrVsKernel": 0,
+   "closedForm": null
+  },
+  "hard-fillet-after-boolean-fragments-r1": {
+   "input": {
+    "volume": 3800,
+    "area": 1880,
+    "faces": 46,
+    "faceTypes": {
+     "plane": 46
+    },
+    "edges": 92,
+    "vertices": 48,
+    "solids": 1,
+    "shells": 1,
+    "valid": true,
+    "freeEdges": 0,
+    "badOrientation": false
+   },
+   "edgesMatched": 4,
+   "ms": 8.990874979645014,
+   "faultyContours": 0,
+   "faultyVertices": 0,
+   "status": "done",
+   "result": {
+    "volume": 3798.2831853071793,
+    "area": 1876.5663706143591,
+    "faces": 50,
+    "faceTypes": {
+     "plane": 46,
+     "cylinder": 4
+    },
+    "edges": 108,
+    "vertices": 60,
+    "solids": 1,
+    "shells": 1,
+    "valid": true,
+    "freeEdges": 0,
+    "badOrientation": false
+   },
+   "dumped": true,
+   "jobSha256": "04d342721831a4c00dfa160d390f7aa3723d2a48c9a1f24e5d7af21c54da9042",
+   "inputVolumeRelErrVsKernel": 0,
+   "closedForm": {
+    "expectedVolume": 3798.28318530718,
+    "absErr": 4.547473508864641e-13,
+    "relErr": 1.1972444620389388e-16,
+    "agrees": true
+   }
+  },
+  "hard-short-edge-in-loop-r1": {
+   "input": {
+    "volume": 1199.25,
+    "area": 757.9926406871193,
+    "faces": 7,
+    "faceTypes": {
+     "plane": 7
+    },
+    "edges": 15,
+    "vertices": 10,
+    "solids": 1,
+    "shells": 1,
+    "valid": true,
+    "freeEdges": 0,
+    "badOrientation": false
+   },
+   "edgesMatched": 5,
+   "ms": 6.666500004939735,
+   "faultyContours": 1,
+   "faultyVertices": 0,
+   "status": "not-done",
+   "jobSha256": "2481b302a16f3e77f835f05179860ab902df29d7b02f6d693da5e1643b6a2b67",
+   "inputVolumeRelErrVsKernel": 0,
+   "closedForm": null
+  },
+  "hard-chamfer-exceeds-both-faces-d5": {
+   "input": {
+    "volume": 320.0000000000001,
+    "area": 351.99999999999994,
+    "faces": 6,
+    "faceTypes": {
+     "plane": 6
+    },
+    "edges": 12,
+    "vertices": 8,
+    "solids": 1,
+    "shells": 1,
+    "valid": true,
+    "freeEdges": 0,
+    "badOrientation": false
+   },
+   "edgesMatched": 1,
+   "ms": 2.5590420700609684,
+   "status": "not-done",
+   "jobSha256": "b9d1c525e460ad211ce291853edd4cfb904c8cc5a904a9b5c6f143103230ba6d",
+   "inputVolumeRelErrVsKernel": 3.552713678800501e-16,
+   "closedForm": null
+  },
+  "hard-overflow-narrow-ledge-r0.4": {
+   "input": {
+    "volume": 720.6250000000001,
+    "area": 744.125,
+    "faces": 12,
+    "faceTypes": {
+     "plane": 12
+    },
+    "edges": 30,
+    "vertices": 20,
+    "solids": 1,
+    "shells": 1,
+    "valid": true,
+    "freeEdges": 0,
+    "badOrientation": false
+   },
+   "edgesMatched": 1,
+   "ms": 2.8032499831169844,
+   "faultyContours": 1,
+   "faultyVertices": 0,
+   "status": "not-done",
+   "jobSha256": "20c0e5b38fea6bda6bb32ae5eba5d2feac741b4e063c932fab07e122b220180e",
+   "inputVolumeRelErrVsKernel": 1.5776144002999622e-16,
+   "closedForm": null
+  },
+  "hard-boss-root-concave-mitres-r1": {
+   "input": {
+    "volume": 3800,
+    "area": 1880,
+    "faces": 46,
+    "faceTypes": {
+     "plane": 46
+    },
+    "edges": 92,
+    "vertices": 48,
+    "solids": 1,
+    "shells": 1,
+    "valid": true,
+    "freeEdges": 0,
+    "badOrientation": false
+   },
+   "edgesMatched": 4,
+   "ms": 124.85529202967882,
+   "faultyContours": 0,
+   "faultyVertices": 0,
+   "status": "done",
+   "result": {
+    "volume": 3806.857211625007,
+    "area": 1835.4702168190413,
+    "faces": 54,
+    "faceTypes": {
+     "plane": 46,
+     "cylinder": 4,
+     "other:GeomAbs_BSplineSurface": 4
+    },
+    "edges": 108,
+    "vertices": 56,
+    "solids": 1,
+    "shells": 1,
+    "valid": false,
+    "freeEdges": 0,
+    "badOrientation": false
+   },
+   "dumped": "ValueError: edge curve type GeomAbs_BSplineCurve has no harness record",
+   "jobSha256": "ff70b2a7fe53e8b850f652d344b1207c1534b0c5350b174420ef6969b4f14e93",
+   "inputVolumeRelErrVsKernel": 0,
+   "closedForm": null
+  },
+  "hard-overflow-convex-small-face-r2": {
+   "input": {
+    "volume": 1999.2000015258784,
+    "area": 997.496856789266,
+    "faces": 7,
+    "faceTypes": {
+     "plane": 7
+    },
+    "edges": 15,
+    "vertices": 10,
+    "solids": 1,
+    "shells": 1,
+    "valid": true,
+    "freeEdges": 0,
+    "badOrientation": false
+   },
+   "edgesMatched": 1,
+   "ms": 80.30741708353162,
+   "faultyContours": 1,
+   "faultyVertices": 0,
+   "status": "not-done",
+   "jobSha256": "90c966dec40b3b4ac94730138ca495f825fa63d107acbbfa965f1217953b673f",
+   "inputVolumeRelErrVsKernel": 2.2746466113414404e-16,
+   "closedForm": null
+  },
+  "hard-near-tangent-ridge-178.9-r2": {
+   "input": {
+    "volume": 6043.198299407959,
+    "area": 2204.3474751272006,
+    "faces": 7,
+    "faceTypes": {
+     "plane": 7
+    },
+    "edges": 15,
+    "vertices": 10,
+    "solids": 1,
+    "shells": 1,
+    "valid": true,
+    "freeEdges": 0,
+    "badOrientation": false
+   },
+   "edgesMatched": 1,
+   "exception": "Standard_Failure: There are no suitable edges for chamfer or fillet",
+   "ms": 4.213541047647595,
+   "faultyContours": 0,
+   "faultyVertices": 0,
+   "status": "not-done",
+   "jobSha256": "d613a789094923b465ad43411fb1b406267f90ff12589fad7d7000a1ec6394ba",
+   "inputVolumeRelErrVsKernel": 0,
+   "closedForm": null
+  },
+  "pc-post-top-rim-too-large-r6": {
+   "input": {
+    "volume": 785.3981633974481,
+    "area": 471.23889803846873,
+    "faces": 3,
+    "faceTypes": {
+     "plane": 2,
+     "cylinder": 1
+    },
+    "edges": 3,
+    "vertices": 2,
+    "solids": 1,
+    "shells": 1,
+    "valid": true,
+    "freeEdges": 0,
+    "badOrientation": false
+   },
+   "edgesMatched": 1,
+   "ms": 1.5919170109555125,
+   "faultyContours": 1,
+   "faultyVertices": 0,
+   "status": "not-done",
+   "jobSha256": "451c8210abf06b846780dc4109e3e1205cb7ea488357b34830ca38f1b672ec86",
+   "inputVolumeRelErrVsKernel": 1.1580046200244074e-15,
+   "closedForm": null
+  },
+  "fl-slot-one-line-no-propagate-r1": {
+   "input": {
+    "volume": 1114.15926535898,
+    "area": 842.7433388230816,
+    "faces": 6,
+    "faceTypes": {
+     "plane": 4,
+     "cylinder": 2
+    },
+    "edges": 12,
+    "vertices": 8,
+    "solids": 1,
+    "shells": 1,
+    "valid": true,
+    "freeEdges": 0,
+    "badOrientation": false
+   },
+   "edgesMatched": 1,
+   "ms": 1.064833952113986,
+   "faultyContours": 0,
+   "faultyVertices": 0,
+   "status": "done",
+   "result": {
+    "volume": 1099.1344619171418,
+    "area": 811.6465343882085,
+    "faces": 10,
+    "faceTypes": {
+     "plane": 4,
+     "cylinder": 4,
+     "torus": 2
+    },
+    "edges": 20,
+    "vertices": 12,
+    "solids": 1,
+    "shells": 1,
+    "valid": true,
+    "freeEdges": 0,
+    "badOrientation": false
+   },
+   "dumped": true,
+   "jobSha256": "eb4fa0eff4c5e65116e25a4ff4ed862aeff9b9e118fdca3b1add8c084d093c3a",
+   "inputVolumeRelErrVsKernel": 4.08152914062915e-16,
+   "closedForm": null
+  },
+  "hard-tangent-edge-selection-r1": {
+   "input": {
+    "volume": 1114.15926535898,
+    "area": 842.7433388230816,
+    "faces": 6,
+    "faceTypes": {
+     "plane": 4,
+     "cylinder": 2
+    },
+    "edges": 12,
+    "vertices": 8,
+    "solids": 1,
+    "shells": 1,
+    "valid": true,
+    "freeEdges": 0,
+    "badOrientation": false
+   },
+   "edgesMatched": 1,
+   "exception": "Standard_Failure: There are no suitable edges for chamfer or fillet",
+   "ms": 4.325499990954995,
+   "faultyContours": 0,
+   "faultyVertices": 0,
+   "status": "not-done",
+   "jobSha256": "2d209c4840adec38c1697e843bc91096ef32e1ab4140005767961f9896be4cec",
+   "inputVolumeRelErrVsKernel": 4.08152914062915e-16,
+   "closedForm": null
+  },
+  "hard-concave-rim-overflow-r6.5": {
+   "input": {
+    "volume": 1445.132620651305,
+    "area": 1068.1415022205292,
+    "faces": 6,
+    "faceTypes": {
+     "plane": 4,
+     "cylinder": 2
+    },
+    "edges": 7,
+    "vertices": 5,
+    "solids": 1,
+    "shells": 1,
+    "valid": true,
+    "freeEdges": 0,
+    "badOrientation": false
+   },
+   "edgesMatched": 1,
+   "ms": 2.447750070132315,
+   "faultyContours": 1,
+   "faultyVertices": 0,
+   "status": "not-done",
+   "jobSha256": "552e6f4053d9c3357acf2f87d2227442941fc966fd6f354a8aece234a234611f",
+   "inputVolumeRelErrVsKernel": 4.40545235878848e-15,
+   "closedForm": null
+  },
+  "hard-mixed-convexity-corner-r1": {
+   "input": {
+    "volume": 4160,
+    "area": 2031.9999999999998,
+    "faces": 8,
+    "faceTypes": {
+     "plane": 8
+    },
+    "edges": 18,
+    "vertices": 12,
+    "solids": 1,
+    "shells": 1,
+    "valid": true,
+    "freeEdges": 0,
+    "badOrientation": false
+   },
+   "edgesMatched": 3,
+   "ms": 2.9073329642415047,
+   "faultyContours": 0,
+   "faultyVertices": 0,
+   "status": "done",
+   "result": {
+    "volume": 4152.720349063199,
+    "area": 2009.1184240500972,
+    "faces": 12,
+    "faceTypes": {
+     "plane": 8,
+     "cylinder": 3,
+     "torus": 1
+    },
+    "edges": 28,
+    "vertices": 18,
+    "solids": 1,
+    "shells": 1,
+    "valid": true,
+    "freeEdges": 0,
+    "badOrientation": false
+   },
+   "dumped": true,
+   "jobSha256": "43504966e5534d791744f30d56184a69a8591da7530812ed56288bf247e92721",
+   "inputVolumeRelErrVsKernel": 0,
+   "closedForm": null
+  },
+  "ch-convex-120-hex-d1": {
+   "input": {
+    "volume": 5196.152422706639,
+    "area": 1719.6152422706648,
+    "faces": 8,
+    "faceTypes": {
+     "plane": 8
+    },
+    "edges": 18,
+    "vertices": 12,
+    "solids": 1,
+    "shells": 1,
+    "valid": true,
+    "freeEdges": 0,
+    "badOrientation": false
+   },
+   "edgesMatched": 1,
+   "ms": 5.063417018391192,
+   "status": "done",
+   "result": {
+    "volume": 5187.492168668795,
+    "area": 1713.3902330182577,
+    "faces": 9,
+    "faceTypes": {
+     "plane": 9
+    },
+    "edges": 21,
+    "vertices": 14,
+    "solids": 1,
+    "shells": 1,
+    "valid": true,
+    "freeEdges": 0,
+    "badOrientation": false
+   },
+   "dumped": true,
+   "jobSha256": "ef05d45e1bab353f6a17b3022780a542aab56e49a24a32024d5fc695914465f2",
+   "inputVolumeRelErrVsKernel": 1.7503233696504596e-16,
+   "closedForm": {
+    "expectedVolume": 5187.492168668795,
+    "absErr": 0,
+    "relErr": 0,
+    "agrees": true,
+    "relErrVs_faceOffset": 0.0005567928730512267
+   }
+  }
+ },
+ "schema": "wonky-fillet-reference/1",
+ "tool": {
+  "package": "cadquery-ocp 8.0.1.0.0 (OCCT 8.0.1, as build123d 0.13)"
+ },
+ "capturedAt": "2026-09-24T12:09:31Z",
+ "method": "OCCT BRepFilletAPI_MakeFillet / MakeChamfer(symmetric distance) on the wonky input body read from STEP; GProp eps 1e-10",
+ "onshape": {
+  "schema": "wonky-fillet-onshape-oracle/1",
+  "source": "Onshape probes FP01-FP16 (cad-31 session, 2026-09-24): ~/Workspace/cad/cad-project-041/single-step-r20/kernel-cases/fp-*/reference.json (read only)",
+  "method": "Onshape opFillet / opChamfer EQUAL_OFFSETS with Onshape defaults on the case's own FeatureScript input; mass properties (volume value, [min, max])",
+  "mapping": "FP01-FP14: the catalogue case of the same id; FP15: ch-convex-120-hex-d1; FP16: ch-box-corner-3-d1 (identical input and selection)",
+  "cases": {
+   "ch-box-corner-3-d1": {
+    "code": "FP16",
+    "probe": "fp-chamfer-semantics-box-corner-d1",
+    "verdict": "built",
+    "featureStatus": "OK",
+    "error": null,
+    "referenceSha256": "a124b3db70bf149da52ca92fbc01d86bf6b260233f28f14ef03099c00f195275",
+    "volume": 7970.666666666668,
+    "volumeMin": 7970.267645042953,
+    "volumeMax": 7971.065688290384,
+    "inputVolume": 8000,
+    "deltaVolume": -29.33333333333212,
+    "faces": 10,
+    "faceTypes": {
+     "plane": 10
+    },
+    "faceAreasMesh": [
+     [
+      "plane",
+      26.870058
+     ],
+     [
+      "plane",
+      0.866025
+     ],
+     [
+      "plane",
+      26.870058
+     ],
+     [
+      "plane",
+      26.870058
+     ],
+     [
+      "plane",
+      399.5
+     ],
+     [
+      "plane",
+      361
+     ],
+     [
+      "plane",
+      361
+     ],
+     [
+      "plane",
+      361
+     ],
+     [
+      "plane",
+      399.5
+     ],
+     [
+      "plane",
+      399.5
+     ]
+    ],
+    "inputVolumeRelErrVsKernel": 1.1368683772161603e-16
+   },
+   "ch-convex-120-hex-d1": {
+    "code": "FP15",
+    "probe": "fp-chamfer-semantics-120deg-d1",
+    "verdict": "built",
+    "featureStatus": "OK",
+    "error": null,
+    "referenceSha256": "e74d0716fb38f00f5c7df42d993e2e2c71609dab9ae2e90d9a6a8ba561218043",
+    "volume": 5187.4921686687885,
+    "volumeMin": 5187.192502094783,
+    "volumeMax": 5187.791835242794,
+    "inputVolume": 5196.152422706632,
+    "deltaVolume": -8.660254037843515,
+    "faces": 9,
+    "faceTypes": {
+     "plane": 9
+    },
+    "faceAreasMesh": [
+     [
+      "plane",
+      259.374607
+     ],
+     [
+      "plane",
+      34.641016
+     ],
+     [
+      "plane",
+      199.999999
+     ],
+     [
+      "plane",
+      200
+     ],
+     [
+      "plane",
+      179.999999
+     ],
+     [
+      "plane",
+      199.999999
+     ],
+     [
+      "plane",
+      179.999999
+     ],
+     [
+      "plane",
+      259.374607
+     ],
+     [
+      "plane",
+      200
+     ]
+    ],
+    "inputVolumeRelErrVsKernel": 1.2252263587553217e-15
+   },
+   "corpus-notch-trial-r1.5": {
+    "code": "FP02",
+    "probe": "fp-corpus-notch-trial-r1.5",
+    "verdict": "built",
+    "featureStatus": "OK",
+    "error": null,
+    "referenceSha256": "d22915a5ada2056749512dd91b3d57f9841134c4a8dbc9def4cdb92afa66d125",
+    "volume": 4715.794249588269,
+    "volumeMin": 4715.513035829259,
+    "volumeMax": 4716.07546334728,
+    "inputVolume": 4710,
+    "deltaVolume": 5.79424958826894,
+    "faces": 10,
+    "faceTypes": {
+     "cylinder": 1,
+     "plane": 9
+    },
+    "faceAreasMesh": [
+     [
+      "cylinder",
+      28.265365
+     ],
+     [
+      "plane",
+      785.970192
+     ],
+     [
+      "plane",
+      785.970192
+     ],
+     [
+      "plane",
+      111
+     ],
+     [
+      "plane",
+      21
+     ],
+     [
+      "plane",
+      111
+     ],
+     [
+      "plane",
+      120
+     ],
+     [
+      "plane",
+      240
+     ],
+     [
+      "plane",
+      21
+     ],
+     [
+      "plane",
+      120
+     ]
+    ],
+    "inputVolumeRelErrVsKernel": 0
+   },
+   "corpus-notch-trial-r3": {
+    "code": "FP01",
+    "probe": "fp-corpus-notch-trial-r3",
+    "verdict": "built",
+    "featureStatus": "OK",
+    "error": null,
+    "referenceSha256": "48a04f65910ba32d51f01a31ae5bb9eec7ef90c6c527ab86ded83317980e72b0",
+    "volume": 4730.834018137564,
+    "volumeMin": 4730.5522067917045,
+    "volumeMax": 4731.115829483424,
+    "inputVolume": 4709.999999999999,
+    "deltaVolume": 20.83401813756518,
+    "faces": 11,
+    "faceTypes": {
+     "cylinder": 2,
+     "plane": 9
+    },
+    "faceAreasMesh": [
+     [
+      "cylinder",
+      18.843576
+     ],
+     [
+      "cylinder",
+      18.843574
+     ],
+     [
+      "plane",
+      788.484294
+     ],
+     [
+      "plane",
+      788.484294
+     ],
+     [
+      "plane",
+      111
+     ],
+     [
+      "plane",
+      12
+     ],
+     [
+      "plane",
+      111
+     ],
+     [
+      "plane",
+      120
+     ],
+     [
+      "plane",
+      240
+     ],
+     [
+      "plane",
+      12
+     ],
+     [
+      "plane",
+      120
+     ]
+    ],
+    "inputVolumeRelErrVsKernel": 1.9309866279680006e-16
+   },
+   "fl-slot-one-line-no-propagate-r1": {
+    "code": "FP11",
+    "probe": "fp-fl-slot-one-line-no-propagate-r1",
+    "verdict": "built",
+    "featureStatus": "OK",
+    "error": null,
+    "referenceSha256": "324e41a91692f3b820c092c70fbe810b3b26981c4c47989eac584ac787474e99",
+    "volume": 1109.280631141043,
+    "volumeMin": 1108.946457783844,
+    "volumeMax": 1109.6148044982422,
+    "inputVolume": 1114.1592653589794,
+    "deltaVolume": -4.878634217936451,
+    "faces": 7,
+    "faceTypes": {
+     "cylinder": 3,
+     "plane": 4
+    },
+    "faceAreasMesh": [
+     [
+      "cylinder",
+      36.474513
+     ],
+     [
+      "plane",
+      278.440167
+     ],
+     [
+      "plane",
+      254.374104
+     ],
+     [
+      "plane",
+      80
+     ],
+     [
+      "cylinder",
+      61.567395
+     ],
+     [
+      "plane",
+      60
+     ],
+     [
+      "cylinder",
+      61.568132
+     ]
+    ],
+    "inputVolumeRelErrVsKernel": 2.040764570314575e-16
+   },
+   "hard-boss-root-concave-mitres-r1": {
+    "code": "FP08",
+    "probe": "fp-hard-boss-root-concave-mitres-r1",
+    "verdict": "built",
+    "featureStatus": "OK",
+    "error": null,
+    "referenceSha256": "22a5eea002a2169eb3b8be405bd347154ef9d65ecc9e8fb61f1b9e36b10b705c",
+    "volume": 3808.9640837911406,
+    "volumeMin": 3808.217303447266,
+    "volumeMax": 3809.710864135015,
+    "inputVolume": 3799.9999999999986,
+    "deltaVolume": 8.964083791142002,
+    "faces": 15,
+    "faceTypes": {
+     "cylinder": 4,
+     "plane": 11
+    },
+    "faceAreasMesh": [
+     [
+      "cylinder",
+      16.846553
+     ],
+     [
+      "cylinder",
+      16.846555
+     ],
+     [
+      "plane",
+      120
+     ],
+     [
+      "plane",
+      180
+     ],
+     [
+      "plane",
+      120
+     ],
+     [
+      "cylinder",
+      16.846556
+     ],
+     [
+      "plane",
+      100
+     ],
+     [
+      "plane",
+      180
+     ],
+     [
+      "cylinder",
+      16.846557
+     ],
+     [
+      "plane",
+      456
+     ],
+     [
+      "plane",
+      600
+     ],
+     [
+      "plane",
+      10
+     ],
+     [
+      "plane",
+      10
+     ],
+     [
+      "plane",
+      10
+     ],
+     [
+      "plane",
+      10
+     ]
+    ],
+    "inputVolumeRelErrVsKernel": 3.5901106648931377e-16
+   },
+   "hard-concave-rim-overflow-r6.5": {
+    "code": "FP13",
+    "probe": "fp-hard-concave-rim-overflow-r6.5",
+    "verdict": "built",
+    "featureStatus": "OK",
+    "error": null,
+    "referenceSha256": "0ce5ec715678e8924c277c97d3fe37dbf92c63ea150a7cc3edc63bbc85166a02",
+    "volume": 1755.5183667745428,
+    "volumeMin": 1755.3728420056134,
+    "volumeMax": 1755.663891543472,
+    "inputVolume": 1445.132620651305,
+    "deltaVolume": 310.3857461232378,
+    "faces": 5,
+    "faceTypes": {
+     "torus": 1,
+     "cylinder": 2,
+     "plane": 2
+    },
+    "faceAreasMesh": [
+     [
+      "torus",
+      375.622332
+     ],
+     [
+      "cylinder",
+      87.936684
+     ],
+     [
+      "plane",
+      313.76068
+     ],
+     [
+      "plane",
+      50.201706
+     ],
+     [
+      "cylinder",
+      189.645469
+     ]
+    ],
+    "inputVolumeRelErrVsKernel": 4.40545235878848e-15
+   },
+   "hard-full-round-r5": {
+    "code": "FP04",
+    "probe": "fp-hard-full-round-r5",
+    "verdict": "built",
+    "featureStatus": "OK",
+    "error": null,
+    "referenceSha256": "1bcb939981869aee22a1292b73213393656c289d618373af9a837180c98fe96b",
+    "volume": 892.6990816987244,
+    "volumeMin": 892.6063695331741,
+    "volumeMax": 892.7917938642746,
+    "inputVolume": 1000,
+    "deltaVolume": -107.3009183012756,
+    "faces": 6,
+    "faceTypes": {
+     "cylinder": 1,
+     "plane": 5
+    },
+    "faceAreasMesh": [
+     [
+      "cylinder",
+      157.029792
+     ],
+     [
+      "plane",
+      100
+     ],
+     [
+      "plane",
+      50
+     ],
+     [
+      "plane",
+      89.220083
+     ],
+     [
+      "plane",
+      50
+     ],
+     [
+      "plane",
+      89.220083
+     ]
+    ],
+    "inputVolumeRelErrVsKernel": 1.1368683772161603e-16
+   },
+   "hard-mixed-convexity-corner-r1": {
+    "code": "FP14",
+    "probe": "fp-hard-mixed-convexity-corner-r1",
+    "verdict": "built",
+    "featureStatus": "OK",
+    "error": null,
+    "referenceSha256": "e12de8ac2b7657297ac1c5ecb29fdad301299018ef1cfcab958a61325f3d22e3",
+    "volume": 4152.720349063201,
+    "volumeMin": 4152.461991136527,
+    "volumeMax": 4152.978706989875,
+    "inputVolume": 4159.999999999999,
+    "deltaVolume": -7.279650936798134,
+    "faces": 12,
+    "faceTypes": {
+     "cylinder": 3,
+     "torus": 1,
+     "plane": 8
+    },
+    "faceAreasMesh": [
+     [
+      "cylinder",
+      32.976254
+     ],
+     [
+      "torus",
+      3.361019
+     ],
+     [
+      "cylinder",
+      14.132683
+     ],
+     [
+      "plane",
+      416.215598
+     ],
+     [
+      "plane",
+      371.862393
+     ],
+     [
+      "plane",
+      79.784402
+     ],
+     [
+      "plane",
+      189
+     ],
+     [
+      "plane",
+      79.784402
+     ],
+     [
+      "plane",
+      189
+     ],
+     [
+      "plane",
+      300
+     ],
+     [
+      "cylinder",
+      32.976254
+     ],
+     [
+      "plane",
+      300
+     ]
+    ],
+    "inputVolumeRelErrVsKernel": 2.1862853408003084e-16
+   },
+   "hard-near-tangent-ridge-178.9-r2": {
+    "code": "FP10",
+    "probe": "fp-hard-near-tangent-ridge-178.9-r2",
+    "verdict": "built",
+    "featureStatus": "OK",
+    "error": null,
+    "referenceSha256": "95c6ed9de89dcaf3946c2abd423e2b065a03dd04f327a4a16881147579d04381",
+    "volume": 6043.19820226525,
+    "volumeMin": 6042.8664265769285,
+    "volumeMax": 6043.529977953572,
+    "inputVolume": 6043.198225853999,
+    "deltaVolume": -0.00002358874917263165,
+    "faces": 8,
+    "faceTypes": {
+     "cylinder": 1,
+     "plane": 7
+    },
+    "faceAreasMesh": [
+     [
+      "cylinder",
+      0.76794
+     ],
+     [
+      "plane",
+      302.159911
+     ],
+     [
+      "plane",
+      299.629825
+     ],
+     [
+      "plane",
+      299.629845
+     ],
+     [
+      "plane",
+      200
+     ],
+     [
+      "plane",
+      600
+     ],
+     [
+      "plane",
+      302.159911
+     ],
+     [
+      "plane",
+      200
+     ]
+    ],
+    "inputVolumeRelErrVsKernel": 1.2171362926215501e-8
+   },
+   "hard-overflow-convex-small-face-r2": {
+    "code": "FP09",
+    "probe": "fp-hard-overflow-convex-small-face-r2",
+    "verdict": "built",
+    "featureStatus": "OK",
+    "error": null,
+    "referenceSha256": "0cb76d69bb02499662336ff0772e435d1b2e291768ba0e23b7641abc883a801b",
+    "volume": 1998.353245526674,
+    "volumeMin": 1998.1945925687653,
+    "volumeMax": 1998.5118984845826,
+    "inputVolume": 1999.2,
+    "deltaVolume": -0.8467544733259729,
+    "faces": 7,
+    "faceTypes": {
+     "cylinder": 1,
+     "plane": 6
+    },
+    "faceAreasMesh": [
+     [
+      "cylinder",
+      13.224013
+     ],
+     [
+      "plane",
+      199.833819
+     ],
+     [
+      "plane",
+      195.7828
+     ],
+     [
+      "plane",
+      87.71573
+     ],
+     [
+      "plane",
+      200
+     ],
+     [
+      "plane",
+      199.833819
+     ],
+     [
+      "plane",
+      100
+     ]
+    ],
+    "inputVolumeRelErrVsKernel": 7.632442500206135e-10
+   },
+   "hard-overflow-narrow-ledge-r0.4": {
+    "code": "FP07",
+    "probe": "fp-hard-overflow-narrow-ledge-r0.4",
+    "verdict": "built",
+    "featureStatus": "OK",
+    "error": null,
+    "referenceSha256": "1c2021a93a627623247a4e0e35230c8fa019cfc25a3bc333ccfa51facca5588e",
+    "volume": 720.8741969584828,
+    "volumeMin": 720.7937999935965,
+    "volumeMax": 720.9545939233691,
+    "inputVolume": 720.6249999999999,
+    "deltaVolume": 0.24919695848291212,
+    "faces": 12,
+    "faceTypes": {
+     "cylinder": 1,
+     "plane": 11
+    },
+    "faceAreasMesh": [
+     [
+      "cylinder",
+      3.250126
+     ],
+     [
+      "plane",
+      72.087491
+     ],
+     [
+      "plane",
+      72.087491
+     ],
+     [
+      "plane",
+      80
+     ],
+     [
+      "plane",
+      80
+     ],
+     [
+      "plane",
+      71
+     ],
+     [
+      "plane",
+      40
+     ],
+     [
+      "plane",
+      6.095263
+     ],
+     [
+      "plane",
+      78.75
+     ],
+     [
+      "plane",
+      20
+     ],
+     [
+      "plane",
+      200
+     ],
+     [
+      "plane",
+      20
+     ]
+    ],
+    "inputVolumeRelErrVsKernel": 1.5776144002999622e-16
+   },
+   "hard-overlapping-blends-thin-wall-r1": {
+    "code": "FP05",
+    "probe": "fp-hard-overlapping-blends-thin-wall-r1",
+    "verdict": "built",
+    "featureStatus": "OK",
+    "error": null,
+    "referenceSha256": "ea9143a1d0947bd462907232305d569dee25f9513f4884d5d9c22662cc0d03d6",
+    "volume": 291.5210922502971,
+    "volumeMin": 291.47712661817667,
+    "volumeMax": 291.56505788241753,
+    "inputVolume": 300,
+    "deltaVolume": -8.478907749702898,
+    "faces": 7,
+    "faceTypes": {
+     "cylinder": 2,
+     "plane": 5
+    },
+    "faceAreasMesh": [
+     [
+      "cylinder",
+      26.354864
+     ],
+     [
+      "cylinder",
+      26.354864
+     ],
+     [
+      "plane",
+      30
+     ],
+     [
+      "plane",
+      180
+     ],
+     [
+      "plane",
+      14.574564
+     ],
+     [
+      "plane",
+      180
+     ],
+     [
+      "plane",
+      14.574564
+     ]
+    ],
+    "inputVolumeRelErrVsKernel": 0
+   },
+   "hard-short-edge-in-loop-r1": {
+    "code": "FP06",
+    "probe": "fp-hard-short-edge-in-loop-r1",
+    "verdict": "built",
+    "featureStatus": "OK",
+    "error": null,
+    "referenceSha256": "796087db4301574943fabfa65857462d8acac1bd2ab6a991dad65d6ab403655f",
+    "volume": 1186.8551725305024,
+    "volumeMin": 1186.5798778592796,
+    "volumeMax": 1187.1304672017247,
+    "inputVolume": 1199.2499999999998,
+    "deltaVolume": -12.394827469497386,
+    "faces": 11,
+    "faceTypes": {
+     "cylinder": 4,
+     "plane": 7
+    },
+    "faceAreasMesh": [
+     [
+      "cylinder",
+      14.562726
+     ],
+     [
+      "cylinder",
+      30.267367
+     ],
+     [
+      "cylinder",
+      30.028562
+     ],
+     [
+      "cylinder",
+      14.324201
+     ],
+     [
+      "plane",
+      144
+     ],
+     [
+      "plane",
+      97.5
+     ],
+     [
+      "plane",
+      3.855731
+     ],
+     [
+      "plane",
+      47.5
+     ],
+     [
+      "plane",
+      100
+     ],
+     [
+      "plane",
+      199.875
+     ],
+     [
+      "plane",
+      50
+     ]
+    ],
+    "inputVolumeRelErrVsKernel": 1.8959656071980993e-16
+   },
+   "hard-single-edge-r-equals-width-r10": {
+    "code": "FP03",
+    "probe": "fp-hard-single-edge-r-equals-width-r10",
+    "verdict": "built",
+    "featureStatus": "OK",
+    "error": null,
+    "referenceSha256": "9522a4fc0661da8a222b6c30c7e29102e80c9ba366163d6208f68a90568181f6",
+    "volume": 785.3981633974486,
+    "volumeMin": 785.3130378494117,
+    "volumeMax": 785.4832889454855,
+    "inputVolume": 1000,
+    "deltaVolume": -214.60183660255143,
+    "faces": 5,
+    "faceTypes": {
+     "cylinder": 1,
+     "plane": 4
+    },
+    "faceAreasMesh": [
+     [
+      "cylinder",
+      157.029796
+     ],
+     [
+      "plane",
+      78.44017
+     ],
+     [
+      "plane",
+      78.44017
+     ],
+     [
+      "plane",
+      100
+     ],
+     [
+      "plane",
+      100
+     ]
+    ],
+    "inputVolumeRelErrVsKernel": 1.1368683772161603e-16
+   },
+   "hard-tangent-edge-selection-r1": {
+    "code": "FP12",
+    "probe": "fp-hard-tangent-edge-selection-r1",
+    "verdict": "refused",
+    "featureStatus": "ERROR",
+    "error": "FILLET_FAIL_SMOOTH",
+    "referenceSha256": "e55a3ad86ba354adeaf591847b836e826e0c6f2a9c9fa2450cef791b9ecb0466"
+   }
+  }
+ }
+}

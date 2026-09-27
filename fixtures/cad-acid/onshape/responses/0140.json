@@ -1,0 +1,48 @@
+{
+  "btType": "BTFeatureDefinitionResponse-1617",
+  "rejectMicroversionSkew": false,
+  "microversionSkew": false,
+  "featureState": {
+    "btType": "BTFeatureState-1688",
+    "featureStatus": "ERROR",
+    "inactive": false
+  },
+  "feature": {
+    "btType": "BTMFeature-134",
+    "namespace": "ebba843da703c57d6f7652f14::m8d395ead05f3d2b9c68792f0",
+    "name": "precision-V2-AC48",
+    "suppressed": false,
+    "parameters": [
+      {
+        "btType": "BTMParameterEnum-145",
+        "namespace": "ebba843da703c57d6f7652f14::m8d395ead05f3d2b9c68792f0",
+        "nodeId": "M4d1BjWQKquS+4/cd",
+        "libraryRelationType": "DEFAULT",
+        "enumName": "AcidVariant",
+        "value": "V2",
+        "parameterId": "variant",
+        "parameterName": ""
+      },
+      {
+        "btType": "BTMParameterEnum-145",
+        "namespace": "ebba843da703c57d6f7652f14::m8d395ead05f3d2b9c68792f0",
+        "nodeId": "MxfanuNkOe+jO/egi",
+        "libraryRelationType": "DEFAULT",
+        "enumName": "AcidPrecisionZone",
+        "value": "AC48",
+        "parameterId": "zone",
+        "parameterName": ""
+      }
+    ],
+    "nodeId": "MT5WoqdliInh72ddr",
+    "featureId": "Ft4q6K3aHx2lSm4_18",
+    "featureType": "acidPrecision",
+    "returnAfterSubfeatures": false,
+    "subFeatures": [],
+    "parameterLibraries": [],
+    "suppressionState": null
+  },
+  "libraryVersion": 0,
+  "serializationVersion": "1.2.21",
+  "sourceMicroversion": "4effa193234f5d2a47530667"
+}

@@ -1,0 +1,4 @@
+; build123d frame-with-tab.py: (Box(50,40,10) - Pos(8,8,-1)*Box(34,24,12)) + Pos(48,10,0)*Box(12,20,10)
+(let frame (subtract (box 0 0 0 50 40 10) (box 8 8 -1 42 32 12)))
+(let part (union frame (box 48 10 0 60 30 10)))
+(list (volume part) (faces part) part)

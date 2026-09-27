@@ -1,0 +1,43 @@
+{
+ "id": "ch-post-rim-0.42",
+ "jobSha256": "9b6e332b2da05c9d95c00a6425396a5d1a14211acfbe6b1294ad067e726339c1",
+ "jobBytes": 716,
+ "sourceSha256": "602752b3a2c4e490f2d196991e911baf49cea5d335dcdb0c86ab965ee0982664",
+ "buildMs": 2.8095830000002024,
+ "kernel": {
+  "closed": true,
+  "volumeMm3": 785.3981633974472,
+  "areaMm2": null,
+  "precision": "F32x2",
+  "geometry": "analytic"
+ },
+ "counts": {
+  "vertices": 2,
+  "edges": 3,
+  "faces": 3
+ },
+ "surfaces": {
+  "plane": 2,
+  "cylinder": 1
+ },
+ "quantizationErrorMm": 0,
+ "selected": [
+  {
+   "edge": 1,
+   "curve": "circle",
+   "faces": [
+    "plane",
+    "cylinder"
+   ],
+   "convexity": "convex",
+   "dihedralDeg": 90,
+   "length": 31.415138011442924,
+   "sample": [
+    -5,
+    6.123233995736766e-16,
+    10
+   ]
+  }
+ ],
+ "step": "out/fillet/input-step/ch-post-rim-0.42.step"
+}

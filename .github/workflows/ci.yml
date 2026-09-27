@@ -1,0 +1,148 @@
+name: Public CI
+
+on:
+  push:
+    branches:
+      - 'ci/**'
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: public-ci-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  CARGO_TERM_COLOR: always
+  NODE_OPTIONS: --max-old-space-size=8192
+
+jobs:
+  rust:
+    name: Rust workspace
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: '22'
+      # Keep in sync with rust/rust-toolchain.toml.
+      - uses: dtolnay/rust-toolchain@688313b0823df1393bcebb1b4add0438a6d36884 # 1.88.0
+        with:
+          toolchain: 1.88.0
+      - uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
+        with:
+          path: |
+            ~/.cargo/registry
+            ~/.cargo/git
+            rust/target
+          key: ${{ runner.os }}-${{ runner.arch }}-rust-tests-${{ hashFiles('rust/rust-toolchain.toml', 'rust/Cargo.lock', 'rust/**/Cargo.toml') }}-${{ github.sha }}
+          restore-keys: |
+            ${{ runner.os }}-${{ runner.arch }}-rust-tests-${{ hashFiles('rust/rust-toolchain.toml', 'rust/Cargo.lock', 'rust/**/Cargo.toml') }}-
+      - uses: astral-sh/setup-uv@d0d8abe699bfb85fec6de9f7adb5ae17292296ff # v6
+        with:
+          version: '0.9.8'
+          python-version: '3.13'
+      - name: Prepare offline STEP oracle
+        # wonky-ops/tests/revolve.rs calls uv run --offline. Download the
+        # oracle's pinned dependency before entering the offline test command.
+        run: uv run --no-project --python 3.13 --with cadquery-ocp==8.0.1.0.0 python -c 'import OCP; print(OCP.__version__)'
+      - name: Check offline oracle before long-running predicate tests
+        working-directory: rust
+        run: cargo test --release --offline --locked -p wonky-ops --test revolve host_transport_and_step_roundtrip_against_occt_closed_forms
+      - name: Test vendored Rust workspace
+        working-directory: rust
+        run: cargo test --workspace --release --offline --locked
+
+  node:
+    name: Node Rust lane
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - uses: pnpm/action-setup@f40ffcd9367d9f12939873eb1018b921a783ffaa # v4
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: '22'
+          cache: pnpm
+      - uses: dtolnay/rust-toolchain@688313b0823df1393bcebb1b4add0438a6d36884 # 1.88.0
+        with:
+          toolchain: 1.88.0
+      - uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
+        with:
+          path: |
+            ~/.cargo/registry
+            ~/.cargo/git
+            rust/target
+          key: ${{ runner.os }}-${{ runner.arch }}-rust-node-${{ hashFiles('rust/rust-toolchain.toml', 'rust/Cargo.lock', 'rust/**/Cargo.toml') }}-${{ github.sha }}
+          restore-keys: |
+            ${{ runner.os }}-${{ runner.arch }}-rust-node-${{ hashFiles('rust/rust-toolchain.toml', 'rust/Cargo.lock', 'rust/**/Cargo.toml') }}-
+      - run: pnpm install --frozen-lockfile
+      - name: Build native Rust addon
+        run: node scripts/rust/build-node.mjs
+      - uses: astral-sh/setup-uv@d0d8abe699bfb85fec6de9f7adb5ae17292296ff # v6
+        with:
+          version: '0.9.8'
+          python-version: '3.13'
+      - name: Prepare sphere STEP validator
+        # The public sphere transport test invokes the pinned OCP 8 validator.
+        run: uv run --no-project --python 3.13 --with cadquery-ocp==8.0.1.0.0 python -c 'import OCP; print(OCP.__version__)'
+      # Private R20/r10b fixtures and the optional OCCT reference venv are not
+      # present in this public lane. Existing tests report those skips explicitly.
+      - name: Run Bend-free Rust and JavaScript tests
+        run: pnpm test:rust
+      - name: Check CAD-Acid status page rendering
+        run: uv run --no-project python scripts/acid/test_status_page.py
+
+  cad-acid:
+    name: Live CAD-Acid (best effort)
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - uses: pnpm/action-setup@f40ffcd9367d9f12939873eb1018b921a783ffaa # v4
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: '22'
+          cache: pnpm
+      - uses: dtolnay/rust-toolchain@688313b0823df1393bcebb1b4add0438a6d36884 # 1.88.0
+        with:
+          toolchain: 1.88.0
+      - uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
+        with:
+          path: |
+            ~/.cargo/registry
+            ~/.cargo/git
+            rust/target
+          key: ${{ runner.os }}-${{ runner.arch }}-rust-acid-${{ hashFiles('rust/rust-toolchain.toml', 'rust/Cargo.lock', 'rust/**/Cargo.toml') }}-${{ github.sha }}
+          restore-keys: |
+            ${{ runner.os }}-${{ runner.arch }}-rust-acid-${{ hashFiles('rust/rust-toolchain.toml', 'rust/Cargo.lock', 'rust/**/Cargo.toml') }}-
+      - uses: astral-sh/setup-uv@d0d8abe699bfb85fec6de9f7adb5ae17292296ff # v6
+        with:
+          version: '0.9.8'
+          python-version: '3.13'
+      - run: pnpm install --frozen-lockfile
+      - name: Build native Rust addon
+        run: node scripts/rust/build-node.mjs
+      - name: Install independent reference observers
+        # Python 3.13 lock: build123d 0.10.0, OCP 7.8.1.1.post1,
+        # ocp-gordon 0.1.17, and their pinned transitive dependencies.
+        run: |
+          uv run --no-project --python 3.13 python -m venv out/build123d-performance/reference-venv
+          uv run --no-project out/build123d-performance/reference-venv/bin/python -m pip install \
+            -r fixtures/performance-build123d/reference.lock
+      - name: Build, observe, and score live Rust geometry
+        # Full catalog including group smoke builds; references are frozen files,
+        # never live Onshape calls. A successful run is not a full-capability claim.
+        run: node scripts/acid/run.mjs --kernels wonky-rust
+      - name: Upload scoreboard and observation evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: cad-acid-${{ github.sha }}
+          path: out/cad-acid/
+          if-no-files-found: warn
+          retention-days: 14

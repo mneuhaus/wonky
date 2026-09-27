@@ -1,0 +1,101 @@
+{
+ "schema": "wonky-bakeoff-fixture/1",
+ "case": "plate-4-holes",
+ "category": "holes",
+ "deviationMm": 0.01,
+ "location": "fixtures/bakeoff/jobs",
+ "job": "fixtures/bakeoff/jobs/plate-4-holes.job",
+ "csgJob": "fixtures/bakeoff/jobs/plate-4-holes.csg.job",
+ "jobBytes": 23108,
+ "jobSha256": "5b18f5b2bb4d759a530e4fa1f2822b65fcd8bac5c393b7c4203b3c5714754879",
+ "csgJobSha256": "0ec0fedb2837154d135f3fadb123d2d5886148b88b55a2a51ac5e813bd1095b1",
+ "leaves": 5,
+ "faces": 18,
+ "vertices": 272,
+ "triangles": 524,
+ "deviationMeasuredMaxMm": 0.00818596465727861,
+ "leafInfo": [
+  {
+   "leaf": 0,
+   "prim": "box",
+   "vertices": 8,
+   "triangles": 12,
+   "tags": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5
+   ],
+   "deviationMeasuredMm": 0,
+   "deviationMethod": "exact-planar",
+   "vertexOnSurfaceMaxMm": 0,
+   "analyticVolume": 8000
+  },
+  {
+   "leaf": 1,
+   "prim": "cylinder",
+   "vertices": 66,
+   "triangles": 128,
+   "tags": [
+    6,
+    7,
+    8
+   ],
+   "segments": 32,
+   "deviationMeasuredMm": 0.008185964657266842,
+   "deviationMethod": "barycentric-grid-8 (max lies on sampled chord midlines)",
+   "vertexOnSurfaceMaxMm": 4.218847493575595e-15,
+   "analyticVolume": 54.475216613247
+  },
+  {
+   "leaf": 2,
+   "prim": "cylinder",
+   "vertices": 66,
+   "triangles": 128,
+   "tags": [
+    9,
+    10,
+    11
+   ],
+   "segments": 32,
+   "deviationMeasuredMm": 0.0081859646572775,
+   "deviationMethod": "barycentric-grid-8 (max lies on sampled chord midlines)",
+   "vertexOnSurfaceMaxMm": 3.26405569239796e-14,
+   "analyticVolume": 54.475216613247
+  },
+  {
+   "leaf": 3,
+   "prim": "cylinder",
+   "vertices": 66,
+   "triangles": 128,
+   "tags": [
+    12,
+    13,
+    14
+   ],
+   "segments": 32,
+   "deviationMeasuredMm": 0.00818596465727861,
+   "deviationMethod": "barycentric-grid-8 (max lies on sampled chord midlines)",
+   "vertexOnSurfaceMaxMm": 6.283862319378386e-14,
+   "analyticVolume": 54.475216613247
+  },
+  {
+   "leaf": 4,
+   "prim": "cylinder",
+   "vertices": 66,
+   "triangles": 128,
+   "tags": [
+    15,
+    16,
+    17
+   ],
+   "segments": 32,
+   "deviationMeasuredMm": 0.008185964657277056,
+   "deviationMethod": "barycentric-grid-8 (max lies on sampled chord midlines)",
+   "vertexOnSurfaceMaxMm": 3.26405569239796e-14,
+   "analyticVolume": 54.475216613247
+  }
+ ]
+}

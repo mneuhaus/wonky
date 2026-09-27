@@ -1,0 +1,173 @@
+{
+  "topic": "quadric-intersections: exakte Quadrik-Schnittkurven, vollständige Asttopologie und zertifizierte Verbraucher",
+  "currentState": [
+    "Bestätigt am 25.09.2026 durch Codelektüre, ohne Build oder Onshape-Zugriff: <repo>/kernel/hybrid/recover/geom.bend:380-390,428-450,498-518 verweigert nicht-koaxiale Zylinder/Kegel-, Kegel/Kegel-, Kugel/Zylinder- und Zylinder/Zylinder-Paare. Die Diagnose 'space quartic' ist zu pauschal: darunter fallen auch Geraden, Kegelschnittpaare, rationale singuläre Quartiken und reine Kontakte. <repo>/kernel/analytic.bend:8-38 kennt nur Line/Circle/Ellipse und numerische Vec3-Vertices; geom.bend:309-311 liefert genau eine durch einen Seed gewählte Kurve, keinen vollständigen Schnittgraphen.",
+    "Die vorhandene Recherche ist bereits weit: <repo>/docs/research/brep-booleans-ssi.md:448-644,1063-1127 und <repo>/docs/research/synthesis.md:425-461,1312-1336 behandeln Miller-Goldman/Shene-Johnstone, Levin/DLLP/QI, den Generator-Chart, Singularitäten und B-Spline-STEP. Nicht neu vorgeschlagen werden diese Grundideen. Der materielle Zuwachs hier sind vollständige Chart-Ereignisse, Eingabeexaktheit, beweisbare Fehlergrenzen, konkrete Verbraucherintegration und zwei symbolisch geprüfte Gegenbeispiele gegen verkürzte Topologieregeln.",
+    "Wiederverwendbare Exaktheit ist schon vorhanden: <repo>/kernel/robust-predicates.bend:6-33 verwendet vorzeichenbehaftete Basis-4096-Integer für dyadische Eingaben; <repo>/kernel/fillet/exact.bend:6-70 ergänzt Dyadics und rekursive Vorzeichentests für Radikale. <repo>/kernel/real.bend:3-84 ist dagegen F32x2-Auswertung, keine exakte Zahlendarstellung für algebraische Ergebnisse. Eine gezielte Suche fand im kernel noch keine Polynom-gcd-, Sturm-/Subresultanten- oder Wurzelisolationsschicht. Diese ergänzen, nicht die Integerbasis neu schreiben.",
+    "Topologie ist ein eigener Teil der Lücke, nicht nur ein fehlender Curve-Konstruktor: <repo>/kernel/hybrid/recover/geom.bend:214-300 verfeinert Ecken über drei Träger; zwei-Träger-Knoten brauchen andere Konstruktionen. <repo>/kernel/hybrid/recover/topo.bend:1200-1248 prüft Kurvendistanzen, Mittelpunkte und Winkelumlauf speziell für Linien/Kegelschnitte; :1581-1595 verweigert weitere Kugel-/Band-Seam-Konfigurationen. Ein neuer Quartiktyp darf diese Prüfungen weder umgehen noch deren Winkelparameter blind erben.",
+    "Volumen ist weiter als das alte Factsheet: <repo>/kernel/volume.bend:75-117,284-287,514-523 besitzt Meet-/Trace-Grenzen für Mesh-Patches und Newton-Auswertung auf zwei Trägern. Jedoch sind :700-711 die Differenz zweier Gauss-Regeln und :1326-1331 ein pauschaler Arithmetikzuschlag. Das ist eine Fehlerschätzung, kein bewiesenes Einschlussintervall. Die neue Quartik-Lane darf daraus keinen Zertifikatsanspruch ableiten.",
+    "STEP und Fillets müssen mitziehen: <repo>/src/exporters.mjs:42-58 verweigert Mesh-Bodies und kann bereits B-Spline-pcurves schreiben, :153-158 aber nur drei analytische 3D-Kurventypen. Der Zylinderplan ist :102-104 auf Plane/Cylinder und eine Schleife je Zylinder beschränkt. <repo>/src/analytic.mjs:245 whitelistet dieselben drei Kurventypen. <repo>/kernel/fillet/ladder.bend:720-728 unterstützt Linien/Kreise in invarianten Situationen und verweigert schon Ellipsen. Exakte Quartikkanten machen allgemeine Fillets nicht automatisch verfügbar.",
+    "Realer R20-Verbraucher: ~/Workspace/cad/cad-project-041/single-step-r20/build/studios/tray.fs:983-1020 setzt Blends ausdrücklich vor die sieben Senkloch-Cuts, weil diese einen certified-mesh Body hinterlassen; :1055-1057 dokumentiert dieselbe Einschränkung am HUB_L. ~/Workspace/cad/cad-project-041/single-step-r20/build/studios/cores.fs:953-956 und ~/Workspace/cad/cad-project-041/single-step-r20/build/studios/return.fs:857-858 zeigen reale Zylinder-/Kegelwerkzeuge. Das beweist Bedarf, aber noch nicht, welcher Trägerpaar-Typ jeden Mesh-Fallback auslöst. ~/Workspace/cad/cad-project-041/single-step-r20/build/studios/r20-motion.json enthält zusätzlich bewegte, nicht überall achsenparallele Frames. Tests müssen daraus eingefrorene Fixtures mit Provenienz nutzen, niemals die Live-Dateien lesen.",
+    "Ausgeführt wurden ausschließlich kleine unabhängige SymPy-Proben über uv: Nullidentitäten für Pipe-Tee und Viviani, Steinmetz-Faktorisierung, doppelte Generatorlinien, regulärer Diskriminanten-Nullpunkt und Kegel-Chart-Polstellen. Eine erste Assertion verglich faktorisierte und expandierte Ausdrücke strukturell; mit simplify(lhs-rhs)==0 erneut erfolgreich geprüft. Keine OCCT-Läufe, keine neuen QI-Serverabfragen und keine Onshape-Bridge-Aufrufe. Geändert wurden nur <repo>/tmp/research/gaps/quadric-intersections.json und local-development-evidence; keine Source-, Test- oder Doc-Änderungen, kein Commit."
+  ],
+  "approaches": [
+    {
+      "name": "Exakte Spezialfälle zuerst, danach Generator-Atlas mit algebraischen Ereignissen",
+      "fitForWonky": "Empfohlener Produktionsweg, als Vertiefung von SSI-P5/B18. Für alle angefragten nichttrivialen Paare steht ein Zylinder oder Kegel als geradlinig erzeugter Träger zur Verfügung. Mit homogenem Parameter [u:v] auf P1 und Generatorparameter s wird das zweite Quadrikpolynom zu A(u,v)s²+B(u,v)s+C(u,v)=0; nach kontrolliertem Nennerfreimachen ist der relevante Diskriminantengrad höchstens vier. Auf regulären Intervallen exakt als (-B ± sqrt(Delta))/(2A) definieren, numerisch stabil und mit Einschluss auswerten. Vorher den vorhandenen Miller-Goldman-Katalog nutzen: parallele Zylinder geben 0/1-doppelte/2 Generatorlinien oder identische Träger; gleich große Zylinder mit sich schneidenden Achsen zwei Ellipsen; gemeinsame Tangentialkugel kann Zylinder/Kegel oder Kegel/Kegel in Kegelschnitte zerlegen; gemeinsame Kegelspitzen und Viviani erfordern singuläre/rationale Komponenten. Nicht jeder nicht-koaxiale Fall ist eine echte Raumquartik. Ereignisse umfassen Delta=0, A=0, gemeinsame Faktoren von A/B/C, Nennernullen, Chartwechsel u/v, Kegelspitze, Halbkegel-Seite und Trimmgrenzen. Algebraischer Punkt = Polynom plus isolierendes rationales Intervall und Wurzelidentität, nicht gerundeter Vec3.",
+      "risks": "Neue, symbolisch geprüfte Korrekturen: (1) x²+y²=1 und (x-1/2)²+y²+z²=3/4 treffen sich bei (1/2,sqrt(3)/2,0) mit Gradienten-Kreuzprodukt (0,0,sqrt(3)); ein einfacher Delta-Nullpunkt ist hier nur ein regulärer Chart-Astwechsel, keine geometrische Singularität. (2) Für Kegel x²+y²-z²=0 und x²+z²-(y-1)²=0 liefert s(1-u²,2u,1+u²) die Koeffizienten A=2(u²-1)², B=4u, C=-1, Delta=8(u⁴+1)>0. Trotzdem existieren bei u=±1 lineare endliche Lösungen s=±1/4 und unendliche Äste. Die alte Faustregel 'Delta>0 bedeutet zwei geschlossene Schleifen' gilt nicht allgemein für Kegel. A=0 darf weder dividiert noch der gesamte Ast gelöscht werden. Auch mehrfaches Delta=0 allein beweist ohne Jacobian-/Ausnahmechartprüfung keinen bestimmten Knotentyp.",
+      "sources": [
+        "<repo>/docs/research/brep-booleans-ssi.md:448-571,1063-1127",
+        "<repo>/docs/research/sources/miller-goldman-1995-geometric-algorithms-for-detecting-and-c.md",
+        "[Miller 1987, Geometric approaches to nonplanar QSIC](https://dl.acm.org/doi/abs/10.1145/35039.35041)",
+        "[Shao und Chen 2024, Trimming und Endpunkttoleranz](https://doi.org/10.1007/s11424-024-2519-3)",
+        "<repo>/tmp/research/pdf/shao-chen-2024-trimmed-quadrics.txt:138-158,1750-1800"
+      ]
+    },
+    {
+      "name": "Vollständiges Quadrikenbüschel nach Levin/DLLP/QI, selektiv statt Vollport",
+      "fitForWonky": "Levin schneidet über ein geradlinig erzeugtes Mitglied des Büschels lambda Q1+mu Q2. DLLP ersetzt radikalreiche Eigenzerlegungen durch rationale Gauss-Reduktion, klassifiziert über det(lambda Q1+mu Q2), Rang und Signatur und liefert rationale Parametrisierungen, wo möglich. Eine glatte komplexe vollständige Quadrik-Schnittkurve hat Genus 1 und besitzt keine rationale Parametrisierung: ein endliches rationales NURBS kann sie nicht exakt darstellen. DLLP liefert stattdessen X1±X2 sqrt(Delta), eventuell über einem zusätzlichen konstanten quadratischen Zahlkörper; Singularitäten und reduzible Komponenten werden gesondert behandelt. Nutzen für wonky: Rang-/Singularitätsentscheidungen und Part-III-Konstruktionen für Knoten, Spitzen, Gerade+Kubik und Kegelschnittpaare, wenn der einfache Generator-Atlas degeneriert. Kein Grund, für normale CAD-Zylinder zuerst sämtliche allgemeinen Quadriken und höhenoptimierte Formeln zu implementieren.",
+      "risks": "QI ist keine einbaubare OSS-Abhängigkeit: laut bereits verifizierter COPYING nichtkommerziell, alte GMP/LiDIA-Abhängigkeiten; die Projektseite behauptet noch einen Download, aber die frühere Recherche fand keinen erreichbaren Quellarchiv-Mirror. Hier nicht erneut als verfügbare Implementierung behauptet. Die publizierten ungefähr 3 ms/Paar auf alter Hardware umfassen Klassifikation UND Parametrisierung und sind kein Bend-Benchmark oder isoliertes Klassifikationsmaß. Koeffizientenwachstum und Zahlenkörper sind echte Kosten; keine feste 25-Limb-Annahme ohne Eingabe- und Exponentenbudget. Mathematische Algorithmen eigenständig implementieren; Code oder QI-Ausgabefixtures nicht ohne Rechteprüfung übernehmen. Nicht-rationale Koeffizienten einer rationalen Kurve benötigen beim STEP-Schreiben trotzdem eine deklarierte Serialisierungsabweichung.",
+      "sources": [
+        "[DLLP I, allgemeiner Algorithmus](https://doi.org/10.1016/j.jsc.2007.10.006)",
+        "[DLLP II, Klassifikation](https://doi.org/10.1016/j.jsc.2007.10.012)",
+        "[DLLP III, singuläre Schnitte](https://doi.org/10.1016/j.jsc.2007.10.007)",
+        "[QI-Projekt und Lizenzhinweis](https://gamble.loria.fr/qi/)",
+        "<repo>/docs/research/sources/qi-quadric-intersection-library-loria-gamble.md:13-33,44-95",
+        "<repo>/tmp/research/pdf/dupont2008-quadrics-I.txt:178-190"
+      ]
+    },
+    {
+      "name": "Exakte Prädikate und zertifizierte Auswertung, nicht 'kleines Residuum = exakte Kurve'",
+      "fitForWonky": "CGALs Algebraic_kernel_d ist der passende Vertrag, nicht eine Produktionsbibliothek: square-free Polynom + isolierendes Intervall, Vergleich und Sign_at; allgemeine Arithmetik zwischen algebraischen Zahlen muss nicht zuerst gebaut werden. Ergänzung über vorhandenen Bend-Bigs: primitive Polynomteile, pseudo-remainder/subresultant sequences, gcd, Multiplizitäten, Sturm/Descartes-Isolation, Vorzeichen an isolierten Wurzeln. Radikalbedingungen vor dem Quadrieren auf ihr Vorzeichen prüfen; beim Trimmen an einem dritten Quadrikträger sind bis zu acht isolierte Schnittpunkte möglich. Exakte Eingabe muss explizit sein: einen Zylinder mit unnormiertem dyadischem Achsvektor a über (a·a)(v·v-r²)-(a·v)²=0 bilden, nicht normierte F32x2-Vektoren als exakt orthonormal behandeln. Für Kegel möglichst Konstruktionsverhältnisse/Steigung behalten; generisches tan(angle) ist nicht automatisch ein rationaler Koeffizient. Evaluator liefert enclosure, Tangente und Ast-ID. Reguläre Abschnitte mit Intervall-Newton/Krawczyk und nachgewiesener Transversalität einschließen; an Verzweigungen reparametrisieren, an Singularitäten exakte lokale Daten verwenden.",
+      "risks": "Restfehler beider Träger beschränkt ohne Konditions-/Existenznachweis nicht den Abstand zum richtigen Schnittast. Bei zwei tangentialen Einheitszylindern mit Achsabstand 2 hat (1,h,0) radiale Restfehler ungefähr h²/2, aber Abstand |h| zur gemeinsamen Geraden. F32x2, gewöhnliches Newton und Sampling beweisen weder Astvollständigkeit noch Eindeutigkeit. Keine stillschweigende Rationalisierung von Winkeln/Frames; zunächst exakt darstellbare Konstruktionsfamilien zulassen, sonst Eingabeintervalle und benannte Unresolved-Entscheidung. CPU pro Paar, deterministische Arbeits-/Bitbudgets; GPU-Auswertung erst nach realem Profiling. CGAL/OCCT/SymPy bleiben unabhängige Orakel, sämtliche Produktionsgeometrie bleibt Bend.",
+      "sources": [
+        "[CGAL Algebraic Kernel, Repräsentation und Sign_at](https://doc.cgal.org/latest/Algebraic_kernel_d/index.html)",
+        "<repo>/kernel/fillet/exact.bend:6-70",
+        "<repo>/kernel/analytic.bend:40-61,374-383",
+        "<repo>/docs/research/robust-numerics.md",
+        "[Shao und Chen, algebraische Trimm-Vorzeichen](https://doi.org/10.1007/s11424-024-2519-3)"
+      ]
+    },
+    {
+      "name": "Prozedurale Schnittkurve mit Approximation als Cache: Parasolid/ACIS; OCCT als Gegenmodell",
+      "fitForWonky": "Parasolid XT V35 definiert INTERSECTION durch zwei Flächen, Chart und Limits; singuläre Terminatoren liegen nicht im Inneren. Das passt zu einem exakten Trägerpaar plus eindeutigem Ast und separatem Auswertungscache. ACIS R17 dokumentiert dieselbe wichtige Trennung: intcurve hält eine B-Spline-Approximation, fit_tolerance, bis zu zwei primäre Trägerflächen und pcurves; bei Bedarf werden Punkte auf die Flächen zurückentspannt. exact_int_cur bedeutet hingegen, dass das Spline SELBST die exakte Definition ist, nicht dass eine glatte algebraische Quartik exakt rational geworden wäre. OCCT IntAna_Curve berechnet zunächst die quadratische Lösung pro Zylinder-/Kegelwinkel, IntPatch_Intersection überführt ALines in eine 200-Punkt-WLine und IntTools approximiert später ein B-Spline. Für wonky: exakter Locus bleibt maßgeblich; ein zertifiziertes Spline/Polyline ist nur Export-, Anzeige- oder Auswertungscache. Bestehende Truck/SISL-/Mesh-Kernel-Recherche nicht wiederholen: deren numerische Marcher bzw. Mesh-Booleans liefern keine fehlende exakte Quartik-Topologie.",
+      "risks": "XT nennt chordal_error ausdrücklich eine optionale Schätzung, kein Zertifikat. ACIS- und Parasolid-Dokumentation beweist keine exakte Arithmetik oder vollständige Astsuche. Gelesener OCCT-Code IntAna_Curve.cxx:351-371 klemmt kleine Diskriminanten auf Null; :411-432 verweigert bestimmte Ableitungen und nutzt Differenzenquotienten. Das nicht übernehmen. Onshapes öffentliche API dokumentiert evApproximateBSplineCurve als Approximation oder exakte Darstellung, falls möglich; der gelesene std-Mirror nennt 1e-6 m Default, 1e-8 m Minimum. Das belegt weder eine Quartik-Klasse in FeatureScript noch Parität von wonkys strengeren Exportbudgets. Kein Zugriff auf private Onshape-Geometrie erfolgte.",
+      "sources": [
+        "[Parasolid XT V35](http://www.q-solid.com/Parasolid_Docs_V35/pdf/xt.pdf)",
+        "<repo>/tmp/research/pdf/parasolid-xt-v35.txt:1895-1912,1992-1996",
+        "[ACIS Geometrietypen und fit_tolerance](http://www.q-solid.com/ACIS_Docs_R17/online/SPAacisuserTechArticles/SPAacisuser_gtyp.htm)",
+        "[ACIS exact_int_cur](http://www.q-solid.com/ACIS_Docs_R17/online/refman/generated/refman/SPAkern/class_exact_int_cur.htm)",
+        "[OCCT IntAna_Curve, gelesene Revision](https://github.com/Open-Cascade-SAS/OCCT/blob/3d097a0328e71b826377d4814ab05ec3c3d23871/src/ModelingData/TKGeomBase/IntAna/IntAna_Curve.cxx#L279-L432)",
+        "[Onshape Intersection Curve, Approximate-Option](https://cad.onshape.com/help/Content/PartStudio/intersection_curve.htm)",
+        "<repo>/tmp/research/onshape-std-library-mirror-opfillet-opchamfer-/evaluate.fs:279-322"
+      ]
+    },
+    {
+      "name": "Verbrauchervertrag: exakter Locus intern, rationale Sonderfälle exakt exportieren, sonst beweisbar begrenzt",
+      "fitForWonky": "STEP SURFACE_CURVE verlangt eine explizite curve_3d; INTERSECTION_CURVE ist nur dessen Untertyp mit genau zwei verschiedenen assoziierten Flächen, kein Transportbehälter für wonkys implizite Gleichungen. Rationale Komponenten können als rationale B-Splines exportiert werden, wenn die Koeffizienten dies erlauben; glatte Genus-1-Quartiken benötigen eine deklarierte Approximation. Eine gemeinsam parametrisierte 3D-Kurve und zwei pcurves schreiben, periodische Säume splitten und durchgängig ||C(t)-Si(pi(t))|| begrenzen, einschließlich Dezimalserialisierung. Ein Winkel-pcurve kann wegen atan2 auch dann nicht rational sein, wenn die 3D-Kurve rational ist. Für Volumen bestehende Randflussformeln wiederverwenden: Quartiken führen im Allgemeinen zu algebraischen/elliptischen Integralen, nicht automatisch elementaren geschlossenen Formen. Bekannte geschlossene Formen behalten; sonst validierte Quadratur nach algebraischen Funktionsschranken/Petras, getrennt von numerischen Schätzungen. Für Fillets entstehen durch Schnitt versetzter Quadriken exakte Mittelpunktskurven; der Rolling-Ball-Streifen ist aber im Allgemeinen eine Canal-/Hüllfläche und benötigt eine neue Flächendarstellung plus Trimming.",
+      "risks": "Shao-Chen beschränkt durch Ebenen getrimmte Quadriken und Endpunktfehler; das ist kein Beweis für allgemeine gelochte B-rep-Faces, durchgängigen B-Spline-Hausdorfffehler oder Volumen. Gleiche Parameter und zweiseitige Astüberdeckung verhindern, dass ein naher falscher Ast als korrekt exportiert wird. whole-versus-halves-Quadratur ist kein zertifiziertes Restglied. An Delta-Nullen oder Spitzen sind gewöhnliche Ableitungsschranken unbeschränkt; Chartwechsel/Reparametrisierung kommt vor Approximation und Integration. Allgemeine Blend-Ecken, Selbstschnitt, Überlauf und Torus/Quadric-Schnitte bleiben außerhalb dieses Quartik-Pakets.",
+      "sources": [
+        "[STEP surface_curve EXPRESS](https://www.steptools.com/stds/stp_aim/html/t_surface_curve.html)",
+        "[STEP intersection_curve EXPRESS](https://www.steptools.com/stds/stp_aim/html/t_intersection_curve.html)",
+        "[Bruin, Disney-Hogg, Gao: rigorous algebraic integration](https://arxiv.org/html/2208.12377)",
+        "[Johansson: integration in ball arithmetic](https://arxiv.org/abs/1802.07942)",
+        "<repo>/kernel/volume.bend:6-38,700-711,1326-1331",
+        "<repo>/docs/research/fillets-blends-offsets.md:399-405,466"
+      ]
+    }
+  ],
+  "recommendation": "B18 nicht als 'neuen Kurventyp hinzufügen' planen, sondern als vollständigen exakten Generator-Atlas mit explizitem Schnittgraphen und zertifizierten Verbrauchern. Zuerst niedriggradige reale Erfolge liefern, dann reguläre Zylinder-Quartiken, anschließend Trimming/Recovery, Kegel-Ausnahmecharts, Volumen und STEP. Ein Curve-Datensatz braucht normalisierte Trägerreferenzen, Komponenten-/Astidentität, Chart und algebraische Endpunkte; Evaluationswerte, Mesh und B-Spline bleiben abgeleitete Caches. Exakte Event-Klassifikation muss die Mesh-Topologie unabhängig überprüfen und fehlende kleine Schleifen entdecken; eine passende vorhandene Mesh-Kante beweist nicht, dass alle Kanten existieren. Pro Arbeitspaket dieselbe Einheit aus Bend-Code, realer Geometrie und unabhängiger positiver/negativer Prüfung; keine isolierten Zertifikats- oder Matrix-Artefakte. Für R20 erst den tatsächlichen Fallback beim eingefrorenen Loch-Cut identifizieren, dann genau diesen Verbraucher schließen. Quartiken können nur einen Teil der dortigen Mesh-Fälle lösen, insbesondere keine Torus-Schnitte. QQ1→QQ2→QQ3 ist der erste vertikale Pfad, geschätzt 5,5 Agententage. QQ1-QQ7 zusammen etwa 12 Agententage; QQ8 weitere 4 als optionaler enger Fillet-Ausbau, kein allgemeiner Fillet-Kernel. Ein Agententag bedeutet hier 8 Stunden aktive Agent-Walltime inklusive Verifikation; Planungsschätzungen aus den genannten 1-3-h-Fixes und dem 8-h-R20-Fix, keine gemessenen Implementierungszeiten, bei neuen algebraischen Primitiven etwa ±50 Prozent Unsicherheit. Voll-DLLP, allgemeine Quadrik-Arrangements und GPU-Optimierung zurückstellen. Vorliegendes Ergebnis ist Recherche, keine neu implementierte oder unabhängig produktionsverifizierte Capability.",
+  "packages": [
+    {
+      "title": "QQ1: Exakte niedrige Grade und zwei-Träger-Singularpunkte",
+      "scope": "Vorhandene Dyadic-/Radikalprädikate nutzen; Eingabeexaktheit und Halbkegel-Semantik festlegen. Strukturierte Relation für Disjoint, CoincidentSurface, IsolatedPoint, TangentCurve und Komponentenliste. Parallele Zylinder als Generatorlinien sowie gleichradiusige Achsschnitte als zwei Ellipsen implementieren; Steinmetz-Knoten ohne dritte Fläche herstellen. Multiplizität nicht als doppelte topologische Kante speichern.",
+      "acceptance": "Minimalrepros: parallele Einheitszylinder mit Achsabstand 2 und 2±2^-20; Steinmetz x²+y²=1, x²+z²=1. Orakel: exakte Kreisgeometrie und Faktorisierung (y-z)(y+z), Knoten (±1,0,0), V=16/3 bei den begrenzten Vollkörpern; zusätzlich OCCT via uv für STEP/Topologie. Planted negative: ersetze exaktes Nullzeichen durch ein Epsilon und/oder verdopple die Kontaktkante; Abstandsfälle und orientierte Edge-Uses müssen das erkennen. Nicht-mannigfaltige reine Kontakte getrennt benannt behandeln, nicht zu einem Solid erfinden.",
+      "estimateAgentDays": 1.5,
+      "r20Impact": "Nutzt vorhandene Kurventypen sofort und verhindert falsche Quartik-Diagnosen; konkreter Gewinn für einen R20-Cut erst nach Trägerpaar-Erfassung."
+    },
+    {
+      "title": "QQ2: Algebraischer Generator-Atlas und zertifizierter Evaluator",
+      "scope": "Polynom-gcd, square-free Zerlegung, Wurzelisolation und Sign_at auf bestehenden Bend-Bigs ergänzen. Exakte Quartikdefinition mit algebraischen Events, beiden P1-Charts und stabiler Astidentität einführen; zunächst reguläre Zylinder/Zylinder- und Kugel/Zylinder-Familien. Evaluator/Derivative mit Intervallfehler und stabiler quadratischer Lösung, keine bloßen Residualwerte. Numerik- und Bitbudgetüberschreitung benannt zurückgeben.",
+      "acceptance": "Pipe-Tee x²+y²=1, y²+z²=4 muss zwei geschlossene Äste besitzen und die unabhängig symbolisch geprüfte Formel [(1-u²),2u,±2sqrt(u⁴+u²+1)]/(1+u²) erfüllen. Der Kugel/Zylinder-Repro aus approaches[0] muss am einfachen Delta-Nullpunkt glatt verbunden bleiben. Orakel: SymPy-Nullidentitäten/root isolation plus hochpräzise Intervallauswertung. Planted negative: streiche den u=∞-Chart oder vertausche das Wurzelzeichen nach einem Event; vollständige Komponentenabdeckung, Tangenten und zyklische Schließung müssen scheitern, auch wenn alle gesampelten Residuen klein sind.",
+      "dependsOn": [
+        "QQ1: Exakte niedrige Grade und zwei-Träger-Singularpunkte"
+      ],
+      "estimateAgentDays": 2,
+      "r20Impact": "Schafft echte, adressierbare Querbohrungsränder statt Mesh-only-Kanten; Voraussetzung für Queries, spätere Booleans und Export."
+    },
+    {
+      "title": "QQ3: Getrimmte Quartiken in Recovery, B-rep und Kettenoperationen",
+      "scope": "Komponentenliste statt Seed-Einzelkurve in geom/topo integrieren. Trimmereignisse mit bestehenden Kanten/weiteren Trägern isolieren, durch gelochte Face-Loops klassifizieren, orientierte Coedges und periodische Seams bilden. Algebraische Endpunkte/mehrere Knoten-Preimages erhalten. Wire-Format, native bridge, JS-Validator, Transformation, Bounds, Tessellation und Abfragen für den neuen Typ ergänzen. Unvollständige Mesh-Schleifen durch exakte Events feststellen und lokal verfeinern oder benannt verweigern.",
+      "acceptance": "Begrenzter Offset-Querbohrungsrepro x²+y²=1, (x-1/2)²+z²=1, anschließend Ebenen-Cut und zweiter Boolean; außerdem eingefrorener erster R20-Senkloch-Cut, dessen Fallback nachweislich auf einen unterstützten Quadriktyp zurückgeht. Orakel: exakte Eventzahlen/Trimmvorzeichen, unabhängiger OCCT-Körpervergleich und Closed-shell/Edge-use-Prüfung. Planted negative: entferne einen sehr kleinen Schnittloop aus dem Input-Mesh oder verschmelze zwei algebraisch verschiedene nahe Endpunkte. Kein exakter Erfolg erlaubt; reguläre vollständige Eingaben müssen dagegen echte B-rep-Bodies ergeben. Achsenpermutation, 2^k-Skalierung und Operandenvertauschung prüfen dieselbe Geometrie.",
+      "dependsOn": [
+        "QQ2: Algebraischer Generator-Atlas und zertifizierter Evaluator"
+      ],
+      "estimateAgentDays": 2,
+      "r20Impact": "Der erste echte Ende-zu-Ende-Gewinn: geeignete Loch-Cuts behalten exakte Körper und weiterverwendbare Kanten. Falls der reale Cut etwa durch Torus-Schnitte blockiert ist, keinen R20-Erfolg behaupten."
+    },
+    {
+      "title": "QQ4: Kegel-Ausnahmecharts und rationale singuläre Quartiken",
+      "scope": "Zylinder/Kegel und Kegel/Kegel auf dieselbe Infrastruktur erweitern. A=0 linear lösen, A=B=C=0 als enthaltenen Generator separat behandeln, Nenner/infinity und Apex mit Halbkegel-Clipping verbinden. Selektive Büschel-Rangtests und rationale Parametrisierungen für nodale/spitze/reduzible Fälle ergänzen; Hyperbel/Parabel nur dort explizit hinzufügen, wo der Spezialfall sie tatsächlich liefert.",
+      "acceptance": "Kegelpol-Repro x²+y²-z²=0, x²+z²-(y-1)²=0 muss trotz Delta=8(u⁴+1)>0 die endlichen Lösungen s=±1/4 an u=±1 behalten und unendliche Äste korrekt trimmen. Viviani auf Kugelradius 2 und Zylinder x²-2x+y²=0 muss denselben Knoten bei zwei Parameter-Preimages behalten; gemeinsame Apex-Kegel x²+y²=z² und x²+z²=y² ergeben x=0,y=±z mit Kontaktmultiplizität. Orakel: unabhängige symbolische Substitution/Faktorisierung und OCCT für regulär getrimmte Nachbarn. Planted negative: A=0 als leer behandeln oder die verbotene Kegelnappe zulassen; Komponenten- und Materialklassifikation müssen fehlschlagen.",
+      "dependsOn": [
+        "QQ2: Algebraischer Generator-Atlas und zertifizierter Evaluator",
+        "QQ3: Getrimmte Quartiken in Recovery, B-rep und Kettenoperationen"
+      ],
+      "estimateAgentDays": 2,
+      "r20Impact": "Erweitert die exakte Lane auf Senkungen, die schräg andere Bohrungen oder gekrümmte Träger schneiden; keine Garantie für jeden M3-Hybridbogen."
+    },
+    {
+      "title": "QQ5: Tatsächlich eingeschlossenes Quartik-Volumen",
+      "scope": "Neuen Kurventyp in bestehende Randflussintegrale einsetzen. Bekannte geschlossene Formen behalten; sonst auf regulären Chartstücken validierte algebraische/Taylor- oder Gauss-Restgliedschranken mit Rundungsintervallen verwenden. Astpunkte vorher reparametrisieren. Ergebnisintervall, Schätzwert und Methode unterscheiden; vorhandene Differenzschätzung nicht als Beweis umetikettieren.",
+      "acceptance": "Orakel: Gleichradiusiger Steinmetz gegen 16r³/3; ungleiche orthogonale Zylinder gegen unabhängig mit Arb/python-flint eingeschlossenes 8*Integral_0^min(r1,r2) sqrt((r1²-x²)(r2²-x²)) dx und OCCT-Masse. Wiederholte Querbohrungs-Cuts müssen ihr kumulatives Volumenbudget einhalten; evVolume des eingefrorenen R20-Falls muss die Materialverlustassertion tragen. Planted negative: falsches Coedge-Vorzeichen und separat ausgeschaltetes Quadratur-Restglied auf einem beinahe tangentialen Fall; Orakelintervall und Einschlussprüfung müssen das falsche Ergebnis/die zu enge Schranke ablehnen.",
+      "dependsOn": [
+        "QQ3: Getrimmte Quartiken in Recovery, B-rep und Kettenoperationen"
+      ],
+      "estimateAgentDays": 1.5,
+      "r20Impact": "Macht R20s vorhandene Volumen- und Materialverlustprüfungen auch nach Quartik-Cuts belastbar, statt nur optisch plausible Mesh-Volumina zu liefern."
+    },
+    {
+      "title": "QQ6: STEP mit gebundener 3D-Kurve und beiden pcurves",
+      "scope": "Rationale Komponenten als rationale B-Splines, echte glatte Quartiken als zertifiziert approximierte B-Splines aus Bend serialisieren. SURFACE_CURVE beziehungsweise kompatibles INTERSECTION_CURVE mit zwei Trägerassoziationen, gemeinsamen Parameterintervallen und expliziten Seams. Beweise für Intervallabweichung und Astüberdeckung statt Sample-Maximum; separate 3D-/pcurve-/Serialisierungsbudgets im B-rep-Ergebnis erhalten. Exakte interne Definition nie durch Export-Spline ersetzen.",
+      "acceptance": "Pipe-Tee, getrimmte Offset-Querbohrung und Kugel/Zylinder über einen periodischen Saum exportieren; als initiales kleines-mm-Repro-Budget höchstens 1e-6 mm gesamte räumliche Exportabweichung einschließlich gelifteter pcurves vorgeben. Orakel: unabhängiges Intervallprüfen gegen beide Quadriken, strikter uv-STEP-Import mit OCCT BRepCheck/SameParameter/Closed-shell und Volumen gegen QQ5. Planted negative: eine pcurve um 2pi falsch versetzen, Ast-ID vertauschen oder zwischen Samplepunkten eine Kontrollpunktabweichung pflanzen; Validator muss ablehnen. Bei Nichterreichen des Budgets benannte Exportverweigerung, kein automatisches Aufweiten.",
+      "dependsOn": [
+        "QQ3: Getrimmte Quartiken in Recovery, B-rep und Kettenoperationen",
+        "QQ5: Tatsächlich eingeschlossenes Quartik-Volumen"
+      ],
+      "estimateAgentDays": 2,
+      "r20Impact": "Geeignete R20-Loch-Cuts verlassen die reine Mesh-Ausgabe und werden als toleranzdeklarierte, weiterverarbeitbare STEP-Solids nutzbar."
+    },
+    {
+      "title": "QQ7: Bestehende Fillets auf Körpern mit Quartik-Nachbarkanten erhalten",
+      "scope": "Body-/Query-/Surgery-Pfade so erweitern, dass eine unselektierte Quartikkante keine sonst unterstützte Linien-/Kreisverrundung blockiert und ihre exakte Definition beim Edit erhalten bleibt. Ausgewählte Quartikkanten zunächst ehrlich als noch nicht unterstützte Blendfamilie behandeln; keine Blanket-Verweigerung des gesamten Körpers.",
+      "acceptance": "Minimalrepro: Block mit Querbohrung, danach kleine Verrundung einer ausreichend weit entfernten geraden Außenkante; Quartikgrenze vor/nachher geometrisch identisch. Danach eingefrorenen R20-Teil mit Hole-before-blend-Variante gegen unverändertes Original prüfen, sofern die ausgewählten Kanten disjunkt sind. Orakel: unabhängiger OCCT-Körpervergleich, exakte Trägeridentität und Volumenprüfung. Planted negative: Quartik beim Surgery-Copy durch ihren Sehnenzug ersetzen oder Löschen der Lochgrenze; exakte Trägeridentität, Topologie und Volumenvergleich müssen fehlschlagen. Einen direkt angefragten Quartik-Fillet nicht als erledigt ausgeben.",
+      "dependsOn": [
+        "QQ3: Getrimmte Quartiken in Recovery, B-rep und Kettenoperationen",
+        "QQ6: STEP mit gebundener 3D-Kurve und beiden pcurves"
+      ],
+      "estimateAgentDays": 1,
+      "r20Impact": "Direkterer Nutzen als ein sofortiger allgemeiner Quartik-Fillet: beseitigt für geeignete Teile den heute dokumentierten Zwang, alle Blends vor Loch-Cuts auszuführen."
+    },
+    {
+      "title": "QQ8: Optionaler regulärer Rolling-Ball-Streifen auf einer Quartikkante",
+      "scope": "Enger produktiver Ausbau, kein allgemeiner Fillet-Abschluss: konstantes r, zwei reguläre Zylinder-/Kegelträger, ein durch Ebenen begrenzter Abschnitt ohne Apex, Knoten oder Überlauf. Versetzte Quadriken liefern die Mittelpunktskurve; Normalprojektionen die Spring-Kurven. Eine exakte prozedurale Hüllflächendefinition mit zertifizierter Auswertung/STEP-Flächenapproximation, lokaler Regularitäts- und global begrenzter Kollisionsprüfung sowie echter B-rep-Surgery hinzufügen. N-seitige Ecken und allgemeines Overflow bleiben benannt offen.",
+      "acceptance": "Ein begrenztes ungleichradiusiges Pipe-Tee erhält einen kleinen konstanten Radius und wird als echter geschlossener Körper samt Volume/STEP gebaut. Orakel: OCCT auf der zugelassenen Familie, unabhängig geprüfte Kugelmittenabstände zu beiden Stützflächen, Tangentialität und Intervalltests über den ganzen Streifen. Planted negative: r über eine lokale Krümmungs-/Clearance-Grenze erhöhen oder einen Spring-Ast vertauschen; kein scheinbar erfolgreicher selbstdurchdringender Blend. R20-Auswahl einer solchen Kante erst nach nachgewiesenem Bedarf.",
+      "dependsOn": [
+        "QQ4: Kegel-Ausnahmecharts und rationale singuläre Quartiken",
+        "QQ5: Tatsächlich eingeschlossenes Quartik-Volumen",
+        "QQ6: STEP mit gebundener 3D-Kurve und beiden pcurves",
+        "QQ7: Bestehende Fillets auf Körpern mit Quartik-Nachbarkanten erhalten"
+      ],
+      "estimateAgentDays": 4,
+      "r20Impact": "Später relevant für tatsächliche Verrundungen an Querbohrungs-/Senkungsrändern. Nicht Voraussetzung für QQ1-QQ7 und nicht durch die derzeit gelesenen R20-Quellen als vorrangiger Blocker belegt."
+    }
+  ],
+  "openQuestions": [
+    "Welche konkreten Trägerpaare und Operation-IDs verursachen heute T01/HUB_Ls Mesh-Fallback? Statische Quellen belegen den Fallback, nicht seinen einzelnen Root Cause. Vor Implementierung einen begrenzten eingefrorenen Fall identifizieren; kein Live-Projekt als Testabhängigkeit.",
+    "Welche Eingabesemantik ist maßgeblich für Frames und Kegelwinkel: exakte Konstruktionsverhältnisse, exakte implizite Koeffizienten oder ein zertifiziertes Intervall um ausgewertetes tan(angle)? Die heutigen gespeicherten normierten F32x2-Frames allein rechtfertigen nicht gleichzeitig exakte Einheitsbedingungen und exakte dyadische Koeffizienten.",
+    "Welches reale Bit-/Wurzelisolationsbudget genügt für verschobene und mehrfach transformierte R20-Teile? Erst am eingefrorenen Bedarf messen. Außerhalb des Budgets benannt verweigern, aber ein refused-only Paket nicht als gelöste Capability abrechnen.",
+    "Die mathematisch exakte Tangential-/Knotenrelation entscheidet noch nicht die gewünschte Solid-Regularisierung bei nur punkt- oder linienberührenden Körpern. Bestehende wonky-Semantik beibehalten oder explizit festlegen; Multiplikität, geometrische Komponente und topologische Edge-Anzahl nicht vermischen.",
+    "Bestehende Volume- und einzelne pcurve-Pfade verwenden teilweise Schätzungen statt bewiesener Schranken. Wie weit dürfen diese im selben vertikalen Slice ersetzt werden? Minimum ist ein ehrlicher separater Ergebnisstatus; allgemeine Zertifizierung aller alten Familien bleibt außerhalb dieses Plans.",
+    "QI-Codeverfügbarkeit/Lizenz und Weitergabe alter QI-Fixtures bleiben ungeklärt; keine Abhängigkeit davon machen. Moderne proprietäre Kernelimplementierungen sind nicht öffentlich überprüfbar. Öffentliche XT-/ACIS-/Onshape-Verträge sind keine unabhängige Live-Verifikation, und Onshape wurde hier bewusst nicht aufgerufen."
+  ]
+}

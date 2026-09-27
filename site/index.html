@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>wonky: a CAD kernel that speaks FeatureScript</title>
+<style>
+  :root { --ink: #1d1d1f; --muted: #5f6368; --rule: #d9d9de; --accent: #b3261e; }
+  html { font: 16px/1.55 system-ui, -apple-system, "Segoe UI", sans-serif; color: var(--ink); background: #fff; }
+  body { max-width: 46rem; margin: 2.5rem auto; padding: 0 1.25rem; }
+  h1 { font-size: 2rem; margin: 0 0 .25rem; letter-spacing: -.01em; }
+  h2 { font-size: 1.05rem; margin: 1.6rem 0 .4rem; text-transform: uppercase; letter-spacing: .06em; color: var(--accent); }
+  p, ul { margin: .4rem 0; }
+  ul { padding-left: 1.2rem; }
+  li { margin: .15rem 0; }
+  .tagline { font-size: 1.15rem; color: var(--muted); margin: 0 0 1rem; }
+  .cols { display: grid; grid-template-columns: 1fr 1fr; gap: 0 2rem; }
+  @media (max-width: 40rem) { .cols { grid-template-columns: 1fr; } }
+  table { border-collapse: collapse; width: 100%; font-size: .95rem; margin: .4rem 0; }
+  td { border-top: 1px solid var(--rule); padding: .3rem .4rem .3rem 0; vertical-align: top; }
+  td:first-child { white-space: nowrap; font-weight: 600; padding-right: 1rem; }
+  code { font: .9em ui-monospace, SFMono-Regular, Menlo, monospace; background: #f4f4f6; padding: .05em .3em; border-radius: 3px; }
+  footer { margin-top: 2rem; padding-top: .8rem; border-top: 1px solid var(--rule); color: var(--muted); font-size: .85rem; }
+  @media print { body { margin: 0 auto; font-size: 11pt; } h2 { margin-top: 1rem; } }
+</style>
+</head>
+<body>
+
+<h1>wonky</h1>
+<p class="tagline">A Rust-based CAD kernel speaking FeatureScript &amp; build123d. Exact, introspective, refuses instead of guessing. Checked against Onshape.</p>
+
+<h2>What</h2>
+<p>wonky runs <strong>unmodified Onshape FeatureScript</strong> (and build123d-style Python) locally and turns it into real boundary-representation solids: STEP and STL out, with measurements, sections and diffs in a built-in viewer. It is a language runtime and a geometry kernel in one, built so that every answer is either provably right or an explicit, named refusal.</p>
+
+<h2>Why</h2>
+<div class="cols">
+<ul>
+  <li><strong>Parametric code is locked in.</strong> FeatureScript only runs inside Onshape's cloud; desktop CAD offers scripting APIs, not a language that lives in the document.</li>
+  <li><strong>Kernels fail silently.</strong> Tolerance-based kernels merge tiny gaps, invent sliver faces or report a fillet as successful when it is not. You find out at the printer.</li>
+</ul>
+<ul>
+  <li><strong>No CAD in CI.</strong> Parametric models cannot be built, diffed and tested offline like software.</li>
+  <li><strong>Agents need a kernel they can trust.</strong> AI-assisted CAD needs deterministic results, certificates and introspection, not "looks about right".</li>
+</ul>
+</div>
+
+<h2>How</h2>
+<ul>
+  <li><strong>Plain f64 geometry, exact decisions.</strong> Every sign and topology decision goes through exact predicates (expansion arithmetic, exact rationals behind fast filters). If a decision cannot be proven, wonky refuses by name. Never silent-wrong.</li>
+  <li><strong>Decided from the construction.</strong> Tangency, incidence and gaps come from how the model was built, with construction provenance carried through transforms, not from a tolerance band.</li>
+  <li><strong>Direct-better algorithms.</strong> Each operation is written as the best known exact algorithm, not as a port of an older kernel.</li>
+  <li><strong>Validated from outside.</strong> Results are checked against Onshape (Parasolid) references, OCCT, closed-form solutions, metamorphic variants (moved, rotated, scaled models must agree) and independently replayed exact certificates.</li>
+  <li><strong>Architecture.</strong> A FeatureScript interpreter and host drive a native Rust kernel: exact numerics, exact univariate algebra, analytic curves and surfaces, a B-rep with provenance, a versioned wire contract between them. Bend, the current production kernel, stays as a cross-check until Rust takes over.</li>
+</ul>
+
+<h2>Proof, not promises</h2>
+<table>
+  <tr><td>R20 step feeder</td><td>A real product: 8 modules, 33 parts, frozen from Onshape with provenance, including a blended variant. The acceptance target for the Rust kernel.</td></tr>
+  <tr><td>CAD-Acid</td><td>An acid test for CAD kernels: 48 small zones (booleans at the edge, blends, curved surfaces, sub-micrometre gaps, huge coordinates) with 1,561 closed-form checks. Live Rust kernel on main 1488224: <strong>26/48, 0 silently wrong</strong>. Frozen references: Onshape 38/48, build123d/OCCT 37/48. An independent audit of every non-passing reference cell found one real kernel defect (OCCT turns a valid lens into an invalid solid); the other cells are documented tolerance behaviour or errors on our side (catalog, twin or measurement), and six disputed zones score zero for every kernel. <a href="https://6drrszgi2q2y.postplan.dev">Status report with per-kernel zone grids</a> · <a href="https://fihrusa1xjtj.postplan.dev">the catalog</a>.</td></tr>
+  <tr><td>Adversarial gates</td><td>Every package is verified by an independent model and must pass two final gates that try to break it with planted mutants before it lands.</td></tr>
+</table>
+
+<h2>Where we are (September 2026)</h2>
+<ul>
+  <li>Project started on 22 September 2026. The FeatureScript interpreter, the viewer and the Bend kernel build <strong>7 of 8 R20 modules</strong> (31 of 33 parts); the eighth is refused by name.</li>
+  <li>On 26 September the kernel moved to Rust: a plan of 75 packages up to "R20 with blends on Rust". The foundation (exact numerics, wire contract, native addon) and nine building blocks (exact algebra, validated transcendentals, degree-2 and radical predicates, a B-rep core, a sketch solver, an OCCT oracle, the construction contract) have landed, each through two final gates. The next wave (certified geometry, B-rep booleans, exact algebraic points) is in verification.</li>
+  <li>Verification works as intended: nearly every package had a real silent-wrong class caught before landing (a doubly covered shell certified with twice its volume, a false zero from underflow, lineage leaking through a rollback).</li>
+  <li>Honest estimate to "R20 with blends on Rust": two to three weeks, to be recalibrated after the first ten landed Rust packages.</li>
+</ul>
+
+<h2>Where it goes</h2>
+<p>Native, local, fast parametric CAD with FeatureScript outside the cloud; a kernel that explains its answers; CAD-Acid as an open benchmark for any kernel; later perhaps a native UI and bridges into desktop CAD such as Fusion.</p>
+
+<footer>wonky · status page, updated 26 September 2026 · figures are from the project's own test and gate records</footer>
+</body>
+</html>

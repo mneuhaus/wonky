@@ -1,0 +1,161 @@
+{
+  "topic": "testing-oracles: skalierbare, unabhängige Geometrieverifikation für wonky",
+  "currentState": [
+    "Vorarbeit ausdrücklich übernommen: <repo>/docs/research/testing-validation.md:859-1314 beschreibt bereits Metamorphie, Toleranzsweeps, zertifizierten Abstand, Onshape-Fingerprints, Generator/Minimierer und Ergebniszustände. <repo>/docs/research/synthesis.md:130-136 verdichtet das. <repo>/docs/bakeoff.md:408-477 liefert bereits Drittmethoden-Arbitration. <repo>/docs/cad-testing.md:25-59 trennt Messung, Anforderung und fehlende Fähigkeit. Neu sind hier der aktuelle Implementierungsabgleich, konkrete Generator-/Reducermechanik und eng begrenzte Integrationspakete, nicht ein weiterer Gesamtentwurf.",
+    "Die wichtigste Statuskorrektur: Metamorphie fehlt nicht mehr. <repo>/scripts/r20/metamorphic.mjs:95-112,165-204 implementiert 48 signierte Achsenpermutationen, Zweierpotenz-Skalierung und separat als inexact markierte Translationen; bisher nur Identity-brep-Primitives. <repo>/test/hybrid-metamorphic.test.mjs:122-152 führt sieben Quellen in je 16 Frames aus. <repo>/fixtures/r20/metamorphic/expect.json:32-90 enthält den gespeicherten Vollsweep: 35 Quellen, 3.920 Zeilen, 3.356 exact, 560 mesh, vier Refusals bei Translationen, null wrong und 35/35 stabile exakte Frames. Das ist historische Evidenz, kein heutiger Neulauf.",
+    "Unabhängigkeit ist teilweise schwächer als das Feld exact suggeriert: Acht von 30 exakten Referenzwerten der 35 Quellen sind ausdrücklich Konsens eigener Produktionsantworten, etwa <repo>/fixtures/r20/metamorphic/expect.json:378,443,508. <repo>/scripts/r20/metamorphic.mjs:663-688 erzeugt diese Werte aus dem Median und einem lockeren Meshvergleich. Eine reine JS-Probe bestätigte: dreimal 100,5 wird gegen Manifold 100 bei area*deviation=1 als exact-Referenz akzeptiert. Das beweist keine falsche Produktionsgeometrie, aber nur Selbstkonsistenz statt unabhängiger Exaktheit. Solche Werte bleiben nützliche Regressionsanker, dürfen nicht als unabhängiger Wahrheitsbeweis zählen.",
+    "Oracle-Infrastruktur besteht bereits, ist aber fallweise verteilt: <repo>/scripts/bakeoff/reference.py:123-195,399-434 baut OCCT-Geometrie aus den analytischen cases.json-Parametern, Manifold dagegen aus dem quantisierten Jobmesh. Ein gemeinsamer jobSha256 macht diese Repräsentationen nicht identisch. <repo>/scripts/fillet/reference.py:221-254 liest wonky-STEP und ordnet selektierte Kanten über Punkte zu; das ist unabhängige Fillet-Algorithmik, aber kein unabhängiger Test des vorgeschalteten wonky-Exporters. <repo>/scripts/validate-step.py:128-132,184-202 besitzt bereits striktes CurveOnSurface-Checking und adaptive Volumenmessung. OCCT-, build123d- und CadQuery-Antworten zählen nicht als drei unabhängige Kernel.",
+    "Fillet-Forschung und Factsheet sind ebenfalls älter als der Code: <repo>/src/fillet.mjs:1-16 lädt bereits die produktive Bend-Implementierung; <repo>/src/fillet-op.mjs:113-142 ist die gemeinsame Operationsgrenze. Die gelesene <repo>/fixtures/fillet/reference.json enthält 71 OCCT-Fallreferenzen und 16 eingefrorene Onshape-Proben. <repo>/scripts/fillet/grade.mjs:35-87 kombiniert vorhandene geschlossene Formen, Divergenzvolumen, Tangenz-/Inzidenzchecks und STEP-Gate. Diese Infrastruktur erweitern, nicht ersetzen.",
+    "R20 misst weiterhin einen Stichprobenabstand als Pass-Kriterium: <repo>/scripts/r20/mesh.mjs:193-218 bezeichnet ihn korrekt als Hausdorff-Untergrenze; <repo>/scripts/r20/acceptance.mjs:186-225 akzeptiert diese Zahl und Volumen innerhalb des Onshape-Intervalls ODER relativ 1e-6. Die angenommene Onshape-Sehnenabweichung stammt aus Winkelauflösung und halber Bounding-Box-Diagonale (:54-56,160-163), nicht aus einer nachgewiesenen allgemeinen B-rep-Schranke. Auch area*deviation ist ohne zusätzliche geometrische Voraussetzungen keine allgemeine zertifizierte Volumenschranke.",
+    "Aktuelle, rein lesende Provenienzprüfung mit <repo>/scripts/r20/references.mjs:64-103: datums.fs hat SHA-Präfix 076b950ff917 statt d1e6da7a2a47; probe.fs d28f24b3ac69 statt 354a3895c22e. Die sechs zugehörigen Meshreferenzen hatten keine eigenen Hashprobleme. Das Live-Acceptance-Gate muss diese beiden Quellen deshalb ablehnen; nicht Referenzhashes nachziehen oder alte Volumina als aktuell ausgeben. Die früher offene Frage nach fehlenden Datum-B-rep-Volumina ist infrastrukturell gelöst, die passende aktuelle Referenzaufnahme nicht.",
+    "Konkrete Generatorvorlagen sind vorhanden: ~/Workspace/cad/cad-project-041/single-step-r20/build/studios/probe.fs:599-625 baut den M3-Kern, vereinigt die Eintrittsentlastung und subtrahiert das Werkzeug; ~/Workspace/cad/cad-project-041/single-step-r20/build/studios/tray.fs:1024-1051 verlangt R2-Innenfillets und 0,42-mm-Randfasen mit Materialänderung; ~/Workspace/cad/cad-project-041/single-step-r20/build/studios/return.fs:1017-1039 selektiert acht Armübergänge und danach 32 Randkanten. ~/Workspace/cad/cad-project-041/single-step-r20/build/studios/r20-motion.json:791-817 nennt 6-mm-Standardabstand und 1,0 ± 0,05 mm für K20/R10. Das sind lokale Geometrieanforderungen, keine Erlaubnis für entsprechend lockere globale Volumentoleranzen.",
+    "In <repo>/scripts, <repo>/test und <repo>/package.json fand die gezielte Suche keinen Property-Framework-/ddmin-Minimierer. Reale eingefrorene Repros existieren schon unter <repo>/fixtures/corpus-repro. Die bestehende Dump-Grenze <repo>/src/boolean.mjs:64-74 liefert Job und Antwort; :112-159 vergleicht exakte Spezialpfade mit dem Hybrid und behandelt reine V/E/F-Unterschiede bereits als Repräsentationsunterschied. Genau dort ansetzen, ohne test-only Produktionsschnittstellen einzuführen."
+  ],
+  "approaches": [
+    {
+      "name": "Gemeinsamer Oracle-Dienst als lokale Bibliothek und begrenzte Prozesse, nicht als Serverplattform",
+      "fitForWonky": "Empfohlen. Ein kleiner Request-/Observation-Vertrag verbindet zunächst Boolean- und Fillet-Runner mit bestehenden Python-Orakeln über uv. Cache-Schlüssel umfassen Eingabebytes samt Repräsentation, Imports, Einheiten, Selektion, Optionssemantik, Tessellierung, Adapter-/Kernelversion und Oraclepakete. Beobachtung und Urteil bleiben getrennt: gültig, verweigert, ungültige Eingabe, unentschieden, Timeout und Crash sind keine austauschbaren Ergebnisse. Geschlossene Formen oder exakte Box-Zellen entscheiden geeignete Streitfälle; OCCT und Manifold liefern getrennte Beobachtungen. Onshape ist zunächst ausschließlich ein Leser eingefrorener Referenzen. Konsens eigener Ergebnisse bleibt eine eigene Evidenzklasse.",
+      "risks": "Ein allgemeiner HTTP-Dienst, Queue-Cluster oder Dashboard erzeugt heute mehr Betrieb als Erkenntnis. Zwei Wrapper um OCCT sind kein Mehrheitsentscheid; Manifold und corefine teilen algorithmische Ideen. Ein Exportvalidierungslauf darf nicht als zweite native Konstruktionsreferenz zählen. Fuzzy-Retry, automatisches Healing und Toleranzwachstum werden niemals still eingeschaltet. Ein warmer Worker ist erst nach gemessenem Startkostenanteil gerechtfertigt; Timeout und Speicherüberschreitung müssen den gesamten Worker-Prozessbaum beenden.",
+      "sources": [
+        "<repo>/scripts/bakeoff/reference.py:399-438",
+        "<repo>/scripts/fillet/reference.py:221-254",
+        "<repo>/docs/research/testing-validation.md:504-551,1268-1314",
+        "<repo>/AGENTS.md:19-39,57-61"
+      ]
+    },
+    {
+      "name": "Relationenreiche Property-Generatoren mit fast-check; Hypothesis als Alternative, nicht zusätzlich",
+      "fitForWonky": "Neu vertieft gegenüber dem bisherigen Spatter-Vorschlag. fast-check passt zu node:test und den vorhandenen JS-Jobformaten: letrec/oneof mit explizitem Tiefenlimit, einfachen Blättern zuerst und withCrossShrink; für Operationsfolgen commands mit kleinem unabhängigem Zustandsmodell. Generiert werden Beziehungen wie koplanar, echter positiver Spalt, blind/durchgehend, gleiche Träger und Radius knapp vor einem analytischen Kollaps, nicht überwiegend disjunkte Zufallsobjekte. Ganze Fälle als JSON/Jobbytes konservieren; Seed und Shrinkpfad dienen nur dem kurzfristigen Replay. Hypothesis-Bundles modellieren Abhängigkeiten gut, rechtfertigen aber für diesen JS-geführten Harness keine zweite Generatorimplementierung.",
+      "risks": "Shrinking kann Selektionen oder topologische Beziehungen zerstören; Kandidaten müssen vor dem teuren Oracle strukturell geprüft werden. Radius und alle Längen gemeinsam skalieren, Spiegelungen mit korrekter Orientierung; Scherung ist keine Fillet-Invariante. Mehrdeutige Translationsrundung nicht als exakte Metamorphie ausgeben. fast-check-Async-Timeout unterbricht laut Quellcode keine synchrone Berechnung, daher echte Kindprozessgrenzen. Ein externer Bend-Prozess wird durch das Framework nicht automatisch coverage-guided.",
+      "sources": [
+        "[fast-check: rekursive Strukturen](https://fast-check.dev/docs/core-blocks/arbitraries/combiners/recursive-structure/)",
+        "[fast-check: Cross-Shrinking](https://fast-check.dev/docs/core-blocks/arbitraries/combiners/any/)",
+        "[fast-check: Commands und Replay](https://fast-check.dev/docs/advanced/model-based-testing/)",
+        "[fast-check Parameters.ts, gelesene Revision](https://github.com/dubzzz/fast-check/blob/5cf866b5ad5834ea6fef7d9a9a8e30c70e201f4a/packages/fast-check/src/check/runner/configuration/Parameters.ts#L14-L98)",
+        "[Hypothesis: zustandsbehaftete Regeln und Bundles](https://hypothesis.readthedocs.io/en/latest/stateful.html)"
+      ]
+    },
+    {
+      "name": "Manifold/FuzzTest als Generatorvorbild, nicht als vollständiges Formorakel",
+      "fitForWonky": "Die bisher nur katalogisierte FuzzTest-Spur wurde im Code geprüft. Manifolds SimpleCube erzeugt höchstens 100 CubeOps mit jeweils höchstens 20 Transformationen, Zahlen in ±[0,1;10], Union/Differenz und aktiviert Zwischenchecks. Das ist ein brauchbares Muster für begrenzte CSG-Folgen und automatische Reduktion. FuzzTests typisierte Domains und ReversibleMap zeigen, warum ein invertierbarer Generator gespeicherte Seeds und strukturelle Vereinfachung besser trägt. Für wonky dessen Ideen übernehmen, nicht noch einen C++-Harness einführen.",
+      "risks": "Der gelesene Manifold-Fuzzer prüft NoError und einen 10-s-Wächter, keine unabhängige Sollgeometrie. Scale existiert im switch, wird aber vom Domain nicht erzeugt; Intersection ebenso wenig. Das ist keine ausreichende Abdeckung von FDM-Passungen, sehr kleinen Skins oder Fillets. FuzzTest warnt bei rekursiven Domains vor fehlendem Rekursionslimit; Filter mit geringer Ausbeute verschwenden Läufe. Keine Aussage über Manifolds gesamte Testsuite aus diesem einen Target ableiten.",
+      "sources": [
+        "[Manifold manifold_fuzz.cpp:38-97, gelesene Revision](https://github.com/elalish/manifold/blob/7cf24458d1e1b6a714a0bfb0b41c7888f15b5ee4/test/manifold_fuzz.cpp#L38-L97)",
+        "[FuzzTest: Domain-Verträge](https://github.com/google/fuzztest/blob/main/doc/domains-reference.md)",
+        "<repo>/docs/research/testing-validation.md:673-683,1451-1458"
+      ]
+    },
+    {
+      "name": "Hierarchisches Delta-Debugging mit unverändertem Fehlerprädikat",
+      "fitForWonky": "Zeller/Hildebrandt konkretisiert den bisherigen Minimierer-Vorschlag: zuerst abhängige Feature-/CSG-Teilbäume entfernen, dann Operanden und Selektionen, zuletzt dyadische Zahlen, Transformationen und Radius-/Spaltrelationen vereinfachen. Ein Kandidat ist FAIL nur bei derselben Assertion und Fehlerklasse, PASS beim Verschwinden, UNRESOLVED bei Parserfehler, ungültiger Selektion, anderer Verweigerung oder fehlendem Oracle. Cache pro Kandidat und Revisions-/Oracleidentität. Erstdivergenz entlang der Operationsfolge prüfen; keine monotone Fehlerentwicklung für binäre Präfixsuche voraussetzen.",
+      "risks": "ddmin garantiert unter seinen Voraussetzungen nur 1-Minimalität bezüglich der gewählten Reduktionsschritte, kein global kleinstes CAD-Modell. Bei Budgetende heißt das Ergebnis reduziert, nicht minimal. Wall-Time-Hänger sind lastabhängig und dürfen nicht als Geometriefehler minimiert werden. IDs und Zahlen in Fehlermeldungen können wechseln; entscheidend sind Assertion, betroffene Beziehung und ein erneut geprüfter geometrischer Zeuge, nicht identischer Freitext.",
+      "sources": [
+        "[Zeller/Hildebrandt 2002: Simplifying and Isolating Failure-Inducing Input, Seiten 3-5](https://www.st.cs.uni-saarland.de/papers/tse2002/tse2002.pdf)",
+        "[Ausführbarer DeltaDebugger mit drei Ergebnisklassen](https://www.debuggingbook.org/html/DeltaDebugger.html)",
+        "<repo>/docs/research/testing-validation.md:1217-1265"
+      ]
+    },
+    {
+      "name": "Differentialtests für Fillets mit expliziter kommerzieller Semantik",
+      "fitForWonky": "Vorhandene geschlossene Formen und FP01-FP16 bleiben primär. Neu ist die systematische Variation von Radius, Keilwinkel, Kettenselektion, Operationenfolge und Frames am produktiven blendBody-Eingang. Onshape dokumentiert opFillet-Defaults tangentPropagation=false, allowEdgeOverflow=true, smoothCorners=false und CIRCULAR. Diese Semantik samt Kantenmenge gehört zum Fall; OCCT-Erfolg oder -Scheitern allein ist kein Soll. Bei einfachen unabhängigen geraden 90°-Kanten ist die Materialänderung ±L*r²*(1−π/4) analytisch prüfbar; vorhandene Job-basierte Formen berücksichtigen bereits Eingabequantisierung.",
+      "risks": "OCCT-Filletkonturen und Parasolid-Overflow können andere Mengen behandeln; V/E/F-Gleichheit ist keine Formgleichheit. Keine pauschale engere Grenze gegen Onshapes Nominalwert ohne Fehlervertrag. Onshape-Rollback betrifft die Feature-Liste, nicht dokumentiert jede innere opBoolean eines einzigen R20-defineFeature; innere Zwischenorakel brauchen separat eingefrorene Teilfälle oder künftig ausdrücklich erlaubte instrumentierte Proben. Parasolid-/ACIS-Checker sind laut vorhandener Forschung unvollständig; checker-clean ist kein Beweis der beabsichtigten Form.",
+      "sources": [
+        "[Onshape opFillet-Vertrag](https://cad.onshape.com/FsDoc/library.html#opFillet-Context-Id-map)",
+        "[Onshape Part-Studio-API und Rollback](https://onshape-public.github.io/docs/api-adv/partstudios/)",
+        "<repo>/scripts/fillet/closedform.mjs:1-28",
+        "<repo>/docs/research/testing-validation.md:366-428",
+        "<repo>/docs/research/sources/onshape-rest-api-part-studio-mass-properties-and-rollback.md:27-40"
+      ]
+    },
+    {
+      "name": "CGAL als begrenztes Mesh-Abstandsorakel, nicht automatische B-rep-Zertifizierung",
+      "fitForWonky": "Neue Korrektur zur alten Recherche: CGAL bietet bereits bounded_error_Hausdorff_distance und die symmetrische Variante mit dokumentiertem absolutem Fehlerbudget sowie eine Schwellwertabfrage. Die pauschale Behauptung, kein Vergleichswerkzeug habe beschränkten Abstand, ist damit zu weit. Ein optionaler unabhängiger Testprozess kann die bestehende R20-Stichprobenmetrik gegen ein stärkeres Meshverfahren prüfen. Für eine B-rep-Aussage müssen zusätzlich beide Tessellierungsabweichungen, Speicherrundung und numerische Auswertung begrenzt sein; fehlt ein Term, bleibt die Aussage ausdrücklich mesh-only oder unentschieden.",
+      "risks": "Das CGAL-Beispiel verwendet Exact_predicates_inexact_constructions_kernel; distance.h gibt über approximate_sqrt/to_double einen double zurück. Dokumentierter Algorithmusfehler ist nicht automatisch ein vollständig nach außen gerundetes numerisches Zertifikat. Das Package ist GPL-3.0-or-later oder kommerziell lizenziert; kein Kopieren oder Verlinken in wonkys Produktion, Distribution gesondert prüfen. Unsigned Hausdorff erkennt keine invertierte Orientierung. Vollständigen Bend-B-rep-Checker oder Produktionsvergleich aus P3/P4 der Vorarbeit hier nicht erneut bauen.",
+      "sources": [
+        "[CGAL: Distance Functions](https://doc.cgal.org/latest/Polygon_mesh_processing/group__PMP__distance__grp.html)",
+        "[CGAL distance.h, gelesene Revision](https://github.com/CGAL/cgal/blob/4abd208f2fa7295c0ef118579c4b30ba560dca5f/Polygon_mesh_processing/include/CGAL/Polygon_mesh_processing/distance.h#L2465-L2603)",
+        "[CGAL: Beispiel mit inexact constructions](https://doc.cgal.org/latest/Polygon_mesh_processing/Polygon_mesh_processing_2hausdorff_bounded_error_distance_example_8cpp-example.html)",
+        "<repo>/docs/research/testing-validation.md:249-251,1095-1152"
+      ]
+    }
+  ],
+  "recommendation": "Keinen neuen Testapparat neben den bestehenden bauen. Reihenfolge P1→P2→P3, dann P4/P5 und P6; P7 nur bei einem konkreten Abstandswitness. Zuerst die Evidenzklassen ehrlich machen, dann zwei vorhandene Runner über einen kleinen lokalen Oraclevertrag bedienen, anschließend R20-nahe Generation und gleichartige Fehlerreduktion hinzufügen. Exakte Box-Zellen/geschlossene Formen sind Wahrheitsorakel; numerische Oracleintervalle sind begrenzte Beobachtungen; Metamorphie ist zusätzliche Widerspruchssuche. Kein Mehrheitsvotum, keine automatische Golden-Regeneration, keine Aufgabe positiver Spalte bloß wegen eines Epsilons. Onshape bleibt offline, bis eine neue Aufnahme separat erlaubt ist. Annahme für Schätzungen: ein Agent-Tag = acht Stunden inklusive fokussierter unabhängiger Verifikation, orientiert an den genannten 1–3-Stunden-Fixes und acht Stunden für fünf R20-Ursachen. P1–P6 zusammen 3,75 Agent-Tage, optional P7 weitere 0,75; etwa ±50 % Unsicherheit, ohne Reparatur neu entdeckter Kerneldefekte oder Wartezeit auf Referenzaufnahmen. Erfolg misst sich an reproduzierten und anschließend behobenen unterschiedlichen Defektklassen, nicht an Fallzahl. Pro Paket ein echter Runner als Verbraucher und ein gepflanzter Gegenbeweis; zusätzliche Reports/Dashboards entfallen. Ein Generator, der weder einen historischen Fehler noch einen passenden Mutanten findet, wird nicht als Fortschritt integriert.",
+  "packages": [
+    {
+      "title": "P1 Evidenzklassen und Oracle-Vergleich schärfen",
+      "scope": "Die bestehenden Metamorphie-/Fillet-/R20-Auswertungen um Herkunftsklasse und getrennte Aussagekraft ergänzen, ohne Geometrie anzufassen. Die acht Produktionskonsenswerte als Regressionsbaseline kennzeichnen; unabhängige Exaktheit nur mit eigener Referenz. Eingabedesign, quantisierter Job, Leafmesh und exportiertes STEP explizit unterscheiden. Summenvolumen durch vorhandene Point-Classification und lokale Featurezeugen ergänzen. Keine feste 1e-9-Grenze gegen unscharfe Onshape-Referenzen. Verbraucher sind die bestehenden Gates; Übergangsadapter nach Umstellung ihrer direkten Leser entfernen.",
+      "acceptance": "R20 kt2-rotfar/probe-pins: alle acht Konsensreferenzen bleiben nutzbar, liefern aber keinen independent-exact-Pass. Minimalfall: Block mit versetztem Loch gleichen Volumens und gleicher Außenbox; analytische Innen-/Außenzeugen plus OCCT-Point-Classification erkennen die falsche Lochlage. Gepflanzt: gemeinsamer 0,5-mm³-Bias in allen Frameantworten sowie vertauschte Onshape-[value,min,max]-Werte; weder darf unabhängige Richtigkeit erhalten. Die bereits vorhandenen datums/probe-Source-Mismatches bleiben benannte Evidenzfehler, keine übersprungenen grünen Fälle.",
+      "estimateAgentDays": 0.5,
+      "r20Impact": "Verhindert falsche Sicherheit bei kleinen Löchern, M3-Entlastungen und veralteten R20-Referenzen.",
+      "dependsOn": []
+    },
+    {
+      "title": "P2 Gemeinsamen lokalen Oracle-Runner an zwei Verbraucher anschließen",
+      "scope": "Kleines hostseitiges Modul neben <repo>/scripts/bakeoff/reference.py und <repo>/scripts/fillet/reference.py, kein HTTP-Daemon. Pro Anfrage immutable Inputhash, Optionen, Oracle-/Adapterversion und normalisierte Beobachtung; Cache atomar schreiben. OCCT nativ konstruieren und STEP-Reread als unterschiedliche Prüfpfade ausweisen; Manifold nur auf identischen Leafmeshes. Ein schwerer Oracleprozess zur Zeit, feste Frist, Prozessbaum-Kill, begrenzte Ausgabe und RSS-Überwachung nach AGENTS.md. Alte Launch-/Cache-Duplikate nach Migration entfernen.",
+      "acceptance": "KT6-artige Boxvereinigung und vorhandener pp-convex-90-Fillet laufen über beide angeschlossenen Runner; deren Messungen stimmen mit unabhängig frisch ausgeführten bestehenden Oraclebefehlen und den geschlossenen Formen überein. Zweiter identischer Request verwendet den Cache; Änderung eines F32-Wortes, Radius, Selektors oder Oracleversionsschlüssels erzwingt Miss. Gepflanzt: abgeschnittenes JSON, Prozessabbruch, harter Hänger und stale Referenzhash werden als jeweiliger Fehler klassifiziert, niemals als empty/pass. Beobachtungsartefakte enthalten keine ungeprüfte Geometrie für den Produktpfad.",
+      "estimateAgentDays": 0.5,
+      "r20Impact": "Macht zusätzliche Boolean- und Filletfälle günstig wiederholbar, ohne OCCT in den Produktionskern einzuschleusen.",
+      "dependsOn": [
+        "P1"
+      ]
+    },
+    {
+      "title": "P3 R20-nahe Boolean-Generatoren und gezielte Metamorphie",
+      "scope": "fast-check als einzigen Property-Generator verwenden. Mit kleinen dyadischen Box-/Prism-CSG-Bäumen, KT6-Koplanarketten und KT2-Loch-/Senkungsfamilien beginnen; vorhandenen M3-Relief-Job als reale Regression erhalten. Relationen erzeugen statt zufällig hoffen: positive Spalte, Skins, tangentiale Kontakte, enthaltene Werkzeuge, wiederholtes Cut/Union. Bestehende Frame-Transformer erweitern statt neu schreiben. Für achsenparallele Boxen unabhängige rationale Zellzerlegung; für Bohrungen vorhandene geschlossene Formen mit expliziter numerischer Auswertungsschranke. Quantisierungsgrenzen vorab prüfen.",
+      "acceptance": "Deterministischer kleiner Seed-Satz erzeugt union/intersect/subtract, disjoint/touch/overlap und blind/through tatsächlich; jede Kategorie hat mindestens einen ausführbaren Positivfall. Oracle: exakte Box-Zellen beziehungsweise analytische Volumina plus OCCT/Manifold als getrennte Kontrollen. Bekannte 1e-9-mm-Spalt- und 2e-11-mm-Skin-Familien dürfen nie durch pauschales Epsilon verschwinden; bei nicht unterstützter Topologie ist eine benannte Refusal separat sichtbar. Gepflanzt: subtract liefert linken Operanden, Intersection wird Union, oder echte Skin wird verschmolzen; jeder Mutant muss an Geometrie scheitern. Exakte Frame-/Skalierungsrelationen und Mengenidentitäten ergänzen die Fremdorakel, ersetzen sie nicht.",
+      "estimateAgentDays": 0.75,
+      "r20Impact": "Findet erneut die Klassen hinter verlorenen Taschen, koplanaren Übergängen und lageabhängigen Bohrungsfehlern.",
+      "dependsOn": [
+        "P2"
+      ]
+    },
+    {
+      "title": "P4 Differentiale Fillet- und Chamfer-Properties am Produktpfad",
+      "scope": "Vorhandene <repo>/scripts/fillet/closedform.mjs und grade.mjs erweitern, nicht neue Grader bauen. Generatoren für unabhängige gerade konvexe/konkave Kanten, Kreisrand und kleine Ecknetzwerke; Radius unter/an/über bekannter Kollapsgrenze. Selektion, Propagation, Overflow und Chamfertyp explizit speichern. Frontend-Smoke je FeatureScript und build123d nur für deren eigene Selektions-/Einheitenrisiken; Geometriehaupttest an blendBody. KS05 und eingefrorene FP-Proben behalten ihre spezifische Onshape-Semantik.",
+      "acceptance": "Aus ~/Workspace/cad/cad-project-041/single-step-r20/build/studios/tray.fs:1024-1051 und return.fs:1017-1039 eingefrorene reduzierte Eck-/Armfälle reproduzieren R2-Materialzugabe und 0,42-mm-Fasenabtrag. Oracle: vorhandene Job-basierte geschlossene Formen mit Fehlerbudget, striktes OCCT-STEP und gespeicherte Onshape-Proben; bei Overflow ohne geschlossene Form bleibt der Nachweis differential statt exact. Gepflanzt: eine selektierte Kante auslassen, Fillet als No-op, beim Skalieren Radius unverändert lassen und gleiche Volumenänderung an falscher Kante erzeugen. Lokale Tangenz-/Belegungszeugen müssen zusätzlich zum Volumen anschlagen; zufällige Refusal zählt bei unterstützten Positivfällen nicht als bestanden.",
+      "estimateAgentDays": 0.75,
+      "r20Impact": "Schützt die tatsächlichen Tray- und Return-Blends sowie nachgelagerte Kantenabfragen, nicht nur isolierte Demo-Fillets.",
+      "dependsOn": [
+        "P2"
+      ]
+    },
+    {
+      "title": "P5 Fehler automatisch reduzieren, ohne Fehlerklasse zu wechseln",
+      "scope": "Zweistufiger Reducer auf dem vorhandenen CSG-/Fillet-Fallformat: strukturelle Teilbaum-/Featurelöschung mit Abhängigkeitsprüfung, danach Parameter- und Transformvereinfachung. Reduktionen mit gleichem Fehlerprädikat über P2 ausführen; bei Fillets Supportflächen und Selektionsrolle erhalten. Ursprungsfall und reduzierte konkrete Bytes zusammen speichern; kein Seed-only-Archiv. Budgetlimit und Cache, am Ende 1-Schritt-Minimalitätsprüfung oder ausdrückliches reduced-not-minimal. Kein allgemeiner FeatureScript-Textreducer in dieser ersten Ausbaustufe.",
+      "acceptance": "Eine gepflanzte Skin-Verschmelzung in einer längeren KT6-artigen CSG-Kette schrumpft auf den relevanten Cut/Union-Fall; ein ausgelassener Fillet an einer reduzierten R20-Armecke behält seine lokale Assertion. Oracle ist jeweils dasselbe unabhängige Prädikat vor und nach Reduktion, einschließlich Belegungszeuge und Optionen. Gepflanzt: vermeintlich bessere Kandidaten mit unbekannter Kantenreferenz, Parserfehler, Nullradius oder bloßer Capability-Refusal werden UNRESOLVED statt als erfolgreicher Shrink angenommen. Reduzierter Fall reproduziert auf der defekten Revision und besteht auf der korrigierten; nur abgeschlossene letzte Löschrunde rechtfertigt 1-minimal.",
+      "estimateAgentDays": 0.75,
+      "r20Impact": "Macht aus schwer lesbaren R20-Fehlerketten kleine, direkt bearbeitbare Kernelrepros.",
+      "dependsOn": [
+        "P3",
+        "P4"
+      ]
+    },
+    {
+      "title": "P6 Reale Regressionen einfrieren und nach Laufzeit staffeln",
+      "scope": "Bestehende <repo>/fixtures/r20, <repo>/fixtures/corpus-repro und <repo>/scripts/test-lane.mjs weiterverwenden. Vollständige Originalquelle samt Imports/Parametern unverändert einfrieren, dazu minimaler Besitzer-Test mit Parenthash und Defektzeuge; keine Kopien desselben Vertrags in jeder Schicht. Discovery auf einem CPU-Ziel mit festem Fall-/Zeitbudget, schnelle eingefrorene Fälle in normaler CI, neue minimierte Numerikfälle einmal über JS/cpu1/cpuN/Metal. R20-motion-Teilmenge mit Quellenhash nur dann aufnehmen, wenn ein konkreter Test die 1,0±0,05-mm-Passung verwendet. Temporäre Discoverylogs nach Promotion löschen, reproduzierbare Fälle behalten.",
+      "acceptance": "Ein echter ReliefUnion-Repro und ein Tray-/Return-Blend-Repro laufen ohne Zugriff auf ~/Workspace/cad oder Netzwerk aus dem Fixturepaket. Oracle und ursprüngliche Defektklasse sind je Fall ausgewiesen; ein historischer oder gepflanzter Fehler fällt am einen zuständigen Test. Gepflanzt: fehlender Import, falscher Quellhash und eine stale Oracleversion müssen scheitern, nicht skippen. Für den Passungs-Minimalfall beweist ein analytischer Abstand 1,00 mm die Sollseite, 0,94 mm verletzt die 0,95-mm-Untergrenze trotz praktisch unveränderter Gesamtvolumina. Pose-Stichproben werden nicht als Kollisionsfreiheit des gesamten Bewegungswegs ausgegeben.",
+      "estimateAgentDays": 0.5,
+      "r20Impact": "Erhält echte Makerfehler dauerhaft und trennt eingefrorene CI-Evidenz vom derzeit veralteten Live-Onshape-Snapshot.",
+      "dependsOn": [
+        "P5"
+      ]
+    },
+    {
+      "title": "P7 Optional: begrenzten Mesh-Abstand unabhängig gegenprüfen",
+      "scope": "Nur hinter einem konkreten R20-Abstandswitness starten. Separater gepinnter CGAL-Testprozess für bounded-error symmetric Hausdorff, Ausgabe als Meshintervall mit explizitem Arithmetikstatus. Keine Produktionsverknüpfung. Gegen eine einfache unabhängig implementierte adaptive Lipschitz-Überdeckung auf kleinen rationalen Netzen prüfen. Eine B-rep-Schranke erst aus nachgewiesenen δ-Werten beider Seiten und Rundungsanteilen bilden; bei unbekannter Onshape-Tessellierungsabweichung keinen certified-Pass. Der Verbraucher ist der Abstandsschritt des bestehenden R20-Gates, nicht ein neues Dashboard.",
+      "acceptance": "Minimalfälle: zwei um exakt d versetzte parallele Dreiecksflächen, identische Flächen mit anderer Triangulierung und ein eingefrorener lokaler Steg-/Kerbenfehler. Geschlossene Distanz beziehungsweise rationale Überdeckung und CGAL müssen kompatible Intervalle liefern. Gepflanzt: eine falsche null-Untergrenze als fertigen Abstand melden oder einen Referenz-δ-Term weglassen; der Grader muss unentschieden/fail statt certified-pass liefern. Zusätzlich invertierte Orientierung separat durch vorhandene Topologie-/Belegungschecks zurückweisen, da unsigned Hausdorff sie nicht erkennt. Ohne begründete Arithmetikeinschließung bleibt das Paket ein stärkeres Differentialorakel, keine fertige Zertifizierung.",
+      "estimateAgentDays": 0.75,
+      "r20Impact": "Schließt gezielt die Lücke zwischen kleiner gemessener Stichprobenabweichung und tatsächlich begrenztem lokalen Formfehler.",
+      "dependsOn": [
+        "P2"
+      ]
+    }
+  ],
+  "openQuestions": [
+    "Die aktuellen datums-/probe-Quellen passen nicht zu den eingefrorenen Onshape-B-rep-Volumina. Eine neue, ausdrücklich erlaubte Aufnahme ist offen; in dieser Recherche gab es keinerlei Bridgezugriff. Bis dahin nur passende ältere eingefrorene Quellen als unabhängige Regression verwenden.",
+    "Für welche der acht Konsensreferenzen lassen sich sofort unabhängige analytische Teilvolumina oder native OCCT-Konstruktionen herstellen? Nicht alle müssen vor der Generatorintegration gelöst sein, aber die Evidenz darf bis dahin nicht independent-exact heißen.",
+    "Welche eingeschränkten Körperfamilien haben bereits tatsächlich hergeleitete Volumen-/Tessellierungsfehlergrenzen? area*deviation, adaptive Quadratur-Fehlerschätzer und numerisch ausgewertete geschlossene Formen sind ohne weitere Begründung keine formalen Zertifikate. Fehlende Bounds ausdrücklich offen halten, nicht beim Ausbau des Harness erfinden.",
+    "R20s äußere Onshape-Feature-Liste und die inneren op-Aufrufe sind verschiedene Granularitäten. Per-Operation-Referenzen für einzelne defineFeature-Programme brauchen eingefrorene Teilfälle; ob neue instrumentierte Onshape-Proben erlaubt und lohnend sind, ist eine spätere Betreiberentscheidung.",
+    "P7 bleibt optional: CGAL-Arithmetikeinschließung, verfügbarer gepinnter Build und Lizenz-/Distributionsweg sind noch nicht praktisch verifiziert. Ebenso wurden keine neuen Fuzzkampagnen, Geometrie-Benchmarks oder vollständigen Tests ausgeführt; die Schätzungen sind Planwerte, keine gemessenen Laufzeiten."
+  ]
+}

@@ -1,0 +1,42 @@
+{
+ "id": "hard-single-edge-r-equals-width-r10",
+ "jobSha256": "1f0506d085dea75ca831f0d89173ffeed360fffb4b4c1e578f40e3d0d0f103fd",
+ "jobBytes": 1862,
+ "sourceSha256": "5fc4cd2b8f52416029199034430875971e457f630a9e7031c290a9c7647e2fc8",
+ "buildMs": 2.4890419999996993,
+ "kernel": {
+  "closed": true,
+  "volumeMm3": 999.9999999999999,
+  "areaMm2": 600,
+  "precision": "F32x2",
+  "geometry": "planar"
+ },
+ "counts": {
+  "vertices": 8,
+  "edges": 12,
+  "faces": 6
+ },
+ "surfaces": {
+  "plane": 6
+ },
+ "quantizationErrorMm": 0,
+ "selected": [
+  {
+   "edge": 10,
+   "curve": "line",
+   "faces": [
+    "plane",
+    "plane"
+   ],
+   "convexity": "convex",
+   "dihedralDeg": 90,
+   "length": 10,
+   "sample": [
+    10,
+    10,
+    5
+   ]
+  }
+ ],
+ "step": "out/fillet/input-step/hard-single-edge-r-equals-width-r10.step"
+}

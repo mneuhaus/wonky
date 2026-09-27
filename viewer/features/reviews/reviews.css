@@ -1,0 +1,172 @@
+/* Review fields, save state and saved reviews. */
+
+.save-state {
+  font-size: var(--text-xs);
+  color: var(--muted);
+  max-width: 130px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.saved-section {
+  padding: 17px 19px;
+  border-top: 1px solid var(--line);
+  max-height: 190px;
+  overflow: auto;
+}
+
+.saved-section h2 {
+  font-size: var(--text-xs);
+  letter-spacing: .07em;
+  text-transform: uppercase;
+  color: var(--muted);
+  font-weight: 550;
+  margin-bottom: 12px;
+}
+
+.saved-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  background: transparent;
+  border: 0;
+  text-align: left;
+  padding: 7px 0;
+  font-size: 11px;
+}
+
+.saved-item svg {
+  width: 14px;
+  height: 14px;
+  color: var(--muted);
+}
+
+.saved-item span:last-child {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.saved-item:hover {
+  color: var(--green);
+}
+
+.review-fields {
+  padding: 21px 20px;
+}
+
+.field-label {
+  display: block;
+  font-size: var(--text-xs);
+  font-weight: 550;
+  margin-bottom: 7px;
+}
+
+.field-label:not(:first-child) {
+  margin-top: 15px;
+}
+
+.saved-review-detail {
+  margin: 0 20px 20px;
+  padding: 12px;
+  border-radius: 7px;
+  background: var(--green-soft);
+  font-size: var(--text-xs);
+  line-height: 1.8;
+}
+
+.saved-review-detail code {
+  font-size: 11px;
+}
+
+@media (max-width: 1150px) {
+  .save-state {
+    display: none;
+  }
+}
+
+@media (max-width: 900px) {
+  .review-fields {
+    padding: 14px 15px;
+  }
+  .saved-section {
+    padding: 14px;
+  }
+}
+
+@media (max-width: 650px) {
+  .review-fields {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 7px 12px;
+    padding: 17px;
+  }
+  .review-fields .field-label {
+    margin: 0;
+  }
+  .review-fields #review-title {
+    grid-column: 1;
+    grid-row: 2;
+  }
+  .review-fields #review-notes {
+    grid-column: 2;
+    grid-row: 2;
+    resize: vertical;
+    min-height: 43px;
+    height: 43px;
+  }
+  .review-fields .field-label[for=review-notes] {
+    grid-column: 2;
+    grid-row: 1;
+  }
+}
+
+/* Former inline style of "Copy LLM context". */
+.saved-review-copy {
+  margin-top: 12px;
+}
+
+/* A review file that cannot be read: an error row, not a broken workspace. */
+.saved-item-error {
+  align-items: flex-start;
+  color: var(--danger);
+  cursor: default;
+}
+
+.saved-item-error svg {
+  color: var(--danger);
+  flex: none;
+}
+
+.saved-item-error span:last-child {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  white-space: normal;
+}
+
+.saved-item-error small {
+  font-size: 11px;
+  color: var(--ink);
+  overflow-wrap: anywhere;
+}
+
+/* Copy and print actions in the inspector (context-section.js). */
+.context-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+}
+
+.context-actions .button {
+  font-size: 11px;
+  min-height: 32px;
+  padding: 0 10px;
+}
+
+.context-actions svg {
+  width: 14px;
+  height: 14px;
+}

@@ -1,0 +1,59 @@
+{
+ "id": "corpus-two-hole-rims-chamfer-0.42",
+ "jobSha256": "002bad539529ed5066bf4b6e17fe1251c26e80380912267bcbde9550196e3fca",
+ "jobBytes": 2828,
+ "sourceSha256": "2513cee3a9de23d9f9b3626d44114c0d7bf841116f3f8f5a2010d832bdbe92ba",
+ "buildMs": 20.63929199999984,
+ "kernel": {
+  "closed": true,
+  "volumeMm3": 3803.650459150638,
+  "areaMm2": null,
+  "precision": "F32x2",
+  "geometry": "analytic"
+ },
+ "counts": {
+  "vertices": 12,
+  "edges": 18,
+  "faces": 8
+ },
+ "surfaces": {
+  "plane": 6,
+  "cylinder": 2
+ },
+ "quantizationErrorMm": 0,
+ "selected": [
+  {
+   "edge": 13,
+   "curve": "circle",
+   "faces": [
+    "plane",
+    "cylinder"
+   ],
+   "convexity": "convex",
+   "dihedralDeg": 90,
+   "length": 15.707569005721497,
+   "sample": [
+    7.5,
+    10,
+    5
+   ]
+  },
+  {
+   "edge": 16,
+   "curve": "circle",
+   "faces": [
+    "plane",
+    "cylinder"
+   ],
+   "convexity": "convex",
+   "dihedralDeg": 90,
+   "length": 15.7075690057215,
+   "sample": [
+    27.5,
+    10,
+    5
+   ]
+  }
+ ],
+ "step": "out/fillet/input-step/corpus-two-hole-rims-chamfer-0.42.step"
+}

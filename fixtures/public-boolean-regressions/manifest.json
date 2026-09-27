@@ -1,0 +1,615 @@
+{
+  "schema": "wonky-public-boolean-regressions/1",
+  "repository": "https://github.com/Open-Cascade-SAS/OCCT",
+  "revision": "3d097a0328e71b826377d4814ab05ec3c3d23871",
+  "license": "LGPL-2.1 with OCCT exception",
+  "scope": "Six complete public OCCT Boolean cases adapted to FeatureScript and evaluated by Bend; original DRAW suite and visual screenshot checks are not executed.",
+  "units": "One original coordinate unit maps to one millimeter.",
+  "selection": "Complete self-contained planar operands, two rotations, exact face contacts and a nonconvex U-prism; no missing external operands substituted.",
+  "files": [
+    {
+      "path": "upstream/LICENSE_LGPL_21.txt",
+      "upstreamPath": "LICENSE_LGPL_21.txt",
+      "url": "https://github.com/Open-Cascade-SAS/OCCT/blob/3d097a0328e71b826377d4814ab05ec3c3d23871/LICENSE_LGPL_21.txt",
+      "rawUrl": "https://raw.githubusercontent.com/Open-Cascade-SAS/OCCT/3d097a0328e71b826377d4814ab05ec3c3d23871/LICENSE_LGPL_21.txt",
+      "sha256": "e237fa56668030e928551ddd60f05df5fe957f75eab874bbd017e085ed722e7c"
+    },
+    {
+      "path": "upstream/OCCT_LGPL_EXCEPTION.txt",
+      "upstreamPath": "OCCT_LGPL_EXCEPTION.txt",
+      "url": "https://github.com/Open-Cascade-SAS/OCCT/blob/3d097a0328e71b826377d4814ab05ec3c3d23871/OCCT_LGPL_EXCEPTION.txt",
+      "rawUrl": "https://raw.githubusercontent.com/Open-Cascade-SAS/OCCT/3d097a0328e71b826377d4814ab05ec3c3d23871/OCCT_LGPL_EXCEPTION.txt",
+      "sha256": "04580a884ea6cea294402649ff7b5cbb167d47462d1340a4ed33e550db10a81b"
+    },
+    {
+      "path": "upstream/README.md",
+      "upstreamPath": "README.md",
+      "url": "https://github.com/Open-Cascade-SAS/OCCT/blob/3d097a0328e71b826377d4814ab05ec3c3d23871/README.md",
+      "rawUrl": "https://raw.githubusercontent.com/Open-Cascade-SAS/OCCT/3d097a0328e71b826377d4814ab05ec3c3d23871/README.md",
+      "sha256": "8462e9c1f29ac9e128e41bf84d2c5940e9d0c960e0ebc5f89859c1a87f053ad3"
+    },
+    {
+      "path": "upstream/tests/boolean/bcommon_simple/E1",
+      "upstreamPath": "tests/boolean/bcommon_simple/E1",
+      "url": "https://github.com/Open-Cascade-SAS/OCCT/blob/3d097a0328e71b826377d4814ab05ec3c3d23871/tests/boolean/bcommon_simple/E1",
+      "rawUrl": "https://raw.githubusercontent.com/Open-Cascade-SAS/OCCT/3d097a0328e71b826377d4814ab05ec3c3d23871/tests/boolean/bcommon_simple/E1",
+      "sha256": "5fcb21b62035fe8ce9c7c7021802ad9dc3e1c1d5399f010dc313842cec45471a"
+    },
+    {
+      "path": "upstream/tests/boolean/bcommon_simple/G1",
+      "upstreamPath": "tests/boolean/bcommon_simple/G1",
+      "url": "https://github.com/Open-Cascade-SAS/OCCT/blob/3d097a0328e71b826377d4814ab05ec3c3d23871/tests/boolean/bcommon_simple/G1",
+      "rawUrl": "https://raw.githubusercontent.com/Open-Cascade-SAS/OCCT/3d097a0328e71b826377d4814ab05ec3c3d23871/tests/boolean/bcommon_simple/G1",
+      "sha256": "dc3780d17304a9a7ccb41d7972de902d261c7e91ccf81cba3ee83ddad5be0f49"
+    },
+    {
+      "path": "upstream/tests/boolean/bcommon_simple/H1",
+      "upstreamPath": "tests/boolean/bcommon_simple/H1",
+      "url": "https://github.com/Open-Cascade-SAS/OCCT/blob/3d097a0328e71b826377d4814ab05ec3c3d23871/tests/boolean/bcommon_simple/H1",
+      "rawUrl": "https://raw.githubusercontent.com/Open-Cascade-SAS/OCCT/3d097a0328e71b826377d4814ab05ec3c3d23871/tests/boolean/bcommon_simple/H1",
+      "sha256": "fd30f67a360b4929bbd7c0a354d68db65242b5727d27af3f2a828be60f35a3c9"
+    },
+    {
+      "path": "upstream/tests/boolean/bcut_simple/H1",
+      "upstreamPath": "tests/boolean/bcut_simple/H1",
+      "url": "https://github.com/Open-Cascade-SAS/OCCT/blob/3d097a0328e71b826377d4814ab05ec3c3d23871/tests/boolean/bcut_simple/H1",
+      "rawUrl": "https://raw.githubusercontent.com/Open-Cascade-SAS/OCCT/3d097a0328e71b826377d4814ab05ec3c3d23871/tests/boolean/bcut_simple/H1",
+      "sha256": "09de33c571acd28cdb0216087b2789faffc6de41af834ce050f31937e61a6221"
+    },
+    {
+      "path": "upstream/tests/boolean/begin",
+      "upstreamPath": "tests/boolean/begin",
+      "url": "https://github.com/Open-Cascade-SAS/OCCT/blob/3d097a0328e71b826377d4814ab05ec3c3d23871/tests/boolean/begin",
+      "rawUrl": "https://raw.githubusercontent.com/Open-Cascade-SAS/OCCT/3d097a0328e71b826377d4814ab05ec3c3d23871/tests/boolean/begin",
+      "sha256": "d69546786e4458613f453d5083979bd5e2e67ae1f0f01b93f1bd93825e3a66bd"
+    },
+    {
+      "path": "upstream/tests/boolean/bfuse_simple/G1",
+      "upstreamPath": "tests/boolean/bfuse_simple/G1",
+      "url": "https://github.com/Open-Cascade-SAS/OCCT/blob/3d097a0328e71b826377d4814ab05ec3c3d23871/tests/boolean/bfuse_simple/G1",
+      "rawUrl": "https://raw.githubusercontent.com/Open-Cascade-SAS/OCCT/3d097a0328e71b826377d4814ab05ec3c3d23871/tests/boolean/bfuse_simple/G1",
+      "sha256": "6af4a011cdffdcfa69052f9f46a43b82b873a89dd23d6bf7adeb6ca2467cda3e"
+    },
+    {
+      "path": "upstream/tests/boolean/bfuse_simple/G7",
+      "upstreamPath": "tests/boolean/bfuse_simple/G7",
+      "url": "https://github.com/Open-Cascade-SAS/OCCT/blob/3d097a0328e71b826377d4814ab05ec3c3d23871/tests/boolean/bfuse_simple/G7",
+      "rawUrl": "https://raw.githubusercontent.com/Open-Cascade-SAS/OCCT/3d097a0328e71b826377d4814ab05ec3c3d23871/tests/boolean/bfuse_simple/G7",
+      "sha256": "55726c9f42dc107fb2d099950db1584ceba11f43ca93d5d4af6a6592980af532"
+    }
+  ],
+  "supportFiles": [
+    {
+      "path": "NOTICE.md",
+      "sha256": "7fbf838725e32744467ee5f26be9a96f7355ce93a170dd30834f1a9a42034158"
+    },
+    {
+      "path": "measure-step.py",
+      "sha256": "11e13ff567f7901a8bf94715130b90ce5ae6e0260f661fd5f0cfba8151376bd2"
+    }
+  ],
+  "cases": [
+    {
+      "id": "common-e1",
+      "upstreamPath": "tests/boolean/bcommon_simple/E1",
+      "upstreamUrl": "https://github.com/Open-Cascade-SAS/OCCT/blob/3d097a0328e71b826377d4814ab05ec3c3d23871/tests/boolean/bcommon_simple/E1",
+      "originalSource": "upstream/tests/boolean/bcommon_simple/E1",
+      "originalSourceSha256": "5fcb21b62035fe8ce9c7c7021802ad9dc3e1c1d5399f010dc313842cec45471a",
+      "source": "adapted/common-e1.fs",
+      "sourceSha256": "6d6106f397a4780ea8c69e3cd57c9e54ed4576c58a8a09aa0f82479395c60cdf",
+      "feature": "main",
+      "operation": "INTERSECTION",
+      "modifications": "Original planar vertices/edges/wire/mkplane become skPolyline/skSolve on the same plane and opExtrude with the same sweep; no operand replacement. One original unit is one millimeter. ",
+      "originalOracles": {
+        "areaCommand": "checkprops result -s 4",
+        "areaMm2": 4.0,
+        "areaAbsoluteToleranceMm2": 5e-06,
+        "comparisonPolicy": "Retain the printed upstream area value; local absolute tolerance covers its last printed decimal. This does not run DRAW checkprops.",
+        "viewCheck": "Not executed: DRAW checkview screenshot, display framing and image output are outside this numeric adaptation."
+      },
+      "expected": {
+        "solids": 1,
+        "volumeMm3": 0.5,
+        "areaMm2": 4,
+        "boundsMm": {
+          "min": [
+            0,
+            0,
+            0
+          ],
+          "max": [
+            1,
+            0.5,
+            1
+          ]
+        },
+        "volumeAbsoluteToleranceMm3": 2e-06,
+        "areaAbsoluteToleranceMm2": 3e-06,
+        "boundsAbsoluteToleranceMm": 1e-06,
+        "probes": [
+          {
+            "id": "common-e1/inside",
+            "pointMm": [
+              0.5,
+              0.25,
+              0.5
+            ],
+            "classification": "Inside"
+          },
+          {
+            "id": "common-e1/removed-half",
+            "pointMm": [
+              0.5,
+              0.75,
+              0.5
+            ],
+            "classification": "Outside"
+          },
+          {
+            "id": "common-e1/cut-face",
+            "pointMm": [
+              0.5,
+              0.5,
+              0.5
+            ],
+            "classification": "Boundary"
+          },
+          {
+            "id": "common-e1/outside-cap",
+            "pointMm": [
+              0.5,
+              0.25,
+              1.25
+            ],
+            "classification": "Outside"
+          }
+        ],
+        "derivation": "The second prism [0,1] x [0,0.5] x [0,1] is contained in the first unit cube. V=1*0.5*1=0.5; S=2*(0.5+1+0.5)=4."
+      }
+    },
+    {
+      "id": "common-g1",
+      "upstreamPath": "tests/boolean/bcommon_simple/G1",
+      "upstreamUrl": "https://github.com/Open-Cascade-SAS/OCCT/blob/3d097a0328e71b826377d4814ab05ec3c3d23871/tests/boolean/bcommon_simple/G1",
+      "originalSource": "upstream/tests/boolean/bcommon_simple/G1",
+      "originalSourceSha256": "dc3780d17304a9a7ccb41d7972de902d261c7e91ccf81cba3ee83ddad5be0f49",
+      "source": "adapted/common-g1.fs",
+      "sourceSha256": "9f0fa82125e1efd3eb554b53c13edc4f07a9a31eb6d6ef100ea5be6a79afb1df",
+      "feature": "main",
+      "operation": "INTERSECTION",
+      "modifications": "Original planar vertices/edges/wire/mkplane become skPolyline/skSolve on the same plane and opExtrude with the same sweep; no operand replacement. One original unit is one millimeter. The second profile uses local coordinates (y,z) on x=0 and sweeps +x by sqrt(2). The original trotate is a proper rigid opPattern transform about the same axis/center/angle; delete only the unrotated instance before the original Boolean. ",
+      "originalOracles": {
+        "areaCommand": "checkprops result -s 4.41421",
+        "areaMm2": 4.41421,
+        "areaAbsoluteToleranceMm2": 5e-06,
+        "comparisonPolicy": "Retain the printed upstream area value; local absolute tolerance covers its last printed decimal. This does not run DRAW checkprops.",
+        "viewCheck": "Not executed: DRAW checkview screenshot, display framing and image output are outside this numeric adaptation."
+      },
+      "expected": {
+        "solids": 1,
+        "volumeMm3": 0.5,
+        "areaMm2": 4.414213562373095,
+        "boundsMm": {
+          "min": [
+            0,
+            0,
+            0
+          ],
+          "max": [
+            1,
+            1,
+            1
+          ]
+        },
+        "volumeAbsoluteToleranceMm3": 2e-06,
+        "areaAbsoluteToleranceMm2": 3e-06,
+        "boundsAbsoluteToleranceMm": 1e-06,
+        "probes": [
+          {
+            "id": "common-g1/inside",
+            "pointMm": [
+              0.25,
+              0.75,
+              0.5
+            ],
+            "classification": "Inside"
+          },
+          {
+            "id": "common-g1/removed-half",
+            "pointMm": [
+              0.75,
+              0.25,
+              0.5
+            ],
+            "classification": "Outside"
+          },
+          {
+            "id": "common-g1/diagonal",
+            "pointMm": [
+              0.5,
+              0.5,
+              0.5
+            ],
+            "classification": "Boundary"
+          },
+          {
+            "id": "common-g1/outside-cap",
+            "pointMm": [
+              0.25,
+              0.75,
+              1.25
+            ],
+            "classification": "Outside"
+          }
+        ],
+        "derivation": "The cube intersects the original rotated side-prism in a triangular prism over (0,0),(1,1),(0,1), height 1. V=0.5; S=2*0.5+(1+1+sqrt(2))*1=3+sqrt(2). The triangle is an oracle, never a constructed operand."
+      }
+    },
+    {
+      "id": "common-h1",
+      "upstreamPath": "tests/boolean/bcommon_simple/H1",
+      "upstreamUrl": "https://github.com/Open-Cascade-SAS/OCCT/blob/3d097a0328e71b826377d4814ab05ec3c3d23871/tests/boolean/bcommon_simple/H1",
+      "originalSource": "upstream/tests/boolean/bcommon_simple/H1",
+      "originalSourceSha256": "fd30f67a360b4929bbd7c0a354d68db65242b5727d27af3f2a828be60f35a3c9",
+      "source": "adapted/common-h1.fs",
+      "sourceSha256": "7f42f450dc00d6c9804c2e4800a0a42447c523831c397ac2e608d63678a2ca95",
+      "feature": "main",
+      "operation": "INTERSECTION",
+      "modifications": "Original planar vertices/edges/wire/mkplane become skPolyline/skSolve on the same plane and opExtrude with the same sweep; no operand replacement. One original unit is one millimeter. The original trotate is a proper rigid opPattern transform about the same axis/center/angle; delete only the unrotated instance before the original Boolean. ",
+      "originalOracles": {
+        "areaCommand": "checkprops result -s 2.12132",
+        "areaMm2": 2.12132,
+        "areaAbsoluteToleranceMm2": 5e-06,
+        "comparisonPolicy": "Retain the printed upstream area value; local absolute tolerance covers its last printed decimal. This does not run DRAW checkprops.",
+        "viewCheck": "Not executed: DRAW checkview screenshot, display framing and image output are outside this numeric adaptation."
+      },
+      "expected": {
+        "solids": 1,
+        "volumeMm3": 0.1464466094067262,
+        "areaMm2": 2.121320343559643,
+        "boundsMm": {
+          "min": [
+            0,
+            0,
+            0
+          ],
+          "max": [
+            0.6464466094067263,
+            0.6464466094067263,
+            1
+          ]
+        },
+        "volumeAbsoluteToleranceMm3": 2e-06,
+        "areaAbsoluteToleranceMm2": 3e-06,
+        "boundsAbsoluteToleranceMm": 1e-06,
+        "probes": [
+          {
+            "id": "common-h1/inside",
+            "pointMm": [
+              0.3,
+              0.3,
+              0.5
+            ],
+            "classification": "Inside"
+          },
+          {
+            "id": "common-h1/lower-side",
+            "pointMm": [
+              0.2,
+              0.2,
+              0.5
+            ],
+            "classification": "Outside"
+          },
+          {
+            "id": "common-h1/upper-side",
+            "pointMm": [
+              0.7,
+              0.7,
+              0.5
+            ],
+            "classification": "Outside"
+          },
+          {
+            "id": "common-h1/clipped-height",
+            "pointMm": [
+              0.3,
+              0.3,
+              1.25
+            ],
+            "classification": "Outside"
+          },
+          {
+            "id": "common-h1/top-face",
+            "pointMm": [
+              0.3,
+              0.3,
+              1
+            ],
+            "classification": "Boundary"
+          }
+        ],
+        "derivation": "Rotation -45 degrees about (0,0.5,0) leaves the entire rectangular footprint in the unit square; z is clipped from 1.5 to 1. Sides are sqrt(2)/2 and (sqrt(2)-1)/2. V=0.5-sqrt(2)/4; S=3*sqrt(2)/2. Max x=y=1-sqrt(2)/4."
+      }
+    },
+    {
+      "id": "fuse-g1",
+      "upstreamPath": "tests/boolean/bfuse_simple/G1",
+      "upstreamUrl": "https://github.com/Open-Cascade-SAS/OCCT/blob/3d097a0328e71b826377d4814ab05ec3c3d23871/tests/boolean/bfuse_simple/G1",
+      "originalSource": "upstream/tests/boolean/bfuse_simple/G1",
+      "originalSourceSha256": "6af4a011cdffdcfa69052f9f46a43b82b873a89dd23d6bf7adeb6ca2467cda3e",
+      "source": "adapted/fuse-g1.fs",
+      "sourceSha256": "43d44d1823cdbe84cd99ec452e9375df5175a2c3c1d0791a3c5375f0252b5830",
+      "feature": "main",
+      "operation": "UNION",
+      "modifications": "Original planar vertices/edges/wire/mkplane become skPolyline/skSolve on the same plane and opExtrude with the same sweep; no operand replacement. One original unit is one millimeter. Tcl box(origin,dimensions) becomes fCuboid(opposite corners). The original front profile on y=3 sweeps in +y by 1.",
+      "originalOracles": {
+        "areaCommand": "checkprops result -s 170",
+        "areaMm2": 170.0,
+        "areaAbsoluteToleranceMm2": 5e-06,
+        "comparisonPolicy": "Retain the printed upstream area value; local absolute tolerance covers its last printed decimal. This does not run DRAW checkprops.",
+        "viewCheck": "Not executed: DRAW checkview screenshot, display framing and image output are outside this numeric adaptation."
+      },
+      "expected": {
+        "solids": 1,
+        "volumeMm3": 141,
+        "areaMm2": 170,
+        "boundsMm": {
+          "min": [
+            3,
+            3,
+            0
+          ],
+          "max": [
+            8,
+            10,
+            5
+          ]
+        },
+        "volumeAbsoluteToleranceMm3": 2e-06,
+        "areaAbsoluteToleranceMm2": 3e-06,
+        "boundsAbsoluteToleranceMm": 1e-06,
+        "probes": [
+          {
+            "id": "fuse-g1/base",
+            "pointMm": [
+              5,
+              6,
+              2
+            ],
+            "classification": "Inside"
+          },
+          {
+            "id": "fuse-g1/top-prism",
+            "pointMm": [
+              3.5,
+              3.5,
+              4.5
+            ],
+            "classification": "Inside"
+          },
+          {
+            "id": "fuse-g1/shared-face-interior",
+            "pointMm": [
+              3.5,
+              3.5,
+              4
+            ],
+            "classification": "Inside"
+          },
+          {
+            "id": "fuse-g1/reentrant-gap",
+            "pointMm": [
+              4.5,
+              3.5,
+              4.5
+            ],
+            "classification": "Outside"
+          },
+          {
+            "id": "fuse-g1/outside",
+            "pointMm": [
+              2.5,
+              3.5,
+              2
+            ],
+            "classification": "Outside"
+          }
+        ],
+        "derivation": "A 5*7*4 box and a 1*1*1 prism touch across one unit square. V=140+1=141; S=2*(35+20+28)+6-2=170. The former common face becomes solid interior; space next to the upper prism remains empty."
+      }
+    },
+    {
+      "id": "fuse-g7",
+      "upstreamPath": "tests/boolean/bfuse_simple/G7",
+      "upstreamUrl": "https://github.com/Open-Cascade-SAS/OCCT/blob/3d097a0328e71b826377d4814ab05ec3c3d23871/tests/boolean/bfuse_simple/G7",
+      "originalSource": "upstream/tests/boolean/bfuse_simple/G7",
+      "originalSourceSha256": "55726c9f42dc107fb2d099950db1584ceba11f43ca93d5d4af6a6592980af532",
+      "source": "adapted/fuse-g7.fs",
+      "sourceSha256": "e28df9c782bdfeaeecd574bf29fc6a9cadcff63d85b06d74244c718ea25cf407",
+      "feature": "main",
+      "operation": "UNION",
+      "modifications": "Original planar vertices/edges/wire/mkplane become skPolyline/skSolve on the same plane and opExtrude with the same sweep; no operand replacement. One original unit is one millimeter. The second front profile is on y=2 and sweeps +y by 1, exactly as in the original.",
+      "originalOracles": {
+        "areaCommand": "checkprops result -s 152",
+        "areaMm2": 152.0,
+        "areaAbsoluteToleranceMm2": 5e-06,
+        "comparisonPolicy": "Retain the printed upstream area value; local absolute tolerance covers its last printed decimal. This does not run DRAW checkprops.",
+        "viewCheck": "Not executed: DRAW checkview screenshot, display framing and image output are outside this numeric adaptation."
+      },
+      "expected": {
+        "solids": 1,
+        "volumeMm3": 121,
+        "areaMm2": 152,
+        "boundsMm": {
+          "min": [
+            3,
+            2,
+            0
+          ],
+          "max": [
+            8,
+            9,
+            4
+          ]
+        },
+        "volumeAbsoluteToleranceMm3": 2e-06,
+        "areaAbsoluteToleranceMm2": 3e-06,
+        "boundsAbsoluteToleranceMm": 1e-06,
+        "probes": [
+          {
+            "id": "fuse-g7/base",
+            "pointMm": [
+              5,
+              6,
+              2
+            ],
+            "classification": "Inside"
+          },
+          {
+            "id": "fuse-g7/side-prism",
+            "pointMm": [
+              3.5,
+              2.5,
+              0.5
+            ],
+            "classification": "Inside"
+          },
+          {
+            "id": "fuse-g7/shared-face-interior",
+            "pointMm": [
+              3.5,
+              3,
+              0.5
+            ],
+            "classification": "Inside"
+          },
+          {
+            "id": "fuse-g7/reentrant-gap",
+            "pointMm": [
+              4.5,
+              2.5,
+              0.5
+            ],
+            "classification": "Outside"
+          },
+          {
+            "id": "fuse-g7/above-prism",
+            "pointMm": [
+              3.5,
+              2.5,
+              2
+            ],
+            "classification": "Outside"
+          }
+        ],
+        "derivation": "A 5*6*4 prism and a 1*1*1 prism touch across one unit square. V=120+1=121; S=2*(30+20+24)+6-2=152. A union returning two touching bodies or keeping the shared face fails the solid/area/occupancy oracles."
+      }
+    },
+    {
+      "id": "cut-h1",
+      "upstreamPath": "tests/boolean/bcut_simple/H1",
+      "upstreamUrl": "https://github.com/Open-Cascade-SAS/OCCT/blob/3d097a0328e71b826377d4814ab05ec3c3d23871/tests/boolean/bcut_simple/H1",
+      "originalSource": "upstream/tests/boolean/bcut_simple/H1",
+      "originalSourceSha256": "09de33c571acd28cdb0216087b2789faffc6de41af834ce050f31937e61a6221",
+      "source": "adapted/cut-h1.fs",
+      "sourceSha256": "0362fa2d346939ee4a70dc805c8227e68bcdd9972467ca1cae5d24186a9c4a8d",
+      "feature": "main",
+      "operation": "SUBTRACTION",
+      "modifications": "Original planar vertices/edges/wire/mkplane become skPolyline/skSolve on the same plane and opExtrude with the same sweep; no operand replacement. One original unit is one millimeter. The active box (-1,2,1)+(5,1,3) becomes opposite corners (-1,2,1),(4,3,4). The commented five-tangent-face tool stays inactive; the U-shape is not replaced by a convex hull.",
+      "originalOracles": {
+        "areaCommand": "checkprops result -s 68",
+        "areaMm2": 68.0,
+        "areaAbsoluteToleranceMm2": 5e-06,
+        "comparisonPolicy": "Retain the printed upstream area value; local absolute tolerance covers its last printed decimal. This does not run DRAW checkprops.",
+        "viewCheck": "Not executed: DRAW checkview screenshot, display framing and image output are outside this numeric adaptation."
+      },
+      "expected": {
+        "solids": 1,
+        "volumeMm3": 22,
+        "areaMm2": 68,
+        "boundsMm": {
+          "min": [
+            0,
+            0,
+            0
+          ],
+          "max": [
+            3,
+            5,
+            2
+          ]
+        },
+        "volumeAbsoluteToleranceMm3": 2e-06,
+        "areaAbsoluteToleranceMm2": 3e-06,
+        "boundsAbsoluteToleranceMm": 1e-06,
+        "probes": [
+          {
+            "id": "cut-h1/left-low",
+            "pointMm": [
+              0.5,
+              2.5,
+              0.5
+            ],
+            "classification": "Inside"
+          },
+          {
+            "id": "cut-h1/right-low",
+            "pointMm": [
+              2.5,
+              2.5,
+              0.5
+            ],
+            "classification": "Inside"
+          },
+          {
+            "id": "cut-h1/bridge",
+            "pointMm": [
+              1.5,
+              4,
+              1.5
+            ],
+            "classification": "Inside"
+          },
+          {
+            "id": "cut-h1/cut-left",
+            "pointMm": [
+              0.5,
+              2.5,
+              1.5
+            ],
+            "classification": "Outside"
+          },
+          {
+            "id": "cut-h1/cut-right",
+            "pointMm": [
+              2.5,
+              2.5,
+              1.5
+            ],
+            "classification": "Outside"
+          },
+          {
+            "id": "cut-h1/original-notch",
+            "pointMm": [
+              1.5,
+              1,
+              1
+            ],
+            "classification": "Outside"
+          },
+          {
+            "id": "cut-h1/cut-floor",
+            "pointMm": [
+              0.5,
+              2.5,
+              1
+            ],
+            "classification": "Boundary"
+          }
+        ],
+        "derivation": "The U-profile has area 3*5-1*3=12 and perimeter 22, extruded by 2: V=24,S=68. The active box removes two 1*1*1 pieces from the upper legs, V=22. Removed/exposed floor, top and side areas balance, S remains 68."
+      }
+    }
+  ]
+}

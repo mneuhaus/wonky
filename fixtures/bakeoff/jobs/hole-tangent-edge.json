@@ -1,0 +1,53 @@
+{
+ "schema": "wonky-bakeoff-fixture/1",
+ "case": "hole-tangent-edge",
+ "category": "tangent",
+ "deviationMm": 0.01,
+ "location": "fixtures/bakeoff/jobs",
+ "job": "fixtures/bakeoff/jobs/hole-tangent-edge.job",
+ "csgJob": "fixtures/bakeoff/jobs/hole-tangent-edge.csg.job",
+ "jobBytes": 7600,
+ "jobSha256": "b1d2454c4383193562bd570ca75e19d65d20cd8840d1ef78dcf63f354267fdca",
+ "csgJobSha256": "54465164bb745a18590786ac992e1915fe01f06a5b75a516eae7201827eb2783",
+ "leaves": 2,
+ "faces": 9,
+ "vertices": 90,
+ "triangles": 172,
+ "deviationMeasuredMaxMm": 0.009247998800621104,
+ "leafInfo": [
+  {
+   "leaf": 0,
+   "prim": "box",
+   "vertices": 8,
+   "triangles": 12,
+   "tags": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5
+   ],
+   "deviationMeasuredMm": 0,
+   "deviationMethod": "exact-planar",
+   "vertexOnSurfaceMaxMm": 0,
+   "analyticVolume": 3000
+  },
+  {
+   "leaf": 1,
+   "prim": "cylinder",
+   "vertices": 82,
+   "triangles": 160,
+   "tags": [
+    6,
+    7,
+    8
+   ],
+   "segments": 40,
+   "deviationMeasuredMm": 0.009247998800621104,
+   "deviationMethod": "barycentric-grid-8 (max lies on sampled chord midlines)",
+   "vertexOnSurfaceMaxMm": 8.43769498715119e-15,
+   "analyticVolume": 197.92033717615698
+  }
+ ]
+}

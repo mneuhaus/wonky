@@ -1,0 +1,42 @@
+{
+ "id": "pp-concave-240-r2",
+ "jobSha256": "7f76f140dedac28dd7072361c86ee8213a722bfcf56d545797176b5a2a2caf15",
+ "jobBytes": 2542,
+ "sourceSha256": "326ed16199c97c86c825d7e054f9d1f7e2a85c3e6713f101dc63c5faa9e97272",
+ "buildMs": 3.025416999999834,
+ "kernel": {
+  "closed": true,
+  "volumeMm3": 4700.9618282318115,
+  "areaMm2": 1986.60253156624,
+  "precision": "F32x2",
+  "geometry": "planar"
+ },
+ "counts": {
+  "vertices": 10,
+  "edges": 15,
+  "faces": 7
+ },
+ "surfaces": {
+  "plane": 7
+ },
+ "quantizationErrorMm": 3.552713678800501e-15,
+ "selected": [
+  {
+   "edge": 13,
+   "curve": "line",
+   "faces": [
+    "plane",
+    "plane"
+   ],
+   "convexity": "concave",
+   "dihedralDeg": 240.00000252451068,
+   "length": 10,
+   "sample": [
+    15,
+    11.33974552154541,
+    5
+   ]
+  }
+ ],
+ "step": "out/fillet/input-step/pp-concave-240-r2.step"
+}

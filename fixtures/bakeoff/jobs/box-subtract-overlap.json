@@ -1,0 +1,55 @@
+{
+ "schema": "wonky-bakeoff-fixture/1",
+ "case": "box-subtract-overlap",
+ "category": "box-basics",
+ "deviationMm": 0.01,
+ "location": "fixtures/bakeoff/jobs",
+ "job": "fixtures/bakeoff/jobs/box-subtract-overlap.job",
+ "csgJob": "fixtures/bakeoff/jobs/box-subtract-overlap.csg.job",
+ "jobBytes": 2192,
+ "jobSha256": "161d89c45878cdc23f4c21154366a66529091a301cd885c62972537c7f2f2f4c",
+ "csgJobSha256": "0d50f36df76c09516e3dccc397e45ee899b9ac775b005ef7b15c0b1fb7bfe676",
+ "leaves": 2,
+ "faces": 12,
+ "vertices": 16,
+ "triangles": 24,
+ "deviationMeasuredMaxMm": 0,
+ "leafInfo": [
+  {
+   "leaf": 0,
+   "prim": "box",
+   "vertices": 8,
+   "triangles": 12,
+   "tags": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5
+   ],
+   "deviationMeasuredMm": 0,
+   "deviationMethod": "exact-planar",
+   "vertexOnSurfaceMaxMm": 0,
+   "analyticVolume": 8000
+  },
+  {
+   "leaf": 1,
+   "prim": "box",
+   "vertices": 8,
+   "triangles": 12,
+   "tags": [
+    6,
+    7,
+    8,
+    9,
+    10,
+    11
+   ],
+   "deviationMeasuredMm": 0,
+   "deviationMethod": "exact-planar",
+   "vertexOnSurfaceMaxMm": 0,
+   "analyticVolume": 4000
+  }
+ ]
+}

@@ -1,0 +1,35 @@
+{
+ "schema": "wonky-bakeoff-fixture/1",
+ "case": "leaf-cylinder",
+ "category": "identity",
+ "deviationMm": 0.01,
+ "location": "fixtures/bakeoff/jobs",
+ "job": "fixtures/bakeoff/jobs/leaf-cylinder.job",
+ "csgJob": "fixtures/bakeoff/jobs/leaf-cylinder.csg.job",
+ "jobBytes": 8657,
+ "jobSha256": "7cb7c9132356f05257a3ecdb2078279d8a432727c7fdba77161806a82a82770f",
+ "csgJobSha256": "8bf2ab7f917f7c108de7fbf704221c9ce9e677393e5b9a5233c8b28fcf2e93cf",
+ "leaves": 1,
+ "faces": 3,
+ "vertices": 114,
+ "triangles": 224,
+ "deviationMeasuredMaxMm": 0.009439109893103925,
+ "leafInfo": [
+  {
+   "leaf": 0,
+   "prim": "cylinder",
+   "vertices": 114,
+   "triangles": 224,
+   "tags": [
+    0,
+    1,
+    2
+   ],
+   "segments": 56,
+   "deviationMeasuredMm": 0.009439109893103925,
+   "deviationMethod": "barycentric-grid-8 (max lies on sampled chord midlines)",
+   "vertexOnSurfaceMaxMm": 8.881784197001252e-15,
+   "analyticVolume": 1357.1680263507906
+  }
+ ]
+}

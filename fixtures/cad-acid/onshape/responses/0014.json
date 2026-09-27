@@ -1,0 +1,161 @@
+{
+  "btType": "BTFeatureSpecsResponse-664",
+  "rejectMicroversionSkew": false,
+  "microversionSkew": false,
+  "featureSpecs": [
+    {
+      "btType": "BTFeatureSpec-129",
+      "parameters": [
+        {
+          "btType": "BTParameterSpecEnum-171",
+          "enumName": "AcidVariant",
+          "enumValueToVisibilityCondition": {},
+          "enumOptionVisibilityConditions": null,
+          "optionIconUris": [
+            "",
+            "",
+            "",
+            ""
+          ],
+          "options": [
+            "V0",
+            "V1",
+            "V2",
+            "V3"
+          ],
+          "defaultValue": {
+            "btType": "BTMParameterEnum-145",
+            "namespace": "efebc9632e506034ea4595143::m216760051730d7a15ec76bf7",
+            "nodeId": "MOCanz/1BPpuQHGwC",
+            "value": "V0",
+            "enumName": "AcidVariant",
+            "libraryRelationType": "DEFAULT",
+            "parameterId": "variant",
+            "parameterName": ""
+          },
+          "namespace": "efebc9632e506034ea4595143::m216760051730d7a15ec76bf7",
+          "parameterId": "variant",
+          "parameterName": "Variant",
+          "uiHints": [],
+          "visibilityCondition": null,
+          "uiHint": "",
+          "optionNames": [
+            "V0",
+            "V1",
+            "V2",
+            "V3"
+          ],
+          "parameterDescription": "",
+          "columnName": "",
+          "iconUri": ""
+        },
+        {
+          "btType": "BTParameterSpecEnum-171",
+          "enumName": "AcidCurvedZone",
+          "enumValueToVisibilityCondition": {},
+          "enumOptionVisibilityConditions": null,
+          "optionIconUris": [
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            ""
+          ],
+          "options": [
+            "ALL",
+            "AC19",
+            "AC20",
+            "AC21",
+            "AC22",
+            "AC23",
+            "AC24",
+            "AC25",
+            "AC26",
+            "AC27",
+            "AC28"
+          ],
+          "defaultValue": {
+            "btType": "BTMParameterEnum-145",
+            "namespace": "efebc9632e506034ea4595143::m216760051730d7a15ec76bf7",
+            "nodeId": "M7LASKH7lizE281bI",
+            "value": "ALL",
+            "enumName": "AcidCurvedZone",
+            "libraryRelationType": "DEFAULT",
+            "parameterId": "zone",
+            "parameterName": ""
+          },
+          "namespace": "efebc9632e506034ea4595143::m216760051730d7a15ec76bf7",
+          "parameterId": "zone",
+          "parameterName": "Zone",
+          "uiHints": [],
+          "visibilityCondition": null,
+          "uiHint": "",
+          "optionNames": [
+            "ALL",
+            "AC19",
+            "AC20",
+            "AC21",
+            "AC22",
+            "AC23",
+            "AC24",
+            "AC25",
+            "AC26",
+            "AC27",
+            "AC28"
+          ],
+          "parameterDescription": "",
+          "columnName": "",
+          "iconUri": ""
+        }
+      ],
+      "featureNameTemplate": "",
+      "parameterLibraryDefinitionIds": [],
+      "tooltipTemplate": "",
+      "descriptionImageUri": "",
+      "featureTypeDescription": "",
+      "languageVersion": 3044,
+      "editingLogic": null,
+      "filterSelectors": [],
+      "manipulatorChangeFunction": "",
+      "sourceMicroversionId": "216760051730d7a15ec76bf7",
+      "linkedLocationName": "",
+      "namespace": "efebc9632e506034ea4595143::m216760051730d7a15ec76bf7",
+      "groups": [],
+      "featureType": "acidCurved",
+      "featureTypeName": "CAD acid: curved surfaces",
+      "uiHints": [],
+      "sourceLocation": {
+        "btType": "BTLocationInfo-226",
+        "version": "216760051730d7a15ec76bf7",
+        "endLine": 250,
+        "character": 11426,
+        "line": 221,
+        "endColumn": 68,
+        "languageVersion": 3044,
+        "column": 27,
+        "endCharacter": 13677,
+        "moduleIds": {
+          "btType": "BTDocumentVersionElementIds-1897",
+          "versionId": "",
+          "elementId": "febc9632e506034ea4595143",
+          "documentId": ""
+        },
+        "parseNodeId": "Py9M3nBECyxePeWLw",
+        "document": "febc9632e506034ea4595143",
+        "elementMicroversion": "216760051730d7a15ec76bf7",
+        "nodeId": "pawqWgjfn+xBl6eB",
+        "topLevel": ""
+      },
+      "iconUri": ""
+    }
+  ],
+  "libraryVersion": 0,
+  "sourceMicroversion": "e0077897d4cb9f13163122c1",
+  "serializationVersion": "1.2.21"
+}

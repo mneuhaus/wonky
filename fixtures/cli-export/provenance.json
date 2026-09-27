@@ -1,0 +1,26 @@
+{
+  "capturedAt": "2026-09-27T08:11:15Z",
+  "fixtures": [
+    {
+      "snapshot": "tea-box.fs",
+      "origin": "<repo>/tmp/tea-box/tea-box.fs",
+      "sha256": "57bda782a106035dd482dbc5327f3c342522add92107e79029382d19c7145a92",
+      "bytes": 1572,
+      "purpose": "Original unmodified open-top tea box, not an inferred or remeshed substitute"
+    },
+    {
+      "snapshot": "tea-box-F.fs",
+      "origin": "<repo>/tmp/tea-box/tea-box-F.fs",
+      "sha256": "fc7ed0ad14ff3eeed3a930bc2331fb74fa6ef82749f366e02ce26f4ad068c2bf",
+      "bytes": 1700,
+      "purpose": "Original unmodified fillet-first tea box; unsupported operations must refuse explicitly"
+    },
+    {
+      "snapshot": "hemisphere.fs",
+      "origin": "Authored here from original FeatureScript opSphere + fCuboid + opBoolean INTERSECTION syntax (test/rust-sphere.test.mjs)",
+      "sha256": "c4cf5344df05d81c1b3c9ed4f3d6c70fe24346ab8787ecfb96cd9c02879ff0ef",
+      "bytes": 952,
+      "purpose": "Curved mesh acceptance with an independently calculated hemisphere volume"
+    }
+  ]
+}

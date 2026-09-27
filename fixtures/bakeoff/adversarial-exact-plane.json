@@ -1,0 +1,3569 @@
+{
+ "schema": "wonky-bakeoff-cases/1",
+ "units": "mm",
+ "generator": "out/bakeoff/verify-exact-plane/v2/gen.mjs (adversarial verifier cases for exact-plane, round 2)",
+ "conventions": {
+  "leaf": "{prim, params, transform: {rotate: [{axis: x|y|z|[x,y,z], deg}], translate: [x,y,z]}}; rotations apply in list order, then the translation",
+  "node": "{op: union|subtract|intersect, children: [a, b]}; subtract is children[0] minus children[1]",
+  "box": "params {min:[x,y,z], max:[x,y,z]}",
+  "cylinder": "params {radius, height}; axis +Z from z=0 to z=height",
+  "cone": "params {r1 (at z=0), r2 (at z=height), height}; r1 or r2 may be 0 (apex)",
+  "sphere": "params {radius}; centred on the origin",
+  "torus": "params {major, minor}; axis +Z, centred on the origin",
+  "prism": "params {points: [[x,y],...] simple polygon, height}; extruded +Z from z=0",
+  "brep": "params {source: gzipped wonky-acceptance-operands/1 JSON, body: index}; the exact B-rep body as stored (identity transform); tessellated by scripts/bakeoff/brep-tessellate.mjs",
+  "deviationMm": "stated bound on the distance between a leaf tessellation and its analytic surface",
+  "expect": "solid (a valid closed 2-manifold mesh, possibly several components) | empty (valid answer is an ok mesh with 0 triangles) | non-manifold-contact (the exact result touches itself along a line or point; a closed 2-manifold mesh of it does not exist, so the expected answer is unresolved with a reason; a mesh is reported but not scored as a pass)"
+ },
+ "cases": [
+  {
+   "id": "adv-ep2-box-union-overlap-1e-6",
+   "category": "perturbation",
+   "fdmRationale": "Boxes overlapping by 1e-6 mm (17 grid steps): one component with a hairline overlap.",
+   "deviationMm": 0.01,
+   "expect": "solid",
+   "csg": {
+    "op": "union",
+    "children": [
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        0,
+        0,
+        0
+       ],
+       "max": [
+        10,
+        10,
+        10
+       ]
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     },
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        9.999999,
+        2,
+        2
+       ],
+       "max": [
+        20,
+        8,
+        8
+       ]
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "adv-ep2-skin-5e-7",
+   "category": "sliver",
+   "fdmRationale": "Box minus box leaves a 5e-7 mm skin at the top (8 grid steps).",
+   "deviationMm": 0.01,
+   "expect": "solid",
+   "csg": {
+    "op": "subtract",
+    "children": [
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        0,
+        0,
+        0
+       ],
+       "max": [
+        20,
+        20,
+        20
+       ]
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     },
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        -1,
+        -1,
+        -1
+       ],
+       "max": [
+        21,
+        21,
+        19.9999995
+       ]
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "adv-ep2-rot-skin-1e-6",
+   "category": "sliver",
+   "fdmRationale": "Rotated box minus the same-rotated box offset along the face normal: a 1e-6 mm skin on a skew plane.",
+   "deviationMm": 0.01,
+   "expect": "solid",
+   "csg": {
+    "op": "subtract",
+    "children": [
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        0,
+        0,
+        0
+       ],
+       "max": [
+        20,
+        20,
+        20
+       ]
+      },
+      "transform": {
+       "rotate": [
+        {
+         "axis": [
+          0.31,
+          -0.77,
+          0.55
+         ],
+         "deg": 47.3
+        }
+       ],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     },
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        -1,
+        -1,
+        0.000001
+       ],
+       "max": [
+        21,
+        21,
+        21
+       ]
+      },
+      "transform": {
+       "rotate": [
+        {
+         "axis": [
+          0.31,
+          -0.77,
+          0.55
+         ],
+         "deg": 47.3
+        }
+       ],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "adv-ep2-box-union-rot-1e-6deg",
+   "category": "perturbation",
+   "fdmRationale": "Box union the same box rotated 1e-6 deg about a skew axis through its centre (sub-grid wedges).",
+   "deviationMm": 0.01,
+   "expect": "solid",
+   "csg": {
+    "op": "union",
+    "children": [
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        -10,
+        -10,
+        -10
+       ],
+       "max": [
+        10,
+        10,
+        10
+       ]
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     },
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        -10,
+        -10,
+        -10
+       ],
+       "max": [
+        10,
+        10,
+        10
+       ]
+      },
+      "transform": {
+       "rotate": [
+        {
+         "axis": [
+          0.2,
+          0.3,
+          0.93
+         ],
+         "deg": 0.000001
+        }
+       ],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "adv-ep2-cube-corner-overlap-1e-7",
+   "category": "perturbation",
+   "fdmRationale": "Cubes overlapping at a corner by 1e-7 mm per axis: one component joined by a 1e-7 mm cube.",
+   "deviationMm": 0.01,
+   "expect": "solid",
+   "csg": {
+    "op": "union",
+    "children": [
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        0,
+        0,
+        0
+       ],
+       "max": [
+        10,
+        10,
+        10
+       ]
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     },
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        9.9999999,
+        9.9999999,
+        9.9999999
+       ],
+       "max": [
+        20,
+        20,
+        20
+       ]
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "adv-ep2-cube-edge-overlap-1e-9",
+   "category": "perturbation",
+   "fdmRationale": "Cubes overlapping along an edge by 1e-9 mm (below the grid): exact answer is one component.",
+   "deviationMm": 0.01,
+   "expect": "solid",
+   "csg": {
+    "op": "union",
+    "children": [
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        0,
+        0,
+        0
+       ],
+       "max": [
+        10,
+        10,
+        10
+       ]
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     },
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        9.999999999,
+        9.999999999,
+        0
+       ],
+       "max": [
+        20,
+        20,
+        10
+       ]
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "adv-ep2-sphere-gap-1e-9-box",
+   "category": "perturbation",
+   "fdmRationale": "Sphere hovering 1e-9 mm above a box face (south pole vertex): exact answer is 2 components.",
+   "deviationMm": 0.01,
+   "expect": "solid",
+   "csg": {
+    "op": "union",
+    "children": [
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        -10,
+        -10,
+        -10
+       ],
+       "max": [
+        10,
+        10,
+        0
+       ]
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     },
+     {
+      "prim": "sphere",
+      "params": {
+       "radius": 5
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        5.000000001
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "adv-ep2-rot-box-minus-tilted-cyl",
+   "category": "rotation",
+   "fdmRationale": "Randomly rotated plate minus a tilted through cylinder.",
+   "deviationMm": 0.01,
+   "expect": "solid",
+   "csg": {
+    "op": "subtract",
+    "children": [
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        -15,
+        -10,
+        -3
+       ],
+       "max": [
+        15,
+        10,
+        3
+       ]
+      },
+      "transform": {
+       "rotate": [
+        {
+         "axis": [
+          0.31,
+          -0.77,
+          0.55
+         ],
+         "deg": 47.3
+        }
+       ],
+       "translate": [
+        1,
+        2,
+        3
+       ]
+      }
+     },
+     {
+      "prim": "cylinder",
+      "params": {
+       "radius": 4,
+       "height": 30
+      },
+      "transform": {
+       "rotate": [
+        {
+         "axis": [
+          -0.62,
+          0.21,
+          0.76
+         ],
+         "deg": 113.9
+        },
+        {
+         "axis": "x",
+         "deg": 7.7
+        }
+       ],
+       "translate": [
+        7.000169402576129,
+        -10.906652562870864,
+        -7.552652395553451
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "adv-ep2-rot-tri-cylinder-union",
+   "category": "rotation",
+   "fdmRationale": "Union of three orthogonal cylinders (tri-cylinder), rotated as a whole.",
+   "deviationMm": 0.01,
+   "expect": "solid",
+   "csg": {
+    "op": "union",
+    "children": [
+     {
+      "op": "union",
+      "children": [
+       {
+        "prim": "cylinder",
+        "params": {
+         "radius": 4,
+         "height": 24
+        },
+        "transform": {
+         "rotate": [
+          {
+           "axis": [
+            0.31,
+            -0.77,
+            0.55
+           ],
+           "deg": 47.3
+          }
+         ],
+         "translate": [
+          6.155525827376845,
+          4.395190172536194,
+          -9.316211952061732
+         ]
+        }
+       },
+       {
+        "prim": "cylinder",
+        "params": {
+         "radius": 4,
+         "height": 24
+        },
+        "transform": {
+         "rotate": [
+          {
+           "axis": "x",
+           "deg": 90
+          },
+          {
+           "axis": [
+            0.31,
+            -0.77,
+            0.55
+           ],
+           "deg": 47.3
+          }
+         ],
+         "translate": [
+          -5.800965630412742,
+          10.447376029160823,
+          1.0959616143305149
+         ]
+        }
+       }
+      ]
+     },
+     {
+      "prim": "cylinder",
+      "params": {
+       "radius": 4,
+       "height": 24
+      },
+      "transform": {
+       "rotate": [
+        {
+         "axis": "y",
+         "deg": 90
+        },
+        {
+         "axis": [
+          0.31,
+          -0.77,
+          0.55
+         ],
+         "deg": 47.3
+        }
+       ],
+       "translate": [
+        -8.512244095611141,
+        -3.9414004430604503,
+        -7.483786675485625
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "adv-ep2-rot-sphere-minus-cone",
+   "category": "rotation",
+   "fdmRationale": "Sphere minus a tilted cone that pierces it (cone/sphere curves at random angle).",
+   "deviationMm": 0.01,
+   "expect": "solid",
+   "csg": {
+    "op": "subtract",
+    "children": [
+     {
+      "prim": "sphere",
+      "params": {
+       "radius": 8
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     },
+     {
+      "prim": "cone",
+      "params": {
+       "r1": 5,
+       "r2": 1,
+       "height": 20
+      },
+      "transform": {
+       "rotate": [
+        {
+         "axis": [
+          -0.62,
+          0.21,
+          0.76
+         ],
+         "deg": 113.9
+        },
+        {
+         "axis": "x",
+         "deg": 7.7
+        }
+       ],
+       "translate": [
+        4.66677960171742,
+        -7.271101708580576,
+        -5.035101597035634
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "adv-ep2-rot-coplanar-pocket",
+   "category": "coplanar",
+   "fdmRationale": "Rotated block minus an equally rotated pocket whose top face is coplanar with the block top.",
+   "deviationMm": 0.01,
+   "expect": "solid",
+   "csg": {
+    "op": "subtract",
+    "children": [
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        0,
+        0,
+        0
+       ],
+       "max": [
+        20,
+        20,
+        10
+       ]
+      },
+      "transform": {
+       "rotate": [
+        {
+         "axis": [
+          0.31,
+          -0.77,
+          0.55
+         ],
+         "deg": 47.3
+        }
+       ],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     },
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        5,
+        5,
+        4
+       ],
+       "max": [
+        15,
+        15,
+        10
+       ]
+      },
+      "transform": {
+       "rotate": [
+        {
+         "axis": [
+          0.31,
+          -0.77,
+          0.55
+         ],
+         "deg": 47.3
+        }
+       ],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "adv-ep2-rot-coplanar-intersect",
+   "category": "coplanar",
+   "fdmRationale": "Intersection of equally rotated boxes sharing two coplanar faces.",
+   "deviationMm": 0.01,
+   "expect": "solid",
+   "csg": {
+    "op": "intersect",
+    "children": [
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        0,
+        0,
+        0
+       ],
+       "max": [
+        20,
+        20,
+        10
+       ]
+      },
+      "transform": {
+       "rotate": [
+        {
+         "axis": [
+          -0.62,
+          0.21,
+          0.76
+         ],
+         "deg": 113.9
+        },
+        {
+         "axis": "x",
+         "deg": 7.7
+        }
+       ],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     },
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        0,
+        5,
+        0
+       ],
+       "max": [
+        12,
+        30,
+        10
+       ]
+      },
+      "transform": {
+       "rotate": [
+        {
+         "axis": [
+          -0.62,
+          0.21,
+          0.76
+         ],
+         "deg": 113.9
+        },
+        {
+         "axis": "x",
+         "deg": 7.7
+        }
+       ],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "adv-ep2-sphere-sphere-pole-touch",
+   "category": "tangent",
+   "fdmRationale": "Two spheres touching pole to pole (vertex contact).",
+   "deviationMm": 0.01,
+   "expect": "non-manifold-contact",
+   "csg": {
+    "op": "union",
+    "children": [
+     {
+      "prim": "sphere",
+      "params": {
+       "radius": 5
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     },
+     {
+      "prim": "sphere",
+      "params": {
+       "radius": 5
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        10
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "adv-ep2-rot-cylinders-line-touch",
+   "category": "tangent",
+   "fdmRationale": "Two parallel cylinders touching along a line, rotated as a whole (contact exact only before rounding).",
+   "deviationMm": 0.01,
+   "expect": "non-manifold-contact",
+   "csg": {
+    "op": "union",
+    "children": [
+     {
+      "prim": "cylinder",
+      "params": {
+       "radius": 5,
+       "height": 20
+      },
+      "transform": {
+       "rotate": [
+        {
+         "axis": [
+          0.31,
+          -0.77,
+          0.55
+         ],
+         "deg": 47.3
+        }
+       ],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     },
+     {
+      "prim": "cylinder",
+      "params": {
+       "radius": 5,
+       "height": 20
+      },
+      "transform": {
+       "rotate": [
+        {
+         "axis": [
+          0.31,
+          -0.77,
+          0.55
+         ],
+         "deg": 47.3
+        }
+       ],
+       "translate": [
+        7.093536746342616,
+        3.2845003692170422,
+        6.23648889623802
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "adv-ep2-holes-touching",
+   "category": "tangent",
+   "fdmRationale": "Plate minus two holes whose walls touch along a line.",
+   "deviationMm": 0.01,
+   "expect": "non-manifold-contact",
+   "csg": {
+    "op": "subtract",
+    "children": [
+     {
+      "op": "subtract",
+      "children": [
+       {
+        "prim": "box",
+        "params": {
+         "min": [
+          0,
+          0,
+          0
+         ],
+         "max": [
+          26,
+          20,
+          5
+         ]
+        },
+        "transform": {
+         "rotate": [],
+         "translate": [
+          0,
+          0,
+          0
+         ]
+        }
+       },
+       {
+        "prim": "cylinder",
+        "params": {
+         "radius": 3,
+         "height": 7
+        },
+        "transform": {
+         "rotate": [],
+         "translate": [
+          10,
+          10,
+          -1
+         ]
+        }
+       }
+      ]
+     },
+     {
+      "prim": "cylinder",
+      "params": {
+       "radius": 3,
+       "height": 7
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        16,
+        10,
+        -1
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "adv-ep2-sphere-inscribed-in-cube",
+   "category": "tangent",
+   "fdmRationale": "Cube minus its inscribed sphere touching all 6 faces at sphere grid vertices (two poles + 4 equator quarter points).",
+   "deviationMm": 0.01,
+   "expect": "non-manifold-contact",
+   "csg": {
+    "op": "subtract",
+    "children": [
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        -5,
+        -5,
+        -5
+       ],
+       "max": [
+        5,
+        5,
+        5
+       ]
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     },
+     {
+      "prim": "sphere",
+      "params": {
+       "radius": 5
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "adv-ep2-needle-prism-cross",
+   "category": "degenerate",
+   "fdmRationale": "Plate minus two crossing needle prisms (1e-5 mm wide, 18 mm long).",
+   "deviationMm": 0.01,
+   "expect": "solid",
+   "csg": {
+    "op": "subtract",
+    "children": [
+     {
+      "op": "subtract",
+      "children": [
+       {
+        "prim": "box",
+        "params": {
+         "min": [
+          0,
+          0,
+          0
+         ],
+         "max": [
+          20,
+          20,
+          3
+         ]
+        },
+        "transform": {
+         "rotate": [],
+         "translate": [
+          0,
+          0,
+          0
+         ]
+        }
+       },
+       {
+        "prim": "prism",
+        "params": {
+         "points": [
+          [
+           1,
+           10
+          ],
+          [
+           19,
+           9.999995
+          ],
+          [
+           19,
+           10.000005
+          ]
+         ],
+         "height": 5
+        },
+        "transform": {
+         "rotate": [],
+         "translate": [
+          0,
+          0,
+          -1
+         ]
+        }
+       }
+      ]
+     },
+     {
+      "prim": "prism",
+      "params": {
+       "points": [
+        [
+         10,
+         1
+        ],
+        [
+         10.000005,
+         19
+        ],
+        [
+         9.999995,
+         19
+        ]
+       ],
+       "height": 5
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        -1
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "adv-ep2-near-collinear-prism-union",
+   "category": "degenerate",
+   "fdmRationale": "Prism with a vertex 1e-7 mm off a straight edge, unioned with a box crossing that edge.",
+   "deviationMm": 0.01,
+   "expect": "solid",
+   "csg": {
+    "op": "union",
+    "children": [
+     {
+      "prim": "prism",
+      "params": {
+       "points": [
+        [
+         0,
+         0
+        ],
+        [
+         10,
+         0
+        ],
+        [
+         20,
+         1e-7
+        ],
+        [
+         20,
+         10
+        ],
+        [
+         0,
+         10
+        ]
+       ],
+       "height": 5
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     },
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        8,
+        -3,
+        1
+       ],
+       "max": [
+        12,
+        3,
+        4
+       ]
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "adv-ep2-scale-1e-3-box-rotated-intersect",
+   "category": "scale",
+   "fdmRationale": "Corpus box-rotated-intersect scaled by 1e-3 (0.02 mm part).",
+   "deviationMm": 0.00001,
+   "expect": "solid",
+   "csg": {
+    "op": "intersect",
+    "children": [
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        0,
+        0,
+        0
+       ],
+       "max": [
+        0.02,
+        0.02,
+        0.02
+       ]
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     },
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        -0.01,
+        -0.01,
+        -0.01
+       ],
+       "max": [
+        0.01,
+        0.01,
+        0.01
+       ]
+      },
+      "transform": {
+       "rotate": [
+        {
+         "axis": "z",
+         "deg": 30
+        },
+        {
+         "axis": "x",
+         "deg": 20
+        },
+        {
+         "axis": "y",
+         "deg": -11
+        }
+       ],
+       "translate": [
+        0.012,
+        0.009000000000000001,
+        0.011
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "adv-ep2-scale-1e-3-hex-nut",
+   "category": "scale",
+   "fdmRationale": "Corpus hex-nut scaled by 1e-3.",
+   "deviationMm": 0.00001,
+   "expect": "solid",
+   "csg": {
+    "op": "intersect",
+    "children": [
+     {
+      "op": "subtract",
+      "children": [
+       {
+        "prim": "prism",
+        "params": {
+         "points": [
+          [
+           0.0065000000000000014,
+           0.003752776749732567
+          ],
+          [
+           4.595826034474597e-19,
+           0.007505553499465135
+          ],
+          [
+           -0.0065000000000000014,
+           0.003752776749732567
+          ],
+          [
+           -0.006500000000000001,
+           -0.0037527767497325683
+          ],
+          [
+           -1.3787478103423788e-18,
+           -0.007505553499465135
+          ],
+          [
+           0.006499999999999998,
+           -0.003752776749732571
+          ]
+         ],
+         "height": 0.006500000000000001
+        },
+        "transform": {
+         "rotate": [],
+         "translate": [
+          0,
+          0,
+          0
+         ]
+        }
+       },
+       {
+        "prim": "cylinder",
+        "params": {
+         "radius": 0.0034,
+         "height": 0.0085
+        },
+        "transform": {
+         "rotate": [],
+         "translate": [
+          0,
+          0,
+          -0.001
+         ]
+        }
+       }
+      ]
+     },
+     {
+      "prim": "cone",
+      "params": {
+       "r1": 0.01949038105676658,
+       "r2": 0.006500000000000001,
+       "height": 0.0075
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        -0.001
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "adv-ep2-scale-1e3-box-union",
+   "category": "scale",
+   "fdmRationale": "Corpus box-union-overlap scaled by 1e3 (outside +-1024 mm, expect refusal).",
+   "deviationMm": 10,
+   "expect": "solid",
+   "csg": {
+    "op": "union",
+    "children": [
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        0,
+        0,
+        0
+       ],
+       "max": [
+        20000,
+        20000,
+        20000
+       ]
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     },
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        10000,
+        5000,
+        5000
+       ],
+       "max": [
+        30000,
+        15000,
+        25000
+       ]
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "adv-ep2-scale-30-plate-hole",
+   "category": "scale",
+   "fdmRationale": "Corpus plate-through-hole scaled by 30 (900 mm plate, inside the box).",
+   "deviationMm": 0.3,
+   "expect": "solid",
+   "csg": {
+    "op": "subtract",
+    "children": [
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        0,
+        0,
+        0
+       ],
+       "max": [
+        1200,
+        900,
+        150
+       ]
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     },
+     {
+      "prim": "cylinder",
+      "params": {
+       "radius": 96,
+       "height": 210
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        600,
+        450,
+        -30
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "adv-ep2-iterated-sub-add-sub",
+   "category": "iterated",
+   "fdmRationale": "(((A - B) u B) - B) u B with B a tilted cylinder: identical meshes re-enter the Boolean three times.",
+   "deviationMm": 0.01,
+   "expect": "solid",
+   "csg": {
+    "op": "union",
+    "children": [
+     {
+      "op": "subtract",
+      "children": [
+       {
+        "op": "union",
+        "children": [
+         {
+          "op": "subtract",
+          "children": [
+           {
+            "prim": "box",
+            "params": {
+             "min": [
+              0,
+              0,
+              0
+             ],
+             "max": [
+              20,
+              20,
+              6
+             ]
+            },
+            "transform": {
+             "rotate": [],
+             "translate": [
+              0,
+              0,
+              0
+             ]
+            }
+           },
+           {
+            "prim": "cylinder",
+            "params": {
+             "radius": 3,
+             "height": 12
+            },
+            "transform": {
+             "rotate": [
+              {
+               "axis": [
+                1,
+                0.4,
+                0
+               ],
+               "deg": 21
+              }
+             ],
+             "translate": [
+              10,
+              10,
+              -3
+             ]
+            }
+           }
+          ]
+         },
+         {
+          "prim": "cylinder",
+          "params": {
+           "radius": 3,
+           "height": 12
+          },
+          "transform": {
+           "rotate": [
+            {
+             "axis": [
+              1,
+              0.4,
+              0
+             ],
+             "deg": 21
+            }
+           ],
+           "translate": [
+            10,
+            10,
+            -3
+           ]
+          }
+         }
+        ]
+       },
+       {
+        "prim": "cylinder",
+        "params": {
+         "radius": 3,
+         "height": 12
+        },
+        "transform": {
+         "rotate": [
+          {
+           "axis": [
+            1,
+            0.4,
+            0
+           ],
+           "deg": 21
+          }
+         ],
+         "translate": [
+          10,
+          10,
+          -3
+         ]
+        }
+       }
+      ]
+     },
+     {
+      "prim": "cylinder",
+      "params": {
+       "radius": 3,
+       "height": 12
+      },
+      "transform": {
+       "rotate": [
+        {
+         "axis": [
+          1,
+          0.4,
+          0
+         ],
+         "deg": 21
+        }
+       ],
+       "translate": [
+        10,
+        10,
+        -3
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "adv-ep2-iterated-self-intersect-rot-4",
+   "category": "iterated",
+   "fdmRationale": "Rotated box intersected with itself four times.",
+   "deviationMm": 0.01,
+   "expect": "solid",
+   "csg": {
+    "op": "intersect",
+    "children": [
+     {
+      "op": "intersect",
+      "children": [
+       {
+        "op": "intersect",
+        "children": [
+         {
+          "prim": "box",
+          "params": {
+           "min": [
+            -6,
+            -4,
+            -3
+           ],
+           "max": [
+            6,
+            4,
+            3
+           ]
+          },
+          "transform": {
+           "rotate": [
+            {
+             "axis": [
+              -0.62,
+              0.21,
+              0.76
+             ],
+             "deg": 113.9
+            },
+            {
+             "axis": "x",
+             "deg": 7.7
+            }
+           ],
+           "translate": [
+            1,
+            1,
+            1
+           ]
+          }
+         },
+         {
+          "prim": "box",
+          "params": {
+           "min": [
+            -6,
+            -4,
+            -3
+           ],
+           "max": [
+            6,
+            4,
+            3
+           ]
+          },
+          "transform": {
+           "rotate": [
+            {
+             "axis": [
+              -0.62,
+              0.21,
+              0.76
+             ],
+             "deg": 113.9
+            },
+            {
+             "axis": "x",
+             "deg": 7.7
+            }
+           ],
+           "translate": [
+            1,
+            1,
+            1
+           ]
+          }
+         }
+        ]
+       },
+       {
+        "prim": "box",
+        "params": {
+         "min": [
+          -6,
+          -4,
+          -3
+         ],
+         "max": [
+          6,
+          4,
+          3
+         ]
+        },
+        "transform": {
+         "rotate": [
+          {
+           "axis": [
+            -0.62,
+            0.21,
+            0.76
+           ],
+           "deg": 113.9
+          },
+          {
+           "axis": "x",
+           "deg": 7.7
+          }
+         ],
+         "translate": [
+          1,
+          1,
+          1
+         ]
+        }
+       }
+      ]
+     },
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        -6,
+        -4,
+        -3
+       ],
+       "max": [
+        6,
+        4,
+        3
+       ]
+      },
+      "transform": {
+       "rotate": [
+        {
+         "axis": [
+          -0.62,
+          0.21,
+          0.76
+         ],
+         "deg": 113.9
+        },
+        {
+         "axis": "x",
+         "deg": 7.7
+        }
+       ],
+       "translate": [
+        1,
+        1,
+        1
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "adv-ep2-hole-row-8",
+   "category": "iterated",
+   "fdmRationale": "Strip minus 8 staggered holes (left-deep subtract chain).",
+   "deviationMm": 0.01,
+   "expect": "solid",
+   "csg": {
+    "op": "subtract",
+    "children": [
+     {
+      "op": "subtract",
+      "children": [
+       {
+        "op": "subtract",
+        "children": [
+         {
+          "op": "subtract",
+          "children": [
+           {
+            "op": "subtract",
+            "children": [
+             {
+              "op": "subtract",
+              "children": [
+               {
+                "op": "subtract",
+                "children": [
+                 {
+                  "op": "subtract",
+                  "children": [
+                   {
+                    "prim": "box",
+                    "params": {
+                     "min": [
+                      0,
+                      0,
+                      0
+                     ],
+                     "max": [
+                      22,
+                      10,
+                      2
+                     ]
+                    },
+                    "transform": {
+                     "rotate": [],
+                     "translate": [
+                      0,
+                      0,
+                      0
+                     ]
+                    }
+                   },
+                   {
+                    "prim": "cylinder",
+                    "params": {
+                     "radius": 0.7,
+                     "height": 4
+                    },
+                    "transform": {
+                     "rotate": [],
+                     "translate": [
+                      2,
+                      5,
+                      -1
+                     ]
+                    }
+                   }
+                  ]
+                 },
+                 {
+                  "prim": "cylinder",
+                  "params": {
+                   "radius": 0.7,
+                   "height": 4
+                  },
+                  "transform": {
+                   "rotate": [],
+                   "translate": [
+                    4.5,
+                    5.8,
+                    -1
+                   ]
+                  }
+                 }
+                ]
+               },
+               {
+                "prim": "cylinder",
+                "params": {
+                 "radius": 0.7,
+                 "height": 4
+                },
+                "transform": {
+                 "rotate": [],
+                 "translate": [
+                  7,
+                  5,
+                  -1
+                 ]
+                }
+               }
+              ]
+             },
+             {
+              "prim": "cylinder",
+              "params": {
+               "radius": 0.7,
+               "height": 4
+              },
+              "transform": {
+               "rotate": [],
+               "translate": [
+                9.5,
+                5.8,
+                -1
+               ]
+              }
+             }
+            ]
+           },
+           {
+            "prim": "cylinder",
+            "params": {
+             "radius": 0.7,
+             "height": 4
+            },
+            "transform": {
+             "rotate": [],
+             "translate": [
+              12,
+              5,
+              -1
+             ]
+            }
+           }
+          ]
+         },
+         {
+          "prim": "cylinder",
+          "params": {
+           "radius": 0.7,
+           "height": 4
+          },
+          "transform": {
+           "rotate": [],
+           "translate": [
+            14.5,
+            5.8,
+            -1
+           ]
+          }
+         }
+        ]
+       },
+       {
+        "prim": "cylinder",
+        "params": {
+         "radius": 0.7,
+         "height": 4
+        },
+        "transform": {
+         "rotate": [],
+         "translate": [
+          17,
+          5,
+          -1
+         ]
+        }
+       }
+      ]
+     },
+     {
+      "prim": "cylinder",
+      "params": {
+       "radius": 0.7,
+       "height": 4
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        19.5,
+        5.8,
+        -1
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "adv-ep2-empty-sub-then-intersect",
+   "category": "empty",
+   "fdmRationale": "(A - B) n B with B inside A sharing no face: regularized result is empty (shared surface only).",
+   "deviationMm": 0.01,
+   "expect": "empty",
+   "csg": {
+    "op": "intersect",
+    "children": [
+     {
+      "op": "subtract",
+      "children": [
+       {
+        "prim": "box",
+        "params": {
+         "min": [
+          0,
+          0,
+          0
+         ],
+         "max": [
+          20,
+          20,
+          20
+         ]
+        },
+        "transform": {
+         "rotate": [],
+         "translate": [
+          0,
+          0,
+          0
+         ]
+        }
+       },
+       {
+        "prim": "sphere",
+        "params": {
+         "radius": 5
+        },
+        "transform": {
+         "rotate": [],
+         "translate": [
+          10,
+          10,
+          10
+         ]
+        }
+       }
+      ]
+     },
+     {
+      "prim": "sphere",
+      "params": {
+       "radius": 5
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        10,
+        10,
+        10
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "adv-ep2-empty-commuted-self-subtract",
+   "category": "empty",
+   "fdmRationale": "(A u B) - (B u A) with rotated A and B.",
+   "deviationMm": 0.01,
+   "expect": "empty",
+   "csg": {
+    "op": "subtract",
+    "children": [
+     {
+      "op": "union",
+      "children": [
+       {
+        "prim": "box",
+        "params": {
+         "min": [
+          0,
+          0,
+          0
+         ],
+         "max": [
+          10,
+          10,
+          10
+         ]
+        },
+        "transform": {
+         "rotate": [
+          {
+           "axis": [
+            0.31,
+            -0.77,
+            0.55
+           ],
+           "deg": 47.3
+          }
+         ],
+         "translate": [
+          0,
+          0,
+          0
+         ]
+        }
+       },
+       {
+        "prim": "cylinder",
+        "params": {
+         "radius": 3,
+         "height": 12
+        },
+        "transform": {
+         "rotate": [],
+         "translate": [
+          2,
+          2,
+          -1
+         ]
+        }
+       }
+      ]
+     },
+     {
+      "op": "union",
+      "children": [
+       {
+        "prim": "cylinder",
+        "params": {
+         "radius": 3,
+         "height": 12
+        },
+        "transform": {
+         "rotate": [],
+         "translate": [
+          2,
+          2,
+          -1
+         ]
+        }
+       },
+       {
+        "prim": "box",
+        "params": {
+         "min": [
+          0,
+          0,
+          0
+         ],
+         "max": [
+          10,
+          10,
+          10
+         ]
+        },
+        "transform": {
+         "rotate": [
+          {
+           "axis": [
+            0.31,
+            -0.77,
+            0.55
+           ],
+           "deg": 47.3
+          }
+         ],
+         "translate": [
+          0,
+          0,
+          0
+         ]
+        }
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "id": "adv-ep2-nested-island",
+   "category": "topology",
+   "fdmRationale": "Box with a closed cavity plus a rotated island box floating inside the cavity: 3 shells.",
+   "deviationMm": 0.01,
+   "expect": "solid",
+   "csg": {
+    "op": "union",
+    "children": [
+     {
+      "op": "subtract",
+      "children": [
+       {
+        "prim": "box",
+        "params": {
+         "min": [
+          0,
+          0,
+          0
+         ],
+         "max": [
+          30,
+          30,
+          30
+         ]
+        },
+        "transform": {
+         "rotate": [],
+         "translate": [
+          0,
+          0,
+          0
+         ]
+        }
+       },
+       {
+        "prim": "box",
+        "params": {
+         "min": [
+          5,
+          5,
+          5
+         ],
+         "max": [
+          25,
+          25,
+          25
+         ]
+        },
+        "transform": {
+         "rotate": [],
+         "translate": [
+          0,
+          0,
+          0
+         ]
+        }
+       }
+      ]
+     },
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        -4,
+        -4,
+        -4
+       ],
+       "max": [
+        4,
+        4,
+        4
+       ]
+      },
+      "transform": {
+       "rotate": [
+        {
+         "axis": [
+          -0.62,
+          0.21,
+          0.76
+         ],
+         "deg": 113.9
+        },
+        {
+         "axis": "x",
+         "deg": 7.7
+        }
+       ],
+       "translate": [
+        15,
+        15,
+        15
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "adv-ep2-disjoint-rot-many",
+   "category": "topology",
+   "fdmRationale": "Union of 6 disjoint randomly rotated small boxes (6 components).",
+   "deviationMm": 0.01,
+   "expect": "solid",
+   "csg": {
+    "op": "union",
+    "children": [
+     {
+      "op": "union",
+      "children": [
+       {
+        "op": "union",
+        "children": [
+         {
+          "op": "union",
+          "children": [
+           {
+            "op": "union",
+            "children": [
+             {
+              "prim": "box",
+              "params": {
+               "min": [
+                -1,
+                -1,
+                -1
+               ],
+               "max": [
+                1,
+                1,
+                1
+               ]
+              },
+              "transform": {
+               "rotate": [
+                {
+                 "axis": [
+                  0.31,
+                  -0.77,
+                  0.55
+                 ],
+                 "deg": 47.3
+                }
+               ],
+               "translate": [
+                0,
+                0,
+                0
+               ]
+              }
+             },
+             {
+              "prim": "box",
+              "params": {
+               "min": [
+                -1,
+                -1,
+                -1
+               ],
+               "max": [
+                1,
+                1,
+                1
+               ]
+              },
+              "transform": {
+               "rotate": [
+                {
+                 "axis": [
+                  1,
+                  1,
+                  2
+                 ],
+                 "deg": 13
+                }
+               ],
+               "translate": [
+                5,
+                0,
+                0
+               ]
+              }
+             }
+            ]
+           },
+           {
+            "prim": "box",
+            "params": {
+             "min": [
+              -1,
+              -1,
+              -1
+             ],
+             "max": [
+              1,
+              1,
+              1
+             ]
+            },
+            "transform": {
+             "rotate": [
+              {
+               "axis": [
+                1,
+                2,
+                2
+               ],
+               "deg": 26
+              }
+             ],
+             "translate": [
+              10,
+              0,
+              0
+             ]
+            }
+           }
+          ]
+         },
+         {
+          "prim": "box",
+          "params": {
+           "min": [
+            -1,
+            -1,
+            -1
+           ],
+           "max": [
+            1,
+            1,
+            1
+           ]
+          },
+          "transform": {
+           "rotate": [
+            {
+             "axis": [
+              1,
+              3,
+              2
+             ],
+             "deg": 39
+            }
+           ],
+           "translate": [
+            15,
+            0,
+            0
+           ]
+          }
+         }
+        ]
+       },
+       {
+        "prim": "box",
+        "params": {
+         "min": [
+          -1,
+          -1,
+          -1
+         ],
+         "max": [
+          1,
+          1,
+          1
+         ]
+        },
+        "transform": {
+         "rotate": [
+          {
+           "axis": [
+            1,
+            4,
+            2
+           ],
+           "deg": 52
+          }
+         ],
+         "translate": [
+          20,
+          0,
+          0
+         ]
+        }
+       }
+      ]
+     },
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        -1,
+        -1,
+        -1
+       ],
+       "max": [
+        1,
+        1,
+        1
+       ]
+      },
+      "transform": {
+       "rotate": [
+        {
+         "axis": [
+          1,
+          5,
+          2
+         ],
+         "deg": 65
+        }
+       ],
+       "translate": [
+        25,
+        0,
+        0
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "adv-ep2-r1-cube-vertex-gap-1e-9",
+   "category": "perturbation",
+   "fdmRationale": "Round-1 regression: cubes whose corners are 1e-9 mm apart on every axis.",
+   "deviationMm": 0.01,
+   "expect": "solid",
+   "csg": {
+    "op": "union",
+    "children": [
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        0,
+        0,
+        0
+       ],
+       "max": [
+        10,
+        10,
+        10
+       ]
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     },
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        10.000000001,
+        10.000000001,
+        10.000000001
+       ],
+       "max": [
+        20,
+        20,
+        20
+       ]
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "adv-ep2-r1-skin-1e-7",
+   "category": "sliver",
+   "fdmRationale": "Round-1 regression: 1e-7 mm skin at the bottom.",
+   "deviationMm": 0.01,
+   "expect": "solid",
+   "csg": {
+    "op": "subtract",
+    "children": [
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        0,
+        0,
+        0
+       ],
+       "max": [
+        20,
+        20,
+        20
+       ]
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     },
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        -1,
+        -1,
+        1e-7
+       ],
+       "max": [
+        21,
+        21,
+        21
+       ]
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "adv-ep2-r1-cone-apex-on-face",
+   "category": "tangent",
+   "fdmRationale": "Round-1 regression: box minus a cone whose apex touches the bottom face.",
+   "deviationMm": 0.01,
+   "expect": "non-manifold-contact",
+   "csg": {
+    "op": "subtract",
+    "children": [
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        -10,
+        -10,
+        0
+       ],
+       "max": [
+        10,
+        10,
+        10
+       ]
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     },
+     {
+      "prim": "cone",
+      "params": {
+       "r1": 0,
+       "r2": 6,
+       "height": 12
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "adv-ep2-sweep-pocket-0",
+   "category": "coplanar",
+   "fdmRationale": "Rotated block minus an equally rotated pocket, top faces coplanar (rotation 0).",
+   "deviationMm": 0.01,
+   "expect": "solid",
+   "csg": {
+    "op": "subtract",
+    "children": [
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        0,
+        0,
+        0
+       ],
+       "max": [
+        20,
+        20,
+        10
+       ]
+      },
+      "transform": {
+       "rotate": [
+        {
+         "axis": [
+          0.15515404846519232,
+          -0.19518566131591797,
+          0.13248348236083984
+         ],
+         "deg": 169.34097290039062
+        }
+       ],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     },
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        5,
+        5,
+        4
+       ],
+       "max": [
+        15,
+        15,
+        10
+       ]
+      },
+      "transform": {
+       "rotate": [
+        {
+         "axis": [
+          0.15515404846519232,
+          -0.19518566131591797,
+          0.13248348236083984
+         ],
+         "deg": 169.34097290039062
+        }
+       ],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "adv-ep2-sweep-touch-union-0",
+   "category": "coplanar",
+   "fdmRationale": "Two equally rotated blocks touching face to face (partial overlap of the faces), union (rotation 0).",
+   "deviationMm": 0.01,
+   "expect": "solid",
+   "csg": {
+    "op": "union",
+    "children": [
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        0,
+        0,
+        0
+       ],
+       "max": [
+        10,
+        10,
+        10
+       ]
+      },
+      "transform": {
+       "rotate": [
+        {
+         "axis": [
+          0.15515404846519232,
+          -0.19518566131591797,
+          0.13248348236083984
+         ],
+         "deg": 169.34097290039062
+        }
+       ],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     },
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        3,
+        3,
+        10
+       ],
+       "max": [
+        8,
+        8,
+        15
+       ]
+      },
+      "transform": {
+       "rotate": [
+        {
+         "axis": [
+          0.15515404846519232,
+          -0.19518566131591797,
+          0.13248348236083984
+         ],
+         "deg": 169.34097290039062
+        }
+       ],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "adv-ep2-sweep-pocket-1",
+   "category": "coplanar",
+   "fdmRationale": "Rotated block minus an equally rotated pocket, top faces coplanar (rotation 1).",
+   "deviationMm": 0.01,
+   "expect": "solid",
+   "csg": {
+    "op": "subtract",
+    "children": [
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        0,
+        0,
+        0
+       ],
+       "max": [
+        20,
+        20,
+        10
+       ]
+      },
+      "transform": {
+       "rotate": [
+        {
+         "axis": [
+          0.17946147918701172,
+          0.17312335968017578,
+          -0.3273019790649414
+         ],
+         "deg": 151.3075304031372
+        }
+       ],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     },
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        5,
+        5,
+        4
+       ],
+       "max": [
+        15,
+        15,
+        10
+       ]
+      },
+      "transform": {
+       "rotate": [
+        {
+         "axis": [
+          0.17946147918701172,
+          0.17312335968017578,
+          -0.3273019790649414
+         ],
+         "deg": 151.3075304031372
+        }
+       ],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "adv-ep2-sweep-touch-union-1",
+   "category": "coplanar",
+   "fdmRationale": "Two equally rotated blocks touching face to face (partial overlap of the faces), union (rotation 1).",
+   "deviationMm": 0.01,
+   "expect": "solid",
+   "csg": {
+    "op": "union",
+    "children": [
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        0,
+        0,
+        0
+       ],
+       "max": [
+        10,
+        10,
+        10
+       ]
+      },
+      "transform": {
+       "rotate": [
+        {
+         "axis": [
+          0.17946147918701172,
+          0.17312335968017578,
+          -0.3273019790649414
+         ],
+         "deg": 151.3075304031372
+        }
+       ],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     },
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        3,
+        3,
+        10
+       ],
+       "max": [
+        8,
+        8,
+        15
+       ]
+      },
+      "transform": {
+       "rotate": [
+        {
+         "axis": [
+          0.17946147918701172,
+          0.17312335968017578,
+          -0.3273019790649414
+         ],
+         "deg": 151.3075304031372
+        }
+       ],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "adv-ep2-sweep-pocket-2",
+   "category": "coplanar",
+   "fdmRationale": "Rotated block minus an equally rotated pocket, top faces coplanar (rotation 2).",
+   "deviationMm": 0.01,
+   "expect": "solid",
+   "csg": {
+    "op": "subtract",
+    "children": [
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        0,
+        0,
+        0
+       ],
+       "max": [
+        20,
+        20,
+        10
+       ]
+      },
+      "transform": {
+       "rotate": [
+        {
+         "axis": [
+          0.20727384090423584,
+          0.327534556388855,
+          0.2394193410873413
+         ],
+         "deg": 64.03867721557617
+        }
+       ],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     },
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        5,
+        5,
+        4
+       ],
+       "max": [
+        15,
+        15,
+        10
+       ]
+      },
+      "transform": {
+       "rotate": [
+        {
+         "axis": [
+          0.20727384090423584,
+          0.327534556388855,
+          0.2394193410873413
+         ],
+         "deg": 64.03867721557617
+        }
+       ],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "adv-ep2-sweep-touch-union-2",
+   "category": "coplanar",
+   "fdmRationale": "Two equally rotated blocks touching face to face (partial overlap of the faces), union (rotation 2).",
+   "deviationMm": 0.01,
+   "expect": "solid",
+   "csg": {
+    "op": "union",
+    "children": [
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        0,
+        0,
+        0
+       ],
+       "max": [
+        10,
+        10,
+        10
+       ]
+      },
+      "transform": {
+       "rotate": [
+        {
+         "axis": [
+          0.20727384090423584,
+          0.327534556388855,
+          0.2394193410873413
+         ],
+         "deg": 64.03867721557617
+        }
+       ],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     },
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        3,
+        3,
+        10
+       ],
+       "max": [
+        8,
+        8,
+        15
+       ]
+      },
+      "transform": {
+       "rotate": [
+        {
+         "axis": [
+          0.20727384090423584,
+          0.327534556388855,
+          0.2394193410873413
+         ],
+         "deg": 64.03867721557617
+        }
+       ],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "adv-ep2-sweep-pocket-3",
+   "category": "coplanar",
+   "fdmRationale": "Rotated block minus an equally rotated pocket, top faces coplanar (rotation 3).",
+   "deviationMm": 0.01,
+   "expect": "solid",
+   "csg": {
+    "op": "subtract",
+    "children": [
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        0,
+        0,
+        0
+       ],
+       "max": [
+        20,
+        20,
+        10
+       ]
+      },
+      "transform": {
+       "rotate": [
+        {
+         "axis": [
+          0.2938960790634155,
+          -0.3077899217605591,
+          0.07987156510353088
+         ],
+         "deg": 47.40192413330078
+        }
+       ],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     },
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        5,
+        5,
+        4
+       ],
+       "max": [
+        15,
+        15,
+        10
+       ]
+      },
+      "transform": {
+       "rotate": [
+        {
+         "axis": [
+          0.2938960790634155,
+          -0.3077899217605591,
+          0.07987156510353088
+         ],
+         "deg": 47.40192413330078
+        }
+       ],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "adv-ep2-sweep-touch-union-3",
+   "category": "coplanar",
+   "fdmRationale": "Two equally rotated blocks touching face to face (partial overlap of the faces), union (rotation 3).",
+   "deviationMm": 0.01,
+   "expect": "solid",
+   "csg": {
+    "op": "union",
+    "children": [
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        0,
+        0,
+        0
+       ],
+       "max": [
+        10,
+        10,
+        10
+       ]
+      },
+      "transform": {
+       "rotate": [
+        {
+         "axis": [
+          0.2938960790634155,
+          -0.3077899217605591,
+          0.07987156510353088
+         ],
+         "deg": 47.40192413330078
+        }
+       ],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     },
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        3,
+        3,
+        10
+       ],
+       "max": [
+        8,
+        8,
+        15
+       ]
+      },
+      "transform": {
+       "rotate": [
+        {
+         "axis": [
+          0.2938960790634155,
+          -0.3077899217605591,
+          0.07987156510353088
+         ],
+         "deg": 47.40192413330078
+        }
+       ],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "adv-ep2-sweep-pocket-4",
+   "category": "coplanar",
+   "fdmRationale": "Rotated block minus an equally rotated pocket, top faces coplanar (rotation 4).",
+   "deviationMm": 0.01,
+   "expect": "solid",
+   "csg": {
+    "op": "subtract",
+    "children": [
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        0,
+        0,
+        0
+       ],
+       "max": [
+        20,
+        20,
+        10
+       ]
+      },
+      "transform": {
+       "rotate": [
+        {
+         "axis": [
+          -0.29105159640312195,
+          0.28757351636886597,
+          0.3713064193725586
+         ],
+         "deg": 145.03799438476562
+        }
+       ],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     },
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        5,
+        5,
+        4
+       ],
+       "max": [
+        15,
+        15,
+        10
+       ]
+      },
+      "transform": {
+       "rotate": [
+        {
+         "axis": [
+          -0.29105159640312195,
+          0.28757351636886597,
+          0.3713064193725586
+         ],
+         "deg": 145.03799438476562
+        }
+       ],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "adv-ep2-sweep-touch-union-4",
+   "category": "coplanar",
+   "fdmRationale": "Two equally rotated blocks touching face to face (partial overlap of the faces), union (rotation 4).",
+   "deviationMm": 0.01,
+   "expect": "solid",
+   "csg": {
+    "op": "union",
+    "children": [
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        0,
+        0,
+        0
+       ],
+       "max": [
+        10,
+        10,
+        10
+       ]
+      },
+      "transform": {
+       "rotate": [
+        {
+         "axis": [
+          -0.29105159640312195,
+          0.28757351636886597,
+          0.3713064193725586
+         ],
+         "deg": 145.03799438476562
+        }
+       ],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     },
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        3,
+        3,
+        10
+       ],
+       "max": [
+        8,
+        8,
+        15
+       ]
+      },
+      "transform": {
+       "rotate": [
+        {
+         "axis": [
+          -0.29105159640312195,
+          0.28757351636886597,
+          0.3713064193725586
+         ],
+         "deg": 145.03799438476562
+        }
+       ],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "adv-ep2-sweep-pocket-5",
+   "category": "coplanar",
+   "fdmRationale": "Rotated block minus an equally rotated pocket, top faces coplanar (rotation 5).",
+   "deviationMm": 0.01,
+   "expect": "solid",
+   "csg": {
+    "op": "subtract",
+    "children": [
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        0,
+        0,
+        0
+       ],
+       "max": [
+        20,
+        20,
+        10
+       ]
+      },
+      "transform": {
+       "rotate": [
+        {
+         "axis": [
+          -0.38866138458251953,
+          -0.02961251139640808,
+          0.23133313655853271
+         ],
+         "deg": 68.5621452331543
+        }
+       ],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     },
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        5,
+        5,
+        4
+       ],
+       "max": [
+        15,
+        15,
+        10
+       ]
+      },
+      "transform": {
+       "rotate": [
+        {
+         "axis": [
+          -0.38866138458251953,
+          -0.02961251139640808,
+          0.23133313655853271
+         ],
+         "deg": 68.5621452331543
+        }
+       ],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "adv-ep2-sweep-touch-union-5",
+   "category": "coplanar",
+   "fdmRationale": "Two equally rotated blocks touching face to face (partial overlap of the faces), union (rotation 5).",
+   "deviationMm": 0.01,
+   "expect": "solid",
+   "csg": {
+    "op": "union",
+    "children": [
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        0,
+        0,
+        0
+       ],
+       "max": [
+        10,
+        10,
+        10
+       ]
+      },
+      "transform": {
+       "rotate": [
+        {
+         "axis": [
+          -0.38866138458251953,
+          -0.02961251139640808,
+          0.23133313655853271
+         ],
+         "deg": 68.5621452331543
+        }
+       ],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     },
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        3,
+        3,
+        10
+       ],
+       "max": [
+        8,
+        8,
+        15
+       ]
+      },
+      "transform": {
+       "rotate": [
+        {
+         "axis": [
+          -0.38866138458251953,
+          -0.02961251139640808,
+          0.23133313655853271
+         ],
+         "deg": 68.5621452331543
+        }
+       ],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     }
+    ]
+   }
+  }
+ ]
+}

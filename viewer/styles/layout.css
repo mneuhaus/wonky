@@ -1,0 +1,541 @@
+/* Application shell: header, three-column workspace, stage, notices, breakpoints. */
+
+.app-header {
+  height: 72px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 0 25px;
+  background: var(--surface);
+  border-bottom: 1px solid var(--line);
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 235px;
+  font-size: 17px;
+  font-weight: 650;
+  letter-spacing: -.55px;
+}
+
+.brand small {
+  display: block;
+  margin-top: 3px;
+  font-size: var(--text-xs);
+  font-weight: 450;
+  letter-spacing: .02em;
+  color: var(--muted);
+}
+
+.brand-mark {
+  height: 36px;
+  width: 36px;
+  display: grid;
+  place-items: center;
+  background: var(--green-strong);
+  color: var(--on-green);
+  border-radius: 10px;
+}
+
+.brand-mark svg {
+  width: 22px;
+  height: 22px;
+}
+
+.header-center {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 11px;
+  color: var(--muted);
+}
+
+.status-dot {
+  height: 5px;
+  width: 5px;
+  border-radius: 50%;
+  background: #86a07a;
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.workspace {
+  height: calc(100dvh - 72px);
+  min-height: 480px;
+  display: grid;
+  grid-template-columns: 232px minmax(360px,1fr) 280px;
+}
+
+.library {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  border-right: 1px solid var(--line);
+  background: var(--surface);
+}
+
+.review-area {
+  min-width: 0;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  background: var(--canvas);
+}
+
+.stage {
+  position: relative;
+  flex: 1;
+  min-height: 250px;
+  overflow: hidden;
+  background: radial-gradient(ellipse at 52% 45%,var(--stage-top) 0%,var(--stage-bottom) 80%);
+}
+
+#model-canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+  touch-action: none;
+  cursor: grab;
+}
+
+#model-canvas[data-tool=comment],
+#model-canvas[data-tool=arrow],
+#model-canvas[data-tool=box],
+#model-canvas[data-tool=pen] {
+  cursor: crosshair;
+}
+
+#model-canvas.dragging {
+  cursor: grabbing;
+}
+
+.annotation-overlay {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.viewport-topline {
+  position: absolute;
+  top: 24px;
+  left: 25px;
+  right: 24px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 15px;
+  pointer-events: none;
+}
+
+.model-summary {
+  min-width: 0;
+  max-width: 75%;
+}
+
+.view-settings {
+  pointer-events: auto;
+}
+
+/* Bottom status line. Items never wrap inside themselves; when the stage is
+   too narrow for one row, whole items wrap onto rows above (wrap-reverse), so
+   the exactness label of the hover line and the display tolerance stay
+   readable. core/hud-dock.js publishes the line's height as --hud-bottom (the
+   distance from the stage bottom to the top of the line); the view actions,
+   triad, side-by-side tool rail and floating panels sit above it. */
+.stage {
+  --hud-bottom: 42px;
+}
+
+/* Floating panels of the lower right (overhang legend, ghost panel): one
+   column above the view actions, so they stack instead of covering each
+   other (fix round 2), kept clear of the axis triad on the left. */
+.viewport-stack {
+  position: absolute;
+  right: 20px;
+  bottom: calc(var(--hud-bottom) + 60px);
+  z-index: 5;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 8px;
+  max-width: calc(100% - 200px);
+  pointer-events: none;
+}
+
+.viewport-stack > * {
+  max-width: 100%;
+  pointer-events: auto;
+}
+
+/* The view actions move to the top right: the column follows below them. */
+@media (max-width: 900px) {
+  .viewport-stack {
+    top: 136px;
+    right: 17px;
+    bottom: auto;
+    max-width: min(360px, calc(100% - 34px));
+  }
+}
+
+@media (max-width: 650px) {
+  .viewport-stack {
+    top: auto;
+    left: 12px;
+    right: 12px;
+    /* Above the axis triad (lower left, 64 px tall). */
+    bottom: calc(var(--hud-bottom) + 66px);
+    align-items: stretch;
+    max-width: none;
+  }
+}
+
+.stage[data-layout=side-by-side] .viewport-stack {
+  bottom: calc(var(--hud-bottom) + 64px);
+}
+
+.viewport-bottomline {
+  position: absolute;
+  left: 25px;
+  right: 20px;
+  bottom: 18px;
+  display: flex;
+  flex-wrap: wrap-reverse;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 6px 10px;
+  pointer-events: none;
+  font-size: var(--text-xs);
+  color: var(--muted);
+}
+
+:where(.viewport-bottomline) > * {
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+.viewport-bottomline #interaction-hint {
+  flex: 0 1 auto;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* While the select tool hovers an entity, the hover line replaces the
+   generic navigation hint (the hint of a markup tool stays). */
+.stage:has(#model-canvas[data-tool=select]) .viewport-bottomline:has(#hover-status:not([hidden]))
+  #interaction-hint {
+  display: none;
+}
+
+.viewport-bottomline span span {
+  margin: 0 6px;
+  color: var(--muted);
+}
+
+.units-pill {
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  padding: 3px 5px;
+  line-height: 1;
+}
+
+.viewport-message {
+  position: absolute;
+  left: 50%;
+  top: 46%;
+  transform: translate(-50%,-50%);
+  text-align: center;
+  max-width: 330px;
+  width: 80%;
+  background: #f5f7efe8;
+  padding: 24px;
+  border-radius: 15px;
+  box-shadow: 0 0 60px var(--paper);
+}
+
+.viewport-message h2 {
+  font-size: 17px;
+  font-weight: 550;
+  letter-spacing: -.4px;
+}
+
+.viewport-message p {
+  font-size: 12px;
+  color: var(--muted);
+  margin: 9px 0 0;
+}
+
+.viewport-message .button {
+  margin-top: 17px;
+}
+
+.inspector {
+  background: var(--surface);
+  border-left: 1px solid var(--line);
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.toast {
+  position: fixed;
+  left: 50%;
+  bottom: 24px;
+  transform: translateX(-50%);
+  z-index: 30;
+  background: #2c4837;
+  color: var(--on-green);
+  padding: 12px 19px;
+  box-shadow: 0 6px 25px #18392225;
+  border-radius: 8px;
+  font-size: 12px;
+  max-width: calc(100vw - 40px);
+  line-height: 1.5;
+}
+
+.global-error {
+  position: fixed;
+  top: 82px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 31;
+  background: var(--copper-soft);
+  color: var(--danger);
+  padding: 12px 19px;
+  border-radius: 8px;
+  box-shadow: var(--shadow);
+  max-width: 600px;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+@media (min-width: 1600px) {
+  .workspace {
+    grid-template-columns: 252px minmax(360px,1fr) 305px;
+  }
+  .app-header {
+    padding: 0 30px;
+  }
+  .viewport-topline {
+    left: 32px;
+    top: 29px;
+  }
+}
+
+@media (max-width: 1150px) {
+  .workspace {
+    grid-template-columns: 198px minmax(300px,1fr) 250px;
+  }
+  .app-header {
+    padding: 0 18px;
+  }
+  .header-center {
+    display: none;
+  }
+  .viewport-topline {
+    left: 20px;
+    right: 17px;
+  }
+  .model-summary {
+    max-width: 70%;
+  }
+}
+
+@media (max-width: 900px) {
+  .workspace {
+    grid-template-columns: 165px minmax(300px,1fr);
+  }
+  .inspector {
+    position: absolute;
+    right: 13px;
+    top: calc(100dvh - 278px);
+    width: 265px;
+    height: 265px;
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    box-shadow: var(--shadow);
+    z-index: 10;
+    overflow: hidden;
+  }
+  .stage {
+    min-height: 380px;
+  }
+  .viewport-bottomline {
+    max-width: calc(100% - 285px);
+  }
+  .header-actions {
+    gap: 7px;
+  }
+  .header-actions .button {
+    font-size: 11px;
+    padding: 0 10px;
+  }
+  .brand {
+    min-width: 190px;
+    font-size: 15px;
+  }
+}
+
+@media (max-width: 650px) {
+  .app-header {
+    height: 62px;
+    padding: 0 12px;
+    gap: 10px;
+  }
+  .brand {
+    min-width: 0;
+    gap: 8px;
+    font-size: 14px;
+  }
+  .brand-mark {
+    width: 30px;
+    height: 30px;
+    border-radius: 8px;
+  }
+  .brand small {
+    font-size: var(--text-xs);
+  }
+  .header-actions .secondary {
+    width: 34px;
+    padding: 0;
+  }
+  .header-actions .secondary span:last-child {
+    display: none;
+  }
+  .header-actions .primary {
+    min-height: 34px;
+    font-size: var(--text-xs);
+    padding: 0 10px;
+  }
+  .header-actions .primary svg {
+    width: 14px;
+  }
+  .workspace {
+    height: auto;
+    min-height: calc(100dvh - 62px);
+    display: flex;
+    flex-direction: column;
+  }
+  .library {
+    border-right: 0;
+    border-bottom: 1px solid var(--line);
+    height: 119px;
+    flex-shrink: 0;
+    position: relative;
+    display: block;
+    overflow: hidden;
+  }
+  .review-area {
+    flex: none;
+    height: calc(100dvh - 181px);
+    min-height: 410px;
+  }
+  .stage {
+    min-height: 260px;
+  }
+  .viewport-topline {
+    top: 17px;
+    left: 17px;
+  }
+  .view-settings {
+    display: none;
+  }
+  .viewport-bottomline {
+    max-width: none;
+    left: 15px;
+    right: 12px;
+    bottom: 15px;
+  }
+  .viewport-bottomline #interaction-hint {
+    font-size: var(--text-xs);
+  }
+  .inspector {
+    position: static;
+    width: auto;
+    min-height: 235px;
+    max-height: 390px;
+    height: auto;
+    border-width: 1px 0 0;
+    border-radius: 0;
+    box-shadow: none;
+  }
+  .global-error {
+    top: 69px;
+    width: calc(100% - 26px);
+  }
+  .toast {
+    bottom: 14px;
+    font-size: 11px;
+  }
+}
+
+#model-canvas[data-tool=select].hovering {
+  cursor: pointer;
+}
+
+@media (min-width: 651px) and (max-width: 900px) {
+  .workspace:has(.stage[data-layout=side-by-side]) {
+    height: auto;
+    min-height: calc(100dvh - 72px);
+  }
+  .workspace:has(.stage[data-layout=side-by-side]) .library {
+    grid-row: 1 / span 2;
+  }
+  .workspace:has(.stage[data-layout=side-by-side]) .review-area {
+    height: calc(100dvh - 72px);
+    min-height: 548px;
+  }
+  .workspace:has(.stage[data-layout=side-by-side]) .inspector {
+    position: static;
+    grid-column: 2;
+    grid-row: 2;
+    width: auto;
+    max-height: none;
+    height: 265px;
+    border-width: 1px 0 0;
+    border-radius: 0;
+    box-shadow: none;
+  }
+  .workspace:has(.stage[data-layout=side-by-side]) .comparison-bar {
+    padding-right: 17px;
+  }
+  .workspace:has(.stage[data-layout=side-by-side]) .comparison-label.after-label {
+    display: flex;
+  }
+  .workspace:has(.stage[data-layout=side-by-side]) .viewport-bottomline {
+    max-width: none;
+  }
+}
+
+/* Viewport banner (feature load failures, later capability notices). */
+.viewport-banner {
+  position: absolute;
+  top: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 6;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  max-width: 70%;
+  pointer-events: none;
+}
+.viewport-banner-item {
+  padding: 8px 12px;
+  border-radius: 6px;
+  background: var(--copper-soft);
+  color: var(--danger);
+  font-size: 12px;
+  box-shadow: var(--shadow);
+}

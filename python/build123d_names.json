@@ -1,0 +1,8065 @@
+{
+ "schema": "wonky-build123d-names/1",
+ "provenance": {
+  "package": "build123d",
+  "version": "0.13.0",
+  "python": "3.13.3",
+  "generator": "scripts/python/build123d-names.py",
+  "command": "uv run --no-project --quiet --with build123d==0.13.0 python scripts/python/build123d-names.py python/build123d_names.json",
+  "note": "Names only. Introspection of the installed package; no geometry was built."
+ },
+ "all": [
+  "Airfoil",
+  "Align",
+  "AngularDirection",
+  "ApproxOption",
+  "Arrow",
+  "ArrowHead",
+  "Axis",
+  "BSpline",
+  "BallJoint",
+  "BaseCurveObject",
+  "BaseEdgeObject",
+  "BaseLineObject",
+  "BasePartObject",
+  "BaseSketchObject",
+  "Bezier",
+  "BlendCurve",
+  "BoundBox",
+  "Box",
+  "BuildLine",
+  "BuildPart",
+  "BuildSketch",
+  "CM",
+  "CenterArc",
+  "CenterOf",
+  "Circle",
+  "Color",
+  "Compound",
+  "Cone",
+  "ConstrainedArcs",
+  "ConstrainedLines",
+  "ContinuityLevel",
+  "ConvexPolyhedron",
+  "Convexity",
+  "CounterBoreHole",
+  "CounterSinkHole",
+  "Curve",
+  "Cylinder",
+  "CylindricalJoint",
+  "DimensionLine",
+  "DotLength",
+  "DoubleTangentArc",
+  "Draft",
+  "DraftAngleError",
+  "Edge",
+  "Ellipse",
+  "EllipticalCenterArc",
+  "EllipticalStartArc",
+  "Export2D",
+  "ExportDXF",
+  "ExportSVG",
+  "ExtensionLine",
+  "Extrinsic",
+  "FT",
+  "Face",
+  "FilletPolyline",
+  "FontManager",
+  "FontStyle",
+  "FrameMethod",
+  "G",
+  "G_PER_LB",
+  "GeomEncoder",
+  "GeomType",
+  "GridLocations",
+  "HeadType",
+  "Helix",
+  "HexLocations",
+  "Hole",
+  "HyperbolicCenterArc",
+  "IN",
+  "IntersectingLine",
+  "Intrinsic",
+  "JernArc",
+  "Joint",
+  "KG",
+  "Keep",
+  "Kind",
+  "LB",
+  "LengthMode",
+  "Line",
+  "LineType",
+  "LinearJoint",
+  "Location",
+  "Locations",
+  "M",
+  "MC",
+  "MM",
+  "Matrix",
+  "MeshType",
+  "Mesher",
+  "Mode",
+  "NumberDisplay",
+  "OrientedBoundBox",
+  "PageSize",
+  "ParabolicCenterArc",
+  "Part",
+  "Plane",
+  "PolarLine",
+  "PolarLocations",
+  "Polygon",
+  "Polyline",
+  "Pos",
+  "PositionMode",
+  "PrecisionMode",
+  "RadiusArc",
+  "Rectangle",
+  "RectangleRounded",
+  "RegularPolygon",
+  "RevoluteJoint",
+  "RigidJoint",
+  "Rot",
+  "Rotation",
+  "RotationLike",
+  "Sagitta",
+  "SagittaArc",
+  "Select",
+  "ShapeList",
+  "Shell",
+  "Side",
+  "Sketch",
+  "SlotArc",
+  "SlotCenterPoint",
+  "SlotCenterToCenter",
+  "SlotOverall",
+  "Solid",
+  "SortBy",
+  "Sphere",
+  "Spline",
+  "Superellipse",
+  "THOU",
+  "Tangency",
+  "TangentArc",
+  "TechnicalDrawing",
+  "Text",
+  "TextAlign",
+  "ThreePointArc",
+  "Torus",
+  "Transition",
+  "Trapezoid",
+  "Triangle",
+  "UNITS_PER_KILOGRAM",
+  "UNITS_PER_METER",
+  "Unit",
+  "Until",
+  "Vector",
+  "VectorLike",
+  "Vertex",
+  "Wedge",
+  "Wire",
+  "add",
+  "available_fonts",
+  "bounding_box",
+  "chamfer",
+  "delta",
+  "detect_primitives",
+  "draft",
+  "edge",
+  "edges",
+  "edges_to_wires",
+  "export_brep",
+  "export_gltf",
+  "export_obj",
+  "export_step",
+  "export_stl",
+  "export_to_pcbway",
+  "extrude",
+  "face",
+  "faces",
+  "fillet",
+  "full_round",
+  "import_brep",
+  "import_dxf",
+  "import_step",
+  "import_stl",
+  "import_svg",
+  "import_svg_as_buildline_code",
+  "insert",
+  "loft",
+  "make_brake_formed",
+  "make_face",
+  "make_hull",
+  "mirror",
+  "new_edges",
+  "offset",
+  "pack",
+  "polar",
+  "project",
+  "project_workplane",
+  "revolve",
+  "scale",
+  "section",
+  "solid",
+  "solids",
+  "split",
+  "sweep",
+  "thicken",
+  "topo_distance_to",
+  "topo_explore_common_vertex",
+  "topo_explore_connected_edges",
+  "trace",
+  "vertex",
+  "vertices",
+  "wire",
+  "wires"
+ ],
+ "names": {
+  "ABC": {
+   "kind": "class",
+   "module": "abc",
+   "origin": "reexport",
+   "stdlib": [
+    "abc",
+    "ABC"
+   ]
+  },
+  "ABCMeta": {
+   "kind": "class",
+   "module": "abc",
+   "origin": "reexport",
+   "stdlib": [
+    "abc",
+    "ABCMeta"
+   ]
+  },
+  "APIHeaderSection_MakeHeader": {
+   "kind": "class",
+   "module": "OCP.OCP.APIHeaderSection",
+   "origin": "ocp"
+  },
+  "AbstractContextManager": {
+   "kind": "class",
+   "module": "contextlib",
+   "origin": "reexport",
+   "stdlib": [
+    "contextlib",
+    "AbstractContextManager"
+   ]
+  },
+  "AddType": {
+   "kind": "alias",
+   "module": "build123d",
+   "origin": "build123d"
+  },
+  "Airfoil": {
+   "kind": "class",
+   "module": "build123d.objects_curve",
+   "origin": "public"
+  },
+  "Align": {
+   "kind": "enum",
+   "members": [
+    [
+     "MIN",
+     1
+    ],
+    [
+     "CENTER",
+     2
+    ],
+    [
+     "MAX",
+     3
+    ],
+    [
+     "NONE",
+     null
+    ]
+   ],
+   "module": "build123d.build_enums",
+   "origin": "public"
+  },
+  "Align2D": {
+   "kind": "alias",
+   "module": "build123d",
+   "origin": "build123d"
+  },
+  "Align3D": {
+   "kind": "alias",
+   "module": "build123d",
+   "origin": "build123d"
+  },
+  "AngularDirection": {
+   "kind": "enum",
+   "members": [
+    [
+     "CLOCKWISE",
+     1
+    ],
+    [
+     "COUNTER_CLOCKWISE",
+     2
+    ]
+   ],
+   "module": "build123d.build_enums",
+   "origin": "public"
+  },
+  "Any": {
+   "kind": "class",
+   "module": "typing",
+   "origin": "reexport",
+   "stdlib": [
+    "typing",
+    "Any"
+   ]
+  },
+  "ApproxOption": {
+   "kind": "enum",
+   "members": [
+    [
+     "ARC",
+     1
+    ],
+    [
+     "NONE",
+     2
+    ],
+    [
+     "SPLINE",
+     3
+    ]
+   ],
+   "module": "build123d.build_enums",
+   "origin": "public"
+  },
+  "Arrow": {
+   "kind": "class",
+   "module": "build123d.drafting",
+   "origin": "public"
+  },
+  "ArrowHead": {
+   "kind": "class",
+   "module": "build123d.drafting",
+   "origin": "public"
+  },
+  "AutoNameEnum": {
+   "kind": "enum",
+   "members": [],
+   "module": "build123d.exporters",
+   "origin": "build123d"
+  },
+  "Axis": {
+   "kind": "class",
+   "module": "build123d.geometry",
+   "origin": "public"
+  },
+  "AxisMeta": {
+   "kind": "class",
+   "module": "build123d.geometry",
+   "origin": "build123d"
+  },
+  "B": {
+   "kind": "object",
+   "type": "TypeVar",
+   "module": "build123d.build_common",
+   "origin": "build123d"
+  },
+  "BRepBndLib": {
+   "kind": "class",
+   "module": "OCP.OCP.BRepBndLib",
+   "origin": "ocp"
+  },
+  "BRepBuilderAPI_MakeFace": {
+   "kind": "class",
+   "module": "OCP.OCP.BRepBuilderAPI",
+   "origin": "ocp"
+  },
+  "BRepBuilderAPI_MakePolygon": {
+   "kind": "class",
+   "module": "OCP.OCP.BRepBuilderAPI",
+   "origin": "ocp"
+  },
+  "BRepBuilderAPI_MakeSolid": {
+   "kind": "class",
+   "module": "OCP.OCP.BRepBuilderAPI",
+   "origin": "ocp"
+  },
+  "BRepBuilderAPI_Sewing": {
+   "kind": "class",
+   "module": "OCP.OCP.BRepBuilderAPI",
+   "origin": "ocp"
+  },
+  "BRepBuilderAPI_Transform": {
+   "kind": "class",
+   "module": "OCP.OCP.BRepBuilderAPI",
+   "origin": "ocp"
+  },
+  "BRepGProp": {
+   "kind": "class",
+   "module": "OCP.OCP.BRepGProp",
+   "origin": "ocp"
+  },
+  "BRepGProp_Face": {
+   "kind": "class",
+   "module": "OCP.OCP.BRepGProp",
+   "origin": "ocp"
+  },
+  "BRepLib": {
+   "kind": "class",
+   "module": "OCP.OCP.BRepLib",
+   "origin": "ocp"
+  },
+  "BRepMesh_IncrementalMesh": {
+   "kind": "class",
+   "module": "OCP.OCP.BRepMesh",
+   "origin": "ocp"
+  },
+  "BRepTools": {
+   "kind": "class",
+   "module": "OCP.OCP.BRepTools",
+   "origin": "ocp"
+  },
+  "BRepTools_WireExplorer": {
+   "kind": "class",
+   "module": "OCP.OCP.BRepTools",
+   "origin": "ocp"
+  },
+  "BRep_Builder": {
+   "kind": "class",
+   "module": "OCP.OCP.BRep",
+   "origin": "ocp"
+  },
+  "BRep_Tool": {
+   "kind": "class",
+   "module": "OCP.OCP.BRep",
+   "origin": "ocp"
+  },
+  "BSpline": {
+   "kind": "class",
+   "module": "build123d.objects_curve",
+   "origin": "public"
+  },
+  "BallJoint": {
+   "kind": "class",
+   "module": "build123d.joints",
+   "origin": "public"
+  },
+  "BaseCurveObject": {
+   "kind": "class",
+   "module": "build123d.objects_curve",
+   "origin": "public"
+  },
+  "BaseEdgeObject": {
+   "kind": "class",
+   "module": "build123d.objects_curve",
+   "origin": "public"
+  },
+  "BaseLineObject": {
+   "kind": "class",
+   "module": "build123d.objects_curve",
+   "origin": "public"
+  },
+  "BaseObject": {
+   "kind": "class",
+   "module": "build123d.build_common",
+   "origin": "build123d"
+  },
+  "BaseObjectMeta": {
+   "kind": "class",
+   "module": "build123d.build_common",
+   "origin": "build123d"
+  },
+  "BasePartObject": {
+   "kind": "class",
+   "module": "build123d.objects_part",
+   "origin": "public"
+  },
+  "BaseSketchObject": {
+   "kind": "class",
+   "module": "build123d.objects_sketch",
+   "origin": "public"
+  },
+  "Bezier": {
+   "kind": "class",
+   "module": "build123d.objects_curve",
+   "origin": "public"
+  },
+  "BinaryIO": {
+   "kind": "class",
+   "module": "typing",
+   "origin": "reexport",
+   "stdlib": [
+    "typing",
+    "BinaryIO"
+   ]
+  },
+  "BlendCurve": {
+   "kind": "class",
+   "module": "build123d.objects_curve",
+   "origin": "public"
+  },
+  "Bnd_Box": {
+   "kind": "class",
+   "module": "OCP.OCP.Bnd",
+   "origin": "ocp"
+  },
+  "Bnd_OBB": {
+   "kind": "class",
+   "module": "OCP.OCP.Bnd",
+   "origin": "ocp"
+  },
+  "BoundBox": {
+   "kind": "class",
+   "module": "build123d.geometry",
+   "origin": "public"
+  },
+  "Box": {
+   "kind": "class",
+   "module": "build123d.objects_part",
+   "origin": "public"
+  },
+  "BuildLine": {
+   "kind": "class",
+   "module": "build123d.build_line",
+   "origin": "public"
+  },
+  "BuildPart": {
+   "kind": "class",
+   "module": "build123d.build_part",
+   "origin": "public"
+  },
+  "BuildScope": {
+   "kind": "class",
+   "module": "build123d.build_common",
+   "origin": "build123d"
+  },
+  "BuildSketch": {
+   "kind": "class",
+   "module": "build123d.build_sketch",
+   "origin": "public"
+  },
+  "Builder": {
+   "kind": "class",
+   "module": "build123d.build_common",
+   "origin": "build123d"
+  },
+  "BytesIO": {
+   "kind": "class",
+   "module": "_io",
+   "origin": "reexport",
+   "stdlib": [
+    "_io",
+    "BytesIO"
+   ]
+  },
+  "CLASS_REGISTRY": {
+   "kind": "object",
+   "type": "dict",
+   "module": "builtins",
+   "origin": "reexport"
+  },
+  "CM": {
+   "kind": "value",
+   "value": 10,
+   "module": null,
+   "origin": "public"
+  },
+  "Callable": {
+   "kind": "class",
+   "module": "collections.abc",
+   "origin": "reexport",
+   "stdlib": [
+    "collections.abc",
+    "Callable"
+   ]
+  },
+  "CenterArc": {
+   "kind": "class",
+   "module": "build123d.objects_curve",
+   "origin": "public"
+  },
+  "CenterOf": {
+   "kind": "enum",
+   "members": [
+    [
+     "GEOMETRY",
+     1
+    ],
+    [
+     "MASS",
+     2
+    ],
+    [
+     "BOUNDING_BOX",
+     3
+    ]
+   ],
+   "module": "build123d.build_enums",
+   "origin": "public"
+  },
+  "ChamferFilletType": {
+   "kind": "alias",
+   "module": "build123d",
+   "origin": "build123d"
+  },
+  "Circle": {
+   "kind": "class",
+   "module": "build123d.objects_sketch",
+   "origin": "public"
+  },
+  "ClassVar": {
+   "kind": "function",
+   "module": "typing",
+   "origin": "reexport",
+   "stdlib": [
+    "typing",
+    "ClassVar"
+   ]
+  },
+  "Collection": {
+   "kind": "class",
+   "module": "collections.abc",
+   "origin": "reexport",
+   "stdlib": [
+    "collections.abc",
+    "Collection"
+   ]
+  },
+  "Color": {
+   "kind": "class",
+   "module": "build123d.geometry",
+   "origin": "public"
+  },
+  "ColorAndLabel": {
+   "kind": "class",
+   "module": "ocpsvg.svg",
+   "origin": "reexport"
+  },
+  "ColorIndex": {
+   "kind": "enum",
+   "members": [
+    [
+     "RED",
+     1
+    ],
+    [
+     "YELLOW",
+     2
+    ],
+    [
+     "GREEN",
+     3
+    ],
+    [
+     "CYAN",
+     4
+    ],
+    [
+     "BLUE",
+     5
+    ],
+    [
+     "MAGENTA",
+     6
+    ],
+    [
+     "BLACK",
+     7
+    ],
+    [
+     "GRAY",
+     8
+    ],
+    [
+     "LIGHT_GRAY",
+     9
+    ]
+   ],
+   "module": "build123d.exporters",
+   "origin": "build123d"
+  },
+  "ColorLike": {
+   "kind": "alias",
+   "module": "build123d",
+   "origin": "build123d"
+  },
+  "Comparable": {
+   "kind": "class",
+   "module": "build123d.topology.shape_core",
+   "origin": "build123d"
+  },
+  "Compound": {
+   "kind": "class",
+   "module": "build123d.topology.composite",
+   "origin": "public"
+  },
+  "Cone": {
+   "kind": "class",
+   "module": "build123d.objects_part",
+   "origin": "public"
+  },
+  "ConstrainedArcs": {
+   "kind": "class",
+   "module": "build123d.objects_curve",
+   "origin": "public"
+  },
+  "ConstrainedLines": {
+   "kind": "class",
+   "module": "build123d.objects_curve",
+   "origin": "public"
+  },
+  "ContinuityLevel": {
+   "kind": "enum",
+   "members": [
+    [
+     "C0",
+     0
+    ],
+    [
+     "C1",
+     1
+    ],
+    [
+     "C2",
+     2
+    ]
+   ],
+   "module": "build123d.build_enums",
+   "origin": "public"
+  },
+  "ConvexHull": {
+   "kind": "class",
+   "module": "scipy.spatial._qhull",
+   "origin": "reexport"
+  },
+  "ConvexPolyhedron": {
+   "kind": "class",
+   "module": "build123d.objects_part",
+   "origin": "public"
+  },
+  "Convexity": {
+   "kind": "enum",
+   "members": [
+    [
+     "CONVEX",
+     1
+    ],
+    [
+     "CONCAVE",
+     2
+    ],
+    [
+     "SMOOTH",
+     3
+    ],
+    [
+     "SADDLE",
+     4
+    ]
+   ],
+   "module": "build123d.build_enums",
+   "origin": "public"
+  },
+  "CounterBoreHole": {
+   "kind": "class",
+   "module": "build123d.objects_part",
+   "origin": "public"
+  },
+  "CounterSinkHole": {
+   "kind": "class",
+   "module": "build123d.objects_part",
+   "origin": "public"
+  },
+  "Curve": {
+   "kind": "class",
+   "module": "build123d.topology.composite",
+   "origin": "public"
+  },
+  "Cylinder": {
+   "kind": "class",
+   "module": "build123d.objects_part",
+   "origin": "public"
+  },
+  "CylindricalJoint": {
+   "kind": "class",
+   "module": "build123d.joints",
+   "origin": "public"
+  },
+  "DEG2RAD": {
+   "kind": "value",
+   "value": 0.017453292519943295,
+   "module": null,
+   "origin": "build123d"
+  },
+  "DimensionLine": {
+   "kind": "class",
+   "module": "build123d.drafting",
+   "origin": "public"
+  },
+  "DotLength": {
+   "kind": "enum",
+   "members": [
+    [
+     "TRUE_DOT",
+     0.0
+    ],
+    [
+     "INKSCAPE_COMPAT",
+     0.01
+    ],
+    [
+     "QCAD_IMPERIAL",
+     0.2
+    ]
+   ],
+   "module": "build123d.exporters",
+   "origin": "public"
+  },
+  "DoubleTangentArc": {
+   "kind": "class",
+   "module": "build123d.objects_curve",
+   "origin": "public"
+  },
+  "Draft": {
+   "kind": "class",
+   "module": "build123d.drafting",
+   "origin": "public"
+  },
+  "DraftAngleError": {
+   "kind": "class",
+   "module": "build123d.topology.three_d",
+   "origin": "public"
+  },
+  "Drawing": {
+   "kind": "class",
+   "module": "build123d.exporters",
+   "origin": "build123d"
+  },
+  "ET": {
+   "kind": "module",
+   "module": "xml.etree.ElementTree",
+   "origin": "reexport",
+   "stdlib": [
+    "xml.etree.ElementTree",
+    null
+   ]
+  },
+  "Edge": {
+   "kind": "class",
+   "module": "build123d.topology.one_d",
+   "origin": "public"
+  },
+  "Ellipse": {
+   "kind": "class",
+   "module": "build123d.objects_sketch",
+   "origin": "public"
+  },
+  "EllipticalCenterArc": {
+   "kind": "class",
+   "module": "build123d.objects_curve",
+   "origin": "public"
+  },
+  "EllipticalStartArc": {
+   "kind": "class",
+   "module": "build123d.objects_curve",
+   "origin": "public"
+  },
+  "Enum": {
+   "kind": "enum",
+   "members": [],
+   "module": "enum",
+   "origin": "reexport",
+   "stdlib": [
+    "enum",
+    "Enum"
+   ]
+  },
+  "Export2D": {
+   "kind": "class",
+   "module": "build123d.exporters",
+   "origin": "public"
+  },
+  "ExportDXF": {
+   "kind": "class",
+   "module": "build123d.exporters",
+   "origin": "public"
+  },
+  "ExportSVG": {
+   "kind": "class",
+   "module": "build123d.exporters",
+   "origin": "public"
+  },
+  "ExtensionLine": {
+   "kind": "class",
+   "module": "build123d.drafting",
+   "origin": "public"
+  },
+  "Extrinsic": {
+   "kind": "enum",
+   "members": [
+    [
+     "XYZ",
+     1
+    ],
+    [
+     "XZY",
+     2
+    ],
+    [
+     "YZX",
+     3
+    ],
+    [
+     "YXZ",
+     4
+    ],
+    [
+     "ZXY",
+     5
+    ],
+    [
+     "ZYX",
+     6
+    ],
+    [
+     "XYX",
+     7
+    ],
+    [
+     "XZX",
+     8
+    ],
+    [
+     "YZY",
+     9
+    ],
+    [
+     "YXY",
+     10
+    ],
+    [
+     "ZXZ",
+     11
+    ],
+    [
+     "ZYZ",
+     12
+    ]
+   ],
+   "module": "build123d.build_enums",
+   "origin": "public"
+  },
+  "FT": {
+   "kind": "value",
+   "value": 304.79999999999995,
+   "module": null,
+   "origin": "public"
+  },
+  "Face": {
+   "kind": "class",
+   "module": "build123d.topology.two_d",
+   "origin": "public"
+  },
+  "FilletPolyline": {
+   "kind": "class",
+   "module": "build123d.objects_curve",
+   "origin": "public"
+  },
+  "FontManager": {
+   "kind": "class",
+   "module": "build123d.text",
+   "origin": "public"
+  },
+  "FontStyle": {
+   "kind": "enum",
+   "members": [
+    [
+     "REGULAR",
+     1
+    ],
+    [
+     "BOLD",
+     2
+    ],
+    [
+     "ITALIC",
+     3
+    ],
+    [
+     "BOLDITALIC",
+     4
+    ]
+   ],
+   "module": "build123d.build_enums",
+   "origin": "public"
+  },
+  "FrameMethod": {
+   "kind": "enum",
+   "members": [
+    [
+     "FRENET",
+     1
+    ],
+    [
+     "CORRECTED",
+     2
+    ]
+   ],
+   "module": "build123d.build_enums",
+   "origin": "public"
+  },
+  "G": {
+   "kind": "value",
+   "value": 1,
+   "module": null,
+   "origin": "public"
+  },
+  "GEOM_KEY_DIGITS": {
+   "kind": "value",
+   "value": 5,
+   "module": null,
+   "origin": "build123d"
+  },
+  "GProp_GProps": {
+   "kind": "class",
+   "module": "OCP.OCP.GProp",
+   "origin": "ocp"
+  },
+  "G_PER_LB": {
+   "kind": "value",
+   "value": 453.59237,
+   "module": null,
+   "origin": "public"
+  },
+  "GccEnt_enclosed": {
+   "kind": "object",
+   "type": "GccEnt_Position",
+   "module": "OCP.OCP.GccEnt",
+   "origin": "ocp"
+  },
+  "GccEnt_enclosing": {
+   "kind": "object",
+   "type": "GccEnt_Position",
+   "module": "OCP.OCP.GccEnt",
+   "origin": "ocp"
+  },
+  "GccEnt_outside": {
+   "kind": "object",
+   "type": "GccEnt_Position",
+   "module": "OCP.OCP.GccEnt",
+   "origin": "ocp"
+  },
+  "GccEnt_unqualified": {
+   "kind": "object",
+   "type": "GccEnt_Position",
+   "module": "OCP.OCP.GccEnt",
+   "origin": "ocp"
+  },
+  "Generic": {
+   "kind": "class",
+   "module": "typing",
+   "origin": "reexport",
+   "stdlib": [
+    "typing",
+    "Generic"
+   ]
+  },
+  "GeomAPI_IntCS": {
+   "kind": "class",
+   "module": "OCP.OCP.GeomAPI",
+   "origin": "ocp"
+  },
+  "GeomAPI_IntSS": {
+   "kind": "class",
+   "module": "OCP.OCP.GeomAPI",
+   "origin": "ocp"
+  },
+  "GeomAPI_ProjectPointOnSurf": {
+   "kind": "class",
+   "module": "OCP.OCP.GeomAPI",
+   "origin": "ocp"
+  },
+  "GeomConvert": {
+   "kind": "class",
+   "module": "OCP.OCP.GeomConvert",
+   "origin": "ocp"
+  },
+  "GeomConvert_BSplineCurveToBezierCurve": {
+   "kind": "class",
+   "module": "OCP.OCP.GeomConvert",
+   "origin": "ocp"
+  },
+  "GeomEncoder": {
+   "kind": "class",
+   "module": "build123d.geometry",
+   "origin": "public"
+  },
+  "GeomType": {
+   "kind": "enum",
+   "members": [
+    [
+     "PLANE",
+     1
+    ],
+    [
+     "CYLINDER",
+     2
+    ],
+    [
+     "CONE",
+     3
+    ],
+    [
+     "SPHERE",
+     4
+    ],
+    [
+     "TORUS",
+     5
+    ],
+    [
+     "BEZIER",
+     6
+    ],
+    [
+     "BSPLINE",
+     7
+    ],
+    [
+     "REVOLUTION",
+     8
+    ],
+    [
+     "EXTRUSION",
+     9
+    ],
+    [
+     "OFFSET",
+     10
+    ],
+    [
+     "LINE",
+     11
+    ],
+    [
+     "CIRCLE",
+     12
+    ],
+    [
+     "ELLIPSE",
+     13
+    ],
+    [
+     "HYPERBOLA",
+     14
+    ],
+    [
+     "PARABOLA",
+     15
+    ],
+    [
+     "OTHER",
+     16
+    ]
+   ],
+   "module": "build123d.build_enums",
+   "origin": "public"
+  },
+  "Geom_BSplineCurve": {
+   "kind": "class",
+   "module": "OCP.OCP.Geom",
+   "origin": "ocp"
+  },
+  "Geom_BezierCurve": {
+   "kind": "class",
+   "module": "OCP.OCP.Geom",
+   "origin": "ocp"
+  },
+  "Geom_BoundedSurface": {
+   "kind": "class",
+   "module": "OCP.OCP.Geom",
+   "origin": "ocp"
+  },
+  "Geom_ElementarySurface": {
+   "kind": "class",
+   "module": "OCP.OCP.Geom",
+   "origin": "ocp"
+  },
+  "Geom_Line": {
+   "kind": "class",
+   "module": "OCP.OCP.Geom",
+   "origin": "ocp"
+  },
+  "Geom_Plane": {
+   "kind": "class",
+   "module": "OCP.OCP.Geom",
+   "origin": "ocp"
+  },
+  "GridLocations": {
+   "kind": "class",
+   "module": "build123d.build_common",
+   "origin": "public"
+  },
+  "GroupBy": {
+   "kind": "class",
+   "module": "build123d.topology.shape_core",
+   "origin": "build123d"
+  },
+  "HLRAlgo_Projector": {
+   "kind": "class",
+   "module": "OCP.OCP.HLRAlgo",
+   "origin": "ocp"
+  },
+  "HLRBRep_Algo": {
+   "kind": "class",
+   "module": "OCP.OCP.HLRBRep",
+   "origin": "ocp"
+  },
+  "HLRBRep_HLRToShape": {
+   "kind": "class",
+   "module": "OCP.OCP.HLRBRep",
+   "origin": "ocp"
+  },
+  "HeadType": {
+   "kind": "enum",
+   "members": [
+    [
+     "STRAIGHT",
+     1
+    ],
+    [
+     "CURVED",
+     2
+    ],
+    [
+     "FILLETED",
+     3
+    ]
+   ],
+   "module": "build123d.build_enums",
+   "origin": "public"
+  },
+  "Helix": {
+   "kind": "class",
+   "module": "build123d.objects_curve",
+   "origin": "public"
+  },
+  "HexLocations": {
+   "kind": "class",
+   "module": "build123d.build_common",
+   "origin": "public"
+  },
+  "Hole": {
+   "kind": "class",
+   "module": "build123d.objects_part",
+   "origin": "public"
+  },
+  "HyperbolicCenterArc": {
+   "kind": "class",
+   "module": "build123d.objects_curve",
+   "origin": "public"
+  },
+  "IFSelect_ReturnStatus": {
+   "kind": "class",
+   "module": "OCP.OCP.IFSelect",
+   "origin": "ocp"
+  },
+  "IGESControl_Controller": {
+   "kind": "class",
+   "module": "OCP.OCP.IGESControl",
+   "origin": "ocp"
+  },
+  "IN": {
+   "kind": "value",
+   "value": 25.4,
+   "module": null,
+   "origin": "public"
+  },
+  "IndexedDataMap_TCollection_AsciiString_TCollection_AsciiString": {
+   "kind": "class",
+   "module": "OCP.OCP.collections",
+   "origin": "ocp"
+  },
+  "IntEnum": {
+   "kind": "enum",
+   "members": [],
+   "module": "enum",
+   "origin": "reexport",
+   "stdlib": [
+    "enum",
+    "IntEnum"
+   ]
+  },
+  "Interface_Static": {
+   "kind": "class",
+   "module": "OCP.OCP.Interface",
+   "origin": "ocp"
+  },
+  "IntersectingLine": {
+   "kind": "class",
+   "module": "build123d.objects_curve",
+   "origin": "public"
+  },
+  "Intrinsic": {
+   "kind": "enum",
+   "members": [
+    [
+     "XYZ",
+     1
+    ],
+    [
+     "XZY",
+     2
+    ],
+    [
+     "YZX",
+     3
+    ],
+    [
+     "YXZ",
+     4
+    ],
+    [
+     "ZXY",
+     5
+    ],
+    [
+     "ZYX",
+     6
+    ],
+    [
+     "XYX",
+     7
+    ],
+    [
+     "XZX",
+     8
+    ],
+    [
+     "YZY",
+     9
+    ],
+    [
+     "YXY",
+     10
+    ],
+    [
+     "ZXZ",
+     11
+    ],
+    [
+     "ZYZ",
+     12
+    ]
+   ],
+   "module": "build123d.build_enums",
+   "origin": "public"
+  },
+  "Iterable": {
+   "kind": "class",
+   "module": "collections.abc",
+   "origin": "reexport",
+   "stdlib": [
+    "collections.abc",
+    "Iterable"
+   ]
+  },
+  "Iterator": {
+   "kind": "class",
+   "module": "collections.abc",
+   "origin": "reexport",
+   "stdlib": [
+    "collections.abc",
+    "Iterator"
+   ]
+  },
+  "JernArc": {
+   "kind": "class",
+   "module": "build123d.objects_curve",
+   "origin": "public"
+  },
+  "Joint": {
+   "kind": "class",
+   "module": "build123d.topology.shape_core",
+   "origin": "public"
+  },
+  "KG": {
+   "kind": "value",
+   "value": 1000,
+   "module": null,
+   "origin": "public"
+  },
+  "Keep": {
+   "kind": "enum",
+   "members": [
+    [
+     "ALL",
+     1
+    ],
+    [
+     "BOTTOM",
+     2
+    ],
+    [
+     "BOTH",
+     3
+    ],
+    [
+     "INSIDE",
+     4
+    ],
+    [
+     "OUTSIDE",
+     5
+    ],
+    [
+     "TOP",
+     6
+    ]
+   ],
+   "module": "build123d.build_enums",
+   "origin": "public"
+  },
+  "Kind": {
+   "kind": "enum",
+   "members": [
+    [
+     "ARC",
+     1
+    ],
+    [
+     "INTERSECTION",
+     2
+    ],
+    [
+     "TANGENT",
+     3
+    ]
+   ],
+   "module": "build123d.build_enums",
+   "origin": "public"
+  },
+  "LB": {
+   "kind": "value",
+   "value": 453.59237,
+   "module": null,
+   "origin": "public"
+  },
+  "LengthMode": {
+   "kind": "enum",
+   "members": [
+    [
+     "DIAGONAL",
+     1
+    ],
+    [
+     "HORIZONTAL",
+     2
+    ],
+    [
+     "VERTICAL",
+     3
+    ]
+   ],
+   "module": "build123d.build_enums",
+   "origin": "public"
+  },
+  "Lib3MF": {
+   "kind": "module",
+   "module": "lib3mf.Lib3MF",
+   "origin": "reexport"
+  },
+  "Line": {
+   "kind": "class",
+   "module": "build123d.objects_curve",
+   "origin": "public"
+  },
+  "LineType": {
+   "kind": "enum",
+   "members": [
+    [
+     "CONTINUOUS",
+     "CONTINUOUS"
+    ],
+    [
+     "BORDER",
+     "BORDER"
+    ],
+    [
+     "BORDER2",
+     "BORDER2"
+    ],
+    [
+     "BORDERX2",
+     "BORDERX2"
+    ],
+    [
+     "CENTER",
+     "CENTER"
+    ],
+    [
+     "CENTER2",
+     "CENTER2"
+    ],
+    [
+     "CENTERX2",
+     "CENTERX2"
+    ],
+    [
+     "DASHDOT",
+     "DASHDOT"
+    ],
+    [
+     "DASHDOT2",
+     "DASHDOT2"
+    ],
+    [
+     "DASHDOTX2",
+     "DASHDOTX2"
+    ],
+    [
+     "DASHED",
+     "DASHED"
+    ],
+    [
+     "DASHED2",
+     "DASHED2"
+    ],
+    [
+     "DASHEDX2",
+     "DASHEDX2"
+    ],
+    [
+     "DIVIDE",
+     "DIVIDE"
+    ],
+    [
+     "DIVIDE2",
+     "DIVIDE2"
+    ],
+    [
+     "DIVIDEX2",
+     "DIVIDEX2"
+    ],
+    [
+     "DOT",
+     "DOT"
+    ],
+    [
+     "DOT2",
+     "DOT2"
+    ],
+    [
+     "DOTX2",
+     "DOTX2"
+    ],
+    [
+     "HIDDEN",
+     "HIDDEN"
+    ],
+    [
+     "HIDDEN2",
+     "HIDDEN2"
+    ],
+    [
+     "HIDDENX2",
+     "HIDDENX2"
+    ],
+    [
+     "PHANTOM",
+     "PHANTOM"
+    ],
+    [
+     "PHANTOM2",
+     "PHANTOM2"
+    ],
+    [
+     "PHANTOMX2",
+     "PHANTOMX2"
+    ],
+    [
+     "ISO_DASH",
+     "ACAD_ISO02W100"
+    ],
+    [
+     "ISO_DASH_SPACE",
+     "ACAD_ISO03W100"
+    ],
+    [
+     "ISO_LONG_DASH_DOT",
+     "ACAD_ISO04W100"
+    ],
+    [
+     "ISO_LONG_DASH_DOUBLE_DOT",
+     "ACAD_ISO05W100"
+    ],
+    [
+     "ISO_LONG_DASH_TRIPLE_DOT",
+     "ACAD_ISO06W100"
+    ],
+    [
+     "ISO_DOT",
+     "ACAD_ISO07W100"
+    ],
+    [
+     "ISO_LONG_DASH_SHORT_DASH",
+     "ACAD_ISO08W100"
+    ],
+    [
+     "ISO_LONG_DASH_DOUBLE_SHORT_DASH",
+     "ACAD_ISO09W100"
+    ],
+    [
+     "ISO_DASH_DOT",
+     "ACAD_ISO10W100"
+    ],
+    [
+     "ISO_DOUBLE_DASH_DOT",
+     "ACAD_ISO11W100"
+    ],
+    [
+     "ISO_DASH_DOUBLE_DOT",
+     "ACAD_ISO12W100"
+    ],
+    [
+     "ISO_DOUBLE_DASH_DOUBLE_DOT",
+     "ACAD_ISO13W100"
+    ],
+    [
+     "ISO_DASH_TRIPLE_DOT",
+     "ACAD_ISO14W100"
+    ],
+    [
+     "ISO_DOUBLE_DASH_TRIPLE_DOT",
+     "ACAD_ISO15W100"
+    ]
+   ],
+   "module": "build123d.exporters",
+   "origin": "public"
+  },
+  "LinearJoint": {
+   "kind": "class",
+   "module": "build123d.joints",
+   "origin": "public"
+  },
+  "Literal": {
+   "kind": "function",
+   "module": "typing",
+   "origin": "reexport",
+   "stdlib": [
+    "typing",
+    "Literal"
+   ]
+  },
+  "Location": {
+   "kind": "class",
+   "module": "build123d.geometry",
+   "origin": "public"
+  },
+  "LocationList": {
+   "kind": "class",
+   "module": "build123d.build_common",
+   "origin": "build123d"
+  },
+  "Locations": {
+   "kind": "class",
+   "module": "build123d.build_common",
+   "origin": "public"
+  },
+  "M": {
+   "kind": "value",
+   "value": 1000,
+   "module": null,
+   "origin": "public"
+  },
+  "MC": {
+   "kind": "value",
+   "value": 0.001,
+   "module": null,
+   "origin": "public"
+  },
+  "MM": {
+   "kind": "value",
+   "value": 1,
+   "module": null,
+   "origin": "public"
+  },
+  "Matrix": {
+   "kind": "class",
+   "module": "build123d.geometry",
+   "origin": "public"
+  },
+  "MeshType": {
+   "kind": "enum",
+   "members": [
+    [
+     "OTHER",
+     1
+    ],
+    [
+     "MODEL",
+     2
+    ],
+    [
+     "SUPPORT",
+     3
+    ],
+    [
+     "SOLIDSUPPORT",
+     4
+    ]
+   ],
+   "module": "build123d.build_enums",
+   "origin": "public"
+  },
+  "Mesher": {
+   "kind": "class",
+   "module": "build123d.mesher",
+   "origin": "public"
+  },
+  "Message": {
+   "kind": "class",
+   "module": "OCP.OCP.Message",
+   "origin": "ocp"
+  },
+  "Message_Gravity": {
+   "kind": "class",
+   "module": "OCP.OCP.Message",
+   "origin": "ocp"
+  },
+  "Message_ProgressRange": {
+   "kind": "class",
+   "module": "OCP.OCP.Message",
+   "origin": "ocp"
+  },
+  "MirrorType": {
+   "kind": "alias",
+   "module": "build123d",
+   "origin": "build123d"
+  },
+  "Mode": {
+   "kind": "enum",
+   "members": [
+    [
+     "ADD",
+     1
+    ],
+    [
+     "SUBTRACT",
+     2
+    ],
+    [
+     "INTERSECT",
+     3
+    ],
+    [
+     "REPLACE",
+     4
+    ],
+    [
+     "PRIVATE",
+     5
+    ]
+   ],
+   "module": "build123d.build_enums",
+   "origin": "public"
+  },
+  "Movable": {
+   "kind": "class",
+   "module": "build123d.geometry",
+   "origin": "build123d"
+  },
+  "MovableT": {
+   "kind": "object",
+   "type": "TypeVar",
+   "module": "build123d.geometry",
+   "origin": "build123d"
+  },
+  "NotAllLocationLikeError": {
+   "kind": "class",
+   "module": "build123d.geometry",
+   "origin": "build123d"
+  },
+  "NumberDisplay": {
+   "kind": "enum",
+   "members": [
+    [
+     "DECIMAL",
+     1
+    ],
+    [
+     "FRACTION",
+     2
+    ]
+   ],
+   "module": "build123d.build_enums",
+   "origin": "public"
+  },
+  "OffsetType": {
+   "kind": "alias",
+   "module": "build123d",
+   "origin": "build123d"
+  },
+  "OrientedBoundBox": {
+   "kind": "class",
+   "module": "build123d.geometry",
+   "origin": "public"
+  },
+  "PT": {
+   "kind": "module",
+   "module": "svgpathtools",
+   "origin": "reexport"
+  },
+  "PageSize": {
+   "kind": "enum",
+   "members": [
+    [
+     "A0",
+     1
+    ],
+    [
+     "A1",
+     2
+    ],
+    [
+     "A2",
+     3
+    ],
+    [
+     "A3",
+     4
+    ],
+    [
+     "A4",
+     5
+    ],
+    [
+     "A5",
+     6
+    ],
+    [
+     "A6",
+     7
+    ],
+    [
+     "A7",
+     8
+    ],
+    [
+     "A8",
+     9
+    ],
+    [
+     "A9",
+     10
+    ],
+    [
+     "A10",
+     11
+    ],
+    [
+     "LETTER",
+     12
+    ],
+    [
+     "LEGAL",
+     13
+    ],
+    [
+     "LEDGER",
+     14
+    ]
+   ],
+   "module": "build123d.build_enums",
+   "origin": "public"
+  },
+  "ParabolicCenterArc": {
+   "kind": "class",
+   "module": "build123d.objects_curve",
+   "origin": "public"
+  },
+  "Part": {
+   "kind": "class",
+   "module": "build123d.topology.composite",
+   "origin": "public"
+  },
+  "Path": {
+   "kind": "class",
+   "module": "pathlib._local",
+   "origin": "reexport",
+   "stdlib": [
+    "pathlib._local",
+    "Path"
+   ]
+  },
+  "PathDescriptor": {
+   "kind": "alias",
+   "module": "build123d",
+   "origin": "build123d"
+  },
+  "PathLike": {
+   "kind": "class",
+   "module": "os",
+   "origin": "reexport",
+   "stdlib": [
+    "os",
+    "PathLike"
+   ]
+  },
+  "PathSegment": {
+   "kind": "alias",
+   "module": "build123d",
+   "origin": "build123d"
+  },
+  "PbrProperties": {
+   "kind": "class",
+   "module": "threejs_materials.library",
+   "origin": "reexport"
+  },
+  "Plane": {
+   "kind": "class",
+   "module": "build123d.geometry",
+   "origin": "public"
+  },
+  "PlaneMeta": {
+   "kind": "class",
+   "module": "build123d.geometry",
+   "origin": "build123d"
+  },
+  "PointLike": {
+   "kind": "alias",
+   "module": "build123d",
+   "origin": "build123d"
+  },
+  "PolarLine": {
+   "kind": "class",
+   "module": "build123d.objects_curve",
+   "origin": "public"
+  },
+  "PolarLocations": {
+   "kind": "class",
+   "module": "build123d.build_common",
+   "origin": "public"
+  },
+  "Polygon": {
+   "kind": "class",
+   "module": "build123d.objects_sketch",
+   "origin": "public"
+  },
+  "Polyline": {
+   "kind": "class",
+   "module": "build123d.objects_curve",
+   "origin": "public"
+  },
+  "Pos": {
+   "kind": "class",
+   "module": "build123d.geometry",
+   "origin": "public"
+  },
+  "PositionMode": {
+   "kind": "enum",
+   "members": [
+    [
+     "LENGTH",
+     1
+    ],
+    [
+     "PARAMETER",
+     2
+    ]
+   ],
+   "module": "build123d.build_enums",
+   "origin": "public"
+  },
+  "PreOrderIter": {
+   "kind": "class",
+   "module": "anytree.iterators.preorderiter",
+   "origin": "reexport"
+  },
+  "PrecisionMode": {
+   "kind": "enum",
+   "members": [
+    [
+     "SESSION",
+     2
+    ],
+    [
+     "GREATEST",
+     1
+    ],
+    [
+     "AVERAGE",
+     0
+    ],
+    [
+     "LEAST",
+     -1
+    ]
+   ],
+   "module": "build123d.build_enums",
+   "origin": "public"
+  },
+  "ProjectType": {
+   "kind": "alias",
+   "module": "build123d",
+   "origin": "build123d"
+  },
+  "Protocol": {
+   "kind": "class",
+   "module": "typing",
+   "origin": "reexport",
+   "stdlib": [
+    "typing",
+    "Protocol"
+   ]
+  },
+  "Quantity_Color": {
+   "kind": "class",
+   "module": "OCP.OCP.Quantity",
+   "origin": "ocp"
+  },
+  "Quantity_ColorRGBA": {
+   "kind": "class",
+   "module": "OCP.OCP.Quantity",
+   "origin": "ocp"
+  },
+  "Quantity_TypeOfColor": {
+   "kind": "class",
+   "module": "OCP.OCP.Quantity",
+   "origin": "ocp"
+  },
+  "RAD2DEG": {
+   "kind": "value",
+   "value": 57.29577951308232,
+   "module": null,
+   "origin": "build123d"
+  },
+  "RGB": {
+   "kind": "class",
+   "module": "ezdxf.colors",
+   "origin": "reexport"
+  },
+  "RWGltf_CafWriter": {
+   "kind": "class",
+   "module": "OCP.OCP.RWGltf",
+   "origin": "ocp"
+  },
+  "RWStl": {
+   "kind": "class",
+   "module": "OCP.OCP.RWStl",
+   "origin": "ocp"
+  },
+  "RadiusArc": {
+   "kind": "class",
+   "module": "build123d.objects_curve",
+   "origin": "public"
+  },
+  "Rectangle": {
+   "kind": "class",
+   "module": "build123d.objects_sketch",
+   "origin": "public"
+  },
+  "RectangleRounded": {
+   "kind": "class",
+   "module": "build123d.objects_sketch",
+   "origin": "public"
+  },
+  "RegularPolygon": {
+   "kind": "class",
+   "module": "build123d.objects_sketch",
+   "origin": "public"
+  },
+  "RevoluteJoint": {
+   "kind": "class",
+   "module": "build123d.joints",
+   "origin": "public"
+  },
+  "RigidJoint": {
+   "kind": "class",
+   "module": "build123d.joints",
+   "origin": "public"
+  },
+  "Rot": {
+   "kind": "class",
+   "module": "build123d.geometry",
+   "origin": "public"
+  },
+  "Rotation": {
+   "kind": "class",
+   "module": "build123d.geometry",
+   "origin": "public"
+  },
+  "RotationLike": {
+   "kind": "alias",
+   "module": "build123d",
+   "origin": "public"
+  },
+  "STEPCAFControl_Controller": {
+   "kind": "class",
+   "module": "OCP.OCP.STEPCAFControl",
+   "origin": "ocp"
+  },
+  "STEPCAFControl_Reader": {
+   "kind": "class",
+   "module": "OCP.OCP.STEPCAFControl",
+   "origin": "ocp"
+  },
+  "STEPCAFControl_Writer": {
+   "kind": "class",
+   "module": "OCP.OCP.STEPCAFControl",
+   "origin": "ocp"
+  },
+  "STEPControl_Controller": {
+   "kind": "class",
+   "module": "OCP.OCP.STEPControl",
+   "origin": "ocp"
+  },
+  "STEPControl_StepModelType": {
+   "kind": "class",
+   "module": "OCP.OCP.STEPControl",
+   "origin": "ocp"
+  },
+  "Sagitta": {
+   "kind": "enum",
+   "members": [
+    [
+     "SHORT",
+     0
+    ],
+    [
+     "LONG",
+     -1
+    ],
+    [
+     "BOTH",
+     1
+    ]
+   ],
+   "module": "build123d.build_enums",
+   "origin": "public"
+  },
+  "SagittaArc": {
+   "kind": "class",
+   "module": "build123d.objects_curve",
+   "origin": "public"
+  },
+  "Select": {
+   "kind": "enum",
+   "members": [
+    [
+     "ALL",
+     1
+    ],
+    [
+     "LAST",
+     2
+    ],
+    [
+     "NEW",
+     3
+    ]
+   ],
+   "module": "build123d.build_enums",
+   "origin": "public"
+  },
+  "Self": {
+   "kind": "function",
+   "module": "typing",
+   "origin": "reexport",
+   "stdlib": [
+    "typing",
+    "Self"
+   ]
+  },
+  "Sequence": {
+   "kind": "class",
+   "module": "collections.abc",
+   "origin": "reexport",
+   "stdlib": [
+    "collections.abc",
+    "Sequence"
+   ]
+  },
+  "Sequence_TDF_Label": {
+   "kind": "class",
+   "module": "OCP.OCP.collections",
+   "origin": "ocp"
+  },
+  "Shape": {
+   "kind": "class",
+   "module": "build123d.topology.shape_core",
+   "origin": "build123d"
+  },
+  "ShapeHistory": {
+   "kind": "class",
+   "module": "build123d.topology.history",
+   "origin": "build123d"
+  },
+  "ShapeList": {
+   "kind": "class",
+   "module": "build123d.topology.shape_core",
+   "origin": "public"
+  },
+  "ShapeT": {
+   "kind": "object",
+   "type": "TypeVar",
+   "module": "build123d.build_common",
+   "origin": "build123d"
+  },
+  "Shell": {
+   "kind": "class",
+   "module": "build123d.topology.two_d",
+   "origin": "public"
+  },
+  "Side": {
+   "kind": "enum",
+   "members": [
+    [
+     "LEFT",
+     1
+    ],
+    [
+     "RIGHT",
+     2
+    ],
+    [
+     "BOTH",
+     3
+    ]
+   ],
+   "module": "build123d.build_enums",
+   "origin": "public"
+  },
+  "Sketch": {
+   "kind": "class",
+   "module": "build123d.topology.composite",
+   "origin": "public"
+  },
+  "SkipClean": {
+   "kind": "class",
+   "module": "build123d.topology.shape_core",
+   "origin": "build123d"
+  },
+  "SlotArc": {
+   "kind": "class",
+   "module": "build123d.objects_sketch",
+   "origin": "public"
+  },
+  "SlotCenterPoint": {
+   "kind": "class",
+   "module": "build123d.objects_sketch",
+   "origin": "public"
+  },
+  "SlotCenterToCenter": {
+   "kind": "class",
+   "module": "build123d.objects_sketch",
+   "origin": "public"
+  },
+  "SlotOverall": {
+   "kind": "class",
+   "module": "build123d.objects_sketch",
+   "origin": "public"
+  },
+  "Solid": {
+   "kind": "class",
+   "module": "build123d.topology.three_d",
+   "origin": "public"
+  },
+  "SortBy": {
+   "kind": "enum",
+   "members": [
+    [
+     "LENGTH",
+     1
+    ],
+    [
+     "RADIUS",
+     2
+    ],
+    [
+     "AREA",
+     3
+    ],
+    [
+     "VOLUME",
+     4
+    ],
+    [
+     "DISTANCE",
+     5
+    ]
+   ],
+   "module": "build123d.build_enums",
+   "origin": "public"
+  },
+  "Sphere": {
+   "kind": "class",
+   "module": "build123d.objects_part",
+   "origin": "public"
+  },
+  "Spline": {
+   "kind": "class",
+   "module": "build123d.objects_curve",
+   "origin": "public"
+  },
+  "SplitType": {
+   "kind": "alias",
+   "module": "build123d",
+   "origin": "build123d"
+  },
+  "Standard_ConstructionError": {
+   "kind": "class",
+   "module": "OCP.OCP.Standard",
+   "origin": "ocp"
+  },
+  "Standard_Failure": {
+   "kind": "class",
+   "module": "OCP.OCP.Standard",
+   "origin": "ocp"
+  },
+  "StdFail_NotDone": {
+   "kind": "class",
+   "module": "OCP.OCP.StdFail",
+   "origin": "ocp"
+  },
+  "StlAPI_Writer": {
+   "kind": "class",
+   "module": "OCP.OCP.StlAPI",
+   "origin": "ocp"
+  },
+  "StrEnum": {
+   "kind": "enum",
+   "members": [],
+   "module": "enum",
+   "origin": "reexport",
+   "stdlib": [
+    "enum",
+    "StrEnum"
+   ]
+  },
+  "Superellipse": {
+   "kind": "class",
+   "module": "build123d.objects_sketch",
+   "origin": "public"
+  },
+  "SweepType": {
+   "kind": "alias",
+   "module": "build123d",
+   "origin": "build123d"
+  },
+  "T": {
+   "kind": "object",
+   "type": "TypeVar",
+   "module": "build123d.build_common",
+   "origin": "build123d"
+  },
+  "T2": {
+   "kind": "object",
+   "type": "TypeVar",
+   "module": "build123d.build_common",
+   "origin": "build123d"
+  },
+  "TCollection_AsciiString": {
+   "kind": "class",
+   "module": "OCP.OCP.TCollection",
+   "origin": "ocp"
+  },
+  "TCollection_ExtendedString": {
+   "kind": "class",
+   "module": "OCP.OCP.TCollection",
+   "origin": "ocp"
+  },
+  "TCollection_HAsciiString": {
+   "kind": "class",
+   "module": "OCP.OCP.TCollection",
+   "origin": "ocp"
+  },
+  "TDF_Label": {
+   "kind": "class",
+   "module": "OCP.OCP.TDF",
+   "origin": "ocp"
+  },
+  "TDataStd_Name": {
+   "kind": "class",
+   "module": "OCP.OCP.TDataStd",
+   "origin": "ocp"
+  },
+  "TDocStd_Document": {
+   "kind": "class",
+   "module": "OCP.OCP.TDocStd",
+   "origin": "ocp"
+  },
+  "THOU": {
+   "kind": "value",
+   "value": 0.0254,
+   "module": null,
+   "origin": "public"
+  },
+  "TOL": {
+   "kind": "value",
+   "value": 0.01,
+   "module": null,
+   "origin": "build123d"
+  },
+  "TOLERANCE": {
+   "kind": "value",
+   "value": 1e-06,
+   "module": null,
+   "origin": "build123d"
+  },
+  "TOL_DIGITS": {
+   "kind": "value",
+   "value": 6,
+   "module": null,
+   "origin": "build123d"
+  },
+  "TYPE_CHECKING": {
+   "kind": "object",
+   "type": "bool",
+   "module": "builtins",
+   "origin": "reexport",
+   "stdlib": [
+    "typing",
+    "TYPE_CHECKING"
+   ]
+  },
+  "Tangency": {
+   "kind": "enum",
+   "members": [
+    [
+     "UNQUALIFIED",
+     "UNQUALIFIED"
+    ],
+    [
+     "ENCLOSING",
+     "ENCLOSING"
+    ],
+    [
+     "ENCLOSED",
+     "ENCLOSED"
+    ],
+    [
+     "OUTSIDE",
+     "OUTSIDE"
+    ]
+   ],
+   "module": "build123d.build_enums",
+   "origin": "public"
+  },
+  "TangentArc": {
+   "kind": "class",
+   "module": "build123d.objects_curve",
+   "origin": "public"
+  },
+  "TechnicalDrawing": {
+   "kind": "class",
+   "module": "build123d.drafting",
+   "origin": "public"
+  },
+  "Text": {
+   "kind": "class",
+   "module": "build123d.objects_sketch",
+   "origin": "public"
+  },
+  "TextAlign": {
+   "kind": "enum",
+   "members": [
+    [
+     "BOTTOM",
+     1
+    ],
+    [
+     "CENTER",
+     2
+    ],
+    [
+     "LEFT",
+     3
+    ],
+    [
+     "RIGHT",
+     4
+    ],
+    [
+     "TOP",
+     5
+    ],
+    [
+     "TOPFIRSTLINE",
+     6
+    ]
+   ],
+   "module": "build123d.build_enums",
+   "origin": "public"
+  },
+  "TextIO": {
+   "kind": "class",
+   "module": "typing",
+   "origin": "reexport",
+   "stdlib": [
+    "typing",
+    "TextIO"
+   ]
+  },
+  "ThreePointArc": {
+   "kind": "class",
+   "module": "build123d.objects_curve",
+   "origin": "public"
+  },
+  "TopAbs_FACE": {
+   "kind": "object",
+   "type": "TopAbs_ShapeEnum",
+   "module": "OCP.OCP.TopAbs",
+   "origin": "ocp"
+  },
+  "TopAbs_Orientation": {
+   "kind": "class",
+   "module": "OCP.OCP.TopAbs",
+   "origin": "ocp"
+  },
+  "TopAbs_ShapeEnum": {
+   "kind": "class",
+   "module": "OCP.OCP.TopAbs",
+   "origin": "ocp"
+  },
+  "TopExp_Explorer": {
+   "kind": "class",
+   "module": "OCP.OCP.TopExp",
+   "origin": "ocp"
+  },
+  "TopLoc_Location": {
+   "kind": "class",
+   "module": "OCP.OCP.TopLoc",
+   "origin": "ocp"
+  },
+  "TopoDS": {
+   "kind": "module",
+   "module": "OCP.OCP.TopoDS.TopoDS",
+   "origin": "ocp"
+  },
+  "TopoDS_Compound": {
+   "kind": "class",
+   "module": "OCP.OCP.TopoDS",
+   "origin": "ocp"
+  },
+  "TopoDS_Edge": {
+   "kind": "class",
+   "module": "OCP.OCP.TopoDS",
+   "origin": "ocp"
+  },
+  "TopoDS_Face": {
+   "kind": "class",
+   "module": "OCP.OCP.TopoDS",
+   "origin": "ocp"
+  },
+  "TopoDS_Shape": {
+   "kind": "class",
+   "module": "OCP.OCP.TopoDS",
+   "origin": "ocp"
+  },
+  "TopoDS_Shell": {
+   "kind": "class",
+   "module": "OCP.OCP.TopoDS",
+   "origin": "ocp"
+  },
+  "TopoDS_Solid": {
+   "kind": "class",
+   "module": "OCP.OCP.TopoDS",
+   "origin": "ocp"
+  },
+  "TopoDS_Vertex": {
+   "kind": "class",
+   "module": "OCP.OCP.TopoDS",
+   "origin": "ocp"
+  },
+  "TopoDS_Wire": {
+   "kind": "class",
+   "module": "OCP.OCP.TopoDS",
+   "origin": "ocp"
+  },
+  "Torus": {
+   "kind": "class",
+   "module": "build123d.objects_part",
+   "origin": "public"
+  },
+  "Transition": {
+   "kind": "enum",
+   "members": [
+    [
+     "RIGHT",
+     1
+    ],
+    [
+     "ROUND",
+     2
+    ],
+    [
+     "TRANSFORMED",
+     3
+    ]
+   ],
+   "module": "build123d.build_enums",
+   "origin": "public"
+  },
+  "Trapezoid": {
+   "kind": "class",
+   "module": "build123d.objects_sketch",
+   "origin": "public"
+  },
+  "Triangle": {
+   "kind": "class",
+   "module": "build123d.objects_sketch",
+   "origin": "public"
+  },
+  "Type": {
+   "kind": "function",
+   "module": "typing",
+   "origin": "reexport",
+   "stdlib": [
+    "typing",
+    "Type"
+   ]
+  },
+  "TypeAlias": {
+   "kind": "function",
+   "module": "typing",
+   "origin": "reexport",
+   "stdlib": [
+    "typing",
+    "TypeAlias"
+   ]
+  },
+  "TypeVar": {
+   "kind": "class",
+   "module": "typing",
+   "origin": "reexport",
+   "stdlib": [
+    "typing",
+    "TypeVar"
+   ]
+  },
+  "UNITS_PER_KILOGRAM": {
+   "kind": "object",
+   "type": "dict",
+   "module": "builtins",
+   "origin": "public"
+  },
+  "UNITS_PER_METER": {
+   "kind": "object",
+   "type": "dict",
+   "module": "builtins",
+   "origin": "public"
+  },
+  "UUID": {
+   "kind": "class",
+   "module": "uuid",
+   "origin": "reexport",
+   "stdlib": [
+    "uuid",
+    "UUID"
+   ]
+  },
+  "Unit": {
+   "kind": "enum",
+   "members": [
+    [
+     "MC",
+     "\u00b5m"
+    ],
+    [
+     "MM",
+     "mm"
+    ],
+    [
+     "CM",
+     "cm"
+    ],
+    [
+     "M",
+     "m"
+    ],
+    [
+     "IN",
+     "in"
+    ],
+    [
+     "FT",
+     "ft"
+    ],
+    [
+     "G",
+     "g"
+    ],
+    [
+     "KG",
+     "kg"
+    ],
+    [
+     "LB",
+     "lb"
+    ]
+   ],
+   "module": "build123d.build_enums",
+   "origin": "public"
+  },
+  "Until": {
+   "kind": "enum",
+   "members": [
+    [
+     "NEXT",
+     1
+    ],
+    [
+     "LAST",
+     2
+    ],
+    [
+     "PREVIOUS",
+     3
+    ],
+    [
+     "FIRST",
+     4
+    ]
+   ],
+   "module": "build123d.build_enums",
+   "origin": "public"
+  },
+  "Vec2": {
+   "kind": "class",
+   "module": "ezdxf.acc.vector",
+   "origin": "reexport"
+  },
+  "Vector": {
+   "kind": "class",
+   "module": "build123d.geometry",
+   "origin": "public"
+  },
+  "VectorLike": {
+   "kind": "alias",
+   "module": "build123d",
+   "origin": "public"
+  },
+  "Vertex": {
+   "kind": "class",
+   "module": "build123d.topology.zero_d",
+   "origin": "public"
+  },
+  "Voronoi": {
+   "kind": "class",
+   "module": "scipy.spatial._qhull",
+   "origin": "reexport"
+  },
+  "Wedge": {
+   "kind": "class",
+   "module": "build123d.objects_part",
+   "origin": "public"
+  },
+  "Wire": {
+   "kind": "class",
+   "module": "build123d.topology.one_d",
+   "origin": "public"
+  },
+  "XCAFApp_Application": {
+   "kind": "class",
+   "module": "OCP.OCP.XCAFApp",
+   "origin": "ocp"
+  },
+  "XCAFDoc_ColorCurv": {
+   "kind": "object",
+   "type": "XCAFDoc_ColorType",
+   "module": "OCP.OCP.XCAFDoc",
+   "origin": "ocp"
+  },
+  "XCAFDoc_ColorGen": {
+   "kind": "object",
+   "type": "XCAFDoc_ColorType",
+   "module": "OCP.OCP.XCAFDoc",
+   "origin": "ocp"
+  },
+  "XCAFDoc_ColorSurf": {
+   "kind": "object",
+   "type": "XCAFDoc_ColorType",
+   "module": "OCP.OCP.XCAFDoc",
+   "origin": "ocp"
+  },
+  "XCAFDoc_ColorTool": {
+   "kind": "class",
+   "module": "OCP.OCP.XCAFDoc",
+   "origin": "ocp"
+  },
+  "XCAFDoc_ColorType": {
+   "kind": "class",
+   "module": "OCP.OCP.XCAFDoc",
+   "origin": "ocp"
+  },
+  "XCAFDoc_DocumentTool": {
+   "kind": "class",
+   "module": "OCP.OCP.XCAFDoc",
+   "origin": "ocp"
+  },
+  "XCAFDoc_ShapeTool": {
+   "kind": "class",
+   "module": "OCP.OCP.XCAFDoc",
+   "origin": "ocp"
+  },
+  "XSControl_WorkSession": {
+   "kind": "class",
+   "module": "OCP.OCP.XSControl",
+   "origin": "ocp"
+  },
+  "abstractmethod": {
+   "kind": "function",
+   "module": "abc",
+   "origin": "reexport",
+   "stdlib": [
+    "abc",
+    "abstractmethod"
+   ]
+  },
+  "aci2rgb": {
+   "kind": "function",
+   "module": "ezdxf.colors",
+   "origin": "reexport"
+  },
+  "add": {
+   "kind": "function",
+   "module": "build123d.operations_generic",
+   "origin": "public"
+  },
+  "all_location_like": {
+   "kind": "function",
+   "module": "build123d.geometry",
+   "origin": "build123d"
+  },
+  "annotations": {
+   "kind": "object",
+   "type": "_Feature",
+   "module": "__future__",
+   "origin": "reexport",
+   "stdlib": [
+    "__future__",
+    "annotations"
+   ]
+  },
+  "ansi_pattern": {
+   "kind": "function",
+   "module": "build123d.exporters",
+   "origin": "build123d"
+  },
+  "apply_location_like": {
+   "kind": "function",
+   "module": "build123d.geometry",
+   "origin": "build123d"
+  },
+  "atan2": {
+   "kind": "function",
+   "module": "math",
+   "origin": "reexport",
+   "stdlib": [
+    "math",
+    "atan2"
+   ]
+  },
+  "auto": {
+   "kind": "class",
+   "module": "enum",
+   "origin": "reexport",
+   "stdlib": [
+    "enum",
+    "auto"
+   ]
+  },
+  "available_fonts": {
+   "kind": "function",
+   "module": "build123d.text",
+   "origin": "public"
+  },
+  "bounding_box": {
+   "kind": "function",
+   "module": "build123d.operations_generic",
+   "origin": "public"
+  },
+  "brep_from_stl": {
+   "kind": "module",
+   "module": "build123d.brep_from_stl",
+   "origin": "submodule"
+  },
+  "build_common": {
+   "kind": "module",
+   "module": "build123d.build_common",
+   "origin": "submodule"
+  },
+  "build_constants": {
+   "kind": "module",
+   "module": "build123d.build_constants",
+   "origin": "submodule"
+  },
+  "build_enums": {
+   "kind": "module",
+   "module": "build123d.build_enums",
+   "origin": "submodule"
+  },
+  "build_line": {
+   "kind": "module",
+   "module": "build123d.build_line",
+   "origin": "submodule"
+  },
+  "build_part": {
+   "kind": "module",
+   "module": "build123d.build_part",
+   "origin": "submodule"
+  },
+  "build_sketch": {
+   "kind": "module",
+   "module": "build123d.build_sketch",
+   "origin": "submodule"
+  },
+  "cast": {
+   "kind": "function",
+   "module": "typing",
+   "origin": "reexport",
+   "stdlib": [
+    "typing",
+    "cast"
+   ]
+  },
+  "chamfer": {
+   "kind": "function",
+   "module": "build123d.operations_generic",
+   "origin": "public"
+  },
+  "colorsys": {
+   "kind": "module",
+   "module": "colorsys",
+   "origin": "reexport",
+   "stdlib": [
+    "colorsys",
+    null
+   ]
+  },
+  "contextmanager": {
+   "kind": "function",
+   "module": "contextlib",
+   "origin": "reexport",
+   "stdlib": [
+    "contextlib",
+    "contextmanager"
+   ]
+  },
+  "contextvars": {
+   "kind": "module",
+   "module": "contextvars",
+   "origin": "reexport",
+   "stdlib": [
+    "contextvars",
+    null
+   ]
+  },
+  "copy": {
+   "kind": "function",
+   "module": "copy",
+   "origin": "reexport",
+   "stdlib": [
+    "copy",
+    "copy"
+   ]
+  },
+  "copy_module": {
+   "kind": "module",
+   "module": "copy",
+   "origin": "reexport",
+   "stdlib": [
+    "copy",
+    null
+   ]
+  },
+  "copysign": {
+   "kind": "function",
+   "module": "math",
+   "origin": "reexport",
+   "stdlib": [
+    "math",
+    "copysign"
+   ]
+  },
+  "cos": {
+   "kind": "function",
+   "module": "math",
+   "origin": "reexport",
+   "stdlib": [
+    "math",
+    "cos"
+   ]
+  },
+  "ctypes": {
+   "kind": "module",
+   "module": "ctypes",
+   "origin": "reexport",
+   "stdlib": [
+    "ctypes",
+    null
+   ]
+  },
+  "cycle": {
+   "kind": "class",
+   "module": "itertools",
+   "origin": "reexport",
+   "stdlib": [
+    "itertools",
+    "cycle"
+   ]
+  },
+  "dataclass": {
+   "kind": "function",
+   "module": "dataclasses",
+   "origin": "reexport",
+   "stdlib": [
+    "dataclasses",
+    "dataclass"
+   ]
+  },
+  "dataclass_field": {
+   "kind": "function",
+   "module": "dataclasses",
+   "origin": "reexport",
+   "stdlib": [
+    "dataclasses",
+    "field"
+   ]
+  },
+  "date": {
+   "kind": "class",
+   "module": "datetime",
+   "origin": "reexport",
+   "stdlib": [
+    "datetime",
+    "date"
+   ]
+  },
+  "datetime": {
+   "kind": "class",
+   "module": "datetime",
+   "origin": "reexport",
+   "stdlib": [
+    "datetime",
+    "datetime"
+   ]
+  },
+  "degrees": {
+   "kind": "function",
+   "module": "math",
+   "origin": "reexport",
+   "stdlib": [
+    "math",
+    "degrees"
+   ]
+  },
+  "delta": {
+   "kind": "function",
+   "module": "build123d.topology.utils",
+   "origin": "public"
+  },
+  "deprecated": {
+   "kind": "class",
+   "module": "typing_extensions",
+   "origin": "reexport"
+  },
+  "detect_primitives": {
+   "kind": "function",
+   "module": "build123d.brep_from_stl",
+   "origin": "public"
+  },
+  "downcast": {
+   "kind": "function",
+   "module": "build123d.topology.shape_core",
+   "origin": "build123d"
+  },
+  "draft": {
+   "kind": "function",
+   "module": "build123d.operations_part",
+   "origin": "public"
+  },
+  "drafting": {
+   "kind": "module",
+   "module": "build123d.drafting",
+   "origin": "submodule"
+  },
+  "edge": {
+   "kind": "function",
+   "module": "build123d.build_common",
+   "origin": "public"
+  },
+  "edges": {
+   "kind": "function",
+   "module": "build123d.build_common",
+   "origin": "public"
+  },
+  "edges_to_wires": {
+   "kind": "function",
+   "module": "build123d.topology.one_d",
+   "origin": "public"
+  },
+  "export_brep": {
+   "kind": "function",
+   "module": "build123d.exporters3d",
+   "origin": "public"
+  },
+  "export_gltf": {
+   "kind": "function",
+   "module": "build123d.exporters3d",
+   "origin": "public"
+  },
+  "export_obj": {
+   "kind": "function",
+   "module": "build123d.exporters3d",
+   "origin": "public"
+  },
+  "export_step": {
+   "kind": "function",
+   "module": "build123d.exporters3d",
+   "origin": "public"
+  },
+  "export_stl": {
+   "kind": "function",
+   "module": "build123d.exporters3d",
+   "origin": "public"
+  },
+  "export_to_pcbway": {
+   "kind": "function",
+   "module": "build123d.exporters3d",
+   "origin": "public"
+  },
+  "exporters": {
+   "kind": "module",
+   "module": "build123d.exporters",
+   "origin": "submodule"
+  },
+  "exporters3d": {
+   "kind": "module",
+   "module": "build123d.exporters3d",
+   "origin": "submodule"
+  },
+  "extrude": {
+   "kind": "function",
+   "module": "build123d.operations_part",
+   "origin": "public"
+  },
+  "ezdxf": {
+   "kind": "module",
+   "module": "ezdxf",
+   "origin": "reexport"
+  },
+  "face": {
+   "kind": "function",
+   "module": "build123d.build_common",
+   "origin": "public"
+  },
+  "faces": {
+   "kind": "function",
+   "module": "build123d.build_common",
+   "origin": "public"
+  },
+  "fillet": {
+   "kind": "function",
+   "module": "build123d.operations_generic",
+   "origin": "public"
+  },
+  "find_max_dimension": {
+   "kind": "function",
+   "module": "build123d.topology.utils",
+   "origin": "build123d"
+  },
+  "fix": {
+   "kind": "function",
+   "module": "build123d.topology.shape_core",
+   "origin": "build123d"
+  },
+  "flatten_sequence": {
+   "kind": "function",
+   "module": "build123d.build_common",
+   "origin": "build123d"
+  },
+  "floor": {
+   "kind": "function",
+   "module": "math",
+   "origin": "reexport",
+   "stdlib": [
+    "math",
+    "floor"
+   ]
+  },
+  "fsdecode": {
+   "kind": "function",
+   "module": "os",
+   "origin": "reexport",
+   "stdlib": [
+    "os",
+    "fsdecode"
+   ]
+  },
+  "full_round": {
+   "kind": "function",
+   "module": "build123d.operations_sketch",
+   "origin": "public"
+  },
+  "functools": {
+   "kind": "module",
+   "module": "functools",
+   "origin": "reexport",
+   "stdlib": [
+    "functools",
+    null
+   ]
+  },
+  "gcd": {
+   "kind": "function",
+   "module": "math",
+   "origin": "reexport",
+   "stdlib": [
+    "math",
+    "gcd"
+   ]
+  },
+  "geometry": {
+   "kind": "module",
+   "module": "build123d.geometry",
+   "origin": "submodule"
+  },
+  "gp_Ax1": {
+   "kind": "class",
+   "module": "OCP.OCP.gp",
+   "origin": "ocp"
+  },
+  "gp_Ax2": {
+   "kind": "class",
+   "module": "OCP.OCP.gp",
+   "origin": "ocp"
+  },
+  "gp_Ax3": {
+   "kind": "class",
+   "module": "OCP.OCP.gp",
+   "origin": "ocp"
+  },
+  "gp_Dir": {
+   "kind": "class",
+   "module": "OCP.OCP.gp",
+   "origin": "ocp"
+  },
+  "gp_EulerSequence": {
+   "kind": "class",
+   "module": "OCP.OCP.gp",
+   "origin": "ocp"
+  },
+  "gp_GTrsf": {
+   "kind": "class",
+   "module": "OCP.OCP.gp",
+   "origin": "ocp"
+  },
+  "gp_Lin": {
+   "kind": "class",
+   "module": "OCP.OCP.gp",
+   "origin": "ocp"
+  },
+  "gp_Pln": {
+   "kind": "class",
+   "module": "OCP.OCP.gp",
+   "origin": "ocp"
+  },
+  "gp_Pnt": {
+   "kind": "class",
+   "module": "OCP.OCP.gp",
+   "origin": "ocp"
+  },
+  "gp_Quaternion": {
+   "kind": "class",
+   "module": "OCP.OCP.gp",
+   "origin": "ocp"
+  },
+  "gp_Trsf": {
+   "kind": "class",
+   "module": "OCP.OCP.gp",
+   "origin": "ocp"
+  },
+  "gp_Vec": {
+   "kind": "class",
+   "module": "OCP.OCP.gp",
+   "origin": "ocp"
+  },
+  "gp_XYZ": {
+   "kind": "class",
+   "module": "OCP.OCP.gp",
+   "origin": "ocp"
+  },
+  "import_brep": {
+   "kind": "function",
+   "module": "build123d.importers",
+   "origin": "public"
+  },
+  "import_dxf": {
+   "kind": "function",
+   "module": "build123d.import_dxf",
+   "origin": "public"
+  },
+  "import_step": {
+   "kind": "function",
+   "module": "build123d.importers",
+   "origin": "public"
+  },
+  "import_stl": {
+   "kind": "function",
+   "module": "build123d.importers",
+   "origin": "public"
+  },
+  "import_svg": {
+   "kind": "function",
+   "module": "build123d.importers",
+   "origin": "public"
+  },
+  "import_svg_as_buildline_code": {
+   "kind": "function",
+   "module": "build123d.importers",
+   "origin": "public"
+  },
+  "import_svg_document": {
+   "kind": "function",
+   "module": "ocpsvg.svg",
+   "origin": "reexport"
+  },
+  "importers": {
+   "kind": "module",
+   "module": "build123d.importers",
+   "origin": "submodule"
+  },
+  "inf": {
+   "kind": "value",
+   "module": "math",
+   "origin": "reexport",
+   "stdlib": [
+    "math",
+    "inf"
+   ]
+  },
+  "inject_materials": {
+   "kind": "function",
+   "module": "threejs_materials.gltf",
+   "origin": "reexport"
+  },
+  "insert": {
+   "kind": "function",
+   "module": "build123d.operations_generic",
+   "origin": "public"
+  },
+  "inspect": {
+   "kind": "module",
+   "module": "inspect",
+   "origin": "reexport",
+   "stdlib": [
+    "inspect",
+    null
+   ]
+  },
+  "io": {
+   "kind": "module",
+   "module": "io",
+   "origin": "reexport",
+   "stdlib": [
+    "io",
+    null
+   ]
+  },
+  "isclose_b": {
+   "kind": "function",
+   "module": "build123d.topology.utils",
+   "origin": "build123d"
+  },
+  "iso_pattern": {
+   "kind": "function",
+   "module": "build123d.exporters",
+   "origin": "build123d"
+  },
+  "itertools": {
+   "kind": "module",
+   "module": "itertools",
+   "origin": "reexport",
+   "stdlib": [
+    "itertools",
+    null
+   ]
+  },
+  "joints": {
+   "kind": "module",
+   "module": "build123d.joints",
+   "origin": "submodule"
+  },
+  "json": {
+   "kind": "module",
+   "module": "json",
+   "origin": "reexport",
+   "stdlib": [
+    "json",
+    null
+   ]
+  },
+  "loft": {
+   "kind": "function",
+   "module": "build123d.operations_part",
+   "origin": "public"
+  },
+  "log10": {
+   "kind": "function",
+   "module": "math",
+   "origin": "reexport",
+   "stdlib": [
+    "math",
+    "log10"
+   ]
+  },
+  "log2": {
+   "kind": "function",
+   "module": "math",
+   "origin": "reexport",
+   "stdlib": [
+    "math",
+    "log2"
+   ]
+  },
+  "logger": {
+   "kind": "object",
+   "type": "Logger",
+   "module": "logging",
+   "origin": "reexport"
+  },
+  "logging": {
+   "kind": "module",
+   "module": "logging",
+   "origin": "reexport",
+   "stdlib": [
+    "logging",
+    null
+   ]
+  },
+  "make_brake_formed": {
+   "kind": "function",
+   "module": "build123d.operations_part",
+   "origin": "public"
+  },
+  "make_face": {
+   "kind": "function",
+   "module": "build123d.operations_sketch",
+   "origin": "public"
+  },
+  "make_hull": {
+   "kind": "function",
+   "module": "build123d.operations_sketch",
+   "origin": "public"
+  },
+  "math": {
+   "kind": "module",
+   "module": "math",
+   "origin": "reexport",
+   "stdlib": [
+    "math",
+    null
+   ]
+  },
+  "mesher": {
+   "kind": "module",
+   "module": "build123d.mesher",
+   "origin": "submodule"
+  },
+  "minimize": {
+   "kind": "function",
+   "module": "scipy.optimize._minimize",
+   "origin": "reexport"
+  },
+  "mirror": {
+   "kind": "function",
+   "module": "build123d.operations_generic",
+   "origin": "public"
+  },
+  "modify_copyreg": {
+   "kind": "function",
+   "module": "build123d.persistence",
+   "origin": "build123d"
+  },
+  "new_edges": {
+   "kind": "function",
+   "module": "build123d.topology.utils",
+   "origin": "public"
+  },
+  "np": {
+   "kind": "module",
+   "module": "numpy",
+   "origin": "reexport"
+  },
+  "objects_curve": {
+   "kind": "module",
+   "module": "build123d.objects_curve",
+   "origin": "submodule"
+  },
+  "objects_part": {
+   "kind": "module",
+   "module": "build123d.objects_part",
+   "origin": "submodule"
+  },
+  "objects_sketch": {
+   "kind": "module",
+   "module": "build123d.objects_sketch",
+   "origin": "submodule"
+  },
+  "offset": {
+   "kind": "function",
+   "module": "build123d.operations_generic",
+   "origin": "public"
+  },
+  "offset_topods_face": {
+   "kind": "function",
+   "module": "build123d.topology.one_d",
+   "origin": "build123d"
+  },
+  "operations_apply_to": {
+   "kind": "object",
+   "type": "dict",
+   "module": "builtins",
+   "origin": "reexport"
+  },
+  "operations_generic": {
+   "kind": "module",
+   "module": "build123d.operations_generic",
+   "origin": "submodule"
+  },
+  "operations_part": {
+   "kind": "module",
+   "module": "build123d.operations_part",
+   "origin": "submodule"
+  },
+  "operations_sketch": {
+   "kind": "module",
+   "module": "build123d.operations_sketch",
+   "origin": "submodule"
+  },
+  "os": {
+   "kind": "module",
+   "module": "os",
+   "origin": "reexport",
+   "stdlib": [
+    "os",
+    null
+   ]
+  },
+  "overload": {
+   "kind": "function",
+   "module": "typing",
+   "origin": "reexport",
+   "stdlib": [
+    "typing",
+    "overload"
+   ]
+  },
+  "pack": {
+   "kind": "function",
+   "module": "build123d.pack",
+   "origin": "public"
+  },
+  "pack_utils": {
+   "kind": "module",
+   "module": "build123d.pack_utils",
+   "origin": "submodule"
+  },
+  "permutations": {
+   "kind": "class",
+   "module": "itertools",
+   "origin": "reexport",
+   "stdlib": [
+    "itertools",
+    "permutations"
+   ]
+  },
+  "persistence": {
+   "kind": "module",
+   "module": "build123d.persistence",
+   "origin": "submodule"
+  },
+  "pi": {
+   "kind": "value",
+   "value": 3.141592653589793,
+   "module": "math",
+   "origin": "reexport",
+   "stdlib": [
+    "math",
+    "pi"
+   ]
+  },
+  "polar": {
+   "kind": "function",
+   "module": "build123d.topology.utils",
+   "origin": "public"
+  },
+  "prod": {
+   "kind": "function",
+   "module": "math",
+   "origin": "reexport",
+   "stdlib": [
+    "math",
+    "prod"
+   ]
+  },
+  "product": {
+   "kind": "class",
+   "module": "itertools",
+   "origin": "reexport",
+   "stdlib": [
+    "itertools",
+    "product"
+   ]
+  },
+  "project": {
+   "kind": "function",
+   "module": "build123d.operations_generic",
+   "origin": "public"
+  },
+  "project_workplane": {
+   "kind": "function",
+   "module": "build123d.operations_part",
+   "origin": "public"
+  },
+  "radians": {
+   "kind": "function",
+   "module": "math",
+   "origin": "reexport",
+   "stdlib": [
+    "math",
+    "radians"
+   ]
+  },
+  "re": {
+   "kind": "module",
+   "module": "re",
+   "origin": "reexport",
+   "stdlib": [
+    "re",
+    null
+   ]
+  },
+  "requests": {
+   "kind": "module",
+   "module": "requests",
+   "origin": "reexport"
+  },
+  "revolve": {
+   "kind": "function",
+   "module": "build123d.operations_part",
+   "origin": "public"
+  },
+  "scale": {
+   "kind": "function",
+   "module": "build123d.operations_generic",
+   "origin": "public"
+  },
+  "section": {
+   "kind": "function",
+   "module": "build123d.operations_part",
+   "origin": "public"
+  },
+  "sentinel": {
+   "kind": "class",
+   "module": "typing_extensions",
+   "origin": "reexport"
+  },
+  "sin": {
+   "kind": "function",
+   "module": "math",
+   "origin": "reexport",
+   "stdlib": [
+    "math",
+    "sin"
+   ]
+  },
+  "solid": {
+   "kind": "function",
+   "module": "build123d.build_common",
+   "origin": "public"
+  },
+  "solids": {
+   "kind": "function",
+   "module": "build123d.build_common",
+   "origin": "public"
+  },
+  "sort_wires_by_build_order": {
+   "kind": "function",
+   "module": "build123d.topology.two_d",
+   "origin": "build123d"
+  },
+  "split": {
+   "kind": "function",
+   "module": "build123d.operations_generic",
+   "origin": "public"
+  },
+  "sqrt": {
+   "kind": "function",
+   "module": "math",
+   "origin": "reexport",
+   "stdlib": [
+    "math",
+    "sqrt"
+   ]
+  },
+  "starmap": {
+   "kind": "class",
+   "module": "itertools",
+   "origin": "reexport",
+   "stdlib": [
+    "itertools",
+    "starmap"
+   ]
+  },
+  "svgpathtools": {
+   "kind": "module",
+   "module": "svgpathtools",
+   "origin": "reexport"
+  },
+  "sweep": {
+   "kind": "function",
+   "module": "build123d.operations_generic",
+   "origin": "public"
+  },
+  "sys": {
+   "kind": "module",
+   "module": "sys",
+   "origin": "reexport",
+   "stdlib": [
+    "sys",
+    null
+   ]
+  },
+  "ta": {
+   "kind": "module",
+   "module": "OCP.TopAbs",
+   "origin": "ocp"
+  },
+  "tan": {
+   "kind": "function",
+   "module": "math",
+   "origin": "reexport",
+   "stdlib": [
+    "math",
+    "tan"
+   ]
+  },
+  "tcast": {
+   "kind": "function",
+   "module": "typing",
+   "origin": "reexport",
+   "stdlib": [
+    "typing",
+    "cast"
+   ]
+  },
+  "tempfile": {
+   "kind": "module",
+   "module": "tempfile",
+   "origin": "reexport",
+   "stdlib": [
+    "tempfile",
+    null
+   ]
+  },
+  "text": {
+   "kind": "module",
+   "module": "build123d.text",
+   "origin": "submodule"
+  },
+  "thicken": {
+   "kind": "function",
+   "module": "build123d.operations_part",
+   "origin": "public"
+  },
+  "to_align_offset": {
+   "kind": "function",
+   "module": "build123d.geometry",
+   "origin": "build123d"
+  },
+  "topo_distance_to": {
+   "kind": "function",
+   "module": "build123d.topology.shape_core",
+   "origin": "public"
+  },
+  "topo_explore_common_vertex": {
+   "kind": "function",
+   "module": "build123d.topology.zero_d",
+   "origin": "public"
+  },
+  "topo_explore_connected_edges": {
+   "kind": "function",
+   "module": "build123d.topology.one_d",
+   "origin": "public"
+  },
+  "topo_explore_connected_faces": {
+   "kind": "function",
+   "module": "build123d.topology.one_d",
+   "origin": "build123d"
+  },
+  "topods_lut": {
+   "kind": "object",
+   "type": "dict",
+   "module": "builtins",
+   "origin": "reexport"
+  },
+  "topology": {
+   "kind": "module",
+   "module": "build123d.topology",
+   "origin": "submodule"
+  },
+  "trace": {
+   "kind": "function",
+   "module": "build123d.operations_sketch",
+   "origin": "public"
+  },
+  "trianglesolver": {
+   "kind": "module",
+   "module": "trianglesolver",
+   "origin": "reexport"
+  },
+  "tuplify": {
+   "kind": "function",
+   "module": "build123d.topology.utils",
+   "origin": "build123d"
+  },
+  "unicodedata": {
+   "kind": "module",
+   "module": "unicodedata",
+   "origin": "reexport",
+   "stdlib": [
+    "unicodedata",
+    null
+   ]
+  },
+  "unique": {
+   "kind": "function",
+   "module": "enum",
+   "origin": "reexport",
+   "stdlib": [
+    "enum",
+    "unique"
+   ]
+  },
+  "unit_conversion_scale": {
+   "kind": "function",
+   "module": "build123d.exporters",
+   "origin": "build123d"
+  },
+  "unwrap_topods_compound": {
+   "kind": "function",
+   "module": "build123d.topology.shape_core",
+   "origin": "build123d"
+  },
+  "validate_inputs": {
+   "kind": "function",
+   "module": "build123d.build_common",
+   "origin": "build123d"
+  },
+  "version": {
+   "kind": "module",
+   "module": "build123d.version",
+   "origin": "submodule"
+  },
+  "vertex": {
+   "kind": "function",
+   "module": "build123d.build_common",
+   "origin": "public"
+  },
+  "vertices": {
+   "kind": "function",
+   "module": "build123d.build_common",
+   "origin": "public"
+  },
+  "warn": {
+   "kind": "function",
+   "module": "_warnings",
+   "origin": "reexport",
+   "stdlib": [
+    "_warnings",
+    "warn"
+   ]
+  },
+  "warnings": {
+   "kind": "module",
+   "module": "warnings",
+   "origin": "reexport",
+   "stdlib": [
+    "warnings",
+    null
+   ]
+  },
+  "webbrowser": {
+   "kind": "module",
+   "module": "webbrowser",
+   "origin": "reexport",
+   "stdlib": [
+    "webbrowser",
+    null
+   ]
+  },
+  "webcolors": {
+   "kind": "module",
+   "module": "webcolors",
+   "origin": "reexport"
+  },
+  "wire": {
+   "kind": "function",
+   "module": "build123d.build_common",
+   "origin": "public"
+  },
+  "wires": {
+   "kind": "function",
+   "module": "build123d.build_common",
+   "origin": "public"
+  },
+  "zoom": {
+   "kind": "module",
+   "module": "ezdxf.zoom",
+   "origin": "reexport"
+  }
+ },
+ "submodules": {
+  "build123d.brep_from_stl": {
+   "importable": true,
+   "all": null,
+   "names": {
+    "Align": null,
+    "Any": null,
+    "Axis": null,
+    "Cylinder": null,
+    "CylinderPatch": {
+     "kind": "class",
+     "module": "build123d.brep_from_stl",
+     "origin": "build123d"
+    },
+    "DBSCAN": {
+     "kind": "class",
+     "module": "sklearn.cluster._dbscan",
+     "origin": "reexport"
+    },
+    "DetectedPatch": {
+     "kind": "alias",
+     "module": "build123d.brep_from_stl",
+     "origin": "build123d"
+    },
+    "EPS": {
+     "kind": "value",
+     "value": 1e-09,
+     "module": null,
+     "origin": "build123d"
+    },
+    "EdgeKey": {
+     "kind": "function",
+     "module": "builtins",
+     "origin": "reexport"
+    },
+    "Face": null,
+    "FaceSample": {
+     "kind": "class",
+     "module": "build123d.brep_from_stl",
+     "origin": "build123d"
+    },
+    "GeomType": null,
+    "Iterable": null,
+    "Literal": null,
+    "Location": null,
+    "MeshIndex": {
+     "kind": "class",
+     "module": "build123d.brep_from_stl",
+     "origin": "build123d"
+    },
+    "Plane": null,
+    "PlanePatch": {
+     "kind": "class",
+     "module": "build123d.brep_from_stl",
+     "origin": "build123d"
+    },
+    "Pos": null,
+    "Rectangle": null,
+    "Sequence": null,
+    "Shape": null,
+    "ShapeList": null,
+    "Sphere": null,
+    "SpherePatch": {
+     "kind": "class",
+     "module": "build123d.brep_from_stl",
+     "origin": "build123d"
+    },
+    "T": {
+     "kind": "object",
+     "type": "TypeVar",
+     "module": "build123d.brep_from_stl",
+     "origin": "build123d"
+    },
+    "TOLERANCE": {
+     "kind": "value",
+     "value": 0.0001,
+     "module": null,
+     "origin": "build123d"
+    },
+    "TOL_DIGITS": null,
+    "TypeAlias": null,
+    "TypeVar": null,
+    "Vector": null,
+    "Vertex": null,
+    "acos": {
+     "kind": "function",
+     "module": "math",
+     "origin": "reexport",
+     "stdlib": [
+      "math",
+      "acos"
+     ]
+    },
+    "annotations": null,
+    "build_cylinder_face": {
+     "kind": "function",
+     "module": "build123d.brep_from_stl",
+     "origin": "build123d"
+    },
+    "build_plane_face": {
+     "kind": "function",
+     "module": "build123d.brep_from_stl",
+     "origin": "build123d"
+    },
+    "build_sphere_face": {
+     "kind": "function",
+     "module": "build123d.brep_from_stl",
+     "origin": "build123d"
+    },
+    "ceil": {
+     "kind": "function",
+     "module": "math",
+     "origin": "reexport",
+     "stdlib": [
+      "math",
+      "ceil"
+     ]
+    },
+    "combinations": {
+     "kind": "class",
+     "module": "itertools",
+     "origin": "reexport",
+     "stdlib": [
+      "itertools",
+      "combinations"
+     ]
+    },
+    "copy": {
+     "kind": "module",
+     "module": "copy",
+     "origin": "reexport",
+     "stdlib": [
+      "copy",
+      null
+     ]
+    },
+    "dataclass": null,
+    "defaultdict": {
+     "kind": "class",
+     "module": "collections",
+     "origin": "reexport",
+     "stdlib": [
+      "collections",
+      "defaultdict"
+     ]
+    },
+    "detect_cylinders": {
+     "kind": "function",
+     "module": "build123d.brep_from_stl",
+     "origin": "build123d"
+    },
+    "detect_planes_from_clean_proxy": {
+     "kind": "function",
+     "module": "build123d.brep_from_stl",
+     "origin": "build123d"
+    },
+    "detect_planes_from_normals": {
+     "kind": "function",
+     "module": "build123d.brep_from_stl",
+     "origin": "build123d"
+    },
+    "detect_primitives": null,
+    "detect_spheres": {
+     "kind": "function",
+     "module": "build123d.brep_from_stl",
+     "origin": "build123d"
+    },
+    "fit_local_cylinder": {
+     "kind": "function",
+     "module": "build123d.brep_from_stl",
+     "origin": "build123d"
+    },
+    "fit_local_sphere": {
+     "kind": "function",
+     "module": "build123d.brep_from_stl",
+     "origin": "build123d"
+    },
+    "grow_curved_patch": {
+     "kind": "function",
+     "module": "build123d.brep_from_stl",
+     "origin": "build123d"
+    },
+    "log10": null,
+    "merge_equivalent_cylinders": {
+     "kind": "function",
+     "module": "build123d.brep_from_stl",
+     "origin": "build123d"
+    },
+    "np": null,
+    "overload": null,
+    "plane_sort_key": {
+     "kind": "function",
+     "module": "build123d.brep_from_stl",
+     "origin": "build123d"
+    },
+    "re": null,
+    "shapes_to_code": {
+     "kind": "function",
+     "module": "build123d.brep_from_stl",
+     "origin": "build123d"
+    },
+    "sqrt": null,
+    "suppress_duplicate_spheres": {
+     "kind": "function",
+     "module": "build123d.brep_from_stl",
+     "origin": "build123d"
+    },
+    "validate_bounded_cylinder": {
+     "kind": "function",
+     "module": "build123d.brep_from_stl",
+     "origin": "build123d"
+    }
+   }
+  },
+  "build123d.build_common": {
+   "importable": true,
+   "all": null,
+   "names": {
+    "ABC": null,
+    "ABCMeta": null,
+    "AbstractContextManager": null,
+    "Align": null,
+    "Any": null,
+    "Axis": null,
+    "B": null,
+    "BaseObject": null,
+    "BaseObjectMeta": null,
+    "BuildScope": null,
+    "Builder": null,
+    "CM": null,
+    "Callable": null,
+    "Compound": null,
+    "Curve": null,
+    "Edge": null,
+    "FT": null,
+    "Face": null,
+    "G": null,
+    "G_PER_LB": null,
+    "Generic": null,
+    "GridLocations": null,
+    "HexLocations": null,
+    "IN": null,
+    "Iterable": null,
+    "Iterator": null,
+    "Joint": null,
+    "KG": null,
+    "LB": null,
+    "Location": null,
+    "LocationList": null,
+    "Locations": null,
+    "M": null,
+    "MC": null,
+    "MM": null,
+    "Mode": null,
+    "Part": null,
+    "Plane": null,
+    "PolarLocations": null,
+    "Select": null,
+    "Self": null,
+    "Shape": null,
+    "ShapeHistory": null,
+    "ShapeList": null,
+    "ShapeT": null,
+    "Sketch": null,
+    "Solid": null,
+    "Standard_ConstructionError": null,
+    "T": null,
+    "T2": null,
+    "THOU": null,
+    "Type": null,
+    "TypeVar": null,
+    "UNITS_PER_KILOGRAM": null,
+    "UNITS_PER_METER": null,
+    "Vector": null,
+    "VectorLike": null,
+    "Vertex": null,
+    "Wire": null,
+    "abstractmethod": null,
+    "annotations": null,
+    "cast": null,
+    "contextmanager": null,
+    "contextvars": null,
+    "cos": null,
+    "dataclass": null,
+    "dataclass_field": null,
+    "deprecated": null,
+    "edge": null,
+    "edges": null,
+    "face": null,
+    "faces": null,
+    "flatten_sequence": null,
+    "functools": null,
+    "inspect": null,
+    "logger": null,
+    "logging": null,
+    "operations_apply_to": null,
+    "pi": null,
+    "product": null,
+    "solid": null,
+    "solids": null,
+    "sqrt": null,
+    "sys": null,
+    "to_align_offset": null,
+    "tuplify": null,
+    "validate_inputs": null,
+    "vertex": null,
+    "vertices": null,
+    "warnings": null,
+    "wire": null,
+    "wires": null
+   }
+  },
+  "build123d.build_constants": {
+   "importable": true,
+   "all": null,
+   "names": {
+    "CM": null,
+    "FT": null,
+    "G": null,
+    "G_PER_LB": null,
+    "IN": null,
+    "KG": null,
+    "LB": null,
+    "M": null,
+    "MC": null,
+    "MM": null,
+    "THOU": null,
+    "UNITS_PER_KILOGRAM": null,
+    "UNITS_PER_METER": null,
+    "Unit": null
+   }
+  },
+  "build123d.build_enums": {
+   "importable": true,
+   "all": null,
+   "names": {
+    "Align": null,
+    "Align2D": null,
+    "Align3D": null,
+    "AngularDirection": null,
+    "ApproxOption": null,
+    "CenterOf": null,
+    "ContinuityLevel": null,
+    "Convexity": null,
+    "Enum": null,
+    "Extrinsic": null,
+    "FontStyle": null,
+    "FrameMethod": null,
+    "GccEnt_enclosed": null,
+    "GccEnt_enclosing": null,
+    "GccEnt_outside": null,
+    "GccEnt_unqualified": null,
+    "GeomType": null,
+    "HeadType": null,
+    "IntEnum": null,
+    "Intrinsic": null,
+    "Keep": null,
+    "Kind": null,
+    "LengthMode": null,
+    "MeshType": null,
+    "Mode": null,
+    "NumberDisplay": null,
+    "PageSize": null,
+    "PositionMode": null,
+    "PrecisionMode": null,
+    "Sagitta": null,
+    "Select": null,
+    "Side": null,
+    "SortBy": null,
+    "StrEnum": null,
+    "Tangency": null,
+    "TextAlign": null,
+    "Transition": null,
+    "TypeAlias": null,
+    "Unit": null,
+    "Until": null,
+    "annotations": null,
+    "auto": null,
+    "sys": null,
+    "unique": null
+   }
+  },
+  "build123d.build_line": {
+   "importable": true,
+   "all": null,
+   "names": {
+    "BuildLine": null,
+    "Builder": null,
+    "ClassVar": null,
+    "Curve": null,
+    "Edge": null,
+    "Face": null,
+    "Location": null,
+    "Mode": null,
+    "Plane": null,
+    "annotations": null
+   }
+  },
+  "build123d.build_part": {
+   "importable": true,
+   "all": null,
+   "names": {
+    "BuildPart": null,
+    "Builder": null,
+    "ClassVar": null,
+    "Edge": null,
+    "Face": null,
+    "Joint": null,
+    "Location": null,
+    "Mode": null,
+    "Part": null,
+    "Plane": null,
+    "Solid": null,
+    "Wire": null,
+    "annotations": null,
+    "logger": null
+   }
+  },
+  "build123d.build_sketch": {
+   "importable": true,
+   "all": null,
+   "names": {
+    "BuildSketch": null,
+    "Builder": null,
+    "ClassVar": null,
+    "Edge": null,
+    "Face": null,
+    "Location": null,
+    "Mode": null,
+    "Plane": null,
+    "ShapeList": null,
+    "Sketch": null,
+    "Wire": null,
+    "annotations": null
+   }
+  },
+  "build123d.drafting": {
+   "importable": true,
+   "all": null,
+   "names": {
+    "Align": null,
+    "Arrow": null,
+    "ArrowHead": null,
+    "Axis": null,
+    "BaseSketchObject": null,
+    "BuildLine": null,
+    "BuildSketch": null,
+    "ClassVar": null,
+    "Compound": null,
+    "Curve": null,
+    "DimensionLine": null,
+    "Draft": null,
+    "Edge": null,
+    "ExtensionLine": null,
+    "FontStyle": null,
+    "GeomType": null,
+    "HeadType": null,
+    "IN": null,
+    "Iterable": null,
+    "Line": null,
+    "Location": null,
+    "MM": null,
+    "Mode": null,
+    "NumberDisplay": null,
+    "PageSize": null,
+    "PathDescriptor": null,
+    "Plane": null,
+    "PointLike": null,
+    "Polygon": null,
+    "Pos": null,
+    "ShapeList": null,
+    "Side": null,
+    "Sketch": null,
+    "TOLERANCE": null,
+    "TangentArc": null,
+    "TechnicalDrawing": null,
+    "Text": null,
+    "TypeAlias": null,
+    "Unit": null,
+    "Vector": null,
+    "VectorLike": null,
+    "Vertex": null,
+    "Wire": null,
+    "cast": null,
+    "copysign": null,
+    "dataclass": null,
+    "date": null,
+    "fillet": null,
+    "floor": null,
+    "gcd": null,
+    "log2": null,
+    "make_face": null,
+    "mirror": null,
+    "pi": null,
+    "radians": null,
+    "sin": null,
+    "sweep": null,
+    "trace": null
+   }
+  },
+  "build123d.exporters": {
+   "importable": true,
+   "all": null,
+   "names": {
+    "Any": null,
+    "AutoNameEnum": null,
+    "BRepLib": null,
+    "BRepTools_WireExplorer": null,
+    "BoundBox": null,
+    "BytesIO": null,
+    "Callable": null,
+    "Color": null,
+    "ColorIndex": null,
+    "ColorLike": null,
+    "Compound": null,
+    "DotLength": null,
+    "Drawing": null,
+    "ET": null,
+    "Edge": null,
+    "Enum": null,
+    "Export2D": null,
+    "ExportDXF": null,
+    "ExportSVG": null,
+    "GeomConvert": null,
+    "GeomConvert_BSplineCurveToBezierCurve": null,
+    "GeomType": null,
+    "Geom_BSplineCurve": null,
+    "Geom_BezierCurve": null,
+    "HLRAlgo_Projector": null,
+    "HLRBRep_Algo": null,
+    "HLRBRep_HLRToShape": null,
+    "Iterable": null,
+    "LineType": null,
+    "PT": null,
+    "PathLike": null,
+    "PathSegment": null,
+    "RGB": null,
+    "Self": null,
+    "Shape": null,
+    "TOLERANCE": null,
+    "TopAbs_Orientation": null,
+    "TopAbs_ShapeEnum": null,
+    "TopExp_Explorer": null,
+    "TopoDS": null,
+    "TypeAlias": null,
+    "UNITS_PER_METER": null,
+    "Unit": null,
+    "Vec2": null,
+    "Vector": null,
+    "VectorLike": null,
+    "Wire": null,
+    "aci2rgb": null,
+    "ansi_pattern": null,
+    "auto": null,
+    "copy": null,
+    "ezdxf": null,
+    "fsdecode": null,
+    "gp_Ax2": null,
+    "gp_Dir": null,
+    "gp_Pnt": null,
+    "gp_Vec": null,
+    "gp_XYZ": null,
+    "io": null,
+    "iso_pattern": null,
+    "math": null,
+    "sentinel": null,
+    "tcast": null,
+    "unit_conversion_scale": null,
+    "warn": null,
+    "zoom": null
+   }
+  },
+  "build123d.exporters3d": {
+   "importable": true,
+   "all": null,
+   "names": {
+    "APIHeaderSection_MakeHeader": null,
+    "BRepMesh_IncrementalMesh": null,
+    "BRepTools": null,
+    "BinaryIO": null,
+    "BytesIO": null,
+    "Compound": null,
+    "Curve": null,
+    "IFSelect_ReturnStatus": null,
+    "IGESControl_Controller": null,
+    "IndexedDataMap_TCollection_AsciiString_TCollection_AsciiString": null,
+    "Interface_Static": null,
+    "Location": null,
+    "Message": null,
+    "Message_Gravity": null,
+    "Message_ProgressRange": null,
+    "Part": null,
+    "Path": null,
+    "PathLike": null,
+    "PbrProperties": null,
+    "PreOrderIter": null,
+    "PrecisionMode": null,
+    "RWGltf_CafWriter": null,
+    "STEPCAFControl_Controller": null,
+    "STEPCAFControl_Writer": null,
+    "STEPControl_Controller": null,
+    "STEPControl_StepModelType": null,
+    "Shape": null,
+    "Sketch": null,
+    "StlAPI_Writer": null,
+    "TCollection_AsciiString": null,
+    "TCollection_ExtendedString": null,
+    "TCollection_HAsciiString": null,
+    "TDF_Label": null,
+    "TDataStd_Name": null,
+    "TDocStd_Document": null,
+    "TopExp_Explorer": null,
+    "UNITS_PER_METER": null,
+    "Unit": null,
+    "XCAFApp_Application": null,
+    "XCAFDoc_ColorType": null,
+    "XCAFDoc_DocumentTool": null,
+    "XCAFDoc_ShapeTool": null,
+    "XSControl_WorkSession": null,
+    "cast": null,
+    "datetime": null,
+    "export_brep": null,
+    "export_gltf": null,
+    "export_obj": null,
+    "export_step": null,
+    "export_stl": null,
+    "export_to_pcbway": null,
+    "fsdecode": null,
+    "inject_materials": null,
+    "requests": null,
+    "ta": null,
+    "tempfile": null,
+    "warnings": null,
+    "webbrowser": null
+   }
+  },
+  "build123d.geometry": {
+   "importable": true,
+   "all": null,
+   "names": {
+    "Align": null,
+    "Align2D": null,
+    "Align3D": null,
+    "Any": null,
+    "Axis": null,
+    "AxisMeta": null,
+    "BRepBndLib": null,
+    "BRepBuilderAPI_MakeFace": null,
+    "BRepBuilderAPI_Transform": null,
+    "BRepGProp": null,
+    "BRepGProp_Face": null,
+    "BRepTools": null,
+    "BRep_Tool": null,
+    "Bnd_Box": null,
+    "Bnd_OBB": null,
+    "BoundBox": null,
+    "CLASS_REGISTRY": null,
+    "Callable": null,
+    "ClassVar": null,
+    "Color": null,
+    "ColorLike": null,
+    "DEG2RAD": null,
+    "Extrinsic": null,
+    "GEOM_KEY_DIGITS": null,
+    "GProp_GProps": null,
+    "GeomAPI_IntCS": null,
+    "GeomAPI_IntSS": null,
+    "GeomAPI_ProjectPointOnSurf": null,
+    "GeomEncoder": null,
+    "Geom_BoundedSurface": null,
+    "Geom_ElementarySurface": null,
+    "Geom_Line": null,
+    "Geom_Plane": null,
+    "Intrinsic": null,
+    "Iterable": null,
+    "Iterator": null,
+    "Location": null,
+    "Matrix": null,
+    "Movable": null,
+    "MovableT": null,
+    "NotAllLocationLikeError": null,
+    "OrientedBoundBox": null,
+    "Plane": null,
+    "PlaneMeta": null,
+    "Pos": null,
+    "Protocol": null,
+    "Quantity_Color": null,
+    "Quantity_ColorRGBA": null,
+    "Quantity_TypeOfColor": null,
+    "RAD2DEG": null,
+    "Rot": null,
+    "Rotation": null,
+    "RotationLike": null,
+    "Sequence": null,
+    "TOL": null,
+    "TOLERANCE": null,
+    "TOL_DIGITS": null,
+    "TYPE_CHECKING": null,
+    "TopAbs_ShapeEnum": null,
+    "TopLoc_Location": null,
+    "TopoDS": null,
+    "TopoDS_Edge": null,
+    "TopoDS_Face": null,
+    "TopoDS_Shape": null,
+    "TopoDS_Vertex": null,
+    "Type": null,
+    "TypeAlias": null,
+    "TypeVar": null,
+    "Vector": null,
+    "VectorLike": null,
+    "all_location_like": null,
+    "annotations": null,
+    "apply_location_like": null,
+    "cast": null,
+    "colorsys": null,
+    "copy_module": null,
+    "degrees": null,
+    "deprecated": null,
+    "gp_Ax1": null,
+    "gp_Ax2": null,
+    "gp_Ax3": null,
+    "gp_Dir": null,
+    "gp_EulerSequence": null,
+    "gp_GTrsf": null,
+    "gp_Lin": null,
+    "gp_Pln": null,
+    "gp_Pnt": null,
+    "gp_Quaternion": null,
+    "gp_Trsf": null,
+    "gp_Vec": null,
+    "gp_XYZ": null,
+    "itertools": null,
+    "json": null,
+    "log10": null,
+    "logger": null,
+    "logging": null,
+    "np": null,
+    "overload": null,
+    "pi": null,
+    "prod": null,
+    "radians": null,
+    "to_align_offset": null,
+    "warnings": null,
+    "webcolors": null
+   }
+  },
+  "build123d.import_dxf": {
+   "importable": true,
+   "all": null,
+   "names": {
+    "ArcEdge": {
+     "kind": "class",
+     "module": "ezdxf.entities.boundary_paths",
+     "origin": "reexport"
+    },
+    "Axis": null,
+    "BSpline": null,
+    "BinaryIO": null,
+    "BytesIO": null,
+    "Callable": {
+     "kind": "function",
+     "module": "typing",
+     "origin": "reexport",
+     "stdlib": [
+      "typing",
+      "Callable"
+     ]
+    },
+    "CenterArc": null,
+    "Circle": null,
+    "DXFGraphic": {
+     "kind": "class",
+     "module": "ezdxf.entities.dxfgfx",
+     "origin": "reexport"
+    },
+    "Edge": null,
+    "EdgePath": {
+     "kind": "class",
+     "module": "ezdxf.entities.boundary_paths",
+     "origin": "reexport"
+    },
+    "EllipseEdge": {
+     "kind": "class",
+     "module": "ezdxf.entities.boundary_paths",
+     "origin": "reexport"
+    },
+    "EllipticalCenterArc": null,
+    "Line": null,
+    "LineEdge": {
+     "kind": "class",
+     "module": "ezdxf.entities.boundary_paths",
+     "origin": "reexport"
+    },
+    "PathLike": null,
+    "Polygon": null,
+    "PolylinePath": {
+     "kind": "class",
+     "module": "ezdxf.entities.boundary_paths",
+     "origin": "reexport"
+    },
+    "Pos": null,
+    "SagittaArc": null,
+    "Shape": null,
+    "ShapeList": null,
+    "Spline": null,
+    "SplineEdge": {
+     "kind": "class",
+     "module": "ezdxf.entities.boundary_paths",
+     "origin": "reexport"
+    },
+    "StringIO": {
+     "kind": "class",
+     "module": "_io",
+     "origin": "reexport",
+     "stdlib": [
+      "_io",
+      "StringIO"
+     ]
+    },
+    "TOLERANCE": null,
+    "Text": null,
+    "TextAlign": null,
+    "TextIO": null,
+    "TextIOBase": {
+     "kind": "class",
+     "module": "io",
+     "origin": "reexport",
+     "stdlib": [
+      "io",
+      "TextIOBase"
+     ]
+    },
+    "Vector": null,
+    "VectorLike": null,
+    "Vertex": null,
+    "Wire": null,
+    "cast": null,
+    "entity_dispatch": {
+     "kind": "object",
+     "type": "dict",
+     "module": "builtins",
+     "origin": "reexport"
+    },
+    "ezdxf": null,
+    "import_dxf": null,
+    "math": null,
+    "process_arc": {
+     "kind": "function",
+     "module": "build123d.import_dxf",
+     "origin": "build123d"
+    },
+    "process_circle": {
+     "kind": "function",
+     "module": "build123d.import_dxf",
+     "origin": "build123d"
+    },
+    "process_ellipse": {
+     "kind": "function",
+     "module": "build123d.import_dxf",
+     "origin": "build123d"
+    },
+    "process_hatch": {
+     "kind": "function",
+     "module": "build123d.import_dxf",
+     "origin": "build123d"
+    },
+    "process_insert": {
+     "kind": "function",
+     "module": "build123d.import_dxf",
+     "origin": "build123d"
+    },
+    "process_line": {
+     "kind": "function",
+     "module": "build123d.import_dxf",
+     "origin": "build123d"
+    },
+    "process_lwpolyline": {
+     "kind": "function",
+     "module": "build123d.import_dxf",
+     "origin": "build123d"
+    },
+    "process_mtext": {
+     "kind": "function",
+     "module": "build123d.import_dxf",
+     "origin": "build123d"
+    },
+    "process_point": {
+     "kind": "function",
+     "module": "build123d.import_dxf",
+     "origin": "build123d"
+    },
+    "process_polyline": {
+     "kind": "function",
+     "module": "build123d.import_dxf",
+     "origin": "build123d"
+    },
+    "process_solid_trace_3dface": {
+     "kind": "function",
+     "module": "build123d.import_dxf",
+     "origin": "build123d"
+    },
+    "process_spline": {
+     "kind": "function",
+     "module": "build123d.import_dxf",
+     "origin": "build123d"
+    },
+    "process_text": {
+     "kind": "function",
+     "module": "build123d.import_dxf",
+     "origin": "build123d"
+    },
+    "scale": null,
+    "warnings": null
+   }
+  },
+  "build123d.importers": {
+   "importable": true,
+   "all": null,
+   "names": {
+    "Align": null,
+    "BRepBndLib": null,
+    "BRepTools": null,
+    "BRep_Builder": null,
+    "Bnd_Box": null,
+    "CM": null,
+    "Color": null,
+    "ColorAndLabel": null,
+    "Compound": null,
+    "Edge": null,
+    "FT": null,
+    "Face": null,
+    "IN": null,
+    "Literal": null,
+    "Location": null,
+    "M": null,
+    "MC": null,
+    "MM": null,
+    "Path": null,
+    "PathLike": null,
+    "Quantity_ColorRGBA": null,
+    "RWStl": null,
+    "STEPCAFControl_Reader": null,
+    "Sequence_TDF_Label": null,
+    "Shape": null,
+    "ShapeList": null,
+    "Shell": null,
+    "Solid": null,
+    "TCollection_AsciiString": null,
+    "TCollection_ExtendedString": null,
+    "TDF_Label": null,
+    "TDataStd_Name": null,
+    "TDocStd_Document": null,
+    "TOLERANCE": null,
+    "TOL_DIGITS": null,
+    "TextIO": null,
+    "TopAbs_FACE": null,
+    "TopExp_Explorer": null,
+    "TopoDS_Compound": null,
+    "TopoDS_Edge": null,
+    "TopoDS_Face": null,
+    "TopoDS_Shape": null,
+    "TopoDS_Shell": null,
+    "TopoDS_Solid": null,
+    "TopoDS_Vertex": null,
+    "TopoDS_Wire": null,
+    "Unit": null,
+    "Vector": null,
+    "Vertex": null,
+    "Wire": null,
+    "XCAFDoc_ColorCurv": null,
+    "XCAFDoc_ColorGen": null,
+    "XCAFDoc_ColorSurf": null,
+    "XCAFDoc_ColorTool": null,
+    "XCAFDoc_DocumentTool": null,
+    "downcast": null,
+    "fsdecode": null,
+    "gp_Trsf": null,
+    "import_brep": null,
+    "import_step": null,
+    "import_stl": null,
+    "import_svg": null,
+    "import_svg_as_buildline_code": null,
+    "import_svg_document": null,
+    "os": null,
+    "re": null,
+    "svgpathtools": null,
+    "to_align_offset": null,
+    "topods_lut": null,
+    "unicodedata": null
+   }
+  },
+  "build123d.joints": {
+   "importable": true,
+   "all": null,
+   "names": {
+    "Align": null,
+    "Axis": null,
+    "BallJoint": null,
+    "BuildPart": null,
+    "Compound": null,
+    "CylindricalJoint": null,
+    "Edge": null,
+    "Joint": null,
+    "LinearJoint": null,
+    "Location": null,
+    "Plane": null,
+    "RevoluteJoint": null,
+    "RigidJoint": null,
+    "Rotation": null,
+    "RotationLike": null,
+    "Solid": null,
+    "Vector": null,
+    "VectorLike": null,
+    "annotations": null,
+    "inf": null,
+    "overload": null,
+    "validate_inputs": null
+   }
+  },
+  "build123d.jupyter_tools": {
+   "importable": true,
+   "all": null,
+   "names": {
+    "Any": null,
+    "DEFAULT_COLOR": {
+     "kind": "object",
+     "type": "list",
+     "module": "builtins",
+     "origin": "reexport"
+    },
+    "HTML": {
+     "kind": "class",
+     "module": "IPython.core.display",
+     "origin": "reexport"
+    },
+    "TEMPLATE_JS": {
+     "kind": "object",
+     "type": "str",
+     "module": "builtins",
+     "origin": "reexport"
+    },
+    "Template": {
+     "kind": "class",
+     "module": "string",
+     "origin": "reexport",
+     "stdlib": [
+      "string",
+      "Template"
+     ]
+    },
+    "dir_path": {
+     "kind": "object",
+     "type": "str",
+     "module": "builtins",
+     "origin": "reexport"
+    },
+    "dumps": {
+     "kind": "function",
+     "module": "json",
+     "origin": "reexport",
+     "stdlib": [
+      "json",
+      "dumps"
+     ]
+    },
+    "f": {
+     "kind": "object",
+     "type": "TextIOWrapper",
+     "module": "_io",
+     "origin": "reexport"
+    },
+    "has_vtk": {
+     "kind": "object",
+     "type": "bool",
+     "module": "builtins",
+     "origin": "reexport"
+    },
+    "os": null,
+    "shape_to_html": {
+     "kind": "function",
+     "module": "build123d.jupyter_tools",
+     "origin": "build123d"
+    },
+    "to_vtkpoly_string": {
+     "kind": "function",
+     "module": "build123d.vtk_tools",
+     "origin": "build123d"
+    },
+    "uuid": {
+     "kind": "module",
+     "module": "uuid",
+     "origin": "reexport",
+     "stdlib": [
+      "uuid",
+      null
+     ]
+    },
+    "warnings": null
+   }
+  },
+  "build123d.mesher": {
+   "importable": true,
+   "all": null,
+   "names": {
+    "BRepBuilderAPI_MakeFace": null,
+    "BRepBuilderAPI_MakePolygon": null,
+    "BRepBuilderAPI_MakeSolid": null,
+    "BRepBuilderAPI_Sewing": null,
+    "BRepGProp": null,
+    "BRepMesh_IncrementalMesh": null,
+    "BRep_Tool": null,
+    "BytesIO": null,
+    "Color": null,
+    "Compound": null,
+    "GProp_GProps": null,
+    "Iterable": null,
+    "Lib3MF": null,
+    "Literal": null,
+    "MeshType": null,
+    "Mesher": null,
+    "PathLike": null,
+    "Shape": null,
+    "Shell": null,
+    "Solid": null,
+    "TOLERANCE": null,
+    "TopAbs_ShapeEnum": null,
+    "TopExp_Explorer": null,
+    "TopLoc_Location": null,
+    "TopoDS": null,
+    "TopoDS_Compound": null,
+    "TopoDS_Shell": null,
+    "UUID": null,
+    "Unit": null,
+    "copy_module": null,
+    "ctypes": null,
+    "downcast": null,
+    "fsdecode": null,
+    "gp_Pnt": null,
+    "math": null,
+    "os": null,
+    "sys": null,
+    "ta": null,
+    "warnings": null
+   }
+  },
+  "build123d.objects_curve": {
+   "importable": true,
+   "all": null,
+   "names": {
+    "Airfoil": null,
+    "AngularDirection": null,
+    "Axis": null,
+    "BSpline": null,
+    "BaseCurveObject": null,
+    "BaseEdgeObject": null,
+    "BaseLineObject": null,
+    "BaseObject": null,
+    "Bezier": null,
+    "BlendCurve": null,
+    "BuildLine": null,
+    "Callable": null,
+    "CenterArc": null,
+    "ConstrainedArcs": null,
+    "ConstrainedLines": null,
+    "ContinuityLevel": null,
+    "Curve": null,
+    "DoubleTangentArc": null,
+    "Edge": null,
+    "EllipticalCenterArc": null,
+    "EllipticalStartArc": null,
+    "Face": null,
+    "FilletPolyline": null,
+    "GeomType": null,
+    "Helix": null,
+    "HyperbolicCenterArc": null,
+    "IntersectingLine": null,
+    "Iterable": null,
+    "JernArc": null,
+    "Keep": null,
+    "LengthMode": null,
+    "Line": null,
+    "Location": null,
+    "Mode": null,
+    "ParabolicCenterArc": null,
+    "Plane": null,
+    "PolarLine": null,
+    "Polyline": null,
+    "RadiusArc": null,
+    "Sagitta": null,
+    "SagittaArc": null,
+    "Sequence": null,
+    "Shape": null,
+    "ShapeList": null,
+    "Spline": null,
+    "TOLERANCE": null,
+    "Tangency": null,
+    "TangentArc": null,
+    "ThreePointArc": null,
+    "Vector": null,
+    "VectorLike": null,
+    "Vertex": null,
+    "Wire": null,
+    "annotations": null,
+    "atan2": null,
+    "copysign": null,
+    "cos": null,
+    "degrees": null,
+    "flatten_sequence": null,
+    "minimize": null,
+    "np": null,
+    "overload": null,
+    "product": null,
+    "radians": null,
+    "sin": null,
+    "sqrt": null
+   }
+  },
+  "build123d.objects_part": {
+   "importable": true,
+   "all": null,
+   "names": {
+    "Align": null,
+    "BaseObject": null,
+    "BasePartObject": null,
+    "Box": null,
+    "BuildPart": null,
+    "Compound": null,
+    "Cone": null,
+    "ConvexHull": null,
+    "ConvexPolyhedron": null,
+    "CounterBoreHole": null,
+    "CounterSinkHole": null,
+    "Cylinder": null,
+    "Face": null,
+    "Hole": null,
+    "Iterable": null,
+    "Location": null,
+    "Mode": null,
+    "Part": null,
+    "Plane": null,
+    "Rotation": null,
+    "RotationLike": null,
+    "ShapeList": null,
+    "Shell": null,
+    "Solid": null,
+    "Sphere": null,
+    "Torus": null,
+    "Vector": null,
+    "VectorLike": null,
+    "Wedge": null,
+    "Wire": null,
+    "annotations": null,
+    "radians": null,
+    "tan": null,
+    "tuplify": null
+   }
+  },
+  "build123d.objects_sketch": {
+   "importable": true,
+   "all": null,
+   "names": {
+    "Align": null,
+    "Axis": null,
+    "BaseObject": null,
+    "BaseSketchObject": null,
+    "BuildSketch": null,
+    "Circle": null,
+    "Compound": null,
+    "Edge": null,
+    "Ellipse": null,
+    "Face": null,
+    "FontStyle": null,
+    "Iterable": null,
+    "Location": null,
+    "Mode": null,
+    "PathLike": null,
+    "Plane": null,
+    "Polygon": null,
+    "Rectangle": null,
+    "RectangleRounded": null,
+    "RegularPolygon": null,
+    "Rotation": null,
+    "ShapeList": null,
+    "Sketch": null,
+    "SlotArc": null,
+    "SlotCenterPoint": null,
+    "SlotCenterToCenter": null,
+    "SlotOverall": null,
+    "Superellipse": null,
+    "TOLERANCE": null,
+    "Text": null,
+    "TextAlign": null,
+    "Trapezoid": null,
+    "Triangle": null,
+    "Vector": null,
+    "VectorLike": null,
+    "Vertex": null,
+    "Wire": null,
+    "annotations": null,
+    "cast": null,
+    "copysign": null,
+    "cos": null,
+    "degrees": null,
+    "flatten_sequence": null,
+    "pi": null,
+    "radians": null,
+    "sin": null,
+    "tan": null,
+    "to_align_offset": null,
+    "topo_explore_common_vertex": null,
+    "trianglesolver": null,
+    "tuplify": null
+   }
+  },
+  "build123d.operations_generic": {
+   "importable": true,
+   "all": null,
+   "names": {
+    "AddType": null,
+    "Axis": null,
+    "BaseLineObject": null,
+    "BasePartObject": null,
+    "BaseSketchObject": null,
+    "BuildLine": null,
+    "BuildPart": null,
+    "BuildSketch": null,
+    "Builder": null,
+    "ChamferFilletType": null,
+    "Compound": null,
+    "Curve": null,
+    "Edge": null,
+    "Face": null,
+    "GeomType": null,
+    "GroupBy": null,
+    "Iterable": null,
+    "Keep": null,
+    "Kind": null,
+    "LocationList": null,
+    "MirrorType": null,
+    "Mode": null,
+    "OffsetType": null,
+    "Part": null,
+    "Plane": null,
+    "ProjectType": null,
+    "Rotation": null,
+    "RotationLike": null,
+    "Shape": null,
+    "ShapeHistory": null,
+    "ShapeList": null,
+    "Shell": null,
+    "Side": null,
+    "Sketch": null,
+    "Solid": null,
+    "SplitType": null,
+    "Standard_ConstructionError": null,
+    "Standard_Failure": null,
+    "StdFail_NotDone": null,
+    "SweepType": null,
+    "Transition": null,
+    "TypeAlias": null,
+    "Vector": null,
+    "VectorLike": null,
+    "Vertex": null,
+    "Wire": null,
+    "add": null,
+    "bounding_box": null,
+    "cast": null,
+    "chamfer": null,
+    "copy_module": null,
+    "deprecated": null,
+    "fillet": null,
+    "flatten_sequence": null,
+    "insert": null,
+    "isclose_b": null,
+    "logger": null,
+    "logging": null,
+    "mirror": null,
+    "offset": null,
+    "project": null,
+    "radians": null,
+    "scale": null,
+    "split": null,
+    "sweep": null,
+    "tan": null,
+    "validate_inputs": null
+   }
+  },
+  "build123d.operations_part": {
+   "importable": true,
+   "all": null,
+   "names": {
+    "Axis": null,
+    "BuildPart": null,
+    "Compound": null,
+    "Curve": null,
+    "DraftAngleError": null,
+    "Edge": null,
+    "Face": null,
+    "GeomType": null,
+    "Iterable": null,
+    "Kind": null,
+    "Mode": null,
+    "Part": null,
+    "Plane": null,
+    "ShapeHistory": null,
+    "ShapeList": null,
+    "Shell": null,
+    "Side": null,
+    "Sketch": null,
+    "Solid": null,
+    "Until": null,
+    "Vector": null,
+    "VectorLike": null,
+    "Vertex": null,
+    "Wire": null,
+    "annotations": null,
+    "cast": null,
+    "cycle": null,
+    "draft": null,
+    "extrude": null,
+    "flatten_sequence": null,
+    "loft": null,
+    "logger": null,
+    "make_brake_formed": null,
+    "permutations": null,
+    "project_workplane": null,
+    "revolve": null,
+    "section": null,
+    "starmap": null,
+    "thicken": null,
+    "validate_inputs": null
+   }
+  },
+  "build123d.operations_sketch": {
+   "importable": true,
+   "all": null,
+   "names": {
+    "BuildSketch": null,
+    "Compound": null,
+    "Curve": null,
+    "Edge": null,
+    "Face": null,
+    "Iterable": null,
+    "Mode": null,
+    "Plane": null,
+    "ShapeList": null,
+    "Shell": null,
+    "Sketch": null,
+    "SortBy": null,
+    "Transition": null,
+    "Vector": null,
+    "Voronoi": null,
+    "Wire": null,
+    "annotations": null,
+    "flatten_sequence": null,
+    "full_round": null,
+    "make_face": null,
+    "make_hull": null,
+    "topo_explore_connected_edges": null,
+    "trace": null,
+    "validate_inputs": null
+   }
+  },
+  "build123d.pack": {
+   "importable": true,
+   "all": null,
+   "names": {
+    "Collection": null,
+    "Location": null,
+    "Pos": null,
+    "Shape": null,
+    "annotations": null,
+    "cast": null,
+    "pack": null
+   }
+  },
+  "build123d.pack_utils": {
+   "importable": true,
+   "all": null,
+   "names": {
+    "Callable": null,
+    "Collection": null,
+    "annotations": null,
+    "dataclass": null
+   }
+  },
+  "build123d.persistence": {
+   "importable": true,
+   "all": null,
+   "names": {
+    "BinTools": {
+     "kind": "class",
+     "module": "OCP.OCP.BinTools",
+     "origin": "ocp"
+    },
+    "TopLoc_Location": null,
+    "TopoDS_CompSolid": {
+     "kind": "class",
+     "module": "OCP.OCP.TopoDS",
+     "origin": "ocp"
+    },
+    "TopoDS_Compound": null,
+    "TopoDS_Edge": null,
+    "TopoDS_Face": null,
+    "TopoDS_Shape": null,
+    "TopoDS_Shell": null,
+    "TopoDS_Solid": null,
+    "TopoDS_Vertex": null,
+    "TopoDS_Wire": null,
+    "copyreg": {
+     "kind": "module",
+     "module": "copyreg",
+     "origin": "reexport",
+     "stdlib": [
+      "copyreg",
+      null
+     ]
+    },
+    "deserialize_location": {
+     "kind": "function",
+     "module": "build123d.persistence",
+     "origin": "build123d"
+    },
+    "deserialize_shape": {
+     "kind": "function",
+     "module": "build123d.persistence",
+     "origin": "build123d"
+    },
+    "downcast": null,
+    "gp_Quaternion": null,
+    "gp_Trsf": null,
+    "gp_Vec": null,
+    "io": null,
+    "modify_copyreg": null,
+    "reduce_location": {
+     "kind": "function",
+     "module": "build123d.persistence",
+     "origin": "build123d"
+    },
+    "reduce_shape": {
+     "kind": "function",
+     "module": "build123d.persistence",
+     "origin": "build123d"
+    },
+    "serialize_location": {
+     "kind": "function",
+     "module": "build123d.persistence",
+     "origin": "build123d"
+    },
+    "serialize_shape": {
+     "kind": "function",
+     "module": "build123d.persistence",
+     "origin": "build123d"
+    },
+    "struct": {
+     "kind": "module",
+     "module": "struct",
+     "origin": "reexport",
+     "stdlib": [
+      "struct",
+      null
+     ]
+    }
+   }
+  },
+  "build123d.text": {
+   "importable": true,
+   "all": null,
+   "names": {
+    "FONT_ASPECT": {
+     "kind": "object",
+     "type": "dict",
+     "module": "builtins",
+     "origin": "reexport"
+    },
+    "FontInfo": {
+     "kind": "class",
+     "module": "build123d.text",
+     "origin": "build123d"
+    },
+    "FontManager": null,
+    "FontStyle": null,
+    "Font_FA_Bold": {
+     "kind": "object",
+     "type": "Font_FontAspect",
+     "module": "OCP.OCP.Font",
+     "origin": "ocp"
+    },
+    "Font_FA_BoldItalic": {
+     "kind": "object",
+     "type": "Font_FontAspect",
+     "module": "OCP.OCP.Font",
+     "origin": "ocp"
+    },
+    "Font_FA_Italic": {
+     "kind": "object",
+     "type": "Font_FontAspect",
+     "module": "OCP.OCP.Font",
+     "origin": "ocp"
+    },
+    "Font_FA_Regular": {
+     "kind": "object",
+     "type": "Font_FontAspect",
+     "module": "OCP.OCP.Font",
+     "origin": "ocp"
+    },
+    "Font_FontMgr": {
+     "kind": "class",
+     "module": "OCP.OCP.Font",
+     "origin": "ocp"
+    },
+    "Font_SystemFont": {
+     "kind": "class",
+     "module": "OCP.OCP.Font",
+     "origin": "ocp"
+    },
+    "Sequence_TCollection_HAsciiString": {
+     "kind": "class",
+     "module": "OCP.OCP.collections",
+     "origin": "ocp"
+    },
+    "TCollection_AsciiString": null,
+    "TTFont": {
+     "kind": "class",
+     "module": "fontTools.ttLib.ttFont",
+     "origin": "reexport"
+    },
+    "TTLibError": {
+     "kind": "class",
+     "module": "fontTools.ttLib",
+     "origin": "reexport"
+    },
+    "TTLibFileIsCollectionError": {
+     "kind": "class",
+     "module": "fontTools.ttLib",
+     "origin": "reexport"
+    },
+    "available_fonts": null,
+    "dataclass": null,
+    "glob": {
+     "kind": "module",
+     "module": "glob",
+     "origin": "reexport",
+     "stdlib": [
+      "glob",
+      null
+     ]
+    },
+    "logger": null,
+    "logging": null,
+    "os": null,
+    "platform": {
+     "kind": "module",
+     "module": "platform",
+     "origin": "reexport",
+     "stdlib": [
+      "platform",
+      null
+     ]
+    },
+    "sys": null,
+    "ttCollection": {
+     "kind": "module",
+     "module": "fontTools.ttLib.ttCollection",
+     "origin": "reexport"
+    }
+   }
+  },
+  "build123d.topology": {
+   "importable": true,
+   "all": [
+    "BoundBox",
+    "Comparable",
+    "Compound",
+    "Curve",
+    "DraftAngleError",
+    "Edge",
+    "Face",
+    "GroupBy",
+    "Joint",
+    "Part",
+    "Shape",
+    "ShapeHistory",
+    "ShapeList",
+    "Shell",
+    "Sketch",
+    "SkipClean",
+    "Solid",
+    "Vertex",
+    "Wire",
+    "delta",
+    "downcast",
+    "edges_to_wires",
+    "find_max_dimension",
+    "fix",
+    "isclose_b",
+    "new_edges",
+    "offset_topods_face",
+    "polar",
+    "sort_wires_by_build_order",
+    "topo_distance_to",
+    "topo_explore_common_vertex",
+    "topo_explore_connected_edges",
+    "topo_explore_connected_faces",
+    "tuplify",
+    "unwrap_topods_compound"
+   ],
+   "names": {
+    "BoundBox": null,
+    "Comparable": null,
+    "Compound": null,
+    "Curve": null,
+    "DraftAngleError": null,
+    "Edge": null,
+    "Face": null,
+    "GroupBy": null,
+    "Joint": null,
+    "Mixin1D": {
+     "kind": "class",
+     "module": "build123d.topology.one_d",
+     "origin": "build123d"
+    },
+    "Mixin2D": {
+     "kind": "class",
+     "module": "build123d.topology.two_d",
+     "origin": "build123d"
+    },
+    "Mixin3D": {
+     "kind": "class",
+     "module": "build123d.topology.three_d",
+     "origin": "build123d"
+    },
+    "Part": null,
+    "Shape": null,
+    "ShapeHistory": null,
+    "ShapeList": null,
+    "Shell": null,
+    "Sketch": null,
+    "SkipClean": null,
+    "Solid": null,
+    "Vertex": null,
+    "Wire": null,
+    "composite": {
+     "kind": "module",
+     "module": "build123d.topology.composite",
+     "origin": "submodule"
+    },
+    "constrained_lines": {
+     "kind": "module",
+     "module": "build123d.topology.constrained_lines",
+     "origin": "submodule"
+    },
+    "delta": null,
+    "downcast": null,
+    "edges_to_wires": null,
+    "find_max_dimension": null,
+    "fix": null,
+    "history": {
+     "kind": "module",
+     "module": "build123d.topology.history",
+     "origin": "submodule"
+    },
+    "isclose_b": null,
+    "kernel": {
+     "kind": "module",
+     "module": "build123d.topology.kernel",
+     "origin": "submodule"
+    },
+    "new_edges": null,
+    "offset_topods_face": null,
+    "one_d": {
+     "kind": "module",
+     "module": "build123d.topology.one_d",
+     "origin": "submodule"
+    },
+    "polar": null,
+    "shape_core": {
+     "kind": "module",
+     "module": "build123d.topology.shape_core",
+     "origin": "submodule"
+    },
+    "sort_wires_by_build_order": null,
+    "three_d": {
+     "kind": "module",
+     "module": "build123d.topology.three_d",
+     "origin": "submodule"
+    },
+    "topo_distance_to": null,
+    "topo_explore_common_vertex": null,
+    "topo_explore_connected_edges": null,
+    "topo_explore_connected_faces": null,
+    "tuplify": null,
+    "two_d": {
+     "kind": "module",
+     "module": "build123d.topology.two_d",
+     "origin": "submodule"
+    },
+    "unwrap_topods_compound": null,
+    "utils": {
+     "kind": "module",
+     "module": "build123d.topology.utils",
+     "origin": "submodule"
+    },
+    "zero_d": {
+     "kind": "module",
+     "module": "build123d.topology.zero_d",
+     "origin": "submodule"
+    }
+   }
+  },
+  "build123d.topology.composite": {
+   "importable": true,
+   "all": null,
+   "names": {
+    "Align": null,
+    "Axis": null,
+    "BRepAlgoAPI_Fuse": {
+     "kind": "class",
+     "module": "OCP.OCP.BRepAlgoAPI",
+     "origin": "ocp"
+    },
+    "CenterOf": null,
+    "ClassVar": null,
+    "Color": null,
+    "Compound": null,
+    "Curve": null,
+    "Edge": null,
+    "FONT_ASPECT": {
+     "kind": "object",
+     "type": "dict",
+     "module": "builtins",
+     "origin": "reexport"
+    },
+    "Face": null,
+    "FinishedMaterial": {
+     "kind": "class",
+     "module": "bd_materials.finished",
+     "origin": "reexport"
+    },
+    "FontManager": null,
+    "FontStyle": null,
+    "Font_BRepTextBuilder": {
+     "kind": "class",
+     "module": "OCP.OCP.StdPrs",
+     "origin": "ocp"
+    },
+    "Font_SystemFont": {
+     "kind": "class",
+     "module": "OCP.OCP.Font",
+     "origin": "ocp"
+    },
+    "GProp_GProps": null,
+    "Graphic3d_HTA_CENTER": {
+     "kind": "object",
+     "type": "Graphic3d_HorizontalTextAlignment",
+     "module": "OCP.OCP.Graphic3d",
+     "origin": "ocp"
+    },
+    "Graphic3d_HTA_LEFT": {
+     "kind": "object",
+     "type": "Graphic3d_HorizontalTextAlignment",
+     "module": "OCP.OCP.Graphic3d",
+     "origin": "ocp"
+    },
+    "Graphic3d_HTA_RIGHT": {
+     "kind": "object",
+     "type": "Graphic3d_HorizontalTextAlignment",
+     "module": "OCP.OCP.Graphic3d",
+     "origin": "ocp"
+    },
+    "Graphic3d_VTA_BOTTOM": {
+     "kind": "object",
+     "type": "Graphic3d_VerticalTextAlignment",
+     "module": "OCP.OCP.Graphic3d",
+     "origin": "ocp"
+    },
+    "Graphic3d_VTA_CENTER": {
+     "kind": "object",
+     "type": "Graphic3d_VerticalTextAlignment",
+     "module": "OCP.OCP.Graphic3d",
+     "origin": "ocp"
+    },
+    "Graphic3d_VTA_TOP": {
+     "kind": "object",
+     "type": "Graphic3d_VerticalTextAlignment",
+     "module": "OCP.OCP.Graphic3d",
+     "origin": "ocp"
+    },
+    "Graphic3d_VTA_TOPFIRSTLINE": {
+     "kind": "object",
+     "type": "Graphic3d_VerticalTextAlignment",
+     "module": "OCP.OCP.Graphic3d",
+     "origin": "ocp"
+    },
+    "Iterable": null,
+    "Iterator": null,
+    "Joint": null,
+    "Location": null,
+    "Mixin1D": {
+     "kind": "class",
+     "module": "build123d.topology.one_d",
+     "origin": "build123d"
+    },
+    "Mixin3D": {
+     "kind": "class",
+     "module": "build123d.topology.three_d",
+     "origin": "build123d"
+    },
+    "NCollection_String": {
+     "kind": "class",
+     "module": "OCP.OCP.NCollection",
+     "origin": "ocp"
+    },
+    "Part": null,
+    "PathLike": null,
+    "Plane": null,
+    "PreOrderIter": null,
+    "Select": null,
+    "Self": null,
+    "Sequence": null,
+    "Shape": null,
+    "ShapeHistory": null,
+    "ShapeList": null,
+    "Shell": null,
+    "Sketch": null,
+    "Solid": null,
+    "StdPrs_BRepFont": {
+     "kind": "class",
+     "module": "OCP.OCP.StdPrs",
+     "origin": "ocp"
+    },
+    "TOLERANCE": null,
+    "TextAlign": null,
+    "TopAbs_ShapeEnum": null,
+    "TopoDS": null,
+    "TopoDS_Builder": {
+     "kind": "class",
+     "module": "OCP.OCP.TopoDS",
+     "origin": "ocp"
+    },
+    "TopoDS_Compound": null,
+    "TopoDS_Iterator": {
+     "kind": "class",
+     "module": "OCP.OCP.TopoDS",
+     "origin": "ocp"
+    },
+    "Unit": null,
+    "Vector": null,
+    "VectorLike": null,
+    "Vertex": null,
+    "Wire": null,
+    "annotations": null,
+    "combinations": {
+     "kind": "class",
+     "module": "itertools",
+     "origin": "reexport",
+     "stdlib": [
+      "itertools",
+      "combinations"
+     ]
+    },
+    "copy": {
+     "kind": "module",
+     "module": "copy",
+     "origin": "reexport",
+     "stdlib": [
+      "copy",
+      null
+     ]
+    },
+    "downcast": null,
+    "fspath": {
+     "kind": "function",
+     "module": "posix",
+     "origin": "reexport",
+     "stdlib": [
+      "posix",
+      "fspath"
+     ]
+    },
+    "gp_Ax3": null,
+    "logger": null,
+    "ta": null,
+    "topods_dim": {
+     "kind": "function",
+     "module": "build123d.topology.shape_core",
+     "origin": "build123d"
+    },
+    "tuplify": null,
+    "unwrapped_shapetype": {
+     "kind": "function",
+     "module": "build123d.topology.utils",
+     "origin": "build123d"
+    }
+   }
+  },
+  "build123d.topology.constrained_lines": {
+   "importable": true,
+   "all": null,
+   "names": {
+    "Axis": null,
+    "BRepAdaptor_Curve": {
+     "kind": "class",
+     "module": "OCP.OCP.BRepAdaptor",
+     "origin": "ocp"
+    },
+    "BRepBuilderAPI_MakeEdge": {
+     "kind": "class",
+     "module": "OCP.OCP.BRepBuilderAPI",
+     "origin": "ocp"
+    },
+    "BRepBuilderAPI_MakeVertex": {
+     "kind": "class",
+     "module": "OCP.OCP.BRepBuilderAPI",
+     "origin": "ocp"
+    },
+    "BRepLib": null,
+    "BRep_Tool": null,
+    "Callable": {
+     "kind": "function",
+     "module": "typing",
+     "origin": "reexport",
+     "stdlib": [
+      "typing",
+      "Callable"
+     ]
+    },
+    "GCPnts_AbscissaPoint": {
+     "kind": "class",
+     "module": "OCP.OCP.GCPnts",
+     "origin": "ocp"
+    },
+    "Geom2dAPI_InterCurveCurve": {
+     "kind": "class",
+     "module": "OCP.OCP.Geom2dAPI",
+     "origin": "ocp"
+    },
+    "Geom2dAPI_ProjectPointOnCurve": {
+     "kind": "class",
+     "module": "OCP.OCP.Geom2dAPI",
+     "origin": "ocp"
+    },
+    "Geom2dAdaptor_Curve": {
+     "kind": "class",
+     "module": "OCP.OCP.Geom2dAdaptor",
+     "origin": "ocp"
+    },
+    "Geom2dGcc_Circ2d2TanOn": {
+     "kind": "class",
+     "module": "OCP.OCP.Geom2dGcc",
+     "origin": "ocp"
+    },
+    "Geom2dGcc_Circ2d2TanRad": {
+     "kind": "class",
+     "module": "OCP.OCP.Geom2dGcc",
+     "origin": "ocp"
+    },
+    "Geom2dGcc_Circ2d3Tan": {
+     "kind": "class",
+     "module": "OCP.OCP.Geom2dGcc",
+     "origin": "ocp"
+    },
+    "Geom2dGcc_Circ2dTanCen": {
+     "kind": "class",
+     "module": "OCP.OCP.Geom2dGcc",
+     "origin": "ocp"
+    },
+    "Geom2dGcc_Circ2dTanOnRad": {
+     "kind": "class",
+     "module": "OCP.OCP.Geom2dGcc",
+     "origin": "ocp"
+    },
+    "Geom2dGcc_Lin2d2Tan": {
+     "kind": "class",
+     "module": "OCP.OCP.Geom2dGcc",
+     "origin": "ocp"
+    },
+    "Geom2dGcc_Lin2dTanObl": {
+     "kind": "class",
+     "module": "OCP.OCP.Geom2dGcc",
+     "origin": "ocp"
+    },
+    "Geom2dGcc_QualifiedCurve": {
+     "kind": "class",
+     "module": "OCP.OCP.Geom2dGcc",
+     "origin": "ocp"
+    },
+    "Geom2d_CartesianPoint": {
+     "kind": "class",
+     "module": "OCP.OCP.Geom2d",
+     "origin": "ocp"
+    },
+    "Geom2d_Circle": {
+     "kind": "class",
+     "module": "OCP.OCP.Geom2d",
+     "origin": "ocp"
+    },
+    "Geom2d_Curve": {
+     "kind": "class",
+     "module": "OCP.OCP.Geom2d",
+     "origin": "ocp"
+    },
+    "Geom2d_Line": {
+     "kind": "class",
+     "module": "OCP.OCP.Geom2d",
+     "origin": "ocp"
+    },
+    "Geom2d_Point": {
+     "kind": "class",
+     "module": "OCP.OCP.Geom2d",
+     "origin": "ocp"
+    },
+    "Geom2d_TrimmedCurve": {
+     "kind": "class",
+     "module": "OCP.OCP.Geom2d",
+     "origin": "ocp"
+    },
+    "GeomAPI": {
+     "kind": "class",
+     "module": "OCP.OCP.GeomAPI",
+     "origin": "ocp"
+    },
+    "GeomAbs_CurveType": {
+     "kind": "class",
+     "module": "OCP.OCP.GeomAbs",
+     "origin": "ocp"
+    },
+    "Geom_Plane": null,
+    "IntAna2d_AnaIntersection": {
+     "kind": "class",
+     "module": "OCP.OCP.IntAna2d",
+     "origin": "ocp"
+    },
+    "Sagitta": null,
+    "ShapeList": null,
+    "Standard_ConstructionError": null,
+    "Standard_Failure": null,
+    "TOLERANCE": null,
+    "TWrap": {
+     "kind": "object",
+     "type": "TypeVar",
+     "module": "build123d.topology.constrained_lines",
+     "origin": "build123d"
+    },
+    "TYPE_CHECKING": null,
+    "Tangency": null,
+    "TopoDS_Edge": null,
+    "TypeVar": null,
+    "Vector": null,
+    "VectorLike": null,
+    "Vertex": null,
+    "annotations": null,
+    "atan2": null,
+    "cos": null,
+    "gp_Ax2d": {
+     "kind": "class",
+     "module": "OCP.OCP.gp",
+     "origin": "ocp"
+    },
+    "gp_Ax3": null,
+    "gp_Circ2d": {
+     "kind": "class",
+     "module": "OCP.OCP.gp",
+     "origin": "ocp"
+    },
+    "gp_Dir": null,
+    "gp_Dir2d": {
+     "kind": "class",
+     "module": "OCP.OCP.gp",
+     "origin": "ocp"
+    },
+    "gp_Lin2d": {
+     "kind": "class",
+     "module": "OCP.OCP.gp",
+     "origin": "ocp"
+    },
+    "gp_Pln": null,
+    "gp_Pnt": null,
+    "gp_Pnt2d": {
+     "kind": "class",
+     "module": "OCP.OCP.gp",
+     "origin": "ocp"
+    },
+    "gp_Vec2d": {
+     "kind": "class",
+     "module": "OCP.OCP.gp",
+     "origin": "ocp"
+    },
+    "isnan": {
+     "kind": "function",
+     "module": "math",
+     "origin": "reexport",
+     "stdlib": [
+      "math",
+      "isnan"
+     ]
+    },
+    "overload": null,
+    "pi": null,
+    "sin": null,
+    "tcast": null
+   }
+  },
+  "build123d.topology.history": {
+   "importable": true,
+   "all": null,
+   "names": {
+    "BRepAlgoAPI_BuilderAlgo": {
+     "kind": "class",
+     "module": "OCP.OCP.BRepAlgoAPI",
+     "origin": "ocp"
+    },
+    "BRepBuilderAPI_Sewing": null,
+    "BRepTools_History": {
+     "kind": "class",
+     "module": "OCP.OCP.BRepTools",
+     "origin": "ocp"
+    },
+    "Callable": null,
+    "DataMap_TopoDS_Shape_TopoDS_Shape_TopTools_ShapeMapHasher": {
+     "kind": "class",
+     "module": "OCP.OCP.collections",
+     "origin": "ocp"
+    },
+    "IndexedMap_TopoDS_Shape_TopTools_ShapeMapHasher": {
+     "kind": "class",
+     "module": "OCP.OCP.collections",
+     "origin": "ocp"
+    },
+    "Iterable": null,
+    "List_TopoDS_Shape": {
+     "kind": "class",
+     "module": "OCP.OCP.collections",
+     "origin": "ocp"
+    },
+    "MakeShapeLike": {
+     "kind": "class",
+     "module": "build123d.topology.history",
+     "origin": "build123d"
+    },
+    "Map_TopoDS_Shape_TopTools_ShapeMapHasher": {
+     "kind": "class",
+     "module": "OCP.OCP.collections",
+     "origin": "ocp"
+    },
+    "Protocol": null,
+    "Self": null,
+    "ShapeHistory": null,
+    "ShapeUpgrade_UnifySameDomain": {
+     "kind": "class",
+     "module": "OCP.OCP.ShapeUpgrade",
+     "origin": "ocp"
+    },
+    "TRACKED_TYPES": {
+     "kind": "object",
+     "type": "tuple",
+     "module": "builtins",
+     "origin": "reexport"
+    },
+    "TopExp": {
+     "kind": "class",
+     "module": "OCP.OCP.TopExp",
+     "origin": "ocp"
+    },
+    "TopLoc_Location": null,
+    "TopoDS_Shape": null,
+    "Trace": {
+     "kind": "class",
+     "module": "build123d.topology.history",
+     "origin": "build123d"
+    },
+    "annotations": null,
+    "list_shapes": {
+     "kind": "function",
+     "module": "build123d.topology.kernel",
+     "origin": "build123d"
+    },
+    "ta": null,
+    "tracked_subshapes": {
+     "kind": "function",
+     "module": "build123d.topology.history",
+     "origin": "build123d"
+    }
+   }
+  },
+  "build123d.topology.kernel": {
+   "importable": true,
+   "all": null,
+   "names": {
+    "List_TopoDS_Shape": {
+     "kind": "class",
+     "module": "OCP.OCP.collections",
+     "origin": "ocp"
+    },
+    "TopoDS_Shape": null,
+    "annotations": null,
+    "list_shapes": {
+     "kind": "function",
+     "module": "build123d.topology.kernel",
+     "origin": "build123d"
+    }
+   }
+  },
+  "build123d.topology.one_d": {
+   "importable": true,
+   "all": null,
+   "names": {
+    "AngularDirection": null,
+    "Array1_double": {
+     "kind": "class",
+     "module": "OCP.OCP.collections",
+     "origin": "ocp"
+    },
+    "Array1_gp_Pnt": {
+     "kind": "class",
+     "module": "OCP.OCP.collections",
+     "origin": "ocp"
+    },
+    "Array1_gp_Vec": {
+     "kind": "class",
+     "module": "OCP.OCP.collections",
+     "origin": "ocp"
+    },
+    "Array1_int": {
+     "kind": "class",
+     "module": "OCP.OCP.collections",
+     "origin": "ocp"
+    },
+    "Axis": null,
+    "BOPAlgo_Splitter": {
+     "kind": "class",
+     "module": "OCP.OCP.BOPAlgo",
+     "origin": "ocp"
+    },
+    "BRepAdaptor_CompCurve": {
+     "kind": "class",
+     "module": "OCP.OCP.BRepAdaptor",
+     "origin": "ocp"
+    },
+    "BRepAdaptor_Curve": {
+     "kind": "class",
+     "module": "OCP.OCP.BRepAdaptor",
+     "origin": "ocp"
+    },
+    "BRepAlgoAPI_Common": {
+     "kind": "class",
+     "module": "OCP.OCP.BRepAlgoAPI",
+     "origin": "ocp"
+    },
+    "BRepAlgoAPI_Section": {
+     "kind": "class",
+     "module": "OCP.OCP.BRepAlgoAPI",
+     "origin": "ocp"
+    },
+    "BRepBuilderAPI_DisconnectedWire": {
+     "kind": "object",
+     "type": "BRepBuilderAPI_WireError",
+     "module": "OCP.OCP.BRepBuilderAPI",
+     "origin": "ocp"
+    },
+    "BRepBuilderAPI_EmptyWire": {
+     "kind": "object",
+     "type": "BRepBuilderAPI_WireError",
+     "module": "OCP.OCP.BRepBuilderAPI",
+     "origin": "ocp"
+    },
+    "BRepBuilderAPI_MakeEdge": {
+     "kind": "class",
+     "module": "OCP.OCP.BRepBuilderAPI",
+     "origin": "ocp"
+    },
+    "BRepBuilderAPI_MakeFace": null,
+    "BRepBuilderAPI_MakePolygon": null,
+    "BRepBuilderAPI_MakeVertex": {
+     "kind": "class",
+     "module": "OCP.OCP.BRepBuilderAPI",
+     "origin": "ocp"
+    },
+    "BRepBuilderAPI_MakeWire": {
+     "kind": "class",
+     "module": "OCP.OCP.BRepBuilderAPI",
+     "origin": "ocp"
+    },
+    "BRepBuilderAPI_NonManifoldWire": {
+     "kind": "object",
+     "type": "BRepBuilderAPI_WireError",
+     "module": "OCP.OCP.BRepBuilderAPI",
+     "origin": "ocp"
+    },
+    "BRepBuilderAPI_Transform": null,
+    "BRepExtrema_DistShapeShape": {
+     "kind": "class",
+     "module": "OCP.OCP.BRepExtrema",
+     "origin": "ocp"
+    },
+    "BRepExtrema_SupportType": {
+     "kind": "class",
+     "module": "OCP.OCP.BRepExtrema",
+     "origin": "ocp"
+    },
+    "BRepFilletAPI_MakeFillet2d": {
+     "kind": "class",
+     "module": "OCP.OCP.BRepFilletAPI",
+     "origin": "ocp"
+    },
+    "BRepGProp": null,
+    "BRepGProp_Face": null,
+    "BRepLProp": {
+     "kind": "class",
+     "module": "OCP.OCP.BRepLProp",
+     "origin": "ocp"
+    },
+    "BRepLib": null,
+    "BRepLib_FindSurface": {
+     "kind": "class",
+     "module": "OCP.OCP.BRepLib",
+     "origin": "ocp"
+    },
+    "BRepOffsetAPI_MakeOffset": {
+     "kind": "class",
+     "module": "OCP.OCP.BRepOffsetAPI",
+     "origin": "ocp"
+    },
+    "BRepOffset_MakeOffset": {
+     "kind": "class",
+     "module": "OCP.OCP.BRepOffset",
+     "origin": "ocp"
+    },
+    "BRepProj_Projection": {
+     "kind": "class",
+     "module": "OCP.OCP.BRepProj",
+     "origin": "ocp"
+    },
+    "BRepTools": null,
+    "BRepTools_WireExplorer": null,
+    "BRep_Tool": null,
+    "CenterOf": null,
+    "ClassVar": null,
+    "Color": null,
+    "ContinuityLevel": null,
+    "ConvexHull": null,
+    "Convexity": null,
+    "DEG2RAD": null,
+    "Edge": null,
+    "Extrema_ExtPC": {
+     "kind": "class",
+     "module": "OCP.OCP.Extrema",
+     "origin": "ocp"
+    },
+    "FrameMethod": null,
+    "GCPnts_AbscissaPoint": {
+     "kind": "class",
+     "module": "OCP.OCP.GCPnts",
+     "origin": "ocp"
+    },
+    "GCPnts_QuasiUniformDeflection": {
+     "kind": "class",
+     "module": "OCP.OCP.GCPnts",
+     "origin": "ocp"
+    },
+    "GCPnts_UniformDeflection": {
+     "kind": "class",
+     "module": "OCP.OCP.GCPnts",
+     "origin": "ocp"
+    },
+    "GC_MakeArcOfCircle": {
+     "kind": "class",
+     "module": "OCP.OCP.GC",
+     "origin": "ocp"
+    },
+    "GC_MakeArcOfEllipse": {
+     "kind": "class",
+     "module": "OCP.OCP.GC",
+     "origin": "ocp"
+    },
+    "GC_MakeArcOfHyperbola": {
+     "kind": "class",
+     "module": "OCP.OCP.GC",
+     "origin": "ocp"
+    },
+    "GC_MakeArcOfParabola": {
+     "kind": "class",
+     "module": "OCP.OCP.GC",
+     "origin": "ocp"
+    },
+    "GProp_GProps": null,
+    "Geom2dAPI_InterCurveCurve": {
+     "kind": "class",
+     "module": "OCP.OCP.Geom2dAPI",
+     "origin": "ocp"
+    },
+    "Geom2d_Curve": {
+     "kind": "class",
+     "module": "OCP.OCP.Geom2d",
+     "origin": "ocp"
+    },
+    "Geom2d_Line": {
+     "kind": "class",
+     "module": "OCP.OCP.Geom2d",
+     "origin": "ocp"
+    },
+    "Geom2d_TrimmedCurve": {
+     "kind": "class",
+     "module": "OCP.OCP.Geom2d",
+     "origin": "ocp"
+    },
+    "GeomAPI_Interpolate": {
+     "kind": "class",
+     "module": "OCP.OCP.GeomAPI",
+     "origin": "ocp"
+    },
+    "GeomAPI_PointsToBSpline": {
+     "kind": "class",
+     "module": "OCP.OCP.GeomAPI",
+     "origin": "ocp"
+    },
+    "GeomAPI_ProjectPointOnCurve": {
+     "kind": "class",
+     "module": "OCP.OCP.GeomAPI",
+     "origin": "ocp"
+    },
+    "GeomAbs_C0": {
+     "kind": "object",
+     "type": "GeomAbs_Shape",
+     "module": "OCP.OCP.GeomAbs",
+     "origin": "ocp"
+    },
+    "GeomAbs_C1": {
+     "kind": "object",
+     "type": "GeomAbs_Shape",
+     "module": "OCP.OCP.GeomAbs",
+     "origin": "ocp"
+    },
+    "GeomAbs_C2": {
+     "kind": "object",
+     "type": "GeomAbs_Shape",
+     "module": "OCP.OCP.GeomAbs",
+     "origin": "ocp"
+    },
+    "GeomAbs_C3": {
+     "kind": "object",
+     "type": "GeomAbs_Shape",
+     "module": "OCP.OCP.GeomAbs",
+     "origin": "ocp"
+    },
+    "GeomAbs_CN": {
+     "kind": "object",
+     "type": "GeomAbs_Shape",
+     "module": "OCP.OCP.GeomAbs",
+     "origin": "ocp"
+    },
+    "GeomAbs_Circle": {
+     "kind": "object",
+     "type": "GeomAbs_CurveType",
+     "module": "OCP.OCP.GeomAbs",
+     "origin": "ocp"
+    },
+    "GeomAbs_G1": {
+     "kind": "object",
+     "type": "GeomAbs_Shape",
+     "module": "OCP.OCP.GeomAbs",
+     "origin": "ocp"
+    },
+    "GeomAbs_G2": {
+     "kind": "object",
+     "type": "GeomAbs_Shape",
+     "module": "OCP.OCP.GeomAbs",
+     "origin": "ocp"
+    },
+    "GeomAbs_JoinType": {
+     "kind": "class",
+     "module": "OCP.OCP.GeomAbs",
+     "origin": "ocp"
+    },
+    "GeomAdaptor_Curve": {
+     "kind": "class",
+     "module": "OCP.OCP.GeomAdaptor",
+     "origin": "ocp"
+    },
+    "GeomConvert_CompCurveToBSplineCurve": {
+     "kind": "class",
+     "module": "OCP.OCP.GeomConvert",
+     "origin": "ocp"
+    },
+    "GeomFill_CorrectedFrenet": {
+     "kind": "class",
+     "module": "OCP.OCP.GeomFill",
+     "origin": "ocp"
+    },
+    "GeomFill_Frenet": {
+     "kind": "class",
+     "module": "OCP.OCP.GeomFill",
+     "origin": "ocp"
+    },
+    "GeomFill_TrihedronLaw": {
+     "kind": "class",
+     "module": "OCP.OCP.GeomFill",
+     "origin": "ocp"
+    },
+    "GeomProjLib": {
+     "kind": "class",
+     "module": "OCP.OCP.GeomProjLib",
+     "origin": "ocp"
+    },
+    "GeomType": null,
+    "Geom_BSplineCurve": null,
+    "Geom_BezierCurve": null,
+    "Geom_ConicalSurface": {
+     "kind": "class",
+     "module": "OCP.OCP.Geom",
+     "origin": "ocp"
+    },
+    "Geom_CylindricalSurface": {
+     "kind": "class",
+     "module": "OCP.OCP.Geom",
+     "origin": "ocp"
+    },
+    "Geom_Line": null,
+    "Geom_Plane": null,
+    "Geom_Surface": {
+     "kind": "class",
+     "module": "OCP.OCP.Geom",
+     "origin": "ocp"
+    },
+    "Geom_TrimmedCurve": {
+     "kind": "class",
+     "module": "OCP.OCP.Geom",
+     "origin": "ocp"
+    },
+    "HArray1_bool": {
+     "kind": "class",
+     "module": "OCP.OCP.collections",
+     "origin": "ocp"
+    },
+    "HArray1_double": {
+     "kind": "class",
+     "module": "OCP.OCP.collections",
+     "origin": "ocp"
+    },
+    "HArray1_gp_Pnt": {
+     "kind": "class",
+     "module": "OCP.OCP.collections",
+     "origin": "ocp"
+    },
+    "HLRAlgo_Projector": null,
+    "HLRBRep_Algo": null,
+    "HLRBRep_HLRToShape": null,
+    "HSequence_TopoDS_Shape": {
+     "kind": "class",
+     "module": "OCP.OCP.collections",
+     "origin": "ocp"
+    },
+    "IndexedDataMap_TopoDS_Shape_List_TopoDS_Shape_TopTools_ShapeMapHasher": {
+     "kind": "class",
+     "module": "OCP.OCP.collections",
+     "origin": "ocp"
+    },
+    "IndexedMap_TopoDS_Shape_TopTools_ShapeMapHasher": {
+     "kind": "class",
+     "module": "OCP.OCP.collections",
+     "origin": "ocp"
+    },
+    "Iterable": null,
+    "Kind": null,
+    "List_TopoDS_Shape": {
+     "kind": "class",
+     "module": "OCP.OCP.collections",
+     "origin": "ocp"
+    },
+    "Location": null,
+    "Mixin1D": {
+     "kind": "class",
+     "module": "build123d.topology.one_d",
+     "origin": "build123d"
+    },
+    "Plane": null,
+    "PositionMode": null,
+    "Sagitta": null,
+    "Select": null,
+    "Self": null,
+    "Sequence": null,
+    "Shape": null,
+    "ShapeAnalysis_FreeBounds": {
+     "kind": "class",
+     "module": "OCP.OCP.ShapeAnalysis",
+     "origin": "ocp"
+    },
+    "ShapeFix_Shape": {
+     "kind": "class",
+     "module": "OCP.OCP.ShapeFix",
+     "origin": "ocp"
+    },
+    "ShapeFix_Wireframe": {
+     "kind": "class",
+     "module": "OCP.OCP.ShapeFix",
+     "origin": "ocp"
+    },
+    "ShapeHistory": null,
+    "ShapeList": null,
+    "Side": null,
+    "SkipClean": null,
+    "Standard_ConstructionError": null,
+    "TOLERANCE": null,
+    "TOL_DIGITS": null,
+    "TOPODS": {
+     "kind": "object",
+     "type": "TypeVar",
+     "module": "build123d.topology.shape_core",
+     "origin": "build123d"
+    },
+    "TYPE_CHECKING": null,
+    "Tangency": null,
+    "TopAbs_Orientation": null,
+    "TopAbs_ShapeEnum": null,
+    "TopExp": {
+     "kind": "class",
+     "module": "OCP.OCP.TopExp",
+     "origin": "ocp"
+    },
+    "TopExp_Explorer": null,
+    "TopLoc_Location": null,
+    "TopoDS": null,
+    "TopoDS_Compound": null,
+    "TopoDS_Edge": null,
+    "TopoDS_Face": null,
+    "TopoDS_Shape": null,
+    "TopoDS_Vertex": null,
+    "TopoDS_Wire": null,
+    "Unit": null,
+    "Vector": null,
+    "VectorLike": null,
+    "Vertex": null,
+    "Wire": null,
+    "annotations": null,
+    "atan2": null,
+    "bisect_right": {
+     "kind": "function",
+     "module": "_bisect",
+     "origin": "reexport",
+     "stdlib": [
+      "_bisect",
+      "bisect_right"
+     ]
+    },
+    "ceil": {
+     "kind": "function",
+     "module": "math",
+     "origin": "reexport",
+     "stdlib": [
+      "math",
+      "ceil"
+     ]
+    },
+    "combinations": {
+     "kind": "class",
+     "module": "itertools",
+     "origin": "reexport",
+     "stdlib": [
+      "itertools",
+      "combinations"
+     ]
+    },
+    "copy": {
+     "kind": "module",
+     "module": "copy",
+     "origin": "reexport",
+     "stdlib": [
+      "copy",
+      null
+     ]
+    },
+    "copysign": null,
+    "cos": null,
+    "dataclass": null,
+    "downcast": null,
+    "edges_to_wires": null,
+    "find_same_topods": {
+     "kind": "function",
+     "module": "build123d.topology.shape_core",
+     "origin": "build123d"
+    },
+    "floor": null,
+    "get_top_level_topods_shapes": {
+     "kind": "function",
+     "module": "build123d.topology.shape_core",
+     "origin": "build123d"
+    },
+    "gp_Ax1": null,
+    "gp_Ax2": null,
+    "gp_Ax3": null,
+    "gp_Circ": {
+     "kind": "class",
+     "module": "OCP.OCP.gp",
+     "origin": "ocp"
+    },
+    "gp_Dir": null,
+    "gp_Dir2d": {
+     "kind": "class",
+     "module": "OCP.OCP.gp",
+     "origin": "ocp"
+    },
+    "gp_Elips": {
+     "kind": "class",
+     "module": "OCP.OCP.gp",
+     "origin": "ocp"
+    },
+    "gp_Hypr": {
+     "kind": "class",
+     "module": "OCP.OCP.gp",
+     "origin": "ocp"
+    },
+    "gp_Parab": {
+     "kind": "class",
+     "module": "OCP.OCP.gp",
+     "origin": "ocp"
+    },
+    "gp_Pnt": null,
+    "gp_Pnt2d": {
+     "kind": "class",
+     "module": "OCP.OCP.gp",
+     "origin": "ocp"
+    },
+    "gp_Trsf": null,
+    "gp_Vec": null,
+    "inf": null,
+    "isclose": {
+     "kind": "function",
+     "module": "math",
+     "origin": "reexport",
+     "stdlib": [
+      "math",
+      "isclose"
+     ]
+    },
+    "isclose_b": null,
+    "list_shapes": {
+     "kind": "function",
+     "module": "build123d.topology.kernel",
+     "origin": "build123d"
+    },
+    "logger": null,
+    "minimize_scalar": {
+     "kind": "function",
+     "module": "scipy.optimize._minimize",
+     "origin": "reexport"
+    },
+    "np": null,
+    "offset_topods_face": null,
+    "overload": null,
+    "pi": null,
+    "radians": null,
+    "relocation_between": {
+     "kind": "function",
+     "module": "build123d.topology.shape_core",
+     "origin": "build123d"
+    },
+    "ta": null,
+    "tcast": null,
+    "topo_explore_common_vertex": null,
+    "topo_explore_connected_edges": null,
+    "topo_explore_connected_faces": null,
+    "topods_dim": {
+     "kind": "function",
+     "module": "build123d.topology.shape_core",
+     "origin": "build123d"
+    },
+    "tracked_subshapes": {
+     "kind": "function",
+     "module": "build123d.topology.history",
+     "origin": "build123d"
+    },
+    "unwrap_topods_compound": null,
+    "warnings": null
+   }
+  },
+  "build123d.topology.shape_core": {
+   "importable": true,
+   "all": null,
+   "names": {
+    "ABC": null,
+    "Any": null,
+    "Axis": null,
+    "BOPAlgo_GlueEnum": {
+     "kind": "class",
+     "module": "OCP.OCP.BOPAlgo",
+     "origin": "ocp"
+    },
+    "BRepAdaptor_Curve": {
+     "kind": "class",
+     "module": "OCP.OCP.BRepAdaptor",
+     "origin": "ocp"
+    },
+    "BRepAdaptor_Surface": {
+     "kind": "class",
+     "module": "OCP.OCP.BRepAdaptor",
+     "origin": "ocp"
+    },
+    "BRepAlgoAPI_BooleanOperation": {
+     "kind": "class",
+     "module": "OCP.OCP.BRepAlgoAPI",
+     "origin": "ocp"
+    },
+    "BRepAlgoAPI_Common": {
+     "kind": "class",
+     "module": "OCP.OCP.BRepAlgoAPI",
+     "origin": "ocp"
+    },
+    "BRepAlgoAPI_Cut": {
+     "kind": "class",
+     "module": "OCP.OCP.BRepAlgoAPI",
+     "origin": "ocp"
+    },
+    "BRepAlgoAPI_Fuse": {
+     "kind": "class",
+     "module": "OCP.OCP.BRepAlgoAPI",
+     "origin": "ocp"
+    },
+    "BRepAlgoAPI_Section": {
+     "kind": "class",
+     "module": "OCP.OCP.BRepAlgoAPI",
+     "origin": "ocp"
+    },
+    "BRepAlgoAPI_Splitter": {
+     "kind": "class",
+     "module": "OCP.OCP.BRepAlgoAPI",
+     "origin": "ocp"
+    },
+    "BRepBuilderAPI_Copy": {
+     "kind": "class",
+     "module": "OCP.OCP.BRepBuilderAPI",
+     "origin": "ocp"
+    },
+    "BRepBuilderAPI_GTransform": {
+     "kind": "class",
+     "module": "OCP.OCP.BRepBuilderAPI",
+     "origin": "ocp"
+    },
+    "BRepBuilderAPI_MakeFace": null,
+    "BRepBuilderAPI_MakeVertex": {
+     "kind": "class",
+     "module": "OCP.OCP.BRepBuilderAPI",
+     "origin": "ocp"
+    },
+    "BRepBuilderAPI_RightCorner": {
+     "kind": "object",
+     "type": "BRepBuilderAPI_TransitionMode",
+     "module": "OCP.OCP.BRepBuilderAPI",
+     "origin": "ocp"
+    },
+    "BRepBuilderAPI_RoundCorner": {
+     "kind": "object",
+     "type": "BRepBuilderAPI_TransitionMode",
+     "module": "OCP.OCP.BRepBuilderAPI",
+     "origin": "ocp"
+    },
+    "BRepBuilderAPI_Sewing": null,
+    "BRepBuilderAPI_Transform": null,
+    "BRepBuilderAPI_Transformed": {
+     "kind": "object",
+     "type": "BRepBuilderAPI_TransitionMode",
+     "module": "OCP.OCP.BRepBuilderAPI",
+     "origin": "ocp"
+    },
+    "BRepCheck_Analyzer": {
+     "kind": "class",
+     "module": "OCP.OCP.BRepCheck",
+     "origin": "ocp"
+    },
+    "BRepExtrema_DistShapeShape": {
+     "kind": "class",
+     "module": "OCP.OCP.BRepExtrema",
+     "origin": "ocp"
+    },
+    "BRepGProp": null,
+    "BRepGProp_Face": null,
+    "BRepIntCurveSurface_Inter": {
+     "kind": "class",
+     "module": "OCP.OCP.BRepIntCurveSurface",
+     "origin": "ocp"
+    },
+    "BRepMesh_IncrementalMesh": null,
+    "BRepPrimAPI_MakeHalfSpace": {
+     "kind": "class",
+     "module": "OCP.OCP.BRepPrimAPI",
+     "origin": "ocp"
+    },
+    "BRepTools": null,
+    "BRep_TEdge": {
+     "kind": "class",
+     "module": "OCP.OCP.BRep",
+     "origin": "ocp"
+    },
+    "BRep_Tool": null,
+    "Bnd_OBB": null,
+    "BoundBox": null,
+    "CalcFn": {
+     "kind": "function",
+     "module": "collections.abc",
+     "origin": "reexport"
+    },
+    "Callable": null,
+    "CenterOf": null,
+    "ClassVar": null,
+    "Color": null,
+    "ColorLike": null,
+    "Comparable": null,
+    "CompositeFactory": {
+     "kind": "function",
+     "module": "collections.abc",
+     "origin": "reexport"
+    },
+    "Convexity": null,
+    "DEG2RAD": null,
+    "Enum": null,
+    "FinishedMaterial": {
+     "kind": "class",
+     "module": "bd_materials.finished",
+     "origin": "reexport"
+    },
+    "GCPnts_AbscissaPoint": {
+     "kind": "class",
+     "module": "OCP.OCP.GCPnts",
+     "origin": "ocp"
+    },
+    "GProp_GProps": null,
+    "Generic": null,
+    "GeomAPI_ProjectPointOnSurf": null,
+    "GeomAdaptor_Curve": {
+     "kind": "class",
+     "module": "OCP.OCP.GeomAdaptor",
+     "origin": "ocp"
+    },
+    "GeomLib_IsPlanarSurface": {
+     "kind": "class",
+     "module": "OCP.OCP.GeomLib",
+     "origin": "ocp"
+    },
+    "GeomType": null,
+    "GeometryConstructor": {
+     "kind": "function",
+     "module": "collections.abc",
+     "origin": "reexport"
+    },
+    "GroupBy": null,
+    "IndexedDataMap_TopoDS_Shape_List_TopoDS_Shape_TopTools_ShapeMapHasher": {
+     "kind": "class",
+     "module": "OCP.OCP.collections",
+     "origin": "ocp"
+    },
+    "Iterable": null,
+    "Iterator": null,
+    "Joint": null,
+    "K": {
+     "kind": "object",
+     "type": "TypeVar",
+     "module": "build123d.topology.shape_core",
+     "origin": "build123d"
+    },
+    "Keep": null,
+    "List_TopoDS_Shape": {
+     "kind": "class",
+     "module": "OCP.OCP.collections",
+     "origin": "ocp"
+    },
+    "Literal": null,
+    "Location": null,
+    "Matrix": null,
+    "NodeMixin": {
+     "kind": "class",
+     "module": "anytree.node.nodemixin",
+     "origin": "reexport"
+    },
+    "Optional": {
+     "kind": "function",
+     "module": "typing",
+     "origin": "reexport",
+     "stdlib": [
+      "typing",
+      "Optional"
+     ]
+    },
+    "OrientedBoundBox": null,
+    "Plane": null,
+    "Protocol": null,
+    "RenderTree": {
+     "kind": "class",
+     "module": "anytree.render",
+     "origin": "reexport"
+    },
+    "RepresentationPrinter": {
+     "kind": "class",
+     "module": "IPython.lib.pretty",
+     "origin": "reexport"
+    },
+    "Select": null,
+    "Self": null,
+    "Shape": null,
+    "ShapeAnalysis_Curve": {
+     "kind": "class",
+     "module": "OCP.OCP.ShapeAnalysis",
+     "origin": "ocp"
+    },
+    "ShapeConstructor": {
+     "kind": "function",
+     "module": "collections.abc",
+     "origin": "reexport"
+    },
+    "ShapeCustom": {
+     "kind": "class",
+     "module": "OCP.OCP.ShapeCustom",
+     "origin": "ocp"
+    },
+    "ShapeCustom_RestrictionParameters": {
+     "kind": "class",
+     "module": "OCP.OCP.ShapeCustom",
+     "origin": "ocp"
+    },
+    "ShapeFix_Shape": {
+     "kind": "class",
+     "module": "OCP.OCP.ShapeFix",
+     "origin": "ocp"
+    },
+    "ShapeHistory": null,
+    "ShapeList": null,
+    "ShapeUpgrade_UnifySameDomain": {
+     "kind": "class",
+     "module": "OCP.OCP.ShapeUpgrade",
+     "origin": "ocp"
+    },
+    "Shapes": {
+     "kind": "function",
+     "module": "typing",
+     "origin": "reexport"
+    },
+    "SkipClean": null,
+    "SortBy": null,
+    "Standard_Failure": null,
+    "SupportsIndex": {
+     "kind": "class",
+     "module": "typing",
+     "origin": "reexport",
+     "stdlib": [
+      "typing",
+      "SupportsIndex"
+     ]
+    },
+    "SupportsLessThan": {
+     "kind": "class",
+     "module": "build123d.topology.shape_core",
+     "origin": "build123d"
+    },
+    "T": {
+     "kind": "object",
+     "type": "TypeVar",
+     "module": "build123d.topology.shape_core",
+     "origin": "build123d"
+    },
+    "TOLERANCE": null,
+    "TOPODS": {
+     "kind": "object",
+     "type": "TypeVar",
+     "module": "build123d.topology.shape_core",
+     "origin": "build123d"
+    },
+    "TYPE_CHECKING": null,
+    "TopAbs_Orientation": null,
+    "TopAbs_ShapeEnum": null,
+    "TopExp": {
+     "kind": "class",
+     "module": "OCP.OCP.TopExp",
+     "origin": "ocp"
+    },
+    "TopExp_Explorer": null,
+    "TopLoc_Location": null,
+    "TopTools_ShapeMapHasher": {
+     "kind": "class",
+     "module": "OCP.OCP.TopTools",
+     "origin": "ocp"
+    },
+    "TopoDS": null,
+    "TopoDS_Builder": {
+     "kind": "class",
+     "module": "OCP.OCP.TopoDS",
+     "origin": "ocp"
+    },
+    "TopoDS_Compound": null,
+    "TopoDS_Edge": null,
+    "TopoDS_Face": null,
+    "TopoDS_Iterator": {
+     "kind": "class",
+     "module": "OCP.OCP.TopoDS",
+     "origin": "ocp"
+    },
+    "TopoDS_Shape": null,
+    "TopoDS_Shell": null,
+    "TopoDS_Solid": null,
+    "TopoDS_Vertex": null,
+    "TopoDS_Wire": null,
+    "Transition": null,
+    "TrimmingTool": {
+     "kind": "function",
+     "module": "typing",
+     "origin": "reexport"
+    },
+    "TypeVar": null,
+    "UNITS_PER_KILOGRAM": null,
+    "UNITS_PER_METER": null,
+    "Union": {
+     "kind": "function",
+     "module": "typing",
+     "origin": "reexport",
+     "stdlib": [
+      "typing",
+      "Union"
+     ]
+    },
+    "Unit": null,
+    "Vector": null,
+    "VectorLike": null,
+    "abstractmethod": null,
+    "annotations": null,
+    "apply_location_like": null,
+    "copy": {
+     "kind": "module",
+     "module": "copy",
+     "origin": "reexport",
+     "stdlib": [
+      "copy",
+      null
+     ]
+    },
+    "deque": {
+     "kind": "class",
+     "module": "collections",
+     "origin": "reexport",
+     "stdlib": [
+      "collections",
+      "deque"
+     ]
+    },
+    "downcast": null,
+    "find_same_topods": {
+     "kind": "function",
+     "module": "build123d.topology.shape_core",
+     "origin": "build123d"
+    },
+    "fix": null,
+    "ga": {
+     "kind": "module",
+     "module": "OCP.GeomAbs",
+     "origin": "ocp"
+    },
+    "gce_MakeLin": {
+     "kind": "class",
+     "module": "OCP.OCP.gce",
+     "origin": "ocp"
+    },
+    "get_top_level_topods_shapes": {
+     "kind": "function",
+     "module": "build123d.topology.shape_core",
+     "origin": "build123d"
+    },
+    "gp_Ax1": null,
+    "gp_Ax2": null,
+    "gp_Dir": null,
+    "gp_Pnt": null,
+    "gp_Trsf": null,
+    "gp_Vec": null,
+    "gp_XYZ": null,
+    "inf": null,
+    "itertools": null,
+    "list_shapes": {
+     "kind": "function",
+     "module": "build123d.topology.kernel",
+     "origin": "build123d"
+    },
+    "logger": null,
+    "np": null,
+    "overload": null,
+    "pretty": {
+     "kind": "function",
+     "module": "IPython.lib.pretty",
+     "origin": "reexport"
+    },
+    "reduce": {
+     "kind": "function",
+     "module": "_functools",
+     "origin": "reexport",
+     "stdlib": [
+      "_functools",
+      "reduce"
+     ]
+    },
+    "relocation_between": {
+     "kind": "function",
+     "module": "build123d.topology.shape_core",
+     "origin": "build123d"
+    },
+    "resolve_material": {
+     "kind": "function",
+     "module": "bd_materials.registry",
+     "origin": "reexport"
+    },
+    "shapetype": {
+     "kind": "function",
+     "module": "build123d.topology.shape_core",
+     "origin": "build123d"
+    },
+    "ta": null,
+    "tcast": null,
+    "topo_distance_to": null,
+    "topods_dim": {
+     "kind": "function",
+     "module": "build123d.topology.shape_core",
+     "origin": "build123d"
+    },
+    "unwrap_topods_compound": null,
+    "warnings": null
+   }
+  },
+  "build123d.topology.three_d": {
+   "importable": true,
+   "all": null,
+   "names": {
+    "Axis": null,
+    "BRepAlgoAPI_Common": {
+     "kind": "class",
+     "module": "OCP.OCP.BRepAlgoAPI",
+     "origin": "ocp"
+    },
+    "BRepAlgoAPI_Cut": {
+     "kind": "class",
+     "module": "OCP.OCP.BRepAlgoAPI",
+     "origin": "ocp"
+    },
+    "BRepBuilderAPI_MakeSolid": null,
+    "BRepClass3d_SolidClassifier": {
+     "kind": "class",
+     "module": "OCP.OCP.BRepClass3d",
+     "origin": "ocp"
+    },
+    "BRepExtrema_DistShapeShape": {
+     "kind": "class",
+     "module": "OCP.OCP.BRepExtrema",
+     "origin": "ocp"
+    },
+    "BRepFeat_MakeDPrism": {
+     "kind": "class",
+     "module": "OCP.OCP.BRepFeat",
+     "origin": "ocp"
+    },
+    "BRepFilletAPI_MakeChamfer": {
+     "kind": "class",
+     "module": "OCP.OCP.BRepFilletAPI",
+     "origin": "ocp"
+    },
+    "BRepFilletAPI_MakeFillet": {
+     "kind": "class",
+     "module": "OCP.OCP.BRepFilletAPI",
+     "origin": "ocp"
+    },
+    "BRepGProp_Face": null,
+    "BRepOffsetAPI_DraftAngle": {
+     "kind": "class",
+     "module": "OCP.OCP.BRepOffsetAPI",
+     "origin": "ocp"
+    },
+    "BRepOffsetAPI_MakePipeShell": {
+     "kind": "class",
+     "module": "OCP.OCP.BRepOffsetAPI",
+     "origin": "ocp"
+    },
+    "BRepOffsetAPI_MakeThickSolid": {
+     "kind": "class",
+     "module": "OCP.OCP.BRepOffsetAPI",
+     "origin": "ocp"
+    },
+    "BRepOffset_MakeOffset": {
+     "kind": "class",
+     "module": "OCP.OCP.BRepOffset",
+     "origin": "ocp"
+    },
+    "BRepOffset_Skin": {
+     "kind": "object",
+     "type": "BRepOffset_Mode",
+     "module": "OCP.OCP.BRepOffset",
+     "origin": "ocp"
+    },
+    "BRepPrimAPI_MakeBox": {
+     "kind": "class",
+     "module": "OCP.OCP.BRepPrimAPI",
+     "origin": "ocp"
+    },
+    "BRepPrimAPI_MakeCone": {
+     "kind": "class",
+     "module": "OCP.OCP.BRepPrimAPI",
+     "origin": "ocp"
+    },
+    "BRepPrimAPI_MakeCylinder": {
+     "kind": "class",
+     "module": "OCP.OCP.BRepPrimAPI",
+     "origin": "ocp"
+    },
+    "BRepPrimAPI_MakeRevol": {
+     "kind": "class",
+     "module": "OCP.OCP.BRepPrimAPI",
+     "origin": "ocp"
+    },
+    "BRepPrimAPI_MakeSphere": {
+     "kind": "class",
+     "module": "OCP.OCP.BRepPrimAPI",
+     "origin": "ocp"
+    },
+    "BRepPrimAPI_MakeTorus": {
+     "kind": "class",
+     "module": "OCP.OCP.BRepPrimAPI",
+     "origin": "ocp"
+    },
+    "BRepPrimAPI_MakeWedge": {
+     "kind": "class",
+     "module": "OCP.OCP.BRepPrimAPI",
+     "origin": "ocp"
+    },
+    "BoundBox": null,
+    "CenterOf": null,
+    "ClassVar": null,
+    "Color": null,
+    "DEG2RAD": null,
+    "DraftAngleError": null,
+    "Edge": null,
+    "Face": null,
+    "FinishedMaterial": {
+     "kind": "class",
+     "module": "bd_materials.finished",
+     "origin": "reexport"
+    },
+    "GProp_GProps": null,
+    "GeomAbs_Intersection": {
+     "kind": "object",
+     "type": "GeomAbs_JoinType",
+     "module": "OCP.OCP.GeomAbs",
+     "origin": "ocp"
+    },
+    "GeomAbs_JoinType": {
+     "kind": "class",
+     "module": "OCP.OCP.GeomAbs",
+     "origin": "ocp"
+    },
+    "GeomType": null,
+    "IndexedDataMap_TopoDS_Shape_List_TopoDS_Shape_TopTools_ShapeMapHasher": {
+     "kind": "class",
+     "module": "OCP.OCP.collections",
+     "origin": "ocp"
+    },
+    "Iterable": null,
+    "Joint": null,
+    "Keep": null,
+    "Kind": null,
+    "List_TopoDS_Shape": {
+     "kind": "class",
+     "module": "OCP.OCP.collections",
+     "origin": "ocp"
+    },
+    "Literal": null,
+    "LocOpe_DPrism": {
+     "kind": "class",
+     "module": "OCP.OCP.LocOpe",
+     "origin": "ocp"
+    },
+    "Location": null,
+    "Mixin1D": {
+     "kind": "class",
+     "module": "build123d.topology.one_d",
+     "origin": "build123d"
+    },
+    "Mixin2D": {
+     "kind": "class",
+     "module": "build123d.topology.two_d",
+     "origin": "build123d"
+    },
+    "Mixin3D": {
+     "kind": "class",
+     "module": "build123d.topology.three_d",
+     "origin": "build123d"
+    },
+    "OrientedBoundBox": null,
+    "Plane": null,
+    "Shape": null,
+    "ShapeFix_Solid": {
+     "kind": "class",
+     "module": "OCP.OCP.ShapeFix",
+     "origin": "ocp"
+    },
+    "ShapeHistory": null,
+    "ShapeList": null,
+    "Shell": null,
+    "Solid": null,
+    "Standard_Failure": null,
+    "Standard_TypeMismatch": {
+     "kind": "class",
+     "module": "OCP.OCP.Standard",
+     "origin": "ocp"
+    },
+    "StdFail_NotDone": null,
+    "TOPODS": {
+     "kind": "object",
+     "type": "TypeVar",
+     "module": "build123d.topology.shape_core",
+     "origin": "build123d"
+    },
+    "TYPE_CHECKING": null,
+    "TopExp": {
+     "kind": "class",
+     "module": "OCP.OCP.TopExp",
+     "origin": "ocp"
+    },
+    "TopExp_Explorer": null,
+    "TopoDS": null,
+    "TopoDS_Compound": null,
+    "TopoDS_Face": null,
+    "TopoDS_Shape": null,
+    "TopoDS_Shell": null,
+    "TopoDS_Solid": null,
+    "TopoDS_Wire": null,
+    "Transition": null,
+    "Unit": null,
+    "Until": null,
+    "Vector": null,
+    "VectorLike": null,
+    "Vertex": null,
+    "Wire": null,
+    "annotations": null,
+    "cast": null,
+    "cos": null,
+    "downcast": null,
+    "find_max_dimension": null,
+    "get_top_level_topods_shapes": {
+     "kind": "function",
+     "module": "build123d.topology.shape_core",
+     "origin": "build123d"
+    },
+    "gp_Ax2": null,
+    "gp_Pnt": null,
+    "gp_Vec": null,
+    "list_shapes": {
+     "kind": "function",
+     "module": "build123d.topology.kernel",
+     "origin": "build123d"
+    },
+    "radians": null,
+    "shapetype": {
+     "kind": "function",
+     "module": "build123d.topology.shape_core",
+     "origin": "build123d"
+    },
+    "sort_wires_by_build_order": null,
+    "ta": null,
+    "tan": null,
+    "unwrap_topods_compound": null
+   }
+  },
+  "build123d.topology.two_d": {
+   "importable": true,
+   "all": null,
+   "names": {
+    "ABC": null,
+    "Any": null,
+    "Array1_double": {
+     "kind": "class",
+     "module": "OCP.OCP.collections",
+     "origin": "ocp"
+    },
+    "Array1_gp_Pnt": {
+     "kind": "class",
+     "module": "OCP.OCP.collections",
+     "origin": "ocp"
+    },
+    "Array1_int": {
+     "kind": "class",
+     "module": "OCP.OCP.collections",
+     "origin": "ocp"
+    },
+    "Axis": null,
+    "BRepAdaptor_Curve": {
+     "kind": "class",
+     "module": "OCP.OCP.BRepAdaptor",
+     "origin": "ocp"
+    },
+    "BRepAdaptor_Surface": {
+     "kind": "class",
+     "module": "OCP.OCP.BRepAdaptor",
+     "origin": "ocp"
+    },
+    "BRepAlgoAPI_Common": {
+     "kind": "class",
+     "module": "OCP.OCP.BRepAlgoAPI",
+     "origin": "ocp"
+    },
+    "BRepAlgoAPI_Section": {
+     "kind": "class",
+     "module": "OCP.OCP.BRepAlgoAPI",
+     "origin": "ocp"
+    },
+    "BRepBuilderAPI_MakeEdge": {
+     "kind": "class",
+     "module": "OCP.OCP.BRepBuilderAPI",
+     "origin": "ocp"
+    },
+    "BRepBuilderAPI_MakeFace": null,
+    "BRepBuilderAPI_MakeWire": {
+     "kind": "class",
+     "module": "OCP.OCP.BRepBuilderAPI",
+     "origin": "ocp"
+    },
+    "BRepClass3d_SolidClassifier": {
+     "kind": "class",
+     "module": "OCP.OCP.BRepClass3d",
+     "origin": "ocp"
+    },
+    "BRepExtrema_DistShapeShape": {
+     "kind": "class",
+     "module": "OCP.OCP.BRepExtrema",
+     "origin": "ocp"
+    },
+    "BRepFeat_SplitShape": {
+     "kind": "class",
+     "module": "OCP.OCP.BRepFeat",
+     "origin": "ocp"
+    },
+    "BRepFill": {
+     "kind": "class",
+     "module": "OCP.OCP.BRepFill",
+     "origin": "ocp"
+    },
+    "BRepFilletAPI_MakeFillet2d": {
+     "kind": "class",
+     "module": "OCP.OCP.BRepFilletAPI",
+     "origin": "ocp"
+    },
+    "BRepGProp": null,
+    "BRepGProp_Face": null,
+    "BRepIntCurveSurface_Inter": {
+     "kind": "class",
+     "module": "OCP.OCP.BRepIntCurveSurface",
+     "origin": "ocp"
+    },
+    "BRepLProp_SLProps": {
+     "kind": "class",
+     "module": "OCP.OCP.BRepLProp",
+     "origin": "ocp"
+    },
+    "BRepOffsetAPI_MakeFilling": {
+     "kind": "class",
+     "module": "OCP.OCP.BRepOffsetAPI",
+     "origin": "ocp"
+    },
+    "BRepOffsetAPI_MakePipeShell": {
+     "kind": "class",
+     "module": "OCP.OCP.BRepOffsetAPI",
+     "origin": "ocp"
+    },
+    "BRepPrimAPI_MakeRevol": {
+     "kind": "class",
+     "module": "OCP.OCP.BRepPrimAPI",
+     "origin": "ocp"
+    },
+    "BRepTools": null,
+    "BRepTools_ReShape": {
+     "kind": "class",
+     "module": "OCP.OCP.BRepTools",
+     "origin": "ocp"
+    },
+    "BRepTools_WireExplorer": null,
+    "BRep_Builder": null,
+    "BRep_Tool": null,
+    "CenterOf": null,
+    "ClassVar": null,
+    "Color": null,
+    "ContinuityLevel": null,
+    "Convexity": null,
+    "DEG2RAD": null,
+    "Edge": null,
+    "Face": null,
+    "GProp_GProps": null,
+    "GeomAPI_ExtremaCurveCurve": {
+     "kind": "class",
+     "module": "OCP.OCP.GeomAPI",
+     "origin": "ocp"
+    },
+    "GeomAPI_PointsToBSplineSurface": {
+     "kind": "class",
+     "module": "OCP.OCP.GeomAPI",
+     "origin": "ocp"
+    },
+    "GeomAPI_ProjectPointOnSurf": null,
+    "GeomAbs_C0": {
+     "kind": "object",
+     "type": "GeomAbs_Shape",
+     "module": "OCP.OCP.GeomAbs",
+     "origin": "ocp"
+    },
+    "GeomAbs_CurveType": {
+     "kind": "class",
+     "module": "OCP.OCP.GeomAbs",
+     "origin": "ocp"
+    },
+    "GeomAbs_G1": {
+     "kind": "object",
+     "type": "GeomAbs_Shape",
+     "module": "OCP.OCP.GeomAbs",
+     "origin": "ocp"
+    },
+    "GeomAbs_G2": {
+     "kind": "object",
+     "type": "GeomAbs_Shape",
+     "module": "OCP.OCP.GeomAbs",
+     "origin": "ocp"
+    },
+    "GeomAdaptor_Surface": {
+     "kind": "class",
+     "module": "OCP.OCP.GeomAdaptor",
+     "origin": "ocp"
+    },
+    "GeomLib_IsPlanarSurface": {
+     "kind": "class",
+     "module": "OCP.OCP.GeomLib",
+     "origin": "ocp"
+    },
+    "GeomProjLib": {
+     "kind": "class",
+     "module": "OCP.OCP.GeomProjLib",
+     "origin": "ocp"
+    },
+    "GeomType": null,
+    "Geom_BSplineCurve": null,
+    "Geom_BezierSurface": {
+     "kind": "class",
+     "module": "OCP.OCP.Geom",
+     "origin": "ocp"
+    },
+    "Geom_OffsetSurface": {
+     "kind": "class",
+     "module": "OCP.OCP.Geom",
+     "origin": "ocp"
+    },
+    "Geom_RectangularTrimmedSurface": {
+     "kind": "class",
+     "module": "OCP.OCP.Geom",
+     "origin": "ocp"
+    },
+    "Geom_Surface": {
+     "kind": "class",
+     "module": "OCP.OCP.Geom",
+     "origin": "ocp"
+    },
+    "Geom_TrimmedCurve": {
+     "kind": "class",
+     "module": "OCP.OCP.Geom",
+     "origin": "ocp"
+    },
+    "HArray2_double": {
+     "kind": "class",
+     "module": "OCP.OCP.collections",
+     "origin": "ocp"
+    },
+    "HArray2_gp_Pnt": {
+     "kind": "class",
+     "module": "OCP.OCP.collections",
+     "origin": "ocp"
+    },
+    "IndexedDataMap_TopoDS_Shape_List_TopoDS_Shape_TopTools_ShapeMapHasher": {
+     "kind": "class",
+     "module": "OCP.OCP.collections",
+     "origin": "ocp"
+    },
+    "Iterable": null,
+    "Keep": null,
+    "List_TopoDS_Shape": {
+     "kind": "class",
+     "module": "OCP.OCP.collections",
+     "origin": "ocp"
+    },
+    "Literal": null,
+    "Location": null,
+    "Mixin1D": {
+     "kind": "class",
+     "module": "build123d.topology.one_d",
+     "origin": "build123d"
+    },
+    "Mixin2D": {
+     "kind": "class",
+     "module": "build123d.topology.two_d",
+     "origin": "build123d"
+    },
+    "OrientedBoundBox": null,
+    "Plane": null,
+    "Precision": {
+     "kind": "class",
+     "module": "OCP.OCP.Precision",
+     "origin": "ocp"
+    },
+    "Self": null,
+    "Sequence": null,
+    "Sequence_TopoDS_Shape": {
+     "kind": "class",
+     "module": "OCP.OCP.collections",
+     "origin": "ocp"
+    },
+    "Shape": null,
+    "ShapeAnalysis_Edge": {
+     "kind": "class",
+     "module": "OCP.OCP.ShapeAnalysis",
+     "origin": "ocp"
+    },
+    "ShapeFix_Solid": {
+     "kind": "class",
+     "module": "OCP.OCP.ShapeFix",
+     "origin": "ocp"
+    },
+    "ShapeFix_Wire": {
+     "kind": "class",
+     "module": "OCP.OCP.ShapeFix",
+     "origin": "ocp"
+    },
+    "ShapeHistory": null,
+    "ShapeList": null,
+    "Shell": null,
+    "SkipClean": null,
+    "SortBy": null,
+    "Standard_ConstructionError": null,
+    "Standard_Failure": null,
+    "Standard_NoSuchObject": {
+     "kind": "class",
+     "module": "OCP.OCP.Standard",
+     "origin": "ocp"
+    },
+    "Standard_TypeMismatch": {
+     "kind": "class",
+     "module": "OCP.OCP.Standard",
+     "origin": "ocp"
+    },
+    "StdFail_NotDone": null,
+    "T": {
+     "kind": "object",
+     "type": "TypeVar",
+     "module": "build123d.topology.two_d",
+     "origin": "build123d"
+    },
+    "TOLERANCE": null,
+    "TOPODS": {
+     "kind": "object",
+     "type": "TypeVar",
+     "module": "build123d.topology.shape_core",
+     "origin": "build123d"
+    },
+    "TYPE_CHECKING": null,
+    "TopAbs_Orientation": null,
+    "TopExp": {
+     "kind": "class",
+     "module": "OCP.OCP.TopExp",
+     "origin": "ocp"
+    },
+    "TopoDS": null,
+    "TopoDS_Face": null,
+    "TopoDS_Shape": null,
+    "TopoDS_Shell": null,
+    "TopoDS_Solid": null,
+    "Transition": null,
+    "TypeVar": null,
+    "Unit": null,
+    "Vector": null,
+    "VectorLike": null,
+    "Vertex": null,
+    "Wire": null,
+    "abstractmethod": null,
+    "annotations": null,
+    "copy": {
+     "kind": "module",
+     "module": "copy",
+     "origin": "reexport",
+     "stdlib": [
+      "copy",
+      null
+     ]
+    },
+    "degrees": null,
+    "downcast": null,
+    "find_max_dimension": null,
+    "gce_MakeLin": {
+     "kind": "class",
+     "module": "OCP.OCP.gce",
+     "origin": "ocp"
+    },
+    "get_top_level_topods_shapes": {
+     "kind": "function",
+     "module": "build123d.topology.shape_core",
+     "origin": "build123d"
+    },
+    "gp_Ax1": null,
+    "gp_Ax3": null,
+    "gp_Dir": null,
+    "gp_Pln": null,
+    "gp_Pnt": null,
+    "gp_Vec": null,
+    "interpolate_curve_network": {
+     "kind": "function",
+     "module": "ocp_gordon.internal.interpolate_curve_network",
+     "origin": "reexport"
+    },
+    "overload": null,
+    "shapetype": {
+     "kind": "function",
+     "module": "build123d.topology.shape_core",
+     "origin": "build123d"
+    },
+    "sort_wires_by_build_order": null,
+    "sys": null,
+    "ta": null,
+    "tcast": null,
+    "warnings": null
+   }
+  },
+  "build123d.topology.utils": {
+   "importable": true,
+   "all": null,
+   "names": {
+    "Any": null,
+    "BRepAlgoAPI_Cut": {
+     "kind": "class",
+     "module": "OCP.OCP.BRepAlgoAPI",
+     "origin": "ocp"
+    },
+    "BRepBuilderAPI_MakeFace": null,
+    "BRepLib_FindSurface": {
+     "kind": "class",
+     "module": "OCP.OCP.BRepLib",
+     "origin": "ocp"
+    },
+    "BRepOffsetAPI_ThruSections": {
+     "kind": "class",
+     "module": "OCP.OCP.BRepOffsetAPI",
+     "origin": "ocp"
+    },
+    "BRepPrimAPI_MakePrism": {
+     "kind": "class",
+     "module": "OCP.OCP.BRepPrimAPI",
+     "origin": "ocp"
+    },
+    "BRep_Tool": null,
+    "BoundBox": null,
+    "Iterable": null,
+    "List_TopoDS_Shape": {
+     "kind": "class",
+     "module": "OCP.OCP.collections",
+     "origin": "ocp"
+    },
+    "Shape": null,
+    "ShapeFix_Face": {
+     "kind": "class",
+     "module": "OCP.OCP.ShapeFix",
+     "origin": "ocp"
+    },
+    "ShapeFix_Shape": {
+     "kind": "class",
+     "module": "OCP.OCP.ShapeFix",
+     "origin": "ocp"
+    },
+    "ShapeList": null,
+    "TOLERANCE": null,
+    "TYPE_CHECKING": null,
+    "TopAbs_ShapeEnum": null,
+    "TopExp_Explorer": null,
+    "TopoDS": null,
+    "TopoDS_Compound": null,
+    "TopoDS_Edge": null,
+    "TopoDS_Face": null,
+    "TopoDS_Shape": null,
+    "TopoDS_Shell": null,
+    "TopoDS_Vertex": null,
+    "TopoDS_Wire": null,
+    "Vector": null,
+    "VectorLike": null,
+    "annotations": null,
+    "cos": null,
+    "delta": null,
+    "downcast": null,
+    "find_max_dimension": null,
+    "isclose": {
+     "kind": "function",
+     "module": "math",
+     "origin": "reexport",
+     "stdlib": [
+      "math",
+      "isclose"
+     ]
+    },
+    "isclose_b": null,
+    "new_edges": null,
+    "polar": null,
+    "radians": null,
+    "shapetype": {
+     "kind": "function",
+     "module": "build123d.topology.shape_core",
+     "origin": "build123d"
+    },
+    "sin": null,
+    "tuplify": null,
+    "unwrapped_shapetype": {
+     "kind": "function",
+     "module": "build123d.topology.utils",
+     "origin": "build123d"
+    }
+   }
+  },
+  "build123d.topology.zero_d": {
+   "importable": true,
+   "all": null,
+   "names": {
+    "Axis": null,
+    "BRepAdaptor_Curve2d": {
+     "kind": "class",
+     "module": "OCP.OCP.BRepAdaptor",
+     "origin": "ocp"
+    },
+    "BRepBuilderAPI_MakeVertex": {
+     "kind": "class",
+     "module": "OCP.OCP.BRepBuilderAPI",
+     "origin": "ocp"
+    },
+    "BRepTools": null,
+    "BRep_Tool": null,
+    "ClassVar": null,
+    "Convexity": null,
+    "IndexedDataMap_TopoDS_Shape_List_TopoDS_Shape_TopTools_ShapeMapHasher": {
+     "kind": "class",
+     "module": "OCP.OCP.collections",
+     "origin": "ocp"
+    },
+    "IntTools_FClass2d": {
+     "kind": "class",
+     "module": "OCP.OCP.IntTools",
+     "origin": "ocp"
+    },
+    "Iterable": null,
+    "Keep": null,
+    "Location": null,
+    "Matrix": null,
+    "Plane": null,
+    "Select": null,
+    "Shape": null,
+    "ShapeList": null,
+    "TOLERANCE": null,
+    "TYPE_CHECKING": null,
+    "TopExp": {
+     "kind": "class",
+     "module": "OCP.OCP.TopExp",
+     "origin": "ocp"
+    },
+    "TopExp_Explorer": null,
+    "TopoDS": null,
+    "TopoDS_Edge": null,
+    "TopoDS_Face": null,
+    "TopoDS_Vertex": null,
+    "TrimmingTool": {
+     "kind": "function",
+     "module": "typing",
+     "origin": "reexport"
+    },
+    "Unit": null,
+    "Vector": null,
+    "VectorLike": null,
+    "Vertex": null,
+    "annotations": null,
+    "downcast": null,
+    "find_same_topods": {
+     "kind": "function",
+     "module": "build123d.topology.shape_core",
+     "origin": "build123d"
+    },
+    "gp_Pnt": null,
+    "gp_Pnt2d": {
+     "kind": "class",
+     "module": "OCP.OCP.gp",
+     "origin": "ocp"
+    },
+    "gp_Vec2d": {
+     "kind": "class",
+     "module": "OCP.OCP.gp",
+     "origin": "ocp"
+    },
+    "itertools": null,
+    "list_shapes": {
+     "kind": "function",
+     "module": "build123d.topology.kernel",
+     "origin": "build123d"
+    },
+    "overload": null,
+    "ta": null,
+    "topo_explore_common_vertex": null
+   }
+  },
+  "build123d.version": {
+   "importable": true,
+   "all": null,
+   "names": {
+    "version": {
+     "kind": "object",
+     "type": "str",
+     "module": "builtins",
+     "origin": "reexport"
+    }
+   }
+  },
+  "build123d.vtk_tools": {
+   "importable": true,
+   "all": null,
+   "names": {
+    "Any": null,
+    "Mesher": null,
+    "TYPE_CHECKING": null,
+    "has_vtk": {
+     "kind": "object",
+     "type": "bool",
+     "module": "builtins",
+     "origin": "reexport"
+    },
+    "to_vtk_poly_data": {
+     "kind": "function",
+     "module": "build123d.vtk_tools",
+     "origin": "build123d"
+    },
+    "to_vtkpoly_string": {
+     "kind": "function",
+     "module": "build123d.vtk_tools",
+     "origin": "build123d"
+    },
+    "warnings": null
+   }
+  }
+ }
+}

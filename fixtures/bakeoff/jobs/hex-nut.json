@@ -1,0 +1,71 @@
+{
+ "schema": "wonky-bakeoff-fixture/1",
+ "case": "hex-nut",
+ "category": "mechanical",
+ "deviationMm": 0.01,
+ "location": "fixtures/bakeoff/jobs",
+ "job": "fixtures/bakeoff/jobs/hex-nut.job",
+ "csgJob": "fixtures/bakeoff/jobs/hex-nut.csg.job",
+ "jobBytes": 26419,
+ "jobSha256": "76c7ec0b04965c38d53b5d4533391b0ebd4bbc6bffb8558c5f7496c050cbc273",
+ "csgJobSha256": "59f434cb64de71f60e56a15ed0976e08139cc13872bcaf0c11f8e85de9b36646",
+ "leaves": 3,
+ "faces": 14,
+ "vertices": 304,
+ "triangles": 596,
+ "deviationMeasuredMaxMm": 0.008662810325138715,
+ "leafInfo": [
+  {
+   "leaf": 0,
+   "prim": "prism",
+   "vertices": 12,
+   "triangles": 20,
+   "tags": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7
+   ],
+   "deviationMeasuredMm": 0,
+   "deviationMethod": "exact-planar",
+   "vertexOnSurfaceMaxMm": 5.3290705182007506e-15,
+   "analyticVolume": 951.3289060572059
+  },
+  {
+   "leaf": 1,
+   "prim": "cylinder",
+   "vertices": 90,
+   "triangles": 176,
+   "tags": [
+    8,
+    9,
+    10
+   ],
+   "segments": 44,
+   "deviationMeasuredMm": 0.008662810325138715,
+   "deviationMethod": "barycentric-grid-8 (max lies on sampled chord midlines)",
+   "vertexOnSurfaceMaxMm": 4.884981308350689e-15,
+   "analyticVolume": 308.692894141733
+  },
+  {
+   "leaf": 2,
+   "prim": "cone",
+   "vertices": 202,
+   "triangles": 400,
+   "tags": [
+    11,
+    12,
+    13
+   ],
+   "segments": 100,
+   "deviationMeasuredMm": 0.004808663250210893,
+   "deviationMethod": "barycentric-grid-8 (max lies on sampled chord midlines)",
+   "vertexOnSurfaceMaxMm": 1.5987211554602238e-14,
+   "analyticVolume": 4310.362750483866
+  }
+ ]
+}

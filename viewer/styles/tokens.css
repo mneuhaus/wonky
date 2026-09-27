@@ -1,0 +1,90 @@
+/* Design tokens (help-a11y, spec section 4).
+
+   Themes: the default follows prefers-color-scheme (data-theme="system", and
+   the first paint before any data-theme). data-theme="light" and "dark" pin a
+   theme (the G setting
+   `theme`, applied by features/help). Every colour is written once with
+   light-dark(), so color-scheme switches the whole set, including form
+   controls and scrollbars.
+
+   Contrast: every text colour (--ink, --ink-soft, --muted, --green, --copper,
+   --danger, --blue, --amber, --placeholder) reaches 4.5:1 on every surface
+   token of its theme (--paper, --surface, --sunken, --field, --canvas,
+   --chip and the five *-soft tints); --on-green reaches it on --green-strong
+   and --blue-strong. --green, --copper, --danger, --blue and --amber are text
+   colours; fills that carry text use the *-strong tokens with --on-green.
+   No size token is below 11 px.
+   scripts/viewer/qa/contrast.mjs checks the rendered page in both themes. */
+
+:root {
+  color-scheme: light dark;
+
+  /* Surfaces */
+  --paper: light-dark(#f7f7f3, #131715);
+  --surface: light-dark(#fff, #1a1f1c);
+  --sunken: light-dark(#f3f5ef, #212722);
+  --field: light-dark(#fbfcf9, #171b18);
+  --canvas: light-dark(#f2f3ed, #101311);
+  --chip: light-dark(#e9ece6, #2a322c);
+  --green-soft: light-dark(#e8efe8, #233328);
+  --copper-soft: light-dark(#f5ece3, #35291f);
+  --danger-soft: light-dark(#faece8, #3a2320);
+  --blue-soft: light-dark(#e8eff8, #1e2836);
+  --amber-soft: light-dark(#fcefd8, #3a2f1a);
+  --glass: color-mix(in srgb, var(--surface) 94%, transparent);
+  --stage-top: light-dark(#fafbf6, #1a1f1c);
+  --stage-bottom: light-dark(#f1f3eb, #111412);
+  --backdrop: light-dark(#24372f47, #0000008c);
+
+  /* Text */
+  --ink: light-dark(#24372f, #e3e9e2);
+  --ink-soft: light-dark(#3f4a43, #c9d1c8);
+  --muted: light-dark(#5f695f, #a3ada4);
+  --placeholder: var(--muted);
+  --green: light-dark(#37644e, #8ccaa6);
+  --copper: light-dark(#8f5a37, #e2ad86);
+  --danger: light-dark(#a34a3a, #f0a090);
+  --blue: light-dark(#2f5a96, #9dbcf0);
+  --amber: light-dark(#7a4a12, #e8c07a);
+
+  /* Fills that carry text, lines, focus */
+  --green-strong: light-dark(#37644e, #2f6b4d);
+  --green-strong-hover: light-dark(#2b523f, #28593f);
+  --blue-strong: light-dark(#25599b, #2d5f9e);
+  --on-green: #fff;
+  --line: light-dark(#e2e6df, #2c342f);
+  --line-strong: light-dark(#c9d0c4, #414b44);
+  --focus: var(--green);
+  --shadow: 0 0 0 1px light-dark(#15261c0b, #ffffff14),
+    0 2px 4px light-dark(#15261c06, #00000033), 0 7px 20px light-dark(#15261c06, #0000004d);
+  --shadow-raised: 0 0 0 1px light-dark(#15261c14, #ffffff1f),
+    0 18px 60px light-dark(#15261c29, #00000080);
+
+  /* Type */
+  --font-ui: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, monospace;
+  --text-xs: 11px;
+  --text-sm: 12px;
+  --text-md: 13px;
+  --text-lg: 15px;
+  --text-xl: 17px;
+
+  font-family: var(--font-ui);
+  color: var(--ink);
+  font-size: var(--text-md);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-variant-numeric: tabular-nums;
+}
+
+:root[data-theme="light"] {
+  color-scheme: light;
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+}
+
+:root[data-theme="system"] {
+  color-scheme: light dark;
+}

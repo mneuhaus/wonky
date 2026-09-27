@@ -1,0 +1,32 @@
+/* Selection filter. */
+
+.selection-control {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  color: var(--muted);
+}
+
+.selection-control svg {
+  width: 13px;
+  height: 13px;
+}
+
+.selection-control select {
+  font-size: var(--text-xs);
+  border: 0;
+  background: transparent;
+  color: inherit;
+  max-width: 96px;
+}
+
+@media (max-width: 1150px) {
+  .selection-control select {
+    /* Wide enough for "Auto select" and the native chevron. */
+    max-width: 92px;
+    font-size: var(--text-xs);
+  }
+  .selection-control>span {
+    display: none;
+  }
+}

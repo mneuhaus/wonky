@@ -1,0 +1,20 @@
+[package]
+name = "wonky-sketch"
+version = "0.1.0"
+edition = "2021"
+publish = false
+
+[dependencies]
+wonky-num = { path = "../wonky-num" }
+num-rational = "0.4"
+num-traits = "0.2"
+
+[features]
+# Planted negative: incorrectly weld near-coincident endpoints.
+plant_epsilon_weld = []
+# Planted negative: replace exact signed-area expansion with naive f64 sum.
+plant_float_area = []
+# Planted negative: replace circular segment area with its straight chord.
+plant_arc_chord_area = []
+# Planted negative: discard declared construction coincidence witnesses.
+plant_ignore_coincident = []

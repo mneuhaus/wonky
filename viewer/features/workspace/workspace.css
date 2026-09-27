@@ -1,0 +1,190 @@
+/* Workspace tree at the top of the Parts tab (features/workspace). Rows use
+   the parts-tree look: same eye buttons, heading, chips and trust tones. */
+
+.ws-tree {
+  padding: 6px 0 8px;
+  margin-bottom: 8px;
+  border-bottom: 1px solid var(--line);
+}
+
+.ws-list,
+.ws-children ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.ws-children ul {
+  margin-left: 14px;
+  padding-left: 4px;
+  border-left: 1px solid var(--line);
+}
+
+.ws-row {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  min-width: 0;
+  margin: 1px 0;
+  padding: 1px 2px;
+  border-radius: 7px;
+}
+
+.ws-row:hover {
+  background: var(--canvas);
+}
+
+.ws-row.is-open {
+  background: var(--green-soft);
+  box-shadow: inset 2px 0 0 var(--green);
+}
+
+.ws-row.is-hidden .ws-label {
+  color: var(--muted);
+  text-decoration: line-through;
+  text-decoration-color: var(--line-strong);
+}
+
+.ws-eye,
+.ws-fold,
+.ws-isolate {
+  width: 26px;
+  height: 26px;
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  border-radius: 5px;
+  background: transparent;
+  color: var(--muted);
+  padding: 0;
+}
+
+.ws-eye-gap {
+  width: 26px;
+  flex-shrink: 0;
+}
+
+.ws-isolate {
+  width: 22px;
+  height: 22px;
+  font-size: var(--text-xs);
+  font-weight: 650;
+  opacity: 0;
+}
+
+.ws-row:hover .ws-isolate,
+.ws-isolate:focus-visible {
+  opacity: 1;
+}
+
+.ws-eye:hover,
+.ws-fold:hover,
+.ws-isolate:hover {
+  background: var(--chip);
+  color: var(--green);
+}
+
+.ws-eye svg,
+.ws-fold svg {
+  width: 15px;
+  height: 15px;
+}
+
+.ws-fold svg {
+  transition: transform 120ms ease;
+}
+
+.ws-fold[aria-expanded=true] svg {
+  transform: rotate(90deg);
+}
+
+.ws-name {
+  min-width: 0;
+  flex: 1;
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  border: 0;
+  background: transparent;
+  text-align: left;
+  padding: 4px 2px;
+  border-radius: 4px;
+  color: var(--ink);
+}
+
+.ws-label {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 12px;
+  font-weight: 550;
+}
+
+.ws-kind {
+  flex-shrink: 0;
+  font-size: var(--text-xs);
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  color: var(--copper);
+}
+
+.ws-count {
+  flex-shrink: 0;
+  font-size: var(--text-xs);
+  color: var(--muted);
+}
+
+.ws-trust {
+  flex-shrink: 0;
+  max-width: 45%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: var(--text-xs);
+  padding: 1px 6px;
+  border-radius: 999px;
+  background: var(--chip);
+  color: var(--muted);
+}
+
+.ws-trust:empty {
+  display: none;
+}
+
+.ws-trust[data-tone=green] {
+  background: var(--green-soft);
+  color: var(--green);
+}
+
+.ws-trust[data-tone=blue] {
+  background: var(--blue-soft);
+  color: var(--blue);
+}
+
+.ws-trust[data-tone=amber] {
+  background: var(--amber-soft);
+  color: var(--amber);
+}
+
+.parts-group {
+  margin-bottom: 10px;
+}
+
+.parts-group-heading {
+  margin-top: 4px;
+}
+
+.parts-group.is-active > .parts-group-heading {
+  color: var(--green);
+}
+
+.ws-section {
+  margin: 8px 4px 2px;
+  font-size: var(--text-xs);
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: var(--muted);
+}

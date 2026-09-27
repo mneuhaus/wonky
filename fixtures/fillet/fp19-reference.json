@@ -1,0 +1,928 @@
+{
+  "schema": "wonky/fillet-onshape-probe/v1",
+  "what": "FP19 (docs/fillet-housestyle.md section 5). Input and selection: fixtures/fillet/fp19.fs, feature fp19CutCornerChamfer; one feature per case with the parameters below (dx only shifts the case in the shared Part Studio).",
+  "provenance": {
+    "date": "2026-09-25",
+    "by": "wonky-kernel onshape-probes",
+    "transport": "Onshape session bridge (signed-in session), no API key",
+    "document": {
+      "id": "d33424139acc5710a6c1d5d1",
+      "workspace": "65c8444cc5a3ce7da93df38c",
+      "partStudio": "116dd164062bf3100d3f636c",
+      "featureStudio": "4c869ea32724ef13575442e4",
+      "namespace": "e4c869ea32724ef13575442e4::m0578d70274810b166b71b6ea",
+      "public": true,
+      "name": "wonky fillet probe FP19 (housestyle section 5)"
+    },
+    "source": {
+      "file": "fixtures/fillet/fp19.fs",
+      "sha256": "ec877d35aa794473f75eac2dae634aa34096247e6f929c7e8d86120b8682aa81",
+      "featureScript": 3044
+    },
+    "calls": 13,
+    "endpoints": "features POST (featureState.featureStatus), parts (name, description carrying the input volume from evVolume), massproperties (volume [value,min,max] in m^3, converted to mm^3), bodydetails (faces with surface parameters, edges with curve types, vertices), tessellatedfaces (angleTolerance 0.05, chordTolerance 0.05, as the R20 KS meshes) written as binary STL in mm",
+    "onshapeMicroversions": [
+      "e81f99ce4137a2205a59d4ba",
+      "422c5708c965cfa06dfd5ae6",
+      "59d17cba2f41229f87c2af04",
+      "eb90e8adc65c373098dfec68",
+      "0a5b5e94fd3ac45c482cff88",
+      "31f92570a67415a8c8e58e0f",
+      "74ba53b19702bd007b5644db",
+      "05d88b356cdc18bf48e70246",
+      "8294834794e412a7aef7550e"
+    ],
+    "wonkyRevision": "84ae1ef"
+  },
+  "observations": [
+    "a (c 0.5, d 0.6, regime i): 12 planes, the short edge keeps its chamfer face. b (c 0.5, d 0.9, regime ii) and c (c 0.125, d 0.42): 11 planes, the short edge's chamfer face is gone (consumed)."
+  ],
+  "faceListFormat": "id, area mm^2, surface type and Onshape surface parameters (lengths in mm; normals/axes unit vectors)",
+  "cases": {
+    "a": {
+      "parameters": {
+        "c": "0.5 mm",
+        "d": "0.6 mm",
+        "dx": "0 mm"
+      },
+      "featureId": "FwZN31JTsjTUYbb_0",
+      "featureStatus": "OK",
+      "partId": "JHD",
+      "name": "FP19 c0.5 d0.6",
+      "description": "input_volume_mm3=1199.2499999999998",
+      "volume": 1188.778367532368,
+      "volumeMin": 1188.6661483080732,
+      "volumeMax": 1188.8905867566627,
+      "inputVolume": 1199.2499999999998,
+      "deltaVolume": -10.471632467631707,
+      "area": 736.4363895401574,
+      "centroid": null,
+      "bbox": [
+        [
+          0,
+          0,
+          0
+        ],
+        [
+          20,
+          10,
+          6
+        ]
+      ],
+      "faces": 12,
+      "edges": 25,
+      "vertices": 15,
+      "faceTypes": {
+        "plane": 12
+      },
+      "edgeTypes": {
+        "line": 25
+      },
+      "faceList": [
+        {
+          "id": "JJq",
+          "area": 54.00000000000001,
+          "type": "plane",
+          "origin": [
+            0,
+            5,
+            6
+          ],
+          "normal": [
+            1,
+            0,
+            0
+          ]
+        },
+        {
+          "id": "JJW",
+          "area": 108.00000000000001,
+          "type": "plane",
+          "origin": [
+            10,
+            0,
+            6
+          ],
+          "normal": [
+            0,
+            1,
+            0
+          ]
+        },
+        {
+          "id": "JJe",
+          "area": 51.3,
+          "type": "plane",
+          "origin": [
+            20,
+            4.75,
+            6
+          ],
+          "normal": [
+            -1,
+            0,
+            0
+          ]
+        },
+        {
+          "id": "JJi",
+          "area": 3.81837661840736,
+          "type": "plane",
+          "origin": [
+            19.75,
+            9.75,
+            6
+          ],
+          "normal": [
+            -0.707106781,
+            -0.707106781,
+            0
+          ]
+        },
+        {
+          "id": "JJm",
+          "area": 105.30000000000001,
+          "type": "plane",
+          "origin": [
+            9.75,
+            10,
+            6
+          ],
+          "normal": [
+            0,
+            -1,
+            0
+          ]
+        },
+        {
+          "id": "JJa",
+          "area": 165.42896969619673,
+          "type": "plane",
+          "origin": [
+            10,
+            5,
+            6
+          ],
+          "normal": [
+            0,
+            0,
+            1
+          ]
+        },
+        {
+          "id": "JHG",
+          "area": 199.87500000000003,
+          "type": "plane",
+          "origin": [
+            10,
+            5,
+            0
+          ],
+          "normal": [
+            0,
+            0,
+            1
+          ]
+        },
+        {
+          "id": "JJK",
+          "area": 0.38911688245431647,
+          "type": "plane",
+          "origin": [
+            16.825735931,
+            11.825735931,
+            6
+          ],
+          "normal": [
+            0.5,
+            0.5,
+            0.707106781
+          ]
+        },
+        {
+          "id": "JJG",
+          "area": 7.701017305526639,
+          "type": "plane",
+          "origin": [
+            19.4,
+            5,
+            6
+          ],
+          "normal": [
+            0.707106781,
+            0,
+            0.707106781
+          ]
+        },
+        {
+          "id": "JJO",
+          "area": 16.186298679765205,
+          "type": "plane",
+          "origin": [
+            10,
+            9.4,
+            6
+          ],
+          "normal": [
+            0,
+            0.707106781,
+            0.707106781
+          ]
+        },
+        {
+          "id": "JJC",
+          "area": 16.46144586602282,
+          "type": "plane",
+          "origin": [
+            10,
+            0.6,
+            6
+          ],
+          "normal": [
+            0,
+            -0.707106781,
+            0.707106781
+          ]
+        },
+        {
+          "id": "JJS",
+          "area": 7.976164491784254,
+          "type": "plane",
+          "origin": [
+            0.6,
+            5,
+            6
+          ],
+          "normal": [
+            -0.707106781,
+            0,
+            0.707106781
+          ]
+        }
+      ],
+      "stl": {
+        "file": "fixtures/fillet/onshape/fp19/fp19a.stl",
+        "sha256": "0dc7d21e1bcba9fe958a8e0a0334b8d53ef6191607dcf8e9e0ecca898440f990",
+        "triangles": 26,
+        "faceTriangles": [
+          [
+            "JJq",
+            "plane",
+            0,
+            2
+          ],
+          [
+            "JJW",
+            "plane",
+            2,
+            2
+          ],
+          [
+            "JJe",
+            "plane",
+            4,
+            2
+          ],
+          [
+            "JJi",
+            "plane",
+            6,
+            2
+          ],
+          [
+            "JJm",
+            "plane",
+            8,
+            2
+          ],
+          [
+            "JJa",
+            "plane",
+            10,
+            3
+          ],
+          [
+            "JHG",
+            "plane",
+            13,
+            3
+          ],
+          [
+            "JJK",
+            "plane",
+            16,
+            2
+          ],
+          [
+            "JJG",
+            "plane",
+            18,
+            2
+          ],
+          [
+            "JJO",
+            "plane",
+            20,
+            2
+          ],
+          [
+            "JJC",
+            "plane",
+            22,
+            2
+          ],
+          [
+            "JJS",
+            "plane",
+            24,
+            2
+          ]
+        ]
+      },
+      "wonky": {
+        "command": "NODE_OPTIONS=--max-old-space-size=8192 node bin/wonky.mjs fixtures/fillet/fp19.fs --feature fp19CutCornerChamfer --param 'c=0.5 * millimeter' --param 'd=0.6 * millimeter' --param 'dx=0 * millimeter'",
+        "name": "w-fp19a",
+        "result": "refused",
+        "refusal": "fixtures/fillet/fp19.fs:48:9: opChamfer is not implemented for this input: blend-overlap: the contact of edge 6 on face 1 needs width 6.000000000e-1 but the spring of edge 8 lies at 5.000000000e-1 (short by 1.000e-1; blends overlap); no notch: the blends of edge 6 and edge 8 overlap and their section circles do not cross [order 5 6 7 8 9]",
+        "maxRssMB": 274
+      },
+      "centroidNote": "not available: Onshape massproperties without an assigned density report [0,0,0]"
+    },
+    "b": {
+      "parameters": {
+        "c": "0.5 mm",
+        "d": "0.9 mm",
+        "dx": "30 mm"
+      },
+      "featureId": "FMqR6KlMtTEvSjc_1",
+      "featureStatus": "OK",
+      "partId": "JMD",
+      "name": "FP19 c0.5 d0.9000000000000001",
+      "description": "input_volume_mm3=1199.2500000000002",
+      "volume": 1176.0240833333337,
+      "volumeMin": 1175.9126682104234,
+      "volumeMax": 1176.1354984562442,
+      "inputVolume": 1199.2500000000002,
+      "deltaVolume": -23.225916666666535,
+      "area": 725.3183366624617,
+      "centroid": null,
+      "bbox": [
+        [
+          30,
+          0,
+          0
+        ],
+        [
+          50,
+          10,
+          6
+        ]
+      ],
+      "faces": 11,
+      "edges": 24,
+      "vertices": 15,
+      "faceTypes": {
+        "plane": 11
+      },
+      "edgeTypes": {
+        "line": 24
+      },
+      "faceList": [
+        {
+          "id": "JOm",
+          "area": 51.00000000000001,
+          "type": "plane",
+          "origin": [
+            30,
+            5,
+            6
+          ],
+          "normal": [
+            1,
+            0,
+            0
+          ]
+        },
+        {
+          "id": "JOS",
+          "area": 102.00000000000003,
+          "type": "plane",
+          "origin": [
+            40,
+            0,
+            6
+          ],
+          "normal": [
+            0,
+            1,
+            0
+          ]
+        },
+        {
+          "id": "JOa",
+          "area": 48.45,
+          "type": "plane",
+          "origin": [
+            50,
+            4.75,
+            6
+          ],
+          "normal": [
+            -1,
+            0,
+            0
+          ]
+        },
+        {
+          "id": "JOe",
+          "area": 3.6946329316997146,
+          "type": "plane",
+          "origin": [
+            49.75,
+            9.75,
+            6
+          ],
+          "normal": [
+            -0.707106781,
+            -0.707106781,
+            0
+          ]
+        },
+        {
+          "id": "JOi",
+          "area": 99.45000000000002,
+          "type": "plane",
+          "origin": [
+            39.75,
+            10,
+            6
+          ],
+          "normal": [
+            0,
+            -1,
+            0
+          ]
+        },
+        {
+          "id": "JOW",
+          "area": 149.24000000000007,
+          "type": "plane",
+          "origin": [
+            40,
+            5,
+            6
+          ],
+          "normal": [
+            0,
+            0,
+            1
+          ]
+        },
+        {
+          "id": "JMG",
+          "area": 199.87500000000006,
+          "type": "plane",
+          "origin": [
+            40,
+            5,
+            0
+          ],
+          "normal": [
+            0,
+            0,
+            1
+          ]
+        },
+        {
+          "id": "JOG",
+          "area": 11.494020728187314,
+          "type": "plane",
+          "origin": [
+            49.1,
+            5,
+            6
+          ],
+          "normal": [
+            0.707106781,
+            0,
+            0.707106781
+          ]
+        },
+        {
+          "id": "JOK",
+          "area": 24.221942789545185,
+          "type": "plane",
+          "origin": [
+            40,
+            9.1,
+            6
+          ],
+          "normal": [
+            0,
+            0.707106781,
+            0.707106781
+          ]
+        },
+        {
+          "id": "JOC",
+          "area": 24.310331137193504,
+          "type": "plane",
+          "origin": [
+            40,
+            0.9,
+            6
+          ],
+          "normal": [
+            0,
+            -0.707106781,
+            0.707106781
+          ]
+        },
+        {
+          "id": "JOO",
+          "area": 11.582409075835656,
+          "type": "plane",
+          "origin": [
+            30.9,
+            5,
+            6
+          ],
+          "normal": [
+            -0.707106781,
+            0,
+            0.707106781
+          ]
+        }
+      ],
+      "stl": {
+        "file": "fixtures/fillet/onshape/fp19/fp19b.stl",
+        "sha256": "017e87e2b729b0f752f0c505d8d5c734777572917f831d62c9b2f7e089bbf295",
+        "triangles": 26,
+        "faceTriangles": [
+          [
+            "JOm",
+            "plane",
+            0,
+            2
+          ],
+          [
+            "JOS",
+            "plane",
+            2,
+            2
+          ],
+          [
+            "JOa",
+            "plane",
+            4,
+            2
+          ],
+          [
+            "JOe",
+            "plane",
+            6,
+            3
+          ],
+          [
+            "JOi",
+            "plane",
+            9,
+            2
+          ],
+          [
+            "JOW",
+            "plane",
+            11,
+            2
+          ],
+          [
+            "JMG",
+            "plane",
+            13,
+            3
+          ],
+          [
+            "JOG",
+            "plane",
+            16,
+            3
+          ],
+          [
+            "JOK",
+            "plane",
+            19,
+            3
+          ],
+          [
+            "JOC",
+            "plane",
+            22,
+            2
+          ],
+          [
+            "JOO",
+            "plane",
+            24,
+            2
+          ]
+        ]
+      },
+      "wonky": {
+        "command": "NODE_OPTIONS=--max-old-space-size=8192 node bin/wonky.mjs fixtures/fillet/fp19.fs --feature fp19CutCornerChamfer --param 'c=0.5 * millimeter' --param 'd=0.9 * millimeter' --param 'dx=30 * millimeter'",
+        "name": "w-fp19b",
+        "result": "refused",
+        "refusal": "fixtures/fillet/fp19.fs:48:9: opChamfer is not implemented for this input: blend-overlap: the contact of edge 6 on face 1 needs width 9.000000000e-1 but the spring of edge 8 lies at 5.000000000e-1 (short by 4.000e-1; blends overlap); no notch: the blends of edge 6 and edge 8 overlap and their section circles do not cross [order 5 6 7 8 9]",
+        "maxRssMB": 273
+      },
+      "centroidNote": "not available: Onshape massproperties without an assigned density report [0,0,0]"
+    },
+    "c": {
+      "parameters": {
+        "c": "0.125 mm",
+        "d": "0.42 mm",
+        "dx": "60 mm"
+      },
+      "featureId": "F3Hr2CXDJCYxYpj_2",
+      "featureStatus": "OK",
+      "partId": "JRD",
+      "name": "FP19 c0.125 d0.42000000000000004",
+      "description": "input_volume_mm3=1199.9531250000002",
+      "volume": 1194.7630274895835,
+      "volumeMin": 1194.6504319508733,
+      "volumeMax": 1194.8756230282938,
+      "inputVolume": 1199.9531250000002,
+      "deltaVolume": -5.190097510416763,
+      "area": 744.523989870219,
+      "centroid": null,
+      "bbox": [
+        [
+          60,
+          0,
+          0
+        ],
+        [
+          80,
+          10,
+          6
+        ]
+      ],
+      "faces": 11,
+      "edges": 24,
+      "vertices": 15,
+      "faceTypes": {
+        "plane": 11
+      },
+      "edgeTypes": {
+        "line": 24
+      },
+      "faceList": [
+        {
+          "id": "JTm",
+          "area": 55.800000000000004,
+          "type": "plane",
+          "origin": [
+            60,
+            5,
+            6
+          ],
+          "normal": [
+            1,
+            0,
+            0
+          ]
+        },
+        {
+          "id": "JTS",
+          "area": 111.60000000000002,
+          "type": "plane",
+          "origin": [
+            70,
+            0,
+            6
+          ],
+          "normal": [
+            0,
+            1,
+            0
+          ]
+        },
+        {
+          "id": "JTa",
+          "area": 55.10249999999997,
+          "type": "plane",
+          "origin": [
+            80,
+            4.9375,
+            6
+          ],
+          "normal": [
+            -1,
+            0,
+            0
+          ]
+        },
+        {
+          "id": "JTe",
+          "area": 0.9919382314832755,
+          "type": "plane",
+          "origin": [
+            79.9375,
+            9.9375,
+            6
+          ],
+          "normal": [
+            -0.707106781,
+            -0.707106781,
+            0
+          ]
+        },
+        {
+          "id": "JTi",
+          "area": 110.90250000000002,
+          "type": "plane",
+          "origin": [
+            69.9375,
+            10,
+            6
+          ],
+          "normal": [
+            0,
+            -1,
+            0
+          ]
+        },
+        {
+          "id": "JTW",
+          "area": 175.50560000000002,
+          "type": "plane",
+          "origin": [
+            70,
+            5,
+            6
+          ],
+          "normal": [
+            0,
+            0,
+            1
+          ]
+        },
+        {
+          "id": "JRG",
+          "area": 199.99218750000006,
+          "type": "plane",
+          "origin": [
+            70,
+            5,
+            0
+          ],
+          "normal": [
+            0,
+            0,
+            1
+          ]
+        },
+        {
+          "id": "JTG",
+          "area": 5.684705417836392,
+          "type": "plane",
+          "origin": [
+            79.58,
+            5,
+            6
+          ],
+          "normal": [
+            0.707106781,
+            0,
+            0.707106781
+          ]
+        },
+        {
+          "id": "JTK",
+          "area": 11.624402379803373,
+          "type": "plane",
+          "origin": [
+            70,
+            9.58,
+            6
+          ],
+          "normal": [
+            0,
+            0.707106781,
+            0.707106781
+          ]
+        },
+        {
+          "id": "JTC",
+          "area": 11.629926651531392,
+          "type": "plane",
+          "origin": [
+            70,
+            0.42,
+            6
+          ],
+          "normal": [
+            0,
+            -0.707106781,
+            0.707106781
+          ]
+        },
+        {
+          "id": "JTO",
+          "area": 5.690229689564363,
+          "type": "plane",
+          "origin": [
+            60.42,
+            5,
+            6
+          ],
+          "normal": [
+            -0.707106781,
+            0,
+            0.707106781
+          ]
+        }
+      ],
+      "stl": {
+        "file": "fixtures/fillet/onshape/fp19/fp19c.stl",
+        "sha256": "234c576cefb432518578f7ee27f04e772f9f628858187c4a7f9decac6ce10e1b",
+        "triangles": 26,
+        "faceTriangles": [
+          [
+            "JTm",
+            "plane",
+            0,
+            2
+          ],
+          [
+            "JTS",
+            "plane",
+            2,
+            2
+          ],
+          [
+            "JTa",
+            "plane",
+            4,
+            2
+          ],
+          [
+            "JTe",
+            "plane",
+            6,
+            3
+          ],
+          [
+            "JTi",
+            "plane",
+            9,
+            2
+          ],
+          [
+            "JTW",
+            "plane",
+            11,
+            2
+          ],
+          [
+            "JRG",
+            "plane",
+            13,
+            3
+          ],
+          [
+            "JTG",
+            "plane",
+            16,
+            3
+          ],
+          [
+            "JTK",
+            "plane",
+            19,
+            3
+          ],
+          [
+            "JTC",
+            "plane",
+            22,
+            2
+          ],
+          [
+            "JTO",
+            "plane",
+            24,
+            2
+          ]
+        ]
+      },
+      "wonky": {
+        "command": "NODE_OPTIONS=--max-old-space-size=8192 node bin/wonky.mjs fixtures/fillet/fp19.fs --feature fp19CutCornerChamfer --param 'c=0.125 * millimeter' --param 'd=0.42 * millimeter' --param 'dx=60 * millimeter'",
+        "name": "w-fp19c",
+        "result": "refused",
+        "refusal": "fixtures/fillet/fp19.fs:48:9: opChamfer is not implemented for this input: blend-overlap: the contact of edge 6 on face 1 needs width 4.200000000e-1 but the spring of edge 8 lies at 1.250000000e-1 (short by 2.950e-1; blends overlap); no notch: the blends of edge 6 and edge 8 overlap and their section circles do not cross [order 5 6 7 8 9]",
+        "maxRssMB": 269
+      },
+      "centroidNote": "not available: Onshape massproperties without an assigned density report [0,0,0]"
+    }
+  }
+}

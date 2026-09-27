@@ -1,0 +1,48 @@
+{
+  "btType": "BTFeatureDefinitionResponse-1617",
+  "rejectMicroversionSkew": false,
+  "microversionSkew": false,
+  "featureState": {
+    "btType": "BTFeatureState-1688",
+    "featureStatus": "OK",
+    "inactive": false
+  },
+  "feature": {
+    "btType": "BTMFeature-134",
+    "namespace": "e9dcfa3c1fd68e323088f2c94::mdf078f452d970d99de386f31",
+    "name": "blend-V0-AC32",
+    "suppressed": false,
+    "parameters": [
+      {
+        "btType": "BTMParameterEnum-145",
+        "namespace": "e9dcfa3c1fd68e323088f2c94::mdf078f452d970d99de386f31",
+        "nodeId": "MHDgAxou2F0RxVFL5",
+        "libraryRelationType": "DEFAULT",
+        "enumName": "AcidVariant",
+        "value": "V0",
+        "parameterId": "variant",
+        "parameterName": ""
+      },
+      {
+        "btType": "BTMParameterEnum-145",
+        "namespace": "e9dcfa3c1fd68e323088f2c94::mdf078f452d970d99de386f31",
+        "nodeId": "M8UYCeoEQPkjwN8jz",
+        "libraryRelationType": "DEFAULT",
+        "enumName": "AcidBlendZone",
+        "value": "AC32",
+        "parameterId": "zone",
+        "parameterName": ""
+      }
+    ],
+    "featureId": "FOgEbxxSWMW03L5_6",
+    "nodeId": "Muw1frILi+uNfMigH",
+    "featureType": "acidBlend",
+    "returnAfterSubfeatures": false,
+    "subFeatures": [],
+    "parameterLibraries": [],
+    "suppressionState": null
+  },
+  "libraryVersion": 0,
+  "serializationVersion": "1.2.21",
+  "sourceMicroversion": "8394cd732140ff8d44df7746"
+}

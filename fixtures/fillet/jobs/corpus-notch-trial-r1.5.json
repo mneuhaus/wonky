@@ -1,0 +1,58 @@
+{
+ "id": "corpus-notch-trial-r1.5",
+ "jobSha256": "ac688d92b69bead0550802083a8891d14c2a24344d9615092f53f4f1037795d5",
+ "jobBytes": 3677,
+ "sourceSha256": "81a96f574c556da4556a17c3e9bb0277094e720a859d5e2897c6cbe0a5fa2dfe",
+ "buildMs": 5.441584000000148,
+ "kernel": {
+  "closed": true,
+  "volumeMm3": 4710,
+  "areaMm2": 2350,
+  "precision": "F32x2",
+  "geometry": "planar"
+ },
+ "counts": {
+  "vertices": 16,
+  "edges": 24,
+  "faces": 10
+ },
+ "surfaces": {
+  "plane": 10
+ },
+ "quantizationErrorMm": 0,
+ "selected": [
+  {
+   "edge": 20,
+   "curve": "line",
+   "faces": [
+    "plane",
+    "plane"
+   ],
+   "convexity": "concave",
+   "dihedralDeg": 270,
+   "length": 6,
+   "sample": [
+    21.5,
+    15,
+    3
+   ]
+  },
+  {
+   "edge": 21,
+   "curve": "line",
+   "faces": [
+    "plane",
+    "plane"
+   ],
+   "convexity": "concave",
+   "dihedralDeg": 270,
+   "length": 6,
+   "sample": [
+    18.5,
+    15,
+    3
+   ]
+  }
+ ],
+ "step": "out/fillet/input-step/corpus-notch-trial-r1.5.step"
+}

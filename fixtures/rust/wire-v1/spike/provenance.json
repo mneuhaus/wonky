@@ -1,0 +1,188 @@
+{
+ "schema": "wonky-fixture-provenance/1",
+ "what": "Wire v1 words of every planar Boolean call the Rust spike captured: request = arguments (LE U32, no status), reply = Bend native addon reply ([status, ...result]).",
+ "origin": {
+  "tree": "local-development-evidence (captured at the documented source revision)",
+  "dir": "local-development-evidence",
+  "index": {
+   "sha256": "62389840d3a01250118f67b73bae05481ad708a67b8c71c8e02f4676f344cbb6",
+   "bendNativeSourceHash": "829661910f1bd002c88faba5fe4b0e098f6bfe7cc9da9b3546da2ef4d17d8ffa",
+   "bendNativeWireHash": "056c3bee5df87ebb5577c1d55b6923bf55d0d5adcc898d505037b091cd90a6d2"
+  },
+  "producedBy": "node --max-old-space-size=8192 rust/harness/encode.mjs (spike report docs/rust-spike.md, S3)"
+ },
+ "frozenBy": "W0 (local-development-evidence), byte copies; each file sha256 equals its origin",
+ "calls": [
+  {
+   "workload": "py-planar-union",
+   "call": 0,
+   "entry": "kernel/ports/planar-boolean.bend:union",
+   "bendNativeOp": 0,
+   "requestWords": 892,
+   "replyWords": 2441,
+   "nativeEqualsJs": true,
+   "request": {
+    "file": "py-planar-union.0.req.bin",
+    "sha256": "d9bcd8969cdf17e9af221a76616a48257d304cfa2efddd2af392aa63d6e6f8bc",
+    "originSha256": "d9bcd8969cdf17e9af221a76616a48257d304cfa2efddd2af392aa63d6e6f8bc"
+   },
+   "reply": {
+    "file": "py-planar-union.0.bend.bin",
+    "sha256": "196ed4ab523716f0fe3010de9c53d2a7ec832d98ef8a5e95d490b263505d95a1",
+    "originSha256": "196ed4ab523716f0fe3010de9c53d2a7ec832d98ef8a5e95d490b263505d95a1"
+   }
+  },
+  {
+   "workload": "py-planar-pocket",
+   "call": 0,
+   "entry": "kernel/ports/planar-boolean.bend:subtract",
+   "bendNativeOp": 1,
+   "requestWords": 892,
+   "replyWords": 4317,
+   "nativeEqualsJs": true,
+   "request": {
+    "file": "py-planar-pocket.0.req.bin",
+    "sha256": "f7622a723a66efbaec9414204eac636377cd26023777d268fc3867f8b63eddac",
+    "originSha256": "f7622a723a66efbaec9414204eac636377cd26023777d268fc3867f8b63eddac"
+   },
+   "reply": {
+    "file": "py-planar-pocket.0.bend.bin",
+    "sha256": "47ea037ec95886994a2bcf6b4d658c853c4ce7747a3b5857b3cafa10ee282498",
+    "originSha256": "47ea037ec95886994a2bcf6b4d658c853c4ce7747a3b5857b3cafa10ee282498"
+   }
+  },
+  {
+   "workload": "py-frame-with-tab",
+   "call": 0,
+   "entry": "kernel/ports/planar-boolean.bend:subtract",
+   "bendNativeOp": 1,
+   "requestWords": 892,
+   "replyWords": 3001,
+   "nativeEqualsJs": true,
+   "request": {
+    "file": "py-frame-with-tab.0.req.bin",
+    "sha256": "10c948ed7cb9129067725801f2ea2765652a6e0a2972593871b62910c6732ac1",
+    "originSha256": "10c948ed7cb9129067725801f2ea2765652a6e0a2972593871b62910c6732ac1"
+   },
+   "reply": {
+    "file": "py-frame-with-tab.0.bend.bin",
+    "sha256": "1f7b9eb3354ae4e2c59ccf7078ffb678938fbc5c5626d663f872fb110a1adc67",
+    "originSha256": "1f7b9eb3354ae4e2c59ccf7078ffb678938fbc5c5626d663f872fb110a1adc67"
+   }
+  },
+  {
+   "workload": "py-frame-with-tab",
+   "call": 1,
+   "entry": "kernel/ports/planar-boolean.bend:union",
+   "bendNativeOp": 0,
+   "requestWords": 3046,
+   "replyWords": 5937,
+   "nativeEqualsJs": true,
+   "request": {
+    "file": "py-frame-with-tab.1.req.bin",
+    "sha256": "6bdfa814306992252626718de131cfb964956f8561dab1bf81dd513f153586d8",
+    "originSha256": "6bdfa814306992252626718de131cfb964956f8561dab1bf81dd513f153586d8"
+   },
+   "reply": {
+    "file": "py-frame-with-tab.1.bend.bin",
+    "sha256": "2780f2a6de34b5c35f8dd2572f9171372bee0c8fb6d155e281e300de7e04af39",
+    "originSha256": "2780f2a6de34b5c35f8dd2572f9171372bee0c8fb6d155e281e300de7e04af39"
+   }
+  },
+  {
+   "workload": "fs-fuse-g1",
+   "call": 0,
+   "entry": "kernel/ports/planar-boolean.bend:union",
+   "bendNativeOp": 0,
+   "requestWords": 892,
+   "replyWords": 1879,
+   "nativeEqualsJs": true,
+   "request": {
+    "file": "fs-fuse-g1.0.req.bin",
+    "sha256": "99d17e16c839909062cc5dafdf4d068c1b9d1319622f5b840608509d9487f0f8",
+    "originSha256": "99d17e16c839909062cc5dafdf4d068c1b9d1319622f5b840608509d9487f0f8"
+   },
+   "reply": {
+    "file": "fs-fuse-g1.0.bend.bin",
+    "sha256": "3b6a613d2143b0db0700f81191f9c0c171c6a80e28a266ffc6c541ee854d0ab1",
+    "originSha256": "3b6a613d2143b0db0700f81191f9c0c171c6a80e28a266ffc6c541ee854d0ab1"
+   }
+  },
+  {
+   "workload": "fs-cut-h1",
+   "call": 0,
+   "entry": "kernel/ports/planar-boolean.bend:subtract",
+   "bendNativeOp": 1,
+   "requestWords": 1284,
+   "replyWords": 4320,
+   "nativeEqualsJs": true,
+   "request": {
+    "file": "fs-cut-h1.0.req.bin",
+    "sha256": "ab47faaa84896e69db670ace42ad7a2b57f5d6ba4c23616ccbc8caa6c15a420e",
+    "originSha256": "ab47faaa84896e69db670ace42ad7a2b57f5d6ba4c23616ccbc8caa6c15a420e"
+   },
+   "reply": {
+    "file": "fs-cut-h1.0.bend.bin",
+    "sha256": "a1cbd6172e9d184bf31018687c132e9c55ce8a1f39fc3c5776687cf0b57a7ac9",
+    "originSha256": "a1cbd6172e9d184bf31018687c132e9c55ce8a1f39fc3c5776687cf0b57a7ac9"
+   }
+  },
+  {
+   "workload": "r20-kt6",
+   "call": 0,
+   "entry": "kernel/ports/planar-boolean.bend:union",
+   "bendNativeOp": 0,
+   "requestWords": 892,
+   "replyWords": 1325,
+   "nativeEqualsJs": true,
+   "request": {
+    "file": "r20-kt6.0.req.bin",
+    "sha256": "8b69a2393fdf3824c6232827ce7ffe83dcaae444f0d76f20d689c43b6dbd233f",
+    "originSha256": "8b69a2393fdf3824c6232827ce7ffe83dcaae444f0d76f20d689c43b6dbd233f"
+   },
+   "reply": {
+    "file": "r20-kt6.0.bend.bin",
+    "sha256": "eb9f54f1fdf594839151ad605a2f43dc45065fd29cf2598562186ee9e6282c3d",
+    "originSha256": "eb9f54f1fdf594839151ad605a2f43dc45065fd29cf2598562186ee9e6282c3d"
+   }
+  },
+  {
+   "workload": "r20-kt6",
+   "call": 1,
+   "entry": "kernel/ports/planar-boolean.bend:union",
+   "bendNativeOp": 0,
+   "requestWords": 1600,
+   "replyWords": 13,
+   "nativeEqualsJs": true,
+   "request": {
+    "file": "r20-kt6.1.req.bin",
+    "sha256": "1920c57764f56640738aaca801b4dc0418efba0bd866f63fbc06bd2a5be3bda8",
+    "originSha256": "1920c57764f56640738aaca801b4dc0418efba0bd866f63fbc06bd2a5be3bda8"
+   },
+   "reply": {
+    "file": "r20-kt6.1.bend.bin",
+    "sha256": "d7436c15d6ee7361ddd9813e9598842bf4d6b7ab6fb2b43d4f0d33c4ad78feb1",
+    "originSha256": "d7436c15d6ee7361ddd9813e9598842bf4d6b7ab6fb2b43d4f0d33c4ad78feb1"
+   }
+  },
+  {
+   "workload": "r20-kt6",
+   "call": 2,
+   "entry": "kernel/ports/planar-boolean.bend:union",
+   "bendNativeOp": 0,
+   "requestWords": 1284,
+   "replyWords": 5615,
+   "nativeEqualsJs": true,
+   "request": {
+    "file": "r20-kt6.2.req.bin",
+    "sha256": "5d0a6224502d22d410d9c45cbb3977427e357305cad46a32b64cfea4590249e3",
+    "originSha256": "5d0a6224502d22d410d9c45cbb3977427e357305cad46a32b64cfea4590249e3"
+   },
+   "reply": {
+    "file": "r20-kt6.2.bend.bin",
+    "sha256": "d52a9e79ff1f30eb741815e76b33157de202a7005e003f34d458cb7c3aebf249",
+    "originSha256": "d52a9e79ff1f30eb741815e76b33157de202a7005e003f34d458cb7c3aebf249"
+   }
+  }
+ ]
+}

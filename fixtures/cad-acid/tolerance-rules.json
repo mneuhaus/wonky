@@ -1,0 +1,131 @@
+{
+  "schema": "wonky/cad-acid-tolerance-rules/1",
+  "version": "AC1-tolerance-2026-09-27-1",
+  "date": "2026-09-27",
+  "zonesSha256": "620a125d939d24956a122b23234cd34b754597cd6256dca6ba58630f5a6d8c51",
+  "policy": "Independent practical overlay. Strict v1 observations, bands, outcomes and points are unchanged. Missing geometric witnesses fail closed. Exact-class kernels have no tolerance rules. Rule selectors are construction predicates, never zone IDs or audit labels.",
+  "rules": [
+    {
+      "id": "OCCT-CONTACT-IMPRINT-1",
+      "kernels": [
+        "occt"
+      ],
+      "phenomenon": "A tangent contact splits the analytic boundary into additional faces and edges without changing either capped cylinder's material.",
+      "acceptance": {
+        "kind": "parallel-capped-cylinder-imprint",
+        "inputGap": "zero",
+        "maxInputGapMm": 0,
+        "supportAbsMm": 1e-07,
+        "angularAbs": 1e-12,
+        "description": "UNION of two externally tangent, parallel capped cylinders. Exactly two valid closed positive bodies. An observation-bound, checksummed STEP witness must independently recover each cylinder's local axis, radius, full span, two full planar caps and genus zero. Native raw Euler must independently be zero-genus for each body, not the seam-quotiented canonical genus. Per-body and total volume/area, bbox and every probe retain strict v1 tolerance bands; both STEP imports must also pass. Only face/edge/vertex subdivision and the diagnosed canonical genus quotient may differ. All four variants must satisfy the same rule. No merged solid, bridge, lens, lost body, unsupported surface or changed material is allowed."
+      },
+      "evidence": [
+        {
+          "source": "OCCT BRepAlgoAPI Boolean result and same-domain unification",
+          "url": "https://raw.githubusercontent.com/Open-Cascade-SAS/OCCT/V7_8_1/src/BRepAlgoAPI/BRepAlgoAPI_BuilderAlgo.hxx",
+          "file": "src/BRepAlgoAPI/BRepAlgoAPI_BuilderAlgo.hxx",
+          "version": "V7_8_1",
+          "locator": "SimplifyResult: optional unification of same-domain faces and edges of the Boolean result",
+          "scope": "Boolean result representation may retain split same-domain faces; this is not permission to change geometry.",
+          "lines": [
+            55,
+            56,
+            160,
+            170,
+            180,
+            185
+          ]
+        },
+        {
+          "source": "build123d Shape.clean",
+          "url": "https://raw.githubusercontent.com/gumyr/build123d/v0.10.0/src/build123d/topology/shape_core.py",
+          "file": "src/build123d/topology/shape_core.py",
+          "version": "v0.10.0",
+          "locator": "Shape.clean uses ShapeUpgrade_UnifySameDomain",
+          "scope": "The twin invokes clean(), but its canonical boundary counts need not equal the un-imprinted primitive counts.",
+          "lines": [
+            1028,
+            1045
+          ]
+        }
+      ],
+      "date": "2026-09-27"
+    },
+    {
+      "id": "OCCT-FUZZY-CONTACT-1",
+      "kernels": [
+        "occt"
+      ],
+      "phenomenon": "OCCT's default Boolean fuzzy value treats a positive sub-Confusion gap between parallel capped cylinders as contact and imprints a boundary.",
+      "acceptance": {
+        "kind": "parallel-capped-cylinder-imprint",
+        "inputGap": "positive-below-limit",
+        "maxInputGapMm": 1e-07,
+        "supportAbsMm": 1e-07,
+        "angularAbs": 1e-12,
+        "description": "Same geometric witness and unchanged strict measurement checks as the tangent-contact rule, but the independently evaluated construction gap must be strictly positive and strictly below 1e-7 mm. The measured gap may close within the existing v1 measurement band. The two complete analytic cylinders, their material, per-body genus and validity must be preserved. This rule does not permit general healing, erasing features or joining the bodies."
+      },
+      "evidence": [
+        {
+          "source": "OCCT default Boolean fuzzy value",
+          "url": "https://raw.githubusercontent.com/Open-Cascade-SAS/OCCT/V7_8_1/src/BOPAlgo/BOPAlgo_Options.cxx",
+          "file": "src/BOPAlgo/BOPAlgo_Options.cxx",
+          "lines": [
+            54,
+            70
+          ],
+          "version": "V7_8_1",
+          "scope": "Both constructors initialize myFuzzyValue with Precision::Confusion()."
+        },
+        {
+          "source": "OCCT linear confusion",
+          "url": "https://raw.githubusercontent.com/Open-Cascade-SAS/OCCT/V7_8_1/src/Precision/Precision.hxx",
+          "file": "src/Precision/Precision.hxx",
+          "lines": [
+            121,
+            163
+          ],
+          "version": "V7_8_1",
+          "scope": "Angular() = 1e-12 and Confusion() = 1e-7; the frozen OCCT twin uses millimetres and does not call SetFuzzyValue."
+        },
+        {
+          "source": "Frozen build123d Boolean twin",
+          "file": "fixtures/cad-acid/b3d/acid_curved.py",
+          "lines": [
+            98,
+            121
+          ],
+          "version": "AC1-2026-09-26-a1 / build123d 0.10.0 / cadquery-ocp 7.8.1.1.post1",
+          "scope": "BRepAlgoAPI_Fuse is built without a fuzzy override. Catalog statement fuzzy value 0 is annotated by CE12, not silently changed."
+        }
+      ],
+      "date": "2026-09-27"
+    }
+  ],
+  "pendingEvidence": [
+    {
+      "kernel": "onshape",
+      "zones": [
+        "AC40"
+      ],
+      "phenomenon": "solid Boolean gap closure",
+      "reason": "Audit B, evidence pending: the frozen std 3044 solid-Boolean gap policy is not pinned; older std 2960 surface-join tolerance is not a solid-Boolean guarantee."
+    },
+    {
+      "kernel": "onshape",
+      "zones": [
+        "AC20"
+      ],
+      "phenomenon": "STEP export fit",
+      "reason": "Audit B, evidence pending: STEP model accuracy is not an area/volume error guarantee or a certified curve-deviation bound."
+    },
+    {
+      "kernel": "occt",
+      "zones": [
+        "AC20"
+      ],
+      "phenomenon": "STEP edge-chain subdivision",
+      "reason": "Audit B, evidence pending: extra edge counts alone do not prove a contiguous one-to-one C1 chain within a declared transport-accuracy bound."
+    }
+  ]
+}

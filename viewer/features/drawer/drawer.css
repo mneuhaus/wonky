@@ -1,0 +1,51 @@
+/* Report and source drawer. */
+
+.report-drawer {
+  position: absolute;
+  left: 15px;
+  right: 15px;
+  bottom: 13px;
+  z-index: 8;
+  max-height: 70%;
+  background: color-mix(in srgb, var(--surface) 97%, transparent);
+  box-shadow: 0 0 0 1px #dce4d5,0 10px 50px #24372417;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.report-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 19px 22px 14px;
+  border-bottom: 1px solid var(--line);
+}
+
+.report-heading h2 {
+  font-size: 15px;
+  font-weight: 550;
+  letter-spacing: -.4px;
+  margin-top: 5px;
+}
+
+#report-content {
+  padding: 18px 22px 22px;
+  overflow: auto;
+}
+
+@media (max-width: 650px) {
+  .report-drawer {
+    left: 10px;
+    right: 10px;
+    bottom: 10px;
+    max-height: 85%;
+  }
+  .report-heading {
+    padding: 14px 16px;
+  }
+  #report-content {
+    padding: 14px 16px;
+  }
+}

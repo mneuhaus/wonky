@@ -1,0 +1,43 @@
+{
+ "id": "pc-post-base-concave-r1",
+ "jobSha256": "0f7dc8cd7b44ea0163822b417a37b8635549a6a9b9a36dfdc92e0d7f9ca13736",
+ "jobBytes": 1445,
+ "sourceSha256": "8a38f509d293e8c97e83323037e86d95d2bbb536b64fa7ffd7407f618f7f8918",
+ "buildMs": 8.625625000000127,
+ "kernel": {
+  "closed": true,
+  "volumeMm3": 1445.1326206513113,
+  "areaMm2": null,
+  "precision": "F32x2",
+  "geometry": "analytic"
+ },
+ "counts": {
+  "vertices": 5,
+  "edges": 7,
+  "faces": 6
+ },
+ "surfaces": {
+  "plane": 4,
+  "cylinder": 2
+ },
+ "quantizationErrorMm": 0,
+ "selected": [
+  {
+   "edge": 1,
+   "curve": "circle",
+   "faces": [
+    "cylinder",
+    "plane"
+   ],
+   "convexity": "concave",
+   "dihedralDeg": 270,
+   "length": 25.132110409154308,
+   "sample": [
+    -4,
+    4.898587196589413e-16,
+    3
+   ]
+  }
+ ],
+ "step": "out/fillet/input-step/pc-post-base-concave-r1.step"
+}

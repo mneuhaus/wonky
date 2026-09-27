@@ -1,0 +1,48 @@
+{
+  "btType": "BTFeatureDefinitionResponse-1617",
+  "rejectMicroversionSkew": false,
+  "microversionSkew": false,
+  "featureState": {
+    "btType": "BTFeatureState-1688",
+    "featureStatus": "OK",
+    "inactive": false
+  },
+  "feature": {
+    "btType": "BTMFeature-134",
+    "namespace": "efebc9632e506034ea4595143::m216760051730d7a15ec76bf7",
+    "name": "curved-V1-ALL",
+    "suppressed": false,
+    "parameters": [
+      {
+        "btType": "BTMParameterEnum-145",
+        "namespace": "efebc9632e506034ea4595143::m216760051730d7a15ec76bf7",
+        "nodeId": "MrZe5azPYuBWcPtWT",
+        "libraryRelationType": "DEFAULT",
+        "enumName": "AcidVariant",
+        "value": "V1",
+        "parameterId": "variant",
+        "parameterName": ""
+      },
+      {
+        "btType": "BTMParameterEnum-145",
+        "namespace": "efebc9632e506034ea4595143::m216760051730d7a15ec76bf7",
+        "nodeId": "M4YX6IHO8wfm3ZGEU",
+        "libraryRelationType": "DEFAULT",
+        "enumName": "AcidCurvedZone",
+        "value": "ALL",
+        "parameterId": "zone",
+        "parameterName": ""
+      }
+    ],
+    "nodeId": "MUXx8cgldCLffJ1h0",
+    "featureId": "FkrU2vx7cPxEiB8_2",
+    "featureType": "acidCurved",
+    "returnAfterSubfeatures": false,
+    "subFeatures": [],
+    "parameterLibraries": [],
+    "suppressionState": null
+  },
+  "libraryVersion": 0,
+  "serializationVersion": "1.2.21",
+  "sourceMicroversion": "4e083637453a5b465637a85a"
+}

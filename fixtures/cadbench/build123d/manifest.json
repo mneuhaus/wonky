@@ -1,0 +1,215 @@
+{
+  "schema": "wonky-build123d-probes/1",
+  "repository": "https://github.com/gumyr/build123d",
+  "revision": "bc19b031cad4bda9568c6ed3f86c51ba17c97fe5",
+  "license": "Apache-2.0",
+  "notice": "upstream/NOTICE",
+  "scope": "Selected geometry/API probes adapted from upstream tests; neither the complete build123d tests nor a CADBench score.",
+  "upstreamTestMethodsInFile": 95,
+  "files": [
+    {
+      "path": "upstream/test_algebra.py",
+      "url": "https://raw.githubusercontent.com/gumyr/build123d/bc19b031cad4bda9568c6ed3f86c51ba17c97fe5/tests/test_algebra.py",
+      "sha256": "60bda4dcbe2e7bf1cdeee3d40f94e5b026c28937720a07446a37338595922807"
+    },
+    {
+      "path": "upstream/NOTICE",
+      "url": "https://raw.githubusercontent.com/gumyr/build123d/bc19b031cad4bda9568c6ed3f86c51ba17c97fe5/NOTICE",
+      "sha256": "7b7c0e58f119b8e17eba8faa015ab48dedd1131836d30c8a56fa6dbf56d22ce0"
+    },
+    {
+      "path": "upstream/LICENSE",
+      "url": "https://raw.githubusercontent.com/gumyr/build123d/bc19b031cad4bda9568c6ed3f86c51ba17c97fe5/LICENSE",
+      "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+    }
+  ],
+  "cases": [
+    {
+      "id": "box-min",
+      "upstreamTest": "ObjectTests.test_box_min",
+      "upstreamFile": "tests/test_algebra.py",
+      "source": "adapted/box-min.py",
+      "sourceSha256": "3ce2b54b8913cee43b0a232b9cbe2c1c1b984f59cc04eea41470fcc48c98100f",
+      "modifications": "Original primitive/alignment; result assignment added. Upstream bounding-box assertions reused; volume is an additional analytic check. Runtime class identity/center methods are not tested.",
+      "expected": {
+        "solids": 1,
+        "volumeMm3": 6,
+        "boundsMm": {
+          "min": [
+            0,
+            0,
+            0
+          ],
+          "max": [
+            1,
+            2,
+            3
+          ]
+        }
+      }
+    },
+    {
+      "id": "cylinder",
+      "upstreamTest": "ObjectTests.test_cylinder_",
+      "upstreamFile": "tests/test_algebra.py",
+      "source": "adapted/cylinder.py",
+      "sourceSha256": "5a8f50d1f75814e311c3382e02836c8416aae37971cd8939d59d56833b831cc1",
+      "modifications": "Original primitive and default alignment; result assignment added. Upstream bounding-box expectations reused; analytic volume added.",
+      "expected": {
+        "solids": 1,
+        "volumeMm3": 6.283185307179586,
+        "boundsMm": {
+          "min": [
+            -1,
+            -1,
+            -1
+          ],
+          "max": [
+            1,
+            1,
+            1
+          ]
+        }
+      }
+    },
+    {
+      "id": "box-cylinder-union",
+      "upstreamTest": "AlgebraTests.test_part_plus",
+      "upstreamFile": "tests/test_algebra.py",
+      "source": "adapted/box-cylinder-union.py",
+      "sourceSha256": "3156436fa55a08a3253a011ce8508d28064e0e4c958f5fa301631dc09537dc96",
+      "modifications": "Original complete Boolean modeling expression. Shape.edges queries and edge-set lineage assertions omitted and remain untested; original bbox expectations and additional analytic volume checked.",
+      "expected": {
+        "solids": 1,
+        "volumeMm3": 6.251327412287184,
+        "boundsMm": {
+          "min": [
+            -0.5,
+            -1,
+            -2.5
+          ],
+          "max": [
+            0.5,
+            1,
+            2.5
+          ]
+        }
+      }
+    },
+    {
+      "id": "box-cylinder-subtraction",
+      "upstreamTest": "AlgebraTests.test_part_minus",
+      "upstreamFile": "tests/test_algebra.py",
+      "source": "adapted/box-cylinder-subtraction.py",
+      "sourceSha256": "5a7ba72b4667e99c423b95c7186c954c71713cfb710700ff4ddbb12ffbfea31d",
+      "modifications": "Original complete Boolean modeling expression. Shape.edges queries and edge-set lineage assertions omitted and remain untested; original bbox expectations and additional analytic volume checked.",
+      "expected": {
+        "solids": 1,
+        "volumeMm3": 5.623008881569225,
+        "boundsMm": {
+          "min": [
+            -0.5,
+            -1,
+            -1.5
+          ],
+          "max": [
+            0.5,
+            1,
+            1.5
+          ]
+        }
+      }
+    },
+    {
+      "id": "box-cylinder-intersection",
+      "upstreamTest": "AlgebraTests.test_part_and",
+      "upstreamFile": "tests/test_algebra.py",
+      "source": "adapted/box-cylinder-intersection.py",
+      "sourceSha256": "1a7347929fe2ae300b6db0126d61ce9d36e5d0310a3870d1f66bc95ca5d9e9a8",
+      "modifications": "Original complete Boolean modeling expression. Shape.edges queries and edge-set lineage assertions omitted and remain untested; original bbox expectations and additional analytic volume checked.",
+      "expected": {
+        "solids": 1,
+        "volumeMm3": 0.37699111843077526,
+        "boundsMm": {
+          "min": [
+            -0.2,
+            -0.2,
+            -1.5
+          ],
+          "max": [
+            0.2,
+            0.2,
+            1.5
+          ]
+        }
+      }
+    },
+    {
+      "id": "split-cut",
+      "upstreamTest": "AlgebraTests.test_compound_minus",
+      "upstreamFile": "tests/test_algebra.py",
+      "source": "adapted/split-cut.py",
+      "sourceSha256": "b9fc84cb0583849efc4cda3191f0b2f2b1016f1eb8326d447d10713ae145ba72",
+      "modifications": "Only the split_cut subcase. Two Solid.make_box calls with explicit minimum-corner planes replaced by exactly equivalent centered Box operands. Original two-solid and volume=3 assertions retained. Other compound/face/shell subcases are not tested.",
+      "expected": {
+        "solids": 2,
+        "volumeMm3": 3
+      }
+    },
+    {
+      "id": "fillet",
+      "upstreamTest": "OperationsTests.test_fillet_3d",
+      "upstreamFile": "tests/test_algebra.py",
+      "source": "adapted/fillet.py",
+      "sourceSha256": "185a86e09e6765566ae247113e1beb4d9d87644491da26a2a2a720fcca8ee59d",
+      "modifications": "Original complete fillet construction; result assignment added. Original volume to four decimal places retained; no fillet approximation.",
+      "expected": {
+        "solids": 1,
+        "volumeMm3": 5.804696,
+        "volumeAbsoluteTolerance": 0.0001
+      }
+    },
+    {
+      "id": "overlap-grid",
+      "upstreamTest": "AlgebraTests.test_empty_plus_overlapping_parts",
+      "upstreamFile": "tests/test_algebra.py",
+      "source": "adapted/overlap-grid.py",
+      "sourceSha256": "6dc77ac557bac9404365dca649f2351853d0d421752d9e884eb72ac940009479",
+      "modifications": "Exact sequential nine-box construction retained. Part()+boxes vectorized branch and its equivalence assertions not run. Analytic volume/bounds added for the full union.",
+      "expected": {
+        "solids": 1,
+        "volumeMm3": 6.76,
+        "boundsMm": {
+          "min": [
+            -0.5,
+            -0.5,
+            -0.5
+          ],
+          "max": [
+            2.1,
+            2.1,
+            0.5
+          ]
+        }
+      }
+    },
+    {
+      "id": "mixed-curves",
+      "upstreamTest": "AlgebraTests.test_empty_plus_mixed_curved_parts",
+      "upstreamFile": "tests/test_algebra.py",
+      "source": "adapted/mixed-curves.py",
+      "sourceSha256": "7e640df8bbd6a0d5394ac61114816367f4e71ed669816e77ebea823eb4e3af05",
+      "modifications": "Exact sequential mixed-curvature chain retained; no replacement primitives. Vectorized equivalence, surface area, face count, and reference mass oracle still required before any geometry pass.",
+      "expected": {}
+    },
+    {
+      "id": "rotated-chain",
+      "upstreamTest": "AlgebraTests.test_empty_plus_rotated_parts",
+      "upstreamFile": "tests/test_algebra.py",
+      "source": "adapted/rotated-chain.py",
+      "sourceSha256": "eac4883e8942dcc47f834d05e4ac0e3948158e938a51b0aff1de604a7b73b594",
+      "modifications": "Exact sequential rotated five-box construction retained. Unsupported Rot must stay explicit; vectorized equivalence and mass/topology oracle remain unevaluated.",
+      "expected": {}
+    }
+  ]
+}

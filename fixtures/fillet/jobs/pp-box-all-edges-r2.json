@@ -1,0 +1,218 @@
+{
+ "id": "pp-box-all-edges-r2",
+ "jobSha256": "6c3096ec101efdcd0984078cee512f67d2b63bd37d3261455079da955397406e",
+ "jobBytes": 1870,
+ "sourceSha256": "3920ea1e1b01eed410c2fa60cee0083e00df279604704396014a4dcac33d7b71",
+ "buildMs": 2.997292000000016,
+ "kernel": {
+  "closed": true,
+  "volumeMm3": 3840,
+  "areaMm2": 1504,
+  "precision": "F32x2",
+  "geometry": "planar"
+ },
+ "counts": {
+  "vertices": 8,
+  "edges": 12,
+  "faces": 6
+ },
+ "surfaces": {
+  "plane": 6
+ },
+ "quantizationErrorMm": 0,
+ "selected": [
+  {
+   "edge": 0,
+   "curve": "line",
+   "faces": [
+    "plane",
+    "plane"
+   ],
+   "convexity": "convex",
+   "dihedralDeg": 90,
+   "length": 20,
+   "sample": [
+    10,
+    0,
+    0
+   ]
+  },
+  {
+   "edge": 1,
+   "curve": "line",
+   "faces": [
+    "plane",
+    "plane"
+   ],
+   "convexity": "convex",
+   "dihedralDeg": 90,
+   "length": 16,
+   "sample": [
+    20,
+    8,
+    0
+   ]
+  },
+  {
+   "edge": 2,
+   "curve": "line",
+   "faces": [
+    "plane",
+    "plane"
+   ],
+   "convexity": "convex",
+   "dihedralDeg": 90,
+   "length": 20,
+   "sample": [
+    10,
+    16,
+    0
+   ]
+  },
+  {
+   "edge": 3,
+   "curve": "line",
+   "faces": [
+    "plane",
+    "plane"
+   ],
+   "convexity": "convex",
+   "dihedralDeg": 90,
+   "length": 16,
+   "sample": [
+    0,
+    8,
+    0
+   ]
+  },
+  {
+   "edge": 4,
+   "curve": "line",
+   "faces": [
+    "plane",
+    "plane"
+   ],
+   "convexity": "convex",
+   "dihedralDeg": 90,
+   "length": 20,
+   "sample": [
+    10,
+    0,
+    12
+   ]
+  },
+  {
+   "edge": 5,
+   "curve": "line",
+   "faces": [
+    "plane",
+    "plane"
+   ],
+   "convexity": "convex",
+   "dihedralDeg": 90,
+   "length": 16,
+   "sample": [
+    20,
+    8,
+    12
+   ]
+  },
+  {
+   "edge": 6,
+   "curve": "line",
+   "faces": [
+    "plane",
+    "plane"
+   ],
+   "convexity": "convex",
+   "dihedralDeg": 90,
+   "length": 20,
+   "sample": [
+    10,
+    16,
+    12
+   ]
+  },
+  {
+   "edge": 7,
+   "curve": "line",
+   "faces": [
+    "plane",
+    "plane"
+   ],
+   "convexity": "convex",
+   "dihedralDeg": 90,
+   "length": 16,
+   "sample": [
+    0,
+    8,
+    12
+   ]
+  },
+  {
+   "edge": 8,
+   "curve": "line",
+   "faces": [
+    "plane",
+    "plane"
+   ],
+   "convexity": "convex",
+   "dihedralDeg": 90,
+   "length": 12,
+   "sample": [
+    0,
+    0,
+    6
+   ]
+  },
+  {
+   "edge": 9,
+   "curve": "line",
+   "faces": [
+    "plane",
+    "plane"
+   ],
+   "convexity": "convex",
+   "dihedralDeg": 90,
+   "length": 12,
+   "sample": [
+    20,
+    0,
+    6
+   ]
+  },
+  {
+   "edge": 10,
+   "curve": "line",
+   "faces": [
+    "plane",
+    "plane"
+   ],
+   "convexity": "convex",
+   "dihedralDeg": 90,
+   "length": 12,
+   "sample": [
+    20,
+    16,
+    6
+   ]
+  },
+  {
+   "edge": 11,
+   "curve": "line",
+   "faces": [
+    "plane",
+    "plane"
+   ],
+   "convexity": "convex",
+   "dihedralDeg": 90,
+   "length": 12,
+   "sample": [
+    0,
+    16,
+    6
+   ]
+  }
+ ],
+ "step": "out/fillet/input-step/pp-box-all-edges-r2.step"
+}

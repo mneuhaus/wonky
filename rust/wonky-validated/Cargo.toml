@@ -1,0 +1,9 @@
+[package]
+name = "wonky-validated"
+version = "0.1.0"
+edition = "2021"
+description = "VA1: validated elementary functions and Gauss-Legendre remainder enclosures"
+publish = false
+
+[dependencies]
+wonky-num = { path = "../wonky-num" }

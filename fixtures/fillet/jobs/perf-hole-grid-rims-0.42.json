@@ -1,0 +1,283 @@
+{
+ "id": "perf-hole-grid-rims-0.42",
+ "jobSha256": "1f2a8ab42b5e4b59d158b132dca58544a40f22ac86e57ed1fa81cb4e36c5909b",
+ "jobBytes": 8627,
+ "sourceSha256": "7ff55b3110358501ee0bf161311fd28d6c1555345d8121c5e8e7929f155441fa",
+ "buildMs": 354.7159590000001,
+ "kernel": {
+  "closed": true,
+  "volumeMm3": 7526.0177631383995,
+  "areaMm2": null,
+  "precision": "F32x2",
+  "geometry": "analytic"
+ },
+ "counts": {
+  "vertices": 32,
+  "edges": 48,
+  "faces": 18
+ },
+ "surfaces": {
+  "plane": 6,
+  "cylinder": 12
+ },
+ "quantizationErrorMm": 0,
+ "selected": [
+  {
+   "edge": 4,
+   "curve": "line",
+   "faces": [
+    "plane",
+    "plane"
+   ],
+   "convexity": "convex",
+   "dihedralDeg": 90,
+   "length": 46,
+   "sample": [
+    23,
+    0,
+    5
+   ]
+  },
+  {
+   "edge": 5,
+   "curve": "line",
+   "faces": [
+    "plane",
+    "plane"
+   ],
+   "convexity": "convex",
+   "dihedralDeg": 90,
+   "length": 36.00000000000001,
+   "sample": [
+    46,
+    18.000000000000004,
+    5
+   ]
+  },
+  {
+   "edge": 6,
+   "curve": "line",
+   "faces": [
+    "plane",
+    "plane"
+   ],
+   "convexity": "convex",
+   "dihedralDeg": 90,
+   "length": 46,
+   "sample": [
+    23,
+    36.00000000000001,
+    5
+   ]
+  },
+  {
+   "edge": 7,
+   "curve": "line",
+   "faces": [
+    "plane",
+    "plane"
+   ],
+   "convexity": "convex",
+   "dihedralDeg": 90,
+   "length": 36.00000000000001,
+   "sample": [
+    0,
+    18.000000000000004,
+    5
+   ]
+  },
+  {
+   "edge": 13,
+   "curve": "circle",
+   "faces": [
+    "plane",
+    "cylinder"
+   ],
+   "convexity": "convex",
+   "dihedralDeg": 90,
+   "length": 12.566055204577205,
+   "sample": [
+    6,
+    8,
+    5
+   ]
+  },
+  {
+   "edge": 16,
+   "curve": "circle",
+   "faces": [
+    "plane",
+    "cylinder"
+   ],
+   "convexity": "convex",
+   "dihedralDeg": 90,
+   "length": 12.566055204577207,
+   "sample": [
+    6,
+    18.000000000000004,
+    5
+   ]
+  },
+  {
+   "edge": 19,
+   "curve": "circle",
+   "faces": [
+    "plane",
+    "cylinder"
+   ],
+   "convexity": "convex",
+   "dihedralDeg": 90,
+   "length": 12.566055204577202,
+   "sample": [
+    6,
+    28,
+    5
+   ]
+  },
+  {
+   "edge": 22,
+   "curve": "circle",
+   "faces": [
+    "plane",
+    "cylinder"
+   ],
+   "convexity": "convex",
+   "dihedralDeg": 90,
+   "length": 12.566055204577205,
+   "sample": [
+    16.000000000000004,
+    8,
+    5
+   ]
+  },
+  {
+   "edge": 25,
+   "curve": "circle",
+   "faces": [
+    "plane",
+    "cylinder"
+   ],
+   "convexity": "convex",
+   "dihedralDeg": 90,
+   "length": 12.566055204577207,
+   "sample": [
+    16.000000000000004,
+    18.000000000000004,
+    5
+   ]
+  },
+  {
+   "edge": 28,
+   "curve": "circle",
+   "faces": [
+    "plane",
+    "cylinder"
+   ],
+   "convexity": "convex",
+   "dihedralDeg": 90,
+   "length": 12.566055204577204,
+   "sample": [
+    16.000000000000004,
+    28,
+    5
+   ]
+  },
+  {
+   "edge": 31,
+   "curve": "circle",
+   "faces": [
+    "plane",
+    "cylinder"
+   ],
+   "convexity": "convex",
+   "dihedralDeg": 90,
+   "length": 12.566055204577202,
+   "sample": [
+    26,
+    8,
+    5
+   ]
+  },
+  {
+   "edge": 34,
+   "curve": "circle",
+   "faces": [
+    "plane",
+    "cylinder"
+   ],
+   "convexity": "convex",
+   "dihedralDeg": 90,
+   "length": 12.566055204577205,
+   "sample": [
+    26,
+    18.000000000000004,
+    5
+   ]
+  },
+  {
+   "edge": 37,
+   "curve": "circle",
+   "faces": [
+    "plane",
+    "cylinder"
+   ],
+   "convexity": "convex",
+   "dihedralDeg": 90,
+   "length": 12.566055204577202,
+   "sample": [
+    26,
+    28,
+    5
+   ]
+  },
+  {
+   "edge": 40,
+   "curve": "circle",
+   "faces": [
+    "plane",
+    "cylinder"
+   ],
+   "convexity": "convex",
+   "dihedralDeg": 90,
+   "length": 12.566055204577207,
+   "sample": [
+    36,
+    8,
+    5
+   ]
+  },
+  {
+   "edge": 43,
+   "curve": "circle",
+   "faces": [
+    "plane",
+    "cylinder"
+   ],
+   "convexity": "convex",
+   "dihedralDeg": 90,
+   "length": 12.566055204577202,
+   "sample": [
+    36,
+    18.000000000000004,
+    5
+   ]
+  },
+  {
+   "edge": 46,
+   "curve": "circle",
+   "faces": [
+    "plane",
+    "cylinder"
+   ],
+   "convexity": "convex",
+   "dihedralDeg": 90,
+   "length": 12.5660552045772,
+   "sample": [
+    36,
+    28,
+    5
+   ]
+  }
+ ],
+ "step": "out/fillet/input-step/perf-hole-grid-rims-0.42.step"
+}

@@ -1,0 +1,59 @@
+{
+ "id": "pc-dflat-generator-convex-r1",
+ "jobSha256": "0d7ef4aa8d12114e36a3dcb5b1a9439748f4d6beee84ce659ac7088361e7addc",
+ "jobBytes": 1305,
+ "sourceSha256": "3ec8deb54a3410181904a402d5deb2377674530dd73513b138338d6cc87b6142",
+ "buildMs": 6.219792000000325,
+ "kernel": {
+  "closed": true,
+  "volumeMm3": 2694.2974355881743,
+  "areaMm2": null,
+  "precision": "F32x2",
+  "geometry": "analytic"
+ },
+ "counts": {
+  "vertices": 4,
+  "edges": 6,
+  "faces": 4
+ },
+ "surfaces": {
+  "plane": 3,
+  "cylinder": 1
+ },
+ "quantizationErrorMm": 0,
+ "selected": [
+  {
+   "edge": 4,
+   "curve": "line",
+   "faces": [
+    "plane",
+    "cylinder"
+   ],
+   "convexity": "convex",
+   "dihedralDeg": 126.86989764584402,
+   "length": 10,
+   "sample": [
+    6,
+    -8,
+    5
+   ]
+  },
+  {
+   "edge": 5,
+   "curve": "line",
+   "faces": [
+    "plane",
+    "cylinder"
+   ],
+   "convexity": "convex",
+   "dihedralDeg": 126.86989764584402,
+   "length": 10,
+   "sample": [
+    6,
+    8,
+    5
+   ]
+  }
+ ],
+ "step": "out/fillet/input-step/pc-dflat-generator-convex-r1.step"
+}

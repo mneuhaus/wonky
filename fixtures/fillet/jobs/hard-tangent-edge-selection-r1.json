@@ -1,0 +1,43 @@
+{
+ "id": "hard-tangent-edge-selection-r1",
+ "jobSha256": "2d209c4840adec38c1697e843bc91096ef32e1ab4140005767961f9896be4cec",
+ "jobBytes": 2066,
+ "sourceSha256": "736070b733803990cb8c7e9f033a051a47b3e05b5caef7a6ce222b4184bcd886",
+ "buildMs": 9.889166999999361,
+ "kernel": {
+  "closed": true,
+  "volumeMm3": 1114.1592653589796,
+  "areaMm2": null,
+  "precision": "F32x2",
+  "geometry": "analytic"
+ },
+ "counts": {
+  "vertices": 8,
+  "edges": 12,
+  "faces": 6
+ },
+ "surfaces": {
+  "plane": 4,
+  "cylinder": 2
+ },
+ "quantizationErrorMm": 0,
+ "selected": [
+  {
+   "edge": 9,
+   "curve": "line",
+   "faces": [
+    "plane",
+    "cylinder"
+   ],
+   "convexity": "smooth",
+   "dihedralDeg": 180,
+   "length": 4,
+   "sample": [
+    20,
+    0,
+    2
+   ]
+  }
+ ],
+ "step": "out/fillet/input-step/hard-tangent-edge-selection-r1.step"
+}

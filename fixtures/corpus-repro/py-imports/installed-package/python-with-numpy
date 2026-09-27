@@ -1,0 +1,4 @@
+#!/bin/sh
+# An interpreter with numpy installed (ephemeral uv environment). Stands in for
+# a project .venv such as ~/Workspace/cad/<project>/.venv.
+exec uv run --no-project --quiet --with numpy python "$@"

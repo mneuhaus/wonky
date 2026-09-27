@@ -1,0 +1,174 @@
+{
+  "topic": "performance-native",
+  "recommendation": "CPU-first weiterbauen, nicht den FeatureScript-Interpreter portieren und nicht Metal als Generalschalter einführen. Reihenfolge: PN1 belastbare R20-Phasen plus schlanker Warmbetrieb; PN2 die vorhandene native Bridge auf die tatsächlich gemessenen R20-Pfade vervollständigen; danach PN3 kompakter Transport, PN4 weniger Arbeit pro Mehrfachschnitt und PN5 weniger Wiederholung im Hybrid. PN6 bringt die bereits prototypisch bewiesene Wiederverwendung in den produktiven Build; PN7 optimiert nur verbleibende, gemessene Hotspots. Etwa 10x für vollständige Neubauten ist eine plausible Entwicklungsrichtung aus nativem Bend plus Algorithmenarbeit, aber für diese vier R20-Teile noch nicht gemessen. 100x ist vor allem für lokale Änderungen mit sehr hohem Cache-Anteil plausibel, nicht als pauschale Beschleunigung beliebiger vollständiger B-rep-Builds. Nach T = Start + Frontend + Kernel + Transport + Validierung + Export bleibt jeder nicht beschleunigte Anteil stehen: 5 % Rest begrenzen jeden Gesamtspeedup auf 20x. Erstes Lieferziel: identische Ergebnisse auf native ohne JS-Kernel-Load; nächste Produktziele, ausdrücklich noch unbewiesen: unter 100 ms für reine Metadatenänderungen, unter 500 ms für lokale Geometrieänderungen und unter 2 s für einen warmen vollständigen ARM_L-Build. Schätzbasis: ein Agent-Tag = 8 Stunden Agent-Walltime inklusive gezielter Verifikation; PN1–PN6 zusammen 8 Tage, PN7 optional weitere 1,5. Kein Quellcode, Test oder Dokument verändert, keine Builds oder Onshape-Aufrufe. Ergebnis: <repo>/tmp/research/gaps/performance-native.json; Wiederaufnahme: local-development-evidence",
+  "currentState": [
+    "Abgrenzung: <repo>/AGENTS.md:3-10 verlangt Bend-Geometrie, unabhängige Orakel und getrennte Zeitgrenzen. <repo>/docs/FACTSHEET.md:18-20 ist vom 22. September und beschreibt nicht mehr den ganzen heutigen Stand. Gelesener Main-HEAD: d5b946f6ce660697f7b8a680fcfacb054d432a0d, ohne Behauptung eines sauberen Arbeitsbaums. Die R20-Messung gehört dagegen zu 5a7206d1be93bd68f5f87041f4cf58d6836cb1a6 im schreibgeschützt untersuchten speed-openscad-Arbeitsbaum. Neue Beiträge dieser Recherche sind die Zuordnung der akzeptierten R20-Artefakte zu konkreten Ausführungspfaden, die Korrektur veralteter Performance-Annahmen und ein Integrationsplan statt einer erneuten Backend-Auswahl.",
+    "Die akzeptierten warmen CLI-Mediane sind TOPPLATE 2,9209 s, XBAR 4,6034 s, K15 15,1283 s und ARM_L 30,5837 s. Gegen die jeweiligen Manifold-Zeiten sind das 58,5x, 121,4x, 382,3x und 693,5x; gegen CGAL 1,05x, 10,51x, 19,20x und 24,96x. Die Kurzform 60–600x unterschätzt ARM_L etwas. Quelle: local-development-evidence Das sind jeweils drei frische Prozesse mit warmem Compiler-Dateicache, keine residenten In-Process-Builds. OpenSCAD schreibt STL; Wonky konstruiert und validiert B-rep oder zertifiziertes Mesh und schreibt zusätzlich B-rep-JSON, Druckmanifest sowie STEP, soweit möglich. local-development-evidence,137-140. Deshalb kein reiner Kernelvergleich.",
+    "Messlücken bleiben sichtbar: results.json hat done=false; HUB_L und return haben keine akzeptierte Zeit, tray ist unvollständig. Für alle genannten Wonky-Zeilen fehlt ein ungestörter Cold-Sample. Die etwa 150 s aus dem Brief sind deshalb kein hier bestätigter sauberer Cold-Median. context 3,1995 s umfasst zwölf Körper und darf nicht gegen ein einzelnes OpenSCAD-Teil dividiert werden. K15 und ARM_L haben status=validated-stl-step-refused: zertifiziertes STL erfolgreich, exakter STEP-Export absichtlich verweigert, Exit 1. Die Benchmark-Ausnahme behandelt dies offen und darf nicht zu allgemeinem vollständigem CLI-Erfolg umgedeutet werden.",
+    "Neu aus den akzeptierten B-rep-Artefakten, nicht aus Timing-Inferenz: TOPPLATE führt 23 exakte Prismenschnitte aus; XBAR zwei planare Subtraktionen und vier exakt rekonstruierte Hybrid-Booleans; K15 eine planare Subtraktion, drei exakte und acht Mesh-Hybrid-Ergebnisse; ARM_L einen Prismenschnitt und zwölf Mesh-Hybrid-Ergebnisse. TOPPLATEs finaler Körper hat 104 Flächen und 306 Kanten. Artefakte: local-development-evidence, local-development-evidence, local-development-evidence und local-development-evidence Aufrufanzahlen sind keine Zeitanteile.",
+    "Der R20-Unterschied ist strukturell: XBARs Senkwerkzeuge verlassen die Ebene/Zylinder-Prismenfamilie; K15s Mesh-Antworten nennen abhängige Träger am Vertex. ARM_Ls erste Sitzwerkzeug-Schnitte nennen eine außeraxiale Kegel/Zylinder-Schnittkurve vom Grad vier ohne vorhandenen Kurventyp. Danach gehen Mesh-Operanden direkt wieder in den Hybrid. Das erklärt wiederholte Corefine/Recover-Arbeit und den Verlust des exakten STEP-Pfads, nicht deren genaue Laufzeit. <repo>/src/boolean.mjs:283-290,379-451 und dieselben Artefakte. Ein Performance-Patch darf weder die fehlende Kurve als exakt ausgeben noch einen abgelehnten Zertifikatstest überspringen.",
+    "Native ist NICHT mehr nur planar. Der so benannte Satz enthält heute 38 Addon-Einstiege, darunter Frustum, Pierce, Prism-Boolean, Tessellation, Volumen und Zylinder-Pcurves; dazu kommt wonky-hybrid als separater nativer CPU-Prozess. <repo>/scripts/native-bridge/slice-ops.mjs:37-99. KT2 und KT6 wurden ohne JS-Kernel und mit gleichen Exporten ausgeführt. Historisch gemessen: 4,3x beziehungsweise 6,8x End-to-End, KT2-Hybrid 5,5x, allerdings bei Load 65–127 auf 18 Kernen: <repo>/docs/native-bridge/slice.md:61-119. Kein Beleg, dass TOPPLATE/XBAR/K15/ARM_L vollständig nativ laufen. Nicht gelistete Einstiege bleiben Capability-Fehler; insbesondere revolve.sweep und mesh_snap/mesh_bound fehlen. Auch neuere Aufrufe wie pierce.bore_depth/pierced_volume in <repo>/src/boolean.mjs:437-438 stehen nicht in diesem Satz. Daher Coverage ermitteln, nicht einfach den Default umstellen.",
+    "Frontend gegen Kernel: <repo>/docs/native-bridge/profile.md und <repo>/docs/native-bridge.md:54-98 zeigten für ältere Boolean-Modelle sehr kleine Parser/Interpreter-Anteile und dominierende Bend-Arbeit. Das sind keine aktuellen R20-Profile. Neuer billiger Parser-only-Probe auf den vier eingefrorenen R20-Dateien, ein Node-Prozess mit 8192-MiB-Heapgrenze, ein Warmup und drei Messungen: TOPPLATE 5,98/6,15/3,05 ms; XBAR 2,67/3,64/3,03 ms; K15 1,51/1,44/2,44 ms; ARM_L 3,54/2,64/3,69 ms. Parser: <repo>/src/parser.mjs, SHA256 cbda4acd8fdacdf0ba15d009df7176a1d60a4801fa1b297e19afb16e21922230. Explorativ, ohne Ruheslot und ohne Interpreter; kein Beleg für dessen Anteil, aber kein Anlass für einen Parser-Rewrite. Die vorhandene Phasenprobe zählt nur die Root-Kernel-Grenze, ausdrücklich ohne alle lazy Services: local-development-evidence,74-82.",
+    "Die alte Hotspot-Diagnose ist teilweise bereits abgearbeitet. Vorbereitete planare Klassifikation, einmalige Loop-/Ray-Vorbereitung und konservative Ausschlussfilter sind produktiv: <repo>/kernel/ports/planar-boolean-selection.bend:115-120 und <repo>/kernel/ports/planar-boolean-classification.bend:988-992. <repo>/docs/collections.md:379-413 berichtet dadurch native frame-with-tab 2,17 auf 0,69 s; verbleibend sind unter anderem zertifizierte line_budget-Kreuzungstests. Der alte connectivity_pass wurde durch Tabellen/BFS ersetzt. Hybrid besitzt bereits Morton-BVH und sortierten Weld; recover.faces.go ist bereits eine parallele Map: <repo>/kernel/hybrid/corefine/inter.bend:18-108, <repo>/kernel/hybrid/corefine/weld.bend:217-250, <repo>/kernel/hybrid/recover/topo.bend:1796-1797. Diese Arbeiten nicht nochmals als fehlende Features planen.",
+    "Der produktive N-ary-Pfad baut trotzdem jedes Zwischenergebnis: <repo>/src/library.mjs:611-727 faltet in Quellreihenfolge, einschließlich Identität, Validierung und Removal-Prüfung. Der Kommentar dokumentiert sogar einen fehlgeschlagenen fewest-faces-first-Umbau. TOPPLATE liefert bereits einen einzigen opBoolean mit vielen Werkzeugen, wird intern aber zu 23 vollständigen Prismenschnitten. Live-Konstruktion: ~/Workspace/cad/cad-project-041/single-step-r20/build/studios/context.fs:945-962. Für diese Familie ist weniger Geometriearbeit wichtiger als ein weiterer Thread-Schalter.",
+    "Serialisierung ist ein wachsender, nicht universeller Engpass. Die ältere native KT2-Spur gibt 5,0 Mio. Antwortwörter für identity.boolean_result und 363 ms native Arbeit plus 73 ms Decode an; der JS-Pfad reichte gemeinsame Objekte weiter. <repo>/docs/native-bridge/slice.md:109-117. Inzwischen komprimiert <repo>/kernel/identity.bend:90-143 lange Vorfahrenschlüssel per SHA256 ab 512 Zeichen; die alte 198-MB-Explosion ist also kein unverändert offener Befund. Verbleibende Wiederholungen im Wire müssen neu gemessen werden. Die untersuchten finalen B-rep-JSONs haben etwa 5,52/1,21/3,36/3,05 MB. <repo>/src/native/hybrid-process.mjs:49-76 startet und serialisiert pro Boolean beziehungsweise Klassentabelle; bei KT2 machten zwölf Prozessstarts samt Dateiübergabe historisch nur rund 120 ms von 2,577 s Hybridzeit aus. Einen Daemon allein als 10x-Lösung zu verkaufen wäre falsch.",
+    "Caching hat drei verschiedene Zustände. Compiler-Artefakte existieren bereits, inklusive Source-/Toolchain-Prüfung: <repo>/src/bend-loader.mjs:160-179,257-281; <repo>/src/kernel.mjs:20-57 lädt dennoch viele Module beim ersten JS-Build. Der normale build() erzeugt jedes Mal Parser, ModelingContext und Interpreter neu und führt die Geometrie erneut aus: <repo>/src/index.mjs:13-41. Inkrementelle Geometrie-Wiederverwendung existiert aber schon als WK-Prototyp: <repo>/src/lang/wk/real-run.mjs:559-602 speichert erfolgreiche rohe Wörter; <repo>/docs/language/prototype.md:322-337 belegt Cache-Edits gegen Cold-Neubauten. Nicht unverändert persistieren: <repo>/src/lang/wk/real-host.mjs:242-254 kürzt SHA256 auf 64 Bit und enthält im dortigen Schlüssel keinen Kernel-/Policy-Namensraum. Außerdem sind Identität, Evidenz, Geometrieabfragen und Fehlerkontrollfluss getrennte Semantik.",
+    "Hybrid-Mesh-Wiederverwendung ist ebenfalls bereits vorhanden und korrekt an Revision plus Abweichungsgrenze gebunden: <repo>/src/hybrid.mjs:87-119. Der nächste Schritt ist nicht 'Mesh cachen', sondern wiederholte Präparation/Carrier-Klassifikation und vollständige Rekonstruktion an unnötigen internen Grenzen vermeiden. <repo>/src/hybrid.mjs:216-224 berechnet die Klassentabelle separat. Die gelesene ~/Workspace/cad/cad-project-041/single-step-r20/build/studios/r20-motion.json beschreibt dagegen überwiegend Starrkörperposen: ARM_L/XBAR hängen am return-Gelenk, HUB_L am untergeordneten rock-Gelenk. Solche Poseänderungen benötigen keine neuen Booleans; Kollisions-/Abstandsprüfungen müssen aber ihre transformierten Eingaben neu auswerten. Die Datei war nur Lesequelle, kein getesteter Viewer-Pfad."
+  ],
+  "approaches": [
+    {
+      "name": "Vorhandene native CPU-Bridge vervollständigen, Frontend behalten",
+      "fitForWonky": "Die Architekturentscheidung ist schon getroffen und gemessen. <repo>/docs/native-bridge.md sowie <repo>/docs/native-bridge/slice.md liefern N-API, explizite Backend-Auswahl, Diff und isolierten Hybrid-Prozess. Neu ist die Arbeit an R20-Coverage und heutigen Zahlen. cpu1 ist die Referenz für deterministische Latenz; cpuN folgt pro Workload. Vorinstallierte, quellgehashte Binaries und ein langlebiger Modeling-Worker entfernen Compiler-/Loadkosten aus dem Edit-Loop, nicht aus der Entwicklerübersetzung geänderter Bend-Quellen.",
+      "risks": "38 Ops sind keine vollständige R20-Abdeckung. Worker-Fail-Stops, begrenzte native Arity, Carrier-Worttreue und Stale-Prüfung bleiben echte Grenzen. Alte 7,5–25x-Durchsatzgewinne einfacher Operationen sind keine R20-Prognose; kein stiller JS-Fallback und kein ungeprüfter Default-Wechsel.",
+      "sources": [
+        "<repo>/docs/native-bridge.md:525-584",
+        "<repo>/docs/native-bridge/slice.md:61-119",
+        "<repo>/docs/hardware-performance.md:24-43",
+        "<repo>/scripts/native-bridge/slice-ops.mjs:37-99"
+      ]
+    },
+    {
+      "name": "Manifold/OpenSCAD: weniger auswerten, weniger kopieren, zulässige CSG-Arbeit bündeln",
+      "fitForWonky": "Ergänzt <repo>/docs/research/mesh-booleans.md und synthesis.md B25 durch Code-Lektüre der Auswertungsschicht. Manifold v3.5.3 verschiebt Transformationen bis GetImpl, komponiert paarweise disjunkte Körper ohne echte Schnittrechnung und bündelt kommutative Booleans. OpenSCAD GeometryEvaluator nutzt Baum-IDs für Geometrie-Caches. Für Wonky ist insbesondere TOPPLATEs 23-facher Wiederaufbau vermeidbar: ein zugelassener Mehrwerkzeug-2D-Prismenpfad, anschließend einmalige 3D-Konstruktion. Der Benchmark startet OpenSCAD jeweils neu; dessen Geometriecache erklärt nicht automatisch die gesamte gemessene Differenz.",
+      "risks": "Manifold berechnet Mesh-CSG, nicht analytischen B-rep mit Wonky-Zertifikaten. Seine Toleranz-/Degenerationsregeln nicht kopieren. N-ary-Reordering ist wegen Kontakten, Identität und Fehlerreihenfolge nicht allgemein transparent. OpenSCAD-Code nur als Architekturquelle verwenden; kein Produktionsfallback. Die Formulierung 'kleinste zuerst' wurde bewusst nicht übernommen: Kommentar und Heap-Komparator der gelesenen Manifold-Version sind dafür kein konsistenter Beleg.",
+      "sources": [
+        "[Manifold v3.5.3 CSG-Auswertung](https://github.com/elalish/manifold/blob/v3.5.3/src/csg_tree.cpp)",
+        "[Manifold Boolean-Kern](https://github.com/elalish/manifold/blob/v3.5.3/src/boolean3.cpp)",
+        "[OpenSCAD GeometryEvaluator, gelesener master](https://github.com/openscad/openscad/blob/master/src/geometry/GeometryEvaluator.cc)",
+        "<repo>/src/library.mjs:611-727",
+        "<repo>/docs/research/synthesis.md:1486-1508"
+      ]
+    },
+    {
+      "name": "Onshape-Modell: immutable Referenzen, produktive Regenerations-Caches und Beobachtungsgrenzen",
+      "fitForWonky": "Onshape dokumentiert bessere Cache-Nutzung bei Versionen statt veränderlicher Workspaces, Feature-Regenerationszeiten und die Vermeidung unnötigen Reapply in Patterns. Das belegt Produktverhalten, nicht einen veröffentlichten internen Onshape-DAG. Wonky kann seinen bestehenden WK-Cache übernehmen: Operation + tatsächliche Eingabewörter + Elternrevisionen + vollständiger Kernel-/Wire-/Policy-Vertrag; Geometrie und Instanzidentität getrennt. Geometrieabfragen, Ausnahmebehandlung und Quellstellen bleiben beobachtbare Grenzen. Acar/Blume/Donham liefern die passende Semantik: inkrementell muss dasselbe Ergebnis wie von Grund auf berechnet liefern.",
+      "risks": "Nur AST-/Source-Hashes oder 64-Bit-Prototypschlüssel reichen nicht. Module, Toleranzen, Genauigkeitsklasse, externe eingefrorene Imports und negative Null dürfen nicht unberücksichtigt bleiben. Ressourcenfehler niemals als dauerhaftes geometrisches Ergebnis cachen. Ein früher Parameter kann die ganze Kette invalidieren; für solche Änderungen gibt es keinen garantierten Cache-Speedup.",
+      "sources": [
+        "[Onshape Performance Considerations](https://cad.onshape.com/help/Content/performance.htm)",
+        "[Onshape-Architekten zu Version-Caches und Instantiatoren](https://forum.onshape.com/discussion/14116/speed-when-instantiating-many-parts)",
+        "[Onshape FeatureScript Profiler](https://cad.onshape.com/FsDoc/debugging-in-feature-studios.html)",
+        "[A Consistent Semantics of Self-Adjusting Computation](https://arxiv.org/abs/1106.0478)",
+        "<repo>/docs/language/prototype.md:322-337",
+        "<repo>/src/lang/wk/real-run.mjs:559-602"
+      ]
+    },
+    {
+      "name": "OCCT/Parasolid: vorbereitete Interferenzen und zertifiziert lokale Arbeit",
+      "fitForWonky": "OCCTs BRepAlgoAPI_BooleanOperation hat ausdrücklich einen Konstruktor mit vorab berechnetem BOPAlgo_PaveFiller; Präparation und Ergebnisbildung sind getrennt. Öffentliche Boolean-Dokumentation beschreibt Parallel-/OBB-/Glue-Optionen. Parasolid V35 beschreibt lokale Booleans, vorgegebene passende Regionen und Mehrwerkzeugoperationen. Das ergänzt <repo>/docs/research/commercial-kernels.md: für Wonky wiederverwendbare, versionsgebundene Präparation und enge analytische Admission statt globaler Wiederprüfung jeder unveränderten Fläche. OCCT bleibt ausschließlich unabhängiges Orakel über uv.",
+      "risks": "Präparation ist nur für exakt gleiche Operanden und Verträge wiederverwendbar. Nach einem Schnitt kann das Target geändert sein; höchstens unveränderte Teilstrukturen bleiben gültig. OBB muss konservativ einschließen. Glue und fuzzy Toleranzen sind keine Freigabe zum Zusammenkleben unsicherer Kontakte. Parasolid-Dokumentation von 2022 ist keine aktuelle Threadlimit- oder Speedgarantie. Konzepte eigenständig in Bend implementieren, keine OCCT-Geometrie übernehmen.",
+      "sources": [
+        "[OCCT V7.9.0: Konstruktor mit vorbereiteten Interferenzen, Zeilen 60–61](https://github.com/Open-Cascade-SAS/OCCT/blob/V7_9_0/src/BRepAlgoAPI/BRepAlgoAPI_BooleanOperation.hxx#L60-L61)",
+        "[OCCT Boolean-Spezifikation](https://occt3d.com/dev/doc/overview/html/specification__boolean_operations.html)",
+        "<repo>/docs/research/sources/overview-of-parasolid-v35-july-2022.md:50-71",
+        "<repo>/docs/collections.md:275-413"
+      ]
+    },
+    {
+      "name": "Kompakte Identitäts-/Carrier-Daten statt immer breiterer Compat-Antworten",
+      "fitForWonky": "Baut auf P8 in <repo>/docs/research/topology-identity-data-structures.md:1189-1212 auf. Statt sofort alle Identitäten zu migrieren, zunächst gemeinsame Eltern-/Stringdaten im Wire einmal übertragen und per Index referenzieren; bisherige Außenform rekonstruieren. Rohe F32x2-Carrier unverändert weitergeben. Erst bei gemessenem zusätzlichem Nutzen residente Handles. Das adressiert die belegte negative Beschleunigung mancher nativer Identity-Aufrufe und die zukünftige Cache-Größe.",
+      "risks": "Die lange Schlüsselverkettung wurde bereits begrenzt; zuerst den Rest messen. Geänderte Identitätsgleichheit wäre ein Produktfehler, nicht bloß ein neuer Golden. Wörter für Geometrie nie durch hi+lo und erneutes Aufspalten ersetzen. Referenztabellen brauchen strikte Index-/Zählprüfung, begrenzte Lebensdauer und keine stillschweigende Hash-Kollisionsgleichheit.",
+      "sources": [
+        "<repo>/docs/research/topology-identity-data-structures.md:1189-1212",
+        "<repo>/kernel/identity.bend:90-143",
+        "<repo>/docs/native-bridge/slice.md:109-117",
+        "<repo>/docs/native-bridge.md:287-308"
+      ]
+    },
+    {
+      "name": "cpuN gezielt, Metal nur für separat bewiesene uniforme Batches",
+      "fitForWonky": "Übernimmt die bereits begründete Richtung aus <repo>/docs/research/parallel-gpu-geometry.md, statt sie neu zu verkaufen. Bend braucht ausbalancierte explizite Forks; abhängige Featureketten bleiben seriell. Die vorhandene WK-Ganzgraph-Messung verwarf den allgemeinen Parallelitätsgewinn: washers 0,82x, ein partieller Zweiteilfall 2,22x bei nur wenigen Millisekunden Ersparnis. ACIS dokumentiert ebenfalls den Unterschied zwischen etwa 2x auf einem Körper und 6–7x über mehrere Körper. Metal kommt allenfalls für modellweit gebündelte Bounds-/Tessellationsfilter infrage, nicht für unregelmäßige Topologie.",
+      "risks": "Keine Multiplikation historischer Durchsatzfaktoren mit R20-Zeiten. 18 Threads können bei kleinen oder unausgewogenen Jobs verlieren; Gesamtparallelität muss Speicher und vorhandene innere Forks berücksichtigen. Metal benötigt reale Dispatch-Zähler, FTZ-/Arithmetikprüfung und End-to-End-Gewinn einschließlich Initialisierung. Kein Wechsel des Ergebnistyps und kein stiller CPU-Fallback als GPU-Erfolg.",
+      "sources": [
+        "<repo>/docs/research/parallel-gpu-geometry.md:21-52,219-348",
+        "<repo>/docs/language/prototype.md:19-22,247-280",
+        "<repo>/docs/hardware-performance.md:24-57,76-101",
+        "[Spatial: Seven Years of Thread-Safe ACIS](https://blog.spatial.com/3d-acis/seven-years-thread-safe-3d-acis-modeler)",
+        "[Siemens Parasolid SDK, keine veröffentlichten aktuellen Speedgarantien](https://www.siemens.com/en-us/products/plm-components/parasolid/3d-modeling-sdk/)"
+      ]
+    }
+  ],
+  "packages": [
+    {
+      "title": "PN1: R20-Phasen im echten Build und residenter Warmbetrieb",
+      "scope": "Vorhandene native Trace-/Hybrid-Phasen und OpenSCAD-Benchmethodik zusammenführen, keine neue Berichtsinfrastruktur. Im produktiven Modeling-Worker getrennt messen: Compiler/Load, Interpreter ohne verschachtelte Kernelzeit, Admission-Fehlversuche, Corefine, Recover, Validierung, Identität, Codecs und Export; Aufrufe, Kandidaten, Mesh-Reuse und RSS mitzählen. Startup nur einmal pro Session, Exporte auf Anforderung statt bei jedem Parameteredit. Frozen R20-Quellen verwenden; normale Prüfungstiefe nicht reduzieren. Consumer ist die Backend-/Cache-Entscheidung; temporäre Profilinstrumentierung nach den Optimierungen entfernen.",
+      "acceptance": "TOPPLATE, XBAR, K15 und ARM_L jeweils warm im selben Prozess sowie als frische CLI getrennt; ein Warmup und mindestens drei alternierende Messungen im ruhigen Slot. Kein neuer Cold-Compile für normale Featureparameteränderung. Orakel: unveränderte Exportbytes zur Kontrollausführung; bestehende geschlossene Volumenformeln und unabhängige OCCT-/STL-Prüfung der eingefrorenen Referenzen außerhalb der Zeitmessung. Gepflanztes Negativ: teurer lazy Service bzw. zusätzliches Hybrid-Stadium muss im passenden Bucket erscheinen; bewusster STEP-Refusal darf nicht als erfolgreicher exakter Build zählen. Gezielt gleiche Validierungen und Ergebnisabdeckung mit/ohne Timer prüfen.",
+      "estimateAgentDays": 0.5,
+      "r20Impact": "Schließt die wichtigste Wissenslücke und entfernt wiederholte Load-/Exportkosten aus dem Edit-Loop. Kein behaupteter Kernel-Speedup. Liefert die heutigen Baselines für alle folgenden Pakete.",
+      "dependsOn": []
+    },
+    {
+      "title": "PN2: Native Coverage für die vier gemessenen R20-Teile",
+      "scope": "Count-Läufe aus PN1 gegen den 38-Op-Satz abgleichen; nur tatsächlich benötigte fehlende Einstiege samt Exporten ergänzen, insbesondere zertifizierte Mesh-Volumenpfade und gegebenenfalls neue Pierce-Helfer. Aktuellen Kernel unter einem gemeinsamen Source-/Wire-Hash bauen, keine alte Binary mit neuen Hostaufrufen mischen. Addon cpu1, Hybrid weiterhin isoliert und --gpu off; explizite native Auswahl. Keine automatische Kompilation während eines Parameteredits.",
+      "acceptance": "Alle vier eingefrorenen Parts und KT2/KT6 laufen auf native und diff ohne JS-Kernel-Load. Backend-only-Änderung: gleiche rohe Ergebniswörter, Körper/Provenienz, STL und verfügbare STEP-Ausgaben; K15/ARM_L behalten ihren korrekt benannten STEP-Refusal. Orakel: bestehende R20-Closed-Forms und unabhängige OCCT-Validierung der exakten Exporte, zertifizierte Bounds/Topologie und unabhängige Punktproben bei Mesh-Ausgaben. Gepflanzte Negative: entfernten erforderlichen Op, veralteten Source-Hash und einen Low-Word-Bitfehler einschleusen; Capability-/Stale-/Diff-Fehler statt Fallback. Erst danach aktuelle native End-to-End-Faktoren veröffentlichen.",
+      "estimateAgentDays": 1,
+      "r20Impact": "Der am besten belegte unmittelbare Hebel. Historische verwandte Fälle gewannen rund 4–12x; das ist Motivation, keine Hochrechnung auf ARM_L oder TOPPLATE.",
+      "dependsOn": [
+        "PN1: R20-Phasen im echten Build und residenter Warmbetrieb"
+      ]
+    },
+    {
+      "title": "PN3: Gemeinsame Identity-Daten und exakte Carrier über die Grenze",
+      "scope": "Die vorhandene SHA256-Lineage-Kompaktion beibehalten. Falls PN1 relevante Wiederholung bestätigt, für die dominierenden Identity-Antworten String-/Elterntabellen mit Indizes statt mehrfach expandierter Teilbäume übertragen. Öffentliche IDs zunächst unverändert rekonstruieren. Danach nur den gemessenen Boolean-Kettenpfad auf unveränderte U32/F32x2-Carrier umstellen. Kein komplettes Session-/Handle-System ohne zusätzlichen Nachweis.",
+      "acceptance": "TOPPLATE mit 23 Schnitten sowie eine minimale Platte mit 1/10/23/50 Bohrungen. Akzeptanzziel mindestens 2x weniger Codec+Identity-Zeit und übertragene Wörter im dominierenden R20-Fall, ohne schlechtere Gesamtzeit oder unbeschränktes RSS. Orakel: vorhandene Identitätssemantik plus unabhängige geschlossene Bohrungsvolumen/OCCT-Formprüfung; Backend-Diff prüft Bits, ist aber nicht alleiniger Geometriebeweis. Gepflanzte Negative: zwei gleiche Geometrien mit verschiedenen Operation-/Instanz-IDs dürfen nicht dieselbe Instanzidentität erhalten; ungültiger Tabellenindex und verlorenes F32x2-Low-Word müssen auffallen. Geometrische Carrier-Präzisionsänderungen gegen die alte Host-Rundreise separat und offen validieren.",
+      "estimateAgentDays": 1,
+      "r20Impact": "Entfernt einen belegten nativen Gegenwind und begrenzt Cache-/JSON-Kosten. Größenordnung erst nach aktuellem Profil; nicht als weitere garantierte 10x rechnen.",
+      "dependsOn": [
+        "PN2: Native Coverage für die vier gemessenen R20-Teile"
+      ]
+    },
+    {
+      "title": "PN4: TOPPLATEs 23 Schnitte als ein zugelassener exakter Prismenauftrag",
+      "scope": "Den bereits existierenden line/arc-Prismen-Boolean um Mehrwerkzeug-Subtraktion innerhalb eines einzigen opBoolean erweitern. Profile und konservative Kandidaten einmal vorbereiten; bei nachgewiesen disjunkten inneren Durchbrüchen Loops gemeinsam einsetzen, sonst gemeinsame 2D-Anordnung. Erst am Ende einmal extrudieren, validieren und Identität materialisieren. Admission und alle Geometrieentscheidungen bleiben in Bend. Keine allgemeine Umordnung beliebiger Booleans; nicht zugelassene Fälle behalten den vorhandenen expliziten Pfad.",
+      "acceptance": "Originales eingefrorenes TOPPLATE-opBoolean, zusätzlich Platten mit 1/4/23 Durchbrüchen, überlappenden Werkzeugen und Werkzeug außerhalb der Platte. Ziel mindestens 3x geringere reine Schnittkettenzeit und ein 3D-Aufbau statt 23; End-to-End separat ausweisen. Orakel: unabhängige Line/Arc-Flächenintegrale mal Dicke, OCCT-Solidvalidität/Volumen sowie Inside/Outside-Proben an jedem Durchbruch. Semantic Queries und First-tool-/keepTools-Verhalten bleiben gleich; nötige interne ID-Migration explizit prüfen. Gepflanzte Negative: ein blinder statt durchgehender Schnitt, tangentiale Berührung und um 1 ULP verschobene Cap-Ebene dürfen niemals fälschlich in den einfachen Loop-Einfügepfad gelangen.",
+      "estimateAgentDays": 2,
+      "r20Impact": "Greift den konkreten TOPPLATE-Aufwand an, statt das bereits gelandete prepared-solid-Feature nochmals zu implementieren. Übertragbar auf Lochbilder realer FDM-Platten.",
+      "dependsOn": [
+        "PN1: R20-Phasen im echten Build und residenter Warmbetrieb",
+        "PN2: Native Coverage für die vier gemessenen R20-Teile"
+      ]
+    },
+    {
+      "title": "PN5: Hybrid-Präparation und Rekonstruktion an sinnvollen Grenzen bündeln",
+      "scope": "ARM_Ls Sitzwerkzeug-Gruppenschnitte und K15s Werkzeuggruppen auswerten. Vorhandene Mesh-Reuse behalten; im Hybrid-Ergebnis die Carrier-Klassen mitliefern statt zweitem Prozess. Unveränderte Blätter/BVH-/Trägerpräparation revisionsgebunden wiederverwenden. Innerhalb eines semantisch einzelnen Mehrwerkzeug-Booleans Quellreihenfolge erhalten, interne Mesh-Ergebnisse nicht unnötig als vollständigen Host-B-rep rekonstruieren; an beobachtbaren Geometrie-/Fehlergrenzen materialisieren. Finale Zertifikation und exakte Recovery bleiben verpflichtend. Keine 'quartic unsupported'-Antwort als exaktes Ergebnis umetikettieren.",
+      "acceptance": "ARM_L, K15 und KT2 gegen den sequenziellen Kontrollpfad; Ziel mindestens 2x geringere gemessene Präparation+Recover+Transport-Zeit des geeigneten Gruppenfalls, mindestens halbierte Prozesszahl, keine verschlechterte Gesamtzeit. Orakel: unabhängige OCCT-Geometrie für exakt verfügbare Teilfälle und vorliegende analytische R20-Volumina/Punktproben; bei Meshs weiterhin bestehender expliziter Abweichungsbound, geschlossene orientierte Topologie und unabhängige Distanzkontrolle. Gepflanzte Negative: 0,01-mm-Mesh bei Anfrage 0,001 mm, veränderte Trägerrevision, Geometrieabfrage zwischen zwei Operationen sowie Budgetabbruch. Jeweils Invalidierung/Materialisierung oder benannter Fehler, niemals ungeprüfter Cachetreffer oder übersprungene Zertifizierung.",
+      "estimateAgentDays": 1.5,
+      "r20Impact": "Adressiert die 11 beziehungsweise 12 Hybrid-Ergebnisse der langsamen Parts. Spawn-Elimination allein spart historisch nur einen kleinen Anteil; der Gewinn muss aus weniger wiederholter Vorbereitung und Rekonstruktion kommen.",
+      "dependsOn": [
+        "PN2: Native Coverage für die vier gemessenen R20-Teile"
+      ]
+    },
+    {
+      "title": "PN6: Bewiesenen WK-Cache in produktive Regeneration integrieren",
+      "scope": "cacheStore/planIncremental nicht neu erfinden, sondern hinter dem normalen Build mit begrenztem Session-Cache integrieren. Konservative Cachegrenze zuerst an reinen Kerneloperationen mit vollständigen Eingabewörtern; FS-Kontrollfluss und Queries normal ausführen. Schlüssel um Kernel-/Wire-Version, Modellpolicy, Toleranzen, Ergebnisgenauigkeit und eingefrorene Imports erweitern; volle Schlüssel plus Kollisionsprüfung. Geometrie von Identität/Quellstellen/Evidenz trennen. Reine Labels/Farben und Starrkörperposen invalidieren keine Geometrie; Clearance-Caches berücksichtigen Posen. Ein früher Edit darf ehrlich einen Full-Rebuild verursachen.",
+      "acceptance": "R20-Fälle: nur ARM_L-Farbe ändern, ein XBAR-Lochmaß ändern, eine frühe TOPPLATE-Kontur ändern und Pose return_90 aus ~/Workspace/cad/cad-project-041/single-step-r20/build/studios/r20-motion.json anwenden. Jeder Edit wird zusätzlich vollständig kalt auf demselben Quellstand gerechnet; Ausgaben einschließlich beobachtbarer Identität/Fehler müssen übereinstimmen. Orakel: geschlossene Volumenänderung einer separaten Bohrungs-Repro und OCCT; Pose gegen unabhängig zusammengesetzte Starrkörpermatrizen. Ziele: Metadaten/Pose null Boolean-Aufrufe, lokale Änderung nur abhängige Operationen, Session-RSS begrenzt. Gepflanzte Negative: Kernel-/Policy-/Toleranzwechsel, geänderter frozen Import, beschädigter Cachewert und erzwungene Schlüssel-Kollision dürfen keinen alten Erfolg liefern. Cache-Hit und Refusal durch try silent korrekt behandeln.",
+      "estimateAgentDays": 2,
+      "r20Impact": "Größter Hebel für interaktives Arbeiten: 10–100x sind bei entsprechend lokaler Änderung möglich, ohne den Kernel selbst um diesen Faktor zu beschleunigen. Bestehende WK-Beispiele belegen Semantik, nicht schon produktive R20-Latenz.",
+      "dependsOn": [
+        "PN2: Native Coverage für die vier gemessenen R20-Teile",
+        "PN3: Gemeinsame Identity-Daten und exakte Carrier über die Grenze"
+      ]
+    },
+    {
+      "title": "PN7: Verbleibende Filter und cpuN-Skalierung gezielt optimieren; Metal nur bei Gewinn",
+      "scope": "Nach PN1 erneut profilen. Kandidaten sind zertifizierte schnelle Antworten für verbleibende line_budget-Kreuzungen, wiederholte S/F-Klassifikation außerhalb des schon vorbereiteten planaren Pfads sowie ungleich gewichtete Hybrid-/Komponentenarbeit. Vorhandene BVH, sortierter Weld und parallele Recover-Flächen bleiben Ausgangspunkt. Split-Schwellen mit cpu1/2/6/18 bestimmen, Speicherbudget einhalten. Kein genereller Graph-Rewrite und kein neuer GPU-Topologiekern. Ein Metal-Versuch nur für einen tatsächlich großen flachen Zahlenbatch, sonst Paket ohne GPU ausliefern.",
+      "acceptance": "Eine aus dem aktuellen R20-Profil gewählte Operation und ein Zweiteil-Repro mit unabhängigen schweren Körpern. Akzeptanzziel mindestens 2x im ausgewählten Hotspot, keine cpu1-Verschlechterung über 10 %, identische Urteils-/Fehlerreihenfolge und nachgewiesener End-to-End-Gewinn. Orakel: exakte rationale Vorzeichen bzw. hochpräzise unabhängige Rechnung für Filter; OCCT/Closed-Forms für Modelle. Gepflanzte Negative: fast tangentialer Treffer, exaktes Nullprädikat, stark ungleiche Teilaufgaben und Worker-Abbruch. Unsicherheit geht zum exakten Resolver, nicht zu Epsilon-Heuristik. Für Metal zusätzlich echte Dispatchzählung, Subnormal-/Low-Word-Proben und Gewinn einschließlich Init/Transfer; andernfalls keine Metal-Empfehlung.",
+      "estimateAgentDays": 1.5,
+      "r20Impact": "Optionaler Restgewinn nach weniger Arbeit und nativem Backend. Erwartung workloadabhängig, kein pauschales 18x und erst recht kein GPU-Versprechen.",
+      "dependsOn": [
+        "PN1: R20-Phasen im echten Build und residenter Warmbetrieb",
+        "PN2: Native Coverage für die vier gemessenen R20-Teile",
+        "PN5: Hybrid-Präparation und Rekonstruktion an sinnvollen Grenzen bündeln"
+      ]
+    }
+  ],
+  "openQuestions": [
+    "Wie verteilen sich die vier R20-Zeiten heute tatsächlich auf Interpreter, Admission-Versuche, Kernel, Recover, Identity und Export? Die Root-Grenzenprobe liefert nur eine Untergrenze; alte Profile und Aufrufanzahlen ersetzen das nicht.",
+    "Welche fehlenden nativen Einstiege erreichen die eingefrorenen R20-Parts auf dem aktuellen Quellstand zuerst, und passen deren Records unter die Bend-Arity-Grenze? Es wurden absichtlich keine nativen Builds oder teuren Modellläufe gestartet.",
+    "Wie groß ist der Identity-/Wire-Anteil nach der bereits gelandeten 512-Zeichen-Lineage-Kompaktion? Die dokumentierten Millionen Wörter stammen aus einem älteren Slice-Lauf; die nächste Entscheidung muss aktuelle Messungen verwenden.",
+    "Welche Mehrwerkzeuggruppen können ohne beobachtbare Zwischenabfrage und ohne Änderung der Kontakt-/Fehlersemantik intern gemeinsam bearbeitet werden? Insbesondere darf ARM_Ls fehlender Quartik-Kurventyp nicht als Performanceproblem wegdefiniert werden.",
+    "Tragen die bestehenden Hybrid-Zertifikate eine gebündelte Kette mit unverändertem Gesamtbound, oder muss an einzelnen Stufen weiterhin zertifiziert/materialisiert werden? Weder gröbere Tessellation noch Toleranzvergrößerung zählen als Beschleunigung desselben Vertrags.",
+    "Wie teuer ist der produktive Cache-/Identitäts-Replay gegenüber dem Einsparen der Geometrie auf R20, und wie hoch ist der benötigte Session-Speicher? Der WK-Prototyp und Compiler-Dateicache sind keine fertige produktive inkrementelle Regeneration.",
+    "Welche Interaktivitätsgrenze ist für Marc die relevante Produktabnahme: sichtbares Mesh nach lokalem Edit, vollständiger validierter Modellzustand oder alle Exportdateien? Annahme dieses Plans: validierter Zustand plus sichtbares Mesh; Export bleibt eine separat gemessene Nutzeraktion.",
+    "Keine neue unabhängige geometrische Verifikation wurde in dieser Recherche ausgeführt. Verwendet wurden vorhandene akzeptierte Artefakte, aktueller Quellcode, Primärquellen und ein Parser-only-Probe. Live-Onshape war ausdrücklich ausgeschlossen; für spätere Abnahme nur vorhandene freigegebene Snapshots oder separat autorisierte Messung. Aktuelle Public-Master-Quellen vor einer Implementierung auf Commit fixieren."
+  ]
+}

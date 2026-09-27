@@ -1,0 +1,159 @@
+{
+  "schema": "wonky-native-wire/0",
+  "generator": "scripts/native-bridge/gen-wire.mjs",
+  "roots": [
+    "topology.bend:Coedge",
+    "topology.bend:Edge",
+    "topology.bend:Face",
+    "topology.bend:Solid"
+  ],
+  "adts": [
+    {
+      "type": "topology.bend:Coedge",
+      "key": "topology_Coedge",
+      "source": "kernel/topology.bend:7",
+      "fixedWords": 2,
+      "flatWordsEstimate": 2,
+      "heldWordsEstimate": 1,
+      "tagged": false,
+      "constructors": [
+        {
+          "tag": 0,
+          "name": "Use",
+          "fields": [
+            {
+              "name": "edge",
+              "type": "U32"
+            },
+            {
+              "name": "forward",
+              "type": "Bool"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "topology.bend:Edge",
+      "key": "topology_Edge",
+      "source": "kernel/topology.bend:4",
+      "fixedWords": 2,
+      "flatWordsEstimate": 2,
+      "heldWordsEstimate": 1,
+      "tagged": false,
+      "constructors": [
+        {
+          "tag": 0,
+          "name": "Edge",
+          "fields": [
+            {
+              "name": "start",
+              "type": "U32"
+            },
+            {
+              "name": "end",
+              "type": "U32"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "geometry.bend:Vec3",
+      "key": "geometry_Vec3",
+      "source": "kernel/geometry.bend:4",
+      "fixedWords": 3,
+      "flatWordsEstimate": 3,
+      "heldWordsEstimate": 2,
+      "tagged": false,
+      "constructors": [
+        {
+          "tag": 0,
+          "name": "V3",
+          "fields": [
+            {
+              "name": "x",
+              "type": "F32"
+            },
+            {
+              "name": "y",
+              "type": "F32"
+            },
+            {
+              "name": "z",
+              "type": "F32"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "topology.bend:Face",
+      "key": "topology_Face",
+      "source": "kernel/topology.bend:10",
+      "fixedWords": null,
+      "flatWordsEstimate": 10,
+      "heldWordsEstimate": 9,
+      "tagged": false,
+      "constructors": [
+        {
+          "tag": 0,
+          "name": "Face",
+          "fields": [
+            {
+              "name": "origin",
+              "type": "geometry.bend:Vec3"
+            },
+            {
+              "name": "normal",
+              "type": "geometry.bend:Vec3"
+            },
+            {
+              "name": "x",
+              "type": "geometry.bend:Vec3"
+            },
+            {
+              "name": "boundary",
+              "type": "List<topology.bend:Coedge>"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "topology.bend:Solid",
+      "key": "topology_Solid",
+      "source": "kernel/topology.bend:13",
+      "fixedWords": null,
+      "flatWordsEstimate": 3,
+      "heldWordsEstimate": 2,
+      "tagged": false,
+      "constructors": [
+        {
+          "tag": 0,
+          "name": "Solid",
+          "fields": [
+            {
+              "name": "vertices",
+              "type": "List<geometry.bend:Vec3>"
+            },
+            {
+              "name": "edges",
+              "type": "List<topology.bend:Edge>"
+            },
+            {
+              "name": "faces",
+              "type": "List<topology.bend:Face>"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "nativeWidthWarnings": [],
+  "ops": [],
+  "aliases": {
+    "K0": "kernel/geometry.bend",
+    "K1": "kernel/topology.bend"
+  }
+}

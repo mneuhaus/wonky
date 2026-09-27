@@ -1,0 +1,24 @@
+{
+  "id": "a4463fc362ce4f30055696a6",
+  "name": "wonky CAD-Acid v1",
+  "href": "https://cad.onshape.com/api/v1/documents/a4463fc362ce4f30055696a6",
+  "public": true,
+  "publicLinkable": false,
+  "anonymousAccessAllowed": false,
+  "jsonType": "document",
+  "resourceType": "document",
+  "documentType": 0,
+  "createdAt": "2026-09-26T14:09:40.631+00:00",
+  "modifiedAt": "2026-09-26T14:09:40.631+00:00",
+  "defaultElementId": null,
+  "defaultWorkspace": {
+    "id": "54fca98f51ace9d818f8417e",
+    "documentId": "a4463fc362ce4f30055696a6",
+    "microversion": "e3588aa9bf416d85a2911900",
+    "name": "Main",
+    "href": "https://cad.onshape.com/api/v1/documents/d/a4463fc362ce4f30055696a6/workspaces/54fca98f51ace9d818f8417e",
+    "type": "workspace",
+    "createdAt": "2026-09-26T14:09:42.014+00:00",
+    "modifiedAt": "2026-09-26T14:09:41.895+00:00"
+  }
+}

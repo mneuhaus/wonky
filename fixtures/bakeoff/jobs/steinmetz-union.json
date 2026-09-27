@@ -1,0 +1,51 @@
+{
+ "schema": "wonky-bakeoff-fixture/1",
+ "case": "steinmetz-union",
+ "category": "cylinders",
+ "deviationMm": 0.01,
+ "location": "fixtures/bakeoff/jobs",
+ "job": "fixtures/bakeoff/jobs/steinmetz-union.job",
+ "csgJob": "fixtures/bakeoff/jobs/steinmetz-union.csg.job",
+ "jobBytes": 16951,
+ "jobSha256": "b01937ee981a86aef9ab6f24ed06b99a295f0f5ed307f685f70f78b2a6f96484",
+ "csgJobSha256": "d9a4900f24ca22bb6bcf7c941d819f6a7cff7059ef2ec7d81f40e4c9bcfcfb2c",
+ "leaves": 2,
+ "faces": 6,
+ "vertices": 212,
+ "triangles": 416,
+ "deviationMeasuredMaxMm": 0.00912222888341585,
+ "leafInfo": [
+  {
+   "leaf": 0,
+   "prim": "cylinder",
+   "vertices": 106,
+   "triangles": 208,
+   "tags": [
+    0,
+    1,
+    2
+   ],
+   "segments": 52,
+   "deviationMeasuredMm": 0.00912222888341585,
+   "deviationMethod": "barycentric-grid-8 (max lies on sampled chord midlines)",
+   "vertexOnSurfaceMaxMm": 3.552713678800501e-15,
+   "analyticVolume": 1570.7963267948967
+  },
+  {
+   "leaf": 1,
+   "prim": "cylinder",
+   "vertices": 106,
+   "triangles": 208,
+   "tags": [
+    3,
+    4,
+    5
+   ],
+   "segments": 52,
+   "deviationMeasuredMm": 0.00912222888341585,
+   "deviationMethod": "barycentric-grid-8 (max lies on sampled chord midlines)",
+   "vertexOnSurfaceMaxMm": 3.552713678800501e-15,
+   "analyticVolume": 1570.7963267948967
+  }
+ ]
+}

@@ -1,0 +1,30 @@
+{
+  "schema": "wonky-node-api-headers/1",
+  "generator": "scripts/native-bridge/vendor-node-api.mjs",
+  "node": "22.23.1",
+  "napi": 10,
+  "source": "node v22.23.1 include/node",
+  "files": [
+    {
+      "name": "node_api.h",
+      "sha256": "2d4560831e525b47b060ec8a0864ab73993df9e20215ce9f0fe7b24cd31af32a",
+      "bytes": 10370
+    },
+    {
+      "name": "js_native_api.h",
+      "sha256": "582e64ead4d5fdf663e2bd934f2fc97e8e155a7740d28995830393d19d089705",
+      "bytes": 31770
+    },
+    {
+      "name": "js_native_api_types.h",
+      "sha256": "05e3d86e24c814f94a8b52b6a70cec11d7e91c810008253553528637e3a15b2f",
+      "bytes": 7603
+    },
+    {
+      "name": "node_api_types.h",
+      "sha256": "088766b3cf1f0cd9b292c361ad30f7a04e7cc6db35a20ca52c572c1adf9635e7",
+      "bytes": 1825
+    }
+  ],
+  "license": "MIT; LICENSE.node"
+}

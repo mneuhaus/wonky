@@ -1,0 +1,197 @@
+{
+  "topic": "motion-clearance",
+  "currentState": [
+    "Auf Vorarbeiten aufgebaut: <repo>/docs/research/parallel-gpu-geometry.md:242-260 beschreibt bereits die gemeinsame Bend-BVH; <repo>/docs/research/commercial-kernels.md:1082-1138 die Parasolid/ACIS-inspirierte Trennung disjoint/abutment/interference/containment/undecided; <repo>/docs/research/topology-identity-data-structures.md:1154-1187 den geschichteten Geometrievergleich. Neu hier sind konkrete R20-Bindings, Motion-Semantik, zeitliche Abstandsschranken, Implementierungsfallen und Viewer-Integration, kein erneuter Kernel-Survey. <repo>/docs/FACTSHEET.md ist vom 22.09. und kein aktueller Fertigstellungsnachweis.",
+    "Wonky hat noch keinen Motion-/Clearance-Query: <repo>/src/viewer/query-worker.mjs:26-63 registriert draw, printability, section, thickness, diffBounds und einen auf vier Modelle begrenzten Cache. <repo>/src/viewer/measure.mjs:26-49,753-834 hat analytische Messungen einschließlich bestimmter getrimmter Zylinderflächen, verweigert aber allgemeine getrimmte Flächenextrema und revisionsübergreifende Messung. <repo>/src/comparison.mjs:22-27 beschränkt Körperabstand auf koaxiale Zylinder.",
+    "Die gelesene Workspace-Integration ist ein uncommitteter Arbeitsstand, nicht verifizierter Main: local-development-evidence instanziert ganze Modelle mit starren Matrizen und indexbasierten Instanz-IDs. local-development-evidence transformiert pro Modellmitglied, nicht pro Body. R20 braucht dagegen verschiedene Bewegungsgruppen innerhalb von context.fs, cores.fs und tray.fs. local-development-evidence nennt offene Placement-Daten in Selektion/Reviews, Cross-Model-Messungen und falsch platzierte Overlays bei Nichtidentität. Motion kann daher nicht einfach eine zusätzliche Modellmatrix sein.",
+    "Der gelesene Vertrag ~/Workspace/cad/cad-project-041/single-step-r20/build/studios/r20-motion.json hat SHA256 c3677a544f3e927989d6bd3b12bac28760a2825fa514bd82459ca640209ea047. Stdlib-Auswertung: vier Joints, 67 Layout-Parts, 17 bewegte Parts, 22 Posen, sechs Einachs-Motions, sieben Cycle-States, 15 Sonderregeln (14 guided_gap, eine shadowed), 36 begründete Ausschlüsse. Nur 25 Layout-Keys sind auf 23 verschiedene FS-Bodies abgebildet; 42 haben fs:null. Nur neun der 15 Sonderpaare besitzen für beide Partner ein FS-Mapping. Mapping ist noch kein Nachweis erfolgreich gebauter Geometrie.",
+    "Bindings sind sicherheitsrelevant: ~/Workspace/cad/cad-project-041/single-step-r20/build/studios/r20-motion.json:351-355 und ~/Workspace/cad/cad-project-041/single-step-r20/build/studios/context.fs:825-854,912-943 deklarieren context/RAIL_L und RAIL_R als statische Hüllen, nicht als bewegte Layout-Schienen. BRIDGE, MGN_COL_L und MGN_COL_R sind ein physischer Body cores/BRIDGE. Eine Kontakt-Ausnahme für XBAR/MGN_COL_L darf deshalb nicht den ganzen XBAR/BRIDGE-Abstand ausschalten. Die behauptete Konservativität einer Hülle wurde hier nicht geometrisch verifiziert.",
+    "Die wichtigste vorhandene Referenz liegt bereits im CAD-Projekt: ~/Workspace/cad/cad-project-041/single-step-r20/checks/kinematics.py:1-23,61-79,222-240 definiert mm/Grad, rechtshändige Rotation, Home-Koordinaten und W_parent*L beziehungsweise L*W_parent bei frame=world. Path-Segmente sind Verschiebungsvektoren, der Driver ist Bogenlänge. Für R20 gilt W_return=Rot(P,q), W_rock=W_return*Rot(C,q), W_service=Translation_world(path(s))*W_rock; eine äußere Workspace-Platzierung kommt erst danach. world bedeutet hier Feeder-A-Quellrahmen, nicht automatisch Maschinenwelt bei einem zweiten Feeder.",
+    "Kleine unabhängige Formelproben: C liegt bei return=90 bei [0,129.42842497502681,334.346115903674] mm, unabhängig vom rock-Winkel. Falsch rechts statt links multiplizierte Service-Translation verschiebt den ersten Pfadpunkt bei return=30/rock=-25 um 4.798130211603833 mm. Die drei Service-Segmente sind insgesamt 550.0106866545946 mm lang, die Motion endet ausdrücklich bei 550 mm (~/Workspace/cad/cad-project-041/single-step-r20/build/studios/r20-motion.json:58-79,442-449). Nicht still auf volle Pfadlänge strecken.",
+    "Regelpräzedenz ist schon implementiert, aber nicht in wonky: ~/Workspace/cad/cad-project-041/single-step-r20/checks/run.py:103-139 nimmt Ausnahmen und explizite Paare nur aus dem generischen moving_min-Lauf heraus und prüft anschließend ALLE expliziten Regeln. Sechs HOP_CHEEK-guided_gap-Paare stehen zugleich in exclude. Exclude-wins wäre falsch. ~/Workspace/cad/cad-project-041/single-step-r20/checks/rules.py:166-193 prüft das Minimum über die Motion gegen 1.00±0.05 mm, nicht eine maximale Spaltbreite an jedem Zeitpunkt. shadowed kombiniert Bewegungsabstand mit einer Home-Prüfung; ~/Workspace/cad/cad-project-041/single-step-r20/checks/fall_rays.py:127-149 sampelt nur ein 1-mm-Raster. Das beweist keine lückenlose Abschattung.",
+    "Vorhandene Algorithmen sind Bausteine, keine fertigen Zertifikate: <repo>/kernel/hybrid/recover/clear.bend:7-31,84-155,172-175 enthält Morton/BVH und F32-Dreiecksabstände mit Rundungszugaben für Recovery-Selbstabstand; seine Nachbarschaftsausnahmen dürfen nicht in den Körperpaar-Checker übernommen werden. <repo>/src/review-scene.mjs:12-20,32-33,116 kennzeichnet Anzeigeapproximationen und Carrier-Abweichungen. Eine Carrier-Bindung allein ist kein beidseitiger Hausdorff-/Trim-Abdeckungsnachweis. ~/Workspace/cad/cad-project-041/single-step-r20/checks/clearance.py:196-232 hat bereits adaptive Intervalluntergrenzen, aber basiert numerisch auf FCL; ~/Workspace/cad/cad-project-041/single-step-r20/checks/kinematics.py:260-308 verweigert mehrere variable Joints in einer Kette.",
+    "Der Cycle ist keine ausführbare, freigegebene Zeitkurve: ~/Workspace/cad/cad-project-041/single-step-r20/build/studios/r20-motion.json:495-789 enthält TBD-Werte, R10b-Referenzen, natürliche Guards und Interlocks. Nur return hat T_min_s=2 und ramp_max_s=0.6, andere Zeiten sind null; das legt noch kein eindeutiges Geschwindigkeitsprofil fest. rock=0 während der alten Übergangsphase und die neuere ±5°-Kopplung an max(-135,-return) brauchen eine explizite Quellenpräzedenz. Die angegebenen Zweifeeder-Abstände wurden hier nicht nachgerechnet."
+  ],
+  "approaches": [
+    {
+      "name": "Analytische Fast Paths plus getrimmter B-rep-Abstand",
+      "fitForWonky": "Exakte Formen zuerst: geschlossene Punkt-/Segment-/Primitive-Abstände und zugelassene getrimmte Flächenfälle in Bend. Unterstützungsflächen dürfen nur dann den Körperabstand liefern, wenn der Extrempunkt in beiden Trims liegt und alle übrigen Kandidaten ausgeschlossen sind. OCCT zeigt die sinnvolle Zerlegung in Vertex/Edge/Face-Kandidaten, Box-Untergrenzen, Extrema, Witness-Support und separate Solid-Containment-Behandlung. BRepExtrema_DistShapeShape mit IsDone, Value, InnerSolution und Witness-Punkten ist ein unabhängiges STEP-Oracle über uv/OCP, kein Produktionsbackend. Generische NURBS-Extrema sind keine Voraussetzung für den R20-MVP.",
+      "risks": "OCCT ist numerisch, nicht symbolisch exakt. Die gelesene Revision 3d097a0328e71b826377d4814ab05ec3c3d23871 verwendet im Solid-Classifier sogar eine separate 0.001-Toleranz; Deflection allein beschreibt nicht alle Fehlerquellen. Oracle-Version, Einheiten, Shape-Toleranzen und Fehlerfälle dokumentieren. Ein Supporting-plane-Abstand oder ein lokales Minimum darf nie als globaler B-rep-Abstand ausgegeben werden.",
+      "sources": [
+        "[OCCT API](https://occt3d.com/dev/doc/refman/html/class_b_rep_extrema___dist_shape_shape.html)",
+        "[Gelesener OCCT-Code](https://github.com/Open-Cascade-SAS/OCCT/blob/3d097a0328e71b826377d4814ab05ec3c3d23871/src/ModelingAlgorithms/TKTopAlgo/BRepExtrema/BRepExtrema_DistShapeShape.cxx)",
+        "<repo>/src/viewer/measure.mjs:753-834"
+      ]
+    },
+    {
+      "name": "Persistente Dual-BVH mit zertifizierter Mesh-Distanz",
+      "fitForWonky": "FCL (Pan/Chitta/Manocha, ICRA 2012) trennt Geometrie, CollisionObject-Transformation und Traversal; three-mesh-bvh zeigt konkret nearest-first Dual-Tree-Traversal im relativen Rahmen T_A^-1*T_B, Witness-Punkte und Schwellwertabbruch. Diese Muster in Bend übernehmen: lokale BVH einmal pro Geometrie-Hash aufbauen, starre Posen nur als Transformationen übergeben, vorangegangene Witnesses als obere Schranken nutzen, Körper-AABBs als Broadphase. Für validierte geschlossene Körper mit geprüfter Trim-Abdeckung und Hausdorff-Bounds epsA/epsB gilt aus numerisch eingeschlossenem Mesh-Abstand [l,u]: d_Brep in [max(0,l-epsA-epsB),u+epsA+epsB], zusätzlich Transformationsfehler einrechnen. Bei Nichtentscheidbarkeit Geometrie/Numerik verfeinern oder benannte Refusal. Existiert eine exakte Form, bleibt sie der bevorzugte Pfad.",
+      "risks": "Keine neue JS-/WASM-Produktionsgeometrie und kein FCL-Hybrid. Wonky nutzt einen eigenen Renderer, nicht Three.js. Punkt-/Vertex-Sampling verpasst Edge-Edge-Minima; CGAL AABB_tree bietet dokumentiert nur Punkt-Distanzqueries, keinen fertigen Mesh-Paar-Ersatz. Meshoberflächen erkennen vollständige Einschließung nicht: pro geschlossener Komponente Solid-Klassifikation mit Hohlräumen prüfen. Offene/ungültige Meshes oder bloße Carrier-Abweichung sind uncertified. Early exit bei minThreshold liefert einen Verletzungszeugen, nicht das globale Minimum; ein Cutoff liefert eine Untergrenze, nicht einen Messwert. Hüllenkollision ist nur ein Kandidat, kein bewiesener Realteil-Crash.",
+      "sources": [
+        "[FCL-Paper, besonders S. 3-5](https://gamma.cs.unc.edu/FCL/fcl_docs/webpage/pdfs/fcl_icra2012.pdf)",
+        "[Gelesener Dual-BVH-Code](https://github.com/gkjohnson/three-mesh-bvh/blob/f698cac74f3427e3600e316023c75ee1a3643b37/src/core/cast/closestPointToGeometry.template.js)",
+        "[CGAL AABB-Dokumentation](https://doc.cgal.org/latest/AABB_tree/index.html)",
+        "<repo>/kernel/hybrid/recover/clear.bend:7-31"
+      ]
+    },
+    {
+      "name": "Adaptive kontinuierliche Mindestabstandsprüfung statt Frame-Sampling",
+      "fitForWonky": "Beste erste Lösung für die sechs R20-Einachs-Motions: den bereits vorhandenen CAD-Algorithmus nach Bend übertragen und numerisch absichern. Für ein Parameterintervall der Breite w liefern Endpunkt-Untergrenzen L0,L1 die kontinuierliche Untergrenze max(0,min(L0,L1)-B_A(w/2)-B_B(w/2)). Translation/Service-Bogenlänge: B(delta)=abs(delta); Rotation: B(delta)=2*r*sin(min(abs(delta),pi)/2), Winkel in Radiant und r konservativ über den ganzen Körper. Intervall sicher bei L>=Regelgrenze; sicherer Verletzungszeuge bei einem U<Grenze; sonst bis zur expliziten Raum-/Parameter-/Arbeitsgrenze teilen und UNKNOWN zurückgeben. Grenzwerte und [L,U] werden nicht gerundet entschieden. Pfadknicke und Phasenwechsel teilen Intervalle. Zeit braucht dieses Verfahren nicht; Grad/mm reichen.",
+      "risks": "1° oder 1 mm step ist nur der Start des Samplings, kein Nachweis. Eigene geschlossene Gegenprobe: zwei Kugeln mit Radien 0.1 mm, bewegtes Zentrum auf r=100 mm über [-0.5°,0.5°], festes Zentrum auf r=106.199 mm bei 0°: beide Endpunktabstände 6.063892360315081 mm, wahres Minimum 5.999 mm. Bei r=250 mm beträgt die Bewegung bis zur Mitte eines 1°-Intervalls bereits 2.1816546423732857 mm. Kopplungen mehrerer Joints benötigen konservative Ketten-/Geschwindigkeitsbounds; die jetzige Einachs-Radiusformel dafür wiederzuverwenden wäre unzulässig.",
+      "sources": [
+        "~/Workspace/cad/cad-project-041/single-step-r20/checks/clearance.py:196-232",
+        "~/Workspace/cad/cad-project-041/single-step-r20/checks/kinematics.py:260-308",
+        "[FCL-Grundlagen kontinuierlicher Queries](https://gamma.cs.unc.edu/FCL/fcl_docs/webpage/pdfs/fcl_icra2012.pdf)"
+      ]
+    },
+    {
+      "name": "Allgemeines CCD und nichtlineare Starrkörpertrajektorien",
+      "fitForWonky": "Für spätere simultane RETURN/rock-Bewegung sind Wang et al., A Large Scale Benchmark and an Inclusion-Based Algorithm for Continuous Collision Detection (2021), und Ferguson et al., Intersection-free Rigid Body Dynamics (2021), die relevanten Vertiefungen. Tight Inclusion liefert konservative Vertex-Face-/Edge-Edge-Queries mit Mindestseparation und numerischen Filtern; Rigid-IPC behandelt gekrümmte Starrkörpertrajektorien über konservativ abgesicherte lineare Teilqueries. Erst einfache Intervall-Kettenbounds implementieren; nur bei gemessenem Engpass diese engere Narrowphase portieren. Keine Dynamik-/Kontaktantwort-Engine nötig.",
+      "risks": "Tight Inclusion interpoliert Primitive zwischen Endpunkten linear; rotierende Body-Vertices folgen Kreisbögen. Lineare CCD auf Rotationssehnen ohne Sagitta-/Trajektorienfehler verliert die Garantie. Quaternion-Kürzestweg kann return -2→186 falsch herum interpolieren; Driver-Winkel und Drehsinn erhalten. FCL ist besonders tückisch: ContinuousCollisionRequest hat in der gelesenen Revision standardmäßig CCDC_NAIVE und zehn diskrete Samples; Conservative Advancement unterstützt nur belegte Dispatch-Paare, Polynomial CCD verlangt BVH plus Translation, Unsupported liefert -1. Ein API-Name mit continuous beweist nichts. Tight Inclusion ist MIT; übernommener Code benötigt Attribution und eigene Bend-Numerikprüfung.",
+      "sources": [
+        "[Wang et al.](https://arxiv.org/abs/2009.13349)",
+        "[Tight Inclusion](https://github.com/Continuous-Collision-Detection/Tight-Inclusion)",
+        "[Rigid-IPC](https://ipc-sim.github.io/rigid-ipc/)",
+        "[FCL-Defaults](https://github.com/flexible-collision-library/fcl/blob/708d2e102c12968557b70bf6785d473456310de5/include/fcl/narrowphase/continuous_collision_request.h)",
+        "[FCL-CCD-Implementierung](https://github.com/flexible-collision-library/fcl/blob/708d2e102c12968557b70bf6785d473456310de5/include/fcl/narrowphase/continuous_collision-inl.h)"
+      ]
+    },
+    {
+      "name": "Swept Volumes als konservative Keep-outs, nicht als Zeitbeweis",
+      "fitForWonky": "Für wiederholte Prüfung gegen statische Rahmen/Kamerastützen lohnt ein konservativer Sweep-Cache. ~/Workspace/cad/cad-project-041/single-step-r20/checks/sweep.py:1-69 enthält schon lineare Minkowski-Sweeps und axiale/radiale Sektorhüllen mit angegebenem Excess-Bound. In wonky zuerst exakte Primitive-/Linearformen, sonst eingeschlossene Sektorhüllen mit Fehlerbudget und transparenter Keep-out-Anzeige. Für statisches S gilt min_t d(S,A(t))=d(S,union_t A(t)); eine Oberhülle liefert eine sichere Untergrenze. Physische Offset-Solids müssen nicht für jeden Abstand erzeugt werden: Schwelle direkt im Distanzquery prüfen.",
+      "risks": "Zwei unabhängig gesweepte bewegte Körper verlieren die Gleichzeitigkeit: überlappende Sweeps können zu verschiedenen Zeiten denselben Raum belegen. Disjunkte Hüllen beweisen Sicherheit, überlappende Hüllen keine Kollision. Ebenso sind Vertragsrechtecke, gekoppelte Bahnen und Interlocks unterschiedliche Konfigurationsmengen. Lokale Python/Manifold-Sweeps nur Referenz, keine Produktionsfallbacks; Abweichung gegen die ursprüngliche B-rep und Hüllenüberschuss separat führen.",
+      "sources": [
+        "~/Workspace/cad/cad-project-041/single-step-r20/checks/sweep.py:1-69",
+        "<repo>/docs/research/fillets-blends-offsets.md:730",
+        "[FCL-Swept-BV-Ansatz](https://gamma.cs.unc.edu/FCL/fcl_docs/webpage/pdfs/fcl_icra2012.pdf)"
+      ]
+    },
+    {
+      "name": "Kommerzielle UX übernehmen, Animation und Nachweis strikt trennen",
+      "fitForWonky": "Onshape Animate: ein DOF, Start/Ende/Steps, Single/Reciprocate/Loop, weitere Mates/Relations werden beachtet; Interference Detection ist ein separates Werkzeug. SOLIDWORKS trennt Animation, Basic Motion und Motion Analysis; Find Interferences Over Time bietet Komponenten, Start-/End-Frame und Increment sowie Frame/Zeit/Parts/Volumen im Ergebnis. Clearance Verification prüft benutzerdefinierte Mindestabstände. Fusion nennt Motion Study ausdrücklich kinematisch und lässt Joints mit Punkten/Werten steuern; Contact Sets stoppen gegenseitiges Durchdringen, sind aber teurer als Motion Joints. Für wonky: Posen, vier Driver-Tracks, Phase/Parameter-Scrubber, Play/Pause/Loop, danach gesondertes Check motion mit Fortschritt, Ergebniszeilen und Sprung zum Witness/Intervall.",
+      "risks": "Keines der gelesenen UI-Dokumente belegt einen mathematisch zertifizierten kontinuierlichen 6-mm-Abstand. SOLIDWORKS-Details stammen aus indexierter offizieller Hilfe; WebFetch lieferte nur die Navigationshülle. Keine Live-Produktprüfung und keine Rückschlüsse auf proprietäre Parasolid-/ACIS-Algorithmen. wonky darf Playback-Geschwindigkeit nicht als verifizierte Mechanikzeit, Rot als nur optische Kollision oder Grün als bloße Stichprobe ausgeben. Masse, Reibung, Drehmoment, fallende Teile und Kontaktantwort sind außerhalb des MVP.",
+      "sources": [
+        "[Onshape Mates/Animate](https://cad.onshape.com/help/Content/mate.htm)",
+        "[Onshape Interference Detection](https://cad.onshape.com/help/Content/View/interference_detection.htm)",
+        "[SOLIDWORKS Motion-Studien](https://help.solidworks.com/2025/english/SolidWorks/motionstudies/c_Introduction_to_Motion_Studies.htm)",
+        "[SOLIDWORKS Interferences Over Time](https://help.solidworks.com/2025/English/SolidWorks/motionstudies/HIDD_INTERFERENCE_CHECK_DLG.htm)",
+        "[SOLIDWORKS Clearance Verification](https://help.solidworks.com/2022/english/SolidWorks/sldworks/c_Clearance_Verification_SWassy.htm)",
+        "[Fusion Motion Studies](https://help.autodesk.com/cloudhelp/ENU/Fusion-Assemble/files/GUID-1B0EEBBF-3923-47E3-BB58-E5955D9EA738.htm)",
+        "[Fusion Contact Sets](https://help.autodesk.com/cloudhelp/ENU/Fusion-Assemble/files/ASM-CONTACT-SETS.htm)"
+      ]
+    }
+  ],
+  "recommendation": "Kinematischer R20-Viewer mit separater, asynchroner Clearance-Engine, nicht allgemeiner Physiksimulator. Reihenfolge MC1→MC2 für sichtbare Bewegung; MC3→MC4 für belastbare Geometrie; MC5/MC6 für kontinuierliche Regeln; MC7 für Cycle/Reports; MC8 misst und integriert. MC9 bleibt optional. Alle autoritativen geometrischen Entscheidungen bleiben in Bend; JS lädt Verträge, orchestriert und zeichnet. FCL/OCCT sind unabhängige Oracles, niemals Fallbacks. Resultatvertrag: Geometrie-/Motion-/Regel-/Placement-Hashes, Body-Occurrences, betrachteter Parameterbereich, Distanzintervall [L,U], Witnesses in Body- und Weltrahmen, relation={disjoint,touching,interference,containment,undecided}, status={certified-pass,certified-fail,unknown,excluded,stale}, Fehlerbudget und Abdeckung. Unsigned distance ist bei Solid-Overlap 0 mm; keine erfundene negative Eindringtiefe. Excluded ist niemals bestanden. Fehlende Parts, fehlende Bounds und ungelöste Intervalle verhindern einen vollständigen grünen Report; Sichtbarkeit hat keinen Einfluss auf den Prüfungsumfang. Guided-gap entscheidet über das globale Minimum: PASS nur L>=0.95 und U<=1.05 mm, FAIL bei U<0.95 oder L>1.05, sonst UNKNOWN. Für bewegte Mindestabstände reicht ein sicherer Verletzungszeuge; für PASS müssen alle Intervalle abgedeckt sein. Anzeige-/Mesh-/Numerikfehler strikt von Fertigungstoleranzen trennen. Zielwerte auf Marcs Rechner: warmes Scrubbing p95<=16.7 ms/Frame, Input-Reaktion<=50 ms, komplette aktuelle Pose-Abstandsanfrage p95<=100 ms; keine Geometrieneuberechnung pro Frame. Sechs vollständige R20-Motions als erster Hintergrund-Zielwert <=30 s nach BVH-Aufbau, sonst ehrlicher Fortschritt und Cancel. Das sind zu messende Budgets bei ausgewiesener Part-/Dreieck-/Paar-/Intervallzahl, keine heutigen Leistungsversprechen. MC1–MC8 zusammen geschätzt 7.5 Agent-Tage, optional MC9 weitere 1.5; ein Agent-Tag bedeutet acht Stunden inklusive gezielter unabhängiger Verifikation. Kleine vorhandene Fixes lagen bei 1–3 Stunden, neue zertifizierte Distanz/CCD-Funktionalität ist größer. Annahme: Workspace-Integration und verwendbare B-rep/Tessellierungsbounds verfügbar; fehlende R20-Teile zu konstruieren ist nicht eingepreist.",
+  "packages": [
+    {
+      "title": "MC1 Motion-Vertrag und Body-Bindings",
+      "scope": "Versionierten Adapter für r20/viewer-motion/v1 zum Workspace hinzufügen. Explizite stabile Occurrence-IDs, Binding (Modell-Key, Body-Identität, Revision, Layout-Aliase), joint DAG, home-frame, units, poses, motions und Provenienz normalisieren. Analysegeometrie als exact-body/bounded-mesh/outer-envelope/visual-only/missing unterscheiden. Aliasgruppen deduplizieren, Konflikte/fehlende Bodies melden. 15 Regeln und 36 Ausnahmen samt Originalgrund unverändert erhalten; explizite Regeln nicht durch exclude unterdrücken. Statische Rail-Hüllen separat binden. R20-Eingaben mit Herkunft einfrieren; Tests lesen niemals das Live-CAD-Projekt.",
+      "acceptance": "Gefrorener Vertrag ergibt vier Joints, 67 Layout-Keys, 23 eindeutige FS-Ziele, 22 Posen, sechs Motions, 15 Regeln, 36 Ausnahmen und sechs Rule/Exclude-Überschneidungen. Oracle: unabhängig erzeugte Zuordnung aus ~/Workspace/cad/cad-project-041/single-step-r20/tools/export_motion.py:21-36 und dem gelesenen Vertrag. Negative: doppeldeutiger Body-Name, Zyklus, falsche Einheit, fehlende Geometrie, falscher Joint für einen Alias und leerer Ausschlussgrund; jeweils Pfad/Grund, niemals Drop/Erfolg. Konkreter Negativfall: HOP_CHEEK_L/R10 bleibt trotz exclude eine guided_gap-Prüfung.",
+      "estimateAgentDays": 0.5,
+      "r20Impact": "Verhindert von Anfang an scheinbare Vollständigkeit mit 42 ungebundenen Parts und das versehentliche Bewegen der Rail-Hüllen.",
+      "dependsOn": []
+    },
+    {
+      "title": "MC2 Bodyweise Kinematik und interaktives Scrubbing",
+      "scope": "Return/rock/feed/service samt Limits, Posen und Einachs-Motions implementieren. Pro Body-Occurrence transformieren statt ganze FS-Modelle. Dieselbe Poseversion für Renderer, Picking, Sections, Maß-Witnesses und Selektion verwenden; immutable Geometrie/Draw-Buffers wiederverwenden. Autoritative Transformationen in Bend, leichte Anzeigeinterpolation ohne Sicherheitsurteil im Client. Service in Feeder-A-world links komponieren, äußere Workspace-Platzierung danach. Körper mit gleicher starrer Bewegung gruppieren.",
+      "acceptance": "Home, return90, return30/rock-25/service55, feed130 und deklarierter Service-Endpunkt550 stimmen mit unabhängigen Rodrigues-/Translationsformeln und gefrorenen Python-Kinematikresultaten überein. C bei return90 ist [0,129.42842497502681,334.346115903674] mm. Auswahl und Witness treffen auch unter nichtidentischer Workspace-Platzierung denselben sichtbaren Body. Negative: vertauschte Elternmultiplikation (Service-Abweichung 4.79813 mm), umgedrehtes Grad/Radiant, Return-Kürzestweg -2→186, mitbewegte context-Rail und statischer Rest von cores.fs. Kein Build-/Tessellierungsaufruf beim Scrubben.",
+      "estimateAgentDays": 0.5,
+      "r20Impact": "Marc kann die real gebauten Parts sofort bewegen; fehlende Teile bleiben sichtbar als Abdeckungslücke, nicht als angeblich kollisionsfreier Raum.",
+      "dependsOn": [
+        "MC1"
+      ]
+    },
+    {
+      "title": "MC3 Statischer Körperabstand mit belastbaren Bounds",
+      "scope": "Bend-API für zwei platzierte Bodies: vorhandene exakte Formen zuerst; sonst duale BVH, Vertex-Face-/Edge-Edge-Minima, robuste Crossing-Tests, Witness-Support und numerische Intervalle. Lokale Geometrie-/BVH-Caches, relative Transformation, Broadphase-Untergrenzen und Threshold-Queries. Geschlossene Komponenten/Containment separat klassifizieren. Nur notwendige Spatial-Bausteine aus Recovery nutzen; keine Vorab-Großrefaktorierung aller BVHs. Query-Pool um mehrere gepinnte Modelle pro Assembly-Query erweitern.",
+      "acceptance": "Minimalrepros: Boxen mit 5.99/6.00/6.01 mm Abstand, analytische Zylinder, skew Edge-Edge-Minimum ohne nächsten Vertex, Berührung, verschachtelte Solids, Hohlraum und zwei Komponenten. Oracles: geschlossene Formeln, unabhängig importierter STEP-Abstand/Klassifikation mit OCCT über uv; FCL auf derselben gefrorenen Mesh-Geometrie als zusätzlicher Differentialvergleich. Negative: Bounding-Box-Abstand als exakter Messwert, vollständig eingeschlossener Body, ausgelassene Mesh-Komponente, fast parallele Kanten und Translation um 1e6 mm. Erwartete Werte müssen im ausgegebenen Intervall liegen; unzertifizierte Geometrie bleibt UNKNOWN. Kein getrimmter Flächenabstand aus bloßen Supports.",
+      "estimateAgentDays": 1.5,
+      "r20Impact": "Schafft den bislang fehlenden Cross-Model-/Cross-Body-Abstand für K20, Pickup, Bridge, Schale und Arme.",
+      "dependsOn": [
+        "MC1",
+        "MC2"
+      ]
+    },
+    {
+      "title": "MC4 B-rep-zu-Analysemesh-Abdeckung und lokale Verfeinerung",
+      "scope": "Für die tatsächlich verwendeten R20-Flächentypen beidseitige Flächen-/Trim-Abdeckung und geschlossene Topologie sichern; numerische, Transformations- und Tessellierungsfehler separat budgetieren. Bestehende Anzeige-Meshes nur nach Prüfung zulassen. Exakte analytische Fälle umgehen Meshing. Für 1±0.05-mm-Regeln zunächst kombinierten geometrischen Fehler <=0.01 mm anstreben, ohne daraus eine pauschale Genauigkeitsgarantie zu machen; nur relevante BVH-Patches verfeinern. Outer-envelope-Evidenz darf nur sichere Separation beweisen, nicht Kollision oder nominalen Spalt.",
+      "acceptance": "Kreis-/Zylinder-Sagitta und ebene Trim-Polygone gegen geschlossene Formeln; R20 K20/R10 und BRIDGE/P03B_B gegen unabhängige OCCT-Distanz aus unverändertem STEP. Verfeinerung verkleinert [L,U] und erhält den Oracle-Wert. Negative: aus der Mitte eines Flächenpatches entfernte Dreiecke bei unverändertem Carrier-Residual, offene Shell, falsche Fehlerangabe und grobe Facetten nahe 0.95 mm. Alle müssen die Freigabe verhindern; eine bewusst konservative Hülle darf trotz Eigenüberschneidung keinen realen Clash behaupten. Neue Tests nutzen gefrorene Artefakte, nicht CAD-Livepfade.",
+      "estimateAgentDays": 1.5,
+      "r20Impact": "Verhindert, dass 0.02-mm-Displaytessellation oder unbewiesene Carrier-Toleranz als Nachweis des engen Führungsspalts verkauft wird.",
+      "dependsOn": [
+        "MC3"
+      ]
+    },
+    {
+      "title": "MC5 Kontinuierlicher Check der sechs Einachs-Motions",
+      "scope": "Adaptives Parameter-Branch-and-bound mit konservativen Verschiebungsbounds, Path-Knickpartition, Distanzintervallen und expliziten Arbeits-/Genauigkeitsgrenzen. Far-pair-Untergrenzen, relative Starrgruppen und Witness-Reuse verwenden. Resultat liefert vollständige Prüfspanne, globale [L,U], Verletzungszeugen und verbleibende Intervalle; stop-on-first-fail ist eine ausdrücklich unvollständige Report-Option. Cancel/Timeout ist UNKNOWN, nicht PASS.",
+      "acceptance": "Alle sechs eingefrorenen R20-Motions einschließlich overtravel_home/top und service laufen für die verfügbare Analysegeometrie; fehlende Rule-Partner verhindern einen Gesamt-PASS. Oracle: analytische Kugelbahn mit 6.06389236-mm-Endpunkten und 5.999-mm-Zwischenminimum, translierende Box sowie dicht ausgewertete unabhängige OCCT/FCL-Stichproben als Ergänzung, nicht als Continuous-Beweis. Gepflanzte Negative: nur Endpunkte prüfen, Radius zu klein, Bewegungsbound des zweiten Körpers weglassen, Service-Knick überspringen und Refinement-Budget erschöpfen. Kein Fall darf sicher bestanden melden.",
+      "estimateAgentDays": 1,
+      "r20Impact": "Macht moving_min 6 mm zu einer Aussage über die ganze deklarierte Bewegung statt über zufällig betrachtete Frames.",
+      "dependsOn": [
+        "MC3",
+        "MC4"
+      ]
+    },
+    {
+      "title": "MC6 Sonderregeln, Kontaktregionen und Abschattung",
+      "scope": "14 guided_gap-Regeln mit korrekt eingeschlossenem globalem Minimum und die shadowed-Regel getrennt auswerten. Generische Ausnahmen nur im ursprünglichen Paar-/Regions-Scope anwenden; zusammengeführte BRIDGE-Aliase benötigen regionale Bindings oder eine explizite ungelöste Ausnahme, keine pauschale Freistellung. Rasterabschattung als sampled anzeigen; für zugelassene planare Cover-Geometrie vollständige Projektions-/First-hit-Abdeckung in Bend prüfen. Home-Abschattung und bewegungsweite Abschattung sind explizit unterschiedliche Scopes; unsupported gekrümmte Abdeckung bleibt offen, nicht grün.",
+      "acceptance": "Gefrorene R20-Regelliste hat weiterhin 15 eigenständige Resultate, auch bei gleichzeitigem exclude. Analytischer geführter Boxspalt 1.00 mm besteht, 0.94 und 1.06 mm scheitern mit Oracle-Formel; ein Motion-Verlauf mit Minimum1.00 und später größerem Spalt wird nicht fälschlich wegen einer erfundenen Maximalspaltregel verworfen. Planarer Cover-Repro gegen exakte 2D-Polygonabdeckung: 0.2-mm-Schlitz zwischen 1-mm-Rasterstrahlen muss erkannt werden. Weitere Negative: Anschlag-Ausnahme auf ganzen BRIDGE ausweiten, Ausschlussgrund löschen, fehlenden HOP_CHEEK als frei behandeln. Echte R20-shadowed-Freigabe bleibt bis zum passenden Geometrie-/Scope-Nachweis offen.",
+      "estimateAgentDays": 1,
+      "r20Impact": "Erhält die beabsichtigten 1-mm-Führungen, Montagekontakte und Abschattung, statt alles pauschal an 6 mm zu messen oder auszublenden.",
+      "dependsOn": [
+        "MC1",
+        "MC4",
+        "MC5"
+      ]
+    },
+    {
+      "title": "MC7 Cycle-Timeline und nachvollziehbare Clearance-Reports",
+      "scope": "Posen/Motions sofort ausführbar; Cycle-States mit Quellstatus, explizit gebundenen Parametern und maschinenlesbaren Guards ergänzen. Nicht aufgelöste TBDs und natürliche Steuerungsbedingungen nicht erraten. Phasen-/Parameter-Zeitachse, Sekunden nur bei definiertem Profil; Playback-Speed separat. Freie Exploration klar von erlaubtem Cycle unterscheiden. Report je Paar/Regel mit [L,U], Grenze, Methode, Abdeckung, Witness/Intervall, Ausschlussgrund; Klick isoliert beide Bodies und springt zur Pose. Textstatus zusätzlich zu Farbe. Geometrieänderung, Rebinding oder andere Motion/Regel macht Resultate stale; Reviews speichern sämtliche beteiligten Revisionen und Occurrences.",
+      "acceptance": "Real R20 zeigt sieben States, sechs analysierbare Motions und alle fehlenden/TBD-Einträge ohne erfundene Sekunden. Closed-form-Boxrepro mit bekannter Violationspose: Report-Klick, Auswahl und 3D-Witness zeigen dieselbe Geometrie unter Workspace-Placement. Oracle sind der eingefrorene Vertrag und unabhängig berechnete Witness-Koordinaten. Negative: feed>0 bei return!=0 im Cycle, unerlaubte simultane Achsen, verspätete Query für eine alte Pose, Rebuild während Check und versteckter kollidierender Body. Kein stale oder unsichtbar gemachter Fall darf zum aktuellen Gesamt-PASS werden.",
+      "estimateAgentDays": 0.75,
+      "r20Impact": "Liefert den benutzbaren Ablauf- und Fehlerfinder, ohne unvollständige R10b-Referenzen als freigegebene R20-Steuerung darzustellen.",
+      "dependsOn": [
+        "MC2",
+        "MC5",
+        "MC6"
+      ]
+    },
+    {
+      "title": "MC8 R20-Integration, Latenz und unabhängige Verifikation",
+      "scope": "Auf eingefrorenem R20-Satz Cold-Build/BVH, warmen Bend-Query, Interop, Renderer und kompletten Motion-Check separat messen. Ein warmer Worker mit gepinnten beteiligten Geometrien statt Vier-Modell-LRU-Thrashing; latest-wins, begrenzte Queue, kooperative Cancellation und keine Geometriekopie pro Frame. Paar-/Dreieck-/Intervallzahlen sowie PASS/FAIL/UNKNOWN/MISSING/EXCLUDED als Nenner berichten. Kein Benchmark darf durch versteckte Bodies oder übersprungene Regeln schneller werden. Ergebnisse dienen unmittelbar dem Viewer-Check, kein zusätzliches Zertifikatsportal.",
+      "acceptance": "Ziel auf Marcs Rechner: warmes Scrubbing p95<=16.7 ms, Eingabereaktion<=50 ms, kompletter Pose-Query p95<=100 ms, sechs Motion-Checks nach Vorbereitung <=30 s; bei Überschreitung gemessene Ursache und ehrlicher Fortschritt, nicht verkleinerter Prüfungsumfang. Korrektheitsoracle: unabhängige OCCT-STEP-/Formelprüfungen an expliziter Quellrevision plus durch MC3–MC6 gepflanzte Negative. Zusätzlich Queue-Flut, Worker-Abbruch, sechs wechselnde Modellpartner und Rebuild einschleusen. Speicher bleibt begrenzt, alter Resultatstand wird nicht neu etikettiert. Durchsatzverbesserung zählt nur bei unverändertem Abdeckungsnenner und unverlorenen Negativfällen.",
+      "estimateAgentDays": 0.75,
+      "r20Impact": "Prüft, ob die Funktion mit der tatsächlichen R20-Geometrie interaktiv ist; verhindert UI-Blockaden und fälschliches Grün durch Caching/Last-good.",
+      "dependsOn": [
+        "MC3",
+        "MC4",
+        "MC5",
+        "MC6",
+        "MC7"
+      ]
+    },
+    {
+      "title": "MC9 Optional: gekoppelte Rückführung und Zweifeeder-Keep-outs",
+      "scope": "Nach verbindlicher Cycle-Quellenpräzedenz simultane Joint-Ketten mit konservativen Radius-/Geschwindigkeitsbounds prüfen; nur bei gemessenem Bedarf nichtlineares Tight-Inclusion-artiges CCD vertiefen. Zulässige ±5°-Kopplungsbereiche und Interlock-Guards als echte Konfigurationsdomäne behandeln. Statische Umgebung über wiederverwendbare bounded Sweeps beschleunigen. Zweiten Feeder nur mit expliziter Maschinenplatzierung und identifizierter Geometrie instanziieren; keine Zahlen aus den Kommentar-Garantien übernehmen.",
+      "acceptance": "Minimalrepro mit zwei rotierenden Gliedern gegen unabhängige geschlossene Kettenformel, plus zwei Körpern, deren räumliche Sweeps sich überlappen, die aber zeitlich getrennt passieren: keine erfundene Kollision. Danach gefrorene echte R20-Zweifeeder-Platzierung gegen OCCT-Stichproben und kontinuierliche Bounds. Negative: Elternrotation aus Geschwindigkeitsbound entfernen, beide Return-Achsen gleichzeitig ins 35–95°-Fenster lassen, Kopplung jenseits ±5°, linearer Rotationssehnen-CCD ohne Fehlerzugabe. Die behaupteten 13.24/7.9/6.11/-1.62-mm-Werte bleiben unbestätigt, bis exakt deren ursprüngliche Geometrie und Domäne reproduziert sind.",
+      "estimateAgentDays": 1.5,
+      "r20Impact": "Deckt später den real gekoppelten Rücklauf und die Maschinenpaar-Sicherheit ab; blockiert nicht den sofort nutzbaren Einfeeder-MVP.",
+      "dependsOn": [
+        "MC5",
+        "MC7",
+        "MC8"
+      ]
+    }
+  ],
+  "openQuestions": [
+    "Quellenpräzedenz des Cycle: Welche aktuellen R20-Werte ersetzen R_fwd/theta_fwd/R_hop/R_service und die alten rock=0-Übergänge? Annahme für den MVP: nichts interpolieren oder als zulässigen Cycle ausgeben, solange es nicht explizit gebunden ist; Posen und einzelne Analyse-Motions bleiben separat nutzbar.",
+    "Die 42 fs:null-Keys sind nicht vollständig prüfbar. Ein expliziter, gehashter Geometrie-/Occurrence-Manifest muss spätere tatsächliche Parts oder zulässige Hüllen zuordnen. Vorhandene alte R10b-Netze nicht ohne Provenienz und Gültigkeitsnachweis als aktuelle R20-Geometrie einsetzen.",
+    "Für zusammengeführte BRIDGE-Regionen fehlen robuste Subregion-Bindings; für Stop-/Flansch-Ausnahmen fehlen teils maschinenlesbare Zustands-/Kontaktgrenzen. Annahme: Originalausnahmen transparent erhalten, aber nicht auf zusätzliche Flächen oder Bewegungen ausweiten.",
+    "Soll shadowed nur die bislang implementierte Home-Rasterprüfung bedeuten oder lückenlose Abschattung der gesamten Region, eventuell über die Bewegung? Beide Ebenen unterscheiden; eine Raster-PASS-Aussage ist kein zertifizierter Schutz gegen Durchfallen durch kleinere Lücken.",
+    "Return-Minimaldauer und maximale Rampenzeit definieren keine vollständige Zeitfunktion; weitere Phasenzeiten fehlen. Bis zur Ergänzung normierte Phasen-/Driverachse statt scheinbar realistischer Sekunden, keine Dynamik-, Belastungs- oder Teilefall-Garantie.",
+    "Welche aktuelle Geometrie, Maschinenplatzierung und zulässige Konfigurationsdomäne liegen den Zweifeeder-Garantien zugrunde? Die Motion-Datei enthält Zahlen/Interlocks, aber keine zweite Assembly-Platzierung. Keine Reproduktion behauptet.",
+    "Vor der Implementierung Workspace-Stand erneut lesen: verwendete Dateien sind ein beweglicher uncommitteter Arbeitsstand. Ob Analysenetze bereits eine ausreichende beidseitige Trim-Abdeckung liefern, wurde hier nicht bewiesen. Das entscheidet den tatsächlichen Aufwand von MC4 und die erreichbare R20-Abdeckung.",
+    "Zeit-/Speicherziele sind vorgeschlagen, nicht gemessen. Die 7.5+1.5 Agent-Tage setzen Wiederverwendung vorhandener Geometrie-/Numerikbausteine voraus; fehlende CAD-Parts, allgemeine NURBS-Extrema, freie Mates, Physik und Fertigungstoleranzanalysen sind nicht enthalten."
+  ]
+}

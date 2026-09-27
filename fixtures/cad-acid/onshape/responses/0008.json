@@ -1,0 +1,155 @@
+{
+  "btType": "BTFeatureSpecsResponse-664",
+  "rejectMicroversionSkew": false,
+  "microversionSkew": false,
+  "featureSpecs": [
+    {
+      "btType": "BTFeatureSpec-129",
+      "parameters": [
+        {
+          "btType": "BTParameterSpecEnum-171",
+          "enumName": "AcidVariant",
+          "enumValueToVisibilityCondition": {},
+          "enumOptionVisibilityConditions": null,
+          "optionIconUris": [
+            "",
+            "",
+            "",
+            ""
+          ],
+          "options": [
+            "V0",
+            "V1",
+            "V2",
+            "V3"
+          ],
+          "defaultValue": {
+            "btType": "BTMParameterEnum-145",
+            "namespace": "e182fbbc2e2bd8c36cbbdf331::md4e8f6ba2b2ee1ddf9ebb620",
+            "nodeId": "MhljdPa8eqsV8G4Y3",
+            "value": "V0",
+            "enumName": "AcidVariant",
+            "libraryRelationType": "DEFAULT",
+            "parameterId": "variant",
+            "parameterName": ""
+          },
+          "namespace": "e182fbbc2e2bd8c36cbbdf331::md4e8f6ba2b2ee1ddf9ebb620",
+          "parameterId": "variant",
+          "parameterName": "Variant",
+          "uiHints": [],
+          "visibilityCondition": null,
+          "uiHint": "",
+          "optionNames": [
+            "Identity",
+            "Translation",
+            "Exact axis permutation",
+            "Skew about local pivot"
+          ],
+          "parameterDescription": "",
+          "columnName": "",
+          "iconUri": ""
+        },
+        {
+          "btType": "BTParameterSpecEnum-171",
+          "enumName": "AcidProfileZone",
+          "enumValueToVisibilityCondition": {},
+          "enumOptionVisibilityConditions": null,
+          "optionIconUris": [
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            ""
+          ],
+          "options": [
+            "ALL",
+            "AC01",
+            "AC02",
+            "AC03",
+            "AC04",
+            "AC05",
+            "AC07",
+            "AC08",
+            "AC09"
+          ],
+          "defaultValue": {
+            "btType": "BTMParameterEnum-145",
+            "namespace": "e182fbbc2e2bd8c36cbbdf331::md4e8f6ba2b2ee1ddf9ebb620",
+            "nodeId": "MccDD+K1az789Sxsn",
+            "value": "ALL",
+            "enumName": "AcidProfileZone",
+            "libraryRelationType": "DEFAULT",
+            "parameterId": "zone",
+            "parameterName": ""
+          },
+          "namespace": "e182fbbc2e2bd8c36cbbdf331::md4e8f6ba2b2ee1ddf9ebb620",
+          "parameterId": "zone",
+          "parameterName": "Zone",
+          "uiHints": [],
+          "visibilityCondition": null,
+          "uiHint": "",
+          "optionNames": [
+            "All profile zones",
+            "AC01 L profile",
+            "AC02 Inner loop",
+            "AC03 Obround",
+            "AC04 Quarter revolve",
+            "AC05 Square loft",
+            "AC07 Helix sweep",
+            "AC08 Circular pattern",
+            "AC09 Mirror"
+          ],
+          "parameterDescription": "",
+          "columnName": "",
+          "iconUri": ""
+        }
+      ],
+      "featureNameTemplate": "",
+      "parameterLibraryDefinitionIds": [],
+      "tooltipTemplate": "",
+      "descriptionImageUri": "",
+      "featureTypeDescription": "",
+      "languageVersion": 3044,
+      "editingLogic": null,
+      "filterSelectors": [],
+      "manipulatorChangeFunction": "",
+      "sourceMicroversionId": "d4e8f6ba2b2ee1ddf9ebb620",
+      "linkedLocationName": "",
+      "namespace": "e182fbbc2e2bd8c36cbbdf331::md4e8f6ba2b2ee1ddf9ebb620",
+      "groups": [],
+      "featureType": "acidProfile",
+      "featureTypeName": "CAD Acid: Sketch and profile",
+      "uiHints": [],
+      "sourceLocation": {
+        "btType": "BTLocationInfo-226",
+        "version": "d4e8f6ba2b2ee1ddf9ebb620",
+        "endLine": 264,
+        "character": 10884,
+        "line": 239,
+        "endColumn": 7,
+        "languageVersion": 3044,
+        "column": 28,
+        "endCharacter": 12498,
+        "moduleIds": {
+          "btType": "BTDocumentVersionElementIds-1897",
+          "versionId": "",
+          "elementId": "182fbbc2e2bd8c36cbbdf331",
+          "documentId": ""
+        },
+        "parseNodeId": "P1mEmeEdCLnmkRP+X",
+        "document": "182fbbc2e2bd8c36cbbdf331",
+        "elementMicroversion": "d4e8f6ba2b2ee1ddf9ebb620",
+        "nodeId": "f/CqvGo1INtaQt2O",
+        "topLevel": ""
+      },
+      "iconUri": ""
+    }
+  ],
+  "libraryVersion": 0,
+  "sourceMicroversion": "9381d487946bdc3875f67577",
+  "serializationVersion": "1.2.21"
+}

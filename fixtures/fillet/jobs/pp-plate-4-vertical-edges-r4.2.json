@@ -1,0 +1,90 @@
+{
+ "id": "pp-plate-4-vertical-edges-r4.2",
+ "jobSha256": "e69954b9b3c4c8594c08330059db39a4b70678e3102760c63552f1096ce04764",
+ "jobBytes": 1889,
+ "sourceSha256": "9ab78650bc51661a227f495daa85aba433be96f50ae623e1ef0fcbb54d73ce42",
+ "buildMs": 5.759666000000152,
+ "kernel": {
+  "closed": true,
+  "volumeMm3": 14400,
+  "areaMm2": 4080,
+  "precision": "F32x2",
+  "geometry": "planar"
+ },
+ "counts": {
+  "vertices": 8,
+  "edges": 12,
+  "faces": 6
+ },
+ "surfaces": {
+  "plane": 6
+ },
+ "quantizationErrorMm": 0,
+ "selected": [
+  {
+   "edge": 8,
+   "curve": "line",
+   "faces": [
+    "plane",
+    "plane"
+   ],
+   "convexity": "convex",
+   "dihedralDeg": 90,
+   "length": 12,
+   "sample": [
+    0,
+    0,
+    6
+   ]
+  },
+  {
+   "edge": 9,
+   "curve": "line",
+   "faces": [
+    "plane",
+    "plane"
+   ],
+   "convexity": "convex",
+   "dihedralDeg": 90,
+   "length": 12,
+   "sample": [
+    40,
+    0,
+    6
+   ]
+  },
+  {
+   "edge": 10,
+   "curve": "line",
+   "faces": [
+    "plane",
+    "plane"
+   ],
+   "convexity": "convex",
+   "dihedralDeg": 90,
+   "length": 12,
+   "sample": [
+    40,
+    30,
+    6
+   ]
+  },
+  {
+   "edge": 11,
+   "curve": "line",
+   "faces": [
+    "plane",
+    "plane"
+   ],
+   "convexity": "convex",
+   "dihedralDeg": 90,
+   "length": 12,
+   "sample": [
+    0,
+    30,
+    6
+   ]
+  }
+ ],
+ "step": "out/fillet/input-step/pp-plate-4-vertical-edges-r4.2.step"
+}

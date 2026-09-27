@@ -1,0 +1,59 @@
+{
+ "id": "pc-bump-generator-concave-r1",
+ "jobSha256": "338f48ceaa83b5259952d00bb73a83016877e117b1af6cf43b69fb69cb1fce24",
+ "jobBytes": 2817,
+ "sourceSha256": "9ec1eea7aa412178725050c0d2cdc306e3b7f65c95a5ff775bbef2e9420a8e97",
+ "buildMs": 10.800000000000182,
+ "kernel": {
+  "closed": true,
+  "volumeMm3": 2714.1592653589832,
+  "areaMm2": null,
+  "precision": "F32x2",
+  "geometry": "analytic"
+ },
+ "counts": {
+  "vertices": 12,
+  "edges": 18,
+  "faces": 8
+ },
+ "surfaces": {
+  "plane": 7,
+  "cylinder": 1
+ },
+ "quantizationErrorMm": 0,
+ "selected": [
+  {
+   "edge": 15,
+   "curve": "line",
+   "faces": [
+    "plane",
+    "cylinder"
+   ],
+   "convexity": "concave",
+   "dihedralDeg": 270,
+   "length": 8,
+   "sample": [
+    20,
+    10,
+    4
+   ]
+  },
+  {
+   "edge": 16,
+   "curve": "line",
+   "faces": [
+    "cylinder",
+    "plane"
+   ],
+   "convexity": "concave",
+   "dihedralDeg": 270,
+   "length": 8,
+   "sample": [
+    10,
+    10,
+    4
+   ]
+  }
+ ],
+ "step": "out/fillet/input-step/pc-bump-generator-concave-r1.step"
+}

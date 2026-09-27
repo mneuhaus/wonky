@@ -1,0 +1,47 @@
+{
+  "schema": "wonky-exact-certificate/v1",
+  "encoding": "Each input is a finite binary64 value written in Python float.hex() form; conversion to Fraction.from_float is exact.",
+  "judgments": {
+    "Sign": "value is Positive, Negative, or Zero and must equal the exact sign.",
+    "Proven": "value is '=' or '!=' and must match whether the exact expression is zero.",
+    "Refuse": "A named conservative refusal; the judge checks the predicate and inputs but makes no completeness claim."
+  },
+  "predicates": [
+    {
+      "name": "orient2d",
+      "inputs": ["ax", "ay", "bx", "by", "cx", "cy"],
+      "formula": "(bx-ax)*(cy-ay) - (by-ay)*(cx-ax)",
+      "meaning": "Sign of the oriented area determinant."
+    },
+    {
+      "name": "orient3d",
+      "inputs": ["ax", "ay", "az", "bx", "by", "bz", "cx", "cy", "cz", "dx", "dy", "dz"],
+      "formula": "det(b-a, c-a, d-a)",
+      "meaning": "Sign convention used by wonky-num: positive when d is on the side of (b-a) cross (c-a)."
+    },
+    {
+      "name": "incircle",
+      "inputs": ["ax", "ay", "bx", "by", "cx", "cy", "dx", "dy"],
+      "formula": "|a-d|^2*cross(b-d,c-d) + |b-d|^2*cross(c-d,a-d) + |c-d|^2*cross(a-d,b-d)",
+      "meaning": "Sign of the translated in-circle determinant; positive means inside for counterclockwise abc."
+    },
+    {
+      "name": "plane_side",
+      "inputs": ["nx", "ny", "nz", "px", "py", "pz", "ox", "oy", "oz"],
+      "formula": "n dot (p-o)",
+      "meaning": "Exact sign of the point relative to the plane through o with normal n."
+    },
+    {
+      "name": "one_surd_sign",
+      "inputs": ["a", "b", "c"],
+      "formula": "a + b*sqrt(c), c >= 0",
+      "meaning": "Exact sign by sign cases and one squared-magnitude comparison."
+    },
+    {
+      "name": "two_surd_sign",
+      "inputs": ["a", "b", "c", "d", "e"],
+      "formula": "a + b*sqrt(c) + d*sqrt(e), c >= 0, e >= 0",
+      "meaning": "Exact sign by first resolving a+b*sqrt(c), then a sign-aware squared-magnitude comparison."
+    }
+  ]
+}

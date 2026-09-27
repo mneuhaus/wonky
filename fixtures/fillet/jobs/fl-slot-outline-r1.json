@@ -1,0 +1,91 @@
+{
+ "id": "fl-slot-outline-r1",
+ "jobSha256": "aa4b7ba0945134977b4b8b1c2c877ff6f1a13477cabec6a9ebe07542264d7a49",
+ "jobBytes": 2060,
+ "sourceSha256": "736070b733803990cb8c7e9f033a051a47b3e05b5caef7a6ce222b4184bcd886",
+ "buildMs": 10.39366599999994,
+ "kernel": {
+  "closed": true,
+  "volumeMm3": 1114.1592653589796,
+  "areaMm2": null,
+  "precision": "F32x2",
+  "geometry": "analytic"
+ },
+ "counts": {
+  "vertices": 8,
+  "edges": 12,
+  "faces": 6
+ },
+ "surfaces": {
+  "plane": 4,
+  "cylinder": 2
+ },
+ "quantizationErrorMm": 0,
+ "selected": [
+  {
+   "edge": 4,
+   "curve": "line",
+   "faces": [
+    "plane",
+    "plane"
+   ],
+   "convexity": "convex",
+   "dihedralDeg": 90,
+   "length": 20,
+   "sample": [
+    10,
+    0,
+    4
+   ]
+  },
+  {
+   "edge": 5,
+   "curve": "circle",
+   "faces": [
+    "plane",
+    "cylinder"
+   ],
+   "convexity": "convex",
+   "dihedralDeg": 90,
+   "length": 15.707864701835483,
+   "sample": [
+    25,
+    5.000000000000009,
+    4
+   ]
+  },
+  {
+   "edge": 6,
+   "curve": "line",
+   "faces": [
+    "plane",
+    "plane"
+   ],
+   "convexity": "convex",
+   "dihedralDeg": 90,
+   "length": 20,
+   "sample": [
+    10,
+    10,
+    4
+   ]
+  },
+  {
+   "edge": 7,
+   "curve": "circle",
+   "faces": [
+    "plane",
+    "cylinder"
+   ],
+   "convexity": "convex",
+   "dihedralDeg": 90,
+   "length": 15.707864701835451,
+   "sample": [
+    -5,
+    5.000000000000009,
+    4
+   ]
+  }
+ ],
+ "step": "out/fillet/input-step/fl-slot-outline-r1.step"
+}

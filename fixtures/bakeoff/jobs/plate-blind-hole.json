@@ -1,0 +1,53 @@
+{
+ "schema": "wonky-bakeoff-fixture/1",
+ "case": "plate-blind-hole",
+ "category": "holes",
+ "deviationMm": 0.01,
+ "location": "fixtures/bakeoff/jobs",
+ "job": "fixtures/bakeoff/jobs/plate-blind-hole.job",
+ "csgJob": "fixtures/bakeoff/jobs/plate-blind-hole.csg.job",
+ "jobBytes": 6901,
+ "jobSha256": "9a0525a38935f9bc3c4b046e86128db644b0ad9f84600aacf47cb7fb220085a2",
+ "csgJobSha256": "5dbbd1ad4dd3b0e2bcb6a77448950948f11fa6c8c839e116a7a61a104c1d05b0",
+ "leaves": 2,
+ "faces": 9,
+ "vertices": 82,
+ "triangles": 156,
+ "deviationMeasuredMaxMm": 0.009513254770641133,
+ "leafInfo": [
+  {
+   "leaf": 0,
+   "prim": "box",
+   "vertices": 8,
+   "triangles": 12,
+   "tags": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5
+   ],
+   "deviationMeasuredMm": 0,
+   "deviationMethod": "exact-planar",
+   "vertexOnSurfaceMaxMm": 0,
+   "analyticVolume": 5400
+  },
+  {
+   "leaf": 1,
+   "prim": "cylinder",
+   "vertices": 74,
+   "triangles": 144,
+   "tags": [
+    6,
+    7,
+    8
+   ],
+   "segments": 36,
+   "deviationMeasuredMm": 0.009513254770641133,
+   "deviationMethod": "barycentric-grid-8 (max lies on sampled chord midlines)",
+   "vertexOnSurfaceMaxMm": 2.2648549702353193e-14,
+   "analyticVolume": 98.17477042468104
+  }
+ ]
+}

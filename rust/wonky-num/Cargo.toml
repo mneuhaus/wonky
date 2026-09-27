@@ -1,0 +1,29 @@
+[package]
+name = "wonky-num"
+version = "0.1.0"
+edition = "2021"
+description = "Numeric core of the wonky Rust kernel: ball arithmetic, exact expansion predicates, Result-based decisions"
+publish = false
+
+[dependencies]
+
+[dev-dependencies]
+# Exact rational reference for the property tests only (never a runtime dependency).
+num-bigint = "0.4"
+num-rational = "0.4"
+num-traits = "0.2"
+
+[features]
+# Planted negatives (docs/rust-migration.md 6, K0). Never in a production build; each must
+# make `cargo test --release -p wonky-num --features <name> --test properties` fail.
+# plant_filter: the static filters lose their error term (bound = 0).
+plant_filter = []
+# plant_filter_abs: the static filters lose only their absolute (underflow) term 2^-1000;
+# caught by tests/subnormal_cancellation.rs (the random and near-degenerate suites never reach that regime).
+plant_filter_abs = []
+# plant_two_prod: two_prod drops its FMA error term.
+plant_two_prod = []
+# plant_swallow: segment_plane swallows an Undecided instead of returning it.
+plant_swallow = []
+# plant_no_range: check_range accepts everything (subnormals, NaN, huge values reach the filters).
+plant_no_range = []

@@ -1,0 +1,14 @@
+a35070078a6a56b47baf7e8f78dbd3ab8a40479b8b32ee3c54ccf236a0726ce2  tolerance-witness.json
+f960247b0897dc8e695735d5a8a9af30067d416ad939e23fe29989bfa2f57a28  tolerance-provenance.json
+eb8a8fea7c9bf5d0ab40787dd03f819ba4f62c756f88050e29efc303db08d700  artifacts/occt-a/occt/precision/V0/AC44/model.step
+9b465bdefcae10f4642fa4ecf81b39bdec9fef3df788ecca0c342d6bec6811cd  artifacts/occt-a/occt/precision/V1/AC44/model.step
+ed51aad59462043c26873ace2cdc5f551f5f2e0933e45addf1147dcb434a9eae  artifacts/occt-a/occt/precision/V2/AC44/model.step
+7bfa334adc2e563aacad0daf911990f019fc40f18f41e93348bf3a5ada9569b9  artifacts/occt-a/occt/precision/V3/AC44/model.step
+47ae41996faf51523e24e13ce26429452b74ad2189abff4bc0a4d8be242c6eb2  artifacts/occt-b/occt/curved/V0/AC20/model.step
+79be7b159adb3035edb7169cee55f6e0d611015c6b8b0706f0ea56a1cc59b63e  artifacts/occt-b/occt/curved/V0/AC22/model.step
+a8b27633ca099432a50bb2f72c8af179a17df6b9f4aa7d32cc4a41a461338b81  artifacts/occt-b/occt/curved/V1/AC20/model.step
+1330e84a555a10a0e9a4c2342cac16b7fb1d0a124c5d74259aa8bb4d24bf3db7  artifacts/occt-b/occt/curved/V1/AC22/model.step
+a53d6259ad5f5bfbb356838a672987d2d29daddc6b8fbb24fb8eda9329c7704d  artifacts/occt-b/occt/curved/V2/AC20/model.step
+29a4a5e98c644700424028c725c5b830396e13f11ea2fea4b16d077f23638269  artifacts/occt-b/occt/curved/V2/AC22/model.step
+1c333b8293f3dc602a4b9537707eae12283aa5b2b74f1e2c0c349d01b5a8b74b  artifacts/occt-b/occt/curved/V3/AC20/model.step
+8794cd1ac7459c58f4b1014288a2f76c0cbae0f1111da201a0de2d94a0f09dca  artifacts/occt-b/occt/curved/V3/AC22/model.step

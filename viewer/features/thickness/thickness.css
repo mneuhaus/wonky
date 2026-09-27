@@ -1,0 +1,284 @@
+/* Thickness feature: rail tool, result card at the lower left of the stage,
+   overlay line (measured span), dashed ray with blocking markers (refusal). */
+
+#model-canvas[data-tool="thickness"] {
+  cursor: crosshair;
+}
+
+.tool[data-tool="thickness"].locked {
+  box-shadow: inset 0 0 0 1.5px var(--green);
+}
+
+.thickness-panel {
+  position: absolute;
+  left: 76px;
+  top: 86px;
+  z-index: 11;
+  width: 318px;
+  max-width: calc(100% - 180px);
+  max-height: calc(100% - 180px);
+  overflow: auto;
+  padding: 9px 11px 10px;
+  background: color-mix(in srgb, var(--surface) 96%, transparent);
+  border-radius: 10px;
+  box-shadow: var(--shadow);
+  font-size: 12px;
+  color: var(--ink);
+}
+
+.thickness-panel[hidden],
+.thickness-body[hidden] {
+  display: none;
+}
+
+.thickness-head {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.thickness-title {
+  font-weight: 650;
+}
+
+.thickness-state {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.thickness-state-measured {
+  color: var(--ink);
+}
+
+.thickness-state-pending {
+  color: var(--blue);
+}
+
+.thickness-state-unresolved,
+.thickness-state-no-hit,
+.thickness-state-unsupported,
+.thickness-state-error {
+  color: var(--danger);
+}
+
+.thickness-icon {
+  width: 22px;
+  height: 22px;
+  border: 0;
+  border-radius: 5px;
+  background: transparent;
+  color: var(--muted);
+  font-size: 15px;
+  line-height: 1;
+}
+
+.thickness-icon:hover,
+.thickness-small:hover,
+.thickness-alias:hover {
+  background: var(--green-soft);
+  color: var(--green);
+}
+
+.thickness-small {
+  padding: 2px 7px;
+  border: 1px solid var(--line);
+  border-radius: 5px;
+  background: var(--surface);
+  color: var(--ink);
+  font-size: 11px;
+}
+
+.thickness-small[hidden] {
+  display: none;
+}
+
+.thickness-body p {
+  margin: 6px 0 0;
+  line-height: 1.4;
+}
+
+.thickness-result strong {
+  font-size: 17px;
+  font-weight: 650;
+}
+
+.thickness-refused strong {
+  color: var(--danger);
+  font-size: 14px;
+}
+
+.thickness-tolerance,
+.thickness-faces small {
+  color: var(--muted);
+  font-size: 11px;
+}
+
+.thickness-note {
+  color: var(--muted);
+  font-size: 11px;
+}
+
+.thickness-pending {
+  color: var(--blue);
+}
+
+.thickness-verbatim {
+  color: var(--ink);
+}
+
+.thickness-alias {
+  padding: 0 4px;
+  border: 0;
+  border-radius: 4px;
+  background: var(--canvas);
+  color: var(--ink);
+  font: inherit;
+  font-size: 11px;
+  font-variant-numeric: tabular-nums;
+}
+
+.thickness-foot {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  margin-top: 6px;
+}
+
+.thickness-how {
+  flex: 1;
+  min-width: 0;
+  color: var(--muted);
+  font-size: 11px;
+}
+
+.thickness-how summary {
+  cursor: pointer;
+}
+
+.thickness-how ul {
+  margin: 4px 0 0;
+  padding-left: 14px;
+}
+
+.thickness-how li {
+  margin-top: 2px;
+  line-height: 1.35;
+  overflow-wrap: anywhere;
+}
+
+.thickness-blocking {
+  margin: 6px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.thickness-blocking li {
+  padding: 4px 0;
+  border-top: 1px solid var(--line);
+}
+
+.thickness-blocking small {
+  display: block;
+  margin-top: 2px;
+  color: var(--muted);
+  font-size: 11px;
+}
+
+.thickness-reason {
+  color: var(--danger);
+  font-weight: 600;
+}
+
+/* SVG overlay layer thickness.probe. */
+.thickness-halo {
+  stroke: color-mix(in srgb, var(--surface) 85%, transparent);
+  stroke-width: 5;
+  stroke-linecap: round;
+}
+
+.thickness-line {
+  stroke: var(--ink);
+  stroke-width: 2;
+  stroke-linecap: round;
+}
+
+.thickness-ray {
+  stroke: var(--danger);
+  stroke-width: 1.6;
+  stroke-dasharray: 5 4;
+}
+
+.thickness-end {
+  fill: var(--copper);
+  stroke: var(--surface);
+  stroke-width: 1;
+}
+
+.thickness-pulse {
+  fill: none;
+  stroke: var(--blue);
+  stroke-width: 1.5;
+  opacity: 0.8;
+  animation: thickness-pulse 900ms ease-out infinite;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+@keyframes thickness-pulse {
+  from {
+    transform: scale(0.4);
+    opacity: 0.9;
+  }
+
+  to {
+    transform: scale(1.4);
+    opacity: 0;
+  }
+}
+
+.thickness-block path {
+  stroke: var(--danger);
+  stroke-width: 2.2;
+  stroke-linecap: round;
+}
+
+.thickness-box {
+  fill: color-mix(in srgb, var(--surface) 95%, transparent);
+  stroke: var(--line-strong);
+  stroke-width: 1;
+}
+
+.thickness-value {
+  fill: var(--ink);
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.thickness-kind-ray .thickness-value {
+  fill: var(--danger);
+}
+
+.thickness-chip {
+  fill: var(--green);
+  font-size: 11px;
+  font-weight: 500;
+}
+
+.thickness-detail {
+  fill: var(--muted);
+  font-size: 11px;
+}
+
+@media (max-width: 900px) {
+  .thickness-panel {
+    left: 64px;
+    top: 78px;
+    width: min(290px, calc(100% - 76px));
+  }
+}

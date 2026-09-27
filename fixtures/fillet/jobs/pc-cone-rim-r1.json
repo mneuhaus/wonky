@@ -1,0 +1,43 @@
+{
+ "id": "pc-cone-rim-r1",
+ "jobSha256": "13991f817f66f79b1e536017b1626357d18e633f28eb52bbf7e4a9eb96825e98",
+ "jobBytes": 748,
+ "sourceSha256": "9e1309c203a5656d82353153299ec52a081632ec1f692ff5a672057ca1411a82",
+ "buildMs": 1.2806249999998727,
+ "kernel": {
+  "closed": true,
+  "volumeMm3": 1350.8848410436076,
+  "areaMm2": null,
+  "precision": "F32x2",
+  "geometry": "analytic"
+ },
+ "counts": {
+  "vertices": 2,
+  "edges": 3,
+  "faces": 3
+ },
+ "surfaces": {
+  "plane": 2,
+  "cone": 1
+ },
+ "quantizationErrorMm": 0,
+ "selected": [
+  {
+   "edge": 1,
+   "curve": "circle",
+   "faces": [
+    "plane",
+    "cone"
+   ],
+   "convexity": "convex",
+   "dihedralDeg": 106.69924423399371,
+   "length": 31.415138011442924,
+   "sample": [
+    -5,
+    6.123233995736766e-16,
+    10
+   ]
+  }
+ ],
+ "step": "out/fillet/input-step/pc-cone-rim-r1.step"
+}

@@ -1,0 +1,53 @@
+{
+ "schema": "wonky-bakeoff-fixture/1",
+ "case": "cylinder-tangent-box-face",
+ "category": "tangent",
+ "deviationMm": 0.01,
+ "location": "fixtures/bakeoff/jobs",
+ "job": "fixtures/bakeoff/jobs/cylinder-tangent-box-face.job",
+ "csgJob": "fixtures/bakeoff/jobs/cylinder-tangent-box-face.csg.job",
+ "jobBytes": 9628,
+ "jobSha256": "333d614e34247550ab304f2f4f95d5beaca236bc1bf19fe108de74315a112d88",
+ "csgJobSha256": "736a4a67263e3f08bcc9b80faa6a9c847a5864ee1825a6af1d3d74a5eb319dbf",
+ "leaves": 2,
+ "faces": 9,
+ "vertices": 114,
+ "triangles": 220,
+ "deviationMeasuredMaxMm": 0.009122228883429173,
+ "leafInfo": [
+  {
+   "leaf": 0,
+   "prim": "box",
+   "vertices": 8,
+   "triangles": 12,
+   "tags": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5
+   ],
+   "deviationMeasuredMm": 0,
+   "deviationMethod": "exact-planar",
+   "vertexOnSurfaceMaxMm": 0,
+   "analyticVolume": 8000
+  },
+  {
+   "leaf": 1,
+   "prim": "cylinder",
+   "vertices": 106,
+   "triangles": 208,
+   "tags": [
+    6,
+    7,
+    8
+   ],
+   "segments": 52,
+   "deviationMeasuredMm": 0.009122228883429173,
+   "deviationMethod": "barycentric-grid-8 (max lies on sampled chord midlines)",
+   "vertexOnSurfaceMaxMm": 2.842170943040401e-14,
+   "analyticVolume": 2356.194490192345
+  }
+ ]
+}

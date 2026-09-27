@@ -1,0 +1,10 @@
+[package]
+name = "wonky-radical3"
+version = "0.1.0"
+edition = "2021"
+publish = false
+description = "Bounded exact signs in three square-root generators for wonky fillet decisions"
+
+[dependencies]
+wonky-num = { path = "../wonky-num" }
+

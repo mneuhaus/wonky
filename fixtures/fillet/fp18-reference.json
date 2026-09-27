@@ -1,0 +1,731 @@
+{
+  "schema": "wonky/fillet-onshape-probe/v1",
+  "what": "FP18 (docs/fillet-housestyle.md section 5). Input and selection: fixtures/fillet/fp18.fs, feature fp18CurvedSection; one feature per case with the parameters below (dx only shifts the case in the shared Part Studio).",
+  "provenance": {
+    "date": "2026-09-25",
+    "by": "wonky-kernel onshape-probes",
+    "transport": "Onshape session bridge (signed-in session), no API key",
+    "document": {
+      "id": "6e35f6ea9e6d9683e0b6e6af",
+      "workspace": "27c6f4087011c61a409db71c",
+      "partStudio": "60022e287ad90b8a37782626",
+      "featureStudio": "60e3efba3bb869a7631ea760",
+      "namespace": "e60e3efba3bb869a7631ea760::mb98ae8ab4b6f07494f98b8d5",
+      "public": true,
+      "name": "wonky fillet probe FP18 (housestyle section 5)"
+    },
+    "source": {
+      "file": "fixtures/fillet/fp18.fs",
+      "sha256": "cc5ea1cb6ea0d512821ea793c8af8253d5948404bd773eb6201ebe8034ebd55d",
+      "featureScript": 3044
+    },
+    "calls": 13,
+    "endpoints": "features POST (featureState.featureStatus), parts (name, description carrying the input volume from evVolume), massproperties (volume [value,min,max] in m^3, converted to mm^3), bodydetails (faces with surface parameters, edges with curve types, vertices), tessellatedfaces (angleTolerance 0.05, chordTolerance 0.05, as the R20 KS meshes) written as binary STL in mm",
+    "onshapeMicroversions": [
+      "d4432e8ab508faa925acdfc1",
+      "ca1512a47a2b7b81d834c24d",
+      "0d381163d6be1034dc58408a",
+      "92be024e11ccdd0b72f86753",
+      "63b224b4dc15d5984c1afda7",
+      "f604f7ca88c40aa6246c665c",
+      "276e4e5701d4a2b6c7a55e25",
+      "7365e9d4388b175a4b54ecf7",
+      "92179b95ac79ceef4192367d"
+    ],
+    "wonkyRevision": "84ae1ef"
+  },
+  "observations": [
+    "Chamfer faces are planes. EQUAL_OFFSETS w = 1 is w along the plane and a chord of length w on the cylinder, in all three parts: chord from the edge to the cylinder contact 1.0000000003 (a), 1.0000000003 (b), 1.0000000005 (c) from the 9-decimal bodydetails end points; the contact points lie on the cylinder (radius 10.0000000004 / 10.0000000003).",
+    "a, closed form of the chord reading: 20 x (pi 100 - flat segment - 2 (triangle + circular segment)) = 5676.889051025038; Onshape 5676.88905102504 (4e-16). The arc reading gives 5676.895979244673, also inside Onshape's interval, so the interval alone does not separate the two; the value and the contact points do."
+  ],
+  "faceListFormat": "id, area mm^2, surface type and Onshape surface parameters (lengths in mm; normals/axes unit vectors)",
+  "cases": {
+    "a": {
+      "parameters": {
+        "w": "1 mm",
+        "dflat": true,
+        "a": "0 mm",
+        "dx": "0 mm"
+      },
+      "featureId": "FLqvNnXyVuSz6in_0",
+      "featureStatus": "OK",
+      "partId": "JHD",
+      "name": "FP18a D-flat w1",
+      "description": "input_volume_mm3=5692.187626807298",
+      "volume": 5676.88905102504,
+      "volumeMin": 5676.570821646286,
+      "volumeMax": 5677.207280403794,
+      "inputVolume": 5692.187626807298,
+      "deltaVolume": -15.298575782258013,
+      "area": 1784.7653359326214,
+      "centroid": null,
+      "bbox": [
+        [
+          -10,
+          -10,
+          0
+        ],
+        [
+          7,
+          10,
+          20
+        ]
+      ],
+      "faces": 6,
+      "edges": 12,
+      "vertices": 8,
+      "faceTypes": {
+        "cylinder": 1,
+        "plane": 5
+      },
+      "edgeTypes": {
+        "line": 10,
+        "circle": 2
+      },
+      "faceList": [
+        {
+          "id": "JOO",
+          "area": 898.460843917643,
+          "type": "cylinder",
+          "origin": [
+            0,
+            0,
+            20
+          ],
+          "axis": [
+            0,
+            0,
+            -1
+          ],
+          "radius": 10
+        },
+        {
+          "id": "JOW",
+          "area": 283.84445255125195,
+          "type": "plane",
+          "origin": [
+            0,
+            0,
+            20
+          ],
+          "normal": [
+            0,
+            0,
+            1
+          ]
+        },
+        {
+          "id": "JOS",
+          "area": 283.84445255125195,
+          "type": "plane",
+          "origin": [
+            0,
+            0,
+            0
+          ],
+          "normal": [
+            0,
+            0,
+            1
+          ]
+        },
+        {
+          "id": "JOK",
+          "area": 245.65713714171875,
+          "type": "plane",
+          "origin": [
+            7,
+            0,
+            21
+          ],
+          "normal": [
+            -1,
+            0,
+            0
+          ]
+        },
+        {
+          "id": "JOG",
+          "area": 36.47922488537782,
+          "type": "plane",
+          "origin": [
+            6.251750394,
+            7.804845739,
+            20
+          ],
+          "normal": [
+            -0.911980622,
+            -0.410233281,
+            0
+          ]
+        },
+        {
+          "id": "JOC",
+          "area": 36.47922488537782,
+          "type": "plane",
+          "origin": [
+            6.251750394,
+            -7.804845739,
+            20
+          ],
+          "normal": [
+            0.911980622,
+            -0.410233281,
+            0
+          ]
+        }
+      ],
+      "stl": {
+        "file": "fixtures/fillet/onshape/fp18/fp18a.stl",
+        "sha256": "9491766d0ff55e08b3aa05d03d695e22d924360177246ca4009c71a31f278516",
+        "triangles": 368,
+        "faceTriangles": [
+          [
+            "JOO",
+            "cylinder",
+            0,
+            180
+          ],
+          [
+            "JOW",
+            "plane",
+            180,
+            91
+          ],
+          [
+            "JOS",
+            "plane",
+            271,
+            91
+          ],
+          [
+            "JOK",
+            "plane",
+            362,
+            2
+          ],
+          [
+            "JOG",
+            "plane",
+            364,
+            2
+          ],
+          [
+            "JOC",
+            "plane",
+            366,
+            2
+          ]
+        ]
+      },
+      "wonky": {
+        "command": "NODE_OPTIONS=--max-old-space-size=8192 node bin/wonky.mjs fixtures/fillet/fp18.fs --feature fp18CurvedSection --param 'w=1 * millimeter' --param 'dflat=true' --param 'a=0 * millimeter' --param 'dx=0 * millimeter'",
+        "name": "w-fp18a",
+        "result": "refused",
+        "refusal": "fixtures/fillet/fp18.fs:77:9: opChamfer is not implemented for this input: not-implemented: chamfer setback along a curved section (cylinder support of a line edge) [order 4 5]",
+        "maxRssMB": 269
+      },
+      "centroidNote": "not available: Onshape massproperties without an assigned density report [0,0,0]"
+    },
+    "b": {
+      "parameters": {
+        "w": "1 mm",
+        "dflat": false,
+        "a": "5 mm",
+        "dx": "50 mm"
+      },
+      "featureId": "F9tS0DO1COGPAb3_1",
+      "featureStatus": "OK",
+      "partId": "JRD",
+      "name": "FP18 groove a5 w1",
+      "description": "input_volume_mm3=10771.630301391242",
+      "volume": 10763.397671279587,
+      "volumeMin": 10762.910180666497,
+      "volumeMax": 10763.885161892676,
+      "inputVolume": 10771.630301391242,
+      "deltaVolume": -8.232630111655453,
+      "area": 3143.930622157098,
+      "centroid": null,
+      "bbox": [
+        [
+          35,
+          -10,
+          0
+        ],
+        [
+          65,
+          10,
+          20
+        ]
+      ],
+      "faces": 9,
+      "edges": 21,
+      "vertices": 14,
+      "faceTypes": {
+        "plane": 8,
+        "cylinder": 1
+      },
+      "edgeTypes": {
+        "line": 19,
+        "circle": 2
+      },
+      "faceList": [
+        {
+          "id": "JXO",
+          "area": 126.79491924311225,
+          "type": "plane",
+          "origin": [
+            50,
+            0,
+            20
+          ],
+          "normal": [
+            0,
+            0,
+            1
+          ]
+        },
+        {
+          "id": "JYS",
+          "area": 106.7949192431121,
+          "type": "plane",
+          "origin": [
+            50,
+            0,
+            20
+          ],
+          "normal": [
+            0,
+            0,
+            1
+          ]
+        },
+        {
+          "id": "JRC",
+          "area": 400,
+          "type": "plane",
+          "origin": [
+            35,
+            0,
+            20
+          ],
+          "normal": [
+            -1,
+            0,
+            0
+          ]
+        },
+        {
+          "id": "JYK",
+          "area": 538.1698835639794,
+          "type": "plane",
+          "origin": [
+            50,
+            -10,
+            20
+          ],
+          "normal": [
+            0,
+            1,
+            0
+          ]
+        },
+        {
+          "id": "JRO",
+          "area": 400,
+          "type": "plane",
+          "origin": [
+            65,
+            0,
+            20
+          ],
+          "normal": [
+            -1,
+            0,
+            0
+          ]
+        },
+        {
+          "id": "JYO",
+          "area": 538.1698835639794,
+          "type": "plane",
+          "origin": [
+            50,
+            10,
+            20
+          ],
+          "normal": [
+            0,
+            1,
+            0
+          ]
+        },
+        {
+          "id": "JRG",
+          "area": 600,
+          "type": "plane",
+          "origin": [
+            50,
+            0,
+            0
+          ],
+          "normal": [
+            0,
+            0,
+            1
+          ]
+        },
+        {
+          "id": "JYG",
+          "area": 398.870677756331,
+          "type": "cylinder",
+          "origin": [
+            50,
+            11,
+            25
+          ],
+          "axis": [
+            0,
+            -1,
+            0
+          ],
+          "radius": 10
+        },
+        {
+          "id": "JYC",
+          "area": 35.13033878658367,
+          "type": "plane",
+          "origin": [
+            59.660254038,
+            11,
+            20
+          ],
+          "normal": [
+            0.478186219,
+            0,
+            -0.87825847
+          ]
+        }
+      ],
+      "stl": {
+        "file": "fixtures/fillet/onshape/fp18/fp18b.stl",
+        "sha256": "0c7f660edc599aaf7497caf687bb251a3aa24d0d0fd0f047d0a89394d56b0bc3",
+        "triangles": 180,
+        "faceTriangles": [
+          [
+            "JXO",
+            "plane",
+            0,
+            2
+          ],
+          [
+            "JYS",
+            "plane",
+            2,
+            2
+          ],
+          [
+            "JRC",
+            "plane",
+            4,
+            2
+          ],
+          [
+            "JYK",
+            "plane",
+            6,
+            44
+          ],
+          [
+            "JRO",
+            "plane",
+            50,
+            2
+          ],
+          [
+            "JYO",
+            "plane",
+            52,
+            44
+          ],
+          [
+            "JRG",
+            "plane",
+            96,
+            2
+          ],
+          [
+            "JYG",
+            "cylinder",
+            98,
+            80
+          ],
+          [
+            "JYC",
+            "plane",
+            178,
+            2
+          ]
+        ]
+      },
+      "wonky": {
+        "command": "NODE_OPTIONS=--max-old-space-size=8192 node bin/wonky.mjs fixtures/fillet/fp18.fs --feature fp18CurvedSection --param 'w=1 * millimeter' --param 'dflat=false' --param 'a=5 * millimeter' --param 'dx=50 * millimeter'",
+        "name": "w-fp18b",
+        "result": "refused",
+        "refusal": "fixtures/fillet/fp18.fs:77:9: opChamfer is not implemented for this input: not-implemented: chamfer setback along a curved section (cylinder support of a line edge) [order 15]",
+        "maxRssMB": 267
+      },
+      "centroidNote": "not available: Onshape massproperties without an assigned density report [0,0,0]"
+    },
+    "c": {
+      "parameters": {
+        "w": "1 mm",
+        "dflat": false,
+        "a": "-5 mm",
+        "dx": "100 mm"
+      },
+      "featureId": "F3ReeQsXQF2W4dO_2",
+      "featureStatus": "OK",
+      "partId": "JbD",
+      "name": "FP18 groove a-5 w1",
+      "description": "input_volume_mm3=6945.184391429175",
+      "volume": 6936.451761317522,
+      "volumeMin": 6936.088048800891,
+      "volumeMax": 6936.815473834154,
+      "inputVolume": 6945.184391429175,
+      "deltaVolume": -8.732630111652725,
+      "area": 3165.8447542968797,
+      "centroid": null,
+      "bbox": [
+        [
+          85,
+          -10,
+          0
+        ],
+        [
+          115,
+          10,
+          20
+        ]
+      ],
+      "faces": 9,
+      "edges": 21,
+      "vertices": 14,
+      "faceTypes": {
+        "plane": 8,
+        "cylinder": 1
+      },
+      "edgeTypes": {
+        "line": 19,
+        "circle": 2
+      },
+      "faceList": [
+        {
+          "id": "JhO",
+          "area": 126.79491924311252,
+          "type": "plane",
+          "origin": [
+            100,
+            0,
+            20
+          ],
+          "normal": [
+            0,
+            0,
+            1
+          ]
+        },
+        {
+          "id": "JiS",
+          "area": 106.79491924311252,
+          "type": "plane",
+          "origin": [
+            100,
+            0,
+            20
+          ],
+          "normal": [
+            0,
+            0,
+            1
+          ]
+        },
+        {
+          "id": "JbC",
+          "area": 400,
+          "type": "plane",
+          "origin": [
+            85,
+            0,
+            20
+          ],
+          "normal": [
+            -1,
+            0,
+            0
+          ]
+        },
+        {
+          "id": "JiK",
+          "area": 346.82258806587606,
+          "type": "plane",
+          "origin": [
+            100,
+            -10,
+            20
+          ],
+          "normal": [
+            0,
+            1,
+            0
+          ]
+        },
+        {
+          "id": "JbO",
+          "area": 400,
+          "type": "plane",
+          "origin": [
+            115,
+            0,
+            20
+          ],
+          "normal": [
+            -1,
+            0,
+            0
+          ]
+        },
+        {
+          "id": "JiO",
+          "area": 346.8225880658761,
+          "type": "plane",
+          "origin": [
+            100,
+            10,
+            20
+          ],
+          "normal": [
+            0,
+            1,
+            0
+          ]
+        },
+        {
+          "id": "JbG",
+          "area": 600,
+          "type": "plane",
+          "origin": [
+            100,
+            0,
+            0
+          ],
+          "normal": [
+            0,
+            0,
+            1
+          ]
+        },
+        {
+          "id": "JiG",
+          "area": 817.7496982349701,
+          "type": "cylinder",
+          "origin": [
+            100,
+            11,
+            15
+          ],
+          "axis": [
+            0,
+            -1,
+            0
+          ],
+          "radius": 10
+        },
+        {
+          "id": "JiC",
+          "area": 20.86004144393316,
+          "type": "plane",
+          "origin": [
+            109.660254038,
+            11,
+            20
+          ],
+          "normal": [
+            0.853250649,
+            0,
+            -0.521501036
+          ]
+        }
+      ],
+      "stl": {
+        "file": "fixtures/fillet/onshape/fp18/fp18c.stl",
+        "sha256": "c812a2ae7fc015c6e6d6846c380b2061071587bfa686ff6deeb0532336e10922",
+        "triangles": 348,
+        "faceTriangles": [
+          [
+            "JhO",
+            "plane",
+            0,
+            2
+          ],
+          [
+            "JiS",
+            "plane",
+            2,
+            2
+          ],
+          [
+            "JbC",
+            "plane",
+            4,
+            2
+          ],
+          [
+            "JiK",
+            "plane",
+            6,
+            86
+          ],
+          [
+            "JbO",
+            "plane",
+            92,
+            2
+          ],
+          [
+            "JiO",
+            "plane",
+            94,
+            86
+          ],
+          [
+            "JbG",
+            "plane",
+            180,
+            2
+          ],
+          [
+            "JiG",
+            "cylinder",
+            182,
+            164
+          ],
+          [
+            "JiC",
+            "plane",
+            346,
+            2
+          ]
+        ]
+      },
+      "wonky": {
+        "command": "NODE_OPTIONS=--max-old-space-size=8192 node bin/wonky.mjs fixtures/fillet/fp18.fs --feature fp18CurvedSection --param 'w=1 * millimeter' --param 'dflat=false' --param 'a=-5 * millimeter' --param 'dx=100 * millimeter'",
+        "name": "w-fp18c",
+        "result": "refused",
+        "refusal": "fixtures/fillet/fp18.fs:77:9: opChamfer is not implemented for this input: not-implemented: chamfer setback along a curved section (cylinder support of a line edge) [order 15]",
+        "maxRssMB": 271
+      },
+      "centroidNote": "not available: Onshape massproperties without an assigned density report [0,0,0]"
+    }
+  }
+}

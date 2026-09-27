@@ -1,0 +1,9 @@
+{
+  "schema": "wonky.fixture-provenance/1",
+  "origin": "hand-written for test/viewer-workspace.test.mjs (2026-09-25); no external capture",
+  "files": {
+    "two-features.fs": "two exported features of one Part Studio source, modeled on examples/box.fs",
+    "studios/corpus/proj/build/studios/manifest.json": "shaped like the r20/studio-build/v1 schema of ~/Workspace/cad/cad-project-041/single-step-r20/build/studios/manifest.json (fields order, modules.<name>.studio/featureType/featureName/live); three invented modules, not a copy",
+    "studios/store/manifests/proj/build/studios/beta.fs.json": "empty wonky-onshape-inputs/2 manifest at the scripts/snapshot-modules.mjs store path of beta.fs; alpha and gamma have none on purpose"
+  }
+}

@@ -1,0 +1,352 @@
+/* fdm feature: plate and overhang toggles, Print check panel, status item,
+   overhang legend, exempt-face labels. Swatch colors mirror COLORS.overhang,
+   COLORS.exempt and COLORS.bed in viewer/render/shaders.js. */
+
+.view-actions .fdm-action[aria-pressed=true] {
+  background: var(--green-soft);
+  color: var(--green);
+}
+
+/* Print check panel: opens above the view actions like the Views menu. */
+
+.fdm-panel {
+  position: absolute;
+  right: 0;
+  bottom: calc(100% + 8px);
+  z-index: 21;
+  width: 344px;
+  max-height: min(560px, 70vh);
+  overflow: auto;
+  padding: 10px 12px 12px;
+  background: var(--surface);
+  box-shadow: var(--shadow), 0 12px 32px #15261c1a;
+  border-radius: 10px;
+  color: var(--ink);
+  font-size: 12px;
+  line-height: 1.35;
+}
+
+.fdm-panel[hidden] {
+  display: none;
+}
+
+.fdm-panel-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 4px;
+}
+
+.fdm-panel h3 {
+  margin: 0;
+  font-size: 13px;
+}
+
+.fdm-panel h4 {
+  margin: 10px 0 4px;
+  font-size: 12px;
+  color: var(--ink-soft);
+}
+
+.fdm-panel .icon-button {
+  width: 28px;
+  height: 28px;
+  font-size: 18px;
+}
+
+.fdm-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 26px;
+}
+
+.fdm-indent {
+  padding-left: 22px;
+}
+
+.fdm-panel kbd {
+  margin-left: auto;
+  color: var(--muted);
+  font: inherit;
+  font-size: 11px;
+}
+
+.fdm-number {
+  width: 58px;
+  padding: 2px 4px;
+  border: 1px solid var(--line);
+  border-radius: 5px;
+  font: inherit;
+}
+
+.fdm-nowrap {
+  white-space: nowrap;
+}
+
+.fdm-note {
+  margin: 2px 0;
+  color: var(--muted);
+  font-size: 11px;
+}
+
+.fdm-muted {
+  color: var(--muted);
+}
+
+.fdm-bodies {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.fdm-body {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 8px;
+  padding: 5px 0;
+  border-top: 1px solid var(--line);
+}
+
+.fdm-body-alias {
+  font-weight: 600;
+}
+
+.fdm-body-name {
+  max-width: 120px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.fdm-body-printed,
+.fdm-body-up {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.fdm-body-up select {
+  font: inherit;
+  font-size: 11px;
+}
+
+.fdm-part-detail {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 10px;
+  margin: 4px 0;
+  font-size: 12px;
+}
+
+.fdm-print-face {
+  width: 100%;
+  min-height: 32px;
+  margin: 8px 0 4px;
+  font-size: 12px;
+}
+
+.fdm-print-face kbd {
+  margin-left: 6px;
+}
+
+/* Relation badges: panel rows, parts-tree rows, status bar. */
+
+.fdm-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 1px 6px;
+  border-radius: 4px;
+  font-size: 11px;
+  line-height: 17px;
+  white-space: nowrap;
+  background: var(--canvas);
+  color: var(--ink-soft);
+}
+
+.fdm-badge .exactness-chip {
+  font-size: var(--text-xs);
+}
+
+.fdm-tone-ok {
+  background: var(--green-soft);
+  color: var(--green);
+}
+
+.fdm-tone-warn {
+  background: var(--amber-soft);
+  color: var(--copper);
+}
+
+.fdm-tone-error {
+  background: var(--danger-soft);
+  color: var(--danger);
+}
+
+.fdm-tone-pending {
+  background: var(--blue-soft);
+  color: var(--blue);
+}
+
+.fdm-tone-muted {
+  background: var(--canvas);
+  color: var(--muted);
+}
+
+/* Status bar item (plate relation of the one visible body). */
+
+.fdm-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 7px;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  background: color-mix(in srgb, var(--surface) 85%, transparent);
+  color: var(--ink-soft);
+  font-size: 11px;
+  line-height: 1.2;
+  white-space: nowrap;
+  pointer-events: auto;
+}
+
+.fdm-status[hidden] {
+  display: none;
+}
+
+.viewport-bottomline .fdm-status span {
+  margin: 0;
+  color: var(--ink-soft);
+}
+
+.viewport-bottomline .fdm-status .fdm-status-text {
+  padding: 1px 5px;
+  border-radius: 3px;
+}
+
+.viewport-bottomline .fdm-status .fdm-tone-ok {
+  color: var(--green);
+}
+
+.viewport-bottomline .fdm-status .fdm-tone-warn {
+  color: var(--copper);
+}
+
+.viewport-bottomline .fdm-status .fdm-tone-error,
+.viewport-bottomline .fdm-status .fdm-status-error {
+  color: var(--danger);
+}
+
+.viewport-bottomline .fdm-status .fdm-tone-pending {
+  color: var(--blue);
+}
+
+.viewport-bottomline .fdm-status .fdm-tone-muted {
+  color: var(--muted);
+}
+
+.viewport-bottomline .fdm-status .exactness-chip {
+  font-size: var(--text-xs);
+}
+
+.fdm-status-alias {
+  font-weight: 600;
+}
+
+/* Overhang legend: in the lower-right column .viewport-stack
+   (styles/layout.css), above the view actions. */
+
+.fdm-legend {
+  max-width: 340px;
+  padding: 7px 10px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--surface) 94%, transparent);
+  box-shadow: var(--shadow);
+  color: var(--ink-soft);
+  font-size: 11px;
+  line-height: 1.35;
+  pointer-events: auto;
+}
+
+.fdm-legend[hidden] {
+  display: none;
+}
+
+.fdm-legend p {
+  margin: 1px 0;
+}
+
+.fdm-legend-line {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.fdm-legend-note {
+  color: var(--muted);
+}
+
+.fdm-legend .fdm-legend-state {
+  margin-top: 4px;
+  padding: 2px 5px;
+  border-radius: 4px;
+  background: var(--canvas);
+}
+
+.fdm-swatch {
+  flex: 0 0 auto;
+  width: 11px;
+  height: 11px;
+  border-radius: 2px;
+}
+
+.fdm-swatch-overhang {
+  background: rgb(230 56 71);
+}
+
+.fdm-swatch-exempt {
+  border: 2px solid rgb(115 77 179);
+}
+
+.fdm-swatch-bed {
+  border: 2px solid var(--blue);
+}
+
+/* Exempt-face labels (SVG overlay). */
+
+#annotation-overlay .fdm-label rect {
+  fill: color-mix(in srgb, var(--surface) 95%, transparent);
+  stroke: rgb(115 77 179);
+  stroke-width: 1.2;
+}
+
+#annotation-overlay .fdm-label text {
+  fill: light-dark(#3b2a63, #c7b8fd);
+  font: 600 11px/1 Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+.fdm-print kbd {
+  margin-left: 6px;
+  font: inherit;
+  font-size: 11px;
+  color: var(--muted);
+}
+
+@media (max-width: 900px) {
+  .fdm-panel {
+    top: calc(100% + 8px);
+    bottom: auto;
+  }
+}
+
+@media (max-width: 650px) {
+  .fdm-panel {
+    top: auto;
+    bottom: calc(100% + 8px);
+    width: min(344px, calc(100vw - 40px));
+  }
+}

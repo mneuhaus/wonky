@@ -1,0 +1,51 @@
+{
+ "schema": "wonky-bakeoff-fixture/1",
+ "case": "self-intersect",
+ "category": "identity",
+ "deviationMm": 0.01,
+ "location": "fixtures/bakeoff/jobs",
+ "job": "fixtures/bakeoff/jobs/self-intersect.job",
+ "csgJob": "fixtures/bakeoff/jobs/self-intersect.csg.job",
+ "jobBytes": 15946,
+ "jobSha256": "f4c2a1e70c887e8b352638e4445b9113397ba98c059a806b0dbf9d703e527ecc",
+ "csgJobSha256": "bbbe290bbe09a4bd09deebdca599caea32371f51408c6ba4c761e846d150995f",
+ "leaves": 2,
+ "faces": 6,
+ "vertices": 212,
+ "triangles": 416,
+ "deviationMeasuredMaxMm": 0.00912222888341585,
+ "leafInfo": [
+  {
+   "leaf": 0,
+   "prim": "cylinder",
+   "vertices": 106,
+   "triangles": 208,
+   "tags": [
+    0,
+    1,
+    2
+   ],
+   "segments": 52,
+   "deviationMeasuredMm": 0.00912222888341585,
+   "deviationMethod": "barycentric-grid-8 (max lies on sampled chord midlines)",
+   "vertexOnSurfaceMaxMm": 3.552713678800501e-15,
+   "analyticVolume": 785.3981633974483
+  },
+  {
+   "leaf": 1,
+   "prim": "cylinder",
+   "vertices": 106,
+   "triangles": 208,
+   "tags": [
+    3,
+    4,
+    5
+   ],
+   "segments": 52,
+   "deviationMeasuredMm": 0.00912222888341585,
+   "deviationMethod": "barycentric-grid-8 (max lies on sampled chord midlines)",
+   "vertexOnSurfaceMaxMm": 3.552713678800501e-15,
+   "analyticVolume": 785.3981633974483
+  }
+ ]
+}

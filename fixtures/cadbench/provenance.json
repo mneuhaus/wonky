@@ -1,0 +1,58 @@
+{
+  "schema": "wonky-cadbench-provenance/1",
+  "retrievedAt": "2026-09-22T05:46:01.687Z",
+  "license": "Apache-2.0",
+  "copyright": "gNucleus AI, Inc.",
+  "dataset": {
+    "url": "https://huggingface.co/datasets/gnucleus-ai/cad-gen-freecad",
+    "revision": "a0e2f69b58d857b631ac1b746ff08e70c1240d8a",
+    "parquetUrl": "https://huggingface.co/datasets/gnucleus-ai/cad-gen-freecad/resolve/a0e2f69b58d857b631ac1b746ff08e70c1240d8a/data/dataset.parquet",
+    "parquetBytes": 1907996,
+    "parquetSha256": "b656c7b551dbd00b9567a9f4bd6d4a397be294820e66e0c1e1d682c1481de6ee",
+    "extraction": "pyarrow 21.0.0 read_table; six original text/path columns; Python json.dump(indent=2, ensure_ascii=False), newline. No image data or reference geometry."
+  },
+  "files": [
+    {
+      "path": "upstream/benchmark-v2.json",
+      "url": "https://raw.githubusercontent.com/gNucleus-AI/cad-bench-submission/6b85cbafd00961c105b1fbc2173163a9b595bbdd/benchmarks/v2.json",
+      "sha256": "d26ab1223851ee7d9e83afef1a1a6e1059cbd1bf9ab8f7cff1915049305131a1"
+    },
+    {
+      "path": "upstream/DATASET-README.md",
+      "url": "https://huggingface.co/datasets/gnucleus-ai/cad-gen-freecad/raw/a0e2f69b58d857b631ac1b746ff08e70c1240d8a/README.md",
+      "sha256": "11d0cedefddd19cbbebf6d8a8297aba06b542ada2c439f9eef44537b98a31c55"
+    },
+    {
+      "path": "upstream/LICENSE-2.0.txt",
+      "url": "https://www.apache.org/licenses/LICENSE-2.0.txt",
+      "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+    },
+    {
+      "path": "upstream/public-corpus.json",
+      "sha256": "bc0df19cfa77038906988139809999950ba4c90247246870164bddee4efb4bf2",
+      "derivedFrom": "dataset.parquet",
+      "columns": [
+        "id",
+        "name",
+        "description",
+        "key_parameters",
+        "fcstd_path",
+        "viewer_url"
+      ]
+    },
+    {
+      "path": "pilot.json",
+      "sha256": "4e836c0bf12e53a12d5deee1c39c63412eafbf2d1c9f1fccb2d46037276ff3e0",
+      "local": true
+    }
+  ],
+  "official": {
+    "website": "https://cadbench.ai/",
+    "runContract": "https://cadbench.ai/benchmark",
+    "release": "https://cadbench.ai/news/cad-bench-v2",
+    "submissionRevision": "6b85cbafd00961c105b1fbc2173163a9b595bbdd",
+    "validatorVersion": "0.4.0",
+    "validatorRevision": "3dce2442e574f93ea6548f373f723c6e65517796",
+    "validatorUrl": "https://github.com/gNucleus-AI/freecad-validator/tree/3dce2442e574f93ea6548f373f723c6e65517796"
+  }
+}

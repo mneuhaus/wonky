@@ -1,0 +1,271 @@
+{
+ "schema": "wonky-bakeoff-fixture-index/1",
+ "cases": [
+  {
+   "case": "leaf-cylinder",
+   "job": "fixtures/bakeoff/jobs/leaf-cylinder.job",
+   "bytes": 8657,
+   "triangles": 224,
+   "sha256": "7cb7c9132356f05257a3ecdb2078279d8a432727c7fdba77161806a82a82770f"
+  },
+  {
+   "case": "box-union-overlap",
+   "job": "fixtures/bakeoff/jobs/box-union-overlap.job",
+   "bytes": 2186,
+   "triangles": 24,
+   "sha256": "6f9759d72f37eb6128b00988600eb49aad728f30f59ed614929118d69db262ab"
+  },
+  {
+   "case": "box-subtract-overlap",
+   "job": "fixtures/bakeoff/jobs/box-subtract-overlap.job",
+   "bytes": 2192,
+   "triangles": 24,
+   "sha256": "161d89c45878cdc23f4c21154366a66529091a301cd885c62972537c7f2f2f4c"
+  },
+  {
+   "case": "box-intersect-overlap",
+   "job": "fixtures/bakeoff/jobs/box-intersect-overlap.job",
+   "bytes": 2194,
+   "triangles": 24,
+   "sha256": "2fac308d0a4c1a8e127fa549284cb3de6955e8a840c4344f3b7e50af2964e2f9"
+  },
+  {
+   "case": "box-rotated-intersect",
+   "job": "fixtures/bakeoff/jobs/box-rotated-intersect.job",
+   "bytes": 3226,
+   "triangles": 24,
+   "sha256": "e3d0b05872acf30a64388c94556dbca4a679e044f156101be7d00bd93f0b853d"
+  },
+  {
+   "case": "box-coplanar-union",
+   "job": "fixtures/bakeoff/jobs/box-coplanar-union.job",
+   "bytes": 2187,
+   "triangles": 24,
+   "sha256": "c37bd3519afe01ff2e6e25c670a6e0e578941a3d30e7b6ebb178ebea4f498c90"
+  },
+  {
+   "case": "box-coplanar-subtract",
+   "job": "fixtures/bakeoff/jobs/box-coplanar-subtract.job",
+   "bytes": 2103,
+   "triangles": 24,
+   "sha256": "f759f753892fd891273994b6b353bdcc52e1782db0eb75504745c2ccbab0c437"
+  },
+  {
+   "case": "box-touching-merge",
+   "job": "fixtures/bakeoff/jobs/box-touching-merge.job",
+   "bytes": 2007,
+   "triangles": 24,
+   "sha256": "01ec46a75347c2276f94ea4fb61378cc4a74132afb7573a9080c3fd5db9dc61d"
+  },
+  {
+   "case": "box-touching-partial",
+   "job": "fixtures/bakeoff/jobs/box-touching-partial.job",
+   "bytes": 2189,
+   "triangles": 24,
+   "sha256": "821500d59d87b664ec4b8cc258cc41ab253d40add720f1ab93b36ee0db687592"
+  },
+  {
+   "case": "plate-through-hole",
+   "job": "fixtures/bakeoff/jobs/plate-through-hole.job",
+   "bytes": 7703,
+   "triangles": 172,
+   "sha256": "1de99c5f85de86d8482aa0bc432b668c0deb8464cae5e1209912ca116c5d1dde"
+  },
+  {
+   "case": "plate-blind-hole",
+   "job": "fixtures/bakeoff/jobs/plate-blind-hole.job",
+   "bytes": 6901,
+   "triangles": 156,
+   "sha256": "9a0525a38935f9bc3c4b046e86128db644b0ad9f84600aacf47cb7fb220085a2"
+  },
+  {
+   "case": "plate-blind-pocket",
+   "job": "fixtures/bakeoff/jobs/plate-blind-pocket.job",
+   "bytes": 2190,
+   "triangles": 24,
+   "sha256": "641a85ba6fcee31bdb2a98a38923984ab0b3f6683c1ac8f4461e07aa5588de49"
+  },
+  {
+   "case": "plate-counterbore",
+   "job": "fixtures/bakeoff/jobs/plate-counterbore.job",
+   "bytes": 13227,
+   "triangles": 300,
+   "sha256": "747057035eda23f322479c623afbb658a08f1936ed7c4136fa5d9d8f421acc7d"
+  },
+  {
+   "case": "plate-countersink",
+   "job": "fixtures/bakeoff/jobs/plate-countersink.job",
+   "bytes": 17603,
+   "triangles": 380,
+   "sha256": "27396273c32ff43015935f60a9fdb8c8bad286219d7b2a76f4f473fda7d53740"
+  },
+  {
+   "case": "plate-4-holes",
+   "job": "fixtures/bakeoff/jobs/plate-4-holes.job",
+   "bytes": 23108,
+   "triangles": 524,
+   "sha256": "5b18f5b2bb4d759a530e4fa1f2822b65fcd8bac5c393b7c4203b3c5714754879"
+  },
+  {
+   "case": "plate-hole-grid-10x10",
+   "job": "out/bakeoff/jobs/plate-hole-grid-10x10.job",
+   "bytes": 493767,
+   "triangles": 11212,
+   "sha256": "76cdc08338df6050ccf5c785e8d45e59c26f46bee8a24cc0aaf86b7d09c91a58"
+  },
+  {
+   "case": "tilted-holes-17deg",
+   "job": "fixtures/bakeoff/jobs/tilted-holes-17deg.job",
+   "bytes": 26175,
+   "triangles": 524,
+   "sha256": "c7c53c8175ae3eec5e8848483d799ced3686c22e84a2373334d4f4bfd726f680"
+  },
+  {
+   "case": "pipe-tee",
+   "job": "fixtures/bakeoff/jobs/pipe-tee.job",
+   "bytes": 30940,
+   "triangles": 784,
+   "sha256": "bc1c72b6ad55eb71727e37fc154797926844213983328f054892f7aa23e04f27"
+  },
+  {
+   "case": "steinmetz-intersect",
+   "job": "fixtures/bakeoff/jobs/steinmetz-intersect.job",
+   "bytes": 16959,
+   "triangles": 416,
+   "sha256": "44772ca5088350a161fb7e122baa1598d67efe9319cc9b85ef4ee91c983844d0"
+  },
+  {
+   "case": "steinmetz-union",
+   "job": "fixtures/bakeoff/jobs/steinmetz-union.job",
+   "bytes": 16951,
+   "triangles": 416,
+   "sha256": "b01937ee981a86aef9ab6f24ed06b99a295f0f5ed307f685f70f78b2a6f96484"
+  },
+  {
+   "case": "coaxial-cylinder-stack",
+   "job": "fixtures/bakeoff/jobs/coaxial-cylinder-stack.job",
+   "bytes": 20378,
+   "triangles": 512,
+   "sha256": "64d32aae80dd81d098cf4a256291c3bd3fe7a2c9187ddbb78db2888c6d951071"
+  },
+  {
+   "case": "sphere-minus-box",
+   "job": "out/bakeoff/jobs/sphere-minus-box.job",
+   "bytes": 472129,
+   "triangles": 9812,
+   "sha256": "88104be72775c229d5a1fc8eae3ac911478db617ca31b1a83b03ecbc3eb4ba4e"
+  },
+  {
+   "case": "sphere-intersect-cylinder",
+   "job": "out/bakeoff/jobs/sphere-intersect-cylinder.job",
+   "bytes": 480736,
+   "triangles": 10040,
+   "sha256": "1c73c76dd3579b1fbdaf7d04dd520c16aa5bccf724eb99d68ed134d017236434"
+  },
+  {
+   "case": "box-minus-sphere-cavity",
+   "job": "out/bakeoff/jobs/box-minus-sphere-cavity.job",
+   "bytes": 329342,
+   "triangles": 6900,
+   "sha256": "091c3e1b5bce52a384410de65a80da2282978f834832025f75ebe52b28aa576e"
+  },
+  {
+   "case": "hex-nut",
+   "job": "fixtures/bakeoff/jobs/hex-nut.job",
+   "bytes": 26419,
+   "triangles": 596,
+   "sha256": "76c7ec0b04965c38d53b5d4533391b0ebd4bbc6bffb8558c5f7496c050cbc273"
+  },
+  {
+   "case": "enclosure-shell",
+   "job": "fixtures/bakeoff/jobs/enclosure-shell.job",
+   "bytes": 58439,
+   "triangles": 1332,
+   "sha256": "2883fc513618e6846d83dbd907eafc3c884fcfe53051c33f3d0f0c96f36963c8"
+  },
+  {
+   "case": "gear-48-bore",
+   "job": "fixtures/bakeoff/jobs/gear-48-bore.job",
+   "bytes": 94560,
+   "triangles": 1148,
+   "sha256": "b72177cbd3000ff212ef2609de588d4fbe23bc6cab935b8ca848e42d19b4a487"
+  },
+  {
+   "case": "cylinder-tangent-box-face",
+   "job": "fixtures/bakeoff/jobs/cylinder-tangent-box-face.job",
+   "bytes": 9628,
+   "triangles": 220,
+   "sha256": "333d614e34247550ab304f2f4f95d5beaca236bc1bf19fe108de74315a112d88"
+  },
+  {
+   "case": "hole-tangent-edge",
+   "job": "fixtures/bakeoff/jobs/hole-tangent-edge.job",
+   "bytes": 7600,
+   "triangles": 172,
+   "sha256": "b1d2454c4383193562bd570ca75e19d65d20cd8840d1ef78dcf63f354267fdca"
+  },
+  {
+   "case": "self-union",
+   "job": "fixtures/bakeoff/jobs/self-union.job",
+   "bytes": 15938,
+   "triangles": 416,
+   "sha256": "9b3d81b84689cbc1d86eee91804b1b1d32f561cebc589a108b58e25017496600"
+  },
+  {
+   "case": "self-subtract",
+   "job": "fixtures/bakeoff/jobs/self-subtract.job",
+   "bytes": 15944,
+   "triangles": 416,
+   "sha256": "e6c9e2724435256db8493cdcfd63a2be93906e626f7e2d61612c1e371cac802d"
+  },
+  {
+   "case": "self-intersect",
+   "job": "fixtures/bakeoff/jobs/self-intersect.job",
+   "bytes": 15946,
+   "triangles": 416,
+   "sha256": "f4c2a1e70c887e8b352638e4445b9113397ba98c059a806b0dbf9d703e527ecc"
+  },
+  {
+   "case": "internal-void",
+   "job": "fixtures/bakeoff/jobs/internal-void.job",
+   "bytes": 2185,
+   "triangles": 24,
+   "sha256": "139341854d3a71584a3d87c2c20568b78776db1916ca4894b178412cb91f528b"
+  },
+  {
+   "case": "disjoint-union",
+   "job": "fixtures/bakeoff/jobs/disjoint-union.job",
+   "bytes": 8296,
+   "triangles": 204,
+   "sha256": "31d25db7f510c8326556fa49f5ad93d71f20955ea7a113dd98df1b3238bbf3d4"
+  },
+  {
+   "case": "pin-array-chain-20",
+   "job": "fixtures/bakeoff/jobs/pin-array-chain-20.job",
+   "bytes": 85296,
+   "triangles": 1932,
+   "sha256": "bd03b95cb21397a50106a75e9237198fc076636a963efed7509ec0fbeafa9d26"
+  },
+  {
+   "case": "fine-spheres-50k",
+   "job": "out/bakeoff/jobs/fine-spheres-50k.job",
+   "bytes": 2496264,
+   "triangles": 50560,
+   "sha256": "fbe780914c1bf86d22e007056ad3b63f1c263bc69727a76966f79bba9195d65c"
+  },
+  {
+   "case": "torus-minus-box",
+   "job": "out/bakeoff/jobs/torus-minus-box.job",
+   "bytes": 668264,
+   "triangles": 13900,
+   "sha256": "22ae64d31b6516e7fe4059982865e8a653f30c8d665c1eae7afc0036a415e96b"
+  },
+  {
+   "case": "r10b-g10-union",
+   "job": "fixtures/bakeoff/jobs/r10b-g10-union.job",
+   "bytes": 72090,
+   "triangles": 1294,
+   "sha256": "2c7f9fe4662aa9991bdabaca13da46eee365d64a52868a85f1c24d605c334d0c"
+  }
+ ]
+}

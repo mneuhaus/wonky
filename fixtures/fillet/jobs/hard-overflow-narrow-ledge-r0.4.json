@@ -1,0 +1,42 @@
+{
+ "id": "hard-overflow-narrow-ledge-r0.4",
+ "jobSha256": "20c0e5b38fea6bda6bb32ae5eba5d2feac741b4e063c932fab07e122b220180e",
+ "jobBytes": 4607,
+ "sourceSha256": "32c6293df45197fde710d050a851588bb2b879f7631d845bd047eb8e73496fdf",
+ "buildMs": 5.7300420000001395,
+ "kernel": {
+  "closed": true,
+  "volumeMm3": 720.625,
+  "areaMm2": 744.125,
+  "precision": "F32x2",
+  "geometry": "planar"
+ },
+ "counts": {
+  "vertices": 20,
+  "edges": 30,
+  "faces": 12
+ },
+ "surfaces": {
+  "plane": 12
+ },
+ "quantizationErrorMm": 0,
+ "selected": [
+  {
+   "edge": 25,
+   "curve": "line",
+   "faces": [
+    "plane",
+    "plane"
+   ],
+   "convexity": "concave",
+   "dihedralDeg": 270,
+   "length": 10,
+   "sample": [
+    12,
+    -5,
+    2.5
+   ]
+  }
+ ],
+ "step": "out/fillet/input-step/hard-overflow-narrow-ledge-r0.4.step"
+}

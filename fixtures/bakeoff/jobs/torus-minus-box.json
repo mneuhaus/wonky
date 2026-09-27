@@ -1,0 +1,52 @@
+{
+ "schema": "wonky-bakeoff-fixture/1",
+ "case": "torus-minus-box",
+ "category": "tori",
+ "deviationMm": 0.01,
+ "location": "out/bakeoff/jobs (generated on demand, gitignored)",
+ "job": "out/bakeoff/jobs/torus-minus-box.job",
+ "csgJob": "out/bakeoff/jobs/torus-minus-box.csg.job",
+ "jobBytes": 668264,
+ "jobSha256": "22ae64d31b6516e7fe4059982865e8a653f30c8d665c1eae7afc0036a415e96b",
+ "csgJobSha256": "5816fabc8aaafc09c54ca2221eb72b80e5ba759191fc237b5ddf74375272c195",
+ "leaves": 2,
+ "faces": 7,
+ "vertices": 6952,
+ "triangles": 13900,
+ "deviationMeasuredMaxMm": 0.009522816224785124,
+ "leafInfo": [
+  {
+   "leaf": 0,
+   "prim": "torus",
+   "vertices": 6944,
+   "triangles": 13888,
+   "tags": [
+    0
+   ],
+   "segments": 124,
+   "minorSegments": 56,
+   "deviationMeasuredMm": 0.009522816224785124,
+   "deviationMethod": "barycentric-grid-16 (sampled estimate)",
+   "vertexOnSurfaceMaxMm": 1.5987211554602254e-14,
+   "analyticVolume": 2131.834550635301
+  },
+  {
+   "leaf": 1,
+   "prim": "box",
+   "vertices": 8,
+   "triangles": 12,
+   "tags": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6
+   ],
+   "deviationMeasuredMm": 0,
+   "deviationMethod": "exact-planar",
+   "vertexOnSurfaceMaxMm": 0,
+   "analyticVolume": 4096
+  }
+ ]
+}

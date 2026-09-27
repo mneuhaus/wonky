@@ -1,0 +1,55 @@
+{
+ "schema": "wonky-bakeoff-fixture/1",
+ "case": "box-rotated-intersect",
+ "category": "box-basics",
+ "deviationMm": 0.01,
+ "location": "fixtures/bakeoff/jobs",
+ "job": "fixtures/bakeoff/jobs/box-rotated-intersect.job",
+ "csgJob": "fixtures/bakeoff/jobs/box-rotated-intersect.csg.job",
+ "jobBytes": 3226,
+ "jobSha256": "e3d0b05872acf30a64388c94556dbca4a679e044f156101be7d00bd93f0b853d",
+ "csgJobSha256": "ad1e1f34946ef32fe706498630cfceadebf319a5fd40914bec839e2a630bdb24",
+ "leaves": 2,
+ "faces": 12,
+ "vertices": 16,
+ "triangles": 24,
+ "deviationMeasuredMaxMm": 0,
+ "leafInfo": [
+  {
+   "leaf": 0,
+   "prim": "box",
+   "vertices": 8,
+   "triangles": 12,
+   "tags": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5
+   ],
+   "deviationMeasuredMm": 0,
+   "deviationMethod": "exact-planar",
+   "vertexOnSurfaceMaxMm": 0,
+   "analyticVolume": 8000
+  },
+  {
+   "leaf": 1,
+   "prim": "box",
+   "vertices": 8,
+   "triangles": 12,
+   "tags": [
+    6,
+    7,
+    8,
+    9,
+    10,
+    11
+   ],
+   "deviationMeasuredMm": 0,
+   "deviationMethod": "exact-planar",
+   "vertexOnSurfaceMaxMm": 2.6645352591003738e-14,
+   "analyticVolume": 8000
+  }
+ ]
+}

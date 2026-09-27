@@ -1,0 +1,787 @@
+{
+ "schema": "wonky-fillet-jobs/1",
+ "cases": {
+  "pp-box-vertical-edge-r2": {
+   "ok": true,
+   "jobSha256": "48035c0dae5630c9606d8188e0c68b574218b9e7a45867d062e333dc7086384c",
+   "counts": {
+    "vertices": 8,
+    "edges": 12,
+    "faces": 6
+   },
+   "selected": 1,
+   "volumeMm3": 1600.0000000000002
+  },
+  "pp-plate-4-vertical-edges-r4.2": {
+   "ok": true,
+   "jobSha256": "e69954b9b3c4c8594c08330059db39a4b70678e3102760c63552f1096ce04764",
+   "counts": {
+    "vertices": 8,
+    "edges": 12,
+    "faces": 6
+   },
+   "selected": 4,
+   "volumeMm3": 14400
+  },
+  "pp-roundx-r3": {
+   "ok": true,
+   "jobSha256": "d826b9f96eafc5c6dfcf7ae2f0821e7ba959c7b1fe512cd104b9a5244952b17f",
+   "counts": {
+    "vertices": 8,
+    "edges": 12,
+    "faces": 6
+   },
+   "selected": 4,
+   "volumeMm3": 12000
+  },
+  "pp-box-top-edge-r1": {
+   "ok": true,
+   "jobSha256": "a5088c89ba807f05ad930c3b135093ecf06ae69f366a59c5feaed22336002193",
+   "counts": {
+    "vertices": 8,
+    "edges": 12,
+    "faces": 6
+   },
+   "selected": 1,
+   "volumeMm3": 1600.0000000000002
+  },
+  "pp-box-two-of-three-mitre-r2": {
+   "ok": true,
+   "jobSha256": "d49389549fc73384305044118237a95cff523c8151566039121210dfd509b719",
+   "counts": {
+    "vertices": 8,
+    "edges": 12,
+    "faces": 6
+   },
+   "selected": 2,
+   "volumeMm3": 1600.0000000000002
+  },
+  "pp-box-top-loop-r2": {
+   "ok": true,
+   "jobSha256": "1feb3f2bc119230da58624a27b5ea99feb57bb6fcf60c14b2d4cc11c12f6fd2c",
+   "counts": {
+    "vertices": 8,
+    "edges": 12,
+    "faces": 6
+   },
+   "selected": 4,
+   "volumeMm3": 6000
+  },
+  "pp-box-corner-3-r2": {
+   "ok": true,
+   "jobSha256": "adc20dcf164a3f6def413f2ee355dfa3ed736b541218f3acfdd3184cc2b7bf10",
+   "counts": {
+    "vertices": 8,
+    "edges": 12,
+    "faces": 6
+   },
+   "selected": 3,
+   "volumeMm3": 7999.999999999999
+  },
+  "pp-box-all-edges-r2": {
+   "ok": true,
+   "jobSha256": "6c3096ec101efdcd0984078cee512f67d2b63bd37d3261455079da955397406e",
+   "counts": {
+    "vertices": 8,
+    "edges": 12,
+    "faces": 6
+   },
+   "selected": 12,
+   "volumeMm3": 3840
+  },
+  "corpus-probestab-all-edges-r1": {
+   "ok": true,
+   "jobSha256": "9762ba888767a1805b1083b74b2798696b0fd0f28de9c915a1bf7ed8683a8f08",
+   "counts": {
+    "vertices": 8,
+    "edges": 12,
+    "faces": 6
+   },
+   "selected": 12,
+   "volumeMm3": 2160
+  },
+  "corpus-u-plate-vertical-edges-r4.2": {
+   "ok": true,
+   "jobSha256": "a6a20c65094ae50748d1d04b3be5d06898bbd8b8d1aa82bc260ec6ec136548d9",
+   "counts": {
+    "vertices": 16,
+    "edges": 24,
+    "faces": 10
+   },
+   "selected": 8,
+   "volumeMm3": 24000
+  },
+  "perf-comb-vertical-edges-r0.5": {
+   "ok": true,
+   "jobSha256": "2133932b70ef28fa490f1758a4c0807fd9d0068be60907a3ce5b49019ef3199e",
+   "counts": {
+    "vertices": 100,
+    "edges": 150,
+    "faces": 52
+   },
+   "selected": 50,
+   "volumeMm3": 3024
+  },
+  "ch-box-vertical-edge-d1": {
+   "ok": true,
+   "jobSha256": "b5a45e4f9b2ed38207f2e0c921aea5fbc9f56437f2d97a72ac05a3393fddf3ac",
+   "counts": {
+    "vertices": 8,
+    "edges": 12,
+    "faces": 6
+   },
+   "selected": 1,
+   "volumeMm3": 1600.0000000000002
+  },
+  "ch-plate-top-loop-0.42": {
+   "ok": true,
+   "jobSha256": "e8414ab97dd8594729fba0de3c6e6aaf5e3e57c519cc9ae34e4d2207a84cfd15",
+   "counts": {
+    "vertices": 8,
+    "edges": 12,
+    "faces": 6
+   },
+   "selected": 4,
+   "volumeMm3": 6000
+  },
+  "ch-plate-both-loops-0.42": {
+   "ok": true,
+   "jobSha256": "2631a6ea151cca623fbff5ff5500dc8ee75d594b80a73f02d9e02373164a76e5",
+   "counts": {
+    "vertices": 8,
+    "edges": 12,
+    "faces": 6
+   },
+   "selected": 8,
+   "volumeMm3": 6000
+  },
+  "ch-box-corner-3-d1": {
+   "ok": true,
+   "jobSha256": "6ac63506566ba0019de705b81c49297ef0e7d1dbf35e22667bed809fef3cadcc",
+   "counts": {
+    "vertices": 8,
+    "edges": 12,
+    "faces": 6
+   },
+   "selected": 3,
+   "volumeMm3": 7999.999999999999
+  },
+  "corpus-outline-chamfer-lines-arcs-0.42": {
+   "ok": true,
+   "jobSha256": "b415b9832a38e48f10c88dfb59fb1ff191cdd7dbb9d979dc997e27f27e6b8569",
+   "counts": {
+    "vertices": 12,
+    "edges": 18,
+    "faces": 8
+   },
+   "selected": 6,
+   "volumeMm3": 5957.079632679495
+  },
+  "corpus-r22-guide-outline-chamfer-0.42": {
+   "ok": true,
+   "jobSha256": "9ba9484ffb794d15dc13e031c33357a8bf93663e33b3f533d5aa8918c5bff9a2",
+   "counts": {
+    "vertices": 18,
+    "edges": 27,
+    "faces": 11
+   },
+   "selected": 9,
+   "volumeMm3": 2544.768842607431
+  },
+  "ch-hole-rim-0.42": {
+   "ok": true,
+   "jobSha256": "d48aac76efba332616ed1ca7c83df913ce6f194a0a8aba877285155b643e9e13",
+   "counts": {
+    "vertices": 10,
+    "edges": 15,
+    "faces": 7
+   },
+   "selected": 1,
+   "volumeMm3": 5098.407105255377
+  },
+  "ch-post-rim-0.42": {
+   "ok": true,
+   "jobSha256": "9b6e332b2da05c9d95c00a6425396a5d1a14211acfbe6b1294ad067e726339c1",
+   "counts": {
+    "vertices": 2,
+    "edges": 3,
+    "faces": 3
+   },
+   "selected": 1,
+   "volumeMm3": 785.3981633974472
+  },
+  "corpus-two-hole-rims-chamfer-0.42": {
+   "ok": true,
+   "jobSha256": "002bad539529ed5066bf4b6e17fe1251c26e80380912267bcbde9550196e3fca",
+   "counts": {
+    "vertices": 12,
+    "edges": 18,
+    "faces": 8
+   },
+   "selected": 2,
+   "volumeMm3": 3803.650459150638
+  },
+  "ch-slot-outline-0.42": {
+   "ok": true,
+   "jobSha256": "94972ef95af55dde0f4ad36b77e1ed84a67ab02471caf971f3bb38725399571b",
+   "counts": {
+    "vertices": 8,
+    "edges": 12,
+    "faces": 6
+   },
+   "selected": 4,
+   "volumeMm3": 1114.1592653589796
+  },
+  "perf-hole-grid-rims-0.42": {
+   "ok": true,
+   "jobSha256": "1f2a8ab42b5e4b59d158b132dca58544a40f22ac86e57ed1fa81cb4e36c5909b",
+   "counts": {
+    "vertices": 32,
+    "edges": 48,
+    "faces": 18
+   },
+   "selected": 16,
+   "volumeMm3": 7526.0177631383995
+  },
+  "pp-concave-270-r2": {
+   "ok": true,
+   "jobSha256": "677d29ea5f5d6193f019d6ae1bf29a5393c07023e07dd72c43a5084b6acf0bae",
+   "counts": {
+    "vertices": 12,
+    "edges": 18,
+    "faces": 8
+   },
+   "selected": 1,
+   "volumeMm3": 4160
+  },
+  "ch-concave-270-d1": {
+   "ok": true,
+   "jobSha256": "8a81519dfae8bf40d0e383865a9b0b83b120aa20cf6df5735150175286fd8f8e",
+   "counts": {
+    "vertices": 12,
+    "edges": 18,
+    "faces": 8
+   },
+   "selected": 1,
+   "volumeMm3": 4160
+  },
+  "pp-l-concave-and-convex-r2": {
+   "ok": true,
+   "jobSha256": "74e2738d0713bea8da51c3a049981b0057bb74efd2e64daaa61d9b6a49365100",
+   "counts": {
+    "vertices": 12,
+    "edges": 18,
+    "faces": 8
+   },
+   "selected": 2,
+   "volumeMm3": 4160
+  },
+  "pp-rib-root-concave-r2": {
+   "ok": true,
+   "jobSha256": "5b3441d204de0025d06bb4716a8ce4553dfc659468cb736cef23f2a51e9bc6bd",
+   "counts": {
+    "vertices": 16,
+    "edges": 24,
+    "faces": 10
+   },
+   "selected": 2,
+   "volumeMm3": 4160
+  },
+  "corpus-notch-trial-r6": {
+   "ok": true,
+   "jobSha256": "95e77545ad308b0cec6705028f049222dc050a74669ba761151d063de424953b",
+   "counts": {
+    "vertices": 16,
+    "edges": 24,
+    "faces": 10
+   },
+   "selected": 2,
+   "volumeMm3": 4710
+  },
+  "corpus-notch-trial-r3": {
+   "ok": true,
+   "jobSha256": "8c155910436e925d225b11747d7eff8d772cfc6c1a7fab0371dad1e683836e2b",
+   "counts": {
+    "vertices": 16,
+    "edges": 24,
+    "faces": 10
+   },
+   "selected": 2,
+   "volumeMm3": 4710
+  },
+  "corpus-notch-trial-r1.5": {
+   "ok": true,
+   "jobSha256": "ac688d92b69bead0550802083a8891d14c2a24344d9615092f53f4f1037795d5",
+   "counts": {
+    "vertices": 16,
+    "edges": 24,
+    "faces": 10
+   },
+   "selected": 2,
+   "volumeMm3": 4710
+  },
+  "corpus-notch-trial-r1": {
+   "ok": true,
+   "jobSha256": "a60eedd87f35dcf13ec96475f802f51fe97e362628a2f492a24c11130d28b2b2",
+   "counts": {
+    "vertices": 16,
+    "edges": 24,
+    "faces": 10
+   },
+   "selected": 2,
+   "volumeMm3": 4710
+  },
+  "pp-concave-240-r2": {
+   "ok": true,
+   "jobSha256": "7f76f140dedac28dd7072361c86ee8213a722bfcf56d545797176b5a2a2caf15",
+   "counts": {
+    "vertices": 10,
+    "edges": 15,
+    "faces": 7
+   },
+   "selected": 1,
+   "volumeMm3": 4700.9618282318115
+  },
+  "pp-convex-150-r2": {
+   "ok": true,
+   "jobSha256": "aea545daac7c5f1fdb9773a18cc021be1d4724f368502947d19afb8f69bc72fc",
+   "counts": {
+    "vertices": 10,
+    "edges": 15,
+    "faces": 7
+   },
+   "selected": 1,
+   "volumeMm3": 3602.885627746582
+  },
+  "pp-ridge-150-horizontal-r2": {
+   "ok": true,
+   "jobSha256": "82317c7d8c8b048bdd60e2a0fe9bac38655abcd84d5f8ad74366d3c51bf56f19",
+   "counts": {
+    "vertices": 10,
+    "edges": 15,
+    "faces": 7
+   },
+   "selected": 1,
+   "volumeMm3": 7205.771255493164
+  },
+  "pp-convex-120-hex-r2": {
+   "ok": true,
+   "jobSha256": "6ec34d7f2642fcc0418d37572cb5a4b2760f3b72676ec1d4573177167f29afcb",
+   "counts": {
+    "vertices": 12,
+    "edges": 18,
+    "faces": 8
+   },
+   "selected": 1,
+   "volumeMm3": 2598.0763435363765
+  },
+  "pp-concave-300-r1": {
+   "ok": true,
+   "jobSha256": "ae6159ab8a1b7bb5e03d672691a59acbfc37fcb19214246b7c92882e12c07699",
+   "counts": {
+    "vertices": 10,
+    "edges": 15,
+    "faces": 7
+   },
+   "selected": 1,
+   "volumeMm3": 8102.885627746582
+  },
+  "pp-convex-60-r2": {
+   "ok": true,
+   "jobSha256": "a26fa3855161a29f9c02134ae13fd636f8f4c877d15c9ff978f8e03496be31f5",
+   "counts": {
+    "vertices": 6,
+    "edges": 9,
+    "faces": 5
+   },
+   "selected": 1,
+   "volumeMm3": 1732.050895690918
+  },
+  "pp-convex-30-acute-r1": {
+   "ok": true,
+   "jobSha256": "90130ab1e23c88f2b8e94ce1cb416b5ec2e0c904c4edbdad4b0e9bdb2f37ce16",
+   "counts": {
+    "vertices": 6,
+    "edges": 9,
+    "faces": 5
+   },
+   "selected": 1,
+   "volumeMm3": 4000.00000665852
+  },
+  "ch-convex-60-d1": {
+   "ok": true,
+   "jobSha256": "4fd209125df0b6c9095376cd19b17cee4a18b07e1bdf899607776d46782fceea",
+   "counts": {
+    "vertices": 6,
+    "edges": 9,
+    "faces": 5
+   },
+   "selected": 1,
+   "volumeMm3": 1732.050895690918
+  },
+  "pc-post-top-rim-r1": {
+   "ok": true,
+   "jobSha256": "ef2f1b0b9b9e8a1dadac7a3a801e404e5912d977ea3d3f39d617301f9e6931dc",
+   "counts": {
+    "vertices": 2,
+    "edges": 3,
+    "faces": 3
+   },
+   "selected": 1,
+   "volumeMm3": 785.3981633974472
+  },
+  "pc-post-top-rim-spindle-r3.5": {
+   "ok": true,
+   "jobSha256": "22c50714f4c2fc4db97a7de4d32a77c4acd997143da47e6c415dcaaa2068a15d",
+   "counts": {
+    "vertices": 2,
+    "edges": 3,
+    "faces": 3
+   },
+   "selected": 1,
+   "volumeMm3": 785.3981633974472
+  },
+  "pc-post-top-rim-r4.99": {
+   "ok": true,
+   "jobSha256": "8422eb7d73b4c82806bbabd7d6702c9c5b92976dea4fd3565bb35d616bfbe2e1",
+   "counts": {
+    "vertices": 2,
+    "edges": 3,
+    "faces": 3
+   },
+   "selected": 1,
+   "volumeMm3": 785.3981633974472
+  },
+  "pc-post-top-rim-sphere-r5": {
+   "ok": true,
+   "jobSha256": "d048362e62d178fb781fda11aa20b28a283369fe4ce6b25b9d83b8602c26f82d",
+   "counts": {
+    "vertices": 2,
+    "edges": 3,
+    "faces": 3
+   },
+   "selected": 1,
+   "volumeMm3": 785.3981633974472
+  },
+  "pc-hole-rim-r1": {
+   "ok": true,
+   "jobSha256": "0cdcd5ce70a3651eaa0ca8e6114cbb0f41c7a6fd7e8c9f004ec4be3b41f5e324",
+   "counts": {
+    "vertices": 10,
+    "edges": 15,
+    "faces": 7
+   },
+   "selected": 1,
+   "volumeMm3": 5098.407105255377
+  },
+  "pc-hole-both-rims-r1": {
+   "ok": true,
+   "jobSha256": "4c06236336e4ba61c716162959813168bf50ebb84d28c0b82d3afe7fa45b3702",
+   "counts": {
+    "vertices": 10,
+    "edges": 15,
+    "faces": 7
+   },
+   "selected": 2,
+   "volumeMm3": 5098.407105255377
+  },
+  "pc-post-both-rims-r1": {
+   "ok": true,
+   "jobSha256": "9be549433e035620874d54057036411f94f5d28884bf8c21e2f549d3bdf9c27e",
+   "counts": {
+    "vertices": 2,
+    "edges": 3,
+    "faces": 3
+   },
+   "selected": 2,
+   "volumeMm3": 785.3981633974472
+  },
+  "fl-slot-outline-r1": {
+   "ok": true,
+   "jobSha256": "aa4b7ba0945134977b4b8b1c2c877ff6f1a13477cabec6a9ebe07542264d7a49",
+   "counts": {
+    "vertices": 8,
+    "edges": 12,
+    "faces": 6
+   },
+   "selected": 4,
+   "volumeMm3": 1114.1592653589796
+  },
+  "fl-slot-one-line-propagate-r1": {
+   "ok": true,
+   "jobSha256": "83a2cf2599c8381b80e230a088fe044ec8f7e2318e5cfca27731dc91b2bd13c3",
+   "counts": {
+    "vertices": 8,
+    "edges": 12,
+    "faces": 6
+   },
+   "selected": 1,
+   "volumeMm3": 1114.1592653589796
+  },
+  "ch-cone-rim-0.42": {
+   "ok": true,
+   "jobSha256": "3432e33c1c97d22eabd7cf7796b3323641c6e7d50b78a45650d8e6ac5b8381a1",
+   "counts": {
+    "vertices": 2,
+    "edges": 3,
+    "faces": 3
+   },
+   "selected": 1,
+   "volumeMm3": 1350.8848410436076
+  },
+  "pc-cone-rim-r1": {
+   "ok": true,
+   "jobSha256": "13991f817f66f79b1e536017b1626357d18e633f28eb52bbf7e4a9eb96825e98",
+   "counts": {
+    "vertices": 2,
+    "edges": 3,
+    "faces": 3
+   },
+   "selected": 1,
+   "volumeMm3": 1350.8848410436076
+  },
+  "pc-bump-generator-concave-r1": {
+   "ok": true,
+   "jobSha256": "338f48ceaa83b5259952d00bb73a83016877e117b1af6cf43b69fb69cb1fce24",
+   "counts": {
+    "vertices": 12,
+    "edges": 18,
+    "faces": 8
+   },
+   "selected": 2,
+   "volumeMm3": 2714.1592653589832
+  },
+  "pc-post-base-concave-r1": {
+   "ok": true,
+   "jobSha256": "0f7dc8cd7b44ea0163822b417a37b8635549a6a9b9a36dfdc92e0d7f9ca13736",
+   "counts": {
+    "vertices": 5,
+    "edges": 7,
+    "faces": 6
+   },
+   "selected": 1,
+   "volumeMm3": 1445.1326206513113
+  },
+  "pc-dflat-generator-convex-r1": {
+   "ok": true,
+   "jobSha256": "0d7ef4aa8d12114e36a3dcb5b1a9439748f4d6beee84ce659ac7088361e7addc",
+   "counts": {
+    "vertices": 4,
+    "edges": 6,
+    "faces": 4
+   },
+   "selected": 2,
+   "volumeMm3": 2694.2974355881743
+  },
+  "hard-single-edge-r-too-large-r12": {
+   "ok": true,
+   "jobSha256": "f72d9f29558b362236913a65fdc2d72c6aad84b44aeceb74da140af6499038ac",
+   "counts": {
+    "vertices": 8,
+    "edges": 12,
+    "faces": 6
+   },
+   "selected": 1,
+   "volumeMm3": 999.9999999999999
+  },
+  "hard-single-edge-r-equals-width-r10": {
+   "ok": true,
+   "jobSha256": "1f0506d085dea75ca831f0d89173ffeed360fffb4b4c1e578f40e3d0d0f103fd",
+   "counts": {
+    "vertices": 8,
+    "edges": 12,
+    "faces": 6
+   },
+   "selected": 1,
+   "volumeMm3": 999.9999999999999
+  },
+  "hard-single-edge-r9.999": {
+   "ok": true,
+   "jobSha256": "29051c731ba32846122c104ef12b3ca839f6430183f8a4dbc7509af46dfc7fae",
+   "counts": {
+    "vertices": 8,
+    "edges": 12,
+    "faces": 6
+   },
+   "selected": 1,
+   "volumeMm3": 999.9999999999999
+  },
+  "hard-full-round-r5": {
+   "ok": true,
+   "jobSha256": "91e35fbd8c85b0f0b2695a12536acf5509486615d8aa6b18355dbdffd043af09",
+   "counts": {
+    "vertices": 8,
+    "edges": 12,
+    "faces": 6
+   },
+   "selected": 2,
+   "volumeMm3": 999.9999999999999
+  },
+  "hard-near-full-round-r4.99": {
+   "ok": true,
+   "jobSha256": "5c0b9dccffd47f8ef32f9f247d462c2eaa8d7cb324e03f9e6ab237d0ac2c57db",
+   "counts": {
+    "vertices": 8,
+    "edges": 12,
+    "faces": 6
+   },
+   "selected": 2,
+   "volumeMm3": 999.9999999999999
+  },
+  "hard-overlapping-blends-thin-wall-r1": {
+   "ok": true,
+   "jobSha256": "b8d328cb95b8f3f337c60cc9504e4e44ec7e676ea9987d76c64af09da88b0827",
+   "counts": {
+    "vertices": 8,
+    "edges": 12,
+    "faces": 6
+   },
+   "selected": 2,
+   "volumeMm3": 300
+  },
+  "hard-fillet-after-boolean-fragments-r1": {
+   "ok": true,
+   "jobSha256": "04d342721831a4c00dfa160d390f7aa3723d2a48c9a1f24e5d7af21c54da9042",
+   "counts": {
+    "vertices": 48,
+    "edges": 92,
+    "faces": 46
+   },
+   "selected": 4,
+   "volumeMm3": 3800
+  },
+  "hard-short-edge-in-loop-r1": {
+   "ok": true,
+   "jobSha256": "2481b302a16f3e77f835f05179860ab902df29d7b02f6d693da5e1643b6a2b67",
+   "counts": {
+    "vertices": 10,
+    "edges": 15,
+    "faces": 7
+   },
+   "selected": 5,
+   "volumeMm3": 1199.25
+  },
+  "hard-chamfer-exceeds-both-faces-d5": {
+   "ok": true,
+   "jobSha256": "b9d1c525e460ad211ce291853edd4cfb904c8cc5a904a9b5c6f143103230ba6d",
+   "counts": {
+    "vertices": 8,
+    "edges": 12,
+    "faces": 6
+   },
+   "selected": 1,
+   "volumeMm3": 320
+  },
+  "hard-overflow-narrow-ledge-r0.4": {
+   "ok": true,
+   "jobSha256": "20c0e5b38fea6bda6bb32ae5eba5d2feac741b4e063c932fab07e122b220180e",
+   "counts": {
+    "vertices": 20,
+    "edges": 30,
+    "faces": 12
+   },
+   "selected": 1,
+   "volumeMm3": 720.625
+  },
+  "hard-boss-root-concave-mitres-r1": {
+   "ok": true,
+   "jobSha256": "ff70b2a7fe53e8b850f652d344b1207c1534b0c5350b174420ef6969b4f14e93",
+   "counts": {
+    "vertices": 48,
+    "edges": 92,
+    "faces": 46
+   },
+   "selected": 4,
+   "volumeMm3": 3800
+  },
+  "hard-overflow-convex-small-face-r2": {
+   "ok": true,
+   "jobSha256": "90c966dec40b3b4ac94730138ca495f825fa63d107acbbfa965f1217953b673f",
+   "counts": {
+    "vertices": 10,
+    "edges": 15,
+    "faces": 7
+   },
+   "selected": 1,
+   "volumeMm3": 1999.200001525878
+  },
+  "hard-near-tangent-ridge-178.9-r2": {
+   "ok": true,
+   "jobSha256": "d613a789094923b465ad43411fb1b406267f90ff12589fad7d7000a1ec6394ba",
+   "counts": {
+    "vertices": 10,
+    "edges": 15,
+    "faces": 7
+   },
+   "selected": 1,
+   "volumeMm3": 6043.198299407959
+  },
+  "pc-post-top-rim-too-large-r6": {
+   "ok": true,
+   "jobSha256": "451c8210abf06b846780dc4109e3e1205cb7ea488357b34830ca38f1b672ec86",
+   "counts": {
+    "vertices": 2,
+    "edges": 3,
+    "faces": 3
+   },
+   "selected": 1,
+   "volumeMm3": 785.3981633974472
+  },
+  "fl-slot-one-line-no-propagate-r1": {
+   "ok": true,
+   "jobSha256": "eb4fa0eff4c5e65116e25a4ff4ed862aeff9b9e118fdca3b1add8c084d093c3a",
+   "counts": {
+    "vertices": 8,
+    "edges": 12,
+    "faces": 6
+   },
+   "selected": 1,
+   "volumeMm3": 1114.1592653589796
+  },
+  "hard-tangent-edge-selection-r1": {
+   "ok": true,
+   "jobSha256": "2d209c4840adec38c1697e843bc91096ef32e1ab4140005767961f9896be4cec",
+   "counts": {
+    "vertices": 8,
+    "edges": 12,
+    "faces": 6
+   },
+   "selected": 1,
+   "volumeMm3": 1114.1592653589796
+  },
+  "hard-concave-rim-overflow-r6.5": {
+   "ok": true,
+   "jobSha256": "552e6f4053d9c3357acf2f87d2227442941fc966fd6f354a8aece234a234611f",
+   "counts": {
+    "vertices": 5,
+    "edges": 7,
+    "faces": 6
+   },
+   "selected": 1,
+   "volumeMm3": 1445.1326206513113
+  },
+  "hard-mixed-convexity-corner-r1": {
+   "ok": true,
+   "jobSha256": "43504966e5534d791744f30d56184a69a8591da7530812ed56288bf247e92721",
+   "counts": {
+    "vertices": 12,
+    "edges": 18,
+    "faces": 8
+   },
+   "selected": 3,
+   "volumeMm3": 4160
+  },
+  "ch-convex-120-hex-d1": {
+   "ok": true,
+   "jobSha256": "ef05d45e1bab353f6a17b3022780a542aab56e49a24a32024d5fc695914465f2",
+   "counts": {
+    "vertices": 12,
+    "edges": 18,
+    "faces": 8
+   },
+   "selected": 1,
+   "volumeMm3": 5196.152422706638
+  }
+ },
+ "generatedAt": "2026-09-24T12:09:23.987Z"
+}

@@ -1,0 +1,9 @@
+[package]
+name = "wonky-contract"
+version = "0.1.0"
+edition = "2021"
+description = "WC0 geometry and construction provenance transport contract"
+publish = false
+
+[dependencies]
+wonky-num = { path = "../wonky-num" }

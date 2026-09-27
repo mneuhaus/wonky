@@ -1,0 +1,68 @@
+# realthunder: Topological Naming Algorithm (asm3-wiki)
+
+- Kind: design documentation with pseudocode and demonstrations. Canonical [algorithm](https://github.com/realthunder/asm3-wiki/blob/3d96bd6bf6ae32fa726eee9c067471551ab99f6d/Topological-Naming-Algorithm.md); companion [framework, hashing, versioning](https://github.com/realthunder/asm3-wiki/blob/master/Topological-Naming.md); implementation lineage [Link branch](https://github.com/realthunder/FreeCAD), [upstream TopoShapeExpansion.cpp](https://github.com/FreeCAD/FreeCAD/blob/main/src/Mod/Part/App/TopoShapeExpansion.cpp).
+- Author: realthunder; historical FreeCAD Link/Assembly3 naming design. DOCUMENTED: inspected document revision is 2022-09-03, not a specification of every present FreeCAD 1.x behavior ([commit](https://github.com/realthunder/asm3-wiki/commit/3d96bd6bf6ae32fa726eee9c067471551ab99f6d)).
+- License: DOCUMENTED: GitHub reports no license for the documentation repository. No affirmative reuse permission found; do not copy prose/pseudocode into production. Independently implement concepts. Upstream FreeCAD code has its own LGPL terms, not this document's absent license ([metadata](https://api.github.com/repos/realthunder/asm3-wiki)).
+- Status snapshot 2026-09-24: DOCUMENTED: documentation repository, no detected programming language, GitHub size 161,498 KiB (repository storage, not source LOC), 1 star, 4 contributor records including anonymous entries, last commit 2022-09-03T11:49:57Z, no releases; not archived. It is historical documentation, not an abandoned CAD algorithm ([metadata](https://api.github.com/repos/realthunder/asm3-wiki), [commits](https://api.github.com/repos/realthunder/asm3-wiki/commits?per_page=1), [contributors](https://api.github.com/repos/realthunder/asm3-wiki/contributors?per_page=1&anon=1), [releases](https://api.github.com/repos/realthunder/asm3-wiki/releases)).
+
+## What it is
+
+DOCUMENTED: a provenance-derived, bidirectional naming layer above OCCT topology. The indexed location such as `Edge9` is not the persistent identity. A mapped name describes the source objects/elements and construction steps that produced the element. A `TopoShape::Mapper` normalizes maker history interfaces; Sewing and ThruSections require special handling. This is history-based naming, not a geometric matcher and not a proof that a user's intended edge survives an edit ([Overview/Algorithm](https://github.com/realthunder/asm3-wiki/blob/master/Topological-Naming-Algorithm.md#overview)).
+
+## How it works
+
+DOCUMENTED four-pass algorithm in `TopoShape::makESHAPE` ([pseudocode](https://github.com/realthunder/asm3-wiki/blob/master/Topological-Naming-Algorithm.md#algorithm)):
+
+1. **Unchanged:** map already-named input subshapes that occur unchanged in the result. Preserve their identities; do not mark every result as newly created.
+2. **History:** enumerate input vertices, edges and faces. For each `Modified(source)` and `Generated(source)` destination present in the result, collect a relation from its result index to `(source owner tag, source mapped name, relation, successor ordinal)`. Several sources can name one output. The pseudocode uses positive ordinals for modification and negative for generation. Select a first source as a recoverable prefix and encode other sources in a suffix. `M`, `G`, and defensive `MG` distinguish relation kinds.
+3. **Downward completion:** visit Face→Edge, then Edge→Vertex. An otherwise unnamed lower element obtains an upper-name-plus-ordinal alias (`;:U`). The same lower element may receive names from several upper elements. Sort aliases before choosing one later; traversal-dependent alias choice defeats reproducibility.
+4. **Upward completion:** visit Vertex→Edge, then Edge→Face. Name an unnamed upper element only when **all** its lower elements are named. Combine lower names using `;:L`; do not fabricate a partial identity from just one convenient boundary.
+
+DOCUMENTED name structure: source prefix, relation marker/ordinal, additional source list, opcode, then `;:T<tag>:<prefix-length>:<entity-type>`. The final tag and prefix length support reverse traversal without guessing string boundaries. The historical document uses **`;:T`**, not the `;:H` suggested in the research seed. Later upstream encodings must be read independently. The ordinary `;` separates components; `;:` is reserved for internal markers; successor index 1 may be omitted. Example source prefix `Face6` plus modification index 2/opcode FUS/tag 1 becomes `Face6;:M2;FUS;:T1:5:F`. Names contain ordinal disambiguators, not canonical geometric branch identifiers ([Algorithm and Test Example](https://github.com/realthunder/asm3-wiki/blob/master/Topological-Naming-Algorithm.md#test-example)).
+
+DOCUMENTED: `getElementHistory()` recovers the **first** source and intermediate steps; it is a linear historical view of a potentially multi-source relation, not a complete provenance DAG by itself. `getRelatedElements()` first tries a recoverable source name, then modified-name prefixes, then siblings modified from that source. `Part.getRelatedElement()` can walk every element's history when edits several steps upstream defeat the prefix shortcut ([Tracing Model History](https://github.com/realthunder/asm3-wiki/blob/master/Topological-Naming-Algorithm.md#tracing-model-history)).
+
+DOCUMENTED: `StringHasher` is primarily **string interning**, not a promise of cryptographic identity. A document-scoped integer ID (`#` plus hexadecimal ID) refers to a string. Default threshold 0 retains full strings; positive thresholds can discard long strings and store SHA-1 instead, losing reversibility. Segment interning preserves recoverable structure. Intermediate string-ID references must also be persisted or names change after save/restore. The companion document explicitly notes that these reference arrays can exceed the name length. Naming version includes feature behavior, TopoShape/ComplexGeoData versions, OCCT version, hasher choice and threshold ([String Hasher](https://github.com/realthunder/asm3-wiki/blob/master/Topological-Naming#string-hasher), [versioning](https://github.com/realthunder/asm3-wiki/blob/master/Topological-Naming.md#element-map-versioning)).
+
+## Robustness and guarantees
+
+DOCUMENTED: the scheme prevents a deleted name from being silently recycled merely because another edge takes its numeric slot. It does **not** remove split ambiguity. The author's cube/cylinder example explicitly shows a fillet switching to the lower of two split edges because OCCT emits it first. Adding endpoint names still cannot disambiguate all middle segments. The fillet feature fails on a genuinely missing name; the editing UI guesses related replacements and requires user attention. This separation between authoritative resolution and repair suggestions is the strongest safety lesson ([fillet example](https://github.com/realthunder/asm3-wiki/blob/master/Topological-Naming-Algorithm.md#fillet)).
+
+INFERRED: sorted source sets are deterministic only if their ingredients are stable. Kernel successor ordinals, tags allocated in runtime order, and topological enumeration still leak nondeterminism. The scheme has no numeric tolerances because it consumes combinatorial histories; geometry/history generation underneath still can be tolerance-dependent. No theorem of edit-invariant naming is supplied ([Algorithm](https://github.com/realthunder/asm3-wiki/blob/master/Topological-Naming-Algorithm.md#algorithm)).
+
+## Parallelism and performance
+
+DOCUMENTED author-reported informal single-model test: 148 objects; recomputation 40 s without mapping vs 52 s with mapping; uncompressed 17.8→22.6 MiB; level-3 compression 2.8→3.6 MiB. Hardware, repetitions and confidence intervals absent. This is about 30% time overhead in that example, **not** a transferable benchmark. No GPU/fork-join implementation is described ([Overhead](https://github.com/realthunder/asm3-wiki/blob/master/Topological-Naming-Algorithm.md#overhead)).
+
+INFERRED: each pass can emit immutable relation/alias records in parallel and then sort/group/reduce. There are dependencies between the four passes and between dimensional levels. Interned variable-length strings and irregular adjacency are poor uniform-GPU workloads; use U32 tuple records in Bend and reserve explanatory rendering for JS. Performance depends on total history and incidence size, not just face count (derived from [pseudocode](https://github.com/realthunder/asm3-wiki/blob/master/Topological-Naming-Algorithm.md#algorithm)).
+
+## Known failures, limitations, war stories
+
+- DOCUMENTED by author: split-order fillet selection; imperfect prefix recovery for changes several features back; overhead and potential naming/version drift; history interfaces not uniform across maker classes ([algorithm](https://github.com/realthunder/asm3-wiki/blob/master/Topological-Naming-Algorithm.md), [framework](https://github.com/realthunder/asm3-wiki/blob/master/Topological-Naming.md)).
+- DOCUMENTED **issue report, not independently reproduced here**: upstream [#17041](https://github.com/FreeCAD/FreeCAD/issues/17041) reports IDs changing after recompute in 1.0 RC2/1.1 development; still open at inspection. It demonstrates that merging a naming framework is not equivalent to solving every feature's naming behavior. Do not attribute a 2024 upstream regression to this historical pseudocode without diagnosis.
+- DOCUMENTED issue report [#27266](https://github.com/FreeCAD/FreeCAD/issues/27266): applying thickness to a perforated, chamfered body leaves a faulty chamfer reference; FreeCAD 1.1 RC2, still open at inspection. Useful interaction fixture for naming + offset/chamfer, not evidence that geometric nearest-neighbor repair is safe.
+
+## Relevance for wonky
+
+INFERRED recommended integration: implement a **typed immutable provenance DAG**, not the historical string grammar. `HistoryRelation = (input occurrence, input kind/index, output kind/index, unchanged|modified|generated, operation, role)`; keep all parents, then derive a compact display/reference encoding. Give unsupported history an explicit state. This fills the precise gap in `<repo>/kernel/identity.bend`, whose `boolean_result` currently uses `revision-local`/`unsupported-split-merge-correspondence`; `<repo>/src/identity.mjs::matchTopologyReference` currently refuses cross-revision revision-local matching (local files inspected 2026-09-24; conceptual basis [Algorithm](https://github.com/realthunder/asm3-wiki/blob/master/Topological-Naming-Algorithm.md#algorithm)).
+
+INFERRED Bend design:
+
+- Store a U32 relation tag, not the pseudocode's signed ordinal. Replace mutable dictionaries with balanced fork-join map/flatten, lexicographic sort, unique, segmented reductions, and binary searches. No F64, exact rationals or geometric predicates needed in this layer.
+- Intern structural nodes by complete ordered tuples; hashes of several U32 limbs can accelerate comparison but must not become unchecked identity. Persist collision buckets/full keys and intermediate nodes. Default FreeCAD hashing is reversible interning, so a hash-only port would throw away a central guarantee. Do not rely exclusively on a JS string side table if native Bend must save/reload standalone.
+- Preserve authoritative `split` and `merged` sets; keep an optional, explicitly heuristic UI repair list. Never auto-pick ordinal 1 or a nearest centroid as an exact reference.
+- Version the identity algorithm and include namespace/occurrence IDs. Keep provenance through Boolean→refine→fillet rather than overwriting it with the last operation. Faces from a split retain their source creator/role plus the modifying operation.
+- Test input-order permutations, reversed edge orientation, identical duplicate occurrences, split→merge→split, save/reload with intermediate operations omitted from the visible tree, and refactoring a feature's internal sequence. All are naming tests; no heavy geometric workload is needed to exercise the data model.
+
+The payoff is reliable Boolean selections, fillet/chamfer references, explanatory diffs, FDM feature reviews and source-linked LLM diagnostics; the algorithm itself does not improve SSI accuracy or repair failed solid construction ([history/color use cases](https://github.com/realthunder/asm3-wiki/blob/master/Topological-Naming-Algorithm.md#tracing-model-history)).
+
+## Pointers worth porting or studying
+
+- [Algorithm](https://github.com/realthunder/asm3-wiki/blob/3d96bd6bf6ae32fa726eee9c067471551ab99f6d/Topological-Naming-Algorithm.md#algorithm): four passes, multi-source relation collection, all-lower-elements guard, sorted aliases.
+- [Test Example / fillet](https://github.com/realthunder/asm3-wiki/blob/master/Topological-Naming-Algorithm.md#fillet): ordinal instability and UI-only recovery.
+- [String Hasher](https://github.com/realthunder/asm3-wiki/blob/master/Topological-Naming.md#string-hasher): interning, reachability/persistence of history strings, loss of reversibility above a threshold.
+- [Element Map Versioning](https://github.com/realthunder/asm3-wiki/blob/master/Topological-Naming.md#element-map-versioning): changing a feature's construction logic is a naming migration.
+
+## Verdict: adapt
+
+Adopt the four-pass decomposition, multi-parent history, reversible interning and strict separation of resolution from repair. Adapt the representation to immutable typed DAGs and explicit split/merge outcomes. Do **not** port the pseudocode literally, treat successor ordinals as stable identity, claim TNP is completely solved, or mistake a hasher-local ID for a globally persistent content hash. No production files changed; no builds/tests run.

@@ -1,0 +1,1386 @@
+{
+  "caseCount": 25,
+  "cases": [
+    {
+      "closedForm": {
+        "absoluteTolerance": 2e-09,
+        "checks": {
+          "area": true,
+          "volume": true
+        },
+        "expected": {
+          "area": 5200.0,
+          "volume": 24000.0
+        },
+        "passed": true,
+        "relativeTolerance": 2e-10
+      },
+      "exports": {
+        "step": "exports/primitive-box.step",
+        "stepMode": "occt",
+        "stepSha256": "f72f8e75ce897aa169bbe8bb77be0b37123d9cc57c9f2edfc85a3fc4eb88a8c7",
+        "stl": "exports/primitive-box.stl",
+        "stlMode": "occt",
+        "stlSha256": "bc14a6ec7dd2076c40cffbce3c096894848562ce34c43af98f61e00da908fa1d"
+      },
+      "id": "primitive-box",
+      "input": {
+        "geometry": {
+          "kind": "box",
+          "origin": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "size": [
+            20.0,
+            30.0,
+            40.0
+          ]
+        },
+        "id": "primitive-box",
+        "operation": "primitive"
+      },
+      "result": {
+        "area": 5199.999999999999,
+        "bbox": {
+          "max": [
+            20.0,
+            30.0,
+            40.0
+          ],
+          "min": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "edges": 12,
+        "faces": 6,
+        "valid": true,
+        "vertices": 8,
+        "volume": 24000.0
+      }
+    },
+    {
+      "closedForm": {
+        "absoluteTolerance": 2e-09,
+        "checks": {
+          "area": true,
+          "volume": true
+        },
+        "expected": {
+          "area": 288.0,
+          "volume": 240.0
+        },
+        "passed": true,
+        "relativeTolerance": 2e-10
+      },
+      "exports": {
+        "step": "exports/primitive-prism.step",
+        "stepMode": "occt",
+        "stepSha256": "f63f865b8f6a7cba19c0a5349264fc78472fc78fb716fd71c94107b00bf618cf",
+        "stl": "exports/primitive-prism.stl",
+        "stlMode": "occt",
+        "stlSha256": "e3368d46a5728bfed98f6719b80e98239d4896bc70693c01270590f5c0aac6bb"
+      },
+      "id": "primitive-prism",
+      "input": {
+        "geometry": {
+          "height": 10.0,
+          "kind": "prism",
+          "points": [
+            [
+              0.0,
+              0.0
+            ],
+            [
+              6.0,
+              0.0
+            ],
+            [
+              0.0,
+              8.0
+            ]
+          ]
+        },
+        "id": "primitive-prism",
+        "operation": "primitive"
+      },
+      "result": {
+        "area": 288.0,
+        "bbox": {
+          "max": [
+            6.0,
+            8.0,
+            10.0
+          ],
+          "min": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "edges": 9,
+        "faces": 5,
+        "valid": true,
+        "vertices": 6,
+        "volume": 240.0
+      }
+    },
+    {
+      "closedForm": {
+        "absoluteTolerance": 2e-09,
+        "checks": {
+          "area": true,
+          "volume": true
+        },
+        "expected": {
+          "area": 534.0707511102648,
+          "volume": 942.4777960769379
+        },
+        "passed": true,
+        "relativeTolerance": 2e-10
+      },
+      "exports": {
+        "step": "exports/primitive-cylinder.step",
+        "stepMode": "occt",
+        "stepSha256": "0e0cf5a2baf40b978eeb5bbb5a2054b4890555b73ab0df36919d7b25d8684f7e",
+        "stl": "exports/primitive-cylinder.stl",
+        "stlMode": "occt",
+        "stlSha256": "121b0ef6e7ab518405eef55b68d95ee211894adf9d1d8e2b3d8a26fffe16ce52"
+      },
+      "id": "primitive-cylinder",
+      "input": {
+        "geometry": {
+          "height": 12.0,
+          "kind": "cylinder",
+          "position": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "radius": 5.0
+        },
+        "id": "primitive-cylinder",
+        "operation": "primitive"
+      },
+      "result": {
+        "area": 534.0707511102648,
+        "bbox": {
+          "max": [
+            5.0,
+            5.0,
+            12.0
+          ],
+          "min": [
+            -5.0,
+            -5.0,
+            0.0
+          ]
+        },
+        "edges": 3,
+        "faces": 3,
+        "valid": true,
+        "vertices": 2,
+        "volume": 942.477796076938
+      }
+    },
+    {
+      "closedForm": {
+        "absoluteTolerance": 2e-09,
+        "checks": {
+          "area": true,
+          "volume": true
+        },
+        "expected": {
+          "area": 396.35161328701656,
+          "volume": 544.5427266222308
+        },
+        "passed": true,
+        "relativeTolerance": 2e-10
+      },
+      "exports": {
+        "step": "exports/primitive-cone.step",
+        "stepMode": "occt",
+        "stepSha256": "e5bee52a7de1f7e47b64698d4028b2df0b2d41e49ab691f7d186285939f015a4",
+        "stl": "exports/primitive-cone.stl",
+        "stlMode": "occt",
+        "stlSha256": "a54f58669bd4150d842d2bcc0dd6ac1ec329e808d4b9cc5bf4a6ca6391c6a88d"
+      },
+      "id": "primitive-cone",
+      "input": {
+        "geometry": {
+          "height": 10.0,
+          "kind": "cone",
+          "r1": 6.0,
+          "r2": 2.0
+        },
+        "id": "primitive-cone",
+        "operation": "primitive"
+      },
+      "result": {
+        "area": 396.35161328701656,
+        "bbox": {
+          "max": [
+            6.0,
+            6.0,
+            10.0
+          ],
+          "min": [
+            -6.0,
+            -6.0,
+            0.0
+          ]
+        },
+        "edges": 3,
+        "faces": 3,
+        "valid": true,
+        "vertices": 2,
+        "volume": 544.5427266222308
+      }
+    },
+    {
+      "closedForm": {
+        "absoluteTolerance": 2e-09,
+        "checks": {
+          "area": true,
+          "volume": true
+        },
+        "expected": {
+          "area": 615.7521601035994,
+          "volume": 1436.755040241732
+        },
+        "passed": true,
+        "relativeTolerance": 2e-10
+      },
+      "exports": {
+        "step": "exports/primitive-sphere.step",
+        "stepMode": "occt",
+        "stepSha256": "5c76533eb99ad43fea5b6015d5e56be459f62d3109819ac617409e4709e091d9",
+        "stl": "exports/primitive-sphere.stl",
+        "stlMode": "occt",
+        "stlSha256": "bd61b713d57987822f8d9a4f01f94aaf2499db8ec1487f088e52217a2d6c7075"
+      },
+      "id": "primitive-sphere",
+      "input": {
+        "geometry": {
+          "kind": "sphere",
+          "radius": 7.0
+        },
+        "id": "primitive-sphere",
+        "operation": "primitive"
+      },
+      "result": {
+        "area": 615.7521601035994,
+        "bbox": {
+          "max": [
+            7.0,
+            7.0,
+            7.0
+          ],
+          "min": [
+            -7.0,
+            -7.0,
+            -7.0
+          ]
+        },
+        "edges": 3,
+        "faces": 1,
+        "valid": true,
+        "vertices": 2,
+        "volume": 1436.755040241732
+      }
+    },
+    {
+      "closedForm": null,
+      "exports": {
+        "step": "exports/boolean-overlap-union.step",
+        "stepMode": "occt",
+        "stepSha256": "67761bb0ec783438f3ec1c5ff54713b54b8a81900ba60c3511af30d6d649477c",
+        "stl": "exports/boolean-overlap-union.stl",
+        "stlMode": "occt",
+        "stlSha256": "ef34f9b306ef0709cc3e2e886e705588244e46d00ea0468bcda370e18e088df7"
+      },
+      "id": "boolean-overlap-union",
+      "input": {
+        "boolean": "union",
+        "id": "boolean-overlap-union",
+        "left": {
+          "kind": "box",
+          "origin": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "size": [
+            10.0,
+            10.0,
+            10.0
+          ]
+        },
+        "operation": "boolean",
+        "right": {
+          "kind": "box",
+          "origin": [
+            6.0,
+            4.0,
+            3.0
+          ],
+          "size": [
+            8.0,
+            8.0,
+            8.0
+          ]
+        }
+      },
+      "result": {
+        "area": 796.0,
+        "bbox": {
+          "max": [
+            14.0,
+            12.0,
+            11.0
+          ],
+          "min": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "edges": 30,
+        "faces": 12,
+        "valid": true,
+        "vertices": 20,
+        "volume": 1344.0
+      }
+    },
+    {
+      "closedForm": null,
+      "exports": {
+        "step": "exports/boolean-overlap-subtract.step",
+        "stepMode": "occt",
+        "stepSha256": "c259ce25faf8a104f9705d54a47a84774b434e9cfee676e04900982f5f1f3731",
+        "stl": "exports/boolean-overlap-subtract.stl",
+        "stlMode": "occt",
+        "stlSha256": "a0faa1c8569856217a68018e6bea40332e5e611a5481bd52ea110d0ba150cc54"
+      },
+      "id": "boolean-overlap-subtract",
+      "input": {
+        "boolean": "subtract",
+        "id": "boolean-overlap-subtract",
+        "left": {
+          "kind": "box",
+          "origin": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "size": [
+            10.0,
+            10.0,
+            10.0
+          ]
+        },
+        "operation": "boolean",
+        "right": {
+          "kind": "box",
+          "origin": [
+            6.0,
+            4.0,
+            3.0
+          ],
+          "size": [
+            8.0,
+            8.0,
+            8.0
+          ]
+        }
+      },
+      "result": {
+        "area": 600.0,
+        "bbox": {
+          "max": [
+            10.0,
+            10.0,
+            10.0
+          ],
+          "min": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "edges": 21,
+        "faces": 9,
+        "valid": true,
+        "vertices": 14,
+        "volume": 832.0
+      }
+    },
+    {
+      "closedForm": null,
+      "exports": {
+        "step": "exports/boolean-overlap-intersect.step",
+        "stepMode": "occt",
+        "stepSha256": "0275d1341a71007bc3436efd65e543cb6f56bb8a2b76257da08565a4c46df3e6",
+        "stl": "exports/boolean-overlap-intersect.stl",
+        "stlMode": "occt",
+        "stlSha256": "37d2c19f94e493dee3b8a08c5eaf5c02dc346d1402b4422d25be922a3716036b"
+      },
+      "id": "boolean-overlap-intersect",
+      "input": {
+        "boolean": "intersect",
+        "id": "boolean-overlap-intersect",
+        "left": {
+          "kind": "box",
+          "origin": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "size": [
+            10.0,
+            10.0,
+            10.0
+          ]
+        },
+        "operation": "boolean",
+        "right": {
+          "kind": "box",
+          "origin": [
+            6.0,
+            4.0,
+            3.0
+          ],
+          "size": [
+            8.0,
+            8.0,
+            8.0
+          ]
+        }
+      },
+      "result": {
+        "area": 187.99999999999994,
+        "bbox": {
+          "max": [
+            10.0,
+            10.0,
+            10.0
+          ],
+          "min": [
+            6.0,
+            4.0,
+            3.0
+          ]
+        },
+        "edges": 12,
+        "faces": 6,
+        "valid": true,
+        "vertices": 8,
+        "volume": 168.0
+      }
+    },
+    {
+      "closedForm": null,
+      "exports": {
+        "step": "exports/boolean-coplanar-coincident-faces-union.step",
+        "stepMode": "occt",
+        "stepSha256": "b78f8b53dfdda9d9cad9e60a474fcd3a74a255dcc8c1b3e83a86ffeceeb49238",
+        "stl": "exports/boolean-coplanar-coincident-faces-union.stl",
+        "stlMode": "occt",
+        "stlSha256": "3162bc151f27875708bdff746006851e2ed1a6f41592771087c21ad6b5e0844c"
+      },
+      "id": "boolean-coplanar-coincident-faces-union",
+      "input": {
+        "boolean": "union",
+        "id": "boolean-coplanar-coincident-faces-union",
+        "left": {
+          "kind": "box",
+          "origin": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "size": [
+            10.0,
+            10.0,
+            10.0
+          ]
+        },
+        "operation": "boolean",
+        "right": {
+          "kind": "box",
+          "origin": [
+            5.0,
+            0.0,
+            0.0
+          ],
+          "size": [
+            10.0,
+            10.0,
+            10.0
+          ]
+        }
+      },
+      "result": {
+        "area": 799.9999999999999,
+        "bbox": {
+          "max": [
+            15.0,
+            10.0,
+            10.0
+          ],
+          "min": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "edges": 28,
+        "faces": 14,
+        "valid": true,
+        "vertices": 16,
+        "volume": 1499.9999999999993
+      }
+    },
+    {
+      "closedForm": null,
+      "exports": {
+        "step": "exports/boolean-coplanar-coincident-faces-subtract.step",
+        "stepMode": "occt",
+        "stepSha256": "3966d6e0533dd07448dbead84b972237ae9623ffc079aed5bab34514c64441f2",
+        "stl": "exports/boolean-coplanar-coincident-faces-subtract.stl",
+        "stlMode": "occt",
+        "stlSha256": "ff5bcad9f167172b8529c4e49825e1be62fbf6717bf0305aa82e78174cf7e667"
+      },
+      "id": "boolean-coplanar-coincident-faces-subtract",
+      "input": {
+        "boolean": "subtract",
+        "id": "boolean-coplanar-coincident-faces-subtract",
+        "left": {
+          "kind": "box",
+          "origin": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "size": [
+            10.0,
+            10.0,
+            10.0
+          ]
+        },
+        "operation": "boolean",
+        "right": {
+          "kind": "box",
+          "origin": [
+            5.0,
+            0.0,
+            0.0
+          ],
+          "size": [
+            10.0,
+            10.0,
+            10.0
+          ]
+        }
+      },
+      "result": {
+        "area": 399.99999999999994,
+        "bbox": {
+          "max": [
+            5.0,
+            10.0,
+            10.0
+          ],
+          "min": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "edges": 12,
+        "faces": 6,
+        "valid": true,
+        "vertices": 8,
+        "volume": 499.9999999999999
+      }
+    },
+    {
+      "closedForm": null,
+      "exports": {
+        "step": "exports/boolean-coplanar-coincident-faces-intersect.step",
+        "stepMode": "occt",
+        "stepSha256": "aef0306289f23cb9e07688786d61a71a39585b1558c29f2a3508dc2761e1c955",
+        "stl": "exports/boolean-coplanar-coincident-faces-intersect.stl",
+        "stlMode": "occt",
+        "stlSha256": "bde2554ed9ce078aae62ab44cb11142c4596c194c3c12bee26f4969a45fc0140"
+      },
+      "id": "boolean-coplanar-coincident-faces-intersect",
+      "input": {
+        "boolean": "intersect",
+        "id": "boolean-coplanar-coincident-faces-intersect",
+        "left": {
+          "kind": "box",
+          "origin": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "size": [
+            10.0,
+            10.0,
+            10.0
+          ]
+        },
+        "operation": "boolean",
+        "right": {
+          "kind": "box",
+          "origin": [
+            5.0,
+            0.0,
+            0.0
+          ],
+          "size": [
+            10.0,
+            10.0,
+            10.0
+          ]
+        }
+      },
+      "result": {
+        "area": 399.99999999999994,
+        "bbox": {
+          "max": [
+            10.0,
+            10.0,
+            10.0
+          ],
+          "min": [
+            5.0,
+            0.0,
+            0.0
+          ]
+        },
+        "edges": 12,
+        "faces": 6,
+        "valid": true,
+        "vertices": 8,
+        "volume": 499.9999999999999
+      }
+    },
+    {
+      "closedForm": null,
+      "exports": {
+        "step": "exports/boolean-sphere-internal-tangent-union.step",
+        "stepMode": "occt",
+        "stepSha256": "9b25940f41539e96a3f5de6dc504214edda1471a025b61dee06032166140ddeb",
+        "stl": "exports/boolean-sphere-internal-tangent-union.stl",
+        "stlMode": "occt",
+        "stlSha256": "067facf25d617462ed91ca3cf1d2984834e7308883d0acd7526ee0271612f75b"
+      },
+      "id": "boolean-sphere-internal-tangent-union",
+      "input": {
+        "boolean": "union",
+        "id": "boolean-sphere-internal-tangent-union",
+        "left": {
+          "kind": "sphere",
+          "radius": 6.0
+        },
+        "operation": "boolean",
+        "right": {
+          "kind": "sphere",
+          "position": [
+            4.0,
+            0.0,
+            0.0
+          ],
+          "radius": 2.0
+        }
+      },
+      "result": {
+        "area": 452.38934211693027,
+        "bbox": {
+          "max": [
+            6.0,
+            6.0,
+            6.0
+          ],
+          "min": [
+            -6.0,
+            -6.0,
+            -6.0
+          ]
+        },
+        "edges": 4,
+        "faces": 1,
+        "valid": true,
+        "vertices": 3,
+        "volume": 904.7786842338604
+      }
+    },
+    {
+      "closedForm": null,
+      "exports": {
+        "step": "exports/boolean-sphere-internal-tangent-subtract.step",
+        "stepMode": "occt",
+        "stepSha256": "0a1403f370eb4d7cc2427c64c4621d0ee4be6e3780b52688751cb1fdb36b5823",
+        "stl": "exports/boolean-sphere-internal-tangent-subtract.stl",
+        "stlMode": "occt",
+        "stlSha256": "5cc0542554fcd4e74d8b374d09811f2841663f352082ecf32e489a22060e2ab3"
+      },
+      "id": "boolean-sphere-internal-tangent-subtract",
+      "input": {
+        "boolean": "subtract",
+        "id": "boolean-sphere-internal-tangent-subtract",
+        "left": {
+          "kind": "sphere",
+          "radius": 6.0
+        },
+        "operation": "boolean",
+        "right": {
+          "kind": "sphere",
+          "position": [
+            4.0,
+            0.0,
+            0.0
+          ],
+          "radius": 2.0
+        }
+      },
+      "result": {
+        "area": 502.65482457436696,
+        "bbox": {
+          "max": [
+            6.0,
+            6.0,
+            6.0
+          ],
+          "min": [
+            -6.0,
+            -6.0,
+            -6.0
+          ]
+        },
+        "edges": 8,
+        "faces": 2,
+        "valid": true,
+        "vertices": 5,
+        "volume": 871.2683625955693
+      }
+    },
+    {
+      "closedForm": null,
+      "exports": {
+        "step": "exports/boolean-sphere-internal-tangent-intersect.step",
+        "stepMode": "occt",
+        "stepSha256": "8b3c95b206a123faa8124bcfc4b03e83e31c0e046937e6f353e7bf1c04d125b4",
+        "stl": "exports/boolean-sphere-internal-tangent-intersect.stl",
+        "stlMode": "occt",
+        "stlSha256": "50671e3595ca20fb14550142470269f7b2d5dd05675e43b24a9dd9a2127fcbd1"
+      },
+      "id": "boolean-sphere-internal-tangent-intersect",
+      "input": {
+        "boolean": "intersect",
+        "id": "boolean-sphere-internal-tangent-intersect",
+        "left": {
+          "kind": "sphere",
+          "radius": 6.0
+        },
+        "operation": "boolean",
+        "right": {
+          "kind": "sphere",
+          "position": [
+            4.0,
+            0.0,
+            0.0
+          ],
+          "radius": 2.0
+        }
+      },
+      "result": {
+        "area": 50.26548245743669,
+        "bbox": {
+          "max": [
+            6.0,
+            2.0,
+            2.0
+          ],
+          "min": [
+            2.0,
+            -2.0,
+            -2.0
+          ]
+        },
+        "edges": 4,
+        "faces": 1,
+        "valid": true,
+        "vertices": 3,
+        "volume": 33.510321638291124
+      }
+    },
+    {
+      "closedForm": null,
+      "exports": {
+        "step": "exports/boolean-sphere-near-tangent-contained-union.step",
+        "stepMode": "occt",
+        "stepSha256": "9b25940f41539e96a3f5de6dc504214edda1471a025b61dee06032166140ddeb",
+        "stl": "exports/boolean-sphere-near-tangent-contained-union.stl",
+        "stlMode": "occt",
+        "stlSha256": "94c94b346604cd3bd1c457c4987e544219ef3fddfde4545fdad60afb00270a59"
+      },
+      "id": "boolean-sphere-near-tangent-contained-union",
+      "input": {
+        "boolean": "union",
+        "id": "boolean-sphere-near-tangent-contained-union",
+        "left": {
+          "kind": "sphere",
+          "radius": 6.0
+        },
+        "operation": "boolean",
+        "right": {
+          "kind": "sphere",
+          "position": [
+            3.999,
+            0.0,
+            0.0
+          ],
+          "radius": 2.0
+        }
+      },
+      "result": {
+        "area": 452.3893421169302,
+        "bbox": {
+          "max": [
+            6.0,
+            6.0,
+            6.0
+          ],
+          "min": [
+            -6.0,
+            -6.0,
+            -6.0
+          ]
+        },
+        "edges": 3,
+        "faces": 1,
+        "valid": true,
+        "vertices": 2,
+        "volume": 904.7786842338604
+      }
+    },
+    {
+      "closedForm": null,
+      "exports": {
+        "step": "exports/boolean-sphere-near-tangent-contained-subtract.step",
+        "stepMode": "occt",
+        "stepSha256": "27d533e86b285a9955fb6f9275a3f8cf9de08812b2476911aa113ac37d1c8c75",
+        "stl": "exports/boolean-sphere-near-tangent-contained-subtract.stl",
+        "stlMode": "occt",
+        "stlSha256": "8c514319b174a227f346365bf9ca9b66446cc50881e34c77af0b220d189e7f09"
+      },
+      "id": "boolean-sphere-near-tangent-contained-subtract",
+      "input": {
+        "boolean": "subtract",
+        "id": "boolean-sphere-near-tangent-contained-subtract",
+        "left": {
+          "kind": "sphere",
+          "radius": 6.0
+        },
+        "operation": "boolean",
+        "right": {
+          "kind": "sphere",
+          "position": [
+            3.999,
+            0.0,
+            0.0
+          ],
+          "radius": 2.0
+        }
+      },
+      "result": {
+        "area": 502.6548245743669,
+        "bbox": {
+          "max": [
+            6.0,
+            6.0,
+            6.0
+          ],
+          "min": [
+            -6.0,
+            -6.0,
+            -6.0
+          ]
+        },
+        "edges": 6,
+        "faces": 2,
+        "valid": true,
+        "vertices": 4,
+        "volume": 871.2683625955693
+      }
+    },
+    {
+      "closedForm": null,
+      "exports": {
+        "step": "exports/boolean-sphere-near-tangent-contained-intersect.step",
+        "stepMode": "occt",
+        "stepSha256": "e8a3b916c39a1128ddb1eb3a7c2e1288e15ddbd603dc6d86b00dfc2f9b3ec138",
+        "stl": "exports/boolean-sphere-near-tangent-contained-intersect.stl",
+        "stlMode": "occt",
+        "stlSha256": "a8231b1faf7f956756075b1d11bc0bf566377d5dc2b1c5c744240d4ed428df8d"
+      },
+      "id": "boolean-sphere-near-tangent-contained-intersect",
+      "input": {
+        "boolean": "intersect",
+        "id": "boolean-sphere-near-tangent-contained-intersect",
+        "left": {
+          "kind": "sphere",
+          "radius": 6.0
+        },
+        "operation": "boolean",
+        "right": {
+          "kind": "sphere",
+          "position": [
+            3.999,
+            0.0,
+            0.0
+          ],
+          "radius": 2.0
+        }
+      },
+      "result": {
+        "area": 50.265482457436704,
+        "bbox": {
+          "max": [
+            5.9990000000000006,
+            2.0,
+            2.0
+          ],
+          "min": [
+            1.999,
+            -2.0,
+            -2.0
+          ]
+        },
+        "edges": 3,
+        "faces": 1,
+        "valid": true,
+        "vertices": 2,
+        "volume": 33.51032163829113
+      }
+    },
+    {
+      "closedForm": null,
+      "exports": {
+        "step": "exports/boolean-sphere-near-tangent-protruding-union.step",
+        "stepMode": "occt",
+        "stepSha256": "9228aed5f80bc841d2bff6c08b1a664febab72df06f570ecce79a74af308854b",
+        "stl": "exports/boolean-sphere-near-tangent-protruding-union.stl",
+        "stlMode": "occt",
+        "stlSha256": "a01897b5ccbe61efce4f4b02deada5ef83170a415679e6e9765c135120519adc"
+      },
+      "id": "boolean-sphere-near-tangent-protruding-union",
+      "input": {
+        "boolean": "union",
+        "id": "boolean-sphere-near-tangent-protruding-union",
+        "left": {
+          "kind": "sphere",
+          "radius": 6.0
+        },
+        "operation": "boolean",
+        "right": {
+          "kind": "sphere",
+          "position": [
+            4.001,
+            0.0,
+            0.0
+          ],
+          "radius": 2.0
+        }
+      },
+      "result": {
+        "area": 452.3893483987548,
+        "bbox": {
+          "max": [
+            6.001,
+            6.0,
+            6.0
+          ],
+          "min": [
+            -6.0,
+            -6.0,
+            -6.0
+          ]
+        },
+        "edges": 7,
+        "faces": 3,
+        "valid": true,
+        "vertices": 4,
+        "volume": 904.7786936553902
+      }
+    },
+    {
+      "closedForm": null,
+      "exports": {
+        "step": "exports/boolean-sphere-near-tangent-protruding-subtract.step",
+        "stepMode": "occt",
+        "stepSha256": "943a5de9f52dc38724417660547703e067516ca69e127c57e1fd6f34269febf0",
+        "stl": "exports/boolean-sphere-near-tangent-protruding-subtract.stl",
+        "stlMode": "occt",
+        "stlSha256": "1d8f66b40b08d8e851ad2bf75f499f4500bc8296c7bc9fe3f9805036512012d5"
+      },
+      "id": "boolean-sphere-near-tangent-protruding-subtract",
+      "input": {
+        "boolean": "subtract",
+        "id": "boolean-sphere-near-tangent-protruding-subtract",
+        "left": {
+          "kind": "sphere",
+          "radius": 6.0
+        },
+        "operation": "boolean",
+        "right": {
+          "kind": "sphere",
+          "position": [
+            4.001,
+            0.0,
+            0.0
+          ],
+          "radius": 2.0
+        }
+      },
+      "result": {
+        "area": 502.61713802616737,
+        "bbox": {
+          "max": [
+            5.999500249937521,
+            6.0,
+            6.0
+          ],
+          "min": [
+            -6.0,
+            -6.0,
+            -6.0
+          ]
+        },
+        "edges": 10,
+        "faces": 2,
+        "valid": true,
+        "vertices": 6,
+        "volume": 871.2683720170966
+      }
+    },
+    {
+      "closedForm": null,
+      "exports": {
+        "step": "exports/boolean-sphere-near-tangent-protruding-intersect.step",
+        "stepMode": "occt",
+        "stepSha256": "4a7ce21565fd9fc4601fed1e2514f6fa12b906dac71ee8df60c447504e31097b",
+        "stl": "exports/boolean-sphere-near-tangent-protruding-intersect.stl",
+        "stlMode": "occt",
+        "stlSha256": "84c6e49dd5c1844c0c76ca5add375f5478bafc7b31a910bd5a7f9110a758a11f"
+      },
+      "id": "boolean-sphere-near-tangent-protruding-intersect",
+      "input": {
+        "boolean": "intersect",
+        "id": "boolean-sphere-near-tangent-protruding-intersect",
+        "left": {
+          "kind": "sphere",
+          "radius": 6.0
+        },
+        "operation": "boolean",
+        "right": {
+          "kind": "sphere",
+          "position": [
+            4.001,
+            0.0,
+            0.0
+          ],
+          "radius": 2.0
+        }
+      },
+      "result": {
+        "area": 50.26547617562662,
+        "bbox": {
+          "max": [
+            6.0,
+            2.0,
+            2.0
+          ],
+          "min": [
+            2.0010000000000003,
+            -2.0,
+            -2.0
+          ]
+        },
+        "edges": 7,
+        "faces": 3,
+        "valid": true,
+        "vertices": 4,
+        "volume": 33.51031221687403
+      }
+    },
+    {
+      "closedForm": null,
+      "exports": {
+        "step": "exports/boolean-sphere-external-tangent-intersect.step",
+        "stepMode": "empty-result",
+        "stepSha256": "40c2425ae3d4aea55df76c683d57fb036f7317aa2cbcf12d043c54631d495f55",
+        "stl": "exports/boolean-sphere-external-tangent-intersect.stl",
+        "stlMode": "empty-result",
+        "stlSha256": "b448dae2753c62e59bcdc59c23e4142898b1f747b52a19a7b6d19e45737344de"
+      },
+      "id": "boolean-sphere-external-tangent-intersect",
+      "input": {
+        "boolean": "intersect",
+        "expectedOutcome": "empty",
+        "id": "boolean-sphere-external-tangent-intersect",
+        "left": {
+          "kind": "sphere",
+          "radius": 2.0
+        },
+        "operation": "boolean",
+        "right": {
+          "kind": "sphere",
+          "position": [
+            4.0,
+            0.0,
+            0.0
+          ],
+          "radius": 2.0
+        }
+      },
+      "result": {
+        "area": 0.0,
+        "bbox": null,
+        "edges": 0,
+        "faces": 0,
+        "valid": true,
+        "vertices": 0,
+        "volume": 0.0
+      }
+    },
+    {
+      "closedForm": null,
+      "exports": {
+        "step": "exports/boolean-box-face-tangent-intersect.step",
+        "stepMode": "empty-result",
+        "stepSha256": "40c2425ae3d4aea55df76c683d57fb036f7317aa2cbcf12d043c54631d495f55",
+        "stl": "exports/boolean-box-face-tangent-intersect.stl",
+        "stlMode": "empty-result",
+        "stlSha256": "349dc226ca4fffecf7105d3bb5708bae7df96acc6e642dd717a1b0c7528e085d"
+      },
+      "id": "boolean-box-face-tangent-intersect",
+      "input": {
+        "boolean": "intersect",
+        "expectedOutcome": "empty",
+        "id": "boolean-box-face-tangent-intersect",
+        "left": {
+          "kind": "box",
+          "origin": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "size": [
+            10.0,
+            10.0,
+            10.0
+          ]
+        },
+        "operation": "boolean",
+        "right": {
+          "kind": "box",
+          "origin": [
+            10.0,
+            0.0,
+            0.0
+          ],
+          "size": [
+            10.0,
+            10.0,
+            10.0
+          ]
+        }
+      },
+      "result": {
+        "area": 0.0,
+        "bbox": null,
+        "edges": 0,
+        "faces": 0,
+        "valid": true,
+        "vertices": 0,
+        "volume": 0.0
+      }
+    },
+    {
+      "closedForm": null,
+      "exports": {
+        "step": "exports/boolean-box-near-disjoint-intersect.step",
+        "stepMode": "empty-result",
+        "stepSha256": "40c2425ae3d4aea55df76c683d57fb036f7317aa2cbcf12d043c54631d495f55",
+        "stl": "exports/boolean-box-near-disjoint-intersect.stl",
+        "stlMode": "empty-result",
+        "stlSha256": "8cb4efa2fa5918fe670f3c0332d51903fb075f47c8c0d2159b3eb3da39cfcff7"
+      },
+      "id": "boolean-box-near-disjoint-intersect",
+      "input": {
+        "boolean": "intersect",
+        "expectedOutcome": "empty",
+        "id": "boolean-box-near-disjoint-intersect",
+        "left": {
+          "kind": "box",
+          "origin": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "size": [
+            10.0,
+            10.0,
+            10.0
+          ]
+        },
+        "operation": "boolean",
+        "right": {
+          "kind": "box",
+          "origin": [
+            10.001,
+            0.0,
+            0.0
+          ],
+          "size": [
+            10.0,
+            10.0,
+            10.0
+          ]
+        }
+      },
+      "result": {
+        "area": 0.0,
+        "bbox": null,
+        "edges": 0,
+        "faces": 0,
+        "valid": true,
+        "vertices": 0,
+        "volume": 0.0
+      }
+    },
+    {
+      "closedForm": null,
+      "exports": {
+        "step": "exports/fillet-box-all-edges-r1_5.step",
+        "stepMode": "occt",
+        "stepSha256": "444d5c43c6b88106af3afcf6850f4e29e1ea02b58f3fe78250228d209901be87",
+        "stl": "exports/fillet-box-all-edges-r1_5.stl",
+        "stlMode": "occt",
+        "stlSha256": "23ba871a26f857c3f1dc42f21ef50a6f315b8c45da949d0671d9276a9b1a378b"
+      },
+      "id": "fillet-box-all-edges-r1_5",
+      "input": {
+        "geometry": {
+          "kind": "box",
+          "origin": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "size": [
+            20.0,
+            16.0,
+            12.0
+          ]
+        },
+        "id": "fillet-box-all-edges-r1_5",
+        "operation": "fillet",
+        "radius": 1.5,
+        "selection": "all-edges"
+      },
+      "result": {
+        "area": 1377.8406743523133,
+        "bbox": {
+          "max": [
+            20.0,
+            16.0,
+            12.0
+          ],
+          "min": [
+            -2.220446049250313e-16,
+            -2.220446049250313e-16,
+            -2.220446049250313e-16
+          ]
+        },
+        "edges": 56,
+        "faces": 26,
+        "valid": true,
+        "vertices": 24,
+        "volume": 3751.8119222936593
+      }
+    },
+    {
+      "closedForm": null,
+      "exports": {
+        "step": "exports/fillet-plate-vertical-edges-r1_5.step",
+        "stepMode": "occt",
+        "stepSha256": "ba026356eff7073188edddcc3f675546d5549eee45adc26623a3dce1176a0d63",
+        "stl": "exports/fillet-plate-vertical-edges-r1_5.stl",
+        "stlMode": "occt",
+        "stlSha256": "ad4d01a50a3f5155133e71131a1a9a1c581a2d9e1b0d34e73eba287f3eec207b"
+      },
+      "id": "fillet-plate-vertical-edges-r1_5",
+      "input": {
+        "geometry": {
+          "kind": "box",
+          "origin": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "size": [
+            32.0,
+            20.0,
+            4.0
+          ]
+        },
+        "id": "fillet-plate-vertical-edges-r1_5",
+        "operation": "fillet",
+        "radius": 1.5,
+        "selection": "vertical-edges"
+      },
+      "result": {
+        "area": 1681.8362787842318,
+        "bbox": {
+          "max": [
+            32.0,
+            20.0,
+            4.0
+          ],
+          "min": [
+            -2.220446049250313e-16,
+            -2.220446049250313e-16,
+            0.0
+          ]
+        },
+        "edges": 24,
+        "faces": 10,
+        "valid": true,
+        "vertices": 16,
+        "volume": 2552.2743338823075
+      }
+    }
+  ],
+  "provenance": {
+    "generator": "scripts/rust/occt-oracle/generate.py",
+    "generatorSha256": "d71c5e8a5d8293545657d3d5222bba852da56bf3e4373894223a2c52ca295af0",
+    "tessellationAngularDeflectionRad": 0.5,
+    "tessellationDeflection": 0.1,
+    "units": "mm",
+    "versions": {
+      "build123d": "0.10.0",
+      "cadqueryOcpPackage": "7.8.1.1.post1",
+      "occt": "7.8.1.1"
+    }
+  },
+  "purpose": "Synthetic OCCT reference results for Rust-kernel validation only; OCCT never constructs production geometry. Consumer: direct-better Rust geometry and Boolean/fillet validation. Defect class: silent-wrong geometry or invalid B-reps. Delete when the Rust validation suite has independent frozen references for these cases.",
+  "schemaVersion": 1
+}

@@ -1,0 +1,5 @@
+; A type error three calls deep: the error carries the span of the failing
+; union and the spans of every enclosing call back to the host.
+(def tab (base) (union base 5))
+(def build (w) (tab (box 0 0 0 w 20 10)))
+(volume (build 30))

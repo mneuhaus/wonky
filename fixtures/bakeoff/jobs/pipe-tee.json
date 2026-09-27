@@ -1,0 +1,83 @@
+{
+ "schema": "wonky-bakeoff-fixture/1",
+ "case": "pipe-tee",
+ "category": "cylinders",
+ "deviationMm": 0.01,
+ "location": "fixtures/bakeoff/jobs",
+ "job": "fixtures/bakeoff/jobs/pipe-tee.job",
+ "csgJob": "fixtures/bakeoff/jobs/pipe-tee.csg.job",
+ "jobBytes": 30940,
+ "jobSha256": "bc1c72b6ad55eb71727e37fc154797926844213983328f054892f7aa23e04f27",
+ "csgJobSha256": "e63dadb6c45a58a2c84da28f46bd8621af5e1718be46d10e0d7280af4b6034e4",
+ "leaves": 4,
+ "faces": 12,
+ "vertices": 400,
+ "triangles": 784,
+ "deviationMeasuredMaxMm": 0.009439109893103925,
+ "leafInfo": [
+  {
+   "leaf": 0,
+   "prim": "cylinder",
+   "vertices": 114,
+   "triangles": 224,
+   "tags": [
+    0,
+    1,
+    2
+   ],
+   "segments": 56,
+   "deviationMeasuredMm": 0.009439109893103925,
+   "deviationMethod": "barycentric-grid-8 (max lies on sampled chord midlines)",
+   "vertexOnSurfaceMaxMm": 8.881784197001252e-15,
+   "analyticVolume": 4523.893421169302
+  },
+  {
+   "leaf": 1,
+   "prim": "cylinder",
+   "vertices": 98,
+   "triangles": 192,
+   "tags": [
+    3,
+    4,
+    5
+   ],
+   "segments": 48,
+   "deviationMeasuredMm": 0.008564307045588748,
+   "deviationMethod": "barycentric-grid-8 (max lies on sampled chord midlines)",
+   "vertexOnSurfaceMaxMm": 3.552713678800501e-15,
+   "analyticVolume": 1005.3096491487338
+  },
+  {
+   "leaf": 2,
+   "prim": "cylinder",
+   "vertices": 106,
+   "triangles": 208,
+   "tags": [
+    6,
+    7,
+    8
+   ],
+   "segments": 52,
+   "deviationMeasuredMm": 0.00912222888341585,
+   "deviationMethod": "barycentric-grid-8 (max lies on sampled chord midlines)",
+   "vertexOnSurfaceMaxMm": 3.552713678800501e-15,
+   "analyticVolume": 3298.6722862692827
+  },
+  {
+   "leaf": 3,
+   "prim": "cylinder",
+   "vertices": 82,
+   "triangles": 160,
+   "tags": [
+    9,
+    10,
+    11
+   ],
+   "segments": 40,
+   "deviationMeasuredMm": 0.009247998800616664,
+   "deviationMethod": "barycentric-grid-8 (max lies on sampled chord midlines)",
+   "vertexOnSurfaceMaxMm": 4.440892098500626e-15,
+   "analyticVolume": 622.0353454107791
+  }
+ ]
+}

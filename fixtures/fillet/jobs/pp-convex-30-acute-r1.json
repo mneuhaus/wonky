@@ -1,0 +1,42 @@
+{
+ "id": "pp-convex-30-acute-r1",
+ "jobSha256": "90130ab1e23c88f2b8e94ce1cb416b5ec2e0c904c4edbdad4b0e9bdb2f37ce16",
+ "jobBytes": 1804,
+ "sourceSha256": "de87277afc3130b4d942b7efc662fc4ede008358507abaf8d7edfad603431aaa",
+ "buildMs": 2.0565419999998085,
+ "kernel": {
+  "closed": true,
+  "volumeMm3": 4000.00000665852,
+  "areaMm2": 1807.0552190342357,
+  "precision": "F32x2",
+  "geometry": "planar"
+ },
+ "counts": {
+  "vertices": 6,
+  "edges": 9,
+  "faces": 5
+ },
+ "surfaces": {
+  "plane": 5
+ },
+ "quantizationErrorMm": 1.4210854715202004e-14,
+ "selected": [
+  {
+   "edge": 6,
+   "curve": "line",
+   "faces": [
+    "plane",
+    "plane"
+   ],
+   "convexity": "convex",
+   "dihedralDeg": 30.0000022667162,
+   "length": 10,
+   "sample": [
+    0,
+    0,
+    5
+   ]
+  }
+ ],
+ "step": "out/fillet/input-step/pp-convex-30-acute-r1.step"
+}

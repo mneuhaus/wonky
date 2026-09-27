@@ -1,0 +1,58 @@
+{
+ "id": "pp-rib-root-concave-r2",
+ "jobSha256": "5b3441d204de0025d06bb4716a8ce4553dfc659468cb736cef23f2a51e9bc6bd",
+ "jobBytes": 3694,
+ "sourceSha256": "93ac0cc4e29a3091b39f111c1c311451c978f2785a60e7b8b5fd4800812da972",
+ "buildMs": 4.373500000000149,
+ "kernel": {
+  "closed": true,
+  "volumeMm3": 4160,
+  "areaMm2": 2656,
+  "precision": "F32x2",
+  "geometry": "planar"
+ },
+ "counts": {
+  "vertices": 16,
+  "edges": 24,
+  "faces": 10
+ },
+ "surfaces": {
+  "plane": 10
+ },
+ "quantizationErrorMm": 0,
+ "selected": [
+  {
+   "edge": 19,
+   "curve": "line",
+   "faces": [
+    "plane",
+    "plane"
+   ],
+   "convexity": "concave",
+   "dihedralDeg": 270,
+   "length": 20,
+   "sample": [
+    22,
+    -10,
+    4
+   ]
+  },
+  {
+   "edge": 22,
+   "curve": "line",
+   "faces": [
+    "plane",
+    "plane"
+   ],
+   "convexity": "concave",
+   "dihedralDeg": 270,
+   "length": 20,
+   "sample": [
+    18,
+    -10,
+    4
+   ]
+  }
+ ],
+ "step": "out/fillet/input-step/pp-rib-root-concave-r2.step"
+}

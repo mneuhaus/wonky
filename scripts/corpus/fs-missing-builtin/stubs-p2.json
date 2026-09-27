@@ -1,0 +1,7 @@
+{
+  "cad-project-039/belt-fixed-r30/experimental-belt-segments-r1/cad/unchanged-link-test-strip.fs": [" as IntegerBoundSpec=>"],
+  "cad-project-043/fsocct/cases/workspace/printed_joints.fs": [" as IntegerBoundSpec=>"],
+  "cad-project-014/deliverables/Sorter_V2_Printed_Interface_R3/Source/interface-r3.fs": ["\\n mark\\(context,id\\+\"revision\"[^;]*;=>"],
+  "cad-project-014/document-organization/2026-09-10-current/showroom/presentation.fs": ["function textBody\\(context is Context,id is Id,pl is Plane,words is string,p is Vector,w is number,h is number,c\\)\\n\\{=>function textBody(context is Context,id is Id,pl is Plane,words is string,p is Vector,w is number,h is number,c){}\nfunction textBodyStubbed(context is Context,id is Id,pl is Plane,words is string,p is Vector,w is number,h is number,c)\n{"],
+  "cad-project-043/fsocct/cases/workspace/hot_wire.fs": ["var pathId = id \\+ \"coursePath\";[\\s\\S]*?\"courseSketchDelete\"[^;]*;=>"]
+}

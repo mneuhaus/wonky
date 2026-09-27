@@ -1,0 +1,38 @@
+[package]
+name = "wonky-ops"
+version = "0.1.0"
+edition = "2021"
+description = "Kernel operations of the wonky Rust kernel; planar = the decision spike's planar Boolean (docs/rust-spike.md)"
+publish = false
+
+[dependencies]
+wonky-num = { path = "../wonky-num" }
+# The planar extrusion slice (host ops): WC0 bodies, sketch regions, v3 transport.
+wonky-contract = { path = "../wonky-contract" }
+wonky-sketch = { path = "../wonky-sketch" }
+wonky-wire = { path = "../wonky-wire" }
+wonky-validated = { path = "../wonky-validated" }
+# Only for the optional N-thread cell classification of the planar Boolean.
+rayon = "1"
+# Transient exact decisions for solid distance and closest-edge predicates.
+num-bigint = "0.4"
+num-rational = "0.4"
+num-traits = "0.2"
+
+[dev-dependencies]
+# Independent exact-rational checks of planar predicates; never linked into production.
+wonky-oracle = { path = "../wonky-oracle" }
+
+[features]
+# Planted negatives of the spike's S3 validation (planar/plant.rs); never in the measured build.
+plant = []
+# Planted negative of K0: the legacy sticky shim (planar/num.rs) no longer sets the
+# undecided flag; `cargo test --release -p wonky-ops --features plant_shim_flag` must fail.
+plant_shim_flag = []
+# Planted negatives of the planar extrusion slice (tests/extrude_slice.rs and the
+# CAD-Acid harness must catch each): the extrude depth one ulp too large; one
+# side face reversed; one exported vertex moved by 1e-9 mm beyond 1e4 mm (V1).
+plant_depth_ulp = []
+plant_reverse_face = []
+plant_v1_vertex = []
+plant_cylinder_radius = []

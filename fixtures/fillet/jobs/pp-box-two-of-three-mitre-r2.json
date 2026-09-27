@@ -1,0 +1,58 @@
+{
+ "id": "pp-box-two-of-three-mitre-r2",
+ "jobSha256": "d49389549fc73384305044118237a95cff523c8151566039121210dfd509b719",
+ "jobBytes": 1856,
+ "sourceSha256": "64f5b91006d3bcf5bd54dd5a1a89437b9a8b20dfbbfaf7c9b869019505c8b8db",
+ "buildMs": 4.2870419999999285,
+ "kernel": {
+  "closed": true,
+  "volumeMm3": 1600.0000000000002,
+  "areaMm2": 880,
+  "precision": "F32x2",
+  "geometry": "planar"
+ },
+ "counts": {
+  "vertices": 8,
+  "edges": 12,
+  "faces": 6
+ },
+ "surfaces": {
+  "plane": 6
+ },
+ "quantizationErrorMm": 0,
+ "selected": [
+  {
+   "edge": 4,
+   "curve": "line",
+   "faces": [
+    "plane",
+    "plane"
+   ],
+   "convexity": "convex",
+   "dihedralDeg": 90,
+   "length": 20,
+   "sample": [
+    10,
+    0,
+    8
+   ]
+  },
+  {
+   "edge": 9,
+   "curve": "line",
+   "faces": [
+    "plane",
+    "plane"
+   ],
+   "convexity": "convex",
+   "dihedralDeg": 90,
+   "length": 8,
+   "sample": [
+    20,
+    0,
+    4
+   ]
+  }
+ ],
+ "step": "out/fillet/input-step/pp-box-two-of-three-mitre-r2.step"
+}

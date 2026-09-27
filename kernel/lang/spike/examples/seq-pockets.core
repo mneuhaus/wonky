@@ -1,0 +1,3 @@
+; The same four pocket parts as par-pockets.core, evaluated sequentially.
+(def pocket (dx) (volume (subtract (box dx 0 0 (+ dx 50) 40 12) (box (+ dx 8) 8 4 (+ dx 38) 32 10))))
+(list (pocket 0) (pocket 100) (pocket 200) (pocket 300))

@@ -1,0 +1,12 @@
+[package]
+name = "wonky-n2"
+version = "0.1.0"
+edition = "2021"
+publish = false
+
+[dependencies]
+wonky-num = { path = "../wonky-num" }
+
+[dev-dependencies]
+num-rational = "0.4"
+num-traits = "0.2"

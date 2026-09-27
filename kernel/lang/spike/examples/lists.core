@@ -1,0 +1,7 @@
+; Evaluator overhead: list construction, a higher-order map, a fold, a map lookup.
+(def range (i n) (if (< i n) (cons i (range (+ i 1) n)) (list)))
+(def map (f xs) (if (empty? xs) (list) (cons (f (head xs)) (map f (tail xs)))))
+(def fold (f acc xs) (if (empty? xs) acc (fold f (f acc (head xs)) (tail xs))))
+(let xs (map (fn (x) (* x x)) (range 0 5000)))
+(let m (map-set (map-set (map-new) "count" (len xs)) "sum" (fold (fn (a b) (+ a b)) 0 xs)))
+(list (map-get m "count" 0) (map-get m "sum" 0) (nth xs 4999))

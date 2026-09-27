@@ -1,0 +1,1268 @@
+{
+ "schema": "wonky-fillet-cases/1",
+ "purpose": "Adversarial cases for prototype C (fillet-rollingball-{tori,spline}), written by the independent verifier on 2026-09-24. Same format as cases.json; group \"adversarial\". Run with tmp/fillet/verify-rb/adv-run.mjs. Cases with a `regression` record are the repros of the defects fixed by fix:fillet-rollingball (2026-09-24); the adv-rb-fix-* cases pin those fixes at their limits (tmp/fillet/fix-rb/adv-cases-fix.mjs; re-run it after the verifier's generator).",
+ "conventions": {
+  "units": "millimeter",
+  "size": "fillet radius or equal-offset chamfer distance (Onshape EQUAL_OFFSETS; off 90° the face-offset definition, theory §5.2)",
+  "expect": "ok | must-refuse | either (see scripts/fillet/cases.mjs header)",
+  "select": "near: the edge within 1e-6 mm of the point; all; parallel: straight edges parallel to the axis; inPlane: edges lying in the plane; segment: edges lying on the segment",
+  "closedForm": "deltaVolume = result volume - input volume (negative = material removed)",
+  "rank": "edge-configuration rank in docs/fillet/corpus.md §4.1 (99 = not measured in the corpus)"
+ },
+ "cases": [
+  {
+   "group": "adversarial",
+   "rank": 99,
+   "chamferType": "none",
+   "tangentPropagation": true,
+   "refuseClass": null,
+   "noOpAllowed": false,
+   "closedForm": {
+    "deltaVolume": -130.89969385474447,
+    "formula": "Pappus, post top rim",
+    "label": "INFERRED (verifier derivation)"
+   },
+   "id": "adv-rb-post-rim-r5-minus-1e-9",
+   "corpus": "existence limit: post R=5 top rim, r = 5 minus-1e-9 (torus with a 1e-9 mm major radius and a 1e-9 mm disc left; a sphere cap within 1e-9 is also acceptable)",
+   "op": "fillet",
+   "size": 4.999999999,
+   "expect": "either",
+   "convexity": [
+    "convex"
+   ],
+   "blendTypes": [
+    "torus",
+    "sphere"
+   ],
+   "select": [
+    {
+     "near": [
+      0,
+      5,
+      10
+     ]
+    }
+   ],
+   "input": {
+    "language": "FeatureScript",
+    "feature": "filletInput",
+    "source": "FeatureScript 3044;\nimport(path : \"onshape/std/geometry.fs\", version : \"3044.0\");\n\nexport function filletInput(context is Context, id is Id, definition is map)\n{\n    var s0 = newSketchOnPlane(context, id + \"s0\", { \"sketchPlane\" : plane(vector(0, 0, 0) * millimeter, vector(0, 0, 1), vector(1, 0, 0)) });\n    skCircle(s0, \"e0\", { \"center\" : vector(0, 0) * millimeter, \"radius\" : 5 * millimeter });\n    skSolve(s0);\n    opExtrude(context, id + \"x1\", { \"entities\" : qSketchRegion(id + \"s0\"), \"direction\" : vector(0, 0, 1), \"endBound\" : BoundingType.BLIND, \"endDepth\" : 10 * millimeter });\n}\n"
+   }
+  },
+  {
+   "group": "adversarial",
+   "rank": 99,
+   "chamferType": "none",
+   "tangentPropagation": true,
+   "refuseClass": "radius-too-large",
+   "noOpAllowed": false,
+   "closedForm": null,
+   "id": "adv-rb-post-rim-r5-plus-1e-9",
+   "corpus": "existence limit: post R=5 top rim, r = 5 plus-1e-9 (ball 1e-9 mm wider than the post: no rolling-ball blend exists)",
+   "op": "fillet",
+   "size": 5.000000001,
+   "expect": "must-refuse",
+   "convexity": [
+    "convex"
+   ],
+   "blendTypes": [
+    "torus",
+    "sphere"
+   ],
+   "select": [
+    {
+     "near": [
+      0,
+      5,
+      10
+     ]
+    }
+   ],
+   "input": {
+    "language": "FeatureScript",
+    "feature": "filletInput",
+    "source": "FeatureScript 3044;\nimport(path : \"onshape/std/geometry.fs\", version : \"3044.0\");\n\nexport function filletInput(context is Context, id is Id, definition is map)\n{\n    var s0 = newSketchOnPlane(context, id + \"s0\", { \"sketchPlane\" : plane(vector(0, 0, 0) * millimeter, vector(0, 0, 1), vector(1, 0, 0)) });\n    skCircle(s0, \"e0\", { \"center\" : vector(0, 0) * millimeter, \"radius\" : 5 * millimeter });\n    skSolve(s0);\n    opExtrude(context, id + \"x1\", { \"entities\" : qSketchRegion(id + \"s0\"), \"direction\" : vector(0, 0, 1), \"endBound\" : BoundingType.BLIND, \"endDepth\" : 10 * millimeter });\n}\n"
+   }
+  },
+  {
+   "group": "adversarial",
+   "rank": 99,
+   "chamferType": "none",
+   "tangentPropagation": true,
+   "refuseClass": null,
+   "noOpAllowed": false,
+   "closedForm": null,
+   "id": "adv-rb-post-rim-r5-plus-1e-12",
+   "corpus": "existence limit: post R=5 top rim, r = 5 plus-1e-12 (below any sensible tolerance: sphere cap or refusal)",
+   "op": "fillet",
+   "size": 5.000000000001,
+   "expect": "either",
+   "convexity": [
+    "convex"
+   ],
+   "blendTypes": [
+    "torus",
+    "sphere"
+   ],
+   "select": [
+    {
+     "near": [
+      0,
+      5,
+      10
+     ]
+    }
+   ],
+   "input": {
+    "language": "FeatureScript",
+    "feature": "filletInput",
+    "source": "FeatureScript 3044;\nimport(path : \"onshape/std/geometry.fs\", version : \"3044.0\");\n\nexport function filletInput(context is Context, id is Id, definition is map)\n{\n    var s0 = newSketchOnPlane(context, id + \"s0\", { \"sketchPlane\" : plane(vector(0, 0, 0) * millimeter, vector(0, 0, 1), vector(1, 0, 0)) });\n    skCircle(s0, \"e0\", { \"center\" : vector(0, 0) * millimeter, \"radius\" : 5 * millimeter });\n    skSolve(s0);\n    opExtrude(context, id + \"x1\", { \"entities\" : qSketchRegion(id + \"s0\"), \"direction\" : vector(0, 0, 1), \"endBound\" : BoundingType.BLIND, \"endDepth\" : 10 * millimeter });\n}\n"
+   }
+  },
+  {
+   "group": "adversarial",
+   "rank": 99,
+   "chamferType": "none",
+   "tangentPropagation": true,
+   "refuseClass": null,
+   "noOpAllowed": false,
+   "closedForm": {
+    "deltaVolume": -214.60183655963135,
+    "formula": "-L r^2 (1 - pi/4)",
+    "label": "INFERRED (verifier derivation)"
+   },
+   "id": "adv-rb-box-r-width-minus-1e-9",
+   "corpus": "existence limit: r = face width - 1e-9 (a 1e-9 mm sliver of each face stays)",
+   "op": "fillet",
+   "size": 9.999999999,
+   "expect": "either",
+   "convexity": [
+    "convex"
+   ],
+   "blendTypes": [
+    "cylinder"
+   ],
+   "select": [
+    {
+     "near": [
+      10,
+      10,
+      5
+     ]
+    }
+   ],
+   "input": {
+    "language": "FeatureScript",
+    "feature": "filletInput",
+    "source": "FeatureScript 3044;\nimport(path : \"onshape/std/geometry.fs\", version : \"3044.0\");\n\nexport function filletInput(context is Context, id is Id, definition is map)\n{\n    var s0 = newSketchOnPlane(context, id + \"s0\", { \"sketchPlane\" : plane(vector(0, 0, 0) * millimeter, vector(0, 0, 1), vector(1, 0, 0)) });\n    skRectangle(s0, \"e0\", { \"firstCorner\" : vector(0, 0) * millimeter, \"secondCorner\" : vector(10, 10) * millimeter });\n    skSolve(s0);\n    opExtrude(context, id + \"x1\", { \"entities\" : qSketchRegion(id + \"s0\"), \"direction\" : vector(0, 0, 1), \"endBound\" : BoundingType.BLIND, \"endDepth\" : 10 * millimeter });\n}\n"
+   },
+   "regression": {
+    "by": "fix:fillet-rollingball 2026-09-24",
+    "defect": "D5 r = face width - 1e-9: 1e-9 mm sliver faces/edges below the 1e-6 modelling tolerance (strict STEP: edges 11 != 15)",
+    "cause": "brep.bend over.slide used the absolute eps 1e-9",
+    "fix": "over.slide, the strip, triangle and pair tests use the band tau = 1e-6 - 1e-9 mm: within tau the face is consumed (face-consumed)",
+    "expect": "unresolved face-consumed"
+   }
+  },
+  {
+   "group": "adversarial",
+   "rank": 99,
+   "chamferType": "none",
+   "tangentPropagation": true,
+   "refuseClass": null,
+   "noOpAllowed": false,
+   "closedForm": null,
+   "id": "adv-rb-box-r-width-plus-1e-9",
+   "corpus": "existence limit: r = face width + 1e-9 (contacts leave both faces by 1e-9)",
+   "op": "fillet",
+   "size": 10.000000001,
+   "expect": "either",
+   "convexity": [
+    "convex"
+   ],
+   "blendTypes": [
+    "cylinder"
+   ],
+   "select": [
+    {
+     "near": [
+      10,
+      10,
+      5
+     ]
+    }
+   ],
+   "input": {
+    "language": "FeatureScript",
+    "feature": "filletInput",
+    "source": "FeatureScript 3044;\nimport(path : \"onshape/std/geometry.fs\", version : \"3044.0\");\n\nexport function filletInput(context is Context, id is Id, definition is map)\n{\n    var s0 = newSketchOnPlane(context, id + \"s0\", { \"sketchPlane\" : plane(vector(0, 0, 0) * millimeter, vector(0, 0, 1), vector(1, 0, 0)) });\n    skRectangle(s0, \"e0\", { \"firstCorner\" : vector(0, 0) * millimeter, \"secondCorner\" : vector(10, 10) * millimeter });\n    skSolve(s0);\n    opExtrude(context, id + \"x1\", { \"entities\" : qSketchRegion(id + \"s0\"), \"direction\" : vector(0, 0, 1), \"endBound\" : BoundingType.BLIND, \"endDepth\" : 10 * millimeter });\n}\n"
+   }
+  },
+  {
+   "group": "adversarial",
+   "rank": 99,
+   "chamferType": "equal-offsets",
+   "tangentPropagation": true,
+   "refuseClass": null,
+   "noOpAllowed": false,
+   "closedForm": {
+    "deltaVolume": -500,
+    "formula": "-L d^2/2 (setback)",
+    "label": "INFERRED (verifier derivation)"
+   },
+   "id": "adv-rb-chamfer-d-equals-width",
+   "corpus": "chamfer setback d = face width on both faces (both supports consumed)",
+   "op": "chamfer",
+   "size": 10,
+   "expect": "either",
+   "convexity": [
+    "convex"
+   ],
+   "blendTypes": [
+    "plane"
+   ],
+   "select": [
+    {
+     "near": [
+      10,
+      10,
+      5
+     ]
+    }
+   ],
+   "input": {
+    "language": "FeatureScript",
+    "feature": "filletInput",
+    "source": "FeatureScript 3044;\nimport(path : \"onshape/std/geometry.fs\", version : \"3044.0\");\n\nexport function filletInput(context is Context, id is Id, definition is map)\n{\n    var s0 = newSketchOnPlane(context, id + \"s0\", { \"sketchPlane\" : plane(vector(0, 0, 0) * millimeter, vector(0, 0, 1), vector(1, 0, 0)) });\n    skRectangle(s0, \"e0\", { \"firstCorner\" : vector(0, 0) * millimeter, \"secondCorner\" : vector(10, 10) * millimeter });\n    skSolve(s0);\n    opExtrude(context, id + \"x1\", { \"entities\" : qSketchRegion(id + \"s0\"), \"direction\" : vector(0, 0, 1), \"endBound\" : BoundingType.BLIND, \"endDepth\" : 10 * millimeter });\n}\n"
+   }
+  },
+  {
+   "group": "adversarial",
+   "rank": 99,
+   "chamferType": "none",
+   "tangentPropagation": true,
+   "refuseClass": null,
+   "noOpAllowed": false,
+   "closedForm": {
+    "deltaVolume": -8.231940519867753e-15,
+    "formula": "-L r^2 (cot(a/2) - (pi-a)/2)",
+    "label": "INFERRED (verifier derivation)"
+   },
+   "id": "adv-rb-ridge-normal-1e-5rad",
+   "corpus": "near-tangent convex ridge, normal angle 0.00001 rad",
+   "op": "fillet",
+   "size": 2,
+   "expect": "either",
+   "convexity": [
+    "convex",
+    "smooth"
+   ],
+   "blendTypes": [
+    "cylinder"
+   ],
+   "select": [
+    {
+     "near": [
+      15,
+      -10,
+      10.000075
+     ]
+    }
+   ],
+   "input": {
+    "language": "FeatureScript",
+    "feature": "filletInput",
+    "source": "FeatureScript 3044;\nimport(path : \"onshape/std/geometry.fs\", version : \"3044.0\");\n\nexport function filletInput(context is Context, id is Id, definition is map)\n{\n    var s0 = newSketchOnPlane(context, id + \"s0\", { \"sketchPlane\" : plane(vector(0, 0, 0) * millimeter, vector(0, -1, 0), vector(1, 0, 0)) });\n    skLineSegment(s0, \"e0\", { \"start\" : vector(0, 0) * millimeter, \"end\" : vector(30, 0) * millimeter });\n    skLineSegment(s0, \"e1\", { \"start\" : vector(30, 0) * millimeter, \"end\" : vector(30, 10) * millimeter });\n    skLineSegment(s0, \"e2\", { \"start\" : vector(30, 10) * millimeter, \"end\" : vector(15, 10.000075) * millimeter });\n    skLineSegment(s0, \"e3\", { \"start\" : vector(15, 10.000075) * millimeter, \"end\" : vector(0, 10) * millimeter });\n    skLineSegment(s0, \"e4\", { \"start\" : vector(0, 10) * millimeter, \"end\" : vector(0, 0) * millimeter });\n    skSolve(s0);\n    opExtrude(context, id + \"x1\", { \"entities\" : qSketchRegion(id + \"s0\"), \"direction\" : vector(0, -1, 0), \"endBound\" : BoundingType.BLIND, \"endDepth\" : 20 * millimeter });\n}\n"
+   },
+   "regression": {
+    "by": "fix:fillet-rollingball 2026-09-24",
+    "defect": "D1 near-tangent ridge: ok result with the blend face inverted (sense false) in both variants",
+    "cause": "fit.bend ref_normal = unit(edge point - section mid); that vector is r(1/cos b - 1) ~ 2.5e-11 mm long, below the 1e-20 floor of unit(), so the fallback (1,0,0) set an arbitrary sense",
+    "fix": "brep.bend passes nref = n_A(p_A) + n_B(p_B), the support faces' outward normals at the springs of station 0 (exactly the chamfer normal, the fillet normal at the section mid); fit.bend compares the blend's natural normal with it",
+    "expect": "ok, blend normals agree with the supports (pass-approx, dV = closed form)"
+   }
+  },
+  {
+   "group": "adversarial",
+   "rank": 99,
+   "chamferType": "none",
+   "tangentPropagation": true,
+   "refuseClass": null,
+   "noOpAllowed": false,
+   "closedForm": {
+    "deltaVolume": -5.315233387974405e-15,
+    "formula": "-L r^2 (cot(a/2) - (pi-a)/2)",
+    "label": "INFERRED (verifier derivation)"
+   },
+   "id": "adv-rb-ridge-normal-5e-6rad",
+   "corpus": "near-tangent convex ridge, normal angle 0.000005 rad",
+   "op": "fillet",
+   "size": 2,
+   "expect": "either",
+   "convexity": [
+    "convex",
+    "smooth"
+   ],
+   "blendTypes": [
+    "cylinder"
+   ],
+   "select": [
+    {
+     "near": [
+      15,
+      -10,
+      10.0000375
+     ]
+    }
+   ],
+   "input": {
+    "language": "FeatureScript",
+    "feature": "filletInput",
+    "source": "FeatureScript 3044;\nimport(path : \"onshape/std/geometry.fs\", version : \"3044.0\");\n\nexport function filletInput(context is Context, id is Id, definition is map)\n{\n    var s0 = newSketchOnPlane(context, id + \"s0\", { \"sketchPlane\" : plane(vector(0, 0, 0) * millimeter, vector(0, -1, 0), vector(1, 0, 0)) });\n    skLineSegment(s0, \"e0\", { \"start\" : vector(0, 0) * millimeter, \"end\" : vector(30, 0) * millimeter });\n    skLineSegment(s0, \"e1\", { \"start\" : vector(30, 0) * millimeter, \"end\" : vector(30, 10) * millimeter });\n    skLineSegment(s0, \"e2\", { \"start\" : vector(30, 10) * millimeter, \"end\" : vector(15, 10.0000375) * millimeter });\n    skLineSegment(s0, \"e3\", { \"start\" : vector(15, 10.0000375) * millimeter, \"end\" : vector(0, 10) * millimeter });\n    skLineSegment(s0, \"e4\", { \"start\" : vector(0, 10) * millimeter, \"end\" : vector(0, 0) * millimeter });\n    skSolve(s0);\n    opExtrude(context, id + \"x1\", { \"entities\" : qSketchRegion(id + \"s0\"), \"direction\" : vector(0, -1, 0), \"endBound\" : BoundingType.BLIND, \"endDepth\" : 20 * millimeter });\n}\n"
+   },
+   "regression": {
+    "by": "fix:fillet-rollingball 2026-09-24",
+    "defect": "D1 (as adv-rb-ridge-normal-1e-5rad)",
+    "cause": "see adv-rb-ridge-normal-1e-5rad",
+    "fix": "see adv-rb-ridge-normal-1e-5rad",
+    "expect": "ok (pass-approx)"
+   }
+  },
+  {
+   "group": "adversarial",
+   "rank": 99,
+   "chamferType": "none",
+   "tangentPropagation": true,
+   "refuseClass": null,
+   "noOpAllowed": false,
+   "closedForm": {
+    "deltaVolume": 1.7726821529770453e-11,
+    "formula": "+L r^2 (cot(a/2) - (pi-a)/2), a = 2 pi - interior",
+    "label": "INFERRED (verifier derivation)"
+   },
+   "id": "adv-rb-valley-concave-180.01deg",
+   "corpus": "near-tangent concave valley (interior 180.01 deg), fillet adds material",
+   "op": "fillet",
+   "size": 2,
+   "expect": "either",
+   "convexity": [
+    "concave"
+   ],
+   "blendTypes": [
+    "cylinder"
+   ],
+   "select": [
+    {
+     "near": [
+      15,
+      -10,
+      9.998691003057681
+     ]
+    }
+   ],
+   "input": {
+    "language": "FeatureScript",
+    "feature": "filletInput",
+    "source": "FeatureScript 3044;\nimport(path : \"onshape/std/geometry.fs\", version : \"3044.0\");\n\nexport function filletInput(context is Context, id is Id, definition is map)\n{\n    var s0 = newSketchOnPlane(context, id + \"s0\", { \"sketchPlane\" : plane(vector(0, 0, 0) * millimeter, vector(0, -1, 0), vector(1, 0, 0)) });\n    skLineSegment(s0, \"e0\", { \"start\" : vector(0, 0) * millimeter, \"end\" : vector(30, 0) * millimeter });\n    skLineSegment(s0, \"e1\", { \"start\" : vector(30, 0) * millimeter, \"end\" : vector(30, 10) * millimeter });\n    skLineSegment(s0, \"e2\", { \"start\" : vector(30, 10) * millimeter, \"end\" : vector(15, 9.998691003057681) * millimeter });\n    skLineSegment(s0, \"e3\", { \"start\" : vector(15, 9.998691003057681) * millimeter, \"end\" : vector(0, 10) * millimeter });\n    skLineSegment(s0, \"e4\", { \"start\" : vector(0, 10) * millimeter, \"end\" : vector(0, 0) * millimeter });\n    skSolve(s0);\n    opExtrude(context, id + \"x1\", { \"entities\" : qSketchRegion(id + \"s0\"), \"direction\" : vector(0, -1, 0), \"endBound\" : BoundingType.BLIND, \"endDepth\" : 20 * millimeter });\n}\n"
+   }
+  },
+  {
+   "group": "adversarial",
+   "rank": 99,
+   "chamferType": "none",
+   "tangentPropagation": true,
+   "refuseClass": null,
+   "noOpAllowed": false,
+   "closedForm": {
+    "deltaVolume": -107.3009228727299,
+    "formula": "-(L A + tan(d) * int y dA), oblique cap",
+    "label": "INFERRED (verifier derivation)"
+   },
+   "id": "adv-rb-cap-tilt-7.6e-7-r5",
+   "corpus": "end cap tilted by 7.63e-7 rad from perpendicular (stage C2 admits caps within ~1.4e-6 rad)",
+   "op": "fillet",
+   "size": 5,
+   "expect": "ok",
+   "convexity": [
+    "convex"
+   ],
+   "blendTypes": [
+    "cylinder"
+   ],
+   "select": [
+    {
+     "near": [
+      10,
+      0,
+      10
+     ]
+    }
+   ],
+   "input": {
+    "language": "FeatureScript",
+    "feature": "filletInput",
+    "source": "FeatureScript 3044;\nimport(path : \"onshape/std/geometry.fs\", version : \"3044.0\");\n\nexport function filletInput(context is Context, id is Id, definition is map)\n{\n    var s0 = newSketchOnPlane(context, id + \"s0\", { \"sketchPlane\" : plane(vector(0, 0, 0) * millimeter, vector(0, 0, 1), vector(1, 0, 0)) });\n    skLineSegment(s0, \"e0\", { \"start\" : vector(0, 0) * millimeter, \"end\" : vector(20, 0) * millimeter });\n    skLineSegment(s0, \"e1\", { \"start\" : vector(20, 0) * millimeter, \"end\" : vector(20.00000762939453, 10) * millimeter });\n    skLineSegment(s0, \"e2\", { \"start\" : vector(20.00000762939453, 10) * millimeter, \"end\" : vector(0, 10) * millimeter });\n    skLineSegment(s0, \"e3\", { \"start\" : vector(0, 10) * millimeter, \"end\" : vector(0, 0) * millimeter });\n    skSolve(s0);\n    opExtrude(context, id + \"x1\", { \"entities\" : qSketchRegion(id + \"s0\"), \"direction\" : vector(0, 0, 1), \"endBound\" : BoundingType.BLIND, \"endDepth\" : 10 * millimeter });\n}\n"
+   },
+   "regression": {
+    "by": "fix:fillet-rollingball 2026-09-24",
+    "defect": "D4 cap tilted by 7.6e-7 rad admitted as perpendicular: section edges 3.81e-6 mm off the exact (tol 0) cap plane",
+    "cause": "brep.bend cap_perp accepted 1 - |n.t| < 1e-12 (tilt < 1.41e-6 rad) while the end section always lies in the edge's normal plane",
+    "fix": "admission bounds the section's distance from the cap plane: max(|a - v|, |b - v|) * |n x t| <= 1e-9, else vertex-blend naming the needed tolerance",
+    "expect": "unresolved vertex-blend (declined: the ideal kernel intersects the section with the cap)"
+   }
+  },
+  {
+   "group": "adversarial",
+   "rank": 99,
+   "chamferType": "none",
+   "tangentPropagation": true,
+   "refuseClass": null,
+   "noOpAllowed": false,
+   "closedForm": {
+    "deltaVolume": -4.292036768622666,
+    "formula": "-(L A + tan(d) * int y dA), oblique cap",
+    "label": "INFERRED (verifier derivation)"
+   },
+   "id": "adv-rb-cap-tilt-7.6e-7-r1",
+   "corpus": "end cap tilted by 7.63e-7 rad from perpendicular (stage C2 admits caps within ~1.4e-6 rad)",
+   "op": "fillet",
+   "size": 1,
+   "expect": "ok",
+   "convexity": [
+    "convex"
+   ],
+   "blendTypes": [
+    "cylinder"
+   ],
+   "select": [
+    {
+     "near": [
+      10,
+      0,
+      10
+     ]
+    }
+   ],
+   "input": {
+    "language": "FeatureScript",
+    "feature": "filletInput",
+    "source": "FeatureScript 3044;\nimport(path : \"onshape/std/geometry.fs\", version : \"3044.0\");\n\nexport function filletInput(context is Context, id is Id, definition is map)\n{\n    var s0 = newSketchOnPlane(context, id + \"s0\", { \"sketchPlane\" : plane(vector(0, 0, 0) * millimeter, vector(0, 0, 1), vector(1, 0, 0)) });\n    skLineSegment(s0, \"e0\", { \"start\" : vector(0, 0) * millimeter, \"end\" : vector(20, 0) * millimeter });\n    skLineSegment(s0, \"e1\", { \"start\" : vector(20, 0) * millimeter, \"end\" : vector(20.00000762939453, 10) * millimeter });\n    skLineSegment(s0, \"e2\", { \"start\" : vector(20.00000762939453, 10) * millimeter, \"end\" : vector(0, 10) * millimeter });\n    skLineSegment(s0, \"e3\", { \"start\" : vector(0, 10) * millimeter, \"end\" : vector(0, 0) * millimeter });\n    skSolve(s0);\n    opExtrude(context, id + \"x1\", { \"entities\" : qSketchRegion(id + \"s0\"), \"direction\" : vector(0, 0, 1), \"endBound\" : BoundingType.BLIND, \"endDepth\" : 10 * millimeter });\n}\n"
+   },
+   "regression": {
+    "by": "fix:fillet-rollingball 2026-09-24",
+    "defect": "D4 (as adv-rb-cap-tilt-7.6e-7-r5; harness pass-approx, exact cap face 7.63e-7 mm off)",
+    "cause": "see adv-rb-cap-tilt-7.6e-7-r5",
+    "fix": "see adv-rb-cap-tilt-7.6e-7-r5",
+    "expect": "unresolved vertex-blend (declined)"
+   }
+  },
+  {
+   "group": "adversarial",
+   "rank": 99,
+   "chamferType": "none",
+   "tangentPropagation": true,
+   "refuseClass": null,
+   "noOpAllowed": false,
+   "closedForm": {
+    "deltaVolume": -8.584073479003237,
+    "formula": "-L r^2 (cot(a/2) - (pi-a)/2)",
+    "label": "INFERRED (verifier derivation)"
+   },
+   "id": "adv-rb-dihedral-perturbed-1e-9",
+   "corpus": "top edge whose dihedral is 90 deg minus 7.5e-10 rad (F32x2-exact sketch offset 2^-27)",
+   "op": "fillet",
+   "size": 2,
+   "expect": "ok",
+   "convexity": [
+    "convex"
+   ],
+   "blendTypes": [
+    "cylinder"
+   ],
+   "select": [
+    {
+     "near": [
+      20,
+      -5,
+      10
+     ]
+    }
+   ],
+   "input": {
+    "language": "FeatureScript",
+    "feature": "filletInput",
+    "source": "FeatureScript 3044;\nimport(path : \"onshape/std/geometry.fs\", version : \"3044.0\");\n\nexport function filletInput(context is Context, id is Id, definition is map)\n{\n    var s0 = newSketchOnPlane(context, id + \"s0\", { \"sketchPlane\" : plane(vector(0, 0, 0) * millimeter, vector(0, -1, 0), vector(1, 0, 0)) });\n    skLineSegment(s0, \"e0\", { \"start\" : vector(0, 0) * millimeter, \"end\" : vector(20, 0) * millimeter });\n    skLineSegment(s0, \"e1\", { \"start\" : vector(20, 0) * millimeter, \"end\" : vector(20.00000000745058, 10) * millimeter });\n    skLineSegment(s0, \"e2\", { \"start\" : vector(20.00000000745058, 10) * millimeter, \"end\" : vector(0, 10) * millimeter });\n    skLineSegment(s0, \"e3\", { \"start\" : vector(0, 10) * millimeter, \"end\" : vector(0, 0) * millimeter });\n    skSolve(s0);\n    opExtrude(context, id + \"x1\", { \"entities\" : qSketchRegion(id + \"s0\"), \"direction\" : vector(0, -1, 0), \"endBound\" : BoundingType.BLIND, \"endDepth\" : 10 * millimeter });\n}\n"
+   }
+  },
+  {
+   "group": "adversarial",
+   "rank": 99,
+   "chamferType": "none",
+   "tangentPropagation": true,
+   "refuseClass": null,
+   "noOpAllowed": false,
+   "closedForm": {
+    "deltaVolume": -4.292036732051034,
+    "formula": "-L r^2 (1 - pi/4)",
+    "label": "INFERRED (verifier derivation)"
+   },
+   "id": "adv-rb-far-9e3-box-top-edge-r1",
+   "corpus": "box at (9000, 9000, 9000) (the kernel envelope is +-10000 mm), top edge r = 1",
+   "op": "fillet",
+   "size": 1,
+   "expect": "ok",
+   "convexity": [
+    "convex"
+   ],
+   "blendTypes": [
+    "cylinder"
+   ],
+   "select": [
+    {
+     "near": [
+      9010,
+      9000,
+      9008
+     ]
+    }
+   ],
+   "input": {
+    "language": "FeatureScript",
+    "feature": "filletInput",
+    "source": "FeatureScript 3044;\nimport(path : \"onshape/std/geometry.fs\", version : \"3044.0\");\n\nexport function filletInput(context is Context, id is Id, definition is map)\n{\n    var s0 = newSketchOnPlane(context, id + \"s0\", { \"sketchPlane\" : plane(vector(0, 0, 9000) * millimeter, vector(0, 0, 1), vector(1, 0, 0)) });\n    skRectangle(s0, \"e0\", { \"firstCorner\" : vector(9000, 9000) * millimeter, \"secondCorner\" : vector(9020, 9010) * millimeter });\n    skSolve(s0);\n    opExtrude(context, id + \"x1\", { \"entities\" : qSketchRegion(id + \"s0\"), \"direction\" : vector(0, 0, 1), \"endBound\" : BoundingType.BLIND, \"endDepth\" : 8 * millimeter });\n}\n"
+   }
+  },
+  {
+   "group": "adversarial",
+   "rank": 99,
+   "chamferType": "none",
+   "tangentPropagation": true,
+   "refuseClass": null,
+   "noOpAllowed": false,
+   "closedForm": {
+    "deltaVolume": -5.694717981977939,
+    "formula": "-Pappus (hole rim = concave-rim form mirrored)",
+    "label": "INFERRED (verifier derivation)"
+   },
+   "id": "adv-rb-far-1000-hole-rim-r1",
+   "corpus": "plate with hole at (1000, 1000, 1000), hole rim r = 1 (ring torus)",
+   "op": "fillet",
+   "size": 1,
+   "expect": "ok",
+   "convexity": [
+    "convex"
+   ],
+   "blendTypes": [
+    "torus"
+   ],
+   "select": [
+    {
+     "near": [
+      1019,
+      1015,
+      1006
+     ]
+    }
+   ],
+   "input": {
+    "language": "FeatureScript",
+    "feature": "filletInput",
+    "source": "FeatureScript 3044;\nimport(path : \"onshape/std/geometry.fs\", version : \"3044.0\");\n\nexport function filletInput(context is Context, id is Id, definition is map)\n{\n    var s0 = newSketchOnPlane(context, id + \"s0\", { \"sketchPlane\" : plane(vector(0, 0, 1000) * millimeter, vector(0, 0, 1), vector(1, 0, 0)) });\n    skRectangle(s0, \"e0\", { \"firstCorner\" : vector(1000, 1000) * millimeter, \"secondCorner\" : vector(1030, 1030) * millimeter });\n    skSolve(s0);\n    opExtrude(context, id + \"x1\", { \"entities\" : qSketchRegion(id + \"s0\"), \"direction\" : vector(0, 0, 1), \"endBound\" : BoundingType.BLIND, \"endDepth\" : 6 * millimeter });\n    var s2 = newSketchOnPlane(context, id + \"s2\", { \"sketchPlane\" : plane(vector(0, 0, 999) * millimeter, vector(0, 0, 1), vector(1, 0, 0)) });\n    skCircle(s2, \"e0\", { \"center\" : vector(1015, 1015) * millimeter, \"radius\" : 4 * millimeter });\n    skSolve(s2);\n    opExtrude(context, id + \"x3\", { \"entities\" : qSketchRegion(id + \"s2\"), \"direction\" : vector(0, 0, 1), \"endBound\" : BoundingType.BLIND, \"endDepth\" : 8 * millimeter });\n    opBoolean(context, id + \"x4\", { \"targets\" : qCreatedBy(id + \"x1\", EntityType.BODY), \"tools\" : qCreatedBy(id + \"x3\", EntityType.BODY), \"operationType\" : BooleanOperationType.SUBTRACTION });\n}\n"
+   }
+  },
+  {
+   "group": "adversarial",
+   "rank": 99,
+   "chamferType": "none",
+   "tangentPropagation": true,
+   "refuseClass": null,
+   "noOpAllowed": false,
+   "closedForm": {
+    "deltaVolume": -6.440729977736227,
+    "formula": "Pappus, post top rim",
+    "label": "INFERRED (verifier derivation)"
+   },
+   "id": "adv-rb-far-9990-post-rim-r1",
+   "corpus": "post R=5 at (9990, -9990, 9980), top rim r = 1 (torus)",
+   "op": "fillet",
+   "size": 1,
+   "expect": "ok",
+   "convexity": [
+    "convex"
+   ],
+   "blendTypes": [
+    "torus"
+   ],
+   "select": [
+    {
+     "near": [
+      9990,
+      -9985,
+      9990
+     ]
+    }
+   ],
+   "input": {
+    "language": "FeatureScript",
+    "feature": "filletInput",
+    "source": "FeatureScript 3044;\nimport(path : \"onshape/std/geometry.fs\", version : \"3044.0\");\n\nexport function filletInput(context is Context, id is Id, definition is map)\n{\n    var s0 = newSketchOnPlane(context, id + \"s0\", { \"sketchPlane\" : plane(vector(0, 0, 9980) * millimeter, vector(0, 0, 1), vector(1, 0, 0)) });\n    skCircle(s0, \"e0\", { \"center\" : vector(9990, -9990) * millimeter, \"radius\" : 5 * millimeter });\n    skSolve(s0);\n    opExtrude(context, id + \"x1\", { \"entities\" : qSketchRegion(id + \"s0\"), \"direction\" : vector(0, 0, 1), \"endBound\" : BoundingType.BLIND, \"endDepth\" : 10 * millimeter });\n}\n"
+   }
+  },
+  {
+   "group": "adversarial",
+   "rank": 99,
+   "chamferType": "equal-offsets",
+   "tangentPropagation": true,
+   "refuseClass": null,
+   "noOpAllowed": false,
+   "closedForm": {
+    "deltaVolume": -10,
+    "formula": "-L d^2/2",
+    "label": "INFERRED (verifier derivation)"
+   },
+   "id": "adv-rb-far-9e3-chamfer-top-edge-d1",
+   "corpus": "box at (9000, 9000, 9000), top edge chamfer d = 1",
+   "op": "chamfer",
+   "size": 1,
+   "expect": "ok",
+   "convexity": [
+    "convex"
+   ],
+   "blendTypes": [
+    "plane"
+   ],
+   "select": [
+    {
+     "near": [
+      9010,
+      9000,
+      9008
+     ]
+    }
+   ],
+   "input": {
+    "language": "FeatureScript",
+    "feature": "filletInput",
+    "source": "FeatureScript 3044;\nimport(path : \"onshape/std/geometry.fs\", version : \"3044.0\");\n\nexport function filletInput(context is Context, id is Id, definition is map)\n{\n    var s0 = newSketchOnPlane(context, id + \"s0\", { \"sketchPlane\" : plane(vector(0, 0, 9000) * millimeter, vector(0, 0, 1), vector(1, 0, 0)) });\n    skRectangle(s0, \"e0\", { \"firstCorner\" : vector(9000, 9000) * millimeter, \"secondCorner\" : vector(9020, 9010) * millimeter });\n    skSolve(s0);\n    opExtrude(context, id + \"x1\", { \"entities\" : qSketchRegion(id + \"s0\"), \"direction\" : vector(0, 0, 1), \"endBound\" : BoundingType.BLIND, \"endDepth\" : 8 * millimeter });\n}\n"
+   }
+  },
+  {
+   "group": "adversarial",
+   "rank": 99,
+   "chamferType": "none",
+   "tangentPropagation": true,
+   "refuseClass": null,
+   "noOpAllowed": false,
+   "closedForm": {
+    "deltaVolume": -0.000026196513257147427,
+    "formula": "-L r^2 (1 - pi/4)",
+    "label": "INFERRED (verifier derivation)"
+   },
+   "id": "adv-rb-tiny-edge-1.2e-4-r1",
+   "corpus": "fillet of a 1.22e-4 mm long edge (box 20 x 2^-13 x 10), r = 1",
+   "op": "fillet",
+   "size": 1,
+   "expect": "ok",
+   "convexity": [
+    "convex"
+   ],
+   "blendTypes": [
+    "cylinder"
+   ],
+   "select": [
+    {
+     "near": [
+      20,
+      0.00006103515625,
+      10
+     ]
+    }
+   ],
+   "input": {
+    "language": "FeatureScript",
+    "feature": "filletInput",
+    "source": "FeatureScript 3044;\nimport(path : \"onshape/std/geometry.fs\", version : \"3044.0\");\n\nexport function filletInput(context is Context, id is Id, definition is map)\n{\n    var s0 = newSketchOnPlane(context, id + \"s0\", { \"sketchPlane\" : plane(vector(0, 0, 0) * millimeter, vector(0, 0, 1), vector(1, 0, 0)) });\n    skRectangle(s0, \"e0\", { \"firstCorner\" : vector(0, 0) * millimeter, \"secondCorner\" : vector(20, 0.0001220703125) * millimeter });\n    skSolve(s0);\n    opExtrude(context, id + \"x1\", { \"entities\" : qSketchRegion(id + \"s0\"), \"direction\" : vector(0, 0, 1), \"endBound\" : BoundingType.BLIND, \"endDepth\" : 10 * millimeter });\n}\n"
+   },
+   "regression": {
+    "by": "fix:fillet-rollingball 2026-09-24",
+    "defect": "D6 spline STEP: harness no-op (11% volume error the geometry does not have); 34 of 39 spline exports failed strict CurveOnSurface",
+    "cause": "scripts/fillet/stepx.mjs wrote no pcurves: OpenCascade projected the edges onto the B-spline itself (other parametrisation, re-trimmed face); and the 4-span sections / difference v-tangents left up to 2e-5 mm between the spline boundary and the exact edges, above the 1e-7 edge tolerance OpenCascade derives on import",
+    "fix": "stepx.mjs writes isoline PCURVEs parametrised in the 3D curve parameter (Hermite nodes at the knots); fit.bend skins 8 Bezier spans per section and, on circular edges, uses the exact rotation derivative with the circular arm length (boundary within ~1e-8 mm)",
+    "expect": "ok (pass-approx), strict validate-step valid"
+   }
+  },
+  {
+   "group": "adversarial",
+   "rank": 99,
+   "chamferType": "none",
+   "tangentPropagation": true,
+   "refuseClass": null,
+   "noOpAllowed": false,
+   "closedForm": {
+    "deltaVolume": -4.2920367320510354e-10,
+    "formula": "-L r^2 (1 - pi/4)",
+    "label": "INFERRED (verifier derivation)"
+   },
+   "id": "adv-rb-tiny-radius-r1e-5",
+   "corpus": "box top edge r = 1e-5",
+   "op": "fillet",
+   "size": 0.00001,
+   "expect": "ok",
+   "convexity": [
+    "convex"
+   ],
+   "blendTypes": [
+    "cylinder"
+   ],
+   "select": [
+    {
+     "near": [
+      10,
+      0,
+      8
+     ]
+    }
+   ],
+   "input": {
+    "language": "FeatureScript",
+    "feature": "filletInput",
+    "source": "FeatureScript 3044;\nimport(path : \"onshape/std/geometry.fs\", version : \"3044.0\");\n\nexport function filletInput(context is Context, id is Id, definition is map)\n{\n    var s0 = newSketchOnPlane(context, id + \"s0\", { \"sketchPlane\" : plane(vector(0, 0, 0) * millimeter, vector(0, 0, 1), vector(1, 0, 0)) });\n    skRectangle(s0, \"e0\", { \"firstCorner\" : vector(0, 0) * millimeter, \"secondCorner\" : vector(20, 10) * millimeter });\n    skSolve(s0);\n    opExtrude(context, id + \"x1\", { \"entities\" : qSketchRegion(id + \"s0\"), \"direction\" : vector(0, 0, 1), \"endBound\" : BoundingType.BLIND, \"endDepth\" : 8 * millimeter });\n}\n"
+   },
+   "regression": {
+    "by": "fix:fillet-rollingball 2026-09-24",
+    "defect": "D3 r = 1e-5: start section arc swept 270 deg in both variants; tori scored pass-approx with dV off by 1.3e-4 mm3",
+    "cause": "fit.bend arc_shape n = unit(cross(u, m - c)) with |cross|^2 = r^4 sin^2 45 = 5e-21 < 1e-20 -> fallback (1,0,0)",
+    "fix": "arc_shape and section_row take the plane normal from the unit radii (and clear.bend the triangle normal from unit sides), so the floor depends on angles only",
+    "expect": "ok, dV = -4.29e-10 (closed form)"
+   }
+  },
+  {
+   "group": "adversarial",
+   "rank": 99,
+   "chamferType": "none",
+   "tangentPropagation": true,
+   "refuseClass": null,
+   "noOpAllowed": false,
+   "closedForm": null,
+   "id": "adv-rb-hole-near-edge-sampled-overflow",
+   "corpus": "through hole R=4 at 5.95 mm from a top edge (plate rotated 11.25 deg), r = 2: the hole comes within 1.95 mm of the edge",
+   "op": "fillet",
+   "size": 2,
+   "expect": "either",
+   "convexity": [
+    "convex"
+   ],
+   "blendTypes": [
+    "cylinder"
+   ],
+   "select": [
+    {
+     "near": [
+      14.711779206048456,
+      2.9263548302419236,
+      6
+     ]
+    }
+   ],
+   "input": {
+    "language": "FeatureScript",
+    "feature": "filletInput",
+    "source": "FeatureScript 3044;\nimport(path : \"onshape/std/geometry.fs\", version : \"3044.0\");\n\nexport function filletInput(context is Context, id is Id, definition is map)\n{\n    var s0 = newSketchOnPlane(context, id + \"s0\", { \"sketchPlane\" : plane(vector(0, 0, 0) * millimeter, vector(0, 0, 1), vector(1, 0, 0)) });\n    skLineSegment(s0, \"e0\", { \"start\" : vector(0, 0) * millimeter, \"end\" : vector(29.423558412096913, 5.852709660483847) * millimeter });\n    skLineSegment(s0, \"e1\", { \"start\" : vector(29.423558412096913, 5.852709660483847) * millimeter, \"end\" : vector(25.52175197177435, 25.468415268548455) * millimeter });\n    skLineSegment(s0, \"e2\", { \"start\" : vector(25.52175197177435, 25.468415268548455) * millimeter, \"end\" : vector(-3.9018064403225647, 19.61570560806461) * millimeter });\n    skLineSegment(s0, \"e3\", { \"start\" : vector(-3.9018064403225647, 19.61570560806461) * millimeter, \"end\" : vector(0, 0) * millimeter });\n    skSolve(s0);\n    opExtrude(context, id + \"x1\", { \"entities\" : qSketchRegion(id + \"s0\"), \"direction\" : vector(0, 0, 1), \"endBound\" : BoundingType.BLIND, \"endDepth\" : 6 * millimeter });\n    var s2 = newSketchOnPlane(context, id + \"s2\", { \"sketchPlane\" : plane(vector(0, 0, -1) * millimeter, vector(0, 0, 1), vector(1, 0, 0)) });\n    skCircle(s2, \"e0\", { \"center\" : vector(13.550991790052493, 8.762027248641145) * millimeter, \"radius\" : 4 * millimeter });\n    skSolve(s2);\n    opExtrude(context, id + \"x3\", { \"entities\" : qSketchRegion(id + \"s2\"), \"direction\" : vector(0, 0, 1), \"endBound\" : BoundingType.BLIND, \"endDepth\" : 8 * millimeter });\n    opBoolean(context, id + \"x4\", { \"targets\" : qCreatedBy(id + \"x1\", EntityType.BODY), \"tools\" : qCreatedBy(id + \"x3\", EntityType.BODY), \"operationType\" : BooleanOperationType.SUBTRACTION });\n}\n"
+   },
+   "regression": {
+    "by": "fix:fillet-rollingball 2026-09-24",
+    "defect": "D2 sampled overflow: 17 samples per edge missed a hole entering the blend strip; ok result with intersecting face loops (strict STEP: edges 22 != 18)",
+    "cause": "brep.bend over.face/strip_state sampled the hole circle every 22.5 deg, its closest point at 281.25 deg",
+    "fix": "clear.bend certifies every other edge of a support face (and cap edges, and the springs of blends sharing a face) over its whole parameter range: exact quadric restrictions (polynomial / trigonometric coefficients), second-order Taylor bounds, bisection; a point inside refuses",
+    "expect": "unresolved overflow (edge 13 of face 1)"
+   }
+  },
+  {
+   "group": "adversarial",
+   "rank": 99,
+   "chamferType": "none",
+   "tangentPropagation": true,
+   "refuseClass": null,
+   "noOpAllowed": false,
+   "closedForm": {
+    "deltaVolume": -25.752220392306207,
+    "formula": "-L r^2 (1 - pi/4), hole clear of the strip",
+    "label": "INFERRED (verifier derivation)"
+   },
+   "id": "adv-rb-hole-near-edge-clear-control",
+   "corpus": "through hole R=4 at 6.05 mm from a top edge (plate rotated 11.25 deg), r = 2: the hole comes within 2.05 mm of the edge",
+   "op": "fillet",
+   "size": 2,
+   "expect": "ok",
+   "convexity": [
+    "convex"
+   ],
+   "blendTypes": [
+    "cylinder"
+   ],
+   "select": [
+    {
+     "near": [
+      14.711779206048456,
+      2.9263548302419236,
+      6
+     ]
+    }
+   ],
+   "input": {
+    "language": "FeatureScript",
+    "feature": "filletInput",
+    "source": "FeatureScript 3044;\nimport(path : \"onshape/std/geometry.fs\", version : \"3044.0\");\n\nexport function filletInput(context is Context, id is Id, definition is map)\n{\n    var s0 = newSketchOnPlane(context, id + \"s0\", { \"sketchPlane\" : plane(vector(0, 0, 0) * millimeter, vector(0, 0, 1), vector(1, 0, 0)) });\n    skLineSegment(s0, \"e0\", { \"start\" : vector(0, 0) * millimeter, \"end\" : vector(29.423558412096913, 5.852709660483847) * millimeter });\n    skLineSegment(s0, \"e1\", { \"start\" : vector(29.423558412096913, 5.852709660483847) * millimeter, \"end\" : vector(25.52175197177435, 25.468415268548455) * millimeter });\n    skLineSegment(s0, \"e2\", { \"start\" : vector(25.52175197177435, 25.468415268548455) * millimeter, \"end\" : vector(-3.9018064403225647, 19.61570560806461) * millimeter });\n    skLineSegment(s0, \"e3\", { \"start\" : vector(-3.9018064403225647, 19.61570560806461) * millimeter, \"end\" : vector(0, 0) * millimeter });\n    skSolve(s0);\n    opExtrude(context, id + \"x1\", { \"entities\" : qSketchRegion(id + \"s0\"), \"direction\" : vector(0, 0, 1), \"endBound\" : BoundingType.BLIND, \"endDepth\" : 6 * millimeter });\n    var s2 = newSketchOnPlane(context, id + \"s2\", { \"sketchPlane\" : plane(vector(0, 0, -1) * millimeter, vector(0, 0, 1), vector(1, 0, 0)) });\n    skCircle(s2, \"e0\", { \"center\" : vector(13.531482757850881, 8.860105776681468) * millimeter, \"radius\" : 4 * millimeter });\n    skSolve(s2);\n    opExtrude(context, id + \"x3\", { \"entities\" : qSketchRegion(id + \"s2\"), \"direction\" : vector(0, 0, 1), \"endBound\" : BoundingType.BLIND, \"endDepth\" : 8 * millimeter });\n    opBoolean(context, id + \"x4\", { \"targets\" : qCreatedBy(id + \"x1\", EntityType.BODY), \"tools\" : qCreatedBy(id + \"x3\", EntityType.BODY), \"operationType\" : BooleanOperationType.SUBTRACTION });\n}\n"
+   }
+  },
+  {
+   "group": "adversarial",
+   "rank": 99,
+   "chamferType": "none",
+   "tangentPropagation": true,
+   "refuseClass": null,
+   "noOpAllowed": false,
+   "closedForm": {
+    "deltaVolume": -8.584073464102069,
+    "formula": "-L r^2 (1 - pi/4); the riser face extends over the spandrel end",
+    "label": "INFERRED (verifier derivation)"
+   },
+   "id": "adv-rb-step-convex-into-riser",
+   "corpus": "convex front-top edge of a lower step ending where a concave riser edge starts (degree-3 mixed vertex)",
+   "op": "fillet",
+   "size": 2,
+   "expect": "ok",
+   "convexity": [
+    "convex"
+   ],
+   "blendTypes": [
+    "cylinder"
+   ],
+   "select": [
+    {
+     "near": [
+      5,
+      0,
+      5
+     ]
+    }
+   ],
+   "input": {
+    "language": "FeatureScript",
+    "feature": "filletInput",
+    "source": "FeatureScript 3044;\nimport(path : \"onshape/std/geometry.fs\", version : \"3044.0\");\n\nexport function filletInput(context is Context, id is Id, definition is map)\n{\n    var s0 = newSketchOnPlane(context, id + \"s0\", { \"sketchPlane\" : plane(vector(0, 0, 0) * millimeter, vector(0, -1, 0), vector(1, 0, 0)) });\n    skLineSegment(s0, \"e0\", { \"start\" : vector(0, 0) * millimeter, \"end\" : vector(20, 0) * millimeter });\n    skLineSegment(s0, \"e1\", { \"start\" : vector(20, 0) * millimeter, \"end\" : vector(20, 15) * millimeter });\n    skLineSegment(s0, \"e2\", { \"start\" : vector(20, 15) * millimeter, \"end\" : vector(10, 15) * millimeter });\n    skLineSegment(s0, \"e3\", { \"start\" : vector(10, 15) * millimeter, \"end\" : vector(10, 5) * millimeter });\n    skLineSegment(s0, \"e4\", { \"start\" : vector(10, 5) * millimeter, \"end\" : vector(0, 5) * millimeter });\n    skLineSegment(s0, \"e5\", { \"start\" : vector(0, 5) * millimeter, \"end\" : vector(0, 0) * millimeter });\n    skSolve(s0);\n    opExtrude(context, id + \"x1\", { \"entities\" : qSketchRegion(id + \"s0\"), \"direction\" : vector(0, -1, 0), \"endBound\" : BoundingType.BLIND, \"endDepth\" : 10 * millimeter });\n}\n"
+   }
+  },
+  {
+   "group": "adversarial",
+   "rank": 99,
+   "chamferType": "none",
+   "tangentPropagation": true,
+   "refuseClass": null,
+   "noOpAllowed": false,
+   "closedForm": {
+    "deltaVolume": -13.182225894271546,
+    "formula": "Pappus x (2 pi - 2 eps)/(2 pi)",
+    "label": "INFERRED (verifier derivation)"
+   },
+   "id": "adv-rb-pacman-rim-almost-closed",
+   "corpus": "top rim arc of 2 pi - 2e-4 rad ending at two radial caps 2e-3 mm apart (chain that almost closes)",
+   "op": "fillet",
+   "size": 1,
+   "expect": "ok",
+   "convexity": [
+    "convex"
+   ],
+   "blendTypes": [
+    "torus"
+   ],
+   "select": [
+    {
+     "near": [
+      -10,
+      0,
+      5
+     ]
+    }
+   ],
+   "input": {
+    "language": "FeatureScript",
+    "feature": "filletInput",
+    "source": "FeatureScript 3044;\nimport(path : \"onshape/std/geometry.fs\", version : \"3044.0\");\n\nexport function filletInput(context is Context, id is Id, definition is map)\n{\n    var s0 = newSketchOnPlane(context, id + \"s0\", { \"sketchPlane\" : plane(vector(0, 0, 0) * millimeter, vector(0, 0, 1), vector(1, 0, 0)) });\n    skLineSegment(s0, \"e0\", { \"start\" : vector(0, 0) * millimeter, \"end\" : vector(9.99999995, 0.0009999999983333334) * millimeter });\n    skArc(s0, \"e1\", { \"start\" : vector(9.99999995, 0.0009999999983333334) * millimeter, \"mid\" : vector(-10, 0) * millimeter, \"end\" : vector(9.99999995, -0.0009999999983333334) * millimeter });\n    skLineSegment(s0, \"e2\", { \"start\" : vector(9.99999995, -0.0009999999983333334) * millimeter, \"end\" : vector(0, 0) * millimeter });\n    skSolve(s0);\n    opExtrude(context, id + \"x1\", { \"entities\" : qSketchRegion(id + \"s0\"), \"direction\" : vector(0, 0, 1), \"endBound\" : BoundingType.BLIND, \"endDepth\" : 5 * millimeter });\n}\n"
+   }
+  },
+  {
+   "group": "adversarial",
+   "rank": 99,
+   "chamferType": "none",
+   "tangentPropagation": true,
+   "refuseClass": null,
+   "noOpAllowed": false,
+   "closedForm": {
+    "deltaVolume": 259.2231500796832,
+    "formula": "+Pappus, post root",
+    "label": "INFERRED (verifier derivation)"
+   },
+   "id": "adv-rb-post-root-r-width-minus-1e-6",
+   "corpus": "concave post root r = annulus width - 1e-6 (a 1e-6 mm ring of the disc top stays)",
+   "op": "fillet",
+   "size": 5.999999,
+   "expect": "ok",
+   "convexity": [
+    "concave"
+   ],
+   "blendTypes": [
+    "torus"
+   ],
+   "select": [
+    {
+     "near": [
+      0,
+      4,
+      3
+     ]
+    }
+   ],
+   "input": {
+    "language": "FeatureScript",
+    "feature": "filletInput",
+    "source": "FeatureScript 3044;\nimport(path : \"onshape/std/geometry.fs\", version : \"3044.0\");\n\nexport function filletInput(context is Context, id is Id, definition is map)\n{\n    var s0 = newSketchOnPlane(context, id + \"s0\", { \"sketchPlane\" : plane(vector(0, 0, 0) * millimeter, vector(0, 0, 1), vector(1, 0, 0)) });\n    skCircle(s0, \"e0\", { \"center\" : vector(0, 0) * millimeter, \"radius\" : 10 * millimeter });\n    skSolve(s0);\n    opExtrude(context, id + \"x1\", { \"entities\" : qSketchRegion(id + \"s0\"), \"direction\" : vector(0, 0, 1), \"endBound\" : BoundingType.BLIND, \"endDepth\" : 3 * millimeter });\n    var s2 = newSketchOnPlane(context, id + \"s2\", { \"sketchPlane\" : plane(vector(0, 0, 3) * millimeter, vector(0, 0, 1), vector(1, 0, 0)) });\n    skCircle(s2, \"e0\", { \"center\" : vector(0, 0) * millimeter, \"radius\" : 4 * millimeter });\n    skSolve(s2);\n    opExtrude(context, id + \"x3\", { \"entities\" : qSketchRegion(id + \"s2\"), \"direction\" : vector(0, 0, 1), \"endBound\" : BoundingType.BLIND, \"endDepth\" : 10 * millimeter });\n    opBoolean(context, id + \"x4\", { \"tools\" : qUnion([qCreatedBy(id + \"x1\", EntityType.BODY), qCreatedBy(id + \"x3\", EntityType.BODY)]), \"operationType\" : BooleanOperationType.UNION });\n}\n"
+   }
+  },
+  {
+   "group": "adversarial",
+   "rank": 99,
+   "chamferType": "none",
+   "tangentPropagation": true,
+   "refuseClass": null,
+   "noOpAllowed": false,
+   "closedForm": {
+    "deltaVolume": -8.550640981174467,
+    "formula": "-L r^2 (cot(a/2) - (pi-a)/2)",
+    "label": "INFERRED (verifier derivation)"
+   },
+   "id": "adv-rb-acute-5deg-r0.2",
+   "corpus": "vertical 5 deg wedge edge, r = 0.2 (ball centre 4.6 mm from the edge)",
+   "op": "fillet",
+   "size": 0.2,
+   "expect": "ok",
+   "convexity": [
+    "convex"
+   ],
+   "blendTypes": [
+    "cylinder"
+   ],
+   "select": [
+    {
+     "near": [
+      0,
+      0,
+      5
+     ]
+    }
+   ],
+   "input": {
+    "language": "FeatureScript",
+    "feature": "filletInput",
+    "source": "FeatureScript 3044;\nimport(path : \"onshape/std/geometry.fs\", version : \"3044.0\");\n\nexport function filletInput(context is Context, id is Id, definition is map)\n{\n    var s0 = newSketchOnPlane(context, id + \"s0\", { \"sketchPlane\" : plane(vector(0, 0, 0) * millimeter, vector(0, 0, 1), vector(1, 0, 0)) });\n    skLineSegment(s0, \"e0\", { \"start\" : vector(0, 0) * millimeter, \"end\" : vector(39.96192886327431, -1.74477549461344) * millimeter });\n    skLineSegment(s0, \"e1\", { \"start\" : vector(39.96192886327431, -1.74477549461344) * millimeter, \"end\" : vector(39.96192886327431, 1.74477549461344) * millimeter });\n    skLineSegment(s0, \"e2\", { \"start\" : vector(39.96192886327431, 1.74477549461344) * millimeter, \"end\" : vector(0, 0) * millimeter });\n    skSolve(s0);\n    opExtrude(context, id + \"x1\", { \"entities\" : qSketchRegion(id + \"s0\"), \"direction\" : vector(0, 0, 1), \"endBound\" : BoundingType.BLIND, \"endDepth\" : 10 * millimeter });\n}\n"
+   }
+  },
+  {
+   "group": "adversarial",
+   "rank": 99,
+   "chamferType": "equal-offsets",
+   "tangentPropagation": true,
+   "refuseClass": null,
+   "noOpAllowed": false,
+   "closedForm": {
+    "deltaVolume": -0.4357787137382908,
+    "formula": "-L d^2 sin(a)/2 (setback)",
+    "label": "INFERRED (verifier derivation)"
+   },
+   "id": "adv-rb-acute-5deg-chamfer-d1",
+   "corpus": "vertical 5 deg wedge edge, chamfer d = 1 (setback along both faces)",
+   "op": "chamfer",
+   "size": 1,
+   "expect": "ok",
+   "convexity": [
+    "convex"
+   ],
+   "blendTypes": [
+    "plane"
+   ],
+   "select": [
+    {
+     "near": [
+      0,
+      0,
+      5
+     ]
+    }
+   ],
+   "input": {
+    "language": "FeatureScript",
+    "feature": "filletInput",
+    "source": "FeatureScript 3044;\nimport(path : \"onshape/std/geometry.fs\", version : \"3044.0\");\n\nexport function filletInput(context is Context, id is Id, definition is map)\n{\n    var s0 = newSketchOnPlane(context, id + \"s0\", { \"sketchPlane\" : plane(vector(0, 0, 0) * millimeter, vector(0, 0, 1), vector(1, 0, 0)) });\n    skLineSegment(s0, \"e0\", { \"start\" : vector(0, 0) * millimeter, \"end\" : vector(39.96192886327431, -1.74477549461344) * millimeter });\n    skLineSegment(s0, \"e1\", { \"start\" : vector(39.96192886327431, -1.74477549461344) * millimeter, \"end\" : vector(39.96192886327431, 1.74477549461344) * millimeter });\n    skLineSegment(s0, \"e2\", { \"start\" : vector(39.96192886327431, 1.74477549461344) * millimeter, \"end\" : vector(0, 0) * millimeter });\n    skSolve(s0);\n    opExtrude(context, id + \"x1\", { \"entities\" : qSketchRegion(id + \"s0\"), \"direction\" : vector(0, 0, 1), \"endBound\" : BoundingType.BLIND, \"endDepth\" : 10 * millimeter });\n}\n"
+   }
+  },
+  {
+   "group": "adversarial",
+   "rank": 99,
+   "chamferType": "equal-offsets",
+   "tangentPropagation": true,
+   "refuseClass": null,
+   "noOpAllowed": false,
+   "closedForm": {
+    "deltaVolume": -0.0001000000000002131,
+    "formula": "-L d^2 sin(a)/2 (setback, probe FP-a)",
+    "label": "INFERRED (fix:fillet-rollingball derivation)"
+   },
+   "id": "adv-rb-fix-ridge-normal-1e-5rad-chamfer-d1",
+   "corpus": "near-tangent convex ridge (normal angle 1e-5 rad), chamfer d = 1: the plane sense from n_A + n_B (D1)",
+   "op": "chamfer",
+   "size": 1,
+   "expect": "either",
+   "convexity": [
+    "convex",
+    "smooth"
+   ],
+   "blendTypes": [
+    "plane"
+   ],
+   "select": [
+    {
+     "near": [
+      15,
+      -10,
+      10.000075
+     ]
+    }
+   ],
+   "input": {
+    "language": "FeatureScript",
+    "feature": "filletInput",
+    "source": "FeatureScript 3044;\nimport(path : \"onshape/std/geometry.fs\", version : \"3044.0\");\n\nexport function filletInput(context is Context, id is Id, definition is map)\n{\n    var s0 = newSketchOnPlane(context, id + \"s0\", { \"sketchPlane\" : plane(vector(0, 0, 0) * millimeter, vector(0, -1, 0), vector(1, 0, 0)) });\n    skLineSegment(s0, \"e0\", { \"start\" : vector(0, 0) * millimeter, \"end\" : vector(30, 0) * millimeter });\n    skLineSegment(s0, \"e1\", { \"start\" : vector(30, 0) * millimeter, \"end\" : vector(30, 10) * millimeter });\n    skLineSegment(s0, \"e2\", { \"start\" : vector(30, 10) * millimeter, \"end\" : vector(15, 10.000075) * millimeter });\n    skLineSegment(s0, \"e3\", { \"start\" : vector(15, 10.000075) * millimeter, \"end\" : vector(0, 10) * millimeter });\n    skLineSegment(s0, \"e4\", { \"start\" : vector(0, 10) * millimeter, \"end\" : vector(0, 0) * millimeter });\n    skSolve(s0);\n    opExtrude(context, id + \"x1\", { \"entities\" : qSketchRegion(id + \"s0\"), \"direction\" : vector(0, -1, 0), \"endBound\" : BoundingType.BLIND, \"endDepth\" : 20 * millimeter });\n}\n"
+   }
+  },
+  {
+   "group": "adversarial",
+   "rank": 99,
+   "chamferType": "none",
+   "tangentPropagation": true,
+   "refuseClass": null,
+   "noOpAllowed": false,
+   "closedForm": null,
+   "id": "adv-rb-fix-hole-rim-near-hole-overflow",
+   "corpus": "top rim of hole A (R = 4), r = 2; hole B (R = 3) centre 8.95 mm away (rotated 11.25 deg): B comes within 1.95 mm of A's rim, the strip is 2 mm wide (D2 on a torus strip)",
+   "op": "fillet",
+   "size": 2,
+   "expect": "either",
+   "convexity": [
+    "convex"
+   ],
+   "blendTypes": [
+    "torus"
+   ],
+   "select": [
+    {
+     "near": [
+      16,
+      15,
+      6
+     ]
+    }
+   ],
+   "input": {
+    "language": "FeatureScript",
+    "feature": "filletInput",
+    "source": "FeatureScript 3044;\nimport(path : \"onshape/std/geometry.fs\", version : \"3044.0\");\n\nexport function filletInput(context is Context, id is Id, definition is map)\n{\n    var s0 = newSketchOnPlane(context, id + \"s0\", { \"sketchPlane\" : plane(vector(0, 0, 0) * millimeter, vector(0, 0, 1), vector(1, 0, 0)) });\n    skRectangle(s0, \"e0\", { \"firstCorner\" : vector(0, 0) * millimeter, \"secondCorner\" : vector(30, 30) * millimeter });\n    skSolve(s0);\n    opExtrude(context, id + \"x1\", { \"entities\" : qSketchRegion(id + \"s0\"), \"direction\" : vector(0, 0, 1), \"endBound\" : BoundingType.BLIND, \"endDepth\" : 6 * millimeter });\n    var s2 = newSketchOnPlane(context, id + \"s2\", { \"sketchPlane\" : plane(vector(0, 0, -1) * millimeter, vector(0, 0, 1), vector(1, 0, 0)) });\n    skCircle(s2, \"e0\", { \"center\" : vector(12, 15) * millimeter, \"radius\" : 4 * millimeter });\n    skSolve(s2);\n    opExtrude(context, id + \"x3\", { \"entities\" : qSketchRegion(id + \"s2\"), \"direction\" : vector(0, 0, 1), \"endBound\" : BoundingType.BLIND, \"endDepth\" : 8 * millimeter });\n    opBoolean(context, id + \"x4\", { \"targets\" : qCreatedBy(id + \"x1\", EntityType.BODY), \"tools\" : qCreatedBy(id + \"x3\", EntityType.BODY), \"operationType\" : BooleanOperationType.SUBTRACTION });\n    var s5 = newSketchOnPlane(context, id + \"s5\", { \"sketchPlane\" : plane(vector(0, 0, -1) * millimeter, vector(0, 0, 1), vector(1, 0, 0)) });\n    skCircle(s5, \"e0\", { \"center\" : vector(20.77802825960891, 16.746058382044346) * millimeter, \"radius\" : 3 * millimeter });\n    skSolve(s5);\n    opExtrude(context, id + \"x6\", { \"entities\" : qSketchRegion(id + \"s5\"), \"direction\" : vector(0, 0, 1), \"endBound\" : BoundingType.BLIND, \"endDepth\" : 8 * millimeter });\n    opBoolean(context, id + \"x7\", { \"targets\" : qCreatedBy(id + \"x4\", EntityType.BODY), \"tools\" : qCreatedBy(id + \"x6\", EntityType.BODY), \"operationType\" : BooleanOperationType.SUBTRACTION });\n}\n"
+   }
+  },
+  {
+   "group": "adversarial",
+   "rank": 99,
+   "chamferType": "none",
+   "tangentPropagation": true,
+   "refuseClass": null,
+   "noOpAllowed": false,
+   "closedForm": {
+    "deltaVolume": -23.983614149664994,
+    "formula": "-Pappus (hole rim), hole B clear of the strip",
+    "label": "INFERRED (fix:fillet-rollingball derivation)"
+   },
+   "id": "adv-rb-fix-hole-rim-near-hole-clear-control",
+   "corpus": "top rim of hole A (R = 4), r = 2; hole B (R = 3) centre 9.05 mm away (rotated 11.25 deg): B comes within 2.05 mm of A's rim, the strip is 2 mm wide (D2 on a torus strip)",
+   "op": "fillet",
+   "size": 2,
+   "expect": "ok",
+   "convexity": [
+    "convex"
+   ],
+   "blendTypes": [
+    "torus"
+   ],
+   "select": [
+    {
+     "near": [
+      16,
+      15,
+      6
+     ]
+    }
+   ],
+   "input": {
+    "language": "FeatureScript",
+    "feature": "filletInput",
+    "source": "FeatureScript 3044;\nimport(path : \"onshape/std/geometry.fs\", version : \"3044.0\");\n\nexport function filletInput(context is Context, id is Id, definition is map)\n{\n    var s0 = newSketchOnPlane(context, id + \"s0\", { \"sketchPlane\" : plane(vector(0, 0, 0) * millimeter, vector(0, 0, 1), vector(1, 0, 0)) });\n    skRectangle(s0, \"e0\", { \"firstCorner\" : vector(0, 0) * millimeter, \"secondCorner\" : vector(30, 30) * millimeter });\n    skSolve(s0);\n    opExtrude(context, id + \"x1\", { \"entities\" : qSketchRegion(id + \"s0\"), \"direction\" : vector(0, 0, 1), \"endBound\" : BoundingType.BLIND, \"endDepth\" : 6 * millimeter });\n    var s2 = newSketchOnPlane(context, id + \"s2\", { \"sketchPlane\" : plane(vector(0, 0, -1) * millimeter, vector(0, 0, 1), vector(1, 0, 0)) });\n    skCircle(s2, \"e0\", { \"center\" : vector(12, 15) * millimeter, \"radius\" : 4 * millimeter });\n    skSolve(s2);\n    opExtrude(context, id + \"x3\", { \"entities\" : qSketchRegion(id + \"s2\"), \"direction\" : vector(0, 0, 1), \"endBound\" : BoundingType.BLIND, \"endDepth\" : 8 * millimeter });\n    opBoolean(context, id + \"x4\", { \"targets\" : qCreatedBy(id + \"x1\", EntityType.BODY), \"tools\" : qCreatedBy(id + \"x3\", EntityType.BODY), \"operationType\" : BooleanOperationType.SUBTRACTION });\n    var s5 = newSketchOnPlane(context, id + \"s5\", { \"sketchPlane\" : plane(vector(0, 0, -1) * millimeter, vector(0, 0, 1), vector(1, 0, 0)) });\n    skCircle(s5, \"e0\", { \"center\" : vector(20.876106787649235, 16.76556741424596) * millimeter, \"radius\" : 3 * millimeter });\n    skSolve(s5);\n    opExtrude(context, id + \"x6\", { \"entities\" : qSketchRegion(id + \"s5\"), \"direction\" : vector(0, 0, 1), \"endBound\" : BoundingType.BLIND, \"endDepth\" : 8 * millimeter });\n    opBoolean(context, id + \"x7\", { \"targets\" : qCreatedBy(id + \"x4\", EntityType.BODY), \"tools\" : qCreatedBy(id + \"x6\", EntityType.BODY), \"operationType\" : BooleanOperationType.SUBTRACTION });\n}\n"
+   }
+  },
+  {
+   "group": "adversarial",
+   "rank": 99,
+   "chamferType": "none",
+   "tangentPropagation": true,
+   "refuseClass": null,
+   "noOpAllowed": false,
+   "closedForm": {
+    "deltaVolume": -5.393535438395185e-10,
+    "formula": "-Pappus (hole rim)",
+    "label": "INFERRED (fix:fillet-rollingball derivation)"
+   },
+   "id": "adv-rb-fix-hole-rim-tiny-r1e-5",
+   "corpus": "hole rim (R = 4) with r = 1e-5 (D3 on a torus)",
+   "op": "fillet",
+   "size": 0.00001,
+   "expect": "ok",
+   "convexity": [
+    "convex"
+   ],
+   "blendTypes": [
+    "torus"
+   ],
+   "select": [
+    {
+     "near": [
+      19,
+      15,
+      6
+     ]
+    }
+   ],
+   "input": {
+    "language": "FeatureScript",
+    "feature": "filletInput",
+    "source": "FeatureScript 3044;\nimport(path : \"onshape/std/geometry.fs\", version : \"3044.0\");\n\nexport function filletInput(context is Context, id is Id, definition is map)\n{\n    var s0 = newSketchOnPlane(context, id + \"s0\", { \"sketchPlane\" : plane(vector(0, 0, 0) * millimeter, vector(0, 0, 1), vector(1, 0, 0)) });\n    skRectangle(s0, \"e0\", { \"firstCorner\" : vector(0, 0) * millimeter, \"secondCorner\" : vector(30, 30) * millimeter });\n    skSolve(s0);\n    opExtrude(context, id + \"x1\", { \"entities\" : qSketchRegion(id + \"s0\"), \"direction\" : vector(0, 0, 1), \"endBound\" : BoundingType.BLIND, \"endDepth\" : 6 * millimeter });\n    var s2 = newSketchOnPlane(context, id + \"s2\", { \"sketchPlane\" : plane(vector(0, 0, -1) * millimeter, vector(0, 0, 1), vector(1, 0, 0)) });\n    skCircle(s2, \"e0\", { \"center\" : vector(15, 15) * millimeter, \"radius\" : 4 * millimeter });\n    skSolve(s2);\n    opExtrude(context, id + \"x3\", { \"entities\" : qSketchRegion(id + \"s2\"), \"direction\" : vector(0, 0, 1), \"endBound\" : BoundingType.BLIND, \"endDepth\" : 8 * millimeter });\n    opBoolean(context, id + \"x4\", { \"targets\" : qCreatedBy(id + \"x1\", EntityType.BODY), \"tools\" : qCreatedBy(id + \"x3\", EntityType.BODY), \"operationType\" : BooleanOperationType.SUBTRACTION });\n}\n"
+   }
+  },
+  {
+   "group": "adversarial",
+   "rank": 99,
+   "chamferType": "none",
+   "tangentPropagation": true,
+   "refuseClass": null,
+   "noOpAllowed": false,
+   "closedForm": {
+    "deltaVolume": -4.292036732055498,
+    "formula": "-(L A + tan(d) * int y dA), oblique cap",
+    "label": "INFERRED (fix:fillet-rollingball derivation)"
+   },
+   "id": "adv-rb-fix-cap-tilt-9.3e-11-r1",
+   "corpus": "end cap tilted by 9.31e-11 rad: the section leaves the cap by <= 1e-10 mm, admitted (D4 limit, admitted side)",
+   "op": "fillet",
+   "size": 1,
+   "expect": "ok",
+   "convexity": [
+    "convex"
+   ],
+   "blendTypes": [
+    "cylinder"
+   ],
+   "select": [
+    {
+     "near": [
+      10,
+      0,
+      10
+     ]
+    }
+   ],
+   "input": {
+    "language": "FeatureScript",
+    "feature": "filletInput",
+    "source": "FeatureScript 3044;\nimport(path : \"onshape/std/geometry.fs\", version : \"3044.0\");\n\nexport function filletInput(context is Context, id is Id, definition is map)\n{\n    var s0 = newSketchOnPlane(context, id + \"s0\", { \"sketchPlane\" : plane(vector(0, 0, 0) * millimeter, vector(0, 0, 1), vector(1, 0, 0)) });\n    skLineSegment(s0, \"e0\", { \"start\" : vector(0, 0) * millimeter, \"end\" : vector(20, 0) * millimeter });\n    skLineSegment(s0, \"e1\", { \"start\" : vector(20, 0) * millimeter, \"end\" : vector(20.000000000931323, 10) * millimeter });\n    skLineSegment(s0, \"e2\", { \"start\" : vector(20.000000000931323, 10) * millimeter, \"end\" : vector(0, 10) * millimeter });\n    skLineSegment(s0, \"e3\", { \"start\" : vector(0, 10) * millimeter, \"end\" : vector(0, 0) * millimeter });\n    skSolve(s0);\n    opExtrude(context, id + \"x1\", { \"entities\" : qSketchRegion(id + \"s0\"), \"direction\" : vector(0, 0, 1), \"endBound\" : BoundingType.BLIND, \"endDepth\" : 10 * millimeter });\n}\n"
+   }
+  },
+  {
+   "group": "adversarial",
+   "rank": 99,
+   "chamferType": "none",
+   "tangentPropagation": true,
+   "refuseClass": null,
+   "noOpAllowed": false,
+   "closedForm": {
+    "deltaVolume": -214.60175076182566,
+    "formula": "-L r^2 (1 - pi/4)",
+    "label": "INFERRED (fix:fillet-rollingball derivation)"
+   },
+   "id": "adv-rb-fix-box-r-width-minus-2e-6",
+   "corpus": "r = face width - 0.000002 (D5: a 0.000002 mm strip of each face stays; the band is 1e-6 - 1e-9 mm)",
+   "op": "fillet",
+   "size": 9.999998,
+   "expect": "ok",
+   "convexity": [
+    "convex"
+   ],
+   "blendTypes": [
+    "cylinder"
+   ],
+   "select": [
+    {
+     "near": [
+      10,
+      10,
+      5
+     ]
+    }
+   ],
+   "input": {
+    "language": "FeatureScript",
+    "feature": "filletInput",
+    "source": "FeatureScript 3044;\nimport(path : \"onshape/std/geometry.fs\", version : \"3044.0\");\n\nexport function filletInput(context is Context, id is Id, definition is map)\n{\n    var s0 = newSketchOnPlane(context, id + \"s0\", { \"sketchPlane\" : plane(vector(0, 0, 0) * millimeter, vector(0, 0, 1), vector(1, 0, 0)) });\n    skRectangle(s0, \"e0\", { \"firstCorner\" : vector(0, 0) * millimeter, \"secondCorner\" : vector(10, 10) * millimeter });\n    skSolve(s0);\n    opExtrude(context, id + \"x1\", { \"entities\" : qSketchRegion(id + \"s0\"), \"direction\" : vector(0, 0, 1), \"endBound\" : BoundingType.BLIND, \"endDepth\" : 10 * millimeter });\n}\n"
+   }
+  },
+  {
+   "group": "adversarial",
+   "rank": 99,
+   "chamferType": "none",
+   "tangentPropagation": true,
+   "refuseClass": null,
+   "noOpAllowed": false,
+   "closedForm": null,
+   "id": "adv-rb-fix-box-r-width-minus-5e-7",
+   "corpus": "r = face width - 5e-7 (D5: a 5e-7 mm strip of each face stays; the band is 1e-6 - 1e-9 mm)",
+   "op": "fillet",
+   "size": 9.9999995,
+   "expect": "either",
+   "convexity": [
+    "convex"
+   ],
+   "blendTypes": [
+    "cylinder"
+   ],
+   "select": [
+    {
+     "near": [
+      10,
+      10,
+      5
+     ]
+    }
+   ],
+   "input": {
+    "language": "FeatureScript",
+    "feature": "filletInput",
+    "source": "FeatureScript 3044;\nimport(path : \"onshape/std/geometry.fs\", version : \"3044.0\");\n\nexport function filletInput(context is Context, id is Id, definition is map)\n{\n    var s0 = newSketchOnPlane(context, id + \"s0\", { \"sketchPlane\" : plane(vector(0, 0, 0) * millimeter, vector(0, 0, 1), vector(1, 0, 0)) });\n    skRectangle(s0, \"e0\", { \"firstCorner\" : vector(0, 0) * millimeter, \"secondCorner\" : vector(10, 10) * millimeter });\n    skSolve(s0);\n    opExtrude(context, id + \"x1\", { \"entities\" : qSketchRegion(id + \"s0\"), \"direction\" : vector(0, 0, 1), \"endBound\" : BoundingType.BLIND, \"endDepth\" : 10 * millimeter });\n}\n"
+   }
+  }
+ ]
+}

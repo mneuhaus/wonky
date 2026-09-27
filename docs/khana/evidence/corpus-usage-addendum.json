@@ -1,0 +1,562 @@
+{
+  "schema": "wonky-khana-corpus-usage-audit-addendum/1",
+  "date": "2026-09-24",
+  "scope": {
+    "root": "~/Workspace/cad",
+    "execution": "Read-only AST/tokenize/source/artifact inspection; no customer model, CAD kernel, viewer, network geometry service or upstream pytest suite executed.",
+    "measured_python_files": 4620,
+    "measured_files_walked": 151833,
+    "excluded_directories": [
+      ".git",
+      ".venv",
+      "venv",
+      "node_modules",
+      "__pycache__",
+      ".deps",
+      "site-packages",
+      ".mypy_cache",
+      ".pytest_cache",
+      ".ruff_cache"
+    ],
+    "parse_errors": [
+      "~/Workspace/cad/cad-project-043/var/research/openlock/downloads/caitlynb_OpenSCAD-OpenLock/OpenLockBatch.py is unrelated Python 2; no khana source parse failures."
+    ],
+    "upstream_head": "22f0ad0ac5eb81056826ad7771090aa636f37002",
+    "version_evidence": "~/Workspace/cad/cad-khana/pyproject.toml:1-6",
+    "warning": "Counts are static syntax sites, not runtime invocations. Snapshots, vendor copies, upstream tests and skill examples are partitioned, not counted as independent customer designs. Installed dependency trees are intentionally excluded. Dynamic Python dispatch cannot be proven exhaustive statically."
+  },
+  "evidence_files": {
+    "authoritative_independent_call_ledger": "<repo>/tmp/khana/corpus-usage/call-ledger-validated.json",
+    "validation_and_exclusions": "<repo>/tmp/khana/corpus-usage/ledger-validation.json",
+    "all_public_declarations_and_visible_aliases": "<repo>/tmp/khana/corpus-usage/public-api-enriched-declarations.json",
+    "raw_inventory": "<repo>/tmp/khana/corpus-usage/inventory.json",
+    "project_counts": "<repo>/tmp/khana/corpus-usage/project-usage.json",
+    "diagnostic_json_contents": "<repo>/tmp/khana/corpus-usage/outputs.json",
+    "export_file_inventory": "<repo>/tmp/khana/corpus-usage/artifacts.json",
+    "reproducer": "<repo>/tmp/khana/corpus-usage/enrich-ledger.py"
+  },
+  "ledger_correction": {
+    "raw_candidates": 1429,
+    "removed_shadowed_alias_false_calls": 6,
+    "ordinary_dictionary_calls_separated": 2,
+    "removed_old_embedded_fixture_calls": 5,
+    "added_complete_embedded_fixture_calls": 39,
+    "embedded_fixture_templates": 11,
+    "added_polymorphic_assertion_evaluation_calls": 2,
+    "validated_cad_khana_calls": 1457,
+    "partition": {
+      "customer-source": 587,
+      "customer-snapshot": 134,
+      "customer-watcher": 13,
+      "upstream-tests": 483,
+      "skill-example": 44,
+      "upstream-library": 98,
+      "vendored-library": 98
+    },
+    "concurrent_review_comparison": "Concurrent calls-reviewed.json has 1425 sites. The +32 delta here is +34 previously missed generated CLI fixture calls and -2 ordinary VIEW_PRESETS.keys dictionary calls. Both agree on all 734 customer calls.",
+    "explanation": "Constant-only extraction missed interpolated CLI fixture strings. Python 3.14 tokenize emits FSTRING_START/MIDDLE/END. The enrichment reconstructs these without executing code, substitutes __HOST_EXPRESSION__ and retains actual host_template_source and host_interpolations (usually out). Physical host lines, including adjacent literals spanning a generated line, are preserved.",
+    "examples": [
+      "~/Workspace/cad/cad-khana/tests/test_cli.py:29",
+      "~/Workspace/cad/cad-khana/tests/test_cli.py:59-63",
+      "~/Workspace/cad/cad-khana/tests/test_cli.py:184-185",
+      "~/Workspace/cad/cad-khana/tests/test_cli.py:213-215",
+      "~/Workspace/cad/cad-khana/tests/test_cli.py:499-503"
+    ],
+    "public_namespace": {
+      "own_declarations": 246,
+      "imported_visible_aliases": 199,
+      "classes": 25,
+      "functions": 48,
+      "constants_or_bindings": 42,
+      "fields": 114,
+      "methods": 13,
+      "properties": 4
+    },
+    "namespace_policy": "Every declaration and non-underscore imported module attribute is enumerated. Imported typing/build123d/PIL/OCP aliases are classified as incidental module-visible bindings, not 199 new wonky kernel APIs. Public-looking resolve_out in the private _paths module is retained, not silently omitted."
+  },
+  "customer_counts": {
+    "import_files": 74,
+    "source_files": 38,
+    "snapshot_files": 23,
+    "watcher_files": 13,
+    "unique_source_hashes": 46,
+    "projects": 14,
+    "calls": 734,
+    "by_name": {
+      "Assembly": 57,
+      "Assembly.with_part": 202,
+      "Assembly.assert_no_interference": 183,
+      "Assembly.assert_clearance": 22,
+      "Assembly.assert_interference": 14,
+      "check": 54,
+      "inspect": 73,
+      "FDM": 105,
+      "suggest_orientation": 6,
+      "viewer.push": 13,
+      "export_assembly": 1,
+      "export_glb": 2,
+      "export_animated_glb": 1,
+      "draw": 1
+    },
+    "by_project": {
+      "cad-project-001": 7,
+      "cad-project-003": 231,
+      "cad-project-013": 129,
+      "cad-project-017": 23,
+      "cad-project-020": 32,
+      "cad-project-022": 4,
+      "cad-project-025": 10,
+      "cad-project-026": 109,
+      "cad-project-032": 17,
+      "cad-project-033": 40,
+      "cad-project-035": 15,
+      "cad-project-046": 83,
+      "cad-project-047": 6,
+      "cad-project-048": 28
+    },
+    "absence_note": "No direct customer call to RevoluteJoint, with_subassembly, with_joint, with_joint_angle, with_materials, with_detailed_geometry, low-level detectors, topology pick, diff or environment probe was found in these Python files. They still have upstream/library/test/skill coverage and remain in the public API ledger; absence in this static customer subset is not permission to drop them."
+  },
+  "verified_result_consumption": [
+    {
+      "fact": "All 54 customer check calls discard the returned CheckResult; JSON/export side effects and exceptions are the contract actually consumed.",
+      "evidence": [
+        "~/Workspace/cad/cad-project-003/overnight-2026-09-05/manufacturing/coupons.py:163-164",
+        "~/Workspace/cad/cad-project-033/assembly.py:83",
+        "~/Workspace/cad/cad-khana/src/cad_khana/mechanism/check.py:29-64"
+      ],
+      "classification": "measured static census and verified source"
+    },
+    {
+      "fact": "Of 73 customer inspect calls, 45 discard the return and 28 assign it. Of those 28, 26 read .status (including snapshots); two lateral_preload copies ignore diag and reopen the emitted JSON after catching SystemExit.",
+      "evidence": [
+        "~/Workspace/cad/cad-project-003/neustart/robot.py:224-233",
+        "~/Workspace/cad/cad-project-003/overnight-2026-09-05/family.py:338-344",
+        "~/Workspace/cad/cad-project-003/overnight-2026-09-05/manufacturing/coupons.py:149-154",
+        "~/Workspace/cad/cad-project-003/overnight-2026-09-05/manufacturing/preload_z/coupon.py:105-109",
+        "~/Workspace/cad/cad-project-003/overnight-2026-09-05/experiments/lateral_preload.py:89-98"
+      ],
+      "classification": "measured static census and verified source"
+    },
+    {
+      "fact": "Inspection failures are retained as review/needs_review/inspect_review status in custom manifests rather than universally aborting export. Native compatibility must not pretend that ignored return means irrelevant diagnostics.",
+      "evidence": [
+        "~/Workspace/cad/cad-project-003/neustart/robot.py:219-232",
+        "~/Workspace/cad/cad-project-003/overnight-2026-09-05/manufacturing/coupons.py:143-154",
+        "~/Workspace/cad/cad-project-003/overnight-2026-09-05/family.py:331-344"
+      ],
+      "classification": "verified source; compatibility requirement inferred"
+    },
+    {
+      "fact": "Six customer suggest_orientation results are ignored in Python. The written JSON and human/design choice matter; cad-project-026 documents choosing +X based on advice and then sets FDM(up_axis=(1,0,0)).",
+      "evidence": [
+        "~/Workspace/cad/cad-project-026/assembly.py:76-96",
+        "~/Workspace/cad/cad-project-020/lochwand/printed-parts/assembly.py:72-80"
+      ],
+      "classification": "verified source"
+    },
+    {
+      "fact": "Customer viewer.push returns are ignored; watchers repeatedly push cached Assembly and reload when sibling .py mtimes change. runpy.run_path leaves __main__ diagnostics unexecuted.",
+      "evidence": [
+        "~/Workspace/cad/cad-project-003/watch.py:20-63"
+      ],
+      "classification": "verified source; representative of 13 watcher sites"
+    },
+    {
+      "fact": "Customer export and draw returns are ignored. project-component-0e791726 subsequently reads generated STEP/GLB files, round-trips STEP and parses GLB animation channels. project-component-d753d790 monkeypatches private _gltf_transform_join to avoid an unavailable optimizer even with draco=False.",
+      "evidence": [
+        "~/Workspace/cad/cad-project-022/concept-02/study.py:371-392",
+        "~/Workspace/cad/cad-project-013/camera_mount_assembly.py:355-380"
+      ],
+      "classification": "verified source"
+    },
+    {
+      "fact": "Tests impose a wider return-value contract than customer models: CheckResult.exports paths, CheckResult.diagnostics.status/parts/assertions, inspect.status/assertions, ranked OrientationScore objects, schema keys and SystemExit(1).",
+      "evidence": [
+        "~/Workspace/cad/cad-khana/tests/mechanism/test_check.py:19-30",
+        "~/Workspace/cad/cad-khana/tests/mechanism/test_check.py:61-111",
+        "~/Workspace/cad/cad-khana/tests/printability/test_inspect.py:37-80",
+        "~/Workspace/cad/cad-khana/tests/printability/test_orientation.py:18-40"
+      ],
+      "classification": "verified source; tests not run"
+    }
+  ],
+  "priority_flows": [
+    {
+      "rank": 1,
+      "flow": "Fast visual edit/rebuild/push without accidentally claiming a diagnostic pass",
+      "evidence": "~/Workspace/cad/cad-project-003/watch.py:35-63",
+      "native_requirement": "Dependency-aware reload and cached viewer scene with explicitly separate unchecked/checked state."
+    },
+    {
+      "rank": 2,
+      "flow": "Named multi-part assembly collision and fit gate",
+      "evidence": "~/Workspace/cad/cad-project-020/lochwand/printed-parts/assembly.py:39-69",
+      "native_requirement": "Placed exact B-reps, intersection volume witnesses, true positive clearance and aggregation of declared assertions."
+    },
+    {
+      "rank": 3,
+      "flow": "Intentional interference as a snap/crush/thread engagement regression alarm",
+      "evidence": [
+        "~/Workspace/cad/cad-project-033/assembly.py:79",
+        "~/Workspace/cad/cad-project-020/lochwand/printed-parts/assembly.py:63",
+        "~/Workspace/cad/cad-project-046/assembly.py:97-108"
+      ],
+      "native_requirement": "Preserve reason/name and expected overlap, not merely suppress all overlapping pairs."
+    },
+    {
+      "rank": 4,
+      "flow": "Per-printed-part inspection in a selected print frame",
+      "evidence": "~/Workspace/cad/cad-project-033/assembly.py:84-108",
+      "native_requirement": "Arbitrary up_axis, minimum wall witness, overhang region and local exemptions; buy-part stand-ins excluded deliberately."
+    },
+    {
+      "rank": 5,
+      "flow": "Fit coupon families and sampled insertion/preload motion",
+      "evidence": [
+        "~/Workspace/cad/cad-project-003/overnight-2026-09-05/manufacturing/coupons.py:157-185",
+        "~/Workspace/cad/cad-project-003/overnight-2026-09-05/manufacturing/preload_z/coupon.py:116-136"
+      ],
+      "native_requirement": "Repeated state checks, true mid-section distance, per-state witnesses and honest sampled-not-continuous status."
+    },
+    {
+      "rank": 6,
+      "flow": "Orientation comparison before final FDM settings",
+      "evidence": "~/Workspace/cad/cad-project-026/assembly.py:76-96",
+      "native_requirement": "Six-axis ranking, bore tradeoffs, contact/footprint and support estimates, never silently rotate canonical geometry."
+    },
+    {
+      "rank": 7,
+      "flow": "Batch inspection continues after failures and writes a review manifest",
+      "evidence": [
+        "~/Workspace/cad/cad-project-003/neustart/robot.py:219-233",
+        "~/Workspace/cad/cad-project-020/lochwand/printed-parts/assembly.py:66-88"
+      ],
+      "native_requirement": "Compatibility writes-before-SystemExit plus a native nonthrowing collector and stable per-part result objects."
+    },
+    {
+      "rank": 8,
+      "flow": "Cheap stand-ins for interaction, detailed geometry for manufacturing",
+      "evidence": [
+        "~/Workspace/cad/cad-project-046/assembly.py:114-161",
+        "~/Workspace/cad/cad-khana/field-notes.md:161-172"
+      ],
+      "native_requirement": "Content-addressed caching and explicit inspection-versus-export fidelity identity; a cheap variant's pass must not certify a different final STL."
+    },
+    {
+      "rank": 9,
+      "flow": "Engineering views and named colored delivery artifacts",
+      "evidence": "~/Workspace/cad/cad-project-013/camera_mount_assembly.py:355-380",
+      "native_requirement": "Native STEP/STL/GLB and selected orthographic/isometric views without compulsory external optimizer binaries."
+    },
+    {
+      "rank": 10,
+      "flow": "Illustrative motion export plus artifact validation",
+      "evidence": "~/Workspace/cad/cad-project-022/concept-02/study.py:371-392",
+      "native_requirement": "Stable part identities across t-to-Assembly samples, animation metadata and STEP read-back; display duration is not physical cycle time."
+    }
+  ],
+  "stored_outputs": {
+    "measured": {
+      "mechanism_json": 39,
+      "printability_json": 175,
+      "orientation_json": 9,
+      "printability_assertion_failed": 61,
+      "mechanism_ok_with_nonempty_interferences": 7
+    },
+    "exports_measured_all_cad_not_only_khana": {
+      ".step": 3316,
+      ".stp": 2,
+      ".stl": 23904,
+      ".3mf": 2399,
+      ".glb": 25,
+      ".brep": 1503
+    },
+    "interpretation": "Stored output snapshots are real reference artifacts, not proof of current source freshness, current kernel support or print safety. No artifact regenerated here. Mechanism ok means declared assertions passed, not that every pair is collision-free; overhang null under a 91-degree waiver is not a general support-free certificate.",
+    "field_evidence": [
+      {
+        "file": "~/Workspace/cad/cad-project-033/outputs/mechanism.json",
+        "lines": "2-3,333-414,415",
+        "fact": "schema_version 0.2 and status ok coexist with eight interference records and eighteen assertion results."
+      },
+      {
+        "file": "~/Workspace/cad/cad-project-020/lochwand/printed-parts/outputs/carrier-printability.json",
+        "lines": "2-4,27-34,1067-1081",
+        "fact": "status ok coexists with min_wall_mm 0.051124755437364895 and overhang null; source intentionally uses wall_min_mm=0.01 and overhang_max_deg=91 at assembly.py:77."
+      },
+      {
+        "file": "~/Workspace/cad/cad-project-026/outputs/carriage-orientation.json",
+        "lines": "4-17,90",
+        "fact": "ranked scores and best_up_axis; first stored support_demand_mm3 is 0.20753691163403282, while assembly.py:76-78 comment says zero. Do not silently equate stale prose and current numeric artifacts."
+      }
+    ]
+  },
+  "package_policy_addendum": {
+    "status": "Recommendations, not implemented policy. Current runner refuses all unprovided packages; citation <repo>/docs/python-khana.md:171-219. Full package investigation is concurrently owned by corpus-package-policy/main.",
+    "packages": [
+      {
+        "package": "numpy",
+        "corpus_direct_transitive_first": [
+          18,
+          19,
+          18
+        ],
+        "use": "Array arithmetic, bounds comparison, axis-vector costs, mesh buffers and summary percentiles.",
+        "policy": "Allow pinned pure-numeric/data use outside the Bend geometry authority; never let host arrays become a hidden external shape/query implementation.",
+        "evidence": [
+          "~/Workspace/cad/cad-project-041/camera-arm-stiffness-2026-09-19/jobs/exact/build_exact.py:115-120",
+          "~/Workspace/cad/cad-project-041/camera-arm-stiffness-2026-09-19/jobs/exact/build_exact.py:223-235",
+          "~/Workspace/cad/cad-project-041/camera-arm-stiffness-2026-09-19/jobs/exact/build_exact.py:317-321"
+        ]
+      },
+      {
+        "package": "pytest",
+        "corpus_direct_transitive_first": [
+          13,
+          13,
+          6
+        ],
+        "use": "Test assertions, approx and expected failure contexts; test modules are not model entrypoints.",
+        "policy": "Allow as test tooling in a test runner; do not implement a pytest clone in the kernel or treat a test module's missing result as missing geometry capability.",
+        "evidence": [
+          "~/Workspace/cad/cad-khana/tests/mechanism/test_check.py:4-6",
+          "~/Workspace/cad/cad-khana/tests/mechanism/test_check.py:93-111"
+        ]
+      },
+      {
+        "package": "trimesh",
+        "corpus_direct_transitive_first": [
+          9,
+          10,
+          2
+        ],
+        "use": "Mesh reconstruction/caching, plane slicing, subdivision and spatial mesh analysis.",
+        "policy": "Integrate production mesh, section and diagnostic capabilities natively with explicit approximate lineage; refuse external geometric authority. Optional independent exported-artifact analysis must remain outside production modeling.",
+        "evidence": [
+          "~/Workspace/cad/cad-project-014/native.py:27-32",
+          "~/Workspace/cad/cad-project-014/bottom-drive-review-2026-09-19/tool-improvement/worktree/pruefstand/src/pruefstand/region.py:211",
+          "~/Workspace/cad/cad-project-014/bottom-drive-review-2026-09-19/tool-improvement/worktree/pruefstand/src/pruefstand/region.py:303-343"
+        ]
+      },
+      {
+        "package": "bd_warehouse",
+        "corpus_direct_transitive_first": [
+          3,
+          7,
+          7
+        ],
+        "use": "Actually modeled printable ISO and trapezoidal threads, not merely bought fasteners.",
+        "policy": "Native parameter catalogs and exact/thread-aware Bend construction; refuse OCCT-backed construction until supported. Do not substitute smooth shafts and call them complete threads.",
+        "evidence": [
+          "~/Workspace/cad/cad-project-013/wasteboard.py:1396",
+          "~/Workspace/cad/cad-project-046/mount.py:492",
+          "~/Workspace/cad/cad-project-026/scissor.py:209",
+          "~/Workspace/cad/cad-project-026/scissor.py:266"
+        ]
+      },
+      {
+        "package": "OCP",
+        "corpus_direct_transitive_first": [
+          4,
+          7,
+          1
+        ],
+        "use": "Surface geometry adaptors and BREP read/write caches, plus external-kernel queries.",
+        "policy": "Keep refusing in production. Port capabilities to Bend; OCCT allowed only as independent validation of exported artifacts, never construction or fallback geometry.",
+        "evidence": [
+          "~/Workspace/cad/cad-project-041/single-step-r10/src/endstop_check.py:19-20",
+          "~/Workspace/cad/cad-project-041/single-step-r10/src/endstop_check.py:202",
+          "~/Workspace/cad/cad-project-046/mount.py:139-153",
+          "<repo>/AGENTS.md:4"
+        ]
+      },
+      {
+        "package": "yaml",
+        "corpus_direct_transitive_first": [
+          2,
+          4,
+          4
+        ],
+        "use": "Design-language and manufacturing-profile data loading with safe_load.",
+        "policy": "Allow pinned data-only YAML tooling or native config ingestion; this is not an external geometry dependency. Include profiles in provenance and dependency watching.",
+        "evidence": [
+          "~/Workspace/cad/cad-project-020/lochwand/printed-parts/style.py:12-18"
+        ]
+      },
+      {
+        "package": "matplotlib",
+        "corpus_direct_transitive_first": [
+          2,
+          2,
+          0
+        ],
+        "use": "Headless review diagrams/contact sheets using Agg and pyplot.",
+        "policy": "Allow host-side report rendering; not a geometry authority or required kernel dependency.",
+        "evidence": [
+          "~/Workspace/cad/cad-project-041/tray-repeat-study-2026-09-20/review/bound-concept-builder.py:6-8",
+          "~/Workspace/cad/cad-project-041/tray-repeat-study-2026-09-20/review/bound-concept-builder.py:27"
+        ]
+      },
+      {
+        "package": "scipy",
+        "corpus_direct_transitive_first": [
+          2,
+          2,
+          0
+        ],
+        "use": "Mixed: convex hull defines a board geometry envelope; linear_sum_assignment performs numerical matching.",
+        "policy": "Split by capability: allow non-geometric optimization/matching, implement production hull/spatial geometry natively. A blanket SciPy allow would admit external geometry.",
+        "evidence": [
+          "~/Workspace/cad/cad-project-003/overnight-2026-09-05/design-review/extract_lilypad.py:14",
+          "~/Workspace/cad/cad-project-003/overnight-2026-09-05/design-review/extract_lilypad.py:73",
+          "~/Workspace/cad/cad-project-041/camera-arm-stiffness-2026-09-19/jobs/exact/build_exact.py:38"
+        ]
+      },
+      {
+        "package": "shapely",
+        "corpus_direct_transitive_first": [
+          2,
+          2,
+          0
+        ],
+        "use": "2D union/intersection and buffered point circles create physical plate profiles.",
+        "policy": "Integrate sketch-region Boolean/offset/hull capabilities in Bend; keep refusing GEOS-backed geometry. Point.buffer(resolution=96) is polygonal intent and must not silently masquerade as an analytic circle.",
+        "evidence": [
+          "~/Workspace/cad/cad-project-041/single-step-r10/jobs/rack-drive-module/geometry.py:172-199"
+        ]
+      },
+      {
+        "package": "httpx",
+        "corpus_direct_transitive_first": [
+          0,
+          1,
+          1
+        ],
+        "use": "HTTP client for a project geometry-service bridge.",
+        "policy": "Allow only explicit host-side transport with provenance/permissions; not unrestricted in deterministic modeling and never a remote geometry fallback.",
+        "evidence": [
+          "~/Workspace/cad/cad-project-014/bridge.py:3-15"
+        ]
+      },
+      {
+        "package": "ocp_tessellate",
+        "corpus_direct_transitive_first": [
+          1,
+          1,
+          1
+        ],
+        "use": "OCP viewer topology-index ordering for pick tests.",
+        "policy": "Native tessellation and stable topology-to-view ID mapping; no OCP topology dependency in production. Preserve or explicitly map compatibility indices.",
+        "evidence": [
+          "~/Workspace/cad/cad-khana/tests/mechanism/test_pick.py:12",
+          "~/Workspace/cad/cad-khana/field-notes.md:106-107"
+        ]
+      },
+      {
+        "package": "PIL",
+        "corpus_direct_transitive_first": [
+          1,
+          1,
+          0
+        ],
+        "use": "Raster image/drawing output for review artifacts.",
+        "policy": "Allow optional host-side image tooling, or replace with existing native viewer exports; no need to absorb all Pillow into Bend.",
+        "evidence": [
+          "~/Workspace/cad/cad-project-041/single-step-r10/src/endstop_check.py:276-286"
+        ]
+      }
+    ]
+  },
+  "recommendations": [
+    {
+      "idea": "Introduce face/region-scoped waivers with reasons, area budget, expiry and delta warnings instead of whole-part 91-degree disabling.",
+      "basis": [
+        "~/Workspace/cad/cad-project-033/assembly.py:84-87",
+        "~/Workspace/cad/cad-project-020/lochwand/printed-parts/assembly.py:75-80",
+        "~/Workspace/cad/cad-khana/field-notes.md:230-236"
+      ],
+      "evidence_kind": "verified source plus historical incident report; incident not rerun"
+    },
+    {
+      "idea": "Use trimmed analytic wall rays, same-face self-hit rejection with evidence, and explicit unknown/error bounds; do not replace current false positives with optimistic passes.",
+      "basis": [
+        "~/Workspace/cad/cad-project-046/assembly.py:145-148",
+        "~/Workspace/cad/cad-khana/field-notes.md:240-243",
+        "<repo>/kernel/ray.bend:7-10"
+      ],
+      "evidence_kind": "source evidence and proposed native improvement"
+    },
+    {
+      "idea": "Make inspection identity include canonical B-rep/topology, placement, print frame, method settings, algorithm version and tolerance; current rounded volume/count/bbox fingerprint is not geometric identity.",
+      "basis": [
+        "~/Workspace/cad/cad-project-046/assembly.py:114-127",
+        "~/Workspace/cad/cad-project-046/assembly.py:150-161"
+      ],
+      "evidence_kind": "source evidence; collision possibility is inference"
+    },
+    {
+      "idea": "Attach inspection/report provenance to the exact exported fidelity and artifact hash; flag stand-in diagnostics reused for a detailed threaded STL.",
+      "basis": [
+        "~/Workspace/cad/cad-project-046/assembly.py:128-148",
+        "~/Workspace/cad/cad-khana/field-notes.md:161-172"
+      ],
+      "evidence_kind": "source evidence plus historical incident report"
+    },
+    {
+      "idea": "Batch diagnostics once per part/pair and expose a nonthrowing native collector while preserving compatibility JSON-before-SystemExit behavior.",
+      "basis": [
+        "~/Workspace/cad/cad-project-020/lochwand/printed-parts/assembly.py:66-88",
+        "~/Workspace/cad/cad-khana/src/cad_khana/mechanism/check.py:39-64",
+        "~/Workspace/cad/cad-khana/src/cad_khana/printability/inspect.py:151-156"
+      ],
+      "evidence_kind": "verified source and proposed API"
+    },
+    {
+      "idea": "Represent pose alternatives and permitted contact explicitly, and report assertion coverage separately from raw pair collisions.",
+      "basis": [
+        "~/Workspace/cad/cad-khana/field-notes.md:223-229",
+        "~/Workspace/cad/cad-project-033/outputs/mechanism.json:333-415"
+      ],
+      "evidence_kind": "stored output plus historical field observation"
+    },
+    {
+      "idea": "Recognize intermediate bridge anchors and existing teardrop relief; report residual unsupported spans rather than blanket horizontal-bore warnings.",
+      "basis": [
+        "~/Workspace/cad/cad-khana/field-notes.md:130-143",
+        "~/Workspace/cad/cad-khana/field-notes.md:209-217"
+      ],
+      "evidence_kind": "historical user reports, not independently reproduced"
+    },
+    {
+      "idea": "Make glTF optimization optional and native, not a mandatory subprocess even with draco=False.",
+      "basis": [
+        "~/Workspace/cad/cad-project-013/camera_mount_assembly.py:358-373"
+      ],
+      "evidence_kind": "verified customer workaround"
+    },
+    {
+      "idea": "Unify mechanism/printability/orientation report schema with explicit checks_run, exactness, units, normalized up_axis, source/fidelity hashes and sampled-coverage metadata; keep compatibility projection for old scripts.",
+      "basis": [
+        "~/Workspace/cad/cad-khana/src/cad_khana/printability/inspect.py:33-50",
+        "~/Workspace/cad/cad-khana/tests/printability/test_orientation.py:28-33",
+        "<repo>/docs/python-khana.md:125-163"
+      ],
+      "evidence_kind": "source evidence and proposed schema"
+    }
+  ],
+  "native_primitive_requirements": [
+    "Bend Boolean intersection/common-volume with bounded analytic mass properties and overlap centroid; distinguish contact, positive overlap, unresolved and invalid topology.",
+    "Trim-aware body-to-body minimum distance with witness points/features, certified intervals and equality/near-threshold handling; AABB or tessellation-only distance is not enough for clearance gates.",
+    "Analytic trimmed-face nearest positive ray hits plus material membership to avoid same-face wall self-hits; existing supporting-surface roots alone do not establish solid crossings.",
+    "Face topology/adjacency, surface type/radius, oriented normals, dihedral/convexity classification and stable IDs across viewer/report; preserve analytic curves.",
+    "Certified display/print tessellation with face lineage and declared deflection for approximate area/support sampling, never presented as exact wall-global-minimum proof.",
+    "Connected component/shell containment, bore/pin classification, bridge-anchor material probes and print-axis support/contact analysis with explicit approximation labels.",
+    "Hierarchical rigid transforms and stable instance identity for static/motion report caching and GLB animation; sample-based clearance does not prove continuous motion.",
+    "Native exact analytic STEP and bounded STL/GLB export; planar region operations, offsets, threads and standard-part construction must be Bend-owned rather than bd_warehouse/GEOS/OCCT fallback."
+  ],
+  "open": [
+    "No successful wonky build or new cad-khana parity execution is claimed. Most current blockers precede diagnostics; the original corpus docs are dated snapshots.",
+    "Historical field-note incidents are valuable requirements but were not independently reproduced here.",
+    "The package allowlist split is a proposal requiring product/security decisions; current blanket refusal is unchanged.",
+    "All source/artifact counts are point-in-time observations and include stored snapshots; no proof is made that an artifact belongs to the currently open source revision."
+  ]
+}

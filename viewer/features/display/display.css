@@ -1,0 +1,73 @@
+/* Display feature (render-look): legend in the status bar, x-ray toggle. */
+
+/* Right-aligned; the tolerance item never shrinks, the rest is cut with an
+   ellipsis (full text in each item's title). */
+.display-legend {
+  display: inline-flex;
+  align-items: baseline;
+  flex: 0 1 auto;
+  min-width: 0;
+  max-width: 100%;
+  margin-left: auto;
+  overflow: hidden;
+  padding: 3px 7px;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  background: color-mix(in srgb, var(--surface) 78%, transparent);
+  color: var(--ink-soft);
+  font-size: 11px;
+  line-height: 1.2;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  pointer-events: auto;
+}
+
+.display-legend[hidden] {
+  display: none;
+}
+
+.display-legend[hidden] + .projection-legend {
+  margin-left: auto;
+}
+
+.viewport-bottomline .display-legend span {
+  margin: 0;
+  color: inherit;
+}
+
+.display-legend [data-legend=tolerance] {
+  flex-shrink: 0;
+}
+
+.display-legend-rest {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.viewport-bottomline .display-legend span[aria-hidden] {
+  margin: 0 5px;
+  color: var(--muted);
+}
+
+.display-legend-item {
+  cursor: help;
+}
+
+.view-actions #xray-toggle[aria-pressed=true] {
+  background: var(--green-soft);
+  color: var(--green);
+}
+
+@media (max-width: 900px) {
+  .display-legend {
+    max-width: 45%;
+  }
+}
+
+@media (max-width: 650px) {
+  .display-legend {
+    max-width: 38%;
+    font-size: 11px;
+  }
+}

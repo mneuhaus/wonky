@@ -1,0 +1,47 @@
+{
+ "schema": "wonky-bakeoff-fixture/1",
+ "case": "fine-spheres-50k",
+ "category": "scale",
+ "deviationMm": 0.004,
+ "location": "out/bakeoff/jobs (generated on demand, gitignored)",
+ "job": "out/bakeoff/jobs/fine-spheres-50k.job",
+ "csgJob": "out/bakeoff/jobs/fine-spheres-50k.csg.job",
+ "jobBytes": 2496264,
+ "jobSha256": "fbe780914c1bf86d22e007056ad3b63f1c263bc69727a76966f79bba9195d65c",
+ "csgJobSha256": "69059ba2acc2c6ec30c3a4d2faccb7e07db7b42e94d3b1af0f3b4196f48a2f03",
+ "leaves": 2,
+ "faces": 2,
+ "vertices": 25284,
+ "triangles": 50560,
+ "deviationMeasuredMaxMm": 0.0038540761013141633,
+ "leafInfo": [
+  {
+   "leaf": 0,
+   "prim": "sphere",
+   "vertices": 12642,
+   "triangles": 25280,
+   "tags": [
+    0
+   ],
+   "segments": 160,
+   "deviationMeasuredMm": 0.0038540761013141633,
+   "deviationMethod": "closest-point (exact for inscribed convex mesh)",
+   "vertexOnSurfaceMaxMm": 1.5987211554602254e-14,
+   "analyticVolume": 4188.790204786391
+  },
+  {
+   "leaf": 1,
+   "prim": "sphere",
+   "vertices": 12642,
+   "triangles": 25280,
+   "tags": [
+    1
+   ],
+   "segments": 160,
+   "deviationMeasuredMm": 0.0038540761013141633,
+   "deviationMethod": "closest-point (exact for inscribed convex mesh)",
+   "vertexOnSurfaceMaxMm": 3.197442310920451e-14,
+   "analyticVolume": 4188.790204786391
+  }
+ ]
+}

@@ -1,0 +1,3 @@
+; Unbounded recursion ends with the fuel error instead of hanging.
+(def forever (n) (+ 1 (forever n)))
+(forever 0)

@@ -1,0 +1,3 @@
+; Evaluator overhead: a counted loop written as (non-tail) recursion.
+(def loop (i n acc) (if (< i n) (loop (+ i 1) n (+ acc (* i i))) acc))
+(loop 0 20000 0)

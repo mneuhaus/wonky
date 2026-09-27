@@ -1,0 +1,48 @@
+{
+  "btType": "BTFeatureDefinitionResponse-1617",
+  "rejectMicroversionSkew": false,
+  "microversionSkew": false,
+  "featureState": {
+    "btType": "BTFeatureState-1688",
+    "featureStatus": "OK",
+    "inactive": false
+  },
+  "feature": {
+    "btType": "BTMFeature-134",
+    "namespace": "e182fbbc2e2bd8c36cbbdf331::md4e8f6ba2b2ee1ddf9ebb620",
+    "name": "profile-V1-ALL",
+    "suppressed": false,
+    "parameters": [
+      {
+        "btType": "BTMParameterEnum-145",
+        "namespace": "e182fbbc2e2bd8c36cbbdf331::md4e8f6ba2b2ee1ddf9ebb620",
+        "nodeId": "MJ1DjBtcIJ3TXst7F",
+        "libraryRelationType": "DEFAULT",
+        "enumName": "AcidVariant",
+        "value": "V1",
+        "parameterId": "variant",
+        "parameterName": ""
+      },
+      {
+        "btType": "BTMParameterEnum-145",
+        "namespace": "e182fbbc2e2bd8c36cbbdf331::md4e8f6ba2b2ee1ddf9ebb620",
+        "nodeId": "Mrm2resOryu8BV6vO",
+        "libraryRelationType": "DEFAULT",
+        "enumName": "AcidProfileZone",
+        "value": "ALL",
+        "parameterId": "zone",
+        "parameterName": ""
+      }
+    ],
+    "nodeId": "Mo92vUf750i+ys3pt",
+    "featureId": "FpLLW3zRUlMrYRh_0",
+    "featureType": "acidProfile",
+    "returnAfterSubfeatures": false,
+    "subFeatures": [],
+    "parameterLibraries": [],
+    "suppressionState": null
+  },
+  "libraryVersion": 0,
+  "serializationVersion": "1.2.21",
+  "sourceMicroversion": "62f8fceb8c23ad6c8001eaa4"
+}

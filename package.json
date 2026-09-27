@@ -1,0 +1,43 @@
+{
+  "name": "wonky-kernel",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@10.12.1",
+  "description": "A Bend B-rep kernel with FeatureScript and Python Algebra frontends",
+  "engines": {
+    "node": ">=22.18.0"
+  },
+  "bin": {
+    "wonky": "bin/wonky.mjs",
+    "wonky-compare": "bin/wonky-compare.mjs",
+    "wonky-python": "bin/wonky-python.mjs",
+    "wonky-view": "bin/wonky-view.mjs",
+    "wonky-inspect": "bin/wonky-inspect.mjs"
+  },
+  "scripts": {
+    "setup": "node scripts/setup-bend.mjs",
+    "check:bend": "node scripts/check-bend.mjs",
+    "test": "npm run check:bend && node --test test/*.test.mjs",
+    "test:rust": "node scripts/test-rust.mjs",
+    "test:fast": "node scripts/test-lane.mjs fast --fail-fast",
+    "test:changed": "node scripts/test-lane.mjs changed --fail-fast",
+    "test:slow": "node scripts/test-lane.mjs slow",
+    "test:record": "node scripts/test-lane.mjs full --record",
+    "check:r10b": "node bin/wonky.mjs fixtures/r10b/r10b.fs --feature singleStepR10b --check",
+    "check:inputs": "node scripts/check-r10b-inputs.mjs",
+    "check:acceptance": "node scripts/check-acceptance.mjs",
+    "bench": "node scripts/benchmark.mjs",
+    "bench:hardware": "node scripts/benchmark-hardware.mjs",
+    "bakeoff": "node scripts/bakeoff/run.mjs",
+    "bakeoff:fixtures": "node scripts/bakeoff/fixtures.mjs",
+    "bakeoff:reference": "node scripts/bakeoff/fixtures.mjs && node scripts/bakeoff/brep-step.mjs && uv run scripts/bakeoff/reference.py --dump out/bakeoff/oracle-manifold",
+    "demo": "node bin/wonky.mjs examples/bracket.fs --out out/bracket",
+    "demo:review": "node scripts/review-demo.mjs",
+    "view": "node bin/wonky-view.mjs",
+    "start": "node bin/wonky.mjs"
+  },
+  "dependencies": {
+    "earcut": "3.0.2"
+  }
+}

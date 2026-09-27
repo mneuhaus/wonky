@@ -1,0 +1,59 @@
+{
+ "id": "pc-hole-both-rims-r1",
+ "jobSha256": "4c06236336e4ba61c716162959813168bf50ebb84d28c0b82d3afe7fa45b3702",
+ "jobBytes": 2301,
+ "sourceSha256": "337258f494319fbbf909099dd0d40c3b8c326a86426273ca2d67aaf3f51318e5",
+ "buildMs": 6.4985420000002705,
+ "kernel": {
+  "closed": true,
+  "volumeMm3": 5098.407105255377,
+  "areaMm2": null,
+  "precision": "F32x2",
+  "geometry": "analytic"
+ },
+ "counts": {
+  "vertices": 10,
+  "edges": 15,
+  "faces": 7
+ },
+ "surfaces": {
+  "plane": 6,
+  "cylinder": 1
+ },
+ "quantizationErrorMm": 0,
+ "selected": [
+  {
+   "edge": 12,
+   "curve": "circle",
+   "faces": [
+    "plane",
+    "cylinder"
+   ],
+   "convexity": "convex",
+   "dihedralDeg": 90,
+   "length": 25.132110409154404,
+   "sample": [
+    11,
+    15,
+    0
+   ]
+  },
+  {
+   "edge": 13,
+   "curve": "circle",
+   "faces": [
+    "plane",
+    "cylinder"
+   ],
+   "convexity": "convex",
+   "dihedralDeg": 90,
+   "length": 25.132110409154404,
+   "sample": [
+    11,
+    15,
+    6
+   ]
+  }
+ ],
+ "step": "out/fillet/input-step/pc-hole-both-rims-r1.step"
+}

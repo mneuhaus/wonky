@@ -1,0 +1,959 @@
+{
+ "schema": "wonky-bakeoff-arbiter/1",
+ "generator": "node scripts/bakeoff/arbiter.mjs --write",
+ "policy": "reference = exact CSG of the analytic input, unless the F32x2 rounding of the input can change the topology (ambiguous). A dispute = OCCT shells != manifold3d components, or |V_manifold - V_occt| > OCCT area x deviation.",
+ "suitesReferences": "out/bakeoff/judge2/suites",
+ "entries": [
+  {
+   "suite": "adv-corefine",
+   "id": "adv-box-union-gap-1e-9",
+   "expect": "solid",
+   "jobSha256": "610dbaf1d065df2d668981216c74128aa890322b5fe7f2c6aa6809090bd6349f",
+   "recipe": "axisBoxes",
+   "class": "occt-fuzzy",
+   "method": "closed form on the wire box bounds (exact doubles)",
+   "reference": {
+    "shells": 2,
+    "euler": 4,
+    "volume": 1359.999999964,
+    "area": 911.999999976,
+    "volumeTolAbs": 0.1359999999964
+   },
+   "evidence": {
+    "configuration": "disjoint boxes (gap 1.000e-9 mm)"
+   },
+   "decision": "manifold",
+   "reason": "OCCT is wrong here (fuzzy merge / lost sub-micron feature); the third reference confirms manifold3d",
+   "oracles": {
+    "occt": {
+     "shells": 1,
+     "solids": 1,
+     "volume": 1359.999999976,
+     "area": 839.9999999759997,
+     "valid": true
+    },
+    "manifold": {
+     "components": 2,
+     "euler": 4,
+     "volume": 1359.999999964,
+     "area": 911.999999976
+    }
+   },
+   "dispute": [
+    "shells: OCCT 1, manifold3d 2"
+   ]
+  },
+  {
+   "suite": "adv-corefine",
+   "id": "adv-slab-sliver-1e-7",
+   "expect": "solid",
+   "jobSha256": "9626959ac1951a168cbbd0681e909c68391631102a0f06a9ae8d7a57fa829c95",
+   "recipe": "axisBoxes",
+   "class": "occt-fuzzy",
+   "method": "closed form on the wire box bounds (exact doubles)",
+   "reference": {
+    "shells": 1,
+    "euler": 2,
+    "volume": 0.000039999999999999996,
+    "area": 800.000008,
+    "volumeTolAbs": 4e-9
+   },
+   "evidence": {
+    "configuration": "slab of A, 1.000e-7 mm thick along z"
+   },
+   "decision": "manifold",
+   "reason": "OCCT is wrong here (fuzzy merge / lost sub-micron feature); the third reference confirms manifold3d",
+   "oracles": {
+    "occt": {
+     "shells": 0,
+     "solids": 0,
+     "volume": 0,
+     "area": 0,
+     "valid": true
+    },
+    "manifold": {
+     "components": 1,
+     "euler": 2,
+     "volume": 0.000039999999999999996,
+     "area": 800.000008
+    }
+   },
+   "dispute": [
+    "shells: OCCT 0, manifold3d 1",
+    "volume: OCCT 0, manifold3d 0.000039999999999999996 (|difference| 4.00e-5 > OCCT area x deviation 0.00e+0)"
+   ]
+  },
+  {
+   "suite": "adv-corefine",
+   "id": "adv-thin-spherical-shell-1e-6",
+   "expect": "solid",
+   "jobSha256": "775b84ec49317674dbffe6f420304facfed36b95cc833d9cf5fb6655636db3dc",
+   "recipe": "nestedSubtract",
+   "class": "occt-fuzzy",
+   "method": "result mesh constructed from the wire leaves (A + reversed B), exact validator + exact point-in-mesh",
+   "reference": {
+    "shells": 2,
+    "euler": 4,
+    "volume": 0.00124769129707325,
+    "area": 2504.312255121495,
+    "volumeTolAbs": 1.2476912970732502e-7
+   },
+   "evidence": {
+    "nesting": "every triangle pair of A and B is disjoint (exact) and B lies inside A",
+    "triangles": 4416
+   },
+   "decision": "manifold",
+   "reason": "OCCT is wrong here (fuzzy merge / lost sub-micron feature); the third reference confirms manifold3d",
+   "oracles": {
+    "occt": {
+     "shells": 1,
+     "solids": 1,
+     "volume": 4188.790204786392,
+     "area": 1256.6370614359175,
+     "valid": true
+    },
+    "manifold": {
+     "components": 2,
+     "euler": 4,
+     "volume": 0.0012476913064033424,
+     "area": 2504.3122551214815
+    }
+   },
+   "dispute": [
+    "shells: OCCT 1, manifold3d 2",
+    "volume: OCCT 4188.790204786392, manifold3d 0.0012476913064033424 (|difference| 4.19e+3 > OCCT area x deviation 6.28e+1)"
+   ]
+  },
+  {
+   "suite": "adv-corefine",
+   "id": "adv-skin-void-2e-11",
+   "expect": "solid",
+   "jobSha256": "d1fc174280d8e30cb76f510dab3ea69112145835bbcd84f9059e87efdff869d2",
+   "recipe": "axisBoxes",
+   "class": "occt-fuzzy",
+   "method": "closed form on the wire box bounds (exact doubles)",
+   "reference": {
+    "shells": 2,
+    "euler": 4,
+    "volume": 3400.000000002,
+    "area": 2039.9999999992,
+    "volumeTolAbs": 0.34000000000020003
+   },
+   "evidence": {
+    "configuration": "closed internal void"
+   },
+   "decision": "manifold",
+   "reason": "OCCT is wrong here (fuzzy merge / lost sub-micron feature); the third reference confirms manifold3d",
+   "oracles": {
+    "occt": {
+     "shells": 1,
+     "solids": 1,
+     "volume": 3400.0000000013324,
+     "area": 1839.9999999991994,
+     "valid": true
+    },
+    "manifold": {
+     "components": 2,
+     "euler": 4,
+     "volume": 3400.000000002,
+     "area": 2039.9999999992
+    }
+   },
+   "dispute": [
+    "shells: OCCT 1, manifold3d 2"
+   ]
+  },
+  {
+   "suite": "adv-corefine",
+   "id": "adv-skin-void-5e-10-at-1000",
+   "expect": "solid",
+   "jobSha256": "be0391f14528d73e33952ac2132760549539b8231be357c5976b503f2edae498",
+   "recipe": "axisBoxes",
+   "class": "occt-fuzzy",
+   "method": "closed form on the wire box bounds (exact doubles)",
+   "reference": {
+    "shells": 2,
+    "euler": 4,
+    "volume": 3400.00000005,
+    "area": 2039.99999998,
+    "volumeTolAbs": 0.340000000005
+   },
+   "evidence": {
+    "configuration": "closed internal void"
+   },
+   "decision": "manifold",
+   "reason": "OCCT is wrong here (fuzzy merge / lost sub-micron feature); the third reference confirms manifold3d",
+   "oracles": {
+    "occt": {
+     "shells": 1,
+     "solids": 1,
+     "volume": 3400.000000033332,
+     "area": 1839.99999998,
+     "valid": true
+    },
+    "manifold": {
+     "components": 2,
+     "euler": 4,
+     "volume": 3400.0000000499977,
+     "area": 2039.99999998
+    }
+   },
+   "dispute": [
+    "shells: OCCT 1, manifold3d 2"
+   ]
+  },
+  {
+   "suite": "adv-corefine",
+   "id": "adv-skin-void-prism-tilted-1e-11",
+   "expect": "solid",
+   "jobSha256": "72d439bb1b0fc559826d9197c0300f7ce1ec552cb3100ee96f49b9ae9dd6ab80",
+   "recipe": "nestedSubtract",
+   "class": "occt-fuzzy",
+   "method": "result mesh constructed from the wire leaves (A + reversed B), exact validator + exact point-in-mesh",
+   "reference": {
+    "shells": 2,
+    "euler": 4,
+    "volume": 1568.0000000010175,
+    "area": 1472.6660889648524,
+    "volumeTolAbs": 0.15680000000010175
+   },
+   "evidence": {
+    "nesting": "every triangle pair of A and B is disjoint (exact) and B lies inside A",
+    "triangles": 16
+   },
+   "decision": "manifold",
+   "reason": "OCCT is wrong here (fuzzy merge / lost sub-micron feature); the third reference confirms manifold3d",
+   "oracles": {
+    "occt": {
+     "shells": 1,
+     "solids": 1,
+     "volume": 1568.0000000006787,
+     "area": 1269.0193359833672,
+     "valid": true
+    },
+    "manifold": {
+     "components": 2,
+     "euler": 4,
+     "volume": 1568.0000000010182,
+     "area": 1472.6660889648529
+    }
+   },
+   "dispute": [
+    "shells: OCCT 1, manifold3d 2"
+   ]
+  },
+  {
+   "suite": "adv-corefine",
+   "id": "adv-skin-void-rot-1e-11",
+   "expect": "solid",
+   "jobSha256": "82abfe16fe8d308971b116fc43152041ebeca5c51f6810d829d9bc73ef57a51b",
+   "recipe": "nestedSubtract",
+   "class": "occt-fuzzy",
+   "method": "result mesh constructed from the wire leaves (A + reversed B), exact validator + exact point-in-mesh",
+   "reference": {
+    "shells": 2,
+    "euler": 4,
+    "volume": 3400.0000000010054,
+    "area": 2039.9999999996003,
+    "volumeTolAbs": 0.34000000000010056
+   },
+   "evidence": {
+    "nesting": "every triangle pair of A and B is disjoint (exact) and B lies inside A",
+    "triangles": 24
+   },
+   "decision": "manifold",
+   "reason": "OCCT is wrong here (fuzzy merge / lost sub-micron feature); the third reference confirms manifold3d",
+   "oracles": {
+    "occt": {
+     "shells": 1,
+     "solids": 1,
+     "volume": 3400.0000000006676,
+     "area": 1839.9999999995998,
+     "valid": true
+    },
+    "manifold": {
+     "components": 2,
+     "euler": 4,
+     "volume": 3400.000000001005,
+     "area": 2039.9999999996
+    }
+   },
+   "dispute": [
+    "shells: OCCT 1, manifold3d 2"
+   ]
+  },
+  {
+   "suite": "adv-exact-plane",
+   "id": "adv-ep2-skin-5e-7",
+   "expect": "solid",
+   "jobSha256": "c190aa7a6e9a24f24b34c404bb909052fbec41daa82d1eae8c6baa8150f7f5d0",
+   "recipe": "axisBoxes",
+   "class": "occt-fuzzy",
+   "method": "closed form on the wire box bounds (exact doubles)",
+   "reference": {
+    "shells": 1,
+    "euler": 2,
+    "volume": 0.00019999999949504854,
+    "area": 800.0000399999999,
+    "volumeTolAbs": 1.9999999949504856e-8
+   },
+   "evidence": {
+    "configuration": "slab of A, 5.000e-7 mm thick along z"
+   },
+   "decision": "manifold",
+   "reason": "OCCT is wrong here (fuzzy merge / lost sub-micron feature); the third reference confirms manifold3d",
+   "oracles": {
+    "occt": {
+     "shells": 0,
+     "solids": 0,
+     "volume": 0,
+     "area": 0,
+     "valid": true
+    },
+    "manifold": {
+     "components": 1,
+     "euler": 2,
+     "volume": 0.00019999999949504854,
+     "area": 800.0000399999999
+    }
+   },
+   "dispute": [
+    "shells: OCCT 0, manifold3d 1",
+    "volume: OCCT 0, manifold3d 0.00019999999949504854 (|difference| 2.00e-4 > OCCT area x deviation 0.00e+0)"
+   ]
+  },
+  {
+   "suite": "adv-exact-plane",
+   "id": "adv-ep2-cube-corner-overlap-1e-7",
+   "expect": "solid",
+   "jobSha256": "f7b667112efd8954e4bcdaf9667388a90e0c250f0e75d2dfb7187177ea5a0c29",
+   "recipe": "axisBoxes",
+   "class": "occt-fuzzy",
+   "method": "closed form on the wire box bounds (exact doubles)",
+   "reference": {
+    "shells": 1,
+    "euler": 2,
+    "volume": 2000.0000300000006,
+    "area": 1200.0000120000002,
+    "volumeTolAbs": 0.20000000300000007
+   },
+   "evidence": {
+    "configuration": "boxes overlapping by 1.000e-7 x 1.000e-7 x 1.000e-7 mm"
+   },
+   "decision": "manifold",
+   "reason": "OCCT is wrong here (fuzzy merge / lost sub-micron feature); the third reference confirms manifold3d",
+   "oracles": {
+    "occt": {
+     "shells": 2,
+     "solids": 2,
+     "volume": 2000.0000300000002,
+     "area": 1200.0000119999997,
+     "valid": true
+    },
+    "manifold": {
+     "components": 1,
+     "euler": 2,
+     "volume": 2000.0000300000008,
+     "area": 1200.0000120000002
+    }
+   },
+   "dispute": [
+    "shells: OCCT 2, manifold3d 1"
+   ]
+  },
+  {
+   "suite": "adv-exact-plane",
+   "id": "adv-ep2-cube-edge-overlap-1e-9",
+   "expect": "solid",
+   "jobSha256": "8bc7651578d15e647c2a956cf08279f2da129831c40f7d6128bbda1a791bf87e",
+   "recipe": "axisBoxes",
+   "class": "occt-fuzzy",
+   "method": "closed form on the wire box bounds (exact doubles)",
+   "reference": {
+    "shells": 1,
+    "euler": 2,
+    "volume": 2000.0000002000002,
+    "area": 1200.00000004,
+    "volumeTolAbs": 0.20000000002
+   },
+   "evidence": {
+    "configuration": "boxes overlapping by 1.000e-9 x 1.000e-9 x 1.000e+1 mm"
+   },
+   "decision": "manifold",
+   "reason": "OCCT is wrong here (fuzzy merge / lost sub-micron feature); the third reference confirms manifold3d",
+   "oracles": {
+    "occt": {
+     "shells": 2,
+     "solids": 2,
+     "volume": 2000.0000001999997,
+     "area": 1200.0000000799998,
+     "valid": true
+    },
+    "manifold": {
+     "components": 1,
+     "euler": 2,
+     "volume": 2000.0000002000002,
+     "area": 1200.00000004
+    }
+   },
+   "dispute": [
+    "shells: OCCT 2, manifold3d 1"
+   ]
+  },
+  {
+   "suite": "adv-exact-plane",
+   "id": "adv-ep2-iterated-sub-add-sub",
+   "expect": "solid",
+   "jobSha256": "1efb68a1fadd24df3f8daec216d2bb9fdcaae4c54b90d83255844ad40df62131",
+   "recipe": "iteratedBoxCylinder",
+   "class": "manifold-perturbation",
+   "method": "set identity (((A - B) u B) - B) u B = A u B, then closed form of box u tilted cylinder",
+   "reference": {
+    "shells": 1,
+    "euler": 2,
+    "volume": 2557.5765394689606,
+    "area": 1381.027871704344,
+    "volumeTolAbs": 13.810278717043435
+   },
+   "evidence": {
+    "tiltDeg": 21.000000000000092,
+    "crossSectionMm2": 30.285911186456204
+   },
+   "decision": "occt",
+   "reason": "manifold3d is wrong here; the third reference confirms OCCT",
+   "oracles": {
+    "occt": {
+     "shells": 1,
+     "solids": 1,
+     "volume": 2557.576539469,
+     "area": 1381.0278717043773,
+     "valid": true
+    },
+    "manifold": {
+     "components": 2,
+     "euler": -36,
+     "volume": 2556.9293309019577,
+     "area": 1549.7647152854356
+    }
+   },
+   "dispute": [
+    "shells: OCCT 1, manifold3d 2"
+   ]
+  },
+  {
+   "suite": "adv-exact-plane",
+   "id": "adv-ep2-empty-sub-then-intersect",
+   "expect": "empty",
+   "jobSha256": "f79428c4c301f08beab549888dcc3f0ffb8f957298a2e250853929e51b57903b",
+   "recipe": "expectEmpty",
+   "class": "expectation",
+   "method": "set identity: (A - B) n B is empty after regularization",
+   "reference": {
+    "shells": 0,
+    "euler": 0,
+    "volume": 0,
+    "area": 0,
+    "volumeTolAbs": 0
+   },
+   "evidence": {},
+   "decision": "expectation",
+   "reason": "the expectation decides the case; the oracles are not used for scoring",
+   "oracles": {
+    "occt": {
+     "shells": 0,
+     "solids": 0,
+     "volume": 0,
+     "area": 0,
+     "valid": true
+    },
+    "manifold": {
+     "components": 37,
+     "euler": 74,
+     "volume": 1.5612511283791264e-16,
+     "area": 36.39531917060259
+    }
+   },
+   "dispute": [
+    "shells: OCCT 0, manifold3d 37",
+    "volume: OCCT 0, manifold3d 1.5612511283791264e-16 (|difference| 1.56e-16 > OCCT area x deviation 0.00e+0)"
+   ]
+  },
+  {
+   "suite": "adv-exact-plane",
+   "id": "adv-ep2-r1-skin-1e-7",
+   "expect": "solid",
+   "jobSha256": "f875c4a11ba79e494171c595fe7f0ab4ebb183bcd2098ba1f6bb2e5754965463",
+   "recipe": "axisBoxes",
+   "class": "occt-fuzzy",
+   "method": "closed form on the wire box bounds (exact doubles)",
+   "reference": {
+    "shells": 1,
+    "euler": 2,
+    "volume": 0.000039999999999999996,
+    "area": 800.000008,
+    "volumeTolAbs": 4e-9
+   },
+   "evidence": {
+    "configuration": "slab of A, 1.000e-7 mm thick along z"
+   },
+   "decision": "manifold",
+   "reason": "OCCT is wrong here (fuzzy merge / lost sub-micron feature); the third reference confirms manifold3d",
+   "oracles": {
+    "occt": {
+     "shells": 0,
+     "solids": 0,
+     "volume": 0,
+     "area": 0,
+     "valid": true
+    },
+    "manifold": {
+     "components": 1,
+     "euler": 2,
+     "volume": 0.000039999999999999996,
+     "area": 800.000008
+    }
+   },
+   "dispute": [
+    "shells: OCCT 0, manifold3d 1",
+    "volume: OCCT 0, manifold3d 0.000039999999999999996 (|difference| 4.00e-5 > OCCT area x deviation 0.00e+0)"
+   ]
+  },
+  {
+   "suite": "adv-exact-plane",
+   "id": "adv-ep2-sweep-touch-union-1",
+   "expect": "solid",
+   "jobSha256": "49bebe568fa50c023991f637d7d7f64220d63233517bcd30d6530bb69107bdd9",
+   "recipe": "roundedCoplanarBoxes",
+   "class": "input-rounding",
+   "method": "closed form in the common box frame; exact probe of the rounded coincident faces",
+   "reference": {
+    "shells": 1,
+    "euler": 2,
+    "volume": 1125,
+    "area": 700,
+    "volumeTolAbs": 0.1125
+   },
+   "evidence": {
+    "configuration": "face contact of 25 mm^2 (regularized union merges)",
+    "probe": [
+     {
+      "faces": [
+       10,
+       5
+      ],
+      "orientation": "opposite",
+      "vertices": 4,
+      "inside": 1,
+      "on": 0,
+      "outside": 3,
+      "maxDistanceFromCarrierMm": 1.021405182655144e-14
+     },
+     {
+      "faces": [
+       5,
+       10
+      ],
+      "orientation": "opposite",
+      "vertices": 4,
+      "inside": 0,
+      "on": 0,
+      "outside": 4,
+      "maxDistanceFromCarrierMm": 3.9968028886505635e-15
+     }
+    ]
+   },
+   "ambiguous": true,
+   "decision": "ambiguous",
+   "admissible": [
+    {
+     "shells": 1,
+     "euler": 2,
+     "source": "analytic input (OCCT shells)"
+    },
+    {
+     "shells": 2,
+     "euler": 4,
+     "source": "rounded input as manifold3d resolves it"
+    }
+   ],
+   "reason": "the analytic input has one answer, but the F32x2 rounding of the rotated input displaces the coincident faces below the rounding; whether the rounded input touches, overlaps or leaves a gap is not decided by either oracle (OCCT uses the analytic input, manifold3d a symbolic perturbation). Plan step 4 (carrier unification within 2^-44 x scale) fixes the intended answer; until then either oracle topology is admissible, with the reference volume",
+   "oracles": {
+    "occt": {
+     "shells": 1,
+     "solids": 1,
+     "volume": 1125.0000000000005,
+     "area": 700,
+     "valid": true
+    },
+    "manifold": {
+     "components": 2,
+     "euler": 4,
+     "volume": 1124.9999999999995,
+     "area": 749.9999999999998
+    }
+   },
+   "dispute": [
+    "shells: OCCT 1, manifold3d 2"
+   ]
+  },
+  {
+   "suite": "adv-exact-plane",
+   "id": "adv-ep2-sweep-touch-union-3",
+   "expect": "solid",
+   "jobSha256": "2b7f376f6d31911c1319e18d80d76be9a16f44c22d0e343b84afadea36b19405",
+   "recipe": "roundedCoplanarBoxes",
+   "class": "input-rounding",
+   "method": "closed form in the common box frame; exact probe of the rounded coincident faces",
+   "reference": {
+    "shells": 1,
+    "euler": 2,
+    "volume": 1125,
+    "area": 700,
+    "volumeTolAbs": 0.1125
+   },
+   "evidence": {
+    "configuration": "face contact of 25 mm^2 (regularized union merges)",
+    "probe": [
+     {
+      "faces": [
+       10,
+       5
+      ],
+      "orientation": "opposite",
+      "vertices": 4,
+      "inside": 0,
+      "on": 0,
+      "outside": 4,
+      "maxDistanceFromCarrierMm": 1.1102230246251565e-14
+     },
+     {
+      "faces": [
+       5,
+       10
+      ],
+      "orientation": "opposite",
+      "vertices": 4,
+      "inside": 0,
+      "on": 0,
+      "outside": 4,
+      "maxDistanceFromCarrierMm": 2.5757174171303632e-14
+     }
+    ]
+   },
+   "ambiguous": true,
+   "decision": "ambiguous",
+   "admissible": [
+    {
+     "shells": 1,
+     "euler": 2,
+     "source": "analytic input (OCCT shells)"
+    },
+    {
+     "shells": 2,
+     "euler": 4,
+     "source": "rounded input as manifold3d resolves it"
+    }
+   ],
+   "reason": "the analytic input has one answer, but the F32x2 rounding of the rotated input displaces the coincident faces below the rounding; whether the rounded input touches, overlaps or leaves a gap is not decided by either oracle (OCCT uses the analytic input, manifold3d a symbolic perturbation). Plan step 4 (carrier unification within 2^-44 x scale) fixes the intended answer; until then either oracle topology is admissible, with the reference volume",
+   "oracles": {
+    "occt": {
+     "shells": 1,
+     "solids": 1,
+     "volume": 1125.0000000000005,
+     "area": 700,
+     "valid": true
+    },
+    "manifold": {
+     "components": 2,
+     "euler": 4,
+     "volume": 1124.9999999999984,
+     "area": 749.9999999999994
+    }
+   },
+   "dispute": [
+    "shells: OCCT 1, manifold3d 2"
+   ]
+  },
+  {
+   "suite": "adv-exact-plane",
+   "id": "adv-ep2-sweep-pocket-4",
+   "expect": "solid",
+   "jobSha256": "b0e6f17e0d4f3a2a86a396b9e075cb9b6a495dd7107a6144e42150501315ea6e",
+   "recipe": "roundedCoplanarBoxes",
+   "class": "input-rounding",
+   "method": "closed form in the common box frame; exact probe of the rounded coincident faces",
+   "reference": {
+    "shells": 1,
+    "euler": 2,
+    "volume": 3400,
+    "area": 1840,
+    "volumeTolAbs": 0.34
+   },
+   "evidence": {
+    "configuration": "open pocket, flush with A on axis z",
+    "probe": [
+     {
+      "faces": [
+       11,
+       5
+      ],
+      "orientation": "same",
+      "vertices": 4,
+      "inside": 4,
+      "on": 0,
+      "outside": 0,
+      "maxDistanceFromCarrierMm": 2.2353646711437136e-14
+     },
+     {
+      "faces": [
+       5,
+       11
+      ],
+      "orientation": "same",
+      "vertices": 4,
+      "inside": 0,
+      "on": 0,
+      "outside": 4,
+      "maxDistanceFromCarrierMm": 1.0800388361431601e-14
+     }
+    ]
+   },
+   "ambiguous": true,
+   "decision": "ambiguous",
+   "admissible": [
+    {
+     "shells": 1,
+     "euler": 2,
+     "source": "analytic input (OCCT shells)"
+    },
+    {
+     "shells": 2,
+     "euler": 4,
+     "source": "rounded input as manifold3d resolves it"
+    }
+   ],
+   "reason": "the analytic input has one answer, but the F32x2 rounding of the rotated input displaces the coincident faces below the rounding; whether the rounded input touches, overlaps or leaves a gap is not decided by either oracle (OCCT uses the analytic input, manifold3d a symbolic perturbation). Plan step 4 (carrier unification within 2^-44 x scale) fixes the intended answer; until then either oracle topology is admissible, with the reference volume",
+   "oracles": {
+    "occt": {
+     "shells": 1,
+     "solids": 1,
+     "volume": 3400,
+     "area": 1839.9999999999998,
+     "valid": true
+    },
+    "manifold": {
+     "components": 2,
+     "euler": 4,
+     "volume": 3400.0000000000027,
+     "area": 2040.0000000000002
+    }
+   },
+   "dispute": [
+    "shells: OCCT 1, manifold3d 2"
+   ]
+  },
+  {
+   "suite": "adv-sdf",
+   "id": "adv2-sdf-countersink-rot",
+   "expect": "solid",
+   "jobSha256": "1e02a1205151de3ad345844fec039db6be06d4ea33e82e5e2ce5c5e38f178818",
+   "recipe": "roundedCoplanarCountersink",
+   "class": "input-rounding",
+   "method": "closed form in the plate frame (plate - bore - frustum; genus 1); exact probe of the rounded flush faces",
+   "reference": {
+    "shells": 1,
+    "euler": 0,
+    "volume": 5295.782899704915,
+    "area": 2558.4205787373558,
+    "volumeTolAbs": 25.584205787373545
+   },
+   "evidence": {
+    "configuration": "countersink flush with the plate top (|cone top - plate top| = 3.55e-15 mm in the plate frame)",
+    "probe": [
+     {
+      "faces": [
+       11,
+       5
+      ],
+      "orientation": "same",
+      "vertices": 49,
+      "inside": 16,
+      "on": 0,
+      "outside": 33,
+      "maxDistanceFromCarrierMm": 1.199040866595169e-14
+     }
+    ]
+   },
+   "ambiguous": true,
+   "decision": "ambiguous",
+   "admissible": [
+    {
+     "shells": 1,
+     "euler": 0,
+     "source": "analytic input (OCCT shells)"
+    },
+    {
+     "shells": 2,
+     "euler": 2,
+     "source": "rounded input as manifold3d resolves it"
+    }
+   ],
+   "reason": "the analytic input has one answer, but the F32x2 rounding of the rotated input displaces the coincident faces below the rounding; whether the rounded input touches, overlaps or leaves a gap is not decided by either oracle (OCCT uses the analytic input, manifold3d a symbolic perturbation). Plan step 4 (carrier unification within 2^-44 x scale) fixes the intended answer; until then either oracle topology is admissible, with the reference volume",
+   "oracles": {
+    "occt": {
+     "shells": 1,
+     "solids": 1,
+     "volume": 5295.7828997049155,
+     "area": 2558.420578737356,
+     "valid": true
+    },
+    "manifold": {
+     "components": 2,
+     "euler": 2,
+     "volume": 5296.193384893501,
+     "area": 2586.623405575392
+    }
+   },
+   "dispute": [
+    "shells: OCCT 1, manifold3d 2"
+   ]
+  },
+  {
+   "suite": "adv-recover",
+   "id": "adv3-cyl-plane-shave-tilt-intersect",
+   "expect": "solid",
+   "jobSha256": "db20a2cd6fac694d2f051a07ac01f4697dd9fb8c5e7a5e4af93960ee53cdb4b8",
+   "recipe": "cylinderShave",
+   "class": "below-deviation",
+   "method": "quadrature (16-point Gauss-Legendre, 16 panels) of the closed-form circular-segment cross section",
+   "reference": {
+    "shells": 1,
+    "euler": 2,
+    "volume": 0.02892154997305673,
+    "area": 17.70989316588777,
+    "volumeTolAbs": 0.1770989316588776
+   },
+   "evidence": {
+    "chordDistanceMm": [
+     4.995000000249748,
+     4.9952000002497545
+    ],
+    "shaveThicknessMm": [
+     0.004999999750252115,
+     0.004799999750245476
+    ],
+    "deviationMm": 0.009999999999999995,
+    "shaveVolumeMm3": 0.02892154997305673
+   },
+   "decision": "occt",
+   "reason": "manifold3d is wrong here; the third reference confirms OCCT",
+   "oracles": {
+    "occt": {
+     "shells": 1,
+     "solids": 1,
+     "volume": 0.02892154997331981,
+     "area": 17.70989316606322,
+     "valid": true
+    },
+    "manifold": {
+     "components": 0,
+     "euler": 0,
+     "volume": 0,
+     "area": 0
+    }
+   },
+   "dispute": [
+    "shells: OCCT 1, manifold3d 0"
+   ]
+  },
+  {
+   "suite": "adv-recover",
+   "id": "adv3-torus-top-cap-intersect",
+   "expect": "solid",
+   "jobSha256": "63102b441e75bff6da81ce157af8747152f7fa54412fd81e0edc365f16c3d7b6",
+   "recipe": "torusCap",
+   "class": "below-deviation",
+   "method": "closed form: V = 2 pi R x circular segment area (Pappus); an annular ring (genus 1)",
+   "reference": {
+    "shells": 1,
+    "euler": 0,
+    "volume": 0.02752534317971688,
+    "area": 27.528096776227088,
+    "volumeTolAbs": 0.27528096776227073
+   },
+   "evidence": {
+    "capHeightMm": 0.0030000000000001137,
+    "capWidthMm": 0.2190068492079691,
+    "deviationMm": 0.009999999999999995
+   },
+   "decision": "occt",
+   "reason": "manifold3d is wrong here; the third reference confirms OCCT",
+   "oracles": {
+    "occt": {
+     "shells": 1,
+     "solids": 1,
+     "volume": 0.02752534317975809,
+     "area": 27.528096776226185,
+     "valid": true
+    },
+    "manifold": {
+     "components": 0,
+     "euler": 0,
+     "volume": 0,
+     "area": 0
+    }
+   },
+   "dispute": [
+    "shells: OCCT 1, manifold3d 0"
+   ]
+  },
+  {
+   "suite": "adv-recover",
+   "id": "adv3-cyl-plane-shave-tilt-union",
+   "expect": "solid",
+   "jobSha256": "e483f185a71a63f1fc80c08146ddda87169ccc19e19f832585ac27167849d789",
+   "recipe": "cylinderShave",
+   "class": "below-deviation",
+   "method": "quadrature (16-point Gauss-Legendre, 16 panels) of the closed-form circular-segment cross section",
+   "reference": {
+    "shells": 1,
+    "euler": 2,
+    "volume": 36577.76740524492,
+    "area": 7318.438270231561,
+    "volumeTolAbs": 73.18438270231557
+   },
+   "evidence": {
+    "chordDistanceMm": [
+     4.995000000249748,
+     4.9952000002497545
+    ],
+    "shaveThicknessMm": [
+     0.004999999750252115,
+     0.004799999750245476
+    ],
+    "deviationMm": 0.009999999999999995,
+    "shaveVolumeMm3": 0.02892154997305673
+   },
+   "decision": "occt",
+   "reason": "manifold3d is wrong here; the third reference confirms OCCT",
+   "oracles": {
+    "occt": {
+     "shells": 1,
+     "solids": 1,
+     "volume": 36577.76740525351,
+     "area": 7318.4382702365165,
+     "valid": true
+    },
+    "manifold": {
+     "components": 2,
+     "euler": 4,
+     "volume": 36573.97684331919,
+     "area": 7335.3840575236945
+    }
+   },
+   "dispute": [
+    "shells: OCCT 1, manifold3d 2"
+   ]
+  }
+ ]
+}

@@ -1,0 +1,520 @@
+/* Parts tab (tree, row details, revisions of the current source) and the
+   collapsible side columns. Package parts-tree. */
+
+/* ---- Parts view inside the library column ---- */
+
+.library[data-library-view=parts] #library-content {
+  display: none;
+}
+
+.parts-panel {
+  flex: 1;
+  min-height: 100px;
+  overflow: auto;
+  padding: 0 9px 16px;
+}
+
+.parts-summary {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 4px 8px;
+  padding: 2px 6px 8px;
+  font-size: 11px;
+  color: var(--muted);
+}
+
+.parts-note,
+.parts-error {
+  margin: 0 6px 8px;
+  padding: 7px 9px;
+  border-radius: 6px;
+  font-size: 11px;
+  line-height: 1.5;
+  background: var(--copper-soft);
+  color: var(--copper);
+}
+
+.parts-error {
+  color: var(--danger);
+}
+
+.part-link {
+  border: 0;
+  background: transparent;
+  color: var(--green);
+  font-size: 11px;
+  font-weight: 550;
+  padding: 2px 4px;
+  border-radius: 4px;
+}
+
+.part-link:hover {
+  background: var(--green-soft);
+}
+
+.part-link kbd,
+.parts-panel kbd {
+  font: inherit;
+  font-size: var(--text-xs);
+  color: var(--muted);
+  border: 1px solid var(--line);
+  border-radius: 3px;
+  padding: 0 3px;
+}
+
+.parts-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.part-row {
+  border-radius: 7px;
+  margin: 1px 0;
+  padding: 3px 2px 5px;
+}
+
+.part-row:hover {
+  background: var(--canvas);
+}
+
+.part-row.is-selected {
+  background: var(--green-soft);
+  box-shadow: inset 2px 0 0 var(--copper);
+}
+
+.part-main {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  min-width: 0;
+}
+
+.part-eye,
+.part-expand {
+  width: 26px;
+  height: 26px;
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  border-radius: 5px;
+  background: transparent;
+  color: var(--muted);
+  padding: 0;
+}
+
+.part-eye:hover,
+.part-expand:hover {
+  background: var(--chip);
+  color: var(--green);
+}
+
+.part-eye svg,
+.part-expand svg {
+  width: 15px;
+  height: 15px;
+}
+
+.part-expand svg {
+  transition: transform 120ms ease;
+}
+
+.part-expand[aria-expanded=true] svg {
+  transform: rotate(90deg);
+}
+
+.part-swatch-wrap {
+  display: inline-flex;
+  flex-shrink: 0;
+}
+
+.part-swatch {
+  width: 14px;
+  height: 14px;
+  display: block;
+}
+
+.part-name {
+  min-width: 0;
+  flex: 1;
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  border: 0;
+  background: transparent;
+  text-align: left;
+  padding: 4px 2px;
+  border-radius: 4px;
+}
+
+.part-label {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 12px;
+  font-weight: 550;
+}
+
+.part-alias {
+  flex-shrink: 0;
+  font-size: var(--text-xs);
+  color: var(--muted);
+}
+
+/* Contributed badges (FDM) stay inside the column: long ones are ellipsized. */
+.part-badges {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 3px;
+  min-width: 0;
+  max-width: 100%;
+  overflow: hidden;
+}
+
+.part-meta > .part-badges {
+  white-space: normal;
+}
+
+.part-badges > * {
+  min-width: 0;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.part-meta {
+  display: flex;
+  flex-wrap: wrap;
+  min-width: 0;
+  gap: 0 8px;
+  padding-left: 52px;
+  font-size: var(--text-xs);
+  line-height: 1.5;
+  color: var(--muted);
+}
+
+.part-meta > * {
+  white-space: nowrap;
+}
+
+.part-row.is-hidden .part-label,
+.part-row.is-hidden .part-alias {
+  color: var(--muted);
+}
+
+.part-hidden-note {
+  color: var(--copper);
+}
+
+/* ---- Row details ---- */
+
+.part-details {
+  margin: 6px 4px 2px 8px;
+  padding: 8px 9px;
+  border-radius: 7px;
+  background: var(--surface);
+  box-shadow: var(--shadow);
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  font-size: 11px;
+}
+
+.part-control {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 8px;
+}
+
+.part-control > span:first-child {
+  width: 46px;
+  flex-shrink: 0;
+  color: var(--muted);
+}
+
+.part-control input[type=range] {
+  flex: 1;
+  min-width: 0;
+  accent-color: var(--green);
+}
+
+.part-control input[type=color] {
+  flex-shrink: 0;
+  width: 30px;
+  height: 22px;
+  padding: 0;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  background: transparent;
+}
+
+.part-control output {
+  width: 38px;
+  text-align: right;
+}
+
+.part-color-source {
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+.part-facts {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: 3px 6px;
+  margin: 2px 0 0;
+}
+
+.part-facts dt {
+  color: var(--muted);
+}
+
+.part-facts dd {
+  margin: 0;
+  min-width: 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 2px 5px;
+  overflow-wrap: anywhere;
+}
+
+.part-facts .exactness-chip {
+  padding: 0 4px;
+}
+
+.part-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.part-action.button {
+  min-height: 28px;
+  padding: 0 9px;
+  font-size: 11px;
+}
+
+.part-action svg {
+  width: 14px;
+  height: 14px;
+}
+
+/* ---- Revisions of the current source ---- */
+
+.parts-revisions {
+  margin-top: 12px;
+  padding: 10px 4px 0;
+  border-top: 1px solid var(--line);
+}
+
+.parts-heading {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: 0 2px 6px;
+  font-size: var(--text-xs);
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: var(--muted);
+  font-weight: 550;
+}
+
+.parts-source {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  text-transform: none;
+  letter-spacing: 0;
+  color: var(--ink);
+}
+
+.parts-revision-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.parts-revision {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  width: 100%;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  padding: 5px 6px;
+  font-size: 11px;
+  text-align: left;
+}
+
+.parts-revision:hover {
+  background: var(--canvas);
+}
+
+.parts-revision.is-open {
+  background: var(--green-soft);
+}
+
+.parts-revision .item-badge {
+  margin-left: auto;
+}
+
+.parts-revision .item-badge + .item-badge {
+  margin-left: 0;
+}
+
+.parts-live-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 6px;
+  font-size: 11px;
+  color: var(--muted);
+}
+
+.parts-live-row > span:nth-child(2) {
+  flex: 1;
+  min-width: 0;
+}
+
+.parts-live-failed {
+  color: var(--copper);
+}
+
+.parts-revisions .revision-fold {
+  margin-left: 0;
+}
+
+/* ---- Collapsible columns (spec 4): the collapsed column is a thin rail ---- */
+
+.column-rail {
+  display: none;
+}
+
+.workspace[data-columns] {
+  grid-template-columns: var(--library-column, 232px) minmax(360px,1fr)
+    var(--inspector-column, 280px);
+}
+
+.workspace[data-library-collapsed] {
+  --library-column: 44px;
+}
+
+.workspace[data-inspector-collapsed] {
+  --inspector-column: 44px;
+}
+
+.workspace[data-library-collapsed] .library > :not(.column-rail),
+.workspace[data-inspector-collapsed] .inspector > :not(.column-rail) {
+  display: none;
+}
+
+.workspace[data-library-collapsed] .library-rail,
+.workspace[data-inspector-collapsed] .inspector-rail {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding-top: 9px;
+}
+
+.column-rail .icon-button {
+  width: 34px;
+  height: 34px;
+}
+
+.column-rail-label {
+  writing-mode: vertical-rl;
+  font-size: 11px;
+  font-weight: 550;
+  letter-spacing: .04em;
+  color: var(--muted);
+}
+
+.column-toggle[aria-pressed=true] {
+  color: var(--green);
+  background: var(--green-soft);
+}
+
+@media (min-width: 1600px) {
+  .workspace[data-columns] {
+    grid-template-columns: var(--library-column, 252px) minmax(360px,1fr)
+      var(--inspector-column, 305px);
+  }
+}
+
+@media (max-width: 1150px) {
+  .workspace[data-columns] {
+    grid-template-columns: var(--library-column, 198px) minmax(300px,1fr)
+      var(--inspector-column, 250px);
+  }
+  .part-meta {
+    padding-left: 30px;
+  }
+}
+
+@media (max-width: 900px) {
+  .workspace[data-columns] {
+    grid-template-columns: var(--library-column, 165px) minmax(300px,1fr);
+  }
+  /* The inspector floats over the stage at this width; collapsed, it is gone. */
+  .workspace[data-inspector-collapsed] .inspector {
+    display: none;
+  }
+  .part-meta {
+    padding-left: 4px;
+  }
+  .part-swatch-wrap {
+    display: none;
+  }
+  .part-details {
+    margin-left: 0;
+  }
+}
+
+@media (max-width: 650px) {
+  .library[data-library-view=parts] .parts-panel {
+    display: flex;
+    align-items: flex-start;
+    overflow: auto;
+    height: 84px;
+    padding: 5px 10px;
+    gap: 7px;
+  }
+  .parts-summary,
+  .parts-revisions,
+  .part-details,
+  .part-meta {
+    display: none;
+  }
+  .parts-list {
+    display: flex;
+    gap: 7px;
+  }
+  .part-row {
+    min-width: 150px;
+    background: var(--canvas);
+  }
+  .workspace[data-library-collapsed] .library {
+    height: 44px;
+  }
+  .workspace[data-library-collapsed] .library-rail {
+    flex-direction: row;
+    padding: 5px 12px;
+  }
+  .workspace[data-library-collapsed] .column-rail-label {
+    writing-mode: horizontal-tb;
+  }
+  .workspace[data-inspector-collapsed] .inspector {
+    display: none;
+  }
+}

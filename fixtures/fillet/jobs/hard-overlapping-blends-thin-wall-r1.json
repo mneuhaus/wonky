@@ -1,0 +1,58 @@
+{
+ "id": "hard-overlapping-blends-thin-wall-r1",
+ "jobSha256": "b8d328cb95b8f3f337c60cc9504e4e44ec7e676ea9987d76c64af09da88b0827",
+ "jobBytes": 1864,
+ "sourceSha256": "ec5e77ff59ac0d8bf6be3560528f74b64dca0b19e255b3915465ed71b4652e71",
+ "buildMs": 1.7227089999996679,
+ "kernel": {
+  "closed": true,
+  "volumeMm3": 300,
+  "areaMm2": 490,
+  "precision": "F32x2",
+  "geometry": "planar"
+ },
+ "counts": {
+  "vertices": 8,
+  "edges": 12,
+  "faces": 6
+ },
+ "surfaces": {
+  "plane": 6
+ },
+ "quantizationErrorMm": 0,
+ "selected": [
+  {
+   "edge": 4,
+   "curve": "line",
+   "faces": [
+    "plane",
+    "plane"
+   ],
+   "convexity": "convex",
+   "dihedralDeg": 90,
+   "length": 20,
+   "sample": [
+    10,
+    0,
+    10
+   ]
+  },
+  {
+   "edge": 6,
+   "curve": "line",
+   "faces": [
+    "plane",
+    "plane"
+   ],
+   "convexity": "convex",
+   "dihedralDeg": 90,
+   "length": 20,
+   "sample": [
+    10,
+    1.5,
+    10
+   ]
+  }
+ ],
+ "step": "out/fillet/input-step/hard-overlapping-blends-thin-wall-r1.step"
+}

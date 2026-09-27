@@ -1,0 +1,8 @@
+{
+  "schema": "wonky/public-wire-freeze/1",
+  "reason": "Generated codecs remain authoritative in a public tree without the retired source dependencies. Update only with a reviewed wire revision.",
+  "files": {
+    "rust/wonky-wire/src/generated.rs": "d42516c2322601ed55c1f9a98c312f582a38979ad4e2d15239908254f049c1c8",
+    "src/native/rust-wire.mjs": "c663869730c0c12819708949975354454bd2367203065f73b831a14aeb587ba2"
+  }
+}

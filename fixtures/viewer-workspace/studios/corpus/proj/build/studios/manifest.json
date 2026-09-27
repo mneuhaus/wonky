@@ -1,0 +1,9 @@
+{
+  "schema": "r20/studio-build/v1",
+  "order": ["alpha", "beta", "gamma"],
+  "modules": {
+    "alpha": { "studio": "alpha", "featureType": "projAlpha", "featureName": "Proj alpha", "live": [] },
+    "beta": { "studio": "beta", "featureType": "projBeta", "featureName": "Proj beta", "live": ["withImports"] },
+    "gamma": { "studio": "gamma", "featureType": "projGamma", "featureName": "Proj gamma", "live": [] }
+  }
+}

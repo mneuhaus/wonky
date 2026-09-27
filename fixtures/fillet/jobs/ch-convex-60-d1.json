@@ -1,0 +1,42 @@
+{
+ "id": "ch-convex-60-d1",
+ "jobSha256": "4fd209125df0b6c9095376cd19b17cee4a18b07e1bdf899607776d46782fceea",
+ "jobBytes": 1697,
+ "sourceSha256": "e4d2d95dc4156c1a43484fdc34afeb53137d9e50b1366b66cef4ddb10b620011",
+ "buildMs": 1.8974580000003698,
+ "kernel": {
+  "closed": true,
+  "volumeMm3": 1732.050895690918,
+  "areaMm2": 946.4101944013687,
+  "precision": "F32x2",
+  "geometry": "planar"
+ },
+ "counts": {
+  "vertices": 6,
+  "edges": 9,
+  "faces": 5
+ },
+ "surfaces": {
+  "plane": 5
+ },
+ "quantizationErrorMm": 1.7763568394002505e-14,
+ "selected": [
+  {
+   "edge": 8,
+   "curve": "line",
+   "faces": [
+    "plane",
+    "plane"
+   ],
+   "convexity": "convex",
+   "dihedralDeg": 59.999997475489494,
+   "length": 10,
+   "sample": [
+    10,
+    17.32050895690918,
+    5
+   ]
+  }
+ ],
+ "step": "out/fillet/input-step/ch-convex-60-d1.step"
+}

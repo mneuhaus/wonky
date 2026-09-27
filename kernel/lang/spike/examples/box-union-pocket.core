@@ -1,0 +1,6 @@
+; "box, second box, union, pocket" in one dependent chain.
+(let a (box 0 0 0 40 30 10))
+(let b (box 20 10 0 50 35 10))
+(let u (union a b))
+(let p (subtract u (box 5 5 4 30 25 10)))
+(list (volume u) (volume p) (faces p) p)

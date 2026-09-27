@@ -1,0 +1,55 @@
+{
+ "schema": "wonky-bakeoff-fixture/1",
+ "case": "box-coplanar-subtract",
+ "category": "coplanar",
+ "deviationMm": 0.01,
+ "location": "fixtures/bakeoff/jobs",
+ "job": "fixtures/bakeoff/jobs/box-coplanar-subtract.job",
+ "csgJob": "fixtures/bakeoff/jobs/box-coplanar-subtract.csg.job",
+ "jobBytes": 2103,
+ "jobSha256": "f759f753892fd891273994b6b353bdcc52e1782db0eb75504745c2ccbab0c437",
+ "csgJobSha256": "f55fe0061baaeef272383fd6b19314bcb19a47062a69355027e9631c0d841ac6",
+ "leaves": 2,
+ "faces": 12,
+ "vertices": 16,
+ "triangles": 24,
+ "deviationMeasuredMaxMm": 0,
+ "leafInfo": [
+  {
+   "leaf": 0,
+   "prim": "box",
+   "vertices": 8,
+   "triangles": 12,
+   "tags": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5
+   ],
+   "deviationMeasuredMm": 0,
+   "deviationMethod": "exact-planar",
+   "vertexOnSurfaceMaxMm": 0,
+   "analyticVolume": 8000
+  },
+  {
+   "leaf": 1,
+   "prim": "box",
+   "vertices": 8,
+   "triangles": 12,
+   "tags": [
+    6,
+    7,
+    8,
+    9,
+    10,
+    11
+   ],
+   "deviationMeasuredMm": 0,
+   "deviationMethod": "exact-planar",
+   "vertexOnSurfaceMaxMm": 0,
+   "analyticVolume": 2000
+  }
+ ]
+}

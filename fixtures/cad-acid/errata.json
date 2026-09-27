@@ -1,0 +1,70 @@
+{
+  "schema": "wonky/cad-acid-errata/1",
+  "version": "AC1-errata-2026-09-27-2",
+  "zonesSha256": "620a125d939d24956a122b23234cd34b754597cd6256dca6ba58630f5a6d8c51",
+  "policy": "Every listed zone is DISPUTED for every kernel (zero points, neither PASS nor WRONG), including unexecuted cells. The denominator and frozen v1 bands remain unchanged. Remove only with a v2 catalog or corrected, re-frozen twins and independent verification.",
+  "entries": [
+    {
+      "id": "CE8",
+      "zones": ["AC31"],
+      "kernels": ["*"],
+      "reason": "The v1 refusal-only contract is incorrect. FeatureScript opFillet defaults to allowEdgeOverflow=true, making the fillet feasible. An exact-class refusal must name unsupported edge overflow or the actual capability gap, never assert geometric infeasibility.",
+      "evidence": [
+        "FeatureScript opFillet allowEdgeOverflow default: https://cad.onshape.com/FsDoc/library.html#opFillet-Context-Id-map",
+        "Exact overflow volume: 512 - 16*(8 + sqrt(12) - 8*pi/3) = 462.61566071096047 mm^3.",
+        "Frozen Onshape AC31 volume = 462.61566071096163 mm^3; independent OCCT BRepCheck reports valid and the shell is closed (independent twin audit, 2026-09-26).",
+        "Frozen input: fixtures/cad-acid/fs/acid-blend.fs, acidAC31; frozen output and checksums: fixtures/cad-acid/onshape/."
+      ],
+      "resolution": "v2 contract must describe the overflow geometry; re-freeze any changed twins."
+    },
+    {
+      "id": "CE9",
+      "zones": ["AC36"],
+      "kernels": ["*"],
+      "reason": "The FS twin selects qCreatedBy(union, BODY), which is empty because the union keeps an input body. FILLET_SELECT_EDGES is a twin failure, not a Parasolid geometry verdict.",
+      "evidence": [
+        "fixtures/cad-acid/fs/acid-blend.fs: acidAC36 (lines 175-183), unlike the acidResult(inputs, created) pattern used by other twins.",
+        "fixtures/cad-acid/onshape/: frozen AC36 feature error FILLET_SELECT_EDGES; no result body."
+      ],
+      "resolution": "Correct body selection and re-freeze the FS twin before v2 scoring."
+    },
+    {
+      "id": "CE10",
+      "zones": ["AC38"],
+      "kernels": ["*"],
+      "reason": "The FS twin calls opDraft with DraftType.NEUTRAL_PLANE / neutralPlane. The documented signature requires DraftType.REFERENCE_SURFACE, referenceSurface and pullVec. The frozen REGEN_ERROR is a twin failure.",
+      "evidence": [
+        "fixtures/cad-acid/fs/acid-blend.fs: acidAC38 (lines 198-200); https://cad.onshape.com/FsDoc/library.html#opDraft-Context-Id-map",
+        "src/lang/dataflow/fs-trace.mjs accepts neutralPlane, diverging from real FS; this audit does not change that frontend behavior.",
+        "fixtures/cad-acid/onshape/: frozen AC38 feature error REGEN_ERROR."
+      ],
+      "resolution": "Correct the std call and re-freeze the twin; track the frontend signature divergence separately."
+    },
+    {
+      "id": "CE11",
+      "zones": ["AC25", "AC26", "AC48"],
+      "kernels": ["*"],
+      "reason": "The OCCT twins substitute Cone/Torus primitives for the specified revolve operation. Primitive agreement is not evidence that the revolve construction works. Suspend these zones uniformly, not only for OCCT.",
+      "evidence": [
+        "fixtures/cad-acid/b3d/acid_curved.py: ac25/ac26 use Cone/Torus; fixtures/cad-acid/b3d/acid_precision.py: AC48 uses Torus instead of revolve.",
+        "Independent twin audit (2026-09-26): genuine AC48 revolve produces a SurfaceOfRevolution with observed singularPoints=0, changing the frozen v1 OCCT verdict."
+      ],
+      "resolution": "Replace primitive shortcuts by actual revolve operations, re-freeze twins, and settle representation-independent singular-point measurement in v2."
+    }
+  ],
+  "annotations": [
+    {
+      "id": "CE12",
+      "zones": ["AC44"],
+      "kernels": ["occt"],
+      "reason": "zones.json declares Boolean fuzzy value 0, but the frozen OCCT 7.8.1 twin does not call SetFuzzyValue and inherits Precision::Confusion() = 1e-7 mm.",
+      "evidence": [
+        "OCCT V7_8_1 src/BOPAlgo/BOPAlgo_Options.cxx:54,70: myFuzzyValue(Precision::Confusion()); https://raw.githubusercontent.com/Open-Cascade-SAS/OCCT/V7_8_1/src/BOPAlgo/BOPAlgo_Options.cxx",
+        "OCCT V7_8_1 src/Precision/Precision.hxx:163: Confusion() returns 1.e-7; https://raw.githubusercontent.com/Open-Cascade-SAS/OCCT/V7_8_1/src/Precision/Precision.hxx",
+        "fixtures/cad-acid/b3d/acid_curved.py:98-121: Boolean wrapper has no fuzzy override; frozen OCP version 7.8.1.1.post1."
+      ],
+      "scoreEffect": "Informational only. No DISPUTED overlay and no strict-v1 point change. Practical tolerance requires OCCT-FUZZY-CONTACT-1 and a verified geometric witness.",
+      "resolution": "Correct the descriptive kernel-class statement in a future catalog version; do not modify frozen v1 inputs."
+    }
+  ]
+}

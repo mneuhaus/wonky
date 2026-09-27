@@ -1,0 +1,90 @@
+{
+ "id": "pp-box-top-loop-r2",
+ "jobSha256": "1feb3f2bc119230da58624a27b5ea99feb57bb6fcf60c14b2d4cc11c12f6fd2c",
+ "jobBytes": 1850,
+ "sourceSha256": "275efc942c299605d40cc2b1a45d577aa90d6cd8f7c11f5e532f3602105c4812",
+ "buildMs": 3.776458000000048,
+ "kernel": {
+  "closed": true,
+  "volumeMm3": 6000,
+  "areaMm2": 2200,
+  "precision": "F32x2",
+  "geometry": "planar"
+ },
+ "counts": {
+  "vertices": 8,
+  "edges": 12,
+  "faces": 6
+ },
+ "surfaces": {
+  "plane": 6
+ },
+ "quantizationErrorMm": 0,
+ "selected": [
+  {
+   "edge": 4,
+   "curve": "line",
+   "faces": [
+    "plane",
+    "plane"
+   ],
+   "convexity": "convex",
+   "dihedralDeg": 90,
+   "length": 30,
+   "sample": [
+    15,
+    0,
+    10
+   ]
+  },
+  {
+   "edge": 5,
+   "curve": "line",
+   "faces": [
+    "plane",
+    "plane"
+   ],
+   "convexity": "convex",
+   "dihedralDeg": 90,
+   "length": 20,
+   "sample": [
+    30,
+    10,
+    10
+   ]
+  },
+  {
+   "edge": 6,
+   "curve": "line",
+   "faces": [
+    "plane",
+    "plane"
+   ],
+   "convexity": "convex",
+   "dihedralDeg": 90,
+   "length": 30,
+   "sample": [
+    15,
+    20,
+    10
+   ]
+  },
+  {
+   "edge": 7,
+   "curve": "line",
+   "faces": [
+    "plane",
+    "plane"
+   ],
+   "convexity": "convex",
+   "dihedralDeg": 90,
+   "length": 20,
+   "sample": [
+    0,
+    10,
+    10
+   ]
+  }
+ ],
+ "step": "out/fillet/input-step/pp-box-top-loop-r2.step"
+}

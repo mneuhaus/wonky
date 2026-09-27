@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#f7f7f2">
+  <title>Wonky Kernel · Review</title>
+  <link rel="stylesheet" href="./styles/tokens.css">
+  <link rel="stylesheet" href="./styles/base.css">
+  <link rel="stylesheet" href="./styles/layout.css">
+  <link rel="stylesheet" href="./features/library/library.css">
+  <link rel="stylesheet" href="./features/compare/compare.css">
+  <link rel="stylesheet" href="./features/selection/selection.css">
+  <link rel="stylesheet" href="./features/inspector/inspector.css">
+  <link rel="stylesheet" href="./features/annotations/annotations.css">
+  <link rel="stylesheet" href="./features/reviews/reviews.css">
+  <link rel="stylesheet" href="./features/reports/reports.css">
+  <link rel="stylesheet" href="./features/drawer/drawer.css">
+  <link rel="stylesheet" href="./features/source/source.css">
+  <link rel="stylesheet" href="./features/view/view.css">
+  <link rel="stylesheet" href="./features/display/display.css">
+  <link rel="stylesheet" href="./features/live/live.css">
+  <link rel="stylesheet" href="./features/measure/measure.css">
+  <link rel="stylesheet" href="./features/parts/parts.css">
+  <link rel="stylesheet" href="./features/workspace/workspace.css">
+  <link rel="stylesheet" href="./features/fdm/fdm.css">
+  <link rel="stylesheet" href="./features/section/section.css">
+  <link rel="stylesheet" href="./features/diff/diff.css">
+  <link rel="stylesheet" href="./features/thickness/thickness.css">
+  <link rel="stylesheet" href="./features/help/help.css">
+  <script type="module" src="./main.js"></script>
+</head>
+<body>
+  <!-- Shell only: features insert their markup into the data-slot regions
+       (docs/viewer/foundation.md). Static children carry data-order so
+       inserted items keep their place. -->
+  <header class="app-header">
+    <a class="brand" href="./" aria-label="Wonky Kernel review home"><span class="brand-mark"
+        data-icon="cube"></span><span>Wonky Kernel<small>Review workspace</small></span></a>
+    <div class="header-center" data-slot="header.status"></div>
+    <div class="header-actions" data-slot="header.action"></div>
+  </header>
+  <main class="workspace">
+    <aside class="library" aria-label="Workspace library" data-slot="library.section"></aside>
+    <section class="review-area" aria-label="CAD review" data-slot="reviewArea">
+      <div class="version-bar" data-slot="modelBar.item" data-order="10"></div>
+      <div id="stage" class="stage" data-slot="stage" data-order="20">
+        <canvas id="model-canvas" tabindex="0" data-order="0"
+          aria-label="Interactive CAD viewport. Hover to preview geometry; click to select. Drag to orbit, Shift-drag to pan, scroll to zoom. Comparison cameras move together."></canvas>
+        <svg id="annotation-overlay" class="annotation-overlay" aria-hidden="true"
+          data-order="1"></svg>
+        <div class="viewport-topline" data-order="10">
+          <div class="model-summary" data-slot="viewportHud.top-left"></div>
+          <div class="view-settings" data-slot="viewportHud.top-right"></div>
+        </div>
+        <div class="tool-rail" role="toolbar" aria-label="Review tools" data-slot="toolbar.tool"
+          data-order="20"></div>
+        <div class="view-actions" data-slot="viewActions.button" data-order="30"></div>
+        <div class="viewport-stack" data-slot="viewportHud.bottom-right" data-order="40"></div>
+        <div id="viewport-message" class="viewport-message" hidden data-order="50"><span
+            class="empty-icon" data-icon="cube"></span><h2
+            id="viewport-message-title">Choose a model</h2><p
+            id="viewport-message-body">Open a model from the workspace to inspect it here.</p><button
+            id="viewport-retry" class="button secondary" hidden>Try again</button></div>
+        <div class="viewport-bottomline" data-slot="statusBar.item" data-order="70"><span
+            class="units-pill" data-order="90">mm</span></div>
+      </div>
+      <div id="comparison-bar" class="comparison-bar" data-slot="comparisonBar"
+        data-order="30"></div>
+    </section>
+    <aside class="inspector" aria-label="Selection and review" data-slot="inspector"></aside>
+  </main>
+  <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
+  <div id="global-error" class="global-error" role="alert" hidden></div>
+</body>
+</html>

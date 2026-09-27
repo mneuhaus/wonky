@@ -1,0 +1,69 @@
+{
+ "schema": "wonky-bakeoff-fixture/1",
+ "case": "plate-counterbore",
+ "category": "holes",
+ "deviationMm": 0.01,
+ "location": "fixtures/bakeoff/jobs",
+ "job": "fixtures/bakeoff/jobs/plate-counterbore.job",
+ "csgJob": "fixtures/bakeoff/jobs/plate-counterbore.csg.job",
+ "jobBytes": 13227,
+ "jobSha256": "747057035eda23f322479c623afbb658a08f1936ed7c4136fa5d9d8f421acc7d",
+ "csgJobSha256": "ae0d9aa8690d62902b64a118379ab48dc624ea7691df9672d76c997cdc60fbb3",
+ "leaves": 3,
+ "faces": 12,
+ "vertices": 156,
+ "triangles": 300,
+ "deviationMeasuredMaxMm": 0.009556265427308919,
+ "leafInfo": [
+  {
+   "leaf": 0,
+   "prim": "box",
+   "vertices": 8,
+   "triangles": 12,
+   "tags": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5
+   ],
+   "deviationMeasuredMm": 0,
+   "deviationMethod": "exact-planar",
+   "vertexOnSurfaceMaxMm": 0,
+   "analyticVolume": 7200
+  },
+  {
+   "leaf": 1,
+   "prim": "cylinder",
+   "vertices": 66,
+   "triangles": 128,
+   "tags": [
+    6,
+    7,
+    8
+   ],
+   "segments": 32,
+   "deviationMeasuredMm": 0.008185964657277056,
+   "deviationMethod": "barycentric-grid-8 (max lies on sampled chord midlines)",
+   "vertexOnSurfaceMaxMm": 1.3766765505351941e-14,
+   "analyticVolume": 90.79202768874501
+  },
+  {
+   "leaf": 2,
+   "prim": "cylinder",
+   "vertices": 82,
+   "triangles": 160,
+   "tags": [
+    9,
+    10,
+    11
+   ],
+   "segments": 40,
+   "deviationMeasuredMm": 0.009556265427308919,
+   "deviationMethod": "barycentric-grid-8 (max lies on sampled chord midlines)",
+   "vertexOnSurfaceMaxMm": 2.398081733190338e-14,
+   "analyticVolume": 120.76282160399167
+  }
+ ]
+}

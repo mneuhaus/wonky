@@ -1,0 +1,379 @@
+/* Library column: tabs, search, model and check lists, revision groups. */
+
+.library-heading {
+  height: 56px;
+  padding: 0 15px 0 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.library-heading .icon-button {
+  width: 30px;
+  height: 36px;
+}
+
+.search-field {
+  margin: 18px 15px 9px;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 0 9px;
+  background: var(--canvas);
+  border: 1px solid transparent;
+  border-radius: 6px;
+  color: var(--muted);
+}
+
+.search-field:focus-within {
+  border-color: #a3b4a2;
+}
+
+.search-field svg {
+  width: 15px;
+  height: 15px;
+}
+
+.search-field input {
+  width: 100%;
+  min-width: 0;
+  border: 0;
+  outline: 0!important;
+  background: transparent;
+  font-size: 11px;
+}
+
+.search-field input::placeholder {
+  color: var(--muted);
+}
+
+.library-content {
+  padding: 3px 9px 16px;
+  overflow: auto;
+  flex: 1;
+  min-height: 100px;
+}
+
+.loading-copy {
+  padding: 18px 10px;
+  font-size: 12px;
+}
+
+.library-item {
+  width: 100%;
+  text-align: left;
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 11px 10px;
+  border: 0;
+  border-radius: 7px;
+  background: transparent;
+  margin: 2px 0;
+}
+
+.library-item:hover {
+  background: var(--canvas);
+}
+
+.library-item.selected {
+  background: var(--green-soft);
+}
+
+.library-item .item-icon {
+  color: var(--muted);
+  padding-top: 3px;
+}
+
+.library-item.selected .item-icon {
+  color: var(--green);
+}
+
+.library-item .item-copy {
+  min-width: 0;
+  flex: 1;
+}
+
+.item-title {
+  display: block;
+  font-size: 12px;
+  line-height: 1.45;
+  font-weight: 550;
+  overflow-wrap: anywhere;
+}
+
+.item-detail {
+  display: flex;
+  gap: 6px;
+  font-size: var(--text-xs);
+  margin-top: 4px;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+.item-detail code {
+  font-size: var(--text-xs);
+}
+
+.item-badge {
+  font-size: var(--text-xs);
+  color: var(--green);
+  border: 1px solid var(--line-strong);
+  padding: 1px 4px;
+  border-radius: 4px;
+  align-self: center;
+}
+
+/* Revisions grouped per source: newest as a full item, older ones folded. */
+.revision-group {
+  margin: 0 0 4px;
+}
+
+.revision-list {
+  margin: -2px 0 2px 30px;
+  padding-left: 6px;
+  border-left: 1px solid var(--line);
+}
+
+.library-item.revision-item {
+  padding: 6px 8px;
+  margin: 1px 0;
+  align-items: center;
+}
+
+.revision-item .item-detail {
+  margin-top: 0;
+}
+
+.revision-item .item-title {
+  font-size: 11px;
+}
+
+.revision-tag {
+  color: var(--ink);
+  font-weight: 550;
+}
+
+/* Revision, body count and hash wrap as whole pieces. */
+.library-item .item-detail {
+  flex-wrap: wrap;
+  column-gap: 5px;
+  row-gap: 0;
+}
+
+.library-item .item-detail > * {
+  white-space: nowrap;
+}
+
+.revision-fold {
+  margin: 0 0 2px 36px;
+  border: 0;
+  border-radius: 4px;
+  background: transparent;
+  color: var(--muted);
+  font-size: 11px;
+  padding: 3px 6px;
+}
+
+.revision-fold:hover {
+  color: var(--green);
+  background: var(--canvas);
+}
+
+.revision-group-heading {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 10px 4px;
+  color: var(--muted);
+}
+
+.revision-group-heading .item-title {
+  color: var(--ink);
+}
+
+.revision-group-heading svg {
+  width: 15px;
+  height: 15px;
+}
+
+.revision-group-heading + .revision-list {
+  margin-left: 18px;
+}
+
+.library-item.before-row {
+  box-shadow: inset 2px 0 0 var(--copper);
+}
+
+.item-badge.before-badge {
+  color: var(--copper);
+  border-color: color-mix(in srgb, var(--copper) 35%, transparent);
+}
+
+.library-footer {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 13px 17px;
+  border-top: 1px solid var(--line);
+}
+
+.library-footer .small {
+  font-size: var(--text-xs);
+  line-height: 1.5;
+}
+
+.unit-label {
+  margin-left: auto;
+  color: var(--muted);
+  font-size: var(--text-xs);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  padding: 3px 4px;
+}
+
+.empty-library {
+  font-size: 11px;
+  line-height: 1.7;
+  color: var(--muted);
+  padding: 16px 12px;
+}
+
+@media (max-width: 1150px) {
+  .library-footer .small {
+    font-size: var(--text-xs);
+  }
+}
+
+@media (max-width: 900px) {
+  .library-heading {
+    padding-left: 14px;
+  }
+  .item-title {
+    font-size: 11px;
+  }
+  .library-item {
+    gap: 7px;
+    padding: 10px 7px;
+  }
+  .library-item .item-icon {
+    display: none;
+  }
+  .library-footer {
+    display: none;
+  }
+}
+
+@media (max-width: 650px) {
+  .library-heading,
+  .saved-section,
+  .search-field,
+  .library-tabs .count {
+    display: none;
+  }
+  .library-tabs {
+    height: 34px;
+    padding: 0 15px;
+    gap: 20px;
+  }
+  .library-tabs button {
+    min-height: 34px;
+    padding-bottom: 5px;
+    font-size: var(--text-xs);
+  }
+  .library-content {
+    display: flex;
+    align-items: center;
+    overflow: auto;
+    padding: 5px 10px;
+    height: 84px;
+    gap: 7px;
+  }
+  .library-item {
+    min-width: 145px;
+    width: 145px;
+    padding: 9px;
+    background: var(--canvas);
+    height: 62px;
+    margin: 0;
+  }
+  .item-title {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    font-size: var(--text-xs);
+  }
+  .item-detail {
+    font-size: var(--text-xs);
+  }
+  .item-badge {
+    display: none;
+  }
+  .revision-group,
+  .revision-list {
+    display: contents;
+  }
+  .revision-fold,
+  .revision-group-heading {
+    display: none;
+  }
+}
+
+/* Scope note above the Checks list: kernel reports are workspace-wide. */
+.checks-scope {
+  margin: 4px 4px 8px;
+  color: var(--muted);
+  font-size: var(--text-xs);
+}
+
+/* Badges ("Open", "Before", "r14 fails", "r2 building") never squeeze the
+   name: the copy keeps at least 110 px and the badges wrap onto their own row
+   in a narrow column (fix round 2). */
+.library-item {
+  flex-wrap: wrap;
+  row-gap: 4px;
+}
+
+.library-item .item-copy {
+  flex: 1 1 110px;
+}
+
+.library-item .item-badge {
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+/* Three tabs (Parts, Models, Checks) share the column: tighter spacing, and
+   the counts give way before a tab is cut at the column edge (fix round 2). */
+.library-tabs {
+  gap: 14px;
+  padding: 0 14px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.library-tabs button {
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+@media (max-width: 1150px) {
+  .library-tabs {
+    gap: 8px;
+    padding: 0 10px;
+  }
+  .library-tabs button {
+    gap: 4px;
+  }
+  /* The body count repeats the Parts summary; Models and Checks keep theirs. */
+  .library-tabs #parts-tab .count {
+    display: none;
+  }
+}
+
+@media (max-width: 900px) {
+  .library-tabs .count {
+    display: none;
+  }
+}

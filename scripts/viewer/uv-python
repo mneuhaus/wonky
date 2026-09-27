@@ -1,0 +1,4 @@
+#!/bin/sh
+# Python for live .py sources and QA helpers (spec D3). Project rule: never call
+# python3 directly; always go through uv. Usage: scripts/viewer/uv-python script.py ...
+exec uv run --no-project python "$@"

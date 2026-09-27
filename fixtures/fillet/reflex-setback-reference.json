@@ -1,0 +1,302 @@
+{
+  "schema": "wonky/fillet-onshape-probe/v1",
+  "what": "Reflex-corner setback probe: the concave seam of a narrower backer on a wider plate (the shape of R20 edge.fs:807), fillet R2 and EQUAL_OFFSETS chamfer 2. Input and selection: fixtures/fillet/reflex-setback.fs, feature reflexSetbackProbe.",
+  "provenance": {
+    "date": "2026-09-25",
+    "by": "wonky-kernel onshape-probes",
+    "transport": "Onshape session bridge (signed-in session), no API key",
+    "document": {
+      "id": "e0ea0d0bb936038f7f93f0c6",
+      "workspace": "b683a7dfcd51bc0ac049bb76",
+      "partStudio": "9bd3cb80bd44ffbde2223f07",
+      "featureStudio": "fcc5ffdf3601de8bd5e85f69",
+      "namespace": "efcc5ffdf3601de8bd5e85f69::mcc6530dfcd81c00964bc4b3e",
+      "public": true,
+      "name": "wonky fillet-setback probe (reflex seam)"
+    },
+    "source": {
+      "file": "fixtures/fillet/reflex-setback.fs",
+      "sha256": "082cc0d9a76e19dea6dded2d5ba58abe06d5d74b400b15e31c05b9a02ae62202",
+      "featureScript": 3044
+    },
+    "calls": 10,
+    "endpoints": "massproperties (volume [value,min,max] in m^3, converted to mm^3), bodydetails (face surface types), parts (name, description carrying the input volume from evVolume)"
+  },
+  "closedForms": {
+    "fillet": "input + L r^2 (1 - pi/4), L = 20 (the seam), r = 2: the spandrel prism; the backer side planes x = +-10 grow over the spandrel ends (11 faces: 10 planes, 1 cylinder)",
+    "chamfer": "input + L d^2 / 2, L = 20, d = 2"
+  },
+  "cases": {
+    "fillet": {
+      "op": "fillet",
+      "size": 2,
+      "dx": 0,
+      "chamferType": null,
+      "partId": "JHD",
+      "name": "RS-F reflex seam fillet R2",
+      "featureId": "FIRdp6PiAN8pstM_0",
+      "featureStatus": "OK",
+      "volume": 6617.168146928204,
+      "volumeMin": 6616.815682916226,
+      "volumeMax": 6617.520610940182,
+      "inputVolume": 6600,
+      "deltaVolume": 17.168146928203896,
+      "faces": 11,
+      "edges": 27,
+      "vertices": 18,
+      "faceTypes": {
+        "plane": 10,
+        "cylinder": 1
+      },
+      "faceList": [
+        [
+          "plane",
+          null,
+          [
+            -15,
+            -2,
+            30
+          ],
+          null
+        ],
+        [
+          "plane",
+          null,
+          [
+            0,
+            -4,
+            30
+          ],
+          null
+        ],
+        [
+          "plane",
+          null,
+          [
+            15,
+            -2,
+            30
+          ],
+          null
+        ],
+        [
+          "plane",
+          null,
+          [
+            0,
+            0,
+            30
+          ],
+          null
+        ],
+        [
+          "plane",
+          null,
+          [
+            0,
+            -2,
+            30
+          ],
+          null
+        ],
+        [
+          "plane",
+          null,
+          [
+            0,
+            -2,
+            0
+          ],
+          null
+        ],
+        [
+          "plane",
+          null,
+          [
+            -10,
+            4.5,
+            15
+          ],
+          null
+        ],
+        [
+          "plane",
+          null,
+          [
+            10,
+            4.5,
+            15
+          ],
+          null
+        ],
+        [
+          "plane",
+          null,
+          [
+            0,
+            10,
+            15
+          ],
+          null
+        ],
+        [
+          "plane",
+          null,
+          [
+            0,
+            4.5,
+            15
+          ],
+          null
+        ],
+        [
+          "cylinder",
+          [
+            -1,
+            0,
+            0
+          ],
+          [
+            0,
+            2,
+            17
+          ],
+          2
+        ]
+      ]
+    },
+    "chamfer": {
+      "op": "chamfer",
+      "size": 2,
+      "dx": 100,
+      "chamferType": "EQUAL_OFFSETS",
+      "partId": "JRD",
+      "name": "RS-C reflex seam chamfer 2",
+      "featureId": "FYwVh7JiZOJt0UX_1",
+      "featureStatus": "OK",
+      "volume": 6639.999999999998,
+      "volumeMin": 6639.646725693177,
+      "volumeMax": 6640.353274306819,
+      "inputVolume": 6599.999999999997,
+      "deltaVolume": 40.00000000000091,
+      "faces": 11,
+      "edges": 27,
+      "vertices": 18,
+      "faceTypes": {
+        "plane": 11
+      },
+      "faceList": [
+        [
+          "plane",
+          null,
+          [
+            85,
+            -2,
+            30
+          ],
+          null
+        ],
+        [
+          "plane",
+          null,
+          [
+            100,
+            -4,
+            30
+          ],
+          null
+        ],
+        [
+          "plane",
+          null,
+          [
+            115,
+            -2,
+            30
+          ],
+          null
+        ],
+        [
+          "plane",
+          null,
+          [
+            100,
+            0,
+            30
+          ],
+          null
+        ],
+        [
+          "plane",
+          null,
+          [
+            100,
+            -2,
+            30
+          ],
+          null
+        ],
+        [
+          "plane",
+          null,
+          [
+            100,
+            -2,
+            0
+          ],
+          null
+        ],
+        [
+          "plane",
+          null,
+          [
+            90,
+            4.5,
+            15
+          ],
+          null
+        ],
+        [
+          "plane",
+          null,
+          [
+            110,
+            4.5,
+            15
+          ],
+          null
+        ],
+        [
+          "plane",
+          null,
+          [
+            100,
+            10,
+            15
+          ],
+          null
+        ],
+        [
+          "plane",
+          null,
+          [
+            100,
+            4.5,
+            15
+          ],
+          null
+        ],
+        [
+          "plane",
+          null,
+          [
+            100,
+            2,
+            15
+          ],
+          null
+        ]
+      ]
+    }
+  }
+}

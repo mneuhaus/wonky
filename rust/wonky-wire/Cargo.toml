@@ -1,0 +1,18 @@
+[package]
+name = "wonky-wire"
+version = "0.1.0"
+edition = "2021"
+publish = false
+
+[features]
+# Planted negative (never in a production build): the List/String count check
+# is skipped, so a request that claims more elements than it carries allocates
+# in proportion to the claim. rust/wonky-wire/tests/count.rs must fail with it.
+plant-count = []
+
+[dependencies]
+wonky-contract = { path = "../wonky-contract" }
+
+[dev-dependencies]
+wonky-brep = { path = "../wonky-brep" }
+wonky-num = { path = "../wonky-num" }

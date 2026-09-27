@@ -1,0 +1,10 @@
+# Offline, vendored builds only (docs/rust-migration.md 3.1): crates.io is
+# replaced by rust/vendor, which `cargo vendor` produced from Cargo.lock.
+[source.crates-io]
+replace-with = "vendored-sources"
+
+[source.vendored-sources]
+directory = "vendor"
+
+[net]
+offline = true

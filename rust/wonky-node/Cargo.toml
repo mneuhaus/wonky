@@ -1,0 +1,21 @@
+[package]
+name = "wonky-node"
+version = "0.1.0"
+edition = "2021"
+publish = false
+build = "build.rs"
+
+[lib]
+crate-type = ["cdylib"]
+
+[features]
+# Planted negative (never in a production build): real.bend:max panics, so the
+# test can check that a panic answers status 5 and the next call still works.
+plant-panic = []
+# Forwards the wire crate's planted count negative (tests only).
+plant-count = ["wonky-wire/plant-count"]
+
+[dependencies]
+wonky-wire = { path = "../wonky-wire" }
+# Host operations of the planar extrusion slice (hostOp).
+wonky-ops = { path = "../wonky-ops" }

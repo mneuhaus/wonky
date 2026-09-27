@@ -1,0 +1,2 @@
+; A clockwise profile is refused with an explicit capability error.
+(extrude (list (list 0 0) (list 0 10) (list 10 10) (list 10 0)) 0 5)

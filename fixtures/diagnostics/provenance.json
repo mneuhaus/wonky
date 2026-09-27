@@ -1,0 +1,10 @@
+{
+  "schema": "wonky-fixture-provenance/1",
+  "source": "<repo>/tmp/r20-studios-snapshot-1243/tray.fs",
+  "sourceSha256": "4f3e1cacb1f5414bd407f47f31f8e43678213027c2c2c829b85aba5647051005",
+  "firstLine": 586,
+  "lastLine": 674,
+  "excerptSha256": "873df785132e1242795c6e3d3a22e08574640ad6914c9d54f0ab30c253db0ffd",
+  "fixtureSha256": "6a596b12c72b0620d98cf4f5e71440dbc46ad830c329ecfe06d20713abe740ed",
+  "changes": "Verbatim common/m3.fs helper excerpt, wrapped in one named feature at origin; no R20 studio acceptance claim."
+}

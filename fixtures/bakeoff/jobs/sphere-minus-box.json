@@ -1,0 +1,51 @@
+{
+ "schema": "wonky-bakeoff-fixture/1",
+ "case": "sphere-minus-box",
+ "category": "spheres",
+ "deviationMm": 0.01,
+ "location": "out/bakeoff/jobs (generated on demand, gitignored)",
+ "job": "out/bakeoff/jobs/sphere-minus-box.job",
+ "csgJob": "out/bakeoff/jobs/sphere-minus-box.csg.job",
+ "jobBytes": 472129,
+ "jobSha256": "88104be72775c229d5a1fc8eae3ac911478db617ca31b1a83b03ecbc3eb4ba4e",
+ "csgJobSha256": "d25d79f77a45cb933312d0eb3f123f30ef046e9813c3bace0dbbfd6243f793f6",
+ "leaves": 2,
+ "faces": 7,
+ "vertices": 4910,
+ "triangles": 9812,
+ "deviationMeasuredMaxMm": 0.009861495406427778,
+ "leafInfo": [
+  {
+   "leaf": 0,
+   "prim": "sphere",
+   "vertices": 4902,
+   "triangles": 9800,
+   "tags": [
+    0
+   ],
+   "segments": 100,
+   "deviationMeasuredMm": 0.009861495406427778,
+   "deviationMethod": "closest-point (exact for inscribed convex mesh)",
+   "vertexOnSurfaceMaxMm": 1.5987211554602254e-14,
+   "analyticVolume": 4188.790204786391
+  },
+  {
+   "leaf": 1,
+   "prim": "box",
+   "vertices": 8,
+   "triangles": 12,
+   "tags": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6
+   ],
+   "deviationMeasuredMm": 0,
+   "deviationMethod": "exact-planar",
+   "vertexOnSurfaceMaxMm": 0,
+   "analyticVolume": 3872
+  }
+ ]
+}

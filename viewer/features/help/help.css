@@ -1,0 +1,336 @@
+/* Help overlay and settings dialog (help-a11y). Tokens only; no text below 11 px. */
+
+.help-dialog {
+  width: min(760px, calc(100vw - 32px));
+  max-height: min(84dvh, 820px);
+  padding: 0;
+  border: 0;
+  border-radius: 12px;
+  background: var(--surface);
+  color: var(--ink);
+  box-shadow: var(--shadow-raised);
+  overflow: hidden;
+}
+
+.help-dialog[open] {
+  display: flex;
+}
+
+.settings-dialog {
+  width: min(560px, calc(100vw - 32px));
+}
+
+.help-dialog::backdrop {
+  background: var(--backdrop);
+}
+
+.help-frame {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  width: 100%;
+}
+
+.help-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 20px 22px 14px;
+  border-bottom: 1px solid var(--line);
+}
+
+.help-head h2 {
+  margin-top: 5px;
+  font-size: var(--text-lg);
+  font-weight: 600;
+  letter-spacing: -.3px;
+}
+
+.help-head .eyebrow {
+  font-size: var(--text-xs);
+  color: var(--muted);
+}
+
+.help-summary {
+  margin-top: 4px;
+  font-size: var(--text-xs);
+  color: var(--muted);
+}
+
+.help-close {
+  margin: -6px -8px 0 0;
+}
+
+.help-tools {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px 16px;
+  padding: 12px 22px;
+  border-bottom: 1px solid var(--line);
+}
+
+.help-filter {
+  flex: 1 1 220px;
+  width: auto;
+  font-size: var(--text-sm);
+  color: var(--ink);
+  background: var(--field);
+  border-color: var(--line-strong);
+}
+
+.help-filter::placeholder {
+  color: var(--placeholder);
+}
+
+.help-switch {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-size: var(--text-sm);
+  color: var(--ink);
+}
+
+.help-switch input,
+.setting-control input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  margin: 0;
+  accent-color: var(--green-strong);
+}
+
+/* Explicit tokens: the dialogs stay correct in both themes on their own. */
+.help-tools .button {
+  min-height: 34px;
+  font-size: var(--text-sm);
+  background: var(--surface);
+  color: var(--ink);
+  box-shadow: var(--shadow);
+}
+
+.help-tools .button:hover {
+  background: var(--green-soft);
+}
+
+.help-list,
+.settings-list {
+  min-height: 0;
+  overflow: auto;
+  padding: 6px 22px 22px;
+}
+
+.help-note {
+  margin: 12px 0 0;
+  padding: 9px 11px;
+  border-left: 3px solid var(--copper);
+  background: var(--copper-soft);
+  color: var(--ink);
+  font-size: var(--text-sm);
+  border-radius: 0 6px 6px 0;
+}
+
+.help-empty {
+  margin-top: 16px;
+  color: var(--muted);
+  font-size: var(--text-sm);
+}
+
+.help-table {
+  width: 100%;
+  margin-top: 16px;
+  border-collapse: collapse;
+  table-layout: fixed;
+  font-size: var(--text-sm);
+}
+
+.help-col-action {
+  width: 42%;
+}
+
+.help-col-keys {
+  width: 36%;
+}
+
+.help-col-scope {
+  width: 22%;
+}
+
+.help-table caption {
+  text-align: left;
+  padding-bottom: 6px;
+  font-size: var(--text-xs);
+  font-weight: 650;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.help-table thead th {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.help-table th,
+.help-table td {
+  padding: 6px 0;
+  border-top: 1px solid var(--line);
+  vertical-align: top;
+  text-align: left;
+}
+
+.help-table tbody th {
+  font-weight: 500;
+  padding-right: 12px;
+}
+
+.help-scope {
+  padding-left: 12px;
+  color: var(--muted);
+  font-size: var(--text-xs);
+  line-height: 22px;
+}
+
+.help-key {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin: 0 4px 3px 0;
+}
+
+.help-dialog kbd {
+  display: inline-block;
+  min-width: 22px;
+  padding: 1px 6px;
+  border: 1px solid var(--line-strong);
+  border-bottom-width: 2px;
+  border-radius: 5px;
+  background: var(--sunken);
+  color: var(--ink);
+  font-family: var(--font-ui);
+  font-size: var(--text-xs);
+  line-height: 18px;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.help-key-off kbd {
+  text-decoration: line-through;
+}
+
+.help-off,
+.help-state {
+  font-size: var(--text-xs);
+  color: var(--copper);
+}
+
+.help-state {
+  display: block;
+  font-weight: 450;
+}
+
+/* Settings rows */
+.setting-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 12px 0;
+  border-top: 1px solid var(--line);
+}
+
+.setting-row:first-child {
+  border-top: 0;
+}
+
+.setting-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+}
+
+.setting-label {
+  font-size: var(--text-md);
+  font-weight: 550;
+}
+
+.setting-description,
+.setting-unit {
+  font-size: var(--text-xs);
+  line-height: 1.5;
+  color: var(--muted);
+}
+
+.setting-control {
+  flex-shrink: 0;
+}
+
+.setting-control select,
+.setting-control input[type="number"] {
+  min-height: 32px;
+  padding: 4px 8px;
+  border: 1px solid var(--line-strong);
+  border-radius: 6px;
+  background: var(--field);
+  color: var(--ink);
+  font-size: var(--text-sm);
+}
+
+.setting-control input[type="number"] {
+  width: 76px;
+}
+
+.setting-number {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.setting-unsupported {
+  font-size: var(--text-xs);
+  color: var(--danger);
+}
+
+@media (max-width: 650px) {
+  .help-dialog {
+    width: calc(100vw - 16px);
+    max-height: calc(100dvh - 16px);
+  }
+  .help-head,
+  .help-tools,
+  .help-list,
+  .settings-list {
+    padding-left: 14px;
+    padding-right: 14px;
+  }
+  .help-col-action {
+    width: 40%;
+  }
+  .help-col-keys {
+    width: 34%;
+  }
+  .help-col-scope {
+    width: 26%;
+  }
+  .help-scope {
+    padding-left: 8px;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .help-dialog[open] {
+    animation: help-in 120ms ease-out;
+  }
+}
+
+@keyframes help-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+}

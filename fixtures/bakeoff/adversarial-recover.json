@@ -1,0 +1,5410 @@
+{
+ "schema": "wonky-bakeoff-cases/1",
+ "units": "millimeter",
+ "generator": "out/bakeoff/adversarial-recover/make-cases.mjs (independent verifier of the recover prototype)",
+ "conventions": {
+  "leaf": "{prim, params, transform: {rotate: [{axis: x|y|z|[x,y,z], deg}], translate: [x,y,z]}}; rotations apply in list order, then the translation",
+  "node": "{op: union|subtract|intersect, children: [a, b]}; subtract is children[0] minus children[1]",
+  "box": "params {min:[x,y,z], max:[x,y,z]}",
+  "cylinder": "params {radius, height}; axis +Z from z=0 to z=height",
+  "cone": "params {r1 (at z=0), r2 (at z=height), height}; r1 or r2 may be 0 (apex)",
+  "sphere": "params {radius}; centred on the origin",
+  "torus": "params {major, minor}; axis +Z, centred on the origin",
+  "prism": "params {points: [[x,y],...] simple polygon, height}; extruded +Z from z=0",
+  "brep": "params {source: gzipped wonky-acceptance-operands/1 JSON, body: index}; the exact B-rep body as stored (identity transform); tessellated by scripts/bakeoff/brep-tessellate.mjs",
+  "deviationMm": "stated bound on the distance between a leaf tessellation and its analytic surface",
+  "expect": "solid (a valid closed 2-manifold mesh, possibly several components) | empty (valid answer is an ok mesh with 0 triangles) | non-manifold-contact (the exact result touches itself along a line or point; a closed 2-manifold mesh of it does not exist, so the expected answer is unresolved with a reason; a mesh is reported but not scored as a pass)"
+ },
+ "cases": [
+  {
+   "id": "adv-hole-breaks-top-within-dev",
+   "category": "tolerance-topology",
+   "expect": "solid",
+   "deviationMm": 0.01,
+   "fdmRationale": "Horizontal bore whose wall breaks the top face by 0.005 mm (< deviation); the inscribed polygon does not break it, so the mesh topology (closed bore, genus 1) differs from the exact CSG (open slot, genus 0).",
+   "csg": {
+    "op": "subtract",
+    "children": [
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        0,
+        -10,
+        -10
+       ],
+       "max": [
+        20,
+        10,
+        4.995
+       ]
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     },
+     {
+      "prim": "cylinder",
+      "params": {
+       "radius": 5,
+       "height": 30,
+       "phaseDeg": 3.4615384615384617
+      },
+      "transform": {
+       "rotate": [
+        {
+         "axis": "y",
+         "deg": 90
+        }
+       ],
+       "translate": [
+        -5,
+        0,
+        0
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "adv-boss-pokes-within-dev",
+   "category": "tolerance-topology",
+   "expect": "solid",
+   "deviationMm": 0.01,
+   "fdmRationale": "Round boss 0.005 mm wider than the bar it sits on; exact result has two thin cylinder slivers, the inscribed polygon stays inside the bar.",
+   "csg": {
+    "op": "union",
+    "children": [
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        0,
+        -4.995,
+        0
+       ],
+       "max": [
+        20,
+        4.995,
+        10
+       ]
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     },
+     {
+      "prim": "cylinder",
+      "params": {
+       "radius": 5,
+       "height": 10,
+       "phaseDeg": 3.4615384615384617
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        10,
+        0,
+        0
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "adv-coplanar-perturb-1e-9",
+   "category": "perturbation",
+   "expect": "solid",
+   "deviationMm": 0.01,
+   "fdmRationale": "Flush lip whose top is 1e-9 mm above the base top (below the 1e-7 carrier-merge tolerance).",
+   "csg": {
+    "op": "union",
+    "children": [
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        0,
+        0,
+        0
+       ],
+       "max": [
+        20,
+        20,
+        10
+       ]
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     },
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        10,
+        5,
+        0
+       ],
+       "max": [
+        30,
+        15,
+        10.000000001
+       ]
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "adv-coplanar-perturb-1e-6",
+   "category": "perturbation",
+   "expect": "solid",
+   "deviationMm": 0.01,
+   "fdmRationale": "Flush lip whose top is 1e-6 mm above the base top (above the merge tolerance): a 1e-6 mm step face.",
+   "csg": {
+    "op": "union",
+    "children": [
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        0,
+        0,
+        0
+       ],
+       "max": [
+        20,
+        20,
+        10
+       ]
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     },
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        10,
+        5,
+        0
+       ],
+       "max": [
+        30,
+        15,
+        10.000001
+       ]
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "adv-coplanar-perturb-1e-7",
+   "category": "perturbation",
+   "expect": "solid",
+   "deviationMm": 0.01,
+   "fdmRationale": "Lip top 1.5e-7 mm above the base top: just above the 1e-7 mm carrier-merge tolerance.",
+   "csg": {
+    "op": "union",
+    "children": [
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        0,
+        0,
+        0
+       ],
+       "max": [
+        20,
+        20,
+        10
+       ]
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     },
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        10,
+        5,
+        0
+       ],
+       "max": [
+        30,
+        15,
+        10.00000015
+       ]
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "adv-rotated-plate-hole",
+   "category": "rotation",
+   "expect": "solid",
+   "deviationMm": 0.01,
+   "fdmRationale": "Plate with a through hole, whole part in a random orientation (x 23.7, y 41.3, z 11.1 deg).",
+   "csg": {
+    "op": "subtract",
+    "children": [
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        0,
+        0,
+        0
+       ],
+       "max": [
+        40,
+        30,
+        5
+       ]
+      },
+      "transform": {
+       "rotate": [
+        {
+         "axis": "x",
+         "deg": 23.7
+        },
+        {
+         "axis": "y",
+         "deg": 41.3
+        },
+        {
+         "axis": "z",
+         "deg": 11.1
+        }
+       ],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     },
+     {
+      "prim": "cylinder",
+      "params": {
+       "radius": 3.2,
+       "height": 7
+      },
+      "transform": {
+       "rotate": [
+        {
+         "axis": "x",
+         "deg": 23.7
+        },
+        {
+         "axis": "y",
+         "deg": 41.3
+        },
+        {
+         "axis": "z",
+         "deg": 11.1
+        }
+       ],
+       "translate": [
+        15.334356239134593,
+        17.414872975603366,
+        -9.358403601839015
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "adv-rotated-boxes-union",
+   "category": "rotation",
+   "expect": "solid",
+   "deviationMm": 0.01,
+   "fdmRationale": "Two blocks, each in its own random orientation, overlapping in general position.",
+   "csg": {
+    "op": "union",
+    "children": [
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        -10,
+        -7,
+        -5
+       ],
+       "max": [
+        10,
+        7,
+        5
+       ]
+      },
+      "transform": {
+       "rotate": [
+        {
+         "axis": "x",
+         "deg": 13.1
+        },
+        {
+         "axis": "z",
+         "deg": 27.9
+        }
+       ],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     },
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        -6,
+        -6,
+        -6
+       ],
+       "max": [
+        6,
+        6,
+        6
+       ]
+      },
+      "transform": {
+       "rotate": [
+        {
+         "axis": "y",
+         "deg": 33.3
+        },
+        {
+         "axis": "x",
+         "deg": -71.2
+        },
+        {
+         "axis": "z",
+         "deg": 5.5
+        }
+       ],
+       "translate": [
+        7,
+        3,
+        2
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "adv-scale-1e-3",
+   "category": "scale",
+   "expect": "solid",
+   "deviationMm": 0.00001,
+   "fdmRationale": "plate-through-hole scaled by 1e-3 (40 x 30 x 5 um plate) with deviation 1e-5 mm: absolute tolerances become relatively coarse.",
+   "csg": {
+    "op": "subtract",
+    "children": [
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        0,
+        0,
+        0
+       ],
+       "max": [
+        0.04,
+        0.03,
+        0.005
+       ]
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     },
+     {
+      "prim": "cylinder",
+      "params": {
+       "radius": 0.0032,
+       "height": 0.007
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0.02,
+        0.015,
+        -0.001
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "adv-scale-1e3",
+   "category": "scale",
+   "expect": "solid",
+   "deviationMm": 0.01,
+   "fdmRationale": "plate-through-hole scaled by 1e3 (40 m plate) at deviation 0.01 mm: 1260-gon hole, coordinates 4e4 mm.",
+   "csg": {
+    "op": "subtract",
+    "children": [
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        0,
+        0,
+        0
+       ],
+       "max": [
+        40000,
+        30000,
+        5000
+       ]
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     },
+     {
+      "prim": "cylinder",
+      "params": {
+       "radius": 3200,
+       "height": 7000
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        20000,
+        15000,
+        -1000
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "adv-iterated-same-hole",
+   "category": "iterated",
+   "expect": "solid",
+   "deviationMm": 0.01,
+   "fdmRationale": "The same hole drilled three times plus a self-union of the plate (coincident carriers from four leaves).",
+   "csg": {
+    "op": "subtract",
+    "children": [
+     {
+      "op": "subtract",
+      "children": [
+       {
+        "op": "subtract",
+        "children": [
+         {
+          "op": "union",
+          "children": [
+           {
+            "prim": "box",
+            "params": {
+             "min": [
+              0,
+              0,
+              0
+             ],
+             "max": [
+              40,
+              30,
+              5
+             ]
+            },
+            "transform": {
+             "rotate": [],
+             "translate": [
+              0,
+              0,
+              0
+             ]
+            }
+           },
+           {
+            "prim": "box",
+            "params": {
+             "min": [
+              0,
+              0,
+              0
+             ],
+             "max": [
+              40,
+              30,
+              5
+             ]
+            },
+            "transform": {
+             "rotate": [],
+             "translate": [
+              0,
+              0,
+              0
+             ]
+            }
+           }
+          ]
+         },
+         {
+          "prim": "cylinder",
+          "params": {
+           "radius": 3.2,
+           "height": 7
+          },
+          "transform": {
+           "rotate": [],
+           "translate": [
+            20,
+            15,
+            -1
+           ]
+          }
+         }
+        ]
+       },
+       {
+        "prim": "cylinder",
+        "params": {
+         "radius": 3.2,
+         "height": 7
+        },
+        "transform": {
+         "rotate": [],
+         "translate": [
+          20,
+          15,
+          -1
+         ]
+        }
+       }
+      ]
+     },
+     {
+      "prim": "cylinder",
+      "params": {
+       "radius": 3.2,
+       "height": 7
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        20,
+        15,
+        -1
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "adv-empty-disjoint-intersect",
+   "category": "empty",
+   "expect": "empty",
+   "deviationMm": 0.01,
+   "fdmRationale": "Intersection of two disjoint blocks: the answer is the empty solid.",
+   "csg": {
+    "op": "intersect",
+    "children": [
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        0,
+        0,
+        0
+       ],
+       "max": [
+        10,
+        10,
+        10
+       ]
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     },
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        20,
+        0,
+        0
+       ],
+       "max": [
+        30,
+        10,
+        10
+       ]
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "adv-empty-subtract-bigger",
+   "category": "empty",
+   "expect": "empty",
+   "deviationMm": 0.01,
+   "fdmRationale": "A cylinder minus a larger block that contains it: empty.",
+   "csg": {
+    "op": "subtract",
+    "children": [
+     {
+      "prim": "cylinder",
+      "params": {
+       "radius": 3,
+       "height": 5
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        5,
+        5,
+        0
+       ]
+      }
+     },
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        -1,
+        -1,
+        -1
+       ],
+       "max": [
+        11,
+        11,
+        7
+       ]
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "adv-disjoint-three-rotated",
+   "category": "disjoint",
+   "expect": "solid",
+   "deviationMm": 0.01,
+   "fdmRationale": "Three separate parts on one plate (block, rotated pin, frustum): three components.",
+   "csg": {
+    "op": "union",
+    "children": [
+     {
+      "op": "union",
+      "children": [
+       {
+        "prim": "box",
+        "params": {
+         "min": [
+          0,
+          0,
+          0
+         ],
+         "max": [
+          10,
+          10,
+          10
+         ]
+        },
+        "transform": {
+         "rotate": [],
+         "translate": [
+          0,
+          0,
+          0
+         ]
+        }
+       },
+       {
+        "prim": "cylinder",
+        "params": {
+         "radius": 2,
+         "height": 8
+        },
+        "transform": {
+         "rotate": [
+          {
+           "axis": "x",
+           "deg": 30
+          }
+         ],
+         "translate": [
+          30,
+          5,
+          0
+         ]
+        }
+       }
+      ]
+     },
+     {
+      "prim": "cone",
+      "params": {
+       "r1": 4,
+       "r2": 2,
+       "height": 6
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        60,
+        5,
+        0
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "adv-stadium-tangent",
+   "category": "tangent",
+   "expect": "solid",
+   "deviationMm": 0.01,
+   "fdmRationale": "Slot / stadium plate: a block with two half-round ends; plane/cylinder G1 edges along the tangent lines.",
+   "csg": {
+    "op": "union",
+    "children": [
+     {
+      "op": "union",
+      "children": [
+       {
+        "prim": "box",
+        "params": {
+         "min": [
+          0,
+          -5,
+          0
+         ],
+         "max": [
+          20,
+          5,
+          4
+         ]
+        },
+        "transform": {
+         "rotate": [],
+         "translate": [
+          0,
+          0,
+          0
+         ]
+        }
+       },
+       {
+        "prim": "cylinder",
+        "params": {
+         "radius": 5,
+         "height": 4
+        },
+        "transform": {
+         "rotate": [],
+         "translate": [
+          0,
+          0,
+          0
+         ]
+        }
+       }
+      ]
+     },
+     {
+      "prim": "cylinder",
+      "params": {
+       "radius": 5,
+       "height": 4
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        20,
+        0,
+        0
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "adv-holes-tangent-each-other",
+   "category": "tangent",
+   "expect": "non-manifold-contact",
+   "deviationMm": 0.01,
+   "fdmRationale": "Two holes whose walls touch along a line (pitch = diameter); the plate pinches to zero width there.",
+   "csg": {
+    "op": "subtract",
+    "children": [
+     {
+      "op": "subtract",
+      "children": [
+       {
+        "prim": "box",
+        "params": {
+         "min": [
+          0,
+          0,
+          0
+         ],
+         "max": [
+          30,
+          20,
+          5
+         ]
+        },
+        "transform": {
+         "rotate": [],
+         "translate": [
+          0,
+          0,
+          0
+         ]
+        }
+       },
+       {
+        "prim": "cylinder",
+        "params": {
+         "radius": 3,
+         "height": 7
+        },
+        "transform": {
+         "rotate": [],
+         "translate": [
+          12,
+          10,
+          -1
+         ]
+        }
+       }
+      ]
+     },
+     {
+      "prim": "cylinder",
+      "params": {
+       "radius": 3,
+       "height": 7
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        18,
+        10,
+        -1
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "adv-corner-chip-5um",
+   "category": "sliver",
+   "expect": "solid",
+   "deviationMm": 0.01,
+   "fdmRationale": "A 0.005 mm chamfer chip on one cube corner (one triangle, every vertex within deviation of all three neighbouring planes: the sliver rule applies to a real face).",
+   "csg": {
+    "op": "subtract",
+    "children": [
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        0,
+        0,
+        0
+       ],
+       "max": [
+        10,
+        10,
+        10
+       ]
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     },
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        -50,
+        -50,
+        0
+       ],
+       "max": [
+        50,
+        50,
+        100
+       ]
+      },
+      "transform": {
+       "rotate": [
+        {
+         "axis": "y",
+         "deg": 54.735610317245346
+        },
+        {
+         "axis": "z",
+         "deg": 45
+        }
+       ],
+       "translate": [
+        9.998333333333335,
+        9.998333333333335,
+        9.998333333333335
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "adv-thin-tube-1um",
+   "category": "near-coincident",
+   "expect": "solid",
+   "deviationMm": 0.01,
+   "fdmRationale": "Coaxial cylinders of radius 5 and 5 - 1e-6: a 1e-6 mm tube wall (near-coincident, not merged).",
+   "csg": {
+    "op": "subtract",
+    "children": [
+     {
+      "prim": "cylinder",
+      "params": {
+       "radius": 5,
+       "height": 10
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     },
+     {
+      "prim": "cylinder",
+      "params": {
+       "radius": 4.999999,
+       "height": 12
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        -1
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "adv-hole-near-tangent-1um",
+   "category": "near-degenerate",
+   "expect": "solid",
+   "deviationMm": 0.01,
+   "fdmRationale": "Hole whose wall comes within 1e-6 mm of the side face (a quarter-turn polygon vertex sits 1e-6 mm inside the face).",
+   "csg": {
+    "op": "subtract",
+    "children": [
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        0,
+        0,
+        0
+       ],
+       "max": [
+        30,
+        20,
+        5
+       ]
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     },
+     {
+      "prim": "cylinder",
+      "params": {
+       "radius": 3,
+       "height": 7
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        3.000001,
+        10,
+        -1
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "adv-hole-near-tangent-1e-9",
+   "category": "near-degenerate",
+   "expect": "solid",
+   "deviationMm": 0.01,
+   "fdmRationale": "Hole wall 1e-9 mm from the side face.",
+   "csg": {
+    "op": "subtract",
+    "children": [
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        0,
+        0,
+        0
+       ],
+       "max": [
+        30,
+        20,
+        5
+       ]
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     },
+     {
+      "prim": "cylinder",
+      "params": {
+       "radius": 3,
+       "height": 7
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        3.000000001,
+        10,
+        -1
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "adv-star-6-boxes",
+   "category": "iterated",
+   "expect": "solid",
+   "deviationMm": 0.01,
+   "fdmRationale": "Six bars rotated in 15 deg steps about one centre (iterated union, many near-degenerate triangles near the centre).",
+   "csg": {
+    "op": "union",
+    "children": [
+     {
+      "op": "union",
+      "children": [
+       {
+        "op": "union",
+        "children": [
+         {
+          "op": "union",
+          "children": [
+           {
+            "op": "union",
+            "children": [
+             {
+              "prim": "box",
+              "params": {
+               "min": [
+                -20,
+                -2,
+                0
+               ],
+               "max": [
+                20,
+                2,
+                5
+               ]
+              },
+              "transform": {
+               "rotate": [
+                {
+                 "axis": "z",
+                 "deg": 0
+                }
+               ],
+               "translate": [
+                0,
+                0,
+                0
+               ]
+              }
+             },
+             {
+              "prim": "box",
+              "params": {
+               "min": [
+                -20,
+                -2,
+                0
+               ],
+               "max": [
+                20,
+                2,
+                5
+               ]
+              },
+              "transform": {
+               "rotate": [
+                {
+                 "axis": "z",
+                 "deg": 15
+                }
+               ],
+               "translate": [
+                0,
+                0,
+                0
+               ]
+              }
+             }
+            ]
+           },
+           {
+            "prim": "box",
+            "params": {
+             "min": [
+              -20,
+              -2,
+              0
+             ],
+             "max": [
+              20,
+              2,
+              5
+             ]
+            },
+            "transform": {
+             "rotate": [
+              {
+               "axis": "z",
+               "deg": 30
+              }
+             ],
+             "translate": [
+              0,
+              0,
+              0
+             ]
+            }
+           }
+          ]
+         },
+         {
+          "prim": "box",
+          "params": {
+           "min": [
+            -20,
+            -2,
+            0
+           ],
+           "max": [
+            20,
+            2,
+            5
+           ]
+          },
+          "transform": {
+           "rotate": [
+            {
+             "axis": "z",
+             "deg": 45
+            }
+           ],
+           "translate": [
+            0,
+            0,
+            0
+           ]
+          }
+         }
+        ]
+       },
+       {
+        "prim": "box",
+        "params": {
+         "min": [
+          -20,
+          -2,
+          0
+         ],
+         "max": [
+          20,
+          2,
+          5
+         ]
+        },
+        "transform": {
+         "rotate": [
+          {
+           "axis": "z",
+           "deg": 60
+          }
+         ],
+         "translate": [
+          0,
+          0,
+          0
+         ]
+        }
+       }
+      ]
+     },
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        -20,
+        -2,
+        0
+       ],
+       "max": [
+        20,
+        2,
+        5
+       ]
+      },
+      "transform": {
+       "rotate": [
+        {
+         "axis": "z",
+         "deg": 75
+        }
+       ],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "adv-sliver-crossing-tops",
+   "category": "near-parallel",
+   "expect": "solid",
+   "deviationMm": 0.01,
+   "fdmRationale": "Two blocks whose top faces cross at 0.1 deg (nearly coplanar, transverse edge).",
+   "csg": {
+    "op": "union",
+    "children": [
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        0,
+        0,
+        0
+       ],
+       "max": [
+        10,
+        10,
+        10
+       ]
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     },
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        -5,
+        0,
+        -10
+       ],
+       "max": [
+        5,
+        10,
+        10
+       ]
+      },
+      "transform": {
+       "rotate": [
+        {
+         "axis": "y",
+         "deg": 0.1
+        }
+       ],
+       "translate": [
+        12.5,
+        0,
+        0
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "adv-countersink-rotated",
+   "category": "rotation",
+   "expect": "solid",
+   "deviationMm": 0.01,
+   "fdmRationale": "plate-countersink rotated 90 deg about x then 30 deg about z: sliver rule under rotation.",
+   "csg": {
+    "op": "subtract",
+    "children": [
+     {
+      "op": "subtract",
+      "children": [
+       {
+        "prim": "box",
+        "params": {
+         "min": [
+          0,
+          0,
+          0
+         ],
+         "max": [
+          30,
+          30,
+          6
+         ]
+        },
+        "transform": {
+         "rotate": [
+          {
+           "axis": "x",
+           "deg": 90
+          },
+          {
+           "axis": "z",
+           "deg": 30
+          }
+         ],
+         "translate": [
+          0,
+          0,
+          0
+         ]
+        }
+       },
+       {
+        "prim": "cylinder",
+        "params": {
+         "radius": 2.2,
+         "height": 8
+        },
+        "transform": {
+         "rotate": [
+          {
+           "axis": "x",
+           "deg": 90
+          },
+          {
+           "axis": "z",
+           "deg": 30
+          }
+         ],
+         "translate": [
+          12.49038105676658,
+          8.36602540378444,
+          15
+         ]
+        }
+       }
+      ]
+     },
+     {
+      "prim": "cone",
+      "params": {
+       "r1": 2.2,
+       "r2": 6.2,
+       "height": 4
+      },
+      "transform": {
+       "rotate": [
+        {
+         "axis": "x",
+         "deg": 90
+        },
+        {
+         "axis": "z",
+         "deg": 30
+        }
+       ],
+       "translate": [
+        14.390381056766579,
+        5.075128869403572,
+        15
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "adv2-sphere-void",
+   "category": "void",
+   "expect": "solid",
+   "deviationMm": 0.01,
+   "fdmRationale": "Block with a fully enclosed spherical cavity (a sphere face with no edges at all, as an inner void shell).",
+   "csg": {
+    "op": "subtract",
+    "children": [
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        -10,
+        -10,
+        -10
+       ],
+       "max": [
+        10,
+        10,
+        10
+       ]
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     },
+     {
+      "prim": "sphere",
+      "params": {
+       "radius": 5
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "adv2-full-sphere-disjoint",
+   "category": "disjoint",
+   "expect": "solid",
+   "deviationMm": 0.01,
+   "fdmRationale": "A whole ball next to a block: an outer shell made of one boundary-less sphere face.",
+   "csg": {
+    "op": "union",
+    "children": [
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        20,
+        -3,
+        -3
+       ],
+       "max": [
+        26,
+        3,
+        3
+       ]
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     },
+     {
+      "prim": "sphere",
+      "params": {
+       "radius": 5
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "adv2-sphere-flat-within-dev",
+   "category": "tolerance-topology",
+   "expect": "solid",
+   "deviationMm": 0.01,
+   "fdmRationale": "Ball with a 0.005 mm deep flat (cap height < deviation): the flat disk is 0.316 mm across.",
+   "csg": {
+    "op": "subtract",
+    "children": [
+     {
+      "prim": "sphere",
+      "params": {
+       "radius": 10
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     },
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        -11,
+        -11,
+        9.995
+       ],
+       "max": [
+        11,
+        11,
+        11
+       ]
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "adv2-sphere-two-flats",
+   "category": "sphere-cap",
+   "expect": "solid",
+   "deviationMm": 0.01,
+   "fdmRationale": "Ball with two perpendicular flats meeting in an edge: the sphere face is one loop of two arcs with two vertices.",
+   "csg": {
+    "op": "intersect",
+    "children": [
+     {
+      "prim": "sphere",
+      "params": {
+       "radius": 10
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     },
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        -11,
+        -11,
+        -11
+       ],
+       "max": [
+        6,
+        6,
+        11
+       ]
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "adv2-sphere-rotated-corner",
+   "category": "rotation",
+   "expect": "solid",
+   "deviationMm": 0.01,
+   "fdmRationale": "Ball intersected with a randomly rotated block whose corner lies inside the ball: three flats meeting in a corner, sphere loop of three oblique arcs.",
+   "csg": {
+    "op": "intersect",
+    "children": [
+     {
+      "prim": "sphere",
+      "params": {
+       "radius": 10
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     },
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        -20,
+        -20,
+        -20
+       ],
+       "max": [
+        4,
+        5,
+        6
+       ]
+      },
+      "transform": {
+       "rotate": [
+        {
+         "axis": "x",
+         "deg": 23.7
+        },
+        {
+         "axis": "y",
+         "deg": 41.3
+        },
+        {
+         "axis": "z",
+         "deg": 11.1
+        }
+       ],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "adv2-sphere-offaxis-hole",
+   "category": "unsupported-curve",
+   "expect": "solid",
+   "deviationMm": 0.01,
+   "fdmRationale": "Ball with an off-centre through hole: sphere/cylinder non-coaxial (space quartic). Correct answer is a named refusal.",
+   "csg": {
+    "op": "subtract",
+    "children": [
+     {
+      "prim": "sphere",
+      "params": {
+       "radius": 10
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     },
+     {
+      "prim": "cylinder",
+      "params": {
+       "radius": 2,
+       "height": 30
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        3,
+        0,
+        -15
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "adv2-sphere-near-coaxial-1e-6",
+   "category": "perturbation",
+   "expect": "solid",
+   "deviationMm": 0.01,
+   "fdmRationale": "Ball with a centred bore whose axis is 1e-6 mm off the centre (above the 1e-7 coaxial tolerance): exact curve is a quartic, not a circle.",
+   "csg": {
+    "op": "subtract",
+    "children": [
+     {
+      "prim": "sphere",
+      "params": {
+       "radius": 10
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     },
+     {
+      "prim": "cylinder",
+      "params": {
+       "radius": 3,
+       "height": 30
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0.000001,
+        0,
+        -15
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "adv2-sphere-near-coaxial-1e-9",
+   "category": "perturbation",
+   "expect": "solid",
+   "deviationMm": 0.01,
+   "fdmRationale": "Same with a 1e-9 mm offset (below the coaxial tolerance).",
+   "csg": {
+    "op": "subtract",
+    "children": [
+     {
+      "prim": "sphere",
+      "params": {
+       "radius": 10
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     },
+     {
+      "prim": "cylinder",
+      "params": {
+       "radius": 3,
+       "height": 30
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        1e-9,
+        0,
+        -15
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "adv2-torus-rotated-half",
+   "category": "rotation",
+   "expect": "solid",
+   "deviationMm": 0.01,
+   "fdmRationale": "Randomly rotated torus cut in half by a plane through its axis: two meridian circles bound the torus face.",
+   "csg": {
+    "op": "subtract",
+    "children": [
+     {
+      "prim": "torus",
+      "params": {
+       "major": 12,
+       "minor": 3
+      },
+      "transform": {
+       "rotate": [
+        {
+         "axis": "x",
+         "deg": 23.7
+        },
+        {
+         "axis": "y",
+         "deg": 41.3
+        },
+        {
+         "axis": "z",
+         "deg": 11.1
+        }
+       ],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     },
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        -20,
+        -20,
+        -20
+       ],
+       "max": [
+        0,
+        20,
+        20
+       ]
+      },
+      "transform": {
+       "rotate": [
+        {
+         "axis": "x",
+         "deg": 23.7
+        },
+        {
+         "axis": "y",
+         "deg": 41.3
+        },
+        {
+         "axis": "z",
+         "deg": 11.1
+        }
+       ],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "adv2-torus-rotated-minus-box",
+   "category": "rotation",
+   "expect": "solid",
+   "deviationMm": 0.01,
+   "fdmRationale": "torus-minus-box with the whole part randomly rotated (latitude circles and meridian seam off the world axes).",
+   "csg": {
+    "op": "subtract",
+    "children": [
+     {
+      "prim": "torus",
+      "params": {
+       "major": 12,
+       "minor": 3
+      },
+      "transform": {
+       "rotate": [
+        {
+         "axis": "x",
+         "deg": 23.7
+        },
+        {
+         "axis": "y",
+         "deg": 41.3
+        },
+        {
+         "axis": "z",
+         "deg": 11.1
+        }
+       ],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     },
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        -16,
+        -16,
+        -4
+       ],
+       "max": [
+        16,
+        16,
+        0
+       ]
+      },
+      "transform": {
+       "rotate": [
+        {
+         "axis": "x",
+         "deg": 23.7
+        },
+        {
+         "axis": "y",
+         "deg": 41.3
+        },
+        {
+         "axis": "z",
+         "deg": 11.1
+        }
+       ],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "adv2-torus-near-tangent-plane",
+   "category": "tolerance-topology",
+   "expect": "solid",
+   "deviationMm": 0.01,
+   "fdmRationale": "Torus with its top shaved 2e-6 mm (plane near-tangent to the top circle): exact result has a 0.007 mm wide planar annulus.",
+   "csg": {
+    "op": "subtract",
+    "children": [
+     {
+      "prim": "torus",
+      "params": {
+       "major": 12,
+       "minor": 3
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     },
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        -16,
+        -16,
+        2.999998
+       ],
+       "max": [
+        16,
+        16,
+        4
+       ]
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "adv2-two-voids",
+   "category": "void",
+   "expect": "solid",
+   "deviationMm": 0.01,
+   "fdmRationale": "Block with two separate sealed cavities: one solid, two void shells.",
+   "csg": {
+    "op": "subtract",
+    "children": [
+     {
+      "op": "subtract",
+      "children": [
+       {
+        "prim": "box",
+        "params": {
+         "min": [
+          0,
+          0,
+          0
+         ],
+         "max": [
+          30,
+          20,
+          20
+         ]
+        },
+        "transform": {
+         "rotate": [],
+         "translate": [
+          0,
+          0,
+          0
+         ]
+        }
+       },
+       {
+        "prim": "box",
+        "params": {
+         "min": [
+          3,
+          3,
+          3
+         ],
+         "max": [
+          12,
+          17,
+          17
+         ]
+        },
+        "transform": {
+         "rotate": [],
+         "translate": [
+          0,
+          0,
+          0
+         ]
+        }
+       }
+      ]
+     },
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        18,
+        3,
+        3
+       ],
+       "max": [
+        27,
+        17,
+        17
+       ]
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "adv2-island-in-void",
+   "category": "void",
+   "expect": "solid",
+   "deviationMm": 0.01,
+   "fdmRationale": "Hollow block with a loose cube floating inside the cavity (captive part): two solids, one with a void that contains the other.",
+   "csg": {
+    "op": "union",
+    "children": [
+     {
+      "op": "subtract",
+      "children": [
+       {
+        "prim": "box",
+        "params": {
+         "min": [
+          0,
+          0,
+          0
+         ],
+         "max": [
+          30,
+          30,
+          30
+         ]
+        },
+        "transform": {
+         "rotate": [],
+         "translate": [
+          0,
+          0,
+          0
+         ]
+        }
+       },
+       {
+        "prim": "box",
+        "params": {
+         "min": [
+          5,
+          5,
+          5
+         ],
+         "max": [
+          25,
+          25,
+          25
+         ]
+        },
+        "transform": {
+         "rotate": [],
+         "translate": [
+          0,
+          0,
+          0
+         ]
+        }
+       }
+      ]
+     },
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        10,
+        10,
+        10
+       ],
+       "max": [
+        20,
+        20,
+        20
+       ]
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "adv2-void-wall-1um",
+   "category": "near-coincident",
+   "expect": "solid",
+   "deviationMm": 0.01,
+   "fdmRationale": "Cavity whose top wall is 1e-6 mm thick (near-coincident planes 1e-6 apart, below the F32 spacing at 20 mm).",
+   "csg": {
+    "op": "subtract",
+    "children": [
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        0,
+        0,
+        0
+       ],
+       "max": [
+        20,
+        20,
+        20
+       ]
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     },
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        5,
+        5,
+        5
+       ],
+       "max": [
+        15,
+        15,
+        19.999999
+       ]
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "adv2-sphere-scale-1e-3",
+   "category": "scale",
+   "expect": "solid",
+   "deviationMm": 0.00001,
+   "fdmRationale": "sphere-minus-box scaled by 1e-3 (10 um ball) with deviation 1e-5 mm.",
+   "csg": {
+    "op": "subtract",
+    "children": [
+     {
+      "prim": "sphere",
+      "params": {
+       "radius": 0.01
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     },
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        -0.011,
+        -0.011,
+        -0.011
+       ],
+       "max": [
+        0.011,
+        0.011,
+        -0.003
+       ]
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "adv2-sphere-scale-1e3",
+   "category": "scale",
+   "expect": "solid",
+   "deviationMm": 1,
+   "fdmRationale": "sphere-minus-box scaled by 1e3 (10 m ball) at deviation 1 mm.",
+   "csg": {
+    "op": "subtract",
+    "children": [
+     {
+      "prim": "sphere",
+      "params": {
+       "radius": 10000
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     },
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        -11000,
+        -11000,
+        -11000
+       ],
+       "max": [
+        11000,
+        11000,
+        -3000
+       ]
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "adv2-iterated-sphere-self",
+   "category": "iterated",
+   "expect": "solid",
+   "deviationMm": 0.01,
+   "fdmRationale": "The same ball unioned three times, then flattened: coincident sphere carriers from three leaves.",
+   "csg": {
+    "op": "subtract",
+    "children": [
+     {
+      "op": "union",
+      "children": [
+       {
+        "op": "union",
+        "children": [
+         {
+          "prim": "sphere",
+          "params": {
+           "radius": 10
+          },
+          "transform": {
+           "rotate": [],
+           "translate": [
+            0,
+            0,
+            0
+           ]
+          }
+         },
+         {
+          "prim": "sphere",
+          "params": {
+           "radius": 10
+          },
+          "transform": {
+           "rotate": [],
+           "translate": [
+            0,
+            0,
+            0
+           ]
+          }
+         }
+        ]
+       },
+       {
+        "prim": "sphere",
+        "params": {
+         "radius": 10
+        },
+        "transform": {
+         "rotate": [],
+         "translate": [
+          0,
+          0,
+          0
+         ]
+        }
+       }
+      ]
+     },
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        -11,
+        -11,
+        -11
+       ],
+       "max": [
+        11,
+        11,
+        -3
+       ]
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "adv2-dome-on-box",
+   "category": "sphere-cap",
+   "expect": "solid",
+   "deviationMm": 0.01,
+   "fdmRationale": "Dome on a plate: the sphere centre lies exactly on the top face (great-circle rim) and the ball pokes out below the plate (two sphere faces on one carrier).",
+   "csg": {
+    "op": "union",
+    "children": [
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        -10,
+        -10,
+        -5
+       ],
+       "max": [
+        10,
+        10,
+        0
+       ]
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     },
+     {
+      "prim": "sphere",
+      "params": {
+       "radius": 8
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "adv2-two-spheres-tangent",
+   "category": "tangent",
+   "expect": "non-manifold-contact",
+   "deviationMm": 0.01,
+   "fdmRationale": "Two balls touching at one point (the poles coincide): the exact union is non-manifold; expected answer is a refusal.",
+   "csg": {
+    "op": "union",
+    "children": [
+     {
+      "prim": "sphere",
+      "params": {
+       "radius": 5
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     },
+     {
+      "prim": "sphere",
+      "params": {
+       "radius": 5
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        10
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "adv2-cone-sphere-rotated",
+   "category": "rotation",
+   "expect": "solid",
+   "deviationMm": 0.01,
+   "fdmRationale": "Ice-cream cone (cone + ball on its axis), randomly rotated: the coaxial carriers meet in two candidate circles (z 3.2 r 3.6, the real edge, and the equator z 8 r 6, where the cone rim lies on the sphere), off the world axes.",
+   "csg": {
+    "op": "union",
+    "children": [
+     {
+      "prim": "cone",
+      "params": {
+       "r1": 2,
+       "r2": 6,
+       "height": 8
+      },
+      "transform": {
+       "rotate": [
+        {
+         "axis": "x",
+         "deg": 23.7
+        },
+        {
+         "axis": "y",
+         "deg": 41.3
+        },
+        {
+         "axis": "z",
+         "deg": 11.1
+        }
+       ],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     },
+     {
+      "prim": "sphere",
+      "params": {
+       "radius": 6
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        5.363336364594806,
+        -2.2246392226297425,
+        5.503235718134587
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "adv3-cyl-plane-shave-tilt-1e-5rad",
+   "category": "tolerance-topology",
+   "expect": "solid",
+   "deviationMm": 0.01,
+   "fdmRationale": "Cylinder minus a box whose face is 1e-5 rad off parallel to the axis and shaves 0.005 mm off the side (< deviation). tangent.bend only checks plane/cylinder when |n.a| < 1e-12, so the tiny tilt skips the near-tangency test; the inscribed facet (sagitta 0.009) is never reached.",
+   "csg": {
+    "op": "subtract",
+    "children": [
+     {
+      "prim": "cylinder",
+      "params": {
+       "radius": 5,
+       "height": 20,
+       "phaseDeg": 3.4615384615384617
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     },
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        4.995,
+        -20,
+        -5
+       ],
+       "max": [
+        30,
+        20,
+        30
+       ]
+      },
+      "transform": {
+       "rotate": [
+        {
+         "axis": "y",
+         "deg": 0.0005729577951308233
+        }
+       ],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "adv3-cyl-plane-shave-control",
+   "category": "tolerance-topology",
+   "expect": "solid",
+   "deviationMm": 0.01,
+   "fdmRationale": "Control for the tilt bypass: the same 0.005 mm shave with the face exactly parallel to the axis; the near-tangency pre-check must refuse it.",
+   "csg": {
+    "op": "subtract",
+    "children": [
+     {
+      "prim": "cylinder",
+      "params": {
+       "radius": 5,
+       "height": 20,
+       "phaseDeg": 3.4615384615384617
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     },
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        4.995,
+        -20,
+        -5
+       ],
+       "max": [
+        30,
+        20,
+        30
+       ]
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "adv3-cyl-plane-shave-tilt-intersect",
+   "category": "tolerance-topology",
+   "expect": "solid",
+   "deviationMm": 0.01,
+   "fdmRationale": "Intersect variant of the tilt bypass: the exact result is the thin 0.005 mm shaving (a real solid); the mesh intersection is empty.",
+   "csg": {
+    "op": "intersect",
+    "children": [
+     {
+      "prim": "cylinder",
+      "params": {
+       "radius": 5,
+       "height": 20,
+       "phaseDeg": 3.4615384615384617
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     },
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        4.995,
+        -20,
+        -5
+       ],
+       "max": [
+        30,
+        20,
+        30
+       ]
+      },
+      "transform": {
+       "rotate": [
+        {
+         "axis": "y",
+         "deg": 0.0005729577951308233
+        }
+       ],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "adv3-cyl-cyl-graze-tilt-1e-5rad",
+   "category": "tolerance-topology",
+   "expect": "solid",
+   "deviationMm": 0.01,
+   "fdmRationale": "Rod minus a parallel rod (1e-5 rad off parallel) that grazes it by 0.005 mm: cylinder/cylinder is only checked for |1-cos| < 1e-12.",
+   "csg": {
+    "op": "subtract",
+    "children": [
+     {
+      "prim": "cylinder",
+      "params": {
+       "radius": 5,
+       "height": 20,
+       "phaseDeg": 3.4615384615384617
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     },
+     {
+      "prim": "cylinder",
+      "params": {
+       "radius": 5,
+       "height": 40
+      },
+      "transform": {
+       "rotate": [
+        {
+         "axis": "y",
+         "deg": 0.0005729577951308233
+        }
+       ],
+       "translate": [
+        9.995,
+        0,
+        -10
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "adv3-crossed-cyl-graze",
+   "category": "tolerance-topology",
+   "expect": "solid",
+   "deviationMm": 0.01,
+   "fdmRationale": "Rod minus a perpendicular rod that grazes it 0.006 mm deep (< the 0.0096 mm sagitta): crossed cylinders are never near-tangency candidates; the exact result has a small quartic dent.",
+   "csg": {
+    "op": "subtract",
+    "children": [
+     {
+      "prim": "cylinder",
+      "params": {
+       "radius": 2,
+       "height": 4,
+       "phaseDeg": 5.625
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        3
+       ]
+      }
+     },
+     {
+      "prim": "cylinder",
+      "params": {
+       "radius": 2,
+       "height": 20
+      },
+      "transform": {
+       "rotate": [
+        {
+         "axis": "x",
+         "deg": 90
+        }
+       ],
+       "translate": [
+        3.994,
+        10,
+        5
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "adv3-torus-top-shave",
+   "category": "tolerance-topology",
+   "expect": "solid",
+   "deviationMm": 0.01,
+   "fdmRationale": "Torus (R10 r2, 50 minor segments so no vertex ring on top) minus a box shaving 0.003 mm off the top: torus/plane is not checked; the exact result has a flat annulus 0.22 mm wide.",
+   "csg": {
+    "op": "subtract",
+    "children": [
+     {
+      "prim": "torus",
+      "params": {
+       "major": 10,
+       "minor": 2,
+       "minorSegments": 50
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     },
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        -20,
+        -20,
+        1.997
+       ],
+       "max": [
+        20,
+        20,
+        10
+       ]
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "adv3-torus-top-cap-intersect",
+   "category": "tolerance-topology",
+   "expect": "solid",
+   "deviationMm": 0.01,
+   "fdmRationale": "Torus intersect the same box: the exact result is a thin annular cap (non-empty solid); the mesh intersection is empty.",
+   "csg": {
+    "op": "intersect",
+    "children": [
+     {
+      "prim": "torus",
+      "params": {
+       "major": 10,
+       "minor": 2,
+       "minorSegments": 50
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     },
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        -20,
+        -20,
+        1.997
+       ],
+       "max": [
+        20,
+        20,
+        10
+       ]
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "adv3-cone-side-shave",
+   "category": "tolerance-topology",
+   "expect": "solid",
+   "deviationMm": 0.01,
+   "fdmRationale": "Frustum (r 5 -> 2 over 20) minus a box whose face is parallel to a generator and shaves 0.003 mm (plane/cone parabola region): cones are not near-tangency checked.",
+   "csg": {
+    "op": "subtract",
+    "children": [
+     {
+      "prim": "cone",
+      "params": {
+       "r1": 5,
+       "r2": 2,
+       "height": 20,
+       "phaseDeg": 3.4615384615384617
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     },
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        -40,
+        -40,
+        0
+       ],
+       "max": [
+        40,
+        40,
+        40
+       ]
+      },
+      "transform": {
+       "rotate": [
+        {
+         "axis": "y",
+         "deg": 81.46923439005188
+        }
+       ],
+       "translate": [
+        4.997033190941395,
+        0,
+        -0.00044502135879073387
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "adv3-cone-side-shave-rotated",
+   "category": "rotation",
+   "expect": "solid",
+   "deviationMm": 0.01,
+   "fdmRationale": "The cone shave under a random rotation (37.3 deg about (0.3,-0.7,0.64), then 11.9 deg about z).",
+   "csg": {
+    "op": "subtract",
+    "children": [
+     {
+      "prim": "cone",
+      "params": {
+       "r1": 5,
+       "r2": 2,
+       "height": 20,
+       "phaseDeg": 3.4615384615384617
+      },
+      "transform": {
+       "rotate": [
+        {
+         "axis": [
+          0.3,
+          -0.7,
+          0.64
+         ],
+         "deg": 37.3
+        },
+        {
+         "axis": "z",
+         "deg": 11.9
+        }
+       ],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     },
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        -40,
+        -40,
+        0
+       ],
+       "max": [
+        40,
+        40,
+        40
+       ]
+      },
+      "transform": {
+       "rotate": [
+        {
+         "axis": "y",
+         "deg": 81.46923439005188
+        },
+        {
+         "axis": [
+          0.3,
+          -0.7,
+          0.64
+         ],
+         "deg": 37.3
+        },
+        {
+         "axis": "z",
+         "deg": 11.9
+        }
+       ],
+       "translate": [
+        3.6236761268776028,
+        2.5330661091049484,
+        2.3287095833991844
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "adv3-micro-pin-5um",
+   "category": "sliver",
+   "expect": "solid",
+   "deviationMm": 0.01,
+   "fdmRationale": "Plate 2x2x1 with a pin of diameter 0.2 mm standing 0.005 mm proud (8-segment band of 16 triangles).",
+   "csg": {
+    "op": "union",
+    "children": [
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        0,
+        0,
+        0
+       ],
+       "max": [
+        2,
+        2,
+        1
+       ]
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     },
+     {
+      "prim": "cylinder",
+      "params": {
+       "radius": 0.1,
+       "height": 0.505
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        1,
+        1,
+        0.5
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "adv3-micro-pocket-5um",
+   "category": "sliver",
+   "expect": "solid",
+   "deviationMm": 0.01,
+   "fdmRationale": "Plate 2x2x1 with a 0.2 mm diameter pocket 0.005 mm deep.",
+   "csg": {
+    "op": "subtract",
+    "children": [
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        0,
+        0,
+        0
+       ],
+       "max": [
+        2,
+        2,
+        1
+       ]
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     },
+     {
+      "prim": "cylinder",
+      "params": {
+       "radius": 0.1,
+       "height": 1
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        1,
+        1,
+        0.995
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "adv3-micro-pin-5um-rotated",
+   "category": "rotation",
+   "expect": "solid",
+   "deviationMm": 0.01,
+   "fdmRationale": "The micro pin under the random rotation.",
+   "csg": {
+    "op": "union",
+    "children": [
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        0,
+        0,
+        0
+       ],
+       "max": [
+        2,
+        2,
+        1
+       ]
+      },
+      "transform": {
+       "rotate": [
+        {
+         "axis": [
+          0.3,
+          -0.7,
+          0.64
+         ],
+         "deg": 37.3
+        },
+        {
+         "axis": "z",
+         "deg": 11.9
+        }
+       ],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     },
+     {
+      "prim": "cylinder",
+      "params": {
+       "radius": 0.1,
+       "height": 0.505
+      },
+      "transform": {
+       "rotate": [
+        {
+         "axis": [
+          0.3,
+          -0.7,
+          0.64
+         ],
+         "deg": 37.3
+        },
+        {
+         "axis": "z",
+         "deg": 11.9
+        }
+       ],
+       "translate": [
+        -0.044554253769441,
+        1.1204297565528414,
+        0.9963192656483106
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "adv3-micro-disc-disjoint",
+   "category": "disjoint",
+   "expect": "solid",
+   "deviationMm": 0.01,
+   "fdmRationale": "Box plus a separate disc 0.2 mm in diameter and 0.005 mm thick (two bodies).",
+   "csg": {
+    "op": "union",
+    "children": [
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        0,
+        0,
+        0
+       ],
+       "max": [
+        2,
+        2,
+        1
+       ]
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     },
+     {
+      "prim": "cylinder",
+      "params": {
+       "radius": 0.1,
+       "height": 0.005
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        5,
+        1,
+        0
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "adv3-micro-bridge",
+   "category": "sliver",
+   "expect": "solid",
+   "deviationMm": 0.01,
+   "fdmRationale": "Two blocks 0.005 mm apart joined by a 0.005 mm cube bridge at a corner: one body, genus 0.",
+   "csg": {
+    "op": "union",
+    "children": [
+     {
+      "op": "union",
+      "children": [
+       {
+        "prim": "box",
+        "params": {
+         "min": [
+          0,
+          0,
+          0
+         ],
+         "max": [
+          1,
+          1,
+          1
+         ]
+        },
+        "transform": {
+         "rotate": [],
+         "translate": [
+          0,
+          0,
+          0
+         ]
+        }
+       },
+       {
+        "prim": "box",
+        "params": {
+         "min": [
+          1.005,
+          0,
+          0
+         ],
+         "max": [
+          2.005,
+          1,
+          1
+         ]
+        },
+        "transform": {
+         "rotate": [],
+         "translate": [
+          0,
+          0,
+          0
+         ]
+        }
+       }
+      ]
+     },
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        0.5,
+        0,
+        0
+       ],
+       "max": [
+        1.5,
+        0.005,
+        0.005
+       ]
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "adv3-coplanar-step-3e-6",
+   "category": "perturbation",
+   "expect": "solid",
+   "deviationMm": 0.01,
+   "fdmRationale": "Two overlapping boxes whose tops differ by 3e-6 mm (just above the 1e-6 plane window): a 3 um step face made of needle triangles.",
+   "csg": {
+    "op": "union",
+    "children": [
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        0,
+        0,
+        0
+       ],
+       "max": [
+        10,
+        10,
+        10
+       ]
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     },
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        5,
+        0,
+        0
+       ],
+       "max": [
+        15,
+        10,
+        10.000003
+       ]
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "adv3-void-wall-3e-6",
+   "category": "near-coincident",
+   "expect": "solid",
+   "deviationMm": 0.01,
+   "fdmRationale": "Box with an internal box void whose top wall is 3e-6 mm thick (planar; valid thin wall).",
+   "csg": {
+    "op": "subtract",
+    "children": [
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        0,
+        0,
+        0
+       ],
+       "max": [
+        10,
+        10,
+        10
+       ]
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     },
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        2,
+        2,
+        2
+       ],
+       "max": [
+        8,
+        8,
+        9.999997
+       ]
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "adv3-plate-tilted-hole-random-rot",
+   "category": "rotation",
+   "expect": "solid",
+   "deviationMm": 0.01,
+   "fdmRationale": "Plate minus a hole tilted 23 deg, all under the random rotation (general-position ellipses).",
+   "csg": {
+    "op": "subtract",
+    "children": [
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        0,
+        0,
+        0
+       ],
+       "max": [
+        20,
+        20,
+        4
+       ]
+      },
+      "transform": {
+       "rotate": [
+        {
+         "axis": [
+          0.3,
+          -0.7,
+          0.64
+         ],
+         "deg": 37.3
+        },
+        {
+         "axis": "z",
+         "deg": 11.9
+        }
+       ],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     },
+     {
+      "prim": "cylinder",
+      "params": {
+       "radius": 3,
+       "height": 20
+      },
+      "transform": {
+       "rotate": [
+        {
+         "axis": "x",
+         "deg": 23
+        },
+        {
+         "axis": [
+          0.3,
+          -0.7,
+          0.64
+         ],
+         "deg": 37.3
+        },
+        {
+         "axis": "z",
+         "deg": 11.9
+        }
+       ],
+       "translate": [
+        0.3010180166716767,
+        16.362041723052084,
+        3.192644484865463
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "adv3-scale-1e3-hole",
+   "category": "scale",
+   "expect": "solid",
+   "deviationMm": 1,
+   "fdmRationale": "Plate 20 m x 20 m x 4 m minus a 3 m hole (deviation 1 mm).",
+   "csg": {
+    "op": "subtract",
+    "children": [
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        0,
+        0,
+        0
+       ],
+       "max": [
+        20000,
+        20000,
+        4000
+       ]
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     },
+     {
+      "prim": "cylinder",
+      "params": {
+       "radius": 3000,
+       "height": 10000
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        10000,
+        10000,
+        -3000
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "adv3-empty-face-contact-intersect",
+   "category": "empty",
+   "expect": "empty",
+   "deviationMm": 0.01,
+   "fdmRationale": "Two boxes sharing only a face, intersected: the regularized result is empty.",
+   "csg": {
+    "op": "intersect",
+    "children": [
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        0,
+        0,
+        0
+       ],
+       "max": [
+        10,
+        10,
+        10
+       ]
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     },
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        10,
+        0,
+        0
+       ],
+       "max": [
+        20,
+        10,
+        10
+       ]
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "adv3-iterated-hole-rotated-3x",
+   "category": "iterated",
+   "expect": "solid",
+   "deviationMm": 0.01,
+   "fdmRationale": "Plate minus the same rotated hole three times ((P - H) - H) - H, all under the random rotation.",
+   "csg": {
+    "op": "subtract",
+    "children": [
+     {
+      "op": "subtract",
+      "children": [
+       {
+        "op": "subtract",
+        "children": [
+         {
+          "prim": "box",
+          "params": {
+           "min": [
+            0,
+            0,
+            0
+           ],
+           "max": [
+            20,
+            20,
+            4
+           ]
+          },
+          "transform": {
+           "rotate": [
+            {
+             "axis": [
+              0.3,
+              -0.7,
+              0.64
+             ],
+             "deg": 37.3
+            },
+            {
+             "axis": "z",
+             "deg": 11.9
+            }
+           ],
+           "translate": [
+            0,
+            0,
+            0
+           ]
+          }
+         },
+         {
+          "prim": "cylinder",
+          "params": {
+           "radius": 3,
+           "height": 10
+          },
+          "transform": {
+           "rotate": [
+            {
+             "axis": [
+              0.3,
+              -0.7,
+              0.64
+             ],
+             "deg": 37.3
+            },
+            {
+             "axis": "z",
+             "deg": 11.9
+            }
+           ],
+           "translate": [
+            2.127622863448752,
+            13.9976479787221,
+            2.9221690599120516
+           ]
+          }
+         }
+        ]
+       },
+       {
+        "prim": "cylinder",
+        "params": {
+         "radius": 3,
+         "height": 10
+        },
+        "transform": {
+         "rotate": [
+          {
+           "axis": [
+            0.3,
+            -0.7,
+            0.64
+           ],
+           "deg": 37.3
+          },
+          {
+           "axis": "z",
+           "deg": 11.9
+          }
+         ],
+         "translate": [
+          2.127622863448752,
+          13.9976479787221,
+          2.9221690599120516
+         ]
+        }
+       }
+      ]
+     },
+     {
+      "prim": "cylinder",
+      "params": {
+       "radius": 3,
+       "height": 10
+      },
+      "transform": {
+       "rotate": [
+        {
+         "axis": [
+          0.3,
+          -0.7,
+          0.64
+         ],
+         "deg": 37.3
+        },
+        {
+         "axis": "z",
+         "deg": 11.9
+        }
+       ],
+       "translate": [
+        2.127622863448752,
+        13.9976479787221,
+        2.9221690599120516
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "adv3-cyl-plane-shave-control-rotated",
+   "category": "rotation",
+   "expect": "solid",
+   "deviationMm": 0.01,
+   "fdmRationale": "The exactly parallel control under the random rotation: the pre-check must still see the pair as parallel (F32x2 rotated normals) and refuse.",
+   "csg": {
+    "op": "subtract",
+    "children": [
+     {
+      "prim": "cylinder",
+      "params": {
+       "radius": 5,
+       "height": 20,
+       "phaseDeg": 3.4615384615384617
+      },
+      "transform": {
+       "rotate": [
+        {
+         "axis": [
+          0.3,
+          -0.7,
+          0.64
+         ],
+         "deg": 37.3
+        },
+        {
+         "axis": "z",
+         "deg": 11.9
+        }
+       ],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     },
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        4.995,
+        -20,
+        -5
+       ],
+       "max": [
+        30,
+        20,
+        30
+       ]
+      },
+      "transform": {
+       "rotate": [
+        {
+         "axis": [
+          0.3,
+          -0.7,
+          0.64
+         ],
+         "deg": 37.3
+        },
+        {
+         "axis": "z",
+         "deg": 11.9
+        }
+       ],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "adv3-cyl-plane-shave-tilt-union",
+   "category": "tolerance-topology",
+   "expect": "solid",
+   "deviationMm": 0.01,
+   "fdmRationale": "Union variant of the tilt bypass: the mesh has two bodies 0.004 mm apart; the clearance certificate should refuse.",
+   "csg": {
+    "op": "union",
+    "children": [
+     {
+      "prim": "cylinder",
+      "params": {
+       "radius": 5,
+       "height": 20,
+       "phaseDeg": 3.4615384615384617
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     },
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        4.995,
+        -20,
+        -5
+       ],
+       "max": [
+        30,
+        20,
+        30
+       ]
+      },
+      "transform": {
+       "rotate": [
+        {
+         "axis": "y",
+         "deg": 0.0005729577951308233
+        }
+       ],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "adv3-torus-top-shave-m48",
+   "category": "tolerance-topology",
+   "expect": "solid",
+   "deviationMm": 0.01,
+   "fdmRationale": "Control: the torus shave with the default 48 minor segments (a vertex ring on top), so the mesh does cut the annulus.",
+   "csg": {
+    "op": "subtract",
+    "children": [
+     {
+      "prim": "torus",
+      "params": {
+       "major": 10,
+       "minor": 2
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     },
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        -20,
+        -20,
+        1.997
+       ],
+       "max": [
+        20,
+        20,
+        10
+       ]
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "adv3-cone-side-shave-phase0",
+   "category": "tolerance-topology",
+   "expect": "solid",
+   "deviationMm": 0.01,
+   "fdmRationale": "Control: the cone shave with a vertex line on the shaved generator, so the mesh cuts a sliver (plane/cone parabola region).",
+   "csg": {
+    "op": "subtract",
+    "children": [
+     {
+      "prim": "cone",
+      "params": {
+       "r1": 5,
+       "r2": 2,
+       "height": 20
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     },
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        -40,
+        -40,
+        0
+       ],
+       "max": [
+        40,
+        40,
+        40
+       ]
+      },
+      "transform": {
+       "rotate": [
+        {
+         "axis": "y",
+         "deg": 81.46923439005188
+        }
+       ],
+       "translate": [
+        4.997033190941395,
+        0,
+        -0.00044502135879073387
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "adv4-planar-chip-dev0.1",
+   "category": "sliver",
+   "expect": "solid",
+   "deviationMm": 0.1,
+   "fdmRationale": "2 mm cube with a 0.09 mm corner chip (one triangular face, all points within 0.09 of its 3 neighbour planes). FDM-typical deviation 0.1. The mesh is exact (planes only), so dropping the chip is a recovery error, not a mesh error.",
+   "csg": {
+    "op": "subtract",
+    "children": [
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        0,
+        0,
+        0
+       ],
+       "max": [
+        2,
+        2,
+        2
+       ]
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     },
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        -50,
+        -50,
+        0
+       ],
+       "max": [
+        50,
+        50,
+        100
+       ]
+      },
+      "transform": {
+       "rotate": [
+        {
+         "axis": "y",
+         "deg": 54.735610317245346
+        },
+        {
+         "axis": "z",
+         "deg": 45
+        }
+       ],
+       "translate": [
+        1.97,
+        1.97,
+        1.97
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "adv4-planar-chip-dev0.01-1mm",
+   "category": "sliver",
+   "expect": "solid",
+   "deviationMm": 0.01,
+   "fdmRationale": "1 mm cube (small pin head) with a 0.0095 mm corner chip at the corpus deviation 0.01.",
+   "csg": {
+    "op": "subtract",
+    "children": [
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        0,
+        0,
+        0
+       ],
+       "max": [
+        1,
+        1,
+        1
+       ]
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     },
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        -50,
+        -50,
+        0
+       ],
+       "max": [
+        50,
+        50,
+        100
+       ]
+      },
+      "transform": {
+       "rotate": [
+        {
+         "axis": "y",
+         "deg": 54.735610317245346
+        },
+        {
+         "axis": "z",
+         "deg": 45
+        }
+       ],
+       "translate": [
+        0.9968333333333333,
+        0.9968333333333333,
+        0.9968333333333333
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "adv4-planar-corner-bump",
+   "category": "sliver",
+   "expect": "solid",
+   "deviationMm": 0.1,
+   "fdmRationale": "Union of a 2 mm cube and a 0.5 mm cube turned corner-up whose apex pokes 0.05 mm through the top: a 3-faced planar tip (edges 0.087 mm) that the exact mesh has; deviation 0.1.",
+   "csg": {
+    "op": "union",
+    "children": [
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        0,
+        0,
+        0
+       ],
+       "max": [
+        2,
+        2,
+        2
+       ]
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     },
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        0,
+        0,
+        0
+       ],
+       "max": [
+        0.5,
+        0.5,
+        0.5
+       ]
+      },
+      "transform": {
+       "rotate": [
+        {
+         "axis": "z",
+         "deg": -45
+        },
+        {
+         "axis": "y",
+         "deg": -54.735610317245346
+        }
+       ],
+       "translate": [
+        1,
+        1,
+        1.1839745962155612
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "adv4-planar-corner-bump-rotated",
+   "category": "rotation",
+   "expect": "solid",
+   "deviationMm": 0.1,
+   "fdmRationale": "The planar corner bump under a random rotation.",
+   "csg": {
+    "op": "union",
+    "children": [
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        0,
+        0,
+        0
+       ],
+       "max": [
+        2,
+        2,
+        2
+       ]
+      },
+      "transform": {
+       "rotate": [
+        {
+         "axis": [
+          0.41,
+          0.23,
+          -0.88
+         ],
+         "deg": 23.7
+        },
+        {
+         "axis": "x",
+         "deg": -61.3
+        }
+       ],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     },
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        0,
+        0,
+        0
+       ],
+       "max": [
+        0.5,
+        0.5,
+        0.5
+       ]
+      },
+      "transform": {
+       "rotate": [
+        {
+         "axis": "z",
+         "deg": -45
+        },
+        {
+         "axis": "y",
+         "deg": -54.735610317245346
+        },
+        {
+         "axis": [
+          0.41,
+          0.23,
+          -0.88
+         ],
+         "deg": 23.7
+        },
+        {
+         "axis": "x",
+         "deg": -61.3
+        }
+       ],
+       "translate": [
+        1.3659405139814915,
+        1.2126170120084079,
+        0.2560514380658343
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "adv4-cone-tip-dimple",
+   "category": "sliver",
+   "expect": "solid",
+   "deviationMm": 0.05,
+   "fdmRationale": "Plate 6x6x1 minus a flat cone (r 2.5, h 0.25, 16 segments at deviation 0.05) whose apex enters the bottom 0.045 mm: a conical dimple of radius 0.45 mm, exactly meshed (16 fan triangles, apex exact).",
+   "csg": {
+    "op": "subtract",
+    "children": [
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        0,
+        0,
+        0
+       ],
+       "max": [
+        6,
+        6,
+        1
+       ]
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     },
+     {
+      "prim": "cone",
+      "params": {
+       "r1": 2.5,
+       "r2": 0,
+       "height": 0.25
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        3,
+        3,
+        -0.20500000000000002
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "adv4-cone-tip-bump-rotated",
+   "category": "sliver",
+   "expect": "solid",
+   "deviationMm": 0.05,
+   "fdmRationale": "Plate 6x6x1 union the same flat cone whose apex pokes 0.045 mm above the top, under a random rotation.",
+   "csg": {
+    "op": "union",
+    "children": [
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        0,
+        0,
+        0
+       ],
+       "max": [
+        6,
+        6,
+        1
+       ]
+      },
+      "transform": {
+       "rotate": [
+        {
+         "axis": [
+          0.41,
+          0.23,
+          -0.88
+         ],
+         "deg": 23.7
+        },
+        {
+         "axis": "x",
+         "deg": -61.3
+        }
+       ],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     },
+     {
+      "prim": "cone",
+      "params": {
+       "r1": 2.5,
+       "r2": 0,
+       "height": 0.25
+      },
+      "transform": {
+       "rotate": [
+        {
+         "axis": [
+          0.41,
+          0.23,
+          -0.88
+         ],
+         "deg": 23.7
+        },
+        {
+         "axis": "x",
+         "deg": -61.3
+        }
+       ],
+       "translate": [
+        3.92663918386811,
+        1.50629732935689,
+        -0.9719043550081901
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "adv4-cone-apex-point-contact",
+   "category": "tangent",
+   "expect": "non-manifold-contact",
+   "deviationMm": 0.01,
+   "fdmRationale": "Cone standing on its apex exactly on the plate top: the exact union touches in one point (non-manifold); the answer must be a refusal.",
+   "csg": {
+    "op": "union",
+    "children": [
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        0,
+        0,
+        0
+       ],
+       "max": [
+        6,
+        6,
+        1
+       ]
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     },
+     {
+      "prim": "cone",
+      "params": {
+       "r1": 0,
+       "r2": 2,
+       "height": 2
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        3,
+        3,
+        1
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "adv4-cyl-shave-tilt-1e-8rad",
+   "category": "tolerance-topology",
+   "expect": "solid",
+   "deviationMm": 0.01,
+   "fdmRationale": "Cylinder r5 minus a box face shaving 0.005 mm off its side, tilted 1e-8 rad (the face moves < 2e-7 mm over the 20 mm rod). tangent.bend requires |n.a| < 1e-12, so this is not a candidate while the parallel control is.",
+   "csg": {
+    "op": "subtract",
+    "children": [
+     {
+      "prim": "cylinder",
+      "params": {
+       "radius": 5,
+       "height": 20,
+       "phaseDeg": 3.4615384615384617
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     },
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        4.995,
+        -20,
+        -5
+       ],
+       "max": [
+        30,
+        20,
+        30
+       ]
+      },
+      "transform": {
+       "rotate": [
+        {
+         "axis": "y",
+         "deg": 5.729577951308232e-7
+        }
+       ],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "adv4-far-plate-hole",
+   "category": "scale",
+   "expect": "solid",
+   "deviationMm": 0.01,
+   "fdmRationale": "plate-through-hole translated by (1e5, -1e5, 5e4) mm (a part placed far from the origin).",
+   "csg": {
+    "op": "subtract",
+    "children": [
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        0,
+        0,
+        0
+       ],
+       "max": [
+        40,
+        30,
+        5
+       ]
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        100000,
+        -100000,
+        50000
+       ]
+      }
+     },
+     {
+      "prim": "cylinder",
+      "params": {
+       "radius": 3.2,
+       "height": 7
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        100020,
+        -99985,
+        49999
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "adv4-far-cylinder-tangent-box",
+   "category": "tangent",
+   "expect": "non-manifold-contact",
+   "deviationMm": 0.01,
+   "fdmRationale": "cylinder-tangent-box-face translated by (1e5, -1e5, 5e4): the clearance certificate must still refuse the line contact.",
+   "csg": {
+    "op": "union",
+    "children": [
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        0,
+        0,
+        0
+       ],
+       "max": [
+        20,
+        20,
+        20
+       ]
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        100000,
+        -100000,
+        50000
+       ]
+      }
+     },
+     {
+      "prim": "cylinder",
+      "params": {
+       "radius": 5,
+       "height": 30
+      },
+      "transform": {
+       "rotate": [
+        {
+         "axis": "x",
+         "deg": -90
+        }
+       ],
+       "translate": [
+        100010,
+        -100005,
+        50025
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "adv4-ball-in-spherical-void",
+   "category": "void",
+   "expect": "solid",
+   "deviationMm": 0.01,
+   "fdmRationale": "Box 10^3 minus a sphere r3 (void) union a ball r2.9 (island) concentric: three shells, two solids, gap 0.1 mm.",
+   "csg": {
+    "op": "union",
+    "children": [
+     {
+      "op": "subtract",
+      "children": [
+       {
+        "prim": "box",
+        "params": {
+         "min": [
+          -5,
+          -5,
+          -5
+         ],
+         "max": [
+          5,
+          5,
+          5
+         ]
+        },
+        "transform": {
+         "rotate": [],
+         "translate": [
+          0,
+          0,
+          0
+         ]
+        }
+       },
+       {
+        "prim": "sphere",
+        "params": {
+         "radius": 3
+        },
+        "transform": {
+         "rotate": [],
+         "translate": [
+          0,
+          0,
+          0
+         ]
+        }
+       }
+      ]
+     },
+     {
+      "prim": "sphere",
+      "params": {
+       "radius": 2.9
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "adv4-ball-in-cone-seat-gap",
+   "category": "tolerance-topology",
+   "expect": "solid",
+   "deviationMm": 0.01,
+   "fdmRationale": "Funnel (45 deg cone cut from a box) with a ball r2 sitting 0.004 mm clear of the cone: two bodies. Sphere/cone pairs are not near-tangency checked.",
+   "csg": {
+    "op": "union",
+    "children": [
+     {
+      "op": "subtract",
+      "children": [
+       {
+        "prim": "box",
+        "params": {
+         "min": [
+          -8,
+          -8,
+          0
+         ],
+         "max": [
+          8,
+          8,
+          5
+         ]
+        },
+        "transform": {
+         "rotate": [],
+         "translate": [
+          0,
+          0,
+          0
+         ]
+        }
+       },
+       {
+        "prim": "cone",
+        "params": {
+         "r1": 0,
+         "r2": 7,
+         "height": 7
+        },
+        "transform": {
+         "rotate": [],
+         "translate": [
+          0,
+          0,
+          -1
+         ]
+        }
+       }
+      ]
+     },
+     {
+      "prim": "sphere",
+      "params": {
+       "radius": 2
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        1.8340839789956824
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "adv4-self-subtract-rot360",
+   "category": "identity",
+   "expect": "empty",
+   "deviationMm": 0.01,
+   "fdmRationale": "Cylinder minus itself turned by 360 deg about a tilted axis (1e-16-level perturbation): exact result is empty.",
+   "csg": {
+    "op": "subtract",
+    "children": [
+     {
+      "prim": "cylinder",
+      "params": {
+       "radius": 3,
+       "height": 5
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     },
+     {
+      "prim": "cylinder",
+      "params": {
+       "radius": 3,
+       "height": 5
+      },
+      "transform": {
+       "rotate": [
+        {
+         "axis": [
+          0.3,
+          0.5,
+          0.81
+         ],
+         "deg": 360
+        }
+       ],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "adv4-iterated-hole-shift-1e-12",
+   "category": "identity",
+   "expect": "solid",
+   "deviationMm": 0.01,
+   "fdmRationale": "Plate minus a hole minus the same hole shifted 1e-12 mm (below the coincidence epsilon).",
+   "csg": {
+    "op": "subtract",
+    "children": [
+     {
+      "op": "subtract",
+      "children": [
+       {
+        "prim": "box",
+        "params": {
+         "min": [
+          0,
+          0,
+          0
+         ],
+         "max": [
+          40,
+          30,
+          5
+         ]
+        },
+        "transform": {
+         "rotate": [],
+         "translate": [
+          0,
+          0,
+          0
+         ]
+        }
+       },
+       {
+        "prim": "cylinder",
+        "params": {
+         "radius": 3.2,
+         "height": 7
+        },
+        "transform": {
+         "rotate": [],
+         "translate": [
+          20,
+          15,
+          -1
+         ]
+        }
+       }
+      ]
+     },
+     {
+      "prim": "cylinder",
+      "params": {
+       "radius": 3.2,
+       "height": 7
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        20.000000000001,
+        15,
+        -1
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "adv4-empty-cone-sphere-rotated",
+   "category": "empty",
+   "expect": "empty",
+   "deviationMm": 0.01,
+   "fdmRationale": "Intersection of a disjoint cone and sphere under a random rotation: empty.",
+   "csg": {
+    "op": "intersect",
+    "children": [
+     {
+      "prim": "cone",
+      "params": {
+       "r1": 2,
+       "r2": 1,
+       "height": 3
+      },
+      "transform": {
+       "rotate": [
+        {
+         "axis": [
+          0.41,
+          0.23,
+          -0.88
+         ],
+         "deg": 23.7
+        },
+        {
+         "axis": "x",
+         "deg": -61.3
+        }
+       ],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     },
+     {
+      "prim": "sphere",
+      "params": {
+       "radius": 1.5
+      },
+      "transform": {
+       "rotate": [
+        {
+         "axis": [
+          0.41,
+          0.23,
+          -0.88
+         ],
+         "deg": 23.7
+        },
+        {
+         "axis": "x",
+         "deg": -61.3
+        }
+       ],
+       "translate": [
+        5.641523164219296,
+        -0.8738870446919828,
+        2.099889954425377
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "adv4-countersink-scale-1e-3",
+   "category": "scale",
+   "expect": "solid",
+   "deviationMm": 0.00001,
+   "fdmRationale": "plate-countersink scaled by 1e-3 (30 um plate) at deviation 1e-5: absolute 1e-6/1e-7/1e-9 tolerances meet micro scale.",
+   "csg": {
+    "op": "subtract",
+    "children": [
+     {
+      "op": "subtract",
+      "children": [
+       {
+        "prim": "box",
+        "params": {
+         "min": [
+          0,
+          0,
+          0
+         ],
+         "max": [
+          0.03,
+          0.03,
+          0.006
+         ]
+        },
+        "transform": {
+         "rotate": [],
+         "translate": [
+          0,
+          0,
+          0
+         ]
+        }
+       },
+       {
+        "prim": "cylinder",
+        "params": {
+         "radius": 0.0022,
+         "height": 0.008
+        },
+        "transform": {
+         "rotate": [],
+         "translate": [
+          0.015,
+          0.015,
+          -0.001
+         ]
+        }
+       }
+      ]
+     },
+     {
+      "prim": "cone",
+      "params": {
+       "r1": 0.0022,
+       "r2": 0.006200000000000001,
+       "height": 0.004
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0.015,
+        0.015,
+        0.0028
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "adv-graze-crossing-removed",
+   "category": "tolerance-topology",
+   "expect": "solid",
+   "deviationMm": 0.01,
+   "fdmRationale": "Regression (fix#2 of the hybrid gate): rod minus a plane tilted 5e-4 along the axis (0.015 mm deep at z=0, crossing the facets; 0.005 mm at z=20, inside the facets), then minus the half z<12 that holds every crossing. The exact result keeps a 0.45-0.6 mm flat strip on z in [12,20]; the meshes have none, and the leaf tessellations of the (plane, cylinder) pair still cross in the removed half. recover must refuse, not write a plain cylinder segment (volume 628.3185 against the exact 628.2986).",
+   "csg": {
+    "op": "subtract",
+    "children": [
+     {
+      "op": "subtract",
+      "children": [
+       {
+        "prim": "cylinder",
+        "params": {
+         "radius": 5,
+         "height": 20,
+         "phaseDeg": 3.4615384615384617
+        },
+        "transform": {
+         "rotate": [],
+         "translate": [
+          0,
+          0,
+          0
+         ]
+        }
+       },
+       {
+        "prim": "box",
+        "params": {
+         "min": [
+          4.985,
+          -20,
+          -5
+         ],
+         "max": [
+          30,
+          20,
+          30
+         ]
+        },
+        "transform": {
+         "rotate": [
+          {
+           "axis": "y",
+           "deg": 0.028647887369217372
+          }
+         ],
+         "translate": [
+          0,
+          0,
+          0
+         ]
+        }
+       }
+      ]
+     },
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        -10,
+        -10,
+        -5
+       ],
+       "max": [
+        10,
+        10,
+        12
+       ]
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "adv-transversal-crossing-removed",
+   "category": "tolerance-topology",
+   "expect": "solid",
+   "deviationMm": 0.01,
+   "fdmRationale": "Control for adv-graze-crossing-removed: rod minus a 30 deg tilted cut crossing z in [2,8], then minus z<12. Every crossing is removed and the remaining rod is far from the cut plane: exact (a plain cylinder segment), no refusal.",
+   "csg": {
+    "op": "subtract",
+    "children": [
+     {
+      "op": "subtract",
+      "children": [
+       {
+        "prim": "cylinder",
+        "params": {
+         "radius": 5,
+         "height": 20,
+         "phaseDeg": 3.4615384615384617
+        },
+        "transform": {
+         "rotate": [],
+         "translate": [
+          0,
+          0,
+          0
+         ]
+        }
+       },
+       {
+        "prim": "box",
+        "params": {
+         "min": [
+          -20,
+          -20,
+          -20
+         ],
+         "max": [
+          20,
+          20,
+          0
+         ]
+        },
+        "transform": {
+         "rotate": [
+          {
+           "axis": "y",
+           "deg": 30
+          }
+         ],
+         "translate": [
+          0,
+          0,
+          5
+         ]
+        }
+       }
+      ]
+     },
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        -10,
+        -10,
+        -5
+       ],
+       "max": [
+        10,
+        10,
+        12
+       ]
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     }
+    ]
+   }
+  }
+ ],
+ "generatorRound2": "out/bakeoff/adversarial-recover/make-cases-r2.mjs (second independent verification round: sphere/torus/void features)",
+ "generatorRound3": "out/bakeoff/adversarial-recover/r3/make-cases-r3.mjs (independent verifier, round 3: near-tangency bypasses for tilted/crossed/cone/torus carriers, sliver absorption of real features, tolerance windows, rotation, scale, empty)",
+ "generatorRound4": "out/bakeoff/adversarial-recover/r4/make-cases-r4.mjs (independent verifier, round 4: sliver absorption of exactly meshed planar/cone faces, near-tangency threshold, far-from-origin, nested full spheres, cone/sphere near contact, iterated/empty)"
+}

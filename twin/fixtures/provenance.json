@@ -1,0 +1,19 @@
+{
+  "sources": [
+    {
+      "file": "r20-motion.json",
+      "source": "~/Workspace/cad/cad-project-041/single-step-r20/build/studios/r20-motion.json",
+      "sha256": "c3677a544f3e927989d6bd3b12bac28760a2825fa514bd82459ca640209ea047"
+    },
+    {
+      "file": "r20.json",
+      "source": "~/Workspace/cad/cad-project-041/single-step-r20/params/r20.json",
+      "sha256": "dd606d1107e3daae086c12c0b8c5c6c3aded0eb5982068b3b7f3f3d629605349"
+    }
+  ],
+  "firmware": {
+    "source": "<repo>/tmp/twin-sorter/65472c9d/software/firmware/sorter_interface_firmware",
+    "revision": "65472c9d",
+    "license": "MIT; firmware-license.txt"
+  }
+}

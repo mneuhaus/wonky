@@ -1,0 +1,298 @@
+/* Tool rail, markup tools and annotation cards. */
+
+.tool-rail {
+  position: absolute;
+  left: 20px;
+  top: 50%;
+  transform: translateY(-48%);
+  background: color-mix(in srgb, var(--surface) 95%, transparent);
+  box-shadow: var(--shadow);
+  padding: 5px;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  border-radius: 12px;
+}
+
+.tool {
+  display: flex;
+  width: 35px;
+  height: 35px;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  border-radius: 7px;
+  background: transparent;
+  color: var(--muted);
+}
+
+.tool svg {
+  width: 17px;
+  height: 17px;
+}
+
+.tool:hover:not(:disabled) {
+  background: var(--canvas);
+  color: var(--green);
+}
+
+.tool.active {
+  color: var(--green);
+  background: var(--green-soft);
+}
+
+.rail-divider {
+  height: 1px;
+  margin: 3px 6px;
+  background: var(--line);
+}
+
+.hidden-annotations {
+  position: absolute;
+  left: 50%;
+  bottom: calc(var(--hud-bottom) + 60px);
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  max-width: 65%;
+  background: color-mix(in srgb, var(--surface) 95%, transparent);
+  padding: 6px 11px;
+  border-radius: 6px;
+  box-shadow: var(--shadow);
+  color: var(--copper);
+}
+
+.hidden-annotations svg {
+  width: 14px;
+  height: 14px;
+}
+
+.hidden-annotations button {
+  border: 0;
+  background: transparent;
+  font-size: var(--text-xs);
+  padding: 3px;
+  color: inherit;
+}
+
+.annotation-heading {
+  padding: 0 18px 11px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.annotation-heading h2 {
+  font-size: 11px;
+  font-weight: 550;
+}
+
+.annotation-heading h2 span {
+  color: var(--muted);
+  font-size: var(--text-xs);
+  margin-left: 4px;
+}
+
+.annotation-heading .icon-button {
+  width: 30px;
+  height: 30px;
+}
+
+.annotation-list {
+  padding: 0 14px 20px;
+}
+
+.annotation-empty {
+  font-size: 11px;
+  color: var(--muted);
+  padding: 10px 7px;
+}
+
+.annotation-card {
+  margin-bottom: 9px;
+  border-radius: 7px;
+  background: var(--surface);
+  box-shadow: 0 0 0 1px #e9ece2;
+  padding: 10px;
+}
+
+.annotation-card.active {
+  background: var(--surface);
+  box-shadow: 0 0 0 1px #d8bda6;
+}
+
+.annotation-card-head {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.annotation-jump {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  flex: 1;
+  min-width: 0;
+  background: transparent;
+  padding: 0;
+  border: 0;
+  text-align: left;
+  min-height: 30px;
+}
+
+.annotation-number {
+  display: grid;
+  place-items: center;
+  width: 21px;
+  height: 21px;
+  border-radius: 50%;
+  background: var(--copper-soft);
+  color: var(--copper);
+  font-size: var(--text-xs);
+  font-weight: 650;
+  flex-shrink: 0;
+}
+
+.annotation-title {
+  font-size: var(--text-xs);
+  font-weight: 550;
+}
+
+.annotation-card-head .icon-button {
+  width: 28px;
+  height: 30px;
+}
+
+.annotation-card-head svg {
+  width: 13px;
+  height: 13px;
+}
+
+.annotation-card textarea {
+  font-size: 11px;
+  margin-top: 7px;
+  background: var(--surface);
+  min-height: 75px;
+}
+
+.annotation-preview {
+  font-size: 11px;
+  line-height: 1.6;
+  padding: 6px 2px 2px;
+  color: var(--muted);
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.annotation-target {
+  display: block;
+  font-size: var(--text-xs);
+  color: var(--copper);
+  padding: 7px 2px 0;
+  overflow-wrap: anywhere;
+}
+
+@media (min-width: 1600px) {
+  .tool-rail {
+    left: 27px;
+  }
+}
+
+@media (max-width: 1150px) {
+  .tool-rail {
+    left: 13px;
+  }
+}
+
+@media (max-width: 900px) {
+  #interaction-hint {
+    font-size: var(--text-xs);
+  }
+  .hidden-annotations {
+    bottom: auto;
+    top: 82px;
+    left: 50%;
+    max-width: 60%;
+  }
+  .tool-rail {
+    top: 45%;
+  }
+}
+
+@media (max-width: 650px) {
+  .tool-rail {
+    left: 12px;
+    top: 51%;
+    gap: 1px;
+    padding: 4px;
+    border-radius: 10px;
+  }
+  .tool {
+    width: 30px;
+    height: 30px;
+  }
+  .tool svg {
+    width: 15px;
+    height: 15px;
+  }
+  .rail-divider {
+    margin: 2px 6px;
+  }
+  .annotation-list {
+    display: flex;
+    gap: 10px;
+    overflow: auto;
+    padding: 0 17px 17px;
+  }
+  .annotation-card {
+    min-width: 240px;
+    margin: 0;
+    flex: 1;
+  }
+  .annotation-empty {
+    padding: 0;
+  }
+  .hidden-annotations {
+    top: auto;
+    bottom: calc(var(--hud-bottom) + 49px);
+    max-width: 70%;
+    font-size: var(--text-xs);
+  }
+  .hidden-annotations button {
+    font-size: var(--text-xs);
+  }
+}
+
+.stage[data-layout=side-by-side] .tool-rail {
+  top: auto;
+  bottom: calc(var(--hud-bottom) + 14px);
+  left: 50%;
+  transform: translateX(-50%);
+  flex-direction: row;
+}
+
+.stage[data-layout=side-by-side] .rail-divider {
+  width: 1px;
+  height: 20px;
+  margin: 6px 3px;
+}
+
+@media (max-width: 650px) {
+  .stage[data-layout=side-by-side] .tool-rail {
+    bottom: calc(var(--hud-bottom) + 6px);
+  }
+}
+
+/* A locked markup tool (double-click or second activation; Esc releases). */
+.tool.locked {
+  color: var(--on-green);
+  background: var(--green-strong);
+  box-shadow: inset 0 0 0 2px var(--green-soft);
+}
+
+/* Side by side: above the horizontal tool rail. */
+.stage[data-layout=side-by-side] .hidden-annotations {
+  top: auto;
+  bottom: calc(var(--hud-bottom) + 68px);
+}

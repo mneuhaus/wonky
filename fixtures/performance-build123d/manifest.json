@@ -1,0 +1,393 @@
+{
+  "schema": "wonky-build123d-performance-fixtures/1",
+  "origin": "Original local diagnostic workloads, not upstream build123d tests or a CADBench score.",
+  "sameCodeContract": "Each engine reads the same UTF-8 file, verifies the same SHA-256, and executes it unchanged; no injected shape parameters or rewrites.",
+  "scope": "Small primitive cases and modest planar/coaxial Boolean cases. No fillet, general curved CSG, rotation, or large sequential-union performance claim.",
+  "tolerances": {
+    "volumeAbsoluteMm3": 0.00001,
+    "volumeRelative": 0.00002,
+    "boundsAbsoluteMm": 0.00001,
+    "pointMm": 1e-7
+  },
+  "files": [
+    {
+      "path": "reference.in",
+      "sha256": "c3ae5e8419f19c88a6308cc18da8b742d60e2608984daeda6a1b9001ef661882"
+    },
+    {
+      "path": "reference.lock",
+      "sha256": "ca58c0b7026b9fa5994157585728af7038f2294dc08eb2e64806df5600ef0fac"
+    }
+  ],
+  "cases": [
+    {
+      "id": "box",
+      "size": "small",
+      "eligibility": "candidate",
+      "source": "cases/box.py",
+      "parameters": "All parameters are literal constants in the identical source file.",
+      "complexity": {
+        "primitives": 1,
+        "booleans": 0
+      },
+      "expected": {
+        "solids": 1,
+        "volumeMm3": 12000,
+        "boundsMm": {
+          "min": [
+            0,
+            0,
+            0
+          ],
+          "max": [
+            40,
+            30,
+            10
+          ]
+        },
+        "probes": [
+          {
+            "id": "box-inside",
+            "pointMm": [
+              20,
+              15,
+              5
+            ],
+            "classification": "Inside"
+          },
+          {
+            "id": "box-outside",
+            "pointMm": [
+              45,
+              15,
+              5
+            ],
+            "classification": "Outside"
+          }
+        ]
+      },
+      "sourceSha256": "c1bfa2994459f5c193b9feba1908176b2fb7c2db83a602f0e52bdc5680d16ed8"
+    },
+    {
+      "id": "translated-cylinder",
+      "size": "small",
+      "eligibility": "candidate",
+      "source": "cases/translated-cylinder.py",
+      "parameters": "All parameters are literal constants in the identical source file.",
+      "complexity": {
+        "primitives": 1,
+        "booleans": 0
+      },
+      "expected": {
+        "solids": 1,
+        "volumeMm3": 4021.238596594935,
+        "boundsMm": {
+          "min": [
+            -5,
+            -12,
+            0
+          ],
+          "max": [
+            11,
+            4,
+            20
+          ]
+        },
+        "probes": [
+          {
+            "id": "translated-cylinder-axis",
+            "pointMm": [
+              3,
+              -4,
+              10
+            ],
+            "classification": "Inside"
+          },
+          {
+            "id": "translated-cylinder-outside",
+            "pointMm": [
+              12,
+              -4,
+              10
+            ],
+            "classification": "Outside"
+          }
+        ]
+      },
+      "sourceSha256": "3d8b2ac587707129e2ddc44bca0586adf0829314537c1330291d86fe71a476c2"
+    },
+    {
+      "id": "coaxial-bore",
+      "size": "small",
+      "eligibility": "candidate",
+      "source": "cases/coaxial-bore.py",
+      "parameters": "All parameters are literal constants in the identical source file.",
+      "complexity": {
+        "primitives": 2,
+        "booleans": 1
+      },
+      "expected": {
+        "solids": 1,
+        "volumeMm3": 7476.990515543707,
+        "boundsMm": {
+          "min": [
+            -12,
+            -12,
+            -10
+          ],
+          "max": [
+            12,
+            12,
+            10
+          ]
+        },
+        "probes": [
+          {
+            "id": "coaxial-bore-wall",
+            "pointMm": [
+              8,
+              0,
+              0
+            ],
+            "classification": "Inside"
+          },
+          {
+            "id": "coaxial-bore-bore",
+            "pointMm": [
+              0,
+              0,
+              0
+            ],
+            "classification": "Outside"
+          },
+          {
+            "id": "coaxial-bore-outside",
+            "pointMm": [
+              13,
+              0,
+              0
+            ],
+            "classification": "Outside"
+          }
+        ]
+      },
+      "sourceSha256": "e83e1a25b3b49db8038ba49e4f956cb1822f3ce03954438c6946a4e99cd900ce"
+    },
+    {
+      "id": "planar-union",
+      "size": "medium",
+      "eligibility": "candidate",
+      "source": "cases/planar-union.py",
+      "parameters": "All parameters are literal constants in the identical source file.",
+      "complexity": {
+        "primitives": 2,
+        "booleans": 1
+      },
+      "expected": {
+        "solids": 1,
+        "volumeMm3": 15500,
+        "boundsMm": {
+          "min": [
+            0,
+            0,
+            0
+          ],
+          "max": [
+            50,
+            35,
+            10
+          ]
+        },
+        "probes": [
+          {
+            "id": "planar-union-first",
+            "pointMm": [
+              5,
+              5,
+              5
+            ],
+            "classification": "Inside"
+          },
+          {
+            "id": "planar-union-overlap",
+            "pointMm": [
+              30,
+              20,
+              5
+            ],
+            "classification": "Inside"
+          },
+          {
+            "id": "planar-union-second",
+            "pointMm": [
+              45,
+              32,
+              5
+            ],
+            "classification": "Inside"
+          },
+          {
+            "id": "planar-union-gap",
+            "pointMm": [
+              10,
+              32,
+              5
+            ],
+            "classification": "Outside"
+          }
+        ]
+      },
+      "sourceSha256": "44dca3fe64c29b98ffb6fa108748b9a6cc9a3a6cf6c6ca6a7cb706caa19b6d20"
+    },
+    {
+      "id": "planar-pocket",
+      "size": "medium",
+      "eligibility": "candidate",
+      "source": "cases/planar-pocket.py",
+      "parameters": "All parameters are literal constants in the identical source file.",
+      "complexity": {
+        "primitives": 2,
+        "booleans": 1
+      },
+      "expected": {
+        "solids": 1,
+        "volumeMm3": 18240,
+        "boundsMm": {
+          "min": [
+            0,
+            0,
+            0
+          ],
+          "max": [
+            50,
+            40,
+            12
+          ]
+        },
+        "probes": [
+          {
+            "id": "planar-pocket-floor",
+            "pointMm": [
+              20,
+              20,
+              2
+            ],
+            "classification": "Inside"
+          },
+          {
+            "id": "planar-pocket-pocket",
+            "pointMm": [
+              20,
+              20,
+              8
+            ],
+            "classification": "Outside"
+          },
+          {
+            "id": "planar-pocket-wall",
+            "pointMm": [
+              3,
+              20,
+              8
+            ],
+            "classification": "Inside"
+          },
+          {
+            "id": "planar-pocket-outside",
+            "pointMm": [
+              55,
+              20,
+              8
+            ],
+            "classification": "Outside"
+          }
+        ]
+      },
+      "sourceSha256": "bc54c7583eb1034bc17111d0d72317cf02fdd079590b8359465a98f1fda78171"
+    },
+    {
+      "id": "frame-with-tab",
+      "size": "medium",
+      "eligibility": "candidate",
+      "source": "cases/frame-with-tab.py",
+      "parameters": "All parameters are literal constants in the identical source file.",
+      "complexity": {
+        "primitives": 3,
+        "booleans": 2
+      },
+      "expected": {
+        "solids": 1,
+        "volumeMm3": 13840,
+        "boundsMm": {
+          "min": [
+            0,
+            0,
+            0
+          ],
+          "max": [
+            60,
+            40,
+            10
+          ]
+        },
+        "probes": [
+          {
+            "id": "frame-with-tab-rim",
+            "pointMm": [
+              4,
+              20,
+              5
+            ],
+            "classification": "Inside"
+          },
+          {
+            "id": "frame-with-tab-opening",
+            "pointMm": [
+              20,
+              20,
+              5
+            ],
+            "classification": "Outside"
+          },
+          {
+            "id": "frame-with-tab-tab",
+            "pointMm": [
+              55,
+              20,
+              5
+            ],
+            "classification": "Inside"
+          },
+          {
+            "id": "frame-with-tab-notch",
+            "pointMm": [
+              55,
+              5,
+              5
+            ],
+            "classification": "Outside"
+          }
+        ]
+      },
+      "sourceSha256": "3c9e72765f2389b51bfc18548961f37154c66ae9e16d7ab4c4f68388c98e4137"
+    },
+    {
+      "id": "unsupported-fillet",
+      "size": "small",
+      "eligibility": "capability-probe",
+      "source": "cases/unsupported-fillet.py",
+      "reason": "Shape.edges and fillet are outside the Python frontend subset.",
+      "parameters": "Literal constants in identical source file.",
+      "sourceSha256": "e2f60bd608e813af7ed7f17e1e423a0c9a9345f23040785cfd35d73f8f7c3c67"
+    },
+    {
+      "id": "unsupported-box-bore",
+      "size": "small",
+      "eligibility": "capability-probe",
+      "source": "cases/unsupported-box-bore.py",
+      "reason": "Box/cylinder subtraction is outside the supported Boolean family.",
+      "parameters": "Literal constants in identical source file.",
+      "sourceSha256": "82e55f80199d14b8c63acf5c18e73f9a1acda23d59801e5bb9a926b8ac052a4c"
+    }
+  ]
+}

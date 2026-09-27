@@ -1,0 +1,9 @@
+{
+  "btType": "BTFeatureSpecsResponse-664",
+  "rejectMicroversionSkew": false,
+  "microversionSkew": false,
+  "featureSpecs": [],
+  "libraryVersion": 0,
+  "sourceMicroversion": "d99c2e30380abcaccf650c90",
+  "serializationVersion": "1.2.21"
+}

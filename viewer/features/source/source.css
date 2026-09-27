@@ -1,0 +1,303 @@
+/* Source section (inspector) and frozen source drawer: excerpts, editor
+   links, call chain, source-to-geometry line marks. Text is at least 11 px
+   and at least 4.5:1 against its background. */
+
+.source-excerpt {
+  font: 11px/1.7 ui-monospace,SFMono-Regular,monospace;
+  margin: 9px 0 0;
+  background: var(--paper);
+  border-radius: 5px;
+  padding: 8px 0;
+  overflow: auto;
+  max-height: 180px;
+  color: var(--ink-soft);
+  tab-size: 2;
+}
+
+.source-code-line {
+  display: block;
+  padding: 0 9px;
+  min-width: max-content;
+  border-left: 3px solid transparent;
+}
+
+.source-line-number {
+  display: inline-block;
+  width: 38px;
+  padding-right: 9px;
+  color: var(--muted);
+  user-select: none;
+  text-align: right;
+}
+
+.source-current {
+  background: var(--chip);
+  border-left-color: var(--green);
+  color: var(--green);
+}
+
+.source-current .source-line-number {
+  color: var(--green);
+  font-weight: 650;
+}
+
+.source-context-line {
+  background: var(--copper-soft);
+  border-left-color: var(--copper);
+  color: var(--copper);
+}
+
+.source-headline {
+  margin: 4px 0 6px;
+  font-size: 12px;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+
+.source-link {
+  color: var(--green);
+  font-weight: 550;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 2px;
+  white-space: nowrap;
+}
+
+.source-link:hover {
+  color: var(--green);
+}
+
+.source-link-plain {
+  color: var(--ink);
+  text-decoration: none;
+  font-weight: 450;
+}
+
+.source-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+a.source-editor {
+  color: var(--ink);
+  text-decoration: none;
+}
+
+.source-no-path {
+  align-self: center;
+}
+
+.source-context {
+  margin-top: 12px;
+  padding: 8px 10px;
+  border-left: 3px solid var(--copper);
+  background: var(--amber-soft);
+  border-radius: 0 5px 5px 0;
+}
+
+.source-context-label {
+  display: block;
+  font-size: 11px;
+  font-weight: 650;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: var(--copper);
+}
+
+.source-context .source-frame {
+  border-bottom: 0;
+  padding: 4px 0 2px;
+}
+
+.source-context p {
+  margin: 0;
+}
+
+.source-history {
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px solid var(--line);
+}
+
+.source-history summary,
+.source-parameters summary {
+  font-size: 11px;
+  color: var(--green);
+  cursor: pointer;
+  line-height: 1.7;
+}
+
+.source-frame {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+  font-size: 11px;
+  padding: 7px 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.source-frame span,
+.source-frame strong {
+  overflow-wrap: anywhere;
+}
+
+.source-frame small {
+  color: var(--muted);
+  white-space: nowrap;
+  font-size: 11px;
+}
+
+.source-history>.source-path {
+  margin-top: 8px;
+}
+
+.source-parameters {
+  margin-top: 10px;
+}
+
+.source-excerpt.parameters {
+  padding: 9px;
+  white-space: pre;
+  max-height: 250px;
+}
+
+/* Former inline styles of the source buttons. */
+.source-button {
+  font-size: 11px;
+  min-height: 32px;
+}
+.source-copy {
+  margin-top: 10px;
+}
+
+/* Drawer: frozen source with source-to-geometry. A compact bottom sheet, so
+   the geometry a clicked line selects stays visible above it; only the code
+   scrolls. */
+.report-drawer:has(.source-view) {
+  max-height: 46%;
+}
+
+.report-drawer:has(.source-view) .report-heading {
+  padding: 12px 22px 10px;
+}
+
+#report-content:has(.source-view) {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  padding-top: 10px;
+  padding-bottom: 14px;
+}
+
+.source-view {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  min-height: 0;
+}
+
+.source-drawer-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.source-drawer-bar p {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+.source-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 10px;
+}
+
+.source-legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 28px;
+  padding: 0 10px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: var(--surface);
+  color: var(--ink);
+  font-size: 11px;
+}
+
+.source-mark {
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+  background: var(--green);
+}
+
+.source-legend-context .source-mark {
+  background: var(--copper);
+}
+
+.source-line-status {
+  margin: 10px 0 0;
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--ink);
+}
+
+.source-excerpt.source-full {
+  flex: 1 1 auto;
+  min-height: 72px;
+  max-height: none;
+  cursor: default;
+}
+
+.source-full .source-code-line {
+  cursor: pointer;
+}
+
+.source-full .source-code-line:hover {
+  background: var(--canvas);
+}
+
+.source-full .source-current:hover {
+  background: var(--chip);
+}
+
+.source-linked .source-line-number {
+  color: var(--green);
+  font-weight: 650;
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 2px;
+}
+
+.source-full .source-code-line:focus-visible {
+  outline: 2px solid var(--green);
+  outline-offset: -2px;
+}
+
+.source-picked {
+  box-shadow: inset 0 0 0 2px var(--green);
+}
+
+.source-drawer-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.source-collapsed .source-legend,
+.source-collapsed .source-full {
+  display: none;
+}
+
+@media (max-width: 650px) {
+  .report-drawer:has(.source-view) {
+    max-height: 60%;
+  }
+}

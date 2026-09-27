@@ -1,0 +1,53 @@
+{
+ "schema": "wonky-bakeoff-fixture/1",
+ "case": "disjoint-union",
+ "category": "topology",
+ "deviationMm": 0.01,
+ "location": "fixtures/bakeoff/jobs",
+ "job": "fixtures/bakeoff/jobs/disjoint-union.job",
+ "csgJob": "fixtures/bakeoff/jobs/disjoint-union.csg.job",
+ "jobBytes": 8296,
+ "jobSha256": "31d25db7f510c8326556fa49f5ad93d71f20955ea7a113dd98df1b3238bbf3d4",
+ "csgJobSha256": "d91c868890f01f401bbc0fef6e7ab84100cd3cfe3f950fcd2183a082fd0012b4",
+ "leaves": 2,
+ "faces": 9,
+ "vertices": 106,
+ "triangles": 204,
+ "deviationMeasuredMaxMm": 0.008564307045596742,
+ "leafInfo": [
+  {
+   "leaf": 0,
+   "prim": "box",
+   "vertices": 8,
+   "triangles": 12,
+   "tags": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5
+   ],
+   "deviationMeasuredMm": 0,
+   "deviationMethod": "exact-planar",
+   "vertexOnSurfaceMaxMm": 0,
+   "analyticVolume": 1000
+  },
+  {
+   "leaf": 1,
+   "prim": "cylinder",
+   "vertices": 98,
+   "triangles": 192,
+   "tags": [
+    6,
+    7,
+    8
+   ],
+   "segments": 48,
+   "deviationMeasuredMm": 0.008564307045596742,
+   "deviationMethod": "barycentric-grid-8 (max lies on sampled chord midlines)",
+   "vertexOnSurfaceMaxMm": 1.7763568394002505e-14,
+   "analyticVolume": 502.6548245743669
+  }
+ ]
+}

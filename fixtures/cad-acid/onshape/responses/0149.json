@@ -1,0 +1,19 @@
+{
+  "requestState": "DONE",
+  "requestElementId": "a7defcc970d7537f4a25e6b3",
+  "resultExternalDataIds": [
+    "6ab7d40fc6b7b193eb883f07"
+  ],
+  "exportRuleFileName": null,
+  "versionId": null,
+  "workspaceId": "54fca98f51ace9d818f8417e",
+  "documentId": "a4463fc362ce4f30055696a6",
+  "resultElementIds": null,
+  "resultDocumentId": "a4463fc362ce4f30055696a6",
+  "failureReason": null,
+  "correlationId": null,
+  "resultWorkspaceId": "54fca98f51ace9d818f8417e",
+  "name": "acid-V2",
+  "id": "6ab7d408ded9b4a629fdea09",
+  "href": "https://cad.onshape.com/api/v1/translations/6ab7d408ded9b4a629fdea09"
+}

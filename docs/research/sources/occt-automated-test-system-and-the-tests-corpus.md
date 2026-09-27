@@ -1,0 +1,72 @@
+# OCCT automated test system and the tests/ corpus
+
+- Kind: test-system documentation, Tcl test harness and regression corpus, C++ geometry library. [Official manual](https://occt3d.com/dev/doc/overview/html/occt_contribution__tests.html), [repository](https://github.com/Open-Cascade-SAS/OCCT), [pinned tests tree](https://github.com/Open-Cascade-SAS/OCCT/tree/3d097a0328e71b826377d4814ab05ec3c3d23871/tests).
+- Organization/year: Open Cascade SAS and contributors; decades of accumulated cases, ongoing. Read revision 3d097a0328e71b826377d4814ab05ec3c3d23871.
+- License: [LGPL-2.1](https://github.com/Open-Cascade-SAS/OCCT/blob/master/LICENSE_LGPL_21.txt) plus [OCCT exception](https://github.com/Open-Cascade-SAS/OCCT/blob/master/OCCT_LGPL_EXCEPTION.txt). The exception concerns object code incorporating library headers, **not** general permission to copy source/test scripts into a permissively licensed project. Study patterns and independently author equivalent scenarios. Copying scripts or fixtures requires provenance/license review; private use does not settle future redistribution.
+- **DOCUMENTED metadata, queried 2026-09-24:** C++; GitHub repository size 217,226 KiB (repository-size field, not source LOC), 2,910 stars, 684 forks, 219 contributor entries including anonymous contributors (contributors API pagination), latest default-branch commit 2026-08-24, repository pushed_at 2026-09-05. Latest listed release V8.0.1, 2026-07-30. [Repo API](https://api.github.com/repos/Open-Cascade-SAS/OCCT), [commits](https://api.github.com/repos/Open-Cascade-SAS/OCCT/commits?per_page=1), [contributors](https://api.github.com/repos/Open-Cascade-SAS/OCCT/contributors?per_page=1&anon=true), [releases](https://github.com/Open-Cascade-SAS/OCCT/releases).
+
+## What it is
+
+**DOCUMENTED:** an executable geometry-regression specification, organized as group/grid/case, with shared begin/end scripts, data lookup, log parsing, image/property checks, and performance comparison. A case can be synthetic or restore a saved model. A considerable portion of the data is confidential and unavailable outside Open Cascade; a public checkout cannot reproduce full vendor certification. [Manual](https://occt3d.com/dev/doc/overview/html/occt_contribution__tests.html), [manual source](https://github.com/Open-Cascade-SAS/OCCT/blob/3d097a0328e71b826377d4814ab05ec3c3d23871/dox/contribution/tests/tests.md).
+
+**DOCUMENTED by static inventory, not test execution:** the often-quoted 17,945 count is reproducible as recursively tracked files under tests, excluding begin/end/grids.list/parse.rules; it includes 66 cases.list manifests and some data files, and is **not exactly 17,945 runnable case scripts**. Excluding cases.list leaves 17,879 files, still including data. Some grids share scripts through cases.list, so runnable test instances and unique scripts differ. Large group inventories agree with the supplied lead: bugs 4,063, boolean 4,055, offset 2,006, heal 1,235, de 1,084, sewing 700, xcaf 521, blend 475. Heal includes scripts under data/advanced etc. [Pinned tree](https://github.com/Open-Cascade-SAS/OCCT/tree/3d097a0328e71b826377d4814ab05ec3c3d23871/tests). Do not claim a measured pass rate from these counts.
+
+## How it works
+
+**DOCUMENTED parser architecture:** group/grid parse.rules override global rules. Logs declare platform-qualified TODO and REQUIRED patterns. A normal completion marker is mandatory. The parser checks required patterns, masks matching known-error messages, diagnoses undeclared failures, then detects missing expected failures. [TestCommands.tcl, _check_log](https://github.com/Open-Cascade-SAS/OCCT/blob/3d097a0328e71b826377d4814ab05ec3c3d23871/resources/DrawResources/TestCommands.tcl#L1434).
+
+| Result | Meaning |
+|---|---|
+| OK | Completed without detected errors or unmet requirements. |
+| FAILED | Unexpected error, missing completion, missing REQUIRED message, or parser exception. |
+| BAD | An explicitly expected problem occurred; not equivalent to valid output. |
+| IMPROVEMENT | A stable TODO's expected problem did not occur; investigate before removing the expectation. |
+| SKIPPED | Cannot run, commonly a missing fixture; not a pass. |
+
+TODOs can be platform-specific. A question mark marks an unstable expected problem and suppresses IMPROVEMENT if it disappears. The documentation calls for specific error patterns, not blanket masking. **Static caution:** the parser matches one TODO pattern repeatedly; its implementation is not a robust typed assertion/cardinality engine despite the manual recommending one TODO per error line. Reimplement with typed assertion IDs rather than copy the regex machinery. [Parser](https://github.com/Open-Cascade-SAS/OCCT/blob/3d097a0328e71b826377d4814ab05ec3c3d23871/resources/DrawResources/TestCommands.tcl#L1468), [global rules](https://github.com/Open-Cascade-SAS/OCCT/blob/3d097a0328e71b826377d4814ab05ec3c3d23871/tests/parse.rules).
+
+**DOCUMENTED oracle details from actual code, important corrections to the overview:**
+
+- checkshape checks structural/geometric validity through OCCT's checker. The boolean shared end script invokes it when result exists, then emits TEST COMPLETED. A failed-to-create result must also be diagnosed by the case's own operation/property assertions. [boolean/end](https://github.com/Open-Cascade-SAS/OCCT/blob/3d097a0328e71b826377d4814ab05ec3c3d23871/tests/boolean/end).
+- checkprops computes length/area/volume via lprops/sprops/vprops with default integration relative precision eps=1e−4. Its **comparison** default is separately deps=1e−2 (1%); numeric references fail when |expected−measured|/|expected| exceeds deps. Zero numeric values have special failure handling; use the explicit empty sentinel for empty output. The -equal/-notequal branches directly compare parsed numerical values, not a geometric equivalence proof. [CheckCommands.tcl, checkprops](https://github.com/Open-Cascade-SAS/OCCT/blob/3d097a0328e71b826377d4814ab05ec3c3d23871/resources/DrawResources/CheckCommands.tcl#L514).
+- checknbshapes checks exact selected topology counts and can count differently located instances separately using -t. Counts are kernel-representation-specific, not an invariant of the occupied set. [checknbshapes](https://github.com/Open-Cascade-SAS/OCCT/blob/3d097a0328e71b826377d4814ab05ec3c3d23871/resources/DrawResources/CheckCommands.tcl#L216).
+- checkmaxtol supports a reference or a source-derived budget; -ref uses checkreal with absolute tolerance 1e−4 plus relative 1%. **Static implementation caveat:** the -multi_tol branch uses the last _src_max_tol rather than the accumulated maximum/minimum threshold; with no source it may be undefined. Do not copy this Tcl implementation as the normative budget formula. No runtime test was run. [checkmaxtol](https://github.com/Open-Cascade-SAS/OCCT/blob/3d097a0328e71b826377d4814ab05ec3c3d23871/resources/DrawResources/CheckCommands.tcl#L393).
+- checkfreebounds computes free boundaries then compares edge counts in the chosen closed/opened wire collection. It is not a complete manifoldness proof. [checkfreebounds](https://github.com/Open-Cascade-SAS/OCCT/blob/3d097a0328e71b826377d4814ab05ec3c3d23871/resources/DrawResources/CheckCommands.tcl#L330).
+
+**Concrete readable scenarios:** three tori of major/minor radii 100/20, with two rotated 90 degrees about X and Y, successive fuse, reference area 197700, Linux known failure 138625; variable fillet on a 100×100×10 box with an evolving radius law; legacy offset at −5 on imported input failing C0 continuity; compound offset at −10 with unstable volume/shape checks. [boolean/bopfuse_simple/ZP6](https://github.com/Open-Cascade-SAS/OCCT/blob/3d097a0328e71b826377d4814ab05ec3c3d23871/tests/boolean/bopfuse_simple/ZP6), [blend/buildevol/A1](https://github.com/Open-Cascade-SAS/OCCT/blob/3d097a0328e71b826377d4814ab05ec3c3d23871/tests/blend/buildevol/A1), [offset/shape/A2](https://github.com/Open-Cascade-SAS/OCCT/blob/3d097a0328e71b826377d4814ab05ec3c3d23871/tests/offset/shape/A2), [offset/compshape/A3](https://github.com/Open-Cascade-SAS/OCCT/blob/3d097a0328e71b826377d4814ab05ec3c3d23871/tests/offset/compshape/A3).
+
+## Robustness and guarantees
+
+**DOCUMENTED:** these are partial independent oracles, not a proof of Boolean correctness. Volume, area, validity, counts, tolerance growth, free boundaries and pictures catch different failure classes. Numeric checks must not be silently reduced to one volume check. OCCT numerics use double; Standard_Real is now explicitly a deprecated typedef of double. [Type definition](https://github.com/Open-Cascade-SAS/OCCT/blob/3d097a0328e71b826377d4814ab05ec3c3d23871/src/FoundationClasses/TKernel/Standard/Standard_TypeDef.hxx#L74), [checker implementation](https://github.com/Open-Cascade-SAS/OCCT/blob/3d097a0328e71b826377d4814ab05ec3c3d23871/resources/DrawResources/CheckCommands.tcl).
+
+**DOCUMENTED static TODO counts:** offset 638 declaration lines in 266 cases, bugs 518 in 331, blend 22 in 20, boolean 21 in 16 (quoted puts TODO lines in direct case files at the pinned revision). The initial lead's values are **TODO lines**, not distinct failing tests. Platform-specific and unstable expectations make these neither measured current failures nor comparative robustness percentages. [Corpus](https://github.com/Open-Cascade-SAS/OCCT/tree/3d097a0328e71b826377d4814ab05ec3c3d23871/tests).
+
+## Parallelism and performance
+
+**DOCUMENTED:** testgrid uses independent DRAW processes, by default one per CPU when Tcl Thread is available. That is test-level process parallelism, not a geometry GPU algorithm. Tests can cap CPU time; boolean/begin uses 300 seconds, while individual cases can override it. No benchmarks were executed here. [Manual](https://occt3d.com/dev/doc/overview/html/occt_contribution__tests.html), [boolean/begin](https://github.com/Open-Cascade-SAS/OCCT/blob/3d097a0328e71b826377d4814ab05ec3c3d23871/tests/boolean/begin).
+
+**DOCUMENTED correction:** testdiff's default **HTML highlighting** threshold is 5%, but its actual per-case CPU difference filter is |t1−t2| > 0.5 s + 0.05·|t1+t2|, commented as roughly 10% precision with a 0.5-second floor. Memory filtering similarly uses 16 KiB + 0.05·|m1+m2|. Thus “flags performance changes above 5%” is an incomplete description. [TestCommands.tcl lines 2270–2300](https://github.com/Open-Cascade-SAS/OCCT/blob/3d097a0328e71b826377d4814ab05ec3c3d23871/resources/DrawResources/TestCommands.tcl#L2270).
+
+## Known failures, limitations, war stories
+
+**DOCUMENTED as public issue reports, not independently reproduced:** [#1041](https://github.com/Open-Cascade-SAS/OCCT/issues/1041) describes fuse failures induced by rotating patterned shapes; [#724](https://github.com/Open-Cascade-SAS/OCCT/issues/724) reports over 10 GB needed for an SSI between two apparently simple faces; [#1541](https://github.com/Open-Cascade-SAS/OCCT/issues/1541) supplies an OCCT 8.0.1 box-minus-sphere/unify reproducer where a pcurve phase inversion allegedly inflates vertex tolerance to a circle diameter. These were open when read. [#1534](https://github.com/Open-Cascade-SAS/OCCT/issues/1534) reports a periodic seam disconnection; its detailed nine-period root-cause story is explicitly LLM-assisted in the report, so treat that attribution as **HEARSAY/unverified**, not established diagnosis. They motivate seam, transform, tolerance-budget and resource-limit assertions.
+
+## Relevance for wonky
+
+**INFERRED design, based on the cited harness:** adopt a native FeatureScript/Bend scenario format with declarative assertions and a reference-state record: issue ID, precise expected assertion failures, applicable backends, date, and owner. Fail unknown errors; distinguish known-bad, skipped/unsupported, and unexpected-pass. Record completion explicitly and never let a crash become a skipped case.
+
+Use a vector of oracles: analytic or bounded volume/area/centroid; exact U32 topology checks; support-surface/curve types; pcurve/3D incidence residual bounds; tolerance growth; connected shells/cavities; certified mesh watertightness and deviation. Compare topology counts only for cases whose representation is intentionally canonical. Invent new equivalent primitive scenarios instead of transplanting LGPL Tcl or unavailable CAD models. Add rotations and parameter sweeps around each historically difficult case.
+
+The harness may coordinates files/processes outside Bend, but production geometry and validation predicates remain Bend. Map reductions to balanced fork-join, use F32x2 with explicit integration/error budgets, and use multi-limb U32 exact predicates for supported combinatorial decisions. Do not import OCCT's double-dependent reference epsilon or 1% default. Batch equal-work cases for GPU; quarantine adaptive/high-cost cases onto bounded CPU paths. Preserve timing/allocation counters now, but benchmark only on an otherwise idle machine. These are engineering adaptations, not claims of OCCT GPU suitability.
+
+## Pointers worth porting or studying
+
+- [TestCommands.tcl](https://github.com/Open-Cascade-SAS/OCCT/blob/3d097a0328e71b826377d4814ab05ec3c3d23871/resources/DrawResources/TestCommands.tcl): _check_log, _test_diff, completion markers, REQUIRED patterns, platform-specific TODOs.
+- [CheckCommands.tcl](https://github.com/Open-Cascade-SAS/OCCT/blob/3d097a0328e71b826377d4814ab05ec3c3d23871/resources/DrawResources/CheckCommands.tcl): orthogonal property checks, and reasons not to copy default numerical thresholds verbatim.
+- [tests/boolean](https://github.com/Open-Cascade-SAS/OCCT/tree/3d097a0328e71b826377d4814ab05ec3c3d23871/tests/boolean), [tests/offset](https://github.com/Open-Cascade-SAS/OCCT/tree/3d097a0328e71b826377d4814ab05ec3c3d23871/tests/offset), [tests/blend](https://github.com/Open-Cascade-SAS/OCCT/tree/3d097a0328e71b826377d4814ab05ec3c3d23871/tests/blend): geometric scenario vocabulary, not a ready-to-run wonky suite.
+- Local reads: <repo>/tmp/research/occt-tests; extracted harness source in <repo>/tmp/research/occt-automated-test-system-and-the-tests-corpus/. Existing shallow sparse checkout reused; no build or tests run.
+
+## Verdict: adapt
+
+Strongest source here for regression-harness architecture and scenario mining. Independently implement typed expectations and tighter tolerance-aware oracles. Treat corpus counts, confidential-data coverage, loose defaults, and log-parser behavior carefully; no OCCT backend or source-code port is necessary.
+

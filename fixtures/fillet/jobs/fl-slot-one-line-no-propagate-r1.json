@@ -1,0 +1,43 @@
+{
+ "id": "fl-slot-one-line-no-propagate-r1",
+ "jobSha256": "eb4fa0eff4c5e65116e25a4ff4ed862aeff9b9e118fdca3b1add8c084d093c3a",
+ "jobBytes": 2068,
+ "sourceSha256": "736070b733803990cb8c7e9f033a051a47b3e05b5caef7a6ce222b4184bcd886",
+ "buildMs": 10.324124999999185,
+ "kernel": {
+  "closed": true,
+  "volumeMm3": 1114.1592653589796,
+  "areaMm2": null,
+  "precision": "F32x2",
+  "geometry": "analytic"
+ },
+ "counts": {
+  "vertices": 8,
+  "edges": 12,
+  "faces": 6
+ },
+ "surfaces": {
+  "plane": 4,
+  "cylinder": 2
+ },
+ "quantizationErrorMm": 0,
+ "selected": [
+  {
+   "edge": 4,
+   "curve": "line",
+   "faces": [
+    "plane",
+    "plane"
+   ],
+   "convexity": "convex",
+   "dihedralDeg": 90,
+   "length": 20,
+   "sample": [
+    10,
+    0,
+    4
+   ]
+  }
+ ],
+ "step": "out/fillet/input-step/fl-slot-one-line-no-propagate-r1.step"
+}

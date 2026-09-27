@@ -1,0 +1,53 @@
+{
+ "schema": "wonky-bakeoff-fixture/1",
+ "case": "plate-through-hole",
+ "category": "holes",
+ "deviationMm": 0.01,
+ "location": "fixtures/bakeoff/jobs",
+ "job": "fixtures/bakeoff/jobs/plate-through-hole.job",
+ "csgJob": "fixtures/bakeoff/jobs/plate-through-hole.csg.job",
+ "jobBytes": 7703,
+ "jobSha256": "1de99c5f85de86d8482aa0bc432b668c0deb8464cae5e1209912ca116c5d1dde",
+ "csgJobSha256": "816a99604412b4dd871a3e67abba2ffa1d53c77e6c3dd2f5767fc5179fb338b9",
+ "leaves": 2,
+ "faces": 9,
+ "vertices": 90,
+ "triangles": 172,
+ "deviationMeasuredMaxMm": 0.009864532053998065,
+ "leafInfo": [
+  {
+   "leaf": 0,
+   "prim": "box",
+   "vertices": 8,
+   "triangles": 12,
+   "tags": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5
+   ],
+   "deviationMeasuredMm": 0,
+   "deviationMethod": "exact-planar",
+   "vertexOnSurfaceMaxMm": 0,
+   "analyticVolume": 6000
+  },
+  {
+   "leaf": 1,
+   "prim": "cylinder",
+   "vertices": 82,
+   "triangles": 160,
+   "tags": [
+    6,
+    7,
+    8
+   ],
+   "segments": 40,
+   "deviationMeasuredMm": 0.009864532053998065,
+   "deviationMethod": "barycentric-grid-8 (max lies on sampled chord midlines)",
+   "vertexOnSurfaceMaxMm": 1.687538997430238e-14,
+   "analyticVolume": 225.1893614093164
+  }
+ ]
+}

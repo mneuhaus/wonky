@@ -1,0 +1,1118 @@
+{
+  "schema": "wonky-khana-prior-art-research/1",
+  "date": "2026-09-24",
+  "language": "English",
+  "scope": "Prior art for native Bend diagnostics and FDM workflow improvements; documentation/research only, not an implementation or a validation run.",
+  "evidencePolicy": {
+    "source_observed": "A statement read in the cited source, including published defaults and inspected pinned code. This is not an independent performance measurement.",
+    "derived": "A mathematical consequence under explicitly stated assumptions; not a tested implementation.",
+    "proposed": "A design recommendation for wonky, not an existing capability.",
+    "measured": "No geometry benchmark, reference cad-khana run, slicer run, or physical print experiment was performed in this research. File provenance and source lines were inspected.",
+    "exactness": "Analytic B-rep is a representation, not a proof that floating-point queries are globally correct. Certification requires valid trims, conservative enclosures, outward-rounded arithmetic or a proved numeric budget, complete candidate coverage, and an explicit unresolved result when the budget is exhausted.",
+    "sourceLimitations": "Proprietary product internals are not assumed. Search-only and blocked sources are explicitly marked. Historical paper speedups are not evidence that wonky or a present-day competitor will have the same performance. The 2026 thickness preprint is very recent and is treated as exploratory evidence. Public Onshape help was read, but no live Onshape document, geometry, API, viewer, or MCP operation was used."
+  },
+  "executiveSummary": [
+    "Do not misdescribe cad_khana as entirely mesh based. Its wall/overhang/orientation sampling is mesh driven, whereas assembly overlap and clearance invoke the upstream solid kernel. A native implementation must match the latter's solid semantics and improve the former's coverage and explanation.",
+    "The highest-value distinction is certified geometry versus calibrated manufacturing advice. Exact hole radius and exact geometric clearance do not establish that an FDM hole prints to size, a bridge succeeds, or a snap fit survives.",
+    "Use one shared Bend query service for distance, collision, thickness witnesses and motion bounds, plus one versioned process profile for wall, bridge, hole and fit recommendations. Avoid independent ad-hoc probes for each check.",
+    "Prefer threshold certificates and source-linked witnesses over a floating-point minimum followed by a universal epsilon. Preserve unknown, not-run and unsupported distinctly from pass.",
+    "For Marc's small mechanical FDM assemblies, native clearance/contact semantics, directional fit budgets, meaningful wall thickness and slice-aware bridges are more valuable than a general medial-axis implementation, full nonconvex penetration depth, or a new slicer.",
+    "Three especially useful prior-art lessons are Parasolid's separation of clash classes from range queries, slicers' two-ended layer-aware anchoring tests, and process-aware orientation scoring that includes contact/stability rather than only down-facing surface area."
+  ],
+  "topics": [
+    {
+      "id": "distance-clash-motion",
+      "title": "Certified minimum distance, clash/clearance, penetration and motion",
+      "comparators": [
+        {
+          "name": "Parasolid",
+          "evidence": "source_observed",
+          "sources": [
+            "D1",
+            "D2"
+          ],
+          "whatItDoes": "PK_TOPOL_clash distinguishes interference, abutment and containment, with first-clash or fuller reporting. Range functions return distances and witnesses for geometry/topology, allow accuracy tolerance and transformed arrays, and distinguish local-range and global-range interfaces.",
+          "importantLimit": "The publicly mirrored v35 reference explicitly says the default performance option can return a local extremum in complex cases. Accuracy mode says it may improve the result, not that it supplies a formal enclosure. The mirror is historical, not evidence of current proprietary implementation internals.",
+          "adopt": "Keep collision classification separate from distance. Offer an inexpensive threshold query, witnesses and transforms without remaking all geometry. Expose any local-search/approximate mode as such."
+        },
+        {
+          "name": "OCCT BRepExtrema_DistShapeShape",
+          "evidence": "source_observed",
+          "sources": [
+            "D3"
+          ],
+          "whatItDoes": "Computes shape distances; exposes IsDone, Value, multiple solutions, point and support topology, edge/face parameters and InnerSolution for solid containment. Deflection defaults to Precision::Confusion and is documented as maximum deviation of extreme distances from the minimum one.",
+          "importantLimit": "A numerical default is not a published globally certified error bound. Zero solid distance is not penetration depth. Check status and preserve containment semantics.",
+          "adopt": "Return witness points, owning topology and parameter coordinates, not only a scalar. Report containment separately from touching and external separation."
+        },
+        {
+          "name": "OCCT BRepExtrema_ShapeProximity",
+          "evidence": "source_observed",
+          "sources": [
+            "D4"
+          ],
+          "whatItDoes": "Uses existing triangulations for approximate face overlap/near-overlap; finite tolerance expands the proximity criterion. Infinite-tolerance proximity mode is a different quantity described as the minimal thickness of a layer containing both shapes.",
+          "importantLimit": "The reference explicitly ties accuracy to triangulation deflection. Do not substitute this class for solid minimum distance or Boolean-overlap volume, and do not relabel its other proximity quantity as clearance.",
+          "adopt": "A preview-only broad phase is acceptable with a stated bound; the final analytic/trimmed decision must remain distinguishable."
+        },
+        {
+          "name": "Spatial ACIS / ACIS Polyhedra",
+          "evidence": "source_observed",
+          "sources": [
+            "D5"
+          ],
+          "whatItDoes": "Public product documentation lists clash, distance, wall thickness and hard-edge analysis, and a polymorphic interface over B-rep/mesh representations with specialized algorithms.",
+          "importantLimit": "The public page does not disclose interval guarantees, exact tolerances, the B-rep distance algorithm, or penetration-depth completeness. Polyhedra's mesh analysis is not evidence for an exact analytic implementation.",
+          "adopt": "Unify the user-facing diagnostic contract across representations, but keep evidence/representation tags explicit. Do not introduce ACIS or OCCT as a production dependency."
+        },
+        {
+          "name": "GJK/EPA and FCL",
+          "evidence": "source_observed",
+          "sources": [
+            "D6",
+            "D7"
+          ],
+          "whatItDoes": "FCL combines bounding-volume hierarchies/broadphase with primitive/convex/mesh collision, distance and continuous collision queries. GJK uses convex support geometry; EPA is a common convex penetration-depth follow-up. OpenGJK explicitly warns that a nonconvex input is treated as its convex hull.",
+          "importantLimit": "Applying one convex hull to a bracket with a hole falsely blocks the hole. GJK/EPA alone do not solve arbitrary trimmed, nonconvex B-rep minimum distance or global nonconvex penetration depth. Robust floating-point implementations are not automatically certified.",
+          "adopt": "Use convex support and GJK as a lower-bound/pruning aid where its hypotheses hold, or for declared convex bodies. Implement only the needed algorithms in Bend; do not import FCL as the geometry kernel."
+        },
+        {
+          "name": "Bounded NURBS distance (Krishnamurthy, McMains, Haller)",
+          "evidence": "source_observed",
+          "sources": [
+            "D8"
+          ],
+          "whatItDoes": "Builds surface AABB hierarchies inflated by a bound K on deviation from a local linearization, prunes candidates and computes local distances with value/location error bounds. A surface-pair bound accounts for both surfaces' deviations.",
+          "importantLimit": "Section 5.3 is crucial: trim textures can cull a surviving feature smaller than the parametric sampling tolerance; the authors rely on visual feedback and tolerance adjustment. The untrimmed guarantees cannot simply be inherited by an arbitrary trimmed-face query. GPU-versus-ACIS timing ratios are historical experiments only.",
+          "adopt": "Borrow conservative enclosure/refinement and error accounting, not trim-texture omission. Include all trim interiors, boundary curves and vertices, and preserve uncertain trim cells for further subdivision."
+        },
+        {
+          "name": "Inclusion-based CCD and composite-quadric CCD",
+          "evidence": "source_observed",
+          "sources": [
+            "D9",
+            "D10"
+          ],
+          "whatItDoes": "Wang et al. study conservative time-of-impact detection with interval-root inclusion and controllable false-positive/runtime tradeoffs. Choi et al. decompose composite quadrics into boundary-element CCD subproblems and compute first contacts numerically from algebraic formulations.",
+          "importantLimit": "Triangle CCD under its interpolation model is not a plug-in proof for rigidly rotating analytic faces. The composite-quadric paper constrains boundary intersections to lines/conics and is not a general trimmed-surface theorem.",
+          "adopt": "Explicit motion models, conservative time subdivision, separation certificates, first-unsafe-time brackets and adversarial thin-feature tests. Sampling a few joint angles is only advisory."
+        }
+      ],
+      "nativeDesign": {
+        "evidence": "proposed",
+        "contract": "Return classification (separated/touching/overlapping/contained/unresolved), distance interval [lowerMm, upperMm], witness pairs with face/edge/vertex and UV/t, input exactness and tolerance provenance, and completeness/capability status. Keep intersectionVolume interval and penetrationDepth as separate optional quantities.",
+        "broadphase": "Conservative whole-part bounds in an assembly BVH; expand by the requested clearance and the geometry uncertainty. Reuse part-local face BVHs under rigid transforms. Cache an unordered pair's evaluated result by geometry revisions, transforms, query kind, requested tolerance and process-independent options; reverse witnesses when the caller reverses the pair.",
+        "narrowphase": "Start with planes/lines/circles/cylinders and admitted trims. Consider interior stationary candidates, edge-face, edge-edge, vertex-face and vertices; reject roots outside the actual trim. Unbounded supporting-surface distance is a lower bound, not necessarily an attainable result. Multiple/disconnected faces, seams and complete containment need explicit treatment.",
+        "thresholdLogic": "For a required clearance c, certify pass only when lowerMm >= c; certify failure when upperMm < c; otherwise refine or return unresolved. An attained witness below c can prove failure even before proving the global minimum. Do not force equality at a threshold with a scale-free epsilon.",
+        "meshBounds": "If two boundary approximations have proved Hausdorff errors deltaA and deltaB, the distance between those boundary sets differs by at most deltaA + deltaB. This does not by itself prove topology, inside/outside, volume overlap or contact class. It also does not authorize replacing analytic production geometry by polygons.",
+        "penetration": "Overlap volume, maximum local surface penetration, minimum translational separation and a directional assembly interference are different metrics. Implement global nonconvex penetration only if a real use case needs it; most FDM fit checks need a signed dimension/allowance along a named feature axis instead.",
+        "motion": "For bounded rigid speeds, distance is Lipschitz in time: a midpoint separation lower bound can be reduced by (VA + VB) times the interval half-width, with V including translation speed and R times angular speed. A remaining lower bound above c certifies the whole interval clear. Subdivide otherwise. Geometry and motion bounds both need conservative arithmetic; unknown factory(t) behavior cannot be assumed smooth.",
+        "sweptVolume": "An exact swept solid is attractive for simple translations/revolutions but general rigid-motion swept envelopes require new geometry and can self-intersect. Conservative continuous distance is a smaller first deliverable. Keep sampled animation checks as sampled, with checked intervals/poses recorded."
+      },
+      "testIdeas": [
+        "Disjoint/touching/overlapping/fully-contained boxes and cylinders; face/edge/point contact",
+        "Nested solids with positive boundary separation but zero solid-set distance",
+        "Pin in a through bore versus the same solids' convex hulls",
+        "Near-tangent circles/cylinders, trim-boundary minimum and minima on a short surviving trim sliver",
+        "Threshold values straddled by coordinate/regularization uncertainty",
+        "Far-apart assembly pruning with no omitted candidate and pair-cache reuse between report/assertion",
+        "Hinge endpoints clear but intermediate angle colliding; narrow collision interval; clearance violation without actual overlap",
+        "Large coordinates with small clearance, transform covariance and symmetry of reversed pairs"
+      ]
+    },
+    {
+      "id": "wall-thickness",
+      "title": "Thickness definitions and manufacturable thin features",
+      "comparators": [
+        {
+          "name": "Normal/cone rays",
+          "sources": [
+            "W2",
+            "W5",
+            "W8"
+          ],
+          "whatItDoes": "Measures one or more interior chords from surface samples. Meshmixer exposes minimum thickness, minimum defect size, cone angle/samples and grazing controls; Shape Diameter Function research uses cone-ray aggregation for shape segmentation.",
+          "importantLimit": "Thickness depends on direction, visibility, orientation filters and samples. Cone averages are not minimum-wall proofs. The Shape Diameter Function abbreviation SDF is not the Signed Distance Field. Sharp corners, open surfaces and missed narrow regions require different treatment."
+        },
+        {
+          "name": "Rolling-ball/medial-axis thickness",
+          "sources": [
+            "W1",
+            "W2",
+            "W6",
+            "W7"
+          ],
+          "whatItDoes": "Characterizes material via inscribed spheres and multiple boundary contacts; can also analyze the complement for narrow voids/channels. Onshape exposes rolling-ball/ray thickness and gradients; nTop's documented mesh-thickness field uses twice the distance from mesh medial axis to surface.",
+          "importantLimit": "Several inequivalent 'local thickness' definitions exist: sphere tangent to a boundary point, maximal-ball diameter assigned to a volume point, local feature size and normal chord. A sharp wedge can have an arbitrarily small local feature size even if the intended wall is thick. The definition and significant area/feature must be part of the result."
+        },
+        {
+          "name": "Signed-distance field / voxel methods",
+          "sources": [
+            "D11",
+            "W6"
+          ],
+          "whatItDoes": "Fast spatial queries and medial/ridge approximations are convenient for dense fields, implicit lattices and orientation previews. HyBoDT studies explicit tessellation and distance-transform error propagation for trimmed NURBS models.",
+          "importantLimit": "Grid spacing and input approximation matter; 2*abs(SDF) at the surface is zero, not wall thickness. A field only helps certification when its error and Lipschitz behavior are bounded. nTop's implicit authoring does not imply that its documented measurement path avoids meshing.",
+          "evidence": "source_observed plus derived cautions"
+        },
+        {
+          "name": "Materialise Magics / Netfabb",
+          "sources": [
+            "W3",
+            "W4"
+          ],
+          "whatItDoes": "Magics publicly advertises thickness analysis and wall fortification. Netfabb documents a user-defined critical thickness, acceptable critical-surface fraction and an optional fast mode stopping at first failure.",
+          "importantLimit": "No public ray-versus-sphere implementation is established for Magics by the inspected material. Netfabb's example 0.5 mm is an example, not a universal default. A first-failure mode cannot be displayed as a complete heatmap."
+        },
+        {
+          "name": "Process-aware hybrid methods (2026 preprint)",
+          "sources": [
+            "W9"
+          ],
+          "whatItDoes": "Selects sphere analysis for molding thickness/uniformity and rays plus parallel B-rep face information for milling. It demonstrates method-specific artifacts and uses tessellated representations.",
+          "importantLimit": "It is not an FDM validation study. Its reported 100 mm maximum is acknowledged as a ray artifact, and boundary heuristics/isolated uniformity outliers remain limitations. This supports explicit method selection, not adoption of its thresholds."
+        }
+      ],
+      "nativeAdvantages": [
+        {
+          "evidence": "proposed",
+          "idea": "For a planar shell or coaxial cylindrical sleeve, report the true opposed-face separation R_outer-R_inner or plane separation with a trim-domain certificate. This avoids triangle density, centroid placement and smooth-cylinder normal artifacts."
+        },
+        {
+          "evidence": "proposed",
+          "idea": "Report separate material-wall thickness, narrow-void/channel clearance, rib/web width and pin diameter/slenderness. Do not minimize unconstrained self-distance over all boundary points; adjacent points make that zero."
+        },
+        {
+          "evidence": "derived",
+          "idea": "Even perfect analytic ray intersections leave a sampling problem: the minimum over sampled chords is generally an upper bound on the global minimum of that chord field. A thin witness proves a violation under the chosen definition, while failure to sample one does not prove a passing minimum wall."
+        },
+        {
+          "evidence": "proposed",
+          "idea": "Use existing topology and analytic face provenance to identify opposed walls and interior material segments, then adaptively bound unsampled patches. Return covered area, unresolved regions, definition, witness entry/exit points and worst-feature identity. Treat adjacent fillet/rim neighborhoods explicitly rather than hiding them with a fixed minimum accepted ray length."
+        },
+        {
+          "evidence": "proposed",
+          "idea": "Make significance configurable: tiny intentionally sharp tips, structural thin webs and cosmetic rims should not be one pass/fail scalar. A small-area exclusion must remain a visible waiver with reason and measured/estimated area, not silently erase a defect."
+        },
+        {
+          "evidence": "proposed",
+          "idea": "Compare directional wall width against a printer profile's extrusion widths and perimeter target, separately from structural minimum thickness. An exact 0.8 mm wall is not universally unprintable; extrusion width, variable-width slicing, nozzle, layer height, material and intended loads matter."
+        }
+      ],
+      "recommendedOrder": "1) exact admitted planar/cylindrical face-pair thickness, 2) certified trimmed rays with coverage metadata, 3) slice-based narrow-wall checks, 4) general medial axis/inscribed-ball field only if demand justifies the complexity. SDF/voxel preview is optional and never replaces the analytic body.",
+      "testIdeas": [
+        "Uniform plate, coaxial tube, tapered wedge and filleted thick box with analytical reference values",
+        "Tiny intentionally sharp rim versus a genuinely thin structural web of the same local minimum",
+        "Off-center pinch missed by triangle centroids",
+        "Two nearby disconnected solids, a narrow air channel and a real material wall",
+        "Self-hit/seam/tangent rays; a valid wall shorter than any former fixed ray-rejection threshold",
+        "Report remains stable as display tessellation density changes"
+      ]
+    },
+    {
+      "id": "fdm-overhang-support-orientation",
+      "title": "Layer-aware overhangs, bridges, first layer, holes and orientation",
+      "comparators": [
+        {
+          "name": "PrusaSlicer",
+          "sources": [
+            "F1",
+            "F2",
+            "F3"
+          ],
+          "whatItDoes": "Pinned BridgeDetector code derives anchors from intersections with lower-layer slices, tests candidate directions, sums test-line lengths whose two endpoints lie in anchors and prefers shorter worst spans at similar coverage. It includes 5-degree candidate steps plus contour/support-edge directions.",
+          "importantLimit": "It is a discretized toolpath-oriented heuristic, not a geometry-only 10 mm rule and not proof that the plastic bridge will work. The pinned source itself flags line-spacing edge cases."
+        },
+        {
+          "name": "SuperSlicer",
+          "sources": [
+            "F4"
+          ],
+          "whatItDoes": "Pinned bridge code uses 2-degree candidates, distinguishes two-ended anchoring/free lines and collects anchored/free lengths and median statistics. It also has fallback behavior for weak/no full coverage.",
+          "importantLimit": "The no-full-coverage fallback accepts a test line with either endpoint anchored (source lines 303-366), so a produced angle is not a proof of two-ended bridging. Reuse coverage/span concepts, not a blanket printable classification."
+        },
+        {
+          "name": "OrcaSlicer",
+          "sources": [
+            "F5",
+            "F6",
+            "F7",
+            "F8"
+          ],
+          "whatItDoes": "Pinned bridge code shares layer-anchor/direction analysis; settings distinguish external and internal bridges, thick bridges, counterbore partial bridging and sacrificial layers. Precision settings distinguish hole/contour compensation, optional polyholes and multi-layer elephant-foot compensation. Tolerance calibration uses a hole/tester coupon.",
+          "importantLimit": "Internal bridges over sparse infill are not the same as exterior unsupported spans. Polyholes deliberately change a circle to a polygon; that must never occur silently in wonky's analytic CAD. Slicer compensation values require known sign/offset conventions and calibration."
+        },
+        {
+          "name": "CuraEngine",
+          "sources": [
+            "F9"
+          ],
+          "whatItDoes": "Pinned bridge code scores intervals that actually span two supported regions positively, hanging intervals negatively, and supported travel partially negatively. It considers support/infill context and has a 1-degree candidate search plus special heuristics.",
+          "importantLimit": "The score and settings are process heuristics. 'Down-facing area' alone lacks the layer/sparse-infill/support context used by a slicer."
+        },
+        {
+          "name": "Tweaker-3 and orientation research",
+          "sources": [
+            "F10",
+            "F11",
+            "F12",
+            "C1"
+          ],
+          "whatItDoes": "Tweaker searches candidate normals and extended supplementary directions and scores bottom area, overhang proxy and bottom contour using tuned parameters. Fusion's orientation study ranks support volume/area, bounding-box volume, part height and COM height. Academic scaffolding work jointly considers overhang and stability through the print.",
+          "importantLimit": "A weighted scalar is not a universal optimum or a structural analysis. Tweaker's support-volume expression is a heuristic proxy. Six cardinal orientations are useful but incomplete; the best face normal can be oblique."
+        },
+        {
+          "name": "Arc overhangs",
+          "sources": [
+            "F13"
+          ],
+          "whatItDoes": "Experimental paths place adjacent self-supporting arcs and use path/cooling strategies above them to mitigate warping. Public examples include a postprocessor and an experimental slicer fork.",
+          "importantLimit": "The report stresses low speeds, tuning and tradeoffs. Do not exempt a 90-degree overhang merely because arc overhangs exist, or promise support-free success from CAD geometry alone."
+        }
+      ],
+      "nativeDesign": {
+        "evidence": "proposed",
+        "normalConvention": "Define the outward unit normal n and build-up u. One explicit convention is overhang angle alpha = asin(max(0,-dot(n,u))): vertical wall 0 degrees, down-facing horizontal ceiling 90 degrees. Name this convention in JSON and adapt settings imported from tools using angles from horizontal.",
+        "analyticFaces": "Compute down-facing regions from analytic normal inequalities, clipped by actual trims. A plane is trivial; cylindrical/conical patches have continuous normal fields and threshold crossings. Exact face-level classification eliminates tessellation-dependent maxima but still needs integration/error bounds for trimmed area and does not prove printability.",
+        "layers": "Analyze solid sections at the actual first and subsequent layer heights, respecting orientation and bottom placement. For layer regions L_k, the overhang candidate is the portion not adequately supported by L_(k-1) under a profile-defined bead-overlap allowance. A two-dimensional analytic offset/Boolean implementation would be a new kernel capability where absent; until then retain a capability boundary or explicit bounded approximation.",
+        "bridges": "Partition candidate regions by feasible bridge direction, both-end anchor length, true unsupported span, sag/clearance budget and subsequent layer anchoring. Store bridge coverage fraction and worst/quantile span instead of just face bbox length. A 6 mm cantilever and a 6 mm bridge are not equivalent.",
+        "bores": "Recognize cylindrical faces, trims, entrances, counterbores, through/blind state and build angle. For horizontal/slanted holes, derive the local layer roof spans and anchor geometry; never universally exempt every bore <=12 mm. A horizontal bore is geometrically circular, not inherently elliptical; stair stepping/sag/anisotropic compensation are process effects.",
+        "designSuggestions": "Offer an explicit teardrop/chamfered roof, sacrificial counterbore membrane or reorientation as a proposed design change with fit/space consequences. Preserve the untouched analytic circle unless the user selects the change. Distinguish a bridge strategy in slicer settings from an actual solid membrane in CAD.",
+        "firstLayer": "Separate exact bed-contact set at z_min from the finite first-layer section. Report disconnected islands, minimum island width, contact area/perimeter, support polygon, COM projection margin and contact-to-footprint ratio. For a cylinder resting on its side, zero-area analytic line contact need not equal the finite deposited first-layer area. Brim and elephant-foot compensation affect deposited regions but do not change the CAD body.",
+        "stability": "A COM projection inside a support polygon is a useful geometric static indicator, not a guarantee against nozzle forces, acceleration, warping or weak adhesion. Prefer also checking high intermediate layers, not only final COM.",
+        "orientation": "Add large planar face normals, dominant hole axes and candidate stable support faces to the six cardinal axes; deduplicate directions analytically. Return a Pareto set for support demand, bore quality, mechanical layer direction, contact/stability, height and critical-surface damage. Keep cosmetic/functional face annotations and manual orientation constraints.",
+        "slicerBoundary": "Wonky should be a preflight and explainability layer first. Verify final support/toolpath/time using a pinned local slicer and explicit printer/material profile in a future opt-in workflow. A slicer result is process evidence, not a production geometry fallback; no new npm dependency or viewer replacement is needed for this research.",
+        "plateExtrema": "Compute the actual solid minimum/maximum of dot(point, up) with admitted analytic support extrema and trims. Projecting the eight corners of a world-axis AABB gives an enclosure, not generally the true bed height/footprint for an oblique up vector. Do not use that lower bound as if the part actually contacts that plane."
+      },
+      "testIdeas": [
+        "Exactly-threshold plane under rigid rotations and differing display tessellation",
+        "Small bore with adequate cooling profile versus same geometry in a different material/profile",
+        "Two-ended bridge, one-ended cantilever, C-shaped support and narrow insufficient anchors",
+        "Oblique stable base missed by cardinal-axis-only search",
+        "Cone/cylinder normals crossing the overhang threshold within a single analytic face",
+        "Zero-area contact but nonzero first-layer slice; separated islands that join much later",
+        "First-layer hole/outer-edge compensation without double application in CAD and slicer",
+        "Counterbore sacrificial membrane and teardrop suggested as modifications, never silently applied",
+        "Equivalent transformed body plus transformed build-up vector preserves geometric metrics; oblique up uses true extrema rather than AABB corners"
+      ],
+      "currentBaseline": {
+        "evidence": "source_observed",
+        "claims": [
+          {
+            "text": "cad_khana derives plate level from world-AABB corner projections and excludes only very near, almost perfectly down-facing triangles.",
+            "citations": [
+              "~/Workspace/cad/cad-khana/src/cad_khana/printability/overhangs.py:25-43,54-63"
+            ]
+          },
+          {
+            "text": "Orientation uses the same AABB-derived support-height/footprint proxy, ranks only rounded support demand then risky bores then height, and does not put contact area into its ranking.",
+            "citations": [
+              "~/Workspace/cad/cad-khana/src/cad_khana/printability/orientation.py:57-104,114-123"
+            ]
+          },
+          {
+            "text": "The code FDM default is wall_min_mm=1.5, overhang_max_deg=45.0 and Z-up; JSON does not preserve the full process configuration.",
+            "citations": [
+              "~/Workspace/cad/cad-khana/src/cad_khana/printability/methods.py:6-10",
+              "~/Workspace/cad/cad-khana/src/cad_khana/printability/inspect.py:33-50,133-153"
+            ]
+          }
+        ],
+        "inference": "Oblique build directions can yield a lower enclosure plane that is not an actual contact plane; exact directional extrema and rigid-frame covariance tests are worthwhile. This was not reproduced in a geometry run."
+      }
+    },
+    {
+      "id": "dfam-checker-rules",
+      "title": "CAD/DfAM checkers and defensible defaults",
+      "ruleTable": [
+        {
+          "tool": "Onshape thickness analysis",
+          "sources": [
+            "W1"
+          ],
+          "checks": "Ray/rolling-ball thickness and their gradients; native parts and mesh models; documented unsupported closed composites.",
+          "defaults": "No universal FDM threshold established by the inspected help.",
+          "adopt": "Multiple named thickness definitions, interactive worst-region highlighting, continuous refinement with status."
+        },
+        {
+          "tool": "Historical Onshape third-party thickness/overhang apps",
+          "sources": [
+            "C5",
+            "C6"
+          ],
+          "checks": "Public forum announcements demonstrate an ecosystem of thickness and overhang features, not a complete certified DfAM standard.",
+          "defaults": "Not verified; do not infer a default from a screenshot or a product name.",
+          "adopt": "A single native inspector is preferable to scattered plug-ins, but must remain explicit about coverage and assumptions."
+        },
+        {
+          "tool": "Fusion Automatic Orientation",
+          "sources": [
+            "C1"
+          ],
+          "checks": "Support volume/area, box volume, height, COM height; fit-to-platform and priority settings.",
+          "defaults": "Help permits support overhang angle 0-90 degrees and rotation steps 5-180 degrees, but does not state a numeric default in that page.",
+          "adopt": "User priorities and multiple candidate orientations rather than one unexplained score."
+        },
+        {
+          "tool": "Fusion Additive Assistant FFF",
+          "sources": [
+            "C2"
+          ],
+          "checks": "Published listing: overhang, warp-risk regions, bed adhesion risk, size and environmental advice.",
+          "defaults": "The primary listing redirected to an unavailable page during fetch; indexed summary only. Neither exact thresholds nor wall-thickness checking were verified.",
+          "adopt": "First-layer adhesion, part size and warp risk are useful advisory categories; do not invent its algorithm or borrow a 45-degree default from a different Fusion module."
+        },
+        {
+          "tool": "SOLIDWORKS Print3D",
+          "sources": [
+            "C3",
+            "C4"
+          ],
+          "checks": "Official indexed help describes FDM wall/gap analysis dependent on selected thermoplastic and layer height, plus print/support preview.",
+          "defaults": "No concrete numeric formula/default verified. Full help body returned navigation only; reseller article blocked. This is feature-level evidence only.",
+          "adopt": "Process parameters should drive rules; geometrically printable thickness and required structural wall are different checks."
+        },
+        {
+          "tool": "Materialise Magics",
+          "sources": [
+            "W4"
+          ],
+          "checks": "Wall analysis/fortification and model repair/hollowing.",
+          "defaults": "No universal threshold or underlying ray/sphere algorithm disclosed in the inspected source.",
+          "adopt": "Highlight and propose local changes, but never modify geometry as a hidden repair."
+        },
+        {
+          "tool": "Netfabb",
+          "sources": [
+            "W3"
+          ],
+          "checks": "Critical wall threshold, acceptable affected-surface fraction and fast first-failure mode.",
+          "defaults": "0.5 mm appears as an example only.",
+          "adopt": "Expose completeness/early-stop and feature significance; keep a valid witness even when full analysis is not finished."
+        },
+        {
+          "tool": "Prusa design guidance",
+          "sources": [
+            "F1",
+            "F2"
+          ],
+          "checks": "Wall/perimeter dimensions, orientation/anisotropy, overhang/bridges, fit clearance and elephant foot.",
+          "defaults": "At 0.4 mm nozzle, example extrusion width 0.45 mm and 1/2/3/4 perimeters approximately 0.45/0.90/1.35/1.80 mm; moving-parts starting clearance at least 0.3 mm, context dependent; common overhang capability 45-60 degrees with printer-specific exceptions; elephant-foot compensation around 0.2 mm is guidance, not a universal geometric allowance.",
+          "adopt": "Name the nozzle/line width/material/printer profile. Avoid treating 1.5 mm wall or 45 degrees as a theorem."
+        },
+        {
+          "tool": "Formlabs guides",
+          "sources": [
+            "T1",
+            "T2",
+            "W5"
+          ],
+          "checks": "Engineering-fit terminology and process comparisons; Meshmixer tutorial exposes thickness controls.",
+          "defaults": "Interlocking article lists FDM tolerance 0.5 mm and SLA/SLS 0.2 mm in a comparison, then gives detailed resin/powder gaps. Do not copy the latter into FDM. The convention is not sufficiently explicit to treat these as universal radial allowances.",
+          "adopt": "Make process and dimensional convention visible; explain why a nominal fit cannot be guaranteed without calibration."
+        }
+      ],
+      "profileRecommendation": {
+        "evidence": "proposed",
+        "fields": [
+          "profileId/version/provenance",
+          "printer/nozzleDiameterMm",
+          "externalLineWidthMm and internalLineWidthMm",
+          "firstLayerHeightMm/layerHeightMm",
+          "material/filament identifier and cooling mode",
+          "wall rule: minimumPerimeters plus structuralMinimumMm",
+          "overhang convention and allowed range",
+          "bridge max unsupported span, minimum anchor length and process evidence",
+          "hole and outer-dimension calibration by axis/orientation/size",
+          "first-layer compensation source and whether already applied",
+          "fit allowance convention and dimensional uncertainty",
+          "explicit waivers with affected topology, reason and expiry"
+        ],
+        "policy": "Ship a labelled conservative starter profile as an assumption, not a universal pass criterion. Keep geometry results reusable when the process profile changes. Present unsupported/uncalibrated process checks as such rather than 'safe to print'."
+      }
+    },
+    {
+      "id": "fits-tolerances",
+      "title": "FDM assembly fit and tolerance conventions",
+      "terminology": [
+        {
+          "term": "Geometric distance",
+          "meaning": "Minimum distance between the actual nominal solid sets, zero for touching/overlap. For disjoint solids this locates closest surfaces, but it is not a signed dimension for a press fit."
+        },
+        {
+          "term": "Allowance",
+          "meaning": "Intentional nominal size difference chosen by the designer; distinguish radial/per-side from diametral/total and state whether each printed body or just one is compensated."
+        },
+        {
+          "term": "Tolerance",
+          "meaning": "An allowed or predicted range of manufactured dimensions, not the same as allowance, CAD numeric tolerance or a slicer XY offset."
+        },
+        {
+          "term": "Clearance/slip fit",
+          "meaning": "Requires positive functional clearance across the dimension and uncertainty range and often along a path of motion, not only at one assembled pose."
+        },
+        {
+          "term": "Transition fit",
+          "meaning": "Tolerance ranges can produce either clearance or interference; no guaranteed direction without tighter calibration."
+        },
+        {
+          "term": "Interference/press fit",
+          "meaning": "Requires intentional negative dimensional allowance and an elastic/strength/contact model or empirical calibration. A detected common solid volume only states nominal interference, not press force or survivability."
+        }
+      ],
+      "sources": [
+        "T1",
+        "T2",
+        "F1",
+        "F7",
+        "F8",
+        "D1"
+      ],
+      "formulae": {
+        "evidence": "derived",
+        "coaxialGap": "For nominal hole diameter Dh and shaft diameter Ds, diametral clearance Cd = Dh-Ds and centered radial gap Cr = (Dh-Ds)/2. A declared 0.2 mm per-side gap requires 0.4 mm diameter difference; translating the shaft off-center changes the minimum local surface gap.",
+        "dimensionalIntervals": "Given manufactured ranges Dh in [DhL,DhU] and Ds in [DsL,DsU], the diametral clearance interval is [DhL-DsU,DhU-DsL]; divide by two only for centered radial interpretation. Add placement, ovality, orientation and thermal uncertainty when applicable.",
+        "offsets": "If a circular hole's boundary is radially offset by c, its diameter changes by 2c. Never infer whether a slicer UI's number is radius, diameter or one-sided offset from the label alone; confirm in documentation/code or a calibration artifact.",
+        "processEnvelope": "For a required gap, a conservative production estimate can subtract validated error envelopes for both mating surfaces from a certified nominal clearance bound. Those error envelopes must be measured for the relevant printer/material/orientation/feature range; a convenient CAD epsilon cannot stand in for them."
+      },
+      "recommendations": [
+        {
+          "evidence": "proposed",
+          "idea": "Add named functional fit features: shaft/bore, sliding rail/channel, snap engagement, fastener bearing/contact surfaces. Store intended touch/no-clash/clearance/press-fit roles on those features and keep unrelated body overlaps visible."
+        },
+        {
+          "evidence": "proposed",
+          "idea": "For printed-to-printed and printed-to-purchased mating pairs, allow separate dimension intervals and materials. Purchased shaft tolerance and printed-hole undersize are not symmetric errors."
+        },
+        {
+          "evidence": "proposed",
+          "idea": "Generate small calibration coupons using Marc's actual feature family and orientations, not only generic holes. Import measured dimensions and fit observations with units, date, printer, nozzle, filament and slicer profile; interpolate only within a documented range."
+        },
+        {
+          "evidence": "proposed",
+          "idea": "Use nonzero feature-aware exemptions: an intended bearing contact can permit a named touch surface but cannot blanket-ignore a colliding neighboring rib. An accepted press-fit should assert the expected bounded interference and a reason, not merely that some overlap exists anywhere."
+        },
+        {
+          "evidence": "proposed",
+          "idea": "Evaluate insertion paths and full joint travel. A final assembled pose with enough gap does not establish that the parts can be assembled or move to that pose."
+        },
+        {
+          "evidence": "proposed",
+          "idea": "Keep teardrop holes, elephant-foot relief chamfers and deliberate offset dimensions as explicit model changes. Keep slicer compensation in the process profile. Warn when both layers appear to compensate the same feature."
+        }
+      ],
+      "startingValuesPolicy": "Use Prusa's at-least-0.3 mm moving-part guidance and Formlabs' coarser FDM comparison only as cited starting points. Their conventions/context differ. Do not publish a universal table saying press=-0.1/slip=+0.2 mm will work; calibrate by feature and process. A 0.4 mm nozzle does not imply a 0.4 mm dimensional error or a universal 0.4 mm clearance."
+    }
+  ],
+  "rankedIdeas": [
+    {
+      "rank": 1,
+      "priority": "P0",
+      "idea": "Unify diagnostics around pass/fail/unresolved/not-run plus witnesses and provenance.",
+      "valueForMarc": "Prevents false green reports and lets a failing fit or wall lead directly to the responsible face and source parameter.",
+      "effort": "Low-to-medium contract/UI work, with kernel results consumed as available; no claim that query implementation is low effort.",
+      "implementationBoundary": "Bend owns geometric facts; host owns schema, presentation, profile selection and coordination. Unsupported geometry remains a capability error.",
+      "acceptance": "An unresolved threshold, unsupported face and skipped diagnostic never pass; every definite failure has a reproducible witness.",
+      "sources": [
+        "https://occt3d.com/dev/doc/refman/html/class_b_rep_extrema___dist_shape_shape.html",
+        "http://www.q-solid.com/Parasolid_Docs_V35/chapters/fd_chap.029.html"
+      ]
+    },
+    {
+      "rank": 2,
+      "priority": "P0",
+      "idea": "Build a shared BVH plus admitted analytic minimum-distance/clash service with threshold certificates and pair caching.",
+      "valueForMarc": "One foundation unblocks mechanical clearances, touch-vs-clash, thickness probes and later motion, avoiding repeated expensive queries.",
+      "effort": "High kernel work; deliver plane/line/circle/cylinder cells and explicit boundaries before arbitrary surfaces.",
+      "acceptance": "Correctly distinguishes containment/touch/overlap, does not lose trim-edge minima, returns [L,U] and reuses a pair result across assertions and reports.",
+      "sources": [
+        "https://github.com/flexible-collision-library/fcl",
+        "https://mcmains.me.berkeley.edu/pubs/TVCG2010finalKrishnamurthyMcMains.pdf",
+        "http://www.q-solid.com/Parasolid_Docs_V35/headers/pk_topol_clash.html"
+      ]
+    },
+    {
+      "rank": 3,
+      "priority": "P0",
+      "idea": "Replace global guessed fit gaps with explicit per-side/diametral allowances and calibrated printer/material/feature intervals.",
+      "valueForMarc": "Directly reduces reprints of pins, bores, slide rails and interlocking parts; stops factor-of-two clearance errors.",
+      "effort": "Medium metadata/coupon workflow; interval propagation is small after certified geometry is available.",
+      "acceptance": "A 6 mm shaft in a 6.4 mm bore reports 0.4 mm diametral and 0.2 mm centered radial nominal clearance; no calibration means no guaranteed production-fit pass.",
+      "sources": [
+        "https://help.prusa3d.com/article/modeling-with-3d-printing-in-mind_164135",
+        "https://www.orcaslicer.com/wiki/calibration/tolerance_calib",
+        "https://formlabs.com/blog/3D-printing-tolerances-for-engineering-fit/"
+      ]
+    },
+    {
+      "rank": 4,
+      "priority": "P0/P1",
+      "idea": "Implement defined analytic wall checks first, then adaptive certified rays with coverage and significance.",
+      "valueForMarc": "Reliable shells/ribs without triangle-centroid noise or a meaningless minimum at every sharp corner.",
+      "effort": "Medium for opposed planes/coaxial cylinders; high for globally certified arbitrary trimmed fields.",
+      "acceptance": "Uniform plates/tubes give topology-linked stable values independent of display mesh; unsampled pinches cannot produce a certified pass; wall and air-gap metrics are distinct.",
+      "sources": [
+        "https://cad.onshape.com/help/Content/View/thickness_analysis.htm",
+        "https://volumegraphics.hexagon.com/en/explore-nde/our-stories/spheres-and-rays-wall-thickness-analysis.html",
+        "https://arxiv.org/abs/1704.08049"
+      ]
+    },
+    {
+      "rank": 5,
+      "priority": "P1",
+      "idea": "Replace blanket bore/short-face exemptions with layer-aware, two-ended bridge coverage and minimum anchor checks.",
+      "valueForMarc": "Fewer false support requirements and fewer failed horizontal bores/cantilevers on mechanisms.",
+      "effort": "Medium-to-high; depends on sections, planar region operations and printer profile.",
+      "acceptance": "Identical-length bridge and cantilever classify differently; unsupported roof portions remain visible; <=12 mm bores are not automatically certified printable.",
+      "sources": [
+        "https://github.com/prusa3d/PrusaSlicer/blob/30ef59195e0f3ee6f270b185bb5f9fb5f349f81f/src/libslic3r/src/libslic3r/BridgeDetector.cpp#L51-L176",
+        "https://github.com/Ultimaker/CuraEngine/blob/741be28fdfecd4428b84ab6046098e611e10dd60/src/bridge/bridge.cpp#L57-L199",
+        "https://github.com/OrcaSlicer/OrcaSlicer/wiki/quality_settings_bridging"
+      ]
+    },
+    {
+      "rank": 6,
+      "priority": "P1",
+      "idea": "Add real first-layer geometry, island/adhesion indicators and compensation provenance.",
+      "valueForMarc": "Catches tiny contact patches, weak initial islands and first-layer fit closure before printing; useful for reliable release/auto-eject tradeoffs too.",
+      "effort": "Medium; process-dependent risks remain advisory.",
+      "acceptance": "Distinguishes mathematical contact from a finite first-layer slice; reports disconnected islands and flags double CAD+slicer compensation.",
+      "sources": [
+        "https://help.prusa3d.com/article/elephant-foot-compensation_114487",
+        "https://github.com/OrcaSlicer/OrcaSlicer/wiki/quality_settings_precision",
+        "https://members.loria.fr/JDumas/publications/scaffoldings/"
+      ]
+    },
+    {
+      "rank": 7,
+      "priority": "P1",
+      "idea": "Check complete joint travel with conservative time intervals rather than a few animation frames.",
+      "valueForMarc": "Important for cad-project-041 levers, hinges and sliding mechanisms where the rest poses look correct but intermediate travel collides.",
+      "effort": "High; start with declared revolute/linear motions and bounded speed, not arbitrary opaque factories.",
+      "acceptance": "Finds a collision between two clear endpoint poses; reports checked intervals, an earliest unsafe bracket and unresolved intervals without certifying them.",
+      "sources": [
+        "https://arxiv.org/abs/2009.13349",
+        "https://arxiv.org/abs/1311.7462",
+        "https://github.com/flexible-collision-library/fcl"
+      ]
+    },
+    {
+      "rank": 8,
+      "priority": "P1",
+      "idea": "Offer a small Pareto set of orientations from actual face normals and functional axes.",
+      "valueForMarc": "Makes bore quality versus support versus layer strength versus adhesion tradeoffs explicit instead of choosing one unexplained cardinal direction.",
+      "effort": "Medium once the geometry/profile metrics exist.",
+      "acceptance": "Includes an oblique stable base, respects user-protected surfaces and load direction, exposes metric values and does not label heuristic ranking a proof of printability.",
+      "sources": [
+        "https://github.com/ChristophSchranz/Tweaker-3",
+        "https://help.autodesk.com/cloudhelp/ENU/Fusion-CAM/files/MFG-AM-HOW-TO-AUTO-ORIENT.htm",
+        "https://help.prusa3d.com/article/modeling-with-3d-printing-in-mind_164135"
+      ]
+    },
+    {
+      "rank": 9,
+      "priority": "P1",
+      "idea": "Unify persistent topology/source-linked diagnostic regions, diffs and inspection UI.",
+      "valueForMarc": "Direct repair loop: see what changed, which part/operation created it and whether a warning moved or disappeared; better than opaque face indices.",
+      "effort": "Medium; ambiguous split/merge identity must stay explicit.",
+      "acceptance": "Changing a parameter preserves attributable unchanged witnesses; ambiguous topology correspondence is reported rather than guessed.",
+      "sources": [
+        "https://occt3d.com/dev/doc/refman/html/class_b_rep_extrema___dist_shape_shape.html",
+        "https://help.autodesk.com/cloudhelp/2017/ENU/NETF/files/GUID-DB936297-C1DE-4BE7-8AC1-499CAF065C7B.htm"
+      ]
+    },
+    {
+      "rank": 10,
+      "priority": "P1/P2",
+      "idea": "Offer explicit local design alternatives: teardrop roof, chamfer, counterbore membrane and insertion relief.",
+      "valueForMarc": "Actionable repair suggestions with dimensional consequences rather than generic 'add support' warnings.",
+      "effort": "Medium, depends on supported modeling operations; suggestions can precede automatic modeling.",
+      "acceptance": "No suggestion silently edits the analytic model; user-selected variant retains original feature intent and fit dimensions.",
+      "sources": [
+        "https://github.com/OrcaSlicer/OrcaSlicer/wiki/quality_settings_bridging",
+        "https://help.prusa3d.com/article/modeling-with-3d-printing-in-mind_164135"
+      ]
+    },
+    {
+      "rank": 11,
+      "priority": "P2",
+      "idea": "Add opt-in pinned-slicer evidence and compare it with analytic preflight rather than build another slicer.",
+      "valueForMarc": "Actual support, time, bridge toolpaths and first-layer behavior resolve uncertainties geometry alone cannot answer.",
+      "effort": "Medium coordination; no runtime integration was implemented here.",
+      "acceptance": "Records exact slicer/version/profile/export tolerance; discrepancies remain visible; CAD certification is not inferred from slicer success.",
+      "sources": [
+        "https://github.com/OrcaSlicer/OrcaSlicer/wiki/quality_settings_bridging",
+        "https://github.com/OrcaSlicer/OrcaSlicer/wiki/quality_settings_precision"
+      ]
+    },
+    {
+      "rank": 12,
+      "priority": "P3/research",
+      "idea": "Defer full medial-axis fields, general nonconvex penetration and arc-overhang certification; retain bounded-preview/advisory experiments.",
+      "valueForMarc": "Keeps effort on dependable fits/walls/motion before expensive generality and machine-specific toolpath experiments.",
+      "effort": "High research cost relative to immediate daily value.",
+      "acceptance": "Research results are clearly marked and cannot weaken a production rule or trigger silent polygonization.",
+      "sources": [
+        "https://arxiv.org/abs/1704.08049",
+        "https://asmedigitalcollection.asme.org/computingengineering/article/22/4/041008/1129232/HyBoDT-Hybrid-Bounded-Distance-Transforms-of",
+        "https://www.cnckitchen.com/blog/arc-overhangs-in-prusaslicer"
+      ]
+    }
+  ],
+  "doNotAdopt": [
+    "A universal global epsilon that conflates mm, mm^2, mm^3, numerical uncertainty and manufacturing allowance.",
+    "Convex-hull GJK as a final decision for nonconvex drilled parts.",
+    "The bounded-NURBS paper's trim-texture feature omission as a certification strategy.",
+    "Using positive boundary separation to claim solid clearance in a containment case.",
+    "Using intersection volume as penetration depth or as a press-force estimate.",
+    "A generic minimum over adjacent surface points as wall thickness.",
+    "Treating sampled rays, six orientations or endpoint-only joint tests as exhaustive.",
+    "Automatic <=12 mm hole exemption, <=10 mm bridge exemption or universal 45-degree/1.5 mm FDM rules without process evidence and actual anchoring.",
+    "Silently polygonizing analytic circles into polyholes, or applying print compensation twice.",
+    "Copying SLA/SLS fit numbers, industrial tooling allowances or commercial marketing precision claims into desktop FDM defaults.",
+    "Claiming a stable support polygon, acceptable overhang score or a green slicer preview proves strength or successful printing."
+  ],
+  "sources": [
+    {
+      "id": "D1",
+      "title": "Parasolid v35 PK_TOPOL_clash reference (public mirror)",
+      "url": "http://www.q-solid.com/Parasolid_Docs_V35/headers/pk_topol_clash.html",
+      "access": "full HTTP HTML archived",
+      "local": "<repo>/tmp/khana/prior-art/sources/parasolid-clash.html:89-109",
+      "notes": "Historical mirrored API text, not an independently audited current vendor implementation."
+    },
+    {
+      "id": "D2",
+      "title": "Parasolid v35 Calculating Minimum and Maximum Distance",
+      "url": "http://www.q-solid.com/Parasolid_Docs_V35/chapters/fd_chap.029.html",
+      "access": "full HTTP HTML archived",
+      "local": "<repo>/tmp/khana/prior-art/sources/parasolid-range.html:384-449,492-497",
+      "notes": "Performance default may yield local rather than global extrema; accuracy option is not a stated certification."
+    },
+    {
+      "id": "D3",
+      "title": "OCCT BRepExtrema_DistShapeShape reference",
+      "url": "https://occt3d.com/dev/doc/refman/html/class_b_rep_extrema___dist_shape_shape.html",
+      "access": "full reference fetched",
+      "notes": "Status, witnesses, support types, containment flag, deflection meaning; no formal global enclosure promised."
+    },
+    {
+      "id": "D4",
+      "title": "OCCT BRepExtrema_ShapeProximity reference",
+      "url": "https://occt3d.com/dev/doc/refman/html/class_b_rep_extrema___shape_proximity.html",
+      "access": "full reference fetched",
+      "notes": "Explicit triangulation/deflection approximation; proximity modes must not be confused."
+    },
+    {
+      "id": "D5",
+      "title": "Spatial ACIS Polyhedra",
+      "url": "https://www.spatial.com/solutions/3d-modeling/acis-polyhedra",
+      "access": "product page fetched",
+      "notes": "Feature-level evidence only, undisclosed algorithms/defaults/guarantees."
+    },
+    {
+      "id": "D6",
+      "title": "Flexible Collision Library",
+      "url": "https://github.com/flexible-collision-library/fcl",
+      "access": "project documentation fetched",
+      "notes": "Distance, collision, tolerance, CCD, primitive/convex/mesh support, dynamic AABB trees, libccd."
+    },
+    {
+      "id": "D7",
+      "title": "OpenGJK overview",
+      "url": "https://www.mattiamontanari.com/opengjk/docs/about/",
+      "access": "project documentation fetched",
+      "notes": "Explicitly convex; nonconvex input is treated as its convex hull."
+    },
+    {
+      "id": "D8",
+      "title": "GPU-Accelerated Minimum Distance and Clearance Queries, Krishnamurthy/McMains/Haller (2010 manuscript)",
+      "url": "https://mcmains.me.berkeley.edu/pubs/TVCG2010finalKrishnamurthyMcMains.pdf",
+      "access": "full PDF downloaded and pdftotext inspected",
+      "local": "<repo>/tmp/khana/prior-art/sources/distance-tvcg2010.txt:207-227,395-515,610-650",
+      "notes": "Strong bounded-distance idea, but explicit trim-texture coverage caveat in Sec 5.3; historical timings not portable."
+    },
+    {
+      "id": "D9",
+      "title": "A Large Scale Benchmark and an Inclusion-Based Algorithm for Continuous Collision Detection, Wang et al. (2020/2021)",
+      "url": "https://arxiv.org/abs/2009.13349",
+      "access": "abstract fetched",
+      "notes": "Conservative interval-root approach; scope/motion assumptions must be respected."
+    },
+    {
+      "id": "D10",
+      "title": "Continuous Collision Detection for Composite Quadric Models, Choi et al. (2013 preprint)",
+      "url": "https://arxiv.org/abs/1311.7462",
+      "access": "abstract fetched",
+      "notes": "Boundary-element decomposition; constrained composite-quadric class; algebraic formulations plus numerical contact solve."
+    },
+    {
+      "id": "D11",
+      "title": "HyBoDT: Hybrid Bounded Distance Transforms of Trimmed NURBS Models (2022)",
+      "url": "https://asmedigitalcollection.asme.org/computingengineering/article/22/4/041008/1129232/HyBoDT-Hybrid-Bounded-Distance-Transforms-of",
+      "access": "indexed abstract only; full page 403",
+      "notes": "Promising theoretical error propagation for voxel distance transforms; full proof not checked."
+    },
+    {
+      "id": "W1",
+      "title": "Onshape public help: Thickness Analysis",
+      "url": "https://cad.onshape.com/help/Content/View/thickness_analysis.htm",
+      "access": "public help fetched, no live CAD/API calls",
+      "notes": "Ray, rolling ball and gradients; native/mesh parts; no universal FDM rule."
+    },
+    {
+      "id": "W2",
+      "title": "Hexagon Volume Graphics: Spheres and Rays, Wall Thickness Analysis",
+      "url": "https://volumegraphics.hexagon.com/en/explore-nde/our-stories/spheres-and-rays-wall-thickness-analysis.html",
+      "access": "vendor technical article fetched",
+      "notes": "Practical ray-versus-sphere definition/coverage comparison, not a formal proof or benchmark."
+    },
+    {
+      "id": "W3",
+      "title": "Autodesk Netfabb 2017: Wall thickness",
+      "url": "https://help.autodesk.com/cloudhelp/2017/ENU/NETF/files/GUID-DB936297-C1DE-4BE7-8AC1-499CAF065C7B.htm",
+      "access": "full help fetched",
+      "notes": "User thresholds and critical surface; fast mode incomplete; 0.5 mm is an example."
+    },
+    {
+      "id": "W4",
+      "title": "Materialise: 5 Basic 3D Model Repair Functions",
+      "url": "https://www.materialise.com/en/inspiration/articles/5-basic-3d-model-repair-functions",
+      "access": "vendor article fetched",
+      "notes": "Magics wall analysis/fortification/hollowing; no disclosed algorithm or numeric default."
+    },
+    {
+      "id": "W5",
+      "title": "Formlabs Meshmixer Tutorial",
+      "url": "https://formlabs.com/blog/meshmixer-tutorial-tips-to-edit-stl-files-for-3d-printing/",
+      "access": "full tutorial fetched",
+      "notes": "Thickness controls and ray-cone parameters. Tutorial resin examples do not mean the software is exclusively calibrated to SLA or transfer its thresholds to FDM."
+    },
+    {
+      "id": "W6",
+      "title": "nTop: How to measure TPMS wall thickness",
+      "url": "https://support.ntop.com/hc/en-us/articles/18669009073555-How-to-measure-TPMS-wall-thickness",
+      "access": "indexed instructions; full page 403",
+      "notes": "Mesh from Implicit Body, Field from Mesh Thickness, medial-axis distance; indexed suggested tolerance is one third of minimum feature size, not a certified general error rule."
+    },
+    {
+      "id": "W7",
+      "title": "Epsilon-shapes: characterizing, detecting and thickening thin features, Cabiddu/Attene (2017)",
+      "url": "https://arxiv.org/abs/1704.08049",
+      "access": "abstract fetched",
+      "notes": "Both object and complement thin features; full formal definitions must be read before implementation."
+    },
+    {
+      "id": "W8",
+      "title": "Consistent mesh partitioning and skeletonisation using the shape diameter function, Shapira/Shamir/Cohen-Or (2008)",
+      "url": "https://link.springer.com/article/10.1007/s00371-007-0197-5",
+      "access": "indexed paper description",
+      "notes": "Cone rays and robust aggregation for segmentation; not a minimum-wall certificate; shape diameter function differs from signed distance field."
+    },
+    {
+      "id": "W9",
+      "title": "Process-Aware Thickness Analysis in CAD Models using Hybrid Geometric Methods, Baltadouros/Duflou (September 14, 2026)",
+      "url": "https://arxiv.org/html/2609.15245",
+      "access": "full HTML fetched",
+      "notes": "Recent preprint, molding/milling not FDM; identifies method artifacts and uses tessellation."
+    },
+    {
+      "id": "F1",
+      "title": "Prusa: Modeling with 3D printing in mind",
+      "url": "https://help.prusa3d.com/article/modeling-with-3d-printing-in-mind_164135",
+      "access": "full help fetched",
+      "notes": "Concrete nozzle/perimeter/clearance guidance and explicit printer/process dependence."
+    },
+    {
+      "id": "F2",
+      "title": "Prusa: Elephant foot compensation",
+      "url": "https://help.prusa3d.com/article/elephant-foot-compensation_114487",
+      "access": "full help fetched",
+      "notes": "Approximately 0.2 mm advice for 0.4 mm nozzle; first-layer adaptive thin-line preservation; not a universal geometric default."
+    },
+    {
+      "id": "F3",
+      "title": "Pinned PrusaSlicer BridgeDetector.cpp",
+      "url": "https://github.com/prusa3d/PrusaSlicer/blob/30ef59195e0f3ee6f270b185bb5f9fb5f349f81f/src/libslic3r/src/libslic3r/BridgeDetector.cpp",
+      "access": "raw source archived and line inspected",
+      "local": "<repo>/tmp/khana/prior-art/sources/Prusa-BridgeDetector.cpp:51-77,91-176,189-205",
+      "notes": "Five-degree candidates, lower-slice anchors, both endpoints, coverage and max-span tie breaking."
+    },
+    {
+      "id": "F4",
+      "title": "Pinned SuperSlicer BridgeDetector.cpp",
+      "url": "https://github.com/supermerill/SuperSlicer/blob/1f3d287e9be46caa83bc19c16c51c8abd0c211d6/src/libslic3r/BridgeDetector.cpp",
+      "access": "raw source archived and line inspected",
+      "local": "<repo>/tmp/khana/prior-art/sources/SuperSlicer-BridgeDetector.cpp:53,164-299,303-366",
+      "notes": "Two-degree candidates; anchored/free and median statistics; fallback must be distinguished."
+    },
+    {
+      "id": "F5",
+      "title": "Pinned OrcaSlicer BridgeDetector.cpp",
+      "url": "https://github.com/OrcaSlicer/OrcaSlicer/blob/037b859447621bbf1fc9b8b49b2d14b167646dfe/src/libslic3r/BridgeDetector.cpp",
+      "access": "raw source archived and line inspected",
+      "local": "<repo>/tmp/khana/prior-art/sources/Orca-BridgeDetector.cpp:38-59,75-165,181-210",
+      "notes": "Layer anchor and bridge direction logic, not a constant face-span test."
+    },
+    {
+      "id": "F6",
+      "title": "OrcaSlicer Bridging wiki",
+      "url": "https://github.com/OrcaSlicer/OrcaSlicer/wiki/quality_settings_bridging",
+      "access": "full wiki fetched",
+      "notes": "Internal/external settings, thick bridge semantics, counterbore and sacrificial layers; bridge density stated 100%."
+    },
+    {
+      "id": "F7",
+      "title": "OrcaSlicer Precision wiki",
+      "url": "https://github.com/OrcaSlicer/OrcaSlicer/wiki/quality_settings_precision",
+      "access": "full wiki fetched",
+      "notes": "Separate hole/contour compensation, polyholes, elephant-foot layers, calibration. Radial/diametral convention not established by this text."
+    },
+    {
+      "id": "F8",
+      "title": "OrcaSlicer Filament Tolerance Calibration",
+      "url": "https://www.orcaslicer.com/wiki/calibration/tolerance_calib",
+      "access": "full wiki fetched",
+      "notes": "Six hexagonal-hole offsets 0/0.05/0.1/0.2/0.3/0.4 mm, test tool or 6 mm Allen key; printer/filament dependence. No radial convention inferred from hexagonal geometry."
+    },
+    {
+      "id": "F9",
+      "title": "Pinned CuraEngine bridge.cpp",
+      "url": "https://github.com/Ultimaker/CuraEngine/blob/741be28fdfecd4428b84ab6046098e611e10dd60/src/bridge/bridge.cpp",
+      "access": "raw source archived and line inspected",
+      "local": "<repo>/tmp/khana/prior-art/sources/Cura-bridge.cpp:57-199,247-300,303-408,430-454",
+      "notes": "Bridged/hanging/supported score, infill context and one-degree candidate search."
+    },
+    {
+      "id": "F10",
+      "title": "Tweaker-3 project and pinned scoring source",
+      "url": "https://github.com/ChristophSchranz/Tweaker-3/blob/d444290a732b8b72d10a701feed4e36a5284897d/MeshTweaker.py",
+      "access": "project docs fetched, raw source archived/inspected",
+      "local": "<repo>/tmp/khana/prior-art/sources/Tweaker-MeshTweaker.py:110-142,186-202,416-450",
+      "notes": "Candidate normals, bottom/overhang/contour heuristic; GPL-3.0. Study concepts without unreviewed source copying."
+    },
+    {
+      "id": "F11",
+      "title": "Bridging the Gap: Automated Steady Scaffoldings for 3D Printing, Dumas/Hergel/Lefebvre (2014)",
+      "url": "https://members.loria.fr/JDumas/publications/scaffoldings/",
+      "access": "authors' publication description fetched",
+      "notes": "Bridges/pillars, anchoring and part stability throughout printing."
+    },
+    {
+      "id": "F12",
+      "title": "Clever Support: Efficient Support Structure Generation for Digital Fabrication, Vanek/Galicia/Benes (2014)",
+      "url": "https://www.cs.purdue.edu/cgvlab/www/publications/Vanek14SGP/",
+      "access": "bibliographic page fetched; indexed abstract",
+      "notes": "Orientation/support minimization concept; quoted experimental speed/material percentages intentionally not used as universal claims."
+    },
+    {
+      "id": "F13",
+      "title": "CNC Kitchen: Arc Overhangs in PrusaSlicer",
+      "url": "https://www.cnckitchen.com/blog/arc-overhangs-in-prusaslicer",
+      "access": "full practical experimental article fetched",
+      "notes": "Tuned slow arc paths and warping mitigation; not a production guarantee or general exemption."
+    },
+    {
+      "id": "C1",
+      "title": "Fusion: Create an Automatic Orientation study",
+      "url": "https://help.autodesk.com/cloudhelp/ENU/Fusion-CAM/files/MFG-AM-HOW-TO-AUTO-ORIENT.htm",
+      "access": "full official help fetched",
+      "notes": "Five objectives, priority ranking, rotation/overhang ranges and precision toggle; no numeric default verified."
+    },
+    {
+      "id": "C2",
+      "title": "Autodesk Additive Assistant FFF listing",
+      "url": "https://apps.autodesk.com/FUSION/en/Detail/Index?id=9068625559069345798&appLang=en&os=Win64",
+      "access": "indexed listing only; redirect target returned 404",
+      "notes": "Feature-level overhang/warp/adhesion/size/environment claims only; thresholds and wall analysis unverified."
+    },
+    {
+      "id": "C3",
+      "title": "SOLIDWORKS: Evaluating Models for 3D Printing",
+      "url": "https://help.solidworks.com/2017/english/WhatsNew/t_evaluating_models_with_3d_print_validation.htm",
+      "access": "official indexed extract; full fetch returned navigation only",
+      "notes": "Material/layer-height dependent FDM thickness/gap capability, not numeric defaults."
+    },
+    {
+      "id": "C4",
+      "title": "SOLIDWORKS Print3D Preview help",
+      "url": "https://help.solidworks.com/2025/english/SolidWorks/sldworks/HIDD_DVE_3DPRINT_PREVIEW.htm",
+      "access": "full fetch returned navigation only",
+      "notes": "Not used to infer unpublished formulas or numeric settings."
+    },
+    {
+      "id": "C5",
+      "title": "Onshape forum: 3D Wall Thickness Analysis App",
+      "url": "https://forum.onshape.com/discussion/12871/3d-wall-thickness-analysis-app-for-onshape",
+      "access": "indexed public announcement",
+      "notes": "Evidence an app exists, not proof of algorithm/accuracy/defaults."
+    },
+    {
+      "id": "C6",
+      "title": "Onshape forum: Overhang Analysis",
+      "url": "https://forum.onshape.com/discussion/15179/overhang-analysis",
+      "access": "indexed public announcement",
+      "notes": "Evidence of workflow demand; no live Onshape use."
+    },
+    {
+      "id": "T1",
+      "title": "Formlabs: Guide to 3D Printing Tolerances, Accuracy and Precision",
+      "url": "https://formlabs.com/blog/3D-printing-tolerances-for-engineering-fit/",
+      "access": "full guide fetched",
+      "notes": "Fit vocabulary and process dependence; do not transplant SLA-focused dimensional evidence into FDM."
+    },
+    {
+      "id": "T2",
+      "title": "Formlabs: How to 3D Print Interlocking Parts and Assemblies",
+      "url": "https://formlabs.com/blog/how-to-3d-print-interlocking-joints/",
+      "access": "full guide fetched",
+      "notes": "Process-comparison FDM 0.5 mm versus SLA/SLS 0.2 mm; detailed resin/powder gaps are not FDM defaults."
+    }
+  ],
+  "open": [
+    "No implementation, benchmark, OCCT artifact oracle, slicer run or physical calibration print was performed. All candidate acceptance tests are proposals.",
+    "Generic body minimum distance, broad analytic trim coverage, planar region offsets and continuous-motion bounds require actual Bend implementations and proofs; existing supporting-surface roots alone are insufficient.",
+    "Public commercial documentation does not establish certified global guarantees or reveal every default/algorithm. Do not fill those gaps by inference.",
+    "Nozzle/line-width/material/cooling and dimensional calibration data for Marc's current printers were not measured here; starter settings need explicit assumptions and future coupons.",
+    "Full recent preprint, HyBoDT, epsilon-shape and CCD proofs need focused implementation review before reuse; a literature reference is not a correctness proof for a new port.",
+    "Pinned slicer source is research evidence only. Any future code port requires license/provenance review and preservation of Bend-only geometry ownership.",
+    "Public-name accounting and current local code limitations must be embedded from the independent local-baseline audit, including dirty upstream additions absent from the recorded HEAD."
+  ],
+  "baselineClaimCitations": {
+    "assemblyOverlapIsSolidNotTessellation": [
+      "~/Workspace/cad/cad-khana/src/cad_khana/mechanism/diagnostics.py:87-111",
+      "~/Workspace/cad/cad-khana/src/cad_khana/mechanism/assertions.py:26-32,49-63"
+    ],
+    "sampledPrintability": [
+      "~/Workspace/cad/cad-khana/src/cad_khana/printability/wall.py:7-41",
+      "~/Workspace/cad/cad-khana/src/cad_khana/printability/overhangs.py:46-69",
+      "~/Workspace/cad/cad-khana/src/cad_khana/printability/orientation.py:57-138"
+    ],
+    "kernelOwnership": [
+      "<repo>/AGENTS.md:3-8"
+    ],
+    "nativeRepresentationUncertainty": [
+      "<repo>/src/exactness.mjs:1-18,66-115",
+      "<repo>/kernel/volume.bend:666-736"
+    ],
+    "currentCompatibility": [
+      "<repo>/docs/python-khana.md:97-163",
+      "<repo>/python/cad_khana/_wonky.py:1-48"
+    ],
+    "personalAdoptionPriority": [
+      "<repo>/docs/personal-adoption.md:21-25,41-50"
+    ]
+  },
+  "crossCuttingNativeRecommendations": [
+    {
+      "evidence": "proposed",
+      "idea": "Qualified assembly paths and scoped assertions",
+      "reason": "Avoid leaf-name collisions and omissions of assertions on subassemblies. Resolve a short leaf name only if globally unique; preserve the full path in every report/witness/export.",
+      "baselineCitations": [
+        "~/Workspace/cad/cad-khana/src/cad_khana/mechanism/assembly.py:108-132,317-334",
+        "~/Workspace/cad/cad-khana/src/cad_khana/mechanism/assertions.py:98-100"
+      ],
+      "compatibility": "Keep the legacy compatibility behavior documented; expose stricter native policy explicitly/versioned rather than silently claim byte-identical cad_khana semantics."
+    },
+    {
+      "evidence": "proposed",
+      "idea": "Separate geometry validity, assertion pass and diagnostic coverage",
+      "reason": "A report can contain unasserted overlap and still pass declared assertions. Present all three statuses, and offer an explicit all-pairs strict policy rather than falsely calling the model globally checked.",
+      "baselineCitations": [
+        "~/Workspace/cad/cad-khana/src/cad_khana/mechanism/diagnostics.py:50-58,114-123",
+        "~/Workspace/cad/cad-khana/src/cad_khana/mechanism/check.py:39-46"
+      ]
+    },
+    {
+      "evidence": "proposed",
+      "idea": "Atomically write one complete diagnostic record on success, failed assertion, unresolved capability and ordinary error",
+      "reason": "Record attempt ID/source revision/profile/tolerances and whether exports completed; prevent a stale report being mistaken for the latest build. Retain all independent failure witnesses instead of only the first exception.",
+      "baselineCitations": [
+        "~/Workspace/cad/cad-khana/src/cad_khana/mechanism/check.py:35-64",
+        "~/Workspace/cad/cad-khana/src/cad_khana/printability/inspect.py:84-156",
+        "~/Workspace/cad/cad-khana/src/cad_khana/cli.py:80-92"
+      ]
+    },
+    {
+      "evidence": "proposed",
+      "idea": "A complete typed diagnostic diff",
+      "reason": "Diff not just scalar wall/volume values but witness movement, affected topology/area, bore/pin/void warnings, validity, analysis coverage, thresholds and profile changes. A changed profile must not appear as a geometry improvement.",
+      "baselineCitations": [
+        "~/Workspace/cad/cad-khana/src/cad_khana/diff.py:22-41,44-91,191-265",
+        "~/Workspace/cad/cad-khana/src/cad_khana/printability/orientation.py:125-138"
+      ]
+    },
+    {
+      "evidence": "proposed",
+      "idea": "One semantic part/feature manifest shared by reports, picks, viewer, drawings and exports",
+      "reason": "Color/material/part identity and source lineage should survive all output formats; transient mesh face indices may be supported only within an explicit render snapshot.",
+      "baselineCitations": [
+        "~/Workspace/cad/cad-khana/src/cad_khana/mechanism/pick.py:1-21,28-104",
+        "<repo>/docs/python-frontend.md:559-568"
+      ]
+    },
+    {
+      "evidence": "proposed",
+      "idea": "Benchmark the actual feedback loop in separate stages",
+      "reason": "Measure cold startup, warmed Bend queries, Python/JS interop, validation, export and UI separately. Compare complete diagnostic coverage at stated tolerances; do not extrapolate historical paper GPU/ACIS ratios or JS-target timings to native/GPU.",
+      "baselineCitations": [
+        "<repo>/AGENTS.md:10-11"
+      ]
+    }
+  ],
+  "sourceLinksMarkdown": [
+    "[Parasolid v35 PK_TOPOL_clash reference (public mirror)](http://www.q-solid.com/Parasolid_Docs_V35/headers/pk_topol_clash.html)",
+    "[Parasolid v35 Calculating Minimum and Maximum Distance](http://www.q-solid.com/Parasolid_Docs_V35/chapters/fd_chap.029.html)",
+    "[OCCT BRepExtrema_DistShapeShape reference](https://occt3d.com/dev/doc/refman/html/class_b_rep_extrema___dist_shape_shape.html)",
+    "[OCCT BRepExtrema_ShapeProximity reference](https://occt3d.com/dev/doc/refman/html/class_b_rep_extrema___shape_proximity.html)",
+    "[Spatial ACIS Polyhedra](https://www.spatial.com/solutions/3d-modeling/acis-polyhedra)",
+    "[Flexible Collision Library](https://github.com/flexible-collision-library/fcl)",
+    "[OpenGJK overview](https://www.mattiamontanari.com/opengjk/docs/about/)",
+    "[GPU-Accelerated Minimum Distance and Clearance Queries, Krishnamurthy/McMains/Haller (2010 manuscript)](https://mcmains.me.berkeley.edu/pubs/TVCG2010finalKrishnamurthyMcMains.pdf)",
+    "[A Large Scale Benchmark and an Inclusion-Based Algorithm for Continuous Collision Detection, Wang et al. (2020/2021)](https://arxiv.org/abs/2009.13349)",
+    "[Continuous Collision Detection for Composite Quadric Models, Choi et al. (2013 preprint)](https://arxiv.org/abs/1311.7462)",
+    "[HyBoDT: Hybrid Bounded Distance Transforms of Trimmed NURBS Models (2022)](https://asmedigitalcollection.asme.org/computingengineering/article/22/4/041008/1129232/HyBoDT-Hybrid-Bounded-Distance-Transforms-of)",
+    "[Onshape public help: Thickness Analysis](https://cad.onshape.com/help/Content/View/thickness_analysis.htm)",
+    "[Hexagon Volume Graphics: Spheres and Rays, Wall Thickness Analysis](https://volumegraphics.hexagon.com/en/explore-nde/our-stories/spheres-and-rays-wall-thickness-analysis.html)",
+    "[Autodesk Netfabb 2017: Wall thickness](https://help.autodesk.com/cloudhelp/2017/ENU/NETF/files/GUID-DB936297-C1DE-4BE7-8AC1-499CAF065C7B.htm)",
+    "[Materialise: 5 Basic 3D Model Repair Functions](https://www.materialise.com/en/inspiration/articles/5-basic-3d-model-repair-functions)",
+    "[Formlabs Meshmixer Tutorial](https://formlabs.com/blog/meshmixer-tutorial-tips-to-edit-stl-files-for-3d-printing/)",
+    "[nTop: How to measure TPMS wall thickness](https://support.ntop.com/hc/en-us/articles/18669009073555-How-to-measure-TPMS-wall-thickness)",
+    "[Epsilon-shapes: characterizing, detecting and thickening thin features, Cabiddu/Attene (2017)](https://arxiv.org/abs/1704.08049)",
+    "[Consistent mesh partitioning and skeletonisation using the shape diameter function, Shapira/Shamir/Cohen-Or (2008)](https://link.springer.com/article/10.1007/s00371-007-0197-5)",
+    "[Process-Aware Thickness Analysis in CAD Models using Hybrid Geometric Methods, Baltadouros/Duflou (September 14, 2026)](https://arxiv.org/html/2609.15245)",
+    "[Prusa: Modeling with 3D printing in mind](https://help.prusa3d.com/article/modeling-with-3d-printing-in-mind_164135)",
+    "[Prusa: Elephant foot compensation](https://help.prusa3d.com/article/elephant-foot-compensation_114487)",
+    "[Pinned PrusaSlicer BridgeDetector.cpp](https://github.com/prusa3d/PrusaSlicer/blob/30ef59195e0f3ee6f270b185bb5f9fb5f349f81f/src/libslic3r/src/libslic3r/BridgeDetector.cpp)",
+    "[Pinned SuperSlicer BridgeDetector.cpp](https://github.com/supermerill/SuperSlicer/blob/1f3d287e9be46caa83bc19c16c51c8abd0c211d6/src/libslic3r/BridgeDetector.cpp)",
+    "[Pinned OrcaSlicer BridgeDetector.cpp](https://github.com/OrcaSlicer/OrcaSlicer/blob/037b859447621bbf1fc9b8b49b2d14b167646dfe/src/libslic3r/BridgeDetector.cpp)",
+    "[OrcaSlicer Bridging wiki](https://github.com/OrcaSlicer/OrcaSlicer/wiki/quality_settings_bridging)",
+    "[OrcaSlicer Precision wiki](https://github.com/OrcaSlicer/OrcaSlicer/wiki/quality_settings_precision)",
+    "[OrcaSlicer Filament Tolerance Calibration](https://www.orcaslicer.com/wiki/calibration/tolerance_calib)",
+    "[Pinned CuraEngine bridge.cpp](https://github.com/Ultimaker/CuraEngine/blob/741be28fdfecd4428b84ab6046098e611e10dd60/src/bridge/bridge.cpp)",
+    "[Tweaker-3 project and pinned scoring source](https://github.com/ChristophSchranz/Tweaker-3/blob/d444290a732b8b72d10a701feed4e36a5284897d/MeshTweaker.py)",
+    "[Bridging the Gap: Automated Steady Scaffoldings for 3D Printing, Dumas/Hergel/Lefebvre (2014)](https://members.loria.fr/JDumas/publications/scaffoldings/)",
+    "[Clever Support: Efficient Support Structure Generation for Digital Fabrication, Vanek/Galicia/Benes (2014)](https://www.cs.purdue.edu/cgvlab/www/publications/Vanek14SGP/)",
+    "[CNC Kitchen: Arc Overhangs in PrusaSlicer](https://www.cnckitchen.com/blog/arc-overhangs-in-prusaslicer)",
+    "[Fusion: Create an Automatic Orientation study](https://help.autodesk.com/cloudhelp/ENU/Fusion-CAM/files/MFG-AM-HOW-TO-AUTO-ORIENT.htm)",
+    "[Autodesk Additive Assistant FFF listing](https://apps.autodesk.com/FUSION/en/Detail/Index?id=9068625559069345798&appLang=en&os=Win64)",
+    "[SOLIDWORKS: Evaluating Models for 3D Printing](https://help.solidworks.com/2017/english/WhatsNew/t_evaluating_models_with_3d_print_validation.htm)",
+    "[SOLIDWORKS Print3D Preview help](https://help.solidworks.com/2025/english/SolidWorks/sldworks/HIDD_DVE_3DPRINT_PREVIEW.htm)",
+    "[Onshape forum: 3D Wall Thickness Analysis App](https://forum.onshape.com/discussion/12871/3d-wall-thickness-analysis-app-for-onshape)",
+    "[Onshape forum: Overhang Analysis](https://forum.onshape.com/discussion/15179/overhang-analysis)",
+    "[Formlabs: Guide to 3D Printing Tolerances, Accuracy and Precision](https://formlabs.com/blog/3D-printing-tolerances-for-engineering-fit/)",
+    "[Formlabs: How to 3D Print Interlocking Parts and Assemblies](https://formlabs.com/blog/how-to-3d-print-interlocking-joints/)"
+  ],
+  "criticalVolumeGuard": {
+    "evidence": "source_observed_and_proposed_separated",
+    "today": "kernel/volume.bend uses error estimates (including Est and adaptive quadrature ef/eg-style error estimates). Its current Measured.bound is not a generally proved interval enclosure. Whole-rule versus two-half-rule agreement and sampled angular/polar guards are not interval arithmetic or a proof of a derivative remainder. Do not certify overlap/no-overlap, clearance or a passed threshold by treating every current bound as rigorous.",
+    "citations": [
+      "<repo>/kernel/volume.bend:6-38",
+      "<repo>/kernel/volume.bend:666-736",
+      "<repo>/kernel/volume.bend:840-901",
+      "<repo>/kernel/volume.bend:959-981"
+    ],
+    "future": "Proposed [L,U] certificates require a separately implemented and verified enclosure algorithm for every admitted branch, arithmetic and trim domain. Analytic closed forms may support future rigor with a proved rounding budget; merely preserving analytic surfaces does not establish that budget. Existing estimates may be reported as estimates with provenance, never silently relabelled certified."
+  },
+  "outputNote": "Requested Markdown findings are provided as JSON under tmp/khana/prior-art due to the developer prohibition on writing report/findings .md files; the coordinator explicitly accepted this fallback. The architect consumes findings.json. No production source or existing project Markdown was edited."
+}

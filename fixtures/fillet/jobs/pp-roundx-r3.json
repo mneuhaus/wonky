@@ -1,0 +1,90 @@
+{
+ "id": "pp-roundx-r3",
+ "jobSha256": "d826b9f96eafc5c6dfcf7ae2f0821e7ba959c7b1fe512cd104b9a5244952b17f",
+ "jobBytes": 1844,
+ "sourceSha256": "79f8b7d0f8cdaca36e98c205fad0d178530e02b37427e20d51d6341eaecaa420",
+ "buildMs": 5.110500000000002,
+ "kernel": {
+  "closed": true,
+  "volumeMm3": 12000,
+  "areaMm2": 3680,
+  "precision": "F32x2",
+  "geometry": "planar"
+ },
+ "counts": {
+  "vertices": 8,
+  "edges": 12,
+  "faces": 6
+ },
+ "surfaces": {
+  "plane": 6
+ },
+ "quantizationErrorMm": 0,
+ "selected": [
+  {
+   "edge": 0,
+   "curve": "line",
+   "faces": [
+    "plane",
+    "plane"
+   ],
+   "convexity": "convex",
+   "dihedralDeg": 90,
+   "length": 50,
+   "sample": [
+    25,
+    0,
+    0
+   ]
+  },
+  {
+   "edge": 2,
+   "curve": "line",
+   "faces": [
+    "plane",
+    "plane"
+   ],
+   "convexity": "convex",
+   "dihedralDeg": 90,
+   "length": 50,
+   "sample": [
+    25,
+    20,
+    0
+   ]
+  },
+  {
+   "edge": 4,
+   "curve": "line",
+   "faces": [
+    "plane",
+    "plane"
+   ],
+   "convexity": "convex",
+   "dihedralDeg": 90,
+   "length": 50,
+   "sample": [
+    25,
+    0,
+    12
+   ]
+  },
+  {
+   "edge": 6,
+   "curve": "line",
+   "faces": [
+    "plane",
+    "plane"
+   ],
+   "convexity": "convex",
+   "dihedralDeg": 90,
+   "length": 50,
+   "sample": [
+    25,
+    20,
+    12
+   ]
+  }
+ ],
+ "step": "out/fillet/input-step/pp-roundx-r3.step"
+}

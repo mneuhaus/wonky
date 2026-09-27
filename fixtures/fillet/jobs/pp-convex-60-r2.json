@@ -1,0 +1,42 @@
+{
+ "id": "pp-convex-60-r2",
+ "jobSha256": "a26fa3855161a29f9c02134ae13fd636f8f4c877d15c9ff978f8e03496be31f5",
+ "jobBytes": 1687,
+ "sourceSha256": "e4d2d95dc4156c1a43484fdc34afeb53137d9e50b1366b66cef4ddb10b620011",
+ "buildMs": 1.9967920000003687,
+ "kernel": {
+  "closed": true,
+  "volumeMm3": 1732.050895690918,
+  "areaMm2": 946.4101944013687,
+  "precision": "F32x2",
+  "geometry": "planar"
+ },
+ "counts": {
+  "vertices": 6,
+  "edges": 9,
+  "faces": 5
+ },
+ "surfaces": {
+  "plane": 5
+ },
+ "quantizationErrorMm": 1.7763568394002505e-14,
+ "selected": [
+  {
+   "edge": 8,
+   "curve": "line",
+   "faces": [
+    "plane",
+    "plane"
+   ],
+   "convexity": "convex",
+   "dihedralDeg": 59.999997475489494,
+   "length": 10,
+   "sample": [
+    10,
+    17.32050895690918,
+    5
+   ]
+  }
+ ],
+ "step": "out/fillet/input-step/pp-convex-60-r2.step"
+}

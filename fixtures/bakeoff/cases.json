@@ -1,0 +1,5728 @@
+{
+ "schema": "wonky-bakeoff-cases/1",
+ "units": "mm",
+ "generator": "scripts/bakeoff/cases.mjs --write",
+ "conventions": {
+  "leaf": "{prim, params, transform: {rotate: [{axis: x|y|z|[x,y,z], deg}], translate: [x,y,z]}}; rotations apply in list order, then the translation",
+  "node": "{op: union|subtract|intersect, children: [a, b]}; subtract is children[0] minus children[1]",
+  "box": "params {min:[x,y,z], max:[x,y,z]}",
+  "cylinder": "params {radius, height}; axis +Z from z=0 to z=height",
+  "cone": "params {r1 (at z=0), r2 (at z=height), height}; r1 or r2 may be 0 (apex)",
+  "sphere": "params {radius}; centred on the origin",
+  "torus": "params {major, minor}; axis +Z, centred on the origin",
+  "prism": "params {points: [[x,y],...] simple polygon, height}; extruded +Z from z=0",
+  "brep": "params {source: gzipped wonky-acceptance-operands/1 JSON, body: index}; the exact B-rep body as stored (identity transform); tessellated by scripts/bakeoff/brep-tessellate.mjs",
+  "deviationMm": "stated bound on the distance between a leaf tessellation and its analytic surface",
+  "expect": "solid (a valid closed 2-manifold mesh, possibly several components) | empty (valid answer is an ok mesh with 0 triangles) | non-manifold-contact (the exact result touches itself along a line or point; a closed 2-manifold mesh of it does not exist, so the expected answer is unresolved with a reason; a mesh is reported but not scored as a pass)"
+ },
+ "cases": [
+  {
+   "id": "leaf-cylinder",
+   "category": "identity",
+   "fdmRationale": "A single primitive with no Boolean (a plain printed spacer): the result is the operand itself.",
+   "deviationMm": 0.01,
+   "expect": "solid",
+   "csg": {
+    "prim": "cylinder",
+    "params": {
+     "radius": 6,
+     "height": 12
+    },
+    "transform": {
+     "rotate": [],
+     "translate": [
+      0,
+      0,
+      0
+     ]
+    }
+   }
+  },
+  {
+   "id": "box-union-overlap",
+   "category": "box-basics",
+   "fdmRationale": "Two blocks glued into one print; generic position, no coincident faces.",
+   "deviationMm": 0.01,
+   "expect": "solid",
+   "csg": {
+    "op": "union",
+    "children": [
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        0,
+        0,
+        0
+       ],
+       "max": [
+        20,
+        20,
+        20
+       ]
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     },
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        10,
+        5,
+        5
+       ],
+       "max": [
+        30,
+        15,
+        25
+       ]
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "box-subtract-overlap",
+   "category": "box-basics",
+   "fdmRationale": "Notch cut into a block (a slot for a mating part).",
+   "deviationMm": 0.01,
+   "expect": "solid",
+   "csg": {
+    "op": "subtract",
+    "children": [
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        0,
+        0,
+        0
+       ],
+       "max": [
+        20,
+        20,
+        20
+       ]
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     },
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        10,
+        5,
+        5
+       ],
+       "max": [
+        30,
+        15,
+        25
+       ]
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "box-intersect-overlap",
+   "category": "box-basics",
+   "fdmRationale": "Trimming a part to a bounding block (build-volume clip).",
+   "deviationMm": 0.01,
+   "expect": "solid",
+   "csg": {
+    "op": "intersect",
+    "children": [
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        0,
+        0,
+        0
+       ],
+       "max": [
+        20,
+        20,
+        20
+       ]
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     },
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        10,
+        5,
+        5
+       ],
+       "max": [
+        30,
+        15,
+        25
+       ]
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "box-rotated-intersect",
+   "category": "box-basics",
+   "fdmRationale": "Oblique trim of a block; no axis alignment, every intersection edge is skew.",
+   "deviationMm": 0.01,
+   "expect": "solid",
+   "csg": {
+    "op": "intersect",
+    "children": [
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        0,
+        0,
+        0
+       ],
+       "max": [
+        20,
+        20,
+        20
+       ]
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     },
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        -10,
+        -10,
+        -10
+       ],
+       "max": [
+        10,
+        10,
+        10
+       ]
+      },
+      "transform": {
+       "rotate": [
+        {
+         "axis": "z",
+         "deg": 30
+        },
+        {
+         "axis": "x",
+         "deg": 20
+        },
+        {
+         "axis": "y",
+         "deg": -11
+        }
+       ],
+       "translate": [
+        12,
+        9,
+        11
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "box-coplanar-union",
+   "category": "coplanar",
+   "fdmRationale": "Lip added flush with the top surface; the two top faces are coplanar and overlap.",
+   "deviationMm": 0.01,
+   "expect": "solid",
+   "csg": {
+    "op": "union",
+    "children": [
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        0,
+        0,
+        0
+       ],
+       "max": [
+        20,
+        20,
+        20
+       ]
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     },
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        10,
+        5,
+        10
+       ],
+       "max": [
+        30,
+        15,
+        20
+       ]
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "box-coplanar-subtract",
+   "category": "coplanar",
+   "fdmRationale": "Rebate cut flush with the top and three sides; cutter faces coincide with stock faces.",
+   "deviationMm": 0.01,
+   "expect": "solid",
+   "csg": {
+    "op": "subtract",
+    "children": [
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        0,
+        0,
+        0
+       ],
+       "max": [
+        20,
+        20,
+        20
+       ]
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     },
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        10,
+        0,
+        10
+       ],
+       "max": [
+        20,
+        20,
+        20
+       ]
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "box-touching-merge",
+   "category": "touching",
+   "fdmRationale": "Two modelled halves that share one full face; the union must merge into one block with no internal wall.",
+   "deviationMm": 0.01,
+   "expect": "solid",
+   "csg": {
+    "op": "union",
+    "children": [
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        0,
+        0,
+        0
+       ],
+       "max": [
+        10,
+        10,
+        10
+       ]
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     },
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        10,
+        0,
+        0
+       ],
+       "max": [
+        20,
+        10,
+        10
+       ]
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "box-touching-partial",
+   "category": "touching",
+   "fdmRationale": "A tab welded to a wall; the contact face is a sub-rectangle of the wall face.",
+   "deviationMm": 0.01,
+   "expect": "solid",
+   "csg": {
+    "op": "union",
+    "children": [
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        0,
+        0,
+        0
+       ],
+       "max": [
+        10,
+        10,
+        10
+       ]
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     },
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        10,
+        2,
+        3
+       ],
+       "max": [
+        16,
+        8,
+        7
+       ]
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "plate-through-hole",
+   "category": "holes",
+   "fdmRationale": "M6 clearance hole through a 5 mm plate.",
+   "deviationMm": 0.01,
+   "expect": "solid",
+   "csg": {
+    "op": "subtract",
+    "children": [
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        0,
+        0,
+        0
+       ],
+       "max": [
+        40,
+        30,
+        5
+       ]
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     },
+     {
+      "prim": "cylinder",
+      "params": {
+       "radius": 3.2,
+       "height": 7
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        20,
+        15,
+        -1
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "plate-blind-hole",
+   "category": "holes",
+   "fdmRationale": "Blind hole 3 mm deep for a heat-set insert: a cylinder cut ending in a flat floor inside the plate.",
+   "deviationMm": 0.01,
+   "expect": "solid",
+   "csg": {
+    "op": "subtract",
+    "children": [
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        0,
+        0,
+        0
+       ],
+       "max": [
+        30,
+        30,
+        6
+       ]
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     },
+     {
+      "prim": "cylinder",
+      "params": {
+       "radius": 2.5,
+       "height": 5
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        15,
+        15,
+        3
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "plate-blind-pocket",
+   "category": "holes",
+   "fdmRationale": "Rectangular pocket 3 mm deep for a magnet or PCB.",
+   "deviationMm": 0.01,
+   "expect": "solid",
+   "csg": {
+    "op": "subtract",
+    "children": [
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        0,
+        0,
+        0
+       ],
+       "max": [
+        40,
+        30,
+        5
+       ]
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     },
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        10,
+        8,
+        2
+       ],
+       "max": [
+        30,
+        22,
+        6
+       ]
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "plate-counterbore",
+   "category": "holes",
+   "fdmRationale": "M3 socket-head counterbore: coaxial hole and bore, the bore floor is an annulus.",
+   "deviationMm": 0.01,
+   "expect": "solid",
+   "csg": {
+    "op": "subtract",
+    "children": [
+     {
+      "op": "subtract",
+      "children": [
+       {
+        "prim": "box",
+        "params": {
+         "min": [
+          0,
+          0,
+          0
+         ],
+         "max": [
+          30,
+          30,
+          8
+         ]
+        },
+        "transform": {
+         "rotate": [],
+         "translate": [
+          0,
+          0,
+          0
+         ]
+        }
+       },
+       {
+        "prim": "cylinder",
+        "params": {
+         "radius": 1.7,
+         "height": 10
+        },
+        "transform": {
+         "rotate": [],
+         "translate": [
+          15,
+          15,
+          -1
+         ]
+        }
+       }
+      ]
+     },
+     {
+      "prim": "cylinder",
+      "params": {
+       "radius": 3.1,
+       "height": 4
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        15,
+        15,
+        5
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "plate-countersink",
+   "category": "holes",
+   "fdmRationale": "M4 countersink (90 deg cone) meeting a coaxial hole; the cone bottom circle coincides with the hole wall.",
+   "deviationMm": 0.01,
+   "expect": "solid",
+   "csg": {
+    "op": "subtract",
+    "children": [
+     {
+      "op": "subtract",
+      "children": [
+       {
+        "prim": "box",
+        "params": {
+         "min": [
+          0,
+          0,
+          0
+         ],
+         "max": [
+          30,
+          30,
+          6
+         ]
+        },
+        "transform": {
+         "rotate": [],
+         "translate": [
+          0,
+          0,
+          0
+         ]
+        }
+       },
+       {
+        "prim": "cylinder",
+        "params": {
+         "radius": 2.2,
+         "height": 8
+        },
+        "transform": {
+         "rotate": [],
+         "translate": [
+          15,
+          15,
+          -1
+         ]
+        }
+       }
+      ]
+     },
+     {
+      "prim": "cone",
+      "params": {
+       "r1": 2.2,
+       "r2": 6.2,
+       "height": 4
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        15,
+        15,
+        2.8
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "plate-4-holes",
+   "category": "holes",
+   "fdmRationale": "Mounting plate with four corner holes.",
+   "deviationMm": 0.01,
+   "expect": "solid",
+   "csg": {
+    "op": "subtract",
+    "children": [
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        0,
+        0,
+        0
+       ],
+       "max": [
+        50,
+        40,
+        4
+       ]
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     },
+     {
+      "op": "union",
+      "children": [
+       {
+        "op": "union",
+        "children": [
+         {
+          "prim": "cylinder",
+          "params": {
+           "radius": 1.7,
+           "height": 6
+          },
+          "transform": {
+           "rotate": [],
+           "translate": [
+            6,
+            6,
+            -1
+           ]
+          }
+         },
+         {
+          "prim": "cylinder",
+          "params": {
+           "radius": 1.7,
+           "height": 6
+          },
+          "transform": {
+           "rotate": [],
+           "translate": [
+            44,
+            6,
+            -1
+           ]
+          }
+         }
+        ]
+       },
+       {
+        "op": "union",
+        "children": [
+         {
+          "prim": "cylinder",
+          "params": {
+           "radius": 1.7,
+           "height": 6
+          },
+          "transform": {
+           "rotate": [],
+           "translate": [
+            44,
+            34,
+            -1
+           ]
+          }
+         },
+         {
+          "prim": "cylinder",
+          "params": {
+           "radius": 1.7,
+           "height": 6
+          },
+          "transform": {
+           "rotate": [],
+           "translate": [
+            6,
+            34,
+            -1
+           ]
+          }
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "id": "plate-hole-grid-10x10",
+   "category": "holes",
+   "fdmRationale": "Perforated panel / speaker grille: 100 holes, many independent intersection loops.",
+   "deviationMm": 0.01,
+   "expect": "solid",
+   "csg": {
+    "op": "subtract",
+    "children": [
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        0,
+        0,
+        0
+       ],
+       "max": [
+        55,
+        55,
+        3
+       ]
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     },
+     {
+      "op": "union",
+      "children": [
+       {
+        "op": "union",
+        "children": [
+         {
+          "op": "union",
+          "children": [
+           {
+            "op": "union",
+            "children": [
+             {
+              "op": "union",
+              "children": [
+               {
+                "op": "union",
+                "children": [
+                 {
+                  "op": "union",
+                  "children": [
+                   {
+                    "prim": "cylinder",
+                    "params": {
+                     "radius": 1.5,
+                     "height": 5
+                    },
+                    "transform": {
+                     "rotate": [],
+                     "translate": [
+                      5,
+                      5,
+                      -1
+                     ]
+                    }
+                   },
+                   {
+                    "prim": "cylinder",
+                    "params": {
+                     "radius": 1.5,
+                     "height": 5
+                    },
+                    "transform": {
+                     "rotate": [],
+                     "translate": [
+                      5,
+                      10,
+                      -1
+                     ]
+                    }
+                   }
+                  ]
+                 },
+                 {
+                  "op": "union",
+                  "children": [
+                   {
+                    "prim": "cylinder",
+                    "params": {
+                     "radius": 1.5,
+                     "height": 5
+                    },
+                    "transform": {
+                     "rotate": [],
+                     "translate": [
+                      5,
+                      15,
+                      -1
+                     ]
+                    }
+                   },
+                   {
+                    "prim": "cylinder",
+                    "params": {
+                     "radius": 1.5,
+                     "height": 5
+                    },
+                    "transform": {
+                     "rotate": [],
+                     "translate": [
+                      5,
+                      20,
+                      -1
+                     ]
+                    }
+                   }
+                  ]
+                 }
+                ]
+               },
+               {
+                "op": "union",
+                "children": [
+                 {
+                  "op": "union",
+                  "children": [
+                   {
+                    "prim": "cylinder",
+                    "params": {
+                     "radius": 1.5,
+                     "height": 5
+                    },
+                    "transform": {
+                     "rotate": [],
+                     "translate": [
+                      5,
+                      25,
+                      -1
+                     ]
+                    }
+                   },
+                   {
+                    "prim": "cylinder",
+                    "params": {
+                     "radius": 1.5,
+                     "height": 5
+                    },
+                    "transform": {
+                     "rotate": [],
+                     "translate": [
+                      5,
+                      30,
+                      -1
+                     ]
+                    }
+                   }
+                  ]
+                 },
+                 {
+                  "prim": "cylinder",
+                  "params": {
+                   "radius": 1.5,
+                   "height": 5
+                  },
+                  "transform": {
+                   "rotate": [],
+                   "translate": [
+                    5,
+                    35,
+                    -1
+                   ]
+                  }
+                 }
+                ]
+               }
+              ]
+             },
+             {
+              "op": "union",
+              "children": [
+               {
+                "op": "union",
+                "children": [
+                 {
+                  "op": "union",
+                  "children": [
+                   {
+                    "prim": "cylinder",
+                    "params": {
+                     "radius": 1.5,
+                     "height": 5
+                    },
+                    "transform": {
+                     "rotate": [],
+                     "translate": [
+                      5,
+                      40,
+                      -1
+                     ]
+                    }
+                   },
+                   {
+                    "prim": "cylinder",
+                    "params": {
+                     "radius": 1.5,
+                     "height": 5
+                    },
+                    "transform": {
+                     "rotate": [],
+                     "translate": [
+                      5,
+                      45,
+                      -1
+                     ]
+                    }
+                   }
+                  ]
+                 },
+                 {
+                  "prim": "cylinder",
+                  "params": {
+                   "radius": 1.5,
+                   "height": 5
+                  },
+                  "transform": {
+                   "rotate": [],
+                   "translate": [
+                    5,
+                    50,
+                    -1
+                   ]
+                  }
+                 }
+                ]
+               },
+               {
+                "op": "union",
+                "children": [
+                 {
+                  "op": "union",
+                  "children": [
+                   {
+                    "prim": "cylinder",
+                    "params": {
+                     "radius": 1.5,
+                     "height": 5
+                    },
+                    "transform": {
+                     "rotate": [],
+                     "translate": [
+                      10,
+                      5,
+                      -1
+                     ]
+                    }
+                   },
+                   {
+                    "prim": "cylinder",
+                    "params": {
+                     "radius": 1.5,
+                     "height": 5
+                    },
+                    "transform": {
+                     "rotate": [],
+                     "translate": [
+                      10,
+                      10,
+                      -1
+                     ]
+                    }
+                   }
+                  ]
+                 },
+                 {
+                  "prim": "cylinder",
+                  "params": {
+                   "radius": 1.5,
+                   "height": 5
+                  },
+                  "transform": {
+                   "rotate": [],
+                   "translate": [
+                    10,
+                    15,
+                    -1
+                   ]
+                  }
+                 }
+                ]
+               }
+              ]
+             }
+            ]
+           },
+           {
+            "op": "union",
+            "children": [
+             {
+              "op": "union",
+              "children": [
+               {
+                "op": "union",
+                "children": [
+                 {
+                  "op": "union",
+                  "children": [
+                   {
+                    "prim": "cylinder",
+                    "params": {
+                     "radius": 1.5,
+                     "height": 5
+                    },
+                    "transform": {
+                     "rotate": [],
+                     "translate": [
+                      10,
+                      20,
+                      -1
+                     ]
+                    }
+                   },
+                   {
+                    "prim": "cylinder",
+                    "params": {
+                     "radius": 1.5,
+                     "height": 5
+                    },
+                    "transform": {
+                     "rotate": [],
+                     "translate": [
+                      10,
+                      25,
+                      -1
+                     ]
+                    }
+                   }
+                  ]
+                 },
+                 {
+                  "prim": "cylinder",
+                  "params": {
+                   "radius": 1.5,
+                   "height": 5
+                  },
+                  "transform": {
+                   "rotate": [],
+                   "translate": [
+                    10,
+                    30,
+                    -1
+                   ]
+                  }
+                 }
+                ]
+               },
+               {
+                "op": "union",
+                "children": [
+                 {
+                  "op": "union",
+                  "children": [
+                   {
+                    "prim": "cylinder",
+                    "params": {
+                     "radius": 1.5,
+                     "height": 5
+                    },
+                    "transform": {
+                     "rotate": [],
+                     "translate": [
+                      10,
+                      35,
+                      -1
+                     ]
+                    }
+                   },
+                   {
+                    "prim": "cylinder",
+                    "params": {
+                     "radius": 1.5,
+                     "height": 5
+                    },
+                    "transform": {
+                     "rotate": [],
+                     "translate": [
+                      10,
+                      40,
+                      -1
+                     ]
+                    }
+                   }
+                  ]
+                 },
+                 {
+                  "prim": "cylinder",
+                  "params": {
+                   "radius": 1.5,
+                   "height": 5
+                  },
+                  "transform": {
+                   "rotate": [],
+                   "translate": [
+                    10,
+                    45,
+                    -1
+                   ]
+                  }
+                 }
+                ]
+               }
+              ]
+             },
+             {
+              "op": "union",
+              "children": [
+               {
+                "op": "union",
+                "children": [
+                 {
+                  "op": "union",
+                  "children": [
+                   {
+                    "prim": "cylinder",
+                    "params": {
+                     "radius": 1.5,
+                     "height": 5
+                    },
+                    "transform": {
+                     "rotate": [],
+                     "translate": [
+                      10,
+                      50,
+                      -1
+                     ]
+                    }
+                   },
+                   {
+                    "prim": "cylinder",
+                    "params": {
+                     "radius": 1.5,
+                     "height": 5
+                    },
+                    "transform": {
+                     "rotate": [],
+                     "translate": [
+                      15,
+                      5,
+                      -1
+                     ]
+                    }
+                   }
+                  ]
+                 },
+                 {
+                  "prim": "cylinder",
+                  "params": {
+                   "radius": 1.5,
+                   "height": 5
+                  },
+                  "transform": {
+                   "rotate": [],
+                   "translate": [
+                    15,
+                    10,
+                    -1
+                   ]
+                  }
+                 }
+                ]
+               },
+               {
+                "op": "union",
+                "children": [
+                 {
+                  "op": "union",
+                  "children": [
+                   {
+                    "prim": "cylinder",
+                    "params": {
+                     "radius": 1.5,
+                     "height": 5
+                    },
+                    "transform": {
+                     "rotate": [],
+                     "translate": [
+                      15,
+                      15,
+                      -1
+                     ]
+                    }
+                   },
+                   {
+                    "prim": "cylinder",
+                    "params": {
+                     "radius": 1.5,
+                     "height": 5
+                    },
+                    "transform": {
+                     "rotate": [],
+                     "translate": [
+                      15,
+                      20,
+                      -1
+                     ]
+                    }
+                   }
+                  ]
+                 },
+                 {
+                  "prim": "cylinder",
+                  "params": {
+                   "radius": 1.5,
+                   "height": 5
+                  },
+                  "transform": {
+                   "rotate": [],
+                   "translate": [
+                    15,
+                    25,
+                    -1
+                   ]
+                  }
+                 }
+                ]
+               }
+              ]
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "op": "union",
+          "children": [
+           {
+            "op": "union",
+            "children": [
+             {
+              "op": "union",
+              "children": [
+               {
+                "op": "union",
+                "children": [
+                 {
+                  "op": "union",
+                  "children": [
+                   {
+                    "prim": "cylinder",
+                    "params": {
+                     "radius": 1.5,
+                     "height": 5
+                    },
+                    "transform": {
+                     "rotate": [],
+                     "translate": [
+                      15,
+                      30,
+                      -1
+                     ]
+                    }
+                   },
+                   {
+                    "prim": "cylinder",
+                    "params": {
+                     "radius": 1.5,
+                     "height": 5
+                    },
+                    "transform": {
+                     "rotate": [],
+                     "translate": [
+                      15,
+                      35,
+                      -1
+                     ]
+                    }
+                   }
+                  ]
+                 },
+                 {
+                  "op": "union",
+                  "children": [
+                   {
+                    "prim": "cylinder",
+                    "params": {
+                     "radius": 1.5,
+                     "height": 5
+                    },
+                    "transform": {
+                     "rotate": [],
+                     "translate": [
+                      15,
+                      40,
+                      -1
+                     ]
+                    }
+                   },
+                   {
+                    "prim": "cylinder",
+                    "params": {
+                     "radius": 1.5,
+                     "height": 5
+                    },
+                    "transform": {
+                     "rotate": [],
+                     "translate": [
+                      15,
+                      45,
+                      -1
+                     ]
+                    }
+                   }
+                  ]
+                 }
+                ]
+               },
+               {
+                "op": "union",
+                "children": [
+                 {
+                  "op": "union",
+                  "children": [
+                   {
+                    "prim": "cylinder",
+                    "params": {
+                     "radius": 1.5,
+                     "height": 5
+                    },
+                    "transform": {
+                     "rotate": [],
+                     "translate": [
+                      15,
+                      50,
+                      -1
+                     ]
+                    }
+                   },
+                   {
+                    "prim": "cylinder",
+                    "params": {
+                     "radius": 1.5,
+                     "height": 5
+                    },
+                    "transform": {
+                     "rotate": [],
+                     "translate": [
+                      20,
+                      5,
+                      -1
+                     ]
+                    }
+                   }
+                  ]
+                 },
+                 {
+                  "prim": "cylinder",
+                  "params": {
+                   "radius": 1.5,
+                   "height": 5
+                  },
+                  "transform": {
+                   "rotate": [],
+                   "translate": [
+                    20,
+                    10,
+                    -1
+                   ]
+                  }
+                 }
+                ]
+               }
+              ]
+             },
+             {
+              "op": "union",
+              "children": [
+               {
+                "op": "union",
+                "children": [
+                 {
+                  "op": "union",
+                  "children": [
+                   {
+                    "prim": "cylinder",
+                    "params": {
+                     "radius": 1.5,
+                     "height": 5
+                    },
+                    "transform": {
+                     "rotate": [],
+                     "translate": [
+                      20,
+                      15,
+                      -1
+                     ]
+                    }
+                   },
+                   {
+                    "prim": "cylinder",
+                    "params": {
+                     "radius": 1.5,
+                     "height": 5
+                    },
+                    "transform": {
+                     "rotate": [],
+                     "translate": [
+                      20,
+                      20,
+                      -1
+                     ]
+                    }
+                   }
+                  ]
+                 },
+                 {
+                  "prim": "cylinder",
+                  "params": {
+                   "radius": 1.5,
+                   "height": 5
+                  },
+                  "transform": {
+                   "rotate": [],
+                   "translate": [
+                    20,
+                    25,
+                    -1
+                   ]
+                  }
+                 }
+                ]
+               },
+               {
+                "op": "union",
+                "children": [
+                 {
+                  "op": "union",
+                  "children": [
+                   {
+                    "prim": "cylinder",
+                    "params": {
+                     "radius": 1.5,
+                     "height": 5
+                    },
+                    "transform": {
+                     "rotate": [],
+                     "translate": [
+                      20,
+                      30,
+                      -1
+                     ]
+                    }
+                   },
+                   {
+                    "prim": "cylinder",
+                    "params": {
+                     "radius": 1.5,
+                     "height": 5
+                    },
+                    "transform": {
+                     "rotate": [],
+                     "translate": [
+                      20,
+                      35,
+                      -1
+                     ]
+                    }
+                   }
+                  ]
+                 },
+                 {
+                  "prim": "cylinder",
+                  "params": {
+                   "radius": 1.5,
+                   "height": 5
+                  },
+                  "transform": {
+                   "rotate": [],
+                   "translate": [
+                    20,
+                    40,
+                    -1
+                   ]
+                  }
+                 }
+                ]
+               }
+              ]
+             }
+            ]
+           },
+           {
+            "op": "union",
+            "children": [
+             {
+              "op": "union",
+              "children": [
+               {
+                "op": "union",
+                "children": [
+                 {
+                  "op": "union",
+                  "children": [
+                   {
+                    "prim": "cylinder",
+                    "params": {
+                     "radius": 1.5,
+                     "height": 5
+                    },
+                    "transform": {
+                     "rotate": [],
+                     "translate": [
+                      20,
+                      45,
+                      -1
+                     ]
+                    }
+                   },
+                   {
+                    "prim": "cylinder",
+                    "params": {
+                     "radius": 1.5,
+                     "height": 5
+                    },
+                    "transform": {
+                     "rotate": [],
+                     "translate": [
+                      20,
+                      50,
+                      -1
+                     ]
+                    }
+                   }
+                  ]
+                 },
+                 {
+                  "prim": "cylinder",
+                  "params": {
+                   "radius": 1.5,
+                   "height": 5
+                  },
+                  "transform": {
+                   "rotate": [],
+                   "translate": [
+                    25,
+                    5,
+                    -1
+                   ]
+                  }
+                 }
+                ]
+               },
+               {
+                "op": "union",
+                "children": [
+                 {
+                  "op": "union",
+                  "children": [
+                   {
+                    "prim": "cylinder",
+                    "params": {
+                     "radius": 1.5,
+                     "height": 5
+                    },
+                    "transform": {
+                     "rotate": [],
+                     "translate": [
+                      25,
+                      10,
+                      -1
+                     ]
+                    }
+                   },
+                   {
+                    "prim": "cylinder",
+                    "params": {
+                     "radius": 1.5,
+                     "height": 5
+                    },
+                    "transform": {
+                     "rotate": [],
+                     "translate": [
+                      25,
+                      15,
+                      -1
+                     ]
+                    }
+                   }
+                  ]
+                 },
+                 {
+                  "prim": "cylinder",
+                  "params": {
+                   "radius": 1.5,
+                   "height": 5
+                  },
+                  "transform": {
+                   "rotate": [],
+                   "translate": [
+                    25,
+                    20,
+                    -1
+                   ]
+                  }
+                 }
+                ]
+               }
+              ]
+             },
+             {
+              "op": "union",
+              "children": [
+               {
+                "op": "union",
+                "children": [
+                 {
+                  "op": "union",
+                  "children": [
+                   {
+                    "prim": "cylinder",
+                    "params": {
+                     "radius": 1.5,
+                     "height": 5
+                    },
+                    "transform": {
+                     "rotate": [],
+                     "translate": [
+                      25,
+                      25,
+                      -1
+                     ]
+                    }
+                   },
+                   {
+                    "prim": "cylinder",
+                    "params": {
+                     "radius": 1.5,
+                     "height": 5
+                    },
+                    "transform": {
+                     "rotate": [],
+                     "translate": [
+                      25,
+                      30,
+                      -1
+                     ]
+                    }
+                   }
+                  ]
+                 },
+                 {
+                  "prim": "cylinder",
+                  "params": {
+                   "radius": 1.5,
+                   "height": 5
+                  },
+                  "transform": {
+                   "rotate": [],
+                   "translate": [
+                    25,
+                    35,
+                    -1
+                   ]
+                  }
+                 }
+                ]
+               },
+               {
+                "op": "union",
+                "children": [
+                 {
+                  "op": "union",
+                  "children": [
+                   {
+                    "prim": "cylinder",
+                    "params": {
+                     "radius": 1.5,
+                     "height": 5
+                    },
+                    "transform": {
+                     "rotate": [],
+                     "translate": [
+                      25,
+                      40,
+                      -1
+                     ]
+                    }
+                   },
+                   {
+                    "prim": "cylinder",
+                    "params": {
+                     "radius": 1.5,
+                     "height": 5
+                    },
+                    "transform": {
+                     "rotate": [],
+                     "translate": [
+                      25,
+                      45,
+                      -1
+                     ]
+                    }
+                   }
+                  ]
+                 },
+                 {
+                  "prim": "cylinder",
+                  "params": {
+                   "radius": 1.5,
+                   "height": 5
+                  },
+                  "transform": {
+                   "rotate": [],
+                   "translate": [
+                    25,
+                    50,
+                    -1
+                   ]
+                  }
+                 }
+                ]
+               }
+              ]
+             }
+            ]
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "op": "union",
+        "children": [
+         {
+          "op": "union",
+          "children": [
+           {
+            "op": "union",
+            "children": [
+             {
+              "op": "union",
+              "children": [
+               {
+                "op": "union",
+                "children": [
+                 {
+                  "op": "union",
+                  "children": [
+                   {
+                    "prim": "cylinder",
+                    "params": {
+                     "radius": 1.5,
+                     "height": 5
+                    },
+                    "transform": {
+                     "rotate": [],
+                     "translate": [
+                      30,
+                      5,
+                      -1
+                     ]
+                    }
+                   },
+                   {
+                    "prim": "cylinder",
+                    "params": {
+                     "radius": 1.5,
+                     "height": 5
+                    },
+                    "transform": {
+                     "rotate": [],
+                     "translate": [
+                      30,
+                      10,
+                      -1
+                     ]
+                    }
+                   }
+                  ]
+                 },
+                 {
+                  "op": "union",
+                  "children": [
+                   {
+                    "prim": "cylinder",
+                    "params": {
+                     "radius": 1.5,
+                     "height": 5
+                    },
+                    "transform": {
+                     "rotate": [],
+                     "translate": [
+                      30,
+                      15,
+                      -1
+                     ]
+                    }
+                   },
+                   {
+                    "prim": "cylinder",
+                    "params": {
+                     "radius": 1.5,
+                     "height": 5
+                    },
+                    "transform": {
+                     "rotate": [],
+                     "translate": [
+                      30,
+                      20,
+                      -1
+                     ]
+                    }
+                   }
+                  ]
+                 }
+                ]
+               },
+               {
+                "op": "union",
+                "children": [
+                 {
+                  "op": "union",
+                  "children": [
+                   {
+                    "prim": "cylinder",
+                    "params": {
+                     "radius": 1.5,
+                     "height": 5
+                    },
+                    "transform": {
+                     "rotate": [],
+                     "translate": [
+                      30,
+                      25,
+                      -1
+                     ]
+                    }
+                   },
+                   {
+                    "prim": "cylinder",
+                    "params": {
+                     "radius": 1.5,
+                     "height": 5
+                    },
+                    "transform": {
+                     "rotate": [],
+                     "translate": [
+                      30,
+                      30,
+                      -1
+                     ]
+                    }
+                   }
+                  ]
+                 },
+                 {
+                  "prim": "cylinder",
+                  "params": {
+                   "radius": 1.5,
+                   "height": 5
+                  },
+                  "transform": {
+                   "rotate": [],
+                   "translate": [
+                    30,
+                    35,
+                    -1
+                   ]
+                  }
+                 }
+                ]
+               }
+              ]
+             },
+             {
+              "op": "union",
+              "children": [
+               {
+                "op": "union",
+                "children": [
+                 {
+                  "op": "union",
+                  "children": [
+                   {
+                    "prim": "cylinder",
+                    "params": {
+                     "radius": 1.5,
+                     "height": 5
+                    },
+                    "transform": {
+                     "rotate": [],
+                     "translate": [
+                      30,
+                      40,
+                      -1
+                     ]
+                    }
+                   },
+                   {
+                    "prim": "cylinder",
+                    "params": {
+                     "radius": 1.5,
+                     "height": 5
+                    },
+                    "transform": {
+                     "rotate": [],
+                     "translate": [
+                      30,
+                      45,
+                      -1
+                     ]
+                    }
+                   }
+                  ]
+                 },
+                 {
+                  "prim": "cylinder",
+                  "params": {
+                   "radius": 1.5,
+                   "height": 5
+                  },
+                  "transform": {
+                   "rotate": [],
+                   "translate": [
+                    30,
+                    50,
+                    -1
+                   ]
+                  }
+                 }
+                ]
+               },
+               {
+                "op": "union",
+                "children": [
+                 {
+                  "op": "union",
+                  "children": [
+                   {
+                    "prim": "cylinder",
+                    "params": {
+                     "radius": 1.5,
+                     "height": 5
+                    },
+                    "transform": {
+                     "rotate": [],
+                     "translate": [
+                      35,
+                      5,
+                      -1
+                     ]
+                    }
+                   },
+                   {
+                    "prim": "cylinder",
+                    "params": {
+                     "radius": 1.5,
+                     "height": 5
+                    },
+                    "transform": {
+                     "rotate": [],
+                     "translate": [
+                      35,
+                      10,
+                      -1
+                     ]
+                    }
+                   }
+                  ]
+                 },
+                 {
+                  "prim": "cylinder",
+                  "params": {
+                   "radius": 1.5,
+                   "height": 5
+                  },
+                  "transform": {
+                   "rotate": [],
+                   "translate": [
+                    35,
+                    15,
+                    -1
+                   ]
+                  }
+                 }
+                ]
+               }
+              ]
+             }
+            ]
+           },
+           {
+            "op": "union",
+            "children": [
+             {
+              "op": "union",
+              "children": [
+               {
+                "op": "union",
+                "children": [
+                 {
+                  "op": "union",
+                  "children": [
+                   {
+                    "prim": "cylinder",
+                    "params": {
+                     "radius": 1.5,
+                     "height": 5
+                    },
+                    "transform": {
+                     "rotate": [],
+                     "translate": [
+                      35,
+                      20,
+                      -1
+                     ]
+                    }
+                   },
+                   {
+                    "prim": "cylinder",
+                    "params": {
+                     "radius": 1.5,
+                     "height": 5
+                    },
+                    "transform": {
+                     "rotate": [],
+                     "translate": [
+                      35,
+                      25,
+                      -1
+                     ]
+                    }
+                   }
+                  ]
+                 },
+                 {
+                  "prim": "cylinder",
+                  "params": {
+                   "radius": 1.5,
+                   "height": 5
+                  },
+                  "transform": {
+                   "rotate": [],
+                   "translate": [
+                    35,
+                    30,
+                    -1
+                   ]
+                  }
+                 }
+                ]
+               },
+               {
+                "op": "union",
+                "children": [
+                 {
+                  "op": "union",
+                  "children": [
+                   {
+                    "prim": "cylinder",
+                    "params": {
+                     "radius": 1.5,
+                     "height": 5
+                    },
+                    "transform": {
+                     "rotate": [],
+                     "translate": [
+                      35,
+                      35,
+                      -1
+                     ]
+                    }
+                   },
+                   {
+                    "prim": "cylinder",
+                    "params": {
+                     "radius": 1.5,
+                     "height": 5
+                    },
+                    "transform": {
+                     "rotate": [],
+                     "translate": [
+                      35,
+                      40,
+                      -1
+                     ]
+                    }
+                   }
+                  ]
+                 },
+                 {
+                  "prim": "cylinder",
+                  "params": {
+                   "radius": 1.5,
+                   "height": 5
+                  },
+                  "transform": {
+                   "rotate": [],
+                   "translate": [
+                    35,
+                    45,
+                    -1
+                   ]
+                  }
+                 }
+                ]
+               }
+              ]
+             },
+             {
+              "op": "union",
+              "children": [
+               {
+                "op": "union",
+                "children": [
+                 {
+                  "op": "union",
+                  "children": [
+                   {
+                    "prim": "cylinder",
+                    "params": {
+                     "radius": 1.5,
+                     "height": 5
+                    },
+                    "transform": {
+                     "rotate": [],
+                     "translate": [
+                      35,
+                      50,
+                      -1
+                     ]
+                    }
+                   },
+                   {
+                    "prim": "cylinder",
+                    "params": {
+                     "radius": 1.5,
+                     "height": 5
+                    },
+                    "transform": {
+                     "rotate": [],
+                     "translate": [
+                      40,
+                      5,
+                      -1
+                     ]
+                    }
+                   }
+                  ]
+                 },
+                 {
+                  "prim": "cylinder",
+                  "params": {
+                   "radius": 1.5,
+                   "height": 5
+                  },
+                  "transform": {
+                   "rotate": [],
+                   "translate": [
+                    40,
+                    10,
+                    -1
+                   ]
+                  }
+                 }
+                ]
+               },
+               {
+                "op": "union",
+                "children": [
+                 {
+                  "op": "union",
+                  "children": [
+                   {
+                    "prim": "cylinder",
+                    "params": {
+                     "radius": 1.5,
+                     "height": 5
+                    },
+                    "transform": {
+                     "rotate": [],
+                     "translate": [
+                      40,
+                      15,
+                      -1
+                     ]
+                    }
+                   },
+                   {
+                    "prim": "cylinder",
+                    "params": {
+                     "radius": 1.5,
+                     "height": 5
+                    },
+                    "transform": {
+                     "rotate": [],
+                     "translate": [
+                      40,
+                      20,
+                      -1
+                     ]
+                    }
+                   }
+                  ]
+                 },
+                 {
+                  "prim": "cylinder",
+                  "params": {
+                   "radius": 1.5,
+                   "height": 5
+                  },
+                  "transform": {
+                   "rotate": [],
+                   "translate": [
+                    40,
+                    25,
+                    -1
+                   ]
+                  }
+                 }
+                ]
+               }
+              ]
+             }
+            ]
+           }
+          ]
+         },
+         {
+          "op": "union",
+          "children": [
+           {
+            "op": "union",
+            "children": [
+             {
+              "op": "union",
+              "children": [
+               {
+                "op": "union",
+                "children": [
+                 {
+                  "op": "union",
+                  "children": [
+                   {
+                    "prim": "cylinder",
+                    "params": {
+                     "radius": 1.5,
+                     "height": 5
+                    },
+                    "transform": {
+                     "rotate": [],
+                     "translate": [
+                      40,
+                      30,
+                      -1
+                     ]
+                    }
+                   },
+                   {
+                    "prim": "cylinder",
+                    "params": {
+                     "radius": 1.5,
+                     "height": 5
+                    },
+                    "transform": {
+                     "rotate": [],
+                     "translate": [
+                      40,
+                      35,
+                      -1
+                     ]
+                    }
+                   }
+                  ]
+                 },
+                 {
+                  "op": "union",
+                  "children": [
+                   {
+                    "prim": "cylinder",
+                    "params": {
+                     "radius": 1.5,
+                     "height": 5
+                    },
+                    "transform": {
+                     "rotate": [],
+                     "translate": [
+                      40,
+                      40,
+                      -1
+                     ]
+                    }
+                   },
+                   {
+                    "prim": "cylinder",
+                    "params": {
+                     "radius": 1.5,
+                     "height": 5
+                    },
+                    "transform": {
+                     "rotate": [],
+                     "translate": [
+                      40,
+                      45,
+                      -1
+                     ]
+                    }
+                   }
+                  ]
+                 }
+                ]
+               },
+               {
+                "op": "union",
+                "children": [
+                 {
+                  "op": "union",
+                  "children": [
+                   {
+                    "prim": "cylinder",
+                    "params": {
+                     "radius": 1.5,
+                     "height": 5
+                    },
+                    "transform": {
+                     "rotate": [],
+                     "translate": [
+                      40,
+                      50,
+                      -1
+                     ]
+                    }
+                   },
+                   {
+                    "prim": "cylinder",
+                    "params": {
+                     "radius": 1.5,
+                     "height": 5
+                    },
+                    "transform": {
+                     "rotate": [],
+                     "translate": [
+                      45,
+                      5,
+                      -1
+                     ]
+                    }
+                   }
+                  ]
+                 },
+                 {
+                  "prim": "cylinder",
+                  "params": {
+                   "radius": 1.5,
+                   "height": 5
+                  },
+                  "transform": {
+                   "rotate": [],
+                   "translate": [
+                    45,
+                    10,
+                    -1
+                   ]
+                  }
+                 }
+                ]
+               }
+              ]
+             },
+             {
+              "op": "union",
+              "children": [
+               {
+                "op": "union",
+                "children": [
+                 {
+                  "op": "union",
+                  "children": [
+                   {
+                    "prim": "cylinder",
+                    "params": {
+                     "radius": 1.5,
+                     "height": 5
+                    },
+                    "transform": {
+                     "rotate": [],
+                     "translate": [
+                      45,
+                      15,
+                      -1
+                     ]
+                    }
+                   },
+                   {
+                    "prim": "cylinder",
+                    "params": {
+                     "radius": 1.5,
+                     "height": 5
+                    },
+                    "transform": {
+                     "rotate": [],
+                     "translate": [
+                      45,
+                      20,
+                      -1
+                     ]
+                    }
+                   }
+                  ]
+                 },
+                 {
+                  "prim": "cylinder",
+                  "params": {
+                   "radius": 1.5,
+                   "height": 5
+                  },
+                  "transform": {
+                   "rotate": [],
+                   "translate": [
+                    45,
+                    25,
+                    -1
+                   ]
+                  }
+                 }
+                ]
+               },
+               {
+                "op": "union",
+                "children": [
+                 {
+                  "op": "union",
+                  "children": [
+                   {
+                    "prim": "cylinder",
+                    "params": {
+                     "radius": 1.5,
+                     "height": 5
+                    },
+                    "transform": {
+                     "rotate": [],
+                     "translate": [
+                      45,
+                      30,
+                      -1
+                     ]
+                    }
+                   },
+                   {
+                    "prim": "cylinder",
+                    "params": {
+                     "radius": 1.5,
+                     "height": 5
+                    },
+                    "transform": {
+                     "rotate": [],
+                     "translate": [
+                      45,
+                      35,
+                      -1
+                     ]
+                    }
+                   }
+                  ]
+                 },
+                 {
+                  "prim": "cylinder",
+                  "params": {
+                   "radius": 1.5,
+                   "height": 5
+                  },
+                  "transform": {
+                   "rotate": [],
+                   "translate": [
+                    45,
+                    40,
+                    -1
+                   ]
+                  }
+                 }
+                ]
+               }
+              ]
+             }
+            ]
+           },
+           {
+            "op": "union",
+            "children": [
+             {
+              "op": "union",
+              "children": [
+               {
+                "op": "union",
+                "children": [
+                 {
+                  "op": "union",
+                  "children": [
+                   {
+                    "prim": "cylinder",
+                    "params": {
+                     "radius": 1.5,
+                     "height": 5
+                    },
+                    "transform": {
+                     "rotate": [],
+                     "translate": [
+                      45,
+                      45,
+                      -1
+                     ]
+                    }
+                   },
+                   {
+                    "prim": "cylinder",
+                    "params": {
+                     "radius": 1.5,
+                     "height": 5
+                    },
+                    "transform": {
+                     "rotate": [],
+                     "translate": [
+                      45,
+                      50,
+                      -1
+                     ]
+                    }
+                   }
+                  ]
+                 },
+                 {
+                  "prim": "cylinder",
+                  "params": {
+                   "radius": 1.5,
+                   "height": 5
+                  },
+                  "transform": {
+                   "rotate": [],
+                   "translate": [
+                    50,
+                    5,
+                    -1
+                   ]
+                  }
+                 }
+                ]
+               },
+               {
+                "op": "union",
+                "children": [
+                 {
+                  "op": "union",
+                  "children": [
+                   {
+                    "prim": "cylinder",
+                    "params": {
+                     "radius": 1.5,
+                     "height": 5
+                    },
+                    "transform": {
+                     "rotate": [],
+                     "translate": [
+                      50,
+                      10,
+                      -1
+                     ]
+                    }
+                   },
+                   {
+                    "prim": "cylinder",
+                    "params": {
+                     "radius": 1.5,
+                     "height": 5
+                    },
+                    "transform": {
+                     "rotate": [],
+                     "translate": [
+                      50,
+                      15,
+                      -1
+                     ]
+                    }
+                   }
+                  ]
+                 },
+                 {
+                  "prim": "cylinder",
+                  "params": {
+                   "radius": 1.5,
+                   "height": 5
+                  },
+                  "transform": {
+                   "rotate": [],
+                   "translate": [
+                    50,
+                    20,
+                    -1
+                   ]
+                  }
+                 }
+                ]
+               }
+              ]
+             },
+             {
+              "op": "union",
+              "children": [
+               {
+                "op": "union",
+                "children": [
+                 {
+                  "op": "union",
+                  "children": [
+                   {
+                    "prim": "cylinder",
+                    "params": {
+                     "radius": 1.5,
+                     "height": 5
+                    },
+                    "transform": {
+                     "rotate": [],
+                     "translate": [
+                      50,
+                      25,
+                      -1
+                     ]
+                    }
+                   },
+                   {
+                    "prim": "cylinder",
+                    "params": {
+                     "radius": 1.5,
+                     "height": 5
+                    },
+                    "transform": {
+                     "rotate": [],
+                     "translate": [
+                      50,
+                      30,
+                      -1
+                     ]
+                    }
+                   }
+                  ]
+                 },
+                 {
+                  "prim": "cylinder",
+                  "params": {
+                   "radius": 1.5,
+                   "height": 5
+                  },
+                  "transform": {
+                   "rotate": [],
+                   "translate": [
+                    50,
+                    35,
+                    -1
+                   ]
+                  }
+                 }
+                ]
+               },
+               {
+                "op": "union",
+                "children": [
+                 {
+                  "op": "union",
+                  "children": [
+                   {
+                    "prim": "cylinder",
+                    "params": {
+                     "radius": 1.5,
+                     "height": 5
+                    },
+                    "transform": {
+                     "rotate": [],
+                     "translate": [
+                      50,
+                      40,
+                      -1
+                     ]
+                    }
+                   },
+                   {
+                    "prim": "cylinder",
+                    "params": {
+                     "radius": 1.5,
+                     "height": 5
+                    },
+                    "transform": {
+                     "rotate": [],
+                     "translate": [
+                      50,
+                      45,
+                      -1
+                     ]
+                    }
+                   }
+                  ]
+                 },
+                 {
+                  "prim": "cylinder",
+                  "params": {
+                   "radius": 1.5,
+                   "height": 5
+                  },
+                  "transform": {
+                   "rotate": [],
+                   "translate": [
+                    50,
+                    50,
+                    -1
+                   ]
+                  }
+                 }
+                ]
+               }
+              ]
+             }
+            ]
+           }
+          ]
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "id": "tilted-holes-17deg",
+   "category": "holes",
+   "fdmRationale": "Four holes drilled at 17 deg (angled cable pass-throughs); elliptical entry and exit loops.",
+   "deviationMm": 0.01,
+   "expect": "solid",
+   "csg": {
+    "op": "subtract",
+    "children": [
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        0,
+        0,
+        0
+       ],
+       "max": [
+        40,
+        40,
+        6
+       ]
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     },
+     {
+      "op": "union",
+      "children": [
+       {
+        "op": "union",
+        "children": [
+         {
+          "prim": "cylinder",
+          "params": {
+           "radius": 2,
+           "height": 14
+          },
+          "transform": {
+           "rotate": [
+            {
+             "axis": "x",
+             "deg": 17
+            }
+           ],
+           "translate": [
+            10,
+            12.046601933059158,
+            -3.694133291741248
+           ]
+          }
+         },
+         {
+          "prim": "cylinder",
+          "params": {
+           "radius": 2,
+           "height": 14
+          },
+          "transform": {
+           "rotate": [
+            {
+             "axis": "x",
+             "deg": 17
+            }
+           ],
+           "translate": [
+            30,
+            12.046601933059158,
+            -3.694133291741248
+           ]
+          }
+         }
+        ]
+       },
+       {
+        "op": "union",
+        "children": [
+         {
+          "prim": "cylinder",
+          "params": {
+           "radius": 2,
+           "height": 14
+          },
+          "transform": {
+           "rotate": [
+            {
+             "axis": "x",
+             "deg": 17
+            }
+           ],
+           "translate": [
+            30,
+            32.04660193305916,
+            -3.694133291741248
+           ]
+          }
+         },
+         {
+          "prim": "cylinder",
+          "params": {
+           "radius": 2,
+           "height": 14
+          },
+          "transform": {
+           "rotate": [
+            {
+             "axis": "x",
+             "deg": 17
+            }
+           ],
+           "translate": [
+            10,
+            32.04660193305916,
+            -3.694133291741248
+           ]
+          }
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "id": "pipe-tee",
+   "category": "cylinders",
+   "fdmRationale": "Printed pipe tee: perpendicular cylinder union, then the bores; saddle-shaped intersection curves.",
+   "deviationMm": 0.01,
+   "expect": "solid",
+   "csg": {
+    "op": "subtract",
+    "children": [
+     {
+      "op": "union",
+      "children": [
+       {
+        "prim": "cylinder",
+        "params": {
+         "radius": 6,
+         "height": 40
+        },
+        "transform": {
+         "rotate": [
+          {
+           "axis": "y",
+           "deg": 90
+          }
+         ],
+         "translate": [
+          -20,
+          0,
+          0
+         ]
+        }
+       },
+       {
+        "prim": "cylinder",
+        "params": {
+         "radius": 4,
+         "height": 20
+        },
+        "transform": {
+         "rotate": [],
+         "translate": [
+          0,
+          0,
+          0
+         ]
+        }
+       }
+      ]
+     },
+     {
+      "op": "union",
+      "children": [
+       {
+        "prim": "cylinder",
+        "params": {
+         "radius": 5,
+         "height": 42
+        },
+        "transform": {
+         "rotate": [
+          {
+           "axis": "y",
+           "deg": 90
+          }
+         ],
+         "translate": [
+          -21,
+          0,
+          0
+         ]
+        }
+       },
+       {
+        "prim": "cylinder",
+        "params": {
+         "radius": 3,
+         "height": 22
+        },
+        "transform": {
+         "rotate": [],
+         "translate": [
+          0,
+          0,
+          0
+         ]
+        }
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "id": "steinmetz-intersect",
+   "category": "cylinders",
+   "fdmRationale": "Equal-radius crossing cylinders: the intersection curves cross at singular points.",
+   "deviationMm": 0.01,
+   "expect": "solid",
+   "csg": {
+    "op": "intersect",
+    "children": [
+     {
+      "prim": "cylinder",
+      "params": {
+       "radius": 5,
+       "height": 20
+      },
+      "transform": {
+       "rotate": [
+        {
+         "axis": "y",
+         "deg": 90
+        }
+       ],
+       "translate": [
+        -10,
+        0,
+        0
+       ]
+      }
+     },
+     {
+      "prim": "cylinder",
+      "params": {
+       "radius": 5,
+       "height": 20
+      },
+      "transform": {
+       "rotate": [
+        {
+         "axis": "x",
+         "deg": -90
+        }
+       ],
+       "translate": [
+        0,
+        -10,
+        0
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "steinmetz-union",
+   "category": "cylinders",
+   "fdmRationale": "Cross-shaped pipe junction with equal radii (same singular intersection as the intersect case).",
+   "deviationMm": 0.01,
+   "expect": "solid",
+   "csg": {
+    "op": "union",
+    "children": [
+     {
+      "prim": "cylinder",
+      "params": {
+       "radius": 5,
+       "height": 20
+      },
+      "transform": {
+       "rotate": [
+        {
+         "axis": "y",
+         "deg": 90
+        }
+       ],
+       "translate": [
+        -10,
+        0,
+        0
+       ]
+      }
+     },
+     {
+      "prim": "cylinder",
+      "params": {
+       "radius": 5,
+       "height": 20
+      },
+      "transform": {
+       "rotate": [
+        {
+         "axis": "x",
+         "deg": -90
+        }
+       ],
+       "translate": [
+        0,
+        -10,
+        0
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "coaxial-cylinder-stack",
+   "category": "cylinders",
+   "fdmRationale": "Two coaxial equal-radius cylinders overlapping in height (stacked extrusions): coincident curved faces and coplanar facets.",
+   "deviationMm": 0.01,
+   "expect": "solid",
+   "csg": {
+    "op": "union",
+    "children": [
+     {
+      "prim": "cylinder",
+      "params": {
+       "radius": 8,
+       "height": 10
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     },
+     {
+      "prim": "cylinder",
+      "params": {
+       "radius": 8,
+       "height": 10
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        5
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "sphere-minus-box",
+   "category": "spheres",
+   "fdmRationale": "Dome: a sphere cut flat so it sits on the bed.",
+   "deviationMm": 0.01,
+   "expect": "solid",
+   "csg": {
+    "op": "subtract",
+    "children": [
+     {
+      "prim": "sphere",
+      "params": {
+       "radius": 10
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     },
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        -11,
+        -11,
+        -11
+       ],
+       "max": [
+        11,
+        11,
+        -3
+       ]
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "sphere-intersect-cylinder",
+   "category": "spheres",
+   "fdmRationale": "Ball knob trimmed to a cylindrical envelope.",
+   "deviationMm": 0.01,
+   "expect": "solid",
+   "csg": {
+    "op": "intersect",
+    "children": [
+     {
+      "prim": "sphere",
+      "params": {
+       "radius": 10
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     },
+     {
+      "prim": "cylinder",
+      "params": {
+       "radius": 7,
+       "height": 24
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        -12
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "box-minus-sphere-cavity",
+   "category": "spheres",
+   "fdmRationale": "Ball-joint socket: spherical cavity opening through the top face.",
+   "deviationMm": 0.01,
+   "expect": "solid",
+   "csg": {
+    "op": "subtract",
+    "children": [
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        -8,
+        -8,
+        -8
+       ],
+       "max": [
+        8,
+        8,
+        6
+       ]
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     },
+     {
+      "prim": "sphere",
+      "params": {
+       "radius": 7
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        2
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "hex-nut",
+   "category": "mechanical",
+   "fdmRationale": "M8 hex nut: hex prism minus bore, intersected with a 30 deg chamfer cone whose top cap is coplanar with the nut top.",
+   "deviationMm": 0.01,
+   "expect": "solid",
+   "csg": {
+    "op": "intersect",
+    "children": [
+     {
+      "op": "subtract",
+      "children": [
+       {
+        "prim": "prism",
+        "params": {
+         "points": [
+          [
+           6.500000000000001,
+           3.752776749732567
+          ],
+          [
+           4.595826034474597e-16,
+           7.505553499465135
+          ],
+          [
+           -6.500000000000001,
+           3.752776749732567
+          ],
+          [
+           -6.5,
+           -3.7527767497325684
+          ],
+          [
+           -1.3787478103423788e-15,
+           -7.505553499465135
+          ],
+          [
+           6.499999999999998,
+           -3.752776749732571
+          ]
+         ],
+         "height": 6.5
+        },
+        "transform": {
+         "rotate": [],
+         "translate": [
+          0,
+          0,
+          0
+         ]
+        }
+       },
+       {
+        "prim": "cylinder",
+        "params": {
+         "radius": 3.4,
+         "height": 8.5
+        },
+        "transform": {
+         "rotate": [],
+         "translate": [
+          0,
+          0,
+          -1
+         ]
+        }
+       }
+      ]
+     },
+     {
+      "prim": "cone",
+      "params": {
+       "r1": 19.490381056766577,
+       "r2": 6.5,
+       "height": 7.5
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        -1
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "enclosure-shell",
+   "category": "mechanical",
+   "fdmRationale": "Open-top electronics enclosure: shell, four screw bosses with pilot holes, a USB cut-out and a round vent.",
+   "deviationMm": 0.01,
+   "expect": "solid",
+   "csg": {
+    "op": "subtract",
+    "children": [
+     {
+      "op": "subtract",
+      "children": [
+       {
+        "op": "union",
+        "children": [
+         {
+          "op": "subtract",
+          "children": [
+           {
+            "prim": "box",
+            "params": {
+             "min": [
+              0,
+              0,
+              0
+             ],
+             "max": [
+              60,
+              40,
+              30
+             ]
+            },
+            "transform": {
+             "rotate": [],
+             "translate": [
+              0,
+              0,
+              0
+             ]
+            }
+           },
+           {
+            "prim": "box",
+            "params": {
+             "min": [
+              2,
+              2,
+              2
+             ],
+             "max": [
+              58,
+              38,
+              31
+             ]
+            },
+            "transform": {
+             "rotate": [],
+             "translate": [
+              0,
+              0,
+              0
+             ]
+            }
+           }
+          ]
+         },
+         {
+          "op": "union",
+          "children": [
+           {
+            "op": "union",
+            "children": [
+             {
+              "prim": "cylinder",
+              "params": {
+               "radius": 3.5,
+               "height": 26.5
+              },
+              "transform": {
+               "rotate": [],
+               "translate": [
+                6,
+                6,
+                1
+               ]
+              }
+             },
+             {
+              "prim": "cylinder",
+              "params": {
+               "radius": 3.5,
+               "height": 26.5
+              },
+              "transform": {
+               "rotate": [],
+               "translate": [
+                54,
+                6,
+                1
+               ]
+              }
+             }
+            ]
+           },
+           {
+            "op": "union",
+            "children": [
+             {
+              "prim": "cylinder",
+              "params": {
+               "radius": 3.5,
+               "height": 26.5
+              },
+              "transform": {
+               "rotate": [],
+               "translate": [
+                54,
+                34,
+                1
+               ]
+              }
+             },
+             {
+              "prim": "cylinder",
+              "params": {
+               "radius": 3.5,
+               "height": 26.5
+              },
+              "transform": {
+               "rotate": [],
+               "translate": [
+                6,
+                34,
+                1
+               ]
+              }
+             }
+            ]
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "op": "union",
+        "children": [
+         {
+          "op": "union",
+          "children": [
+           {
+            "prim": "cylinder",
+            "params": {
+             "radius": 1.25,
+             "height": 20
+            },
+            "transform": {
+             "rotate": [],
+             "translate": [
+              6,
+              6,
+              11
+             ]
+            }
+           },
+           {
+            "prim": "cylinder",
+            "params": {
+             "radius": 1.25,
+             "height": 20
+            },
+            "transform": {
+             "rotate": [],
+             "translate": [
+              54,
+              6,
+              11
+             ]
+            }
+           }
+          ]
+         },
+         {
+          "op": "union",
+          "children": [
+           {
+            "prim": "cylinder",
+            "params": {
+             "radius": 1.25,
+             "height": 20
+            },
+            "transform": {
+             "rotate": [],
+             "translate": [
+              54,
+              34,
+              11
+             ]
+            }
+           },
+           {
+            "prim": "cylinder",
+            "params": {
+             "radius": 1.25,
+             "height": 20
+            },
+            "transform": {
+             "rotate": [],
+             "translate": [
+              6,
+              34,
+              11
+             ]
+            }
+           }
+          ]
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "op": "union",
+      "children": [
+       {
+        "prim": "box",
+        "params": {
+         "min": [
+          -1,
+          16,
+          6
+         ],
+         "max": [
+          3,
+          24,
+          10
+         ]
+        },
+        "transform": {
+         "rotate": [],
+         "translate": [
+          0,
+          0,
+          0
+         ]
+        }
+       },
+       {
+        "prim": "cylinder",
+        "params": {
+         "radius": 2.5,
+         "height": 4
+        },
+        "transform": {
+         "rotate": [
+          {
+           "axis": "x",
+           "deg": 90
+          }
+         ],
+         "translate": [
+          30,
+          43,
+          15
+         ]
+        }
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "id": "gear-48-bore",
+   "category": "mechanical",
+   "fdmRationale": "Spur-gear blank: 48-tooth concave prism (240 side faces) minus a bore.",
+   "deviationMm": 0.01,
+   "expect": "solid",
+   "csg": {
+    "op": "subtract",
+    "children": [
+     {
+      "prim": "prism",
+      "params": {
+       "points": [
+        [
+         22,
+         0
+        ],
+        [
+         21.992461149462258,
+         0.5758928627732093
+        ],
+        [
+         24.474291693292074,
+         1.1220722399447587
+        ],
+        [
+         24.411370551953972,
+         2.0820633456248205
+        ],
+        [
+         21.879481698102012,
+         2.2996261918883762
+        ],
+        [
+         21.81178695022383,
+         2.8715762288411346
+        ],
+        [
+         21.72914349309303,
+         3.4415582308850787
+        ],
+        [
+         24.118450918202345,
+         4.3070088583916855
+        ],
+        [
+         23.930764092361372,
+         5.2505742500937425
+        ],
+        [
+         21.392138248748886,
+         5.135798004829919
+        ],
+        [
+         21.2503681783595,
+         5.694018992255456
+        ],
+        [
+         21.094034167100247,
+         6.248337583486299
+        ],
+        [
+         23.349936761004276,
+         7.418251361143076
+        ],
+        [
+         23.040695624287196,
+         8.329246373409358
+        ],
+        [
+         20.538769382938437,
+         7.884094889996605
+        ],
+        [
+         20.325349715248308,
+         8.419035512031975
+        ],
+        [
+         20.098000068137218,
+         8.948206147667603
+        ],
+        [
+         22.181898711999906,
+         10.40256552637747
+        ],
+        [
+         21.75639446599378,
+         11.265402781972567
+        ],
+        [
+         19.333976478563237,
+         10.497492725711384
+        ],
+        [
+         19.052558883257653,
+         10.999999999999998
+        ],
+        [
+         18.75808361579003,
+         11.494968423750873
+        ],
+        [
+         20.634322226049022,
+         13.208888911319503
+        ],
+        [
+         20.099835366375082,
+         14.0088050255765
+        ],
+        [
+         17.798373876248846,
+         12.931275550434407
+        ],
+        [
+         17.453773486407172,
+         13.392751438191851
+        ],
+        [
+         17.09721115205336,
+         13.845048603096423
+        ],
+        [
+         18.73368676589551,
+         15.789204544792982
+        ],
+        [
+         18.099362510910534,
+         16.512512731218298
+        ],
+        [
+         15.95823616227033,
+         15.143800665262585
+        ],
+        [
+         15.556349186104047,
+         15.556349186104043
+        ],
+        [
+         15.143800665262589,
+         15.958236162270325
+        ],
+        [
+         16.5125127312183,
+         18.09936251091053
+        ],
+        [
+         15.789204544792986,
+         18.73368676589551
+        ],
+        [
+         13.845048603096425,
+         17.097211152053358
+        ],
+        [
+         13.392751438191855,
+         17.453773486407172
+        ],
+        [
+         12.931275550434409,
+         17.798373876248846
+        ],
+        [
+         14.008805025576503,
+         20.09983536637508
+        ],
+        [
+         13.208888911319509,
+         20.63432222604902
+        ],
+        [
+         11.494968423750876,
+         18.758083615790028
+        ],
+        [
+         11.000000000000002,
+         19.05255888325765
+        ],
+        [
+         10.497492725711389,
+         19.333976478563237
+        ],
+        [
+         11.265402781972568,
+         21.756394465993775
+        ],
+        [
+         10.402565526377472,
+         22.181898711999903
+        ],
+        [
+         8.948206147667603,
+         20.098000068137218
+        ],
+        [
+         8.419035512031977,
+         20.325349715248308
+        ],
+        [
+         7.884094889996608,
+         20.538769382938437
+        ],
+        [
+         8.329246373409365,
+         23.040695624287192
+        ],
+        [
+         7.418251361143078,
+         23.349936761004276
+        ],
+        [
+         6.2483375834863,
+         21.094034167100247
+        ],
+        [
+         5.694018992255462,
+         21.2503681783595
+        ],
+        [
+         5.135798004829924,
+         21.392138248748886
+        ],
+        [
+         5.250574250093747,
+         23.930764092361372
+        ],
+        [
+         4.30700885839169,
+         24.118450918202345
+        ],
+        [
+         3.4415582308850805,
+         21.72914349309303
+        ],
+        [
+         2.8715762288411377,
+         21.81178695022383
+        ],
+        [
+         2.299626191888381,
+         21.879481698102012
+        ],
+        [
+         2.0820633456248285,
+         24.411370551953972
+        ],
+        [
+         1.1220722399447614,
+         24.474291693292074
+        ],
+        [
+         0.5758928627732091,
+         21.992461149462258
+        ],
+        [
+         1.3471114790620886e-15,
+         22
+        ],
+        [
+         -0.5758928627732015,
+         21.992461149462258
+        ],
+        [
+         -1.1220722399447527,
+         24.474291693292074
+        ],
+        [
+         -2.08206334562482,
+         24.411370551953972
+        ],
+        [
+         -2.299626191888373,
+         21.879481698102015
+        ],
+        [
+         -2.87157622884113,
+         21.81178695022383
+        ],
+        [
+         -3.441558230885073,
+         21.72914349309303
+        ],
+        [
+         -4.307008858391681,
+         24.118450918202345
+        ],
+        [
+         -5.250574250093739,
+         23.930764092361375
+        ],
+        [
+         -5.135798004829917,
+         21.392138248748886
+        ],
+        [
+         -5.694018992255454,
+         21.2503681783595
+        ],
+        [
+         -6.248337583486293,
+         21.09403416710025
+        ],
+        [
+         -7.41825136114307,
+         23.34993676100428
+        ],
+        [
+         -8.329246373409356,
+         23.040695624287196
+        ],
+        [
+         -7.884094889996601,
+         20.53876938293844
+        ],
+        [
+         -8.41903551203197,
+         20.32534971524831
+        ],
+        [
+         -8.948206147667598,
+         20.098000068137225
+        ],
+        [
+         -10.402565526377467,
+         22.181898711999906
+        ],
+        [
+         -11.265402781972567,
+         21.75639446599378
+        ],
+        [
+         -10.497492725711385,
+         19.333976478563237
+        ],
+        [
+         -10.999999999999995,
+         19.052558883257653
+        ],
+        [
+         -11.494968423750866,
+         18.758083615790035
+        ],
+        [
+         -13.208888911319507,
+         20.63432222604902
+        ],
+        [
+         -14.008805025576486,
+         20.099835366375093
+        ],
+        [
+         -12.931275550434407,
+         17.798373876248846
+        ],
+        [
+         -13.392751438191848,
+         17.45377348640718
+        ],
+        [
+         -13.84504860309642,
+         17.09721115205336
+        ],
+        [
+         -15.789204544792982,
+         18.73368676589551
+        ],
+        [
+         -16.51251273121829,
+         18.099362510910538
+        ],
+        [
+         -15.143800665262583,
+         15.95823616227033
+        ],
+        [
+         -15.556349186104043,
+         15.556349186104047
+        ],
+        [
+         -15.958236162270323,
+         15.143800665262594
+        ],
+        [
+         -18.09936251091053,
+         16.5125127312183
+        ],
+        [
+         -18.7336867658955,
+         15.789204544792996
+        ],
+        [
+         -17.097211152053355,
+         13.84504860309643
+        ],
+        [
+         -17.453773486407172,
+         13.392751438191858
+        ],
+        [
+         -17.798373876248835,
+         12.93127555043442
+        ],
+        [
+         -20.099835366375082,
+         14.0088050255765
+        ],
+        [
+         -20.63432222604901,
+         13.208888911319521
+        ],
+        [
+         -18.758083615790028,
+         11.494968423750876
+        ],
+        [
+         -19.052558883257646,
+         11.000000000000007
+        ],
+        [
+         -19.333976478563237,
+         10.497492725711389
+        ],
+        [
+         -21.756394465993775,
+         11.26540278197257
+        ],
+        [
+         -22.1818987119999,
+         10.40256552637748
+        ],
+        [
+         -20.098000068137218,
+         8.948206147667609
+        ],
+        [
+         -20.325349715248308,
+         8.419035512031977
+        ],
+        [
+         -20.538769382938437,
+         7.884094889996614
+        ],
+        [
+         -23.040695624287192,
+         8.329246373409365
+        ],
+        [
+         -23.349936761004273,
+         7.4182513611430885
+        ],
+        [
+         -21.094034167100244,
+         6.248337583486307
+        ],
+        [
+         -21.2503681783595,
+         5.6940189922554625
+        ],
+        [
+         -21.392138248748882,
+         5.1357980048299305
+        ],
+        [
+         -23.930764092361372,
+         5.250574250093743
+        ],
+        [
+         -24.118450918202342,
+         4.3070088583917014
+        ],
+        [
+         -21.72914349309303,
+         3.4415582308850814
+        ],
+        [
+         -21.81178695022383,
+         2.871576228841144
+        ],
+        [
+         -21.879481698102012,
+         2.299626191888382
+        ],
+        [
+         -24.411370551953972,
+         2.0820633456248245
+        ],
+        [
+         -24.474291693292074,
+         1.122072239944768
+        ],
+        [
+         -21.992461149462258,
+         0.5758928627732153
+        ],
+        [
+         -22,
+         2.6942229581241772e-15
+        ],
+        [
+         -21.992461149462258,
+         -0.5758928627732001
+        ],
+        [
+         -24.474291693292074,
+         -1.1220722399447511
+        ],
+        [
+         -24.411370551953976,
+         -2.0820633456248077
+        ],
+        [
+         -21.879481698102015,
+         -2.2996261918883674
+        ],
+        [
+         -21.81178695022383,
+         -2.8715762288411293
+        ],
+        [
+         -21.72914349309303,
+         -3.4415582308850667
+        ],
+        [
+         -24.118450918202345,
+         -4.307008858391685
+        ],
+        [
+         -23.93076409236138,
+         -5.250574250093727
+        ],
+        [
+         -21.392138248748886,
+         -5.135798004829916
+        ],
+        [
+         -21.250368178359505,
+         -5.694018992255447
+        ],
+        [
+         -21.09403416710025,
+         -6.248337583486292
+        ],
+        [
+         -23.34993676100428,
+         -7.418251361143073
+        ],
+        [
+         -23.040695624287196,
+         -8.32924637340935
+        ],
+        [
+         -20.53876938293844,
+         -7.8840948899966
+        ],
+        [
+         -20.325349715248315,
+         -8.419035512031963
+        ],
+        [
+         -20.098000068137225,
+         -8.948206147667596
+        ],
+        [
+         -22.181898711999906,
+         -10.402565526377465
+        ],
+        [
+         -21.756394465993786,
+         -11.265402781972556
+        ],
+        [
+         -19.333976478563244,
+         -10.497492725711377
+        ],
+        [
+         -19.052558883257653,
+         -10.999999999999995
+        ],
+        [
+         -18.758083615790035,
+         -11.494968423750864
+        ],
+        [
+         -20.63432222604902,
+         -13.208888911319503
+        ],
+        [
+         -20.099835366375093,
+         -14.008805025576486
+        ],
+        [
+         -17.798373876248846,
+         -12.931275550434407
+        ],
+        [
+         -17.45377348640718,
+         -13.392751438191848
+        ],
+        [
+         -17.097211152053365,
+         -13.84504860309642
+        ],
+        [
+         -18.73368676589551,
+         -15.789204544792982
+        ],
+        [
+         -18.09936251091054,
+         -16.51251273121829
+        ],
+        [
+         -15.958236162270333,
+         -15.143800665262583
+        ],
+        [
+         -15.556349186104054,
+         -15.556349186104036
+        ],
+        [
+         -15.143800665262596,
+         -15.958236162270321
+        ],
+        [
+         -16.512512731218305,
+         -18.099362510910527
+        ],
+        [
+         -15.789204544792996,
+         -18.7336867658955
+        ],
+        [
+         -13.845048603096432,
+         -17.09721115205335
+        ],
+        [
+         -13.392751438191858,
+         -17.45377348640717
+        ],
+        [
+         -12.931275550434412,
+         -17.798373876248842
+        ],
+        [
+         -14.008805025576503,
+         -20.099835366375082
+        ],
+        [
+         -13.208888911319521,
+         -20.63432222604901
+        ],
+        [
+         -11.494968423750885,
+         -18.75808361579002
+        ],
+        [
+         -11.00000000000001,
+         -19.052558883257646
+        ],
+        [
+         -10.49749272571139,
+         -19.333976478563237
+        ],
+        [
+         -11.265402781972572,
+         -21.756394465993775
+        ],
+        [
+         -10.40256552637749,
+         -22.181898711999896
+        ],
+        [
+         -8.948206147667621,
+         -20.09800006813721
+        ],
+        [
+         -8.419035512031988,
+         -20.325349715248304
+        ],
+        [
+         -7.884094889996616,
+         -20.538769382938437
+        ],
+        [
+         -8.329246373409367,
+         -23.040695624287192
+        ],
+        [
+         -7.418251361143101,
+         -23.34993676100427
+        ],
+        [
+         -6.248337583486316,
+         -21.094034167100244
+        ],
+        [
+         -5.694018992255473,
+         -21.250368178359498
+        ],
+        [
+         -5.135798004829913,
+         -21.392138248748886
+        ],
+        [
+         -5.250574250093756,
+         -23.930764092361372
+        ],
+        [
+         -4.307008858391693,
+         -24.118450918202345
+        ],
+        [
+         -3.4415582308851023,
+         -21.729143493093027
+        ],
+        [
+         -2.8715762288411546,
+         -21.811786950223826
+        ],
+        [
+         -2.299626191888374,
+         -21.879481698102015
+        ],
+        [
+         -2.082063345624837,
+         -24.411370551953972
+        ],
+        [
+         -1.1220722399447696,
+         -24.474291693292074
+        ],
+        [
+         -0.5758928627732361,
+         -21.992461149462258
+        ],
+        [
+         -4.0413344371862654e-15,
+         -22
+        ],
+        [
+         0.5758928627732085,
+         -21.992461149462258
+        ],
+        [
+         1.1220722399447607,
+         -24.474291693292074
+        ],
+        [
+         2.0820633456248063,
+         -24.411370551953976
+        ],
+        [
+         2.2996261918883656,
+         -21.879481698102015
+        ],
+        [
+         2.871576228841128,
+         -21.81178695022383
+        ],
+        [
+         3.4415582308850747,
+         -21.72914349309303
+        ],
+        [
+         4.307008858391684,
+         -24.118450918202345
+        ],
+        [
+         5.250574250093726,
+         -23.93076409236138
+        ],
+        [
+         5.135798004829905,
+         -21.39213824874889
+        ],
+        [
+         5.6940189922554465,
+         -21.250368178359505
+        ],
+        [
+         6.248337583486291,
+         -21.09403416710025
+        ],
+        [
+         7.418251361143071,
+         -23.34993676100428
+        ],
+        [
+         8.329246373409338,
+         -23.040695624287203
+        ],
+        [
+         7.88409488999659,
+         -20.538769382938447
+        ],
+        [
+         8.41903551203196,
+         -20.325349715248315
+        ],
+        [
+         8.948206147667594,
+         -20.098000068137225
+        ],
+        [
+         10.402565526377463,
+         -22.181898711999906
+        ],
+        [
+         11.265402781972544,
+         -21.75639446599379
+        ],
+        [
+         10.497492725711366,
+         -19.333976478563248
+        ],
+        [
+         10.999999999999986,
+         -19.05255888325766
+        ],
+        [
+         11.494968423750878,
+         -18.758083615790024
+        ],
+        [
+         13.208888911319493,
+         -20.63432222604903
+        ],
+        [
+         14.008805025576475,
+         -20.0998353663751
+        ],
+        [
+         12.931275550434389,
+         -17.79837387624886
+        ],
+        [
+         13.392751438191837,
+         -17.453773486407187
+        ],
+        [
+         13.845048603096425,
+         -17.097211152053358
+        ],
+        [
+         15.789204544792975,
+         -18.73368676589552
+        ],
+        [
+         16.51251273121829,
+         -18.09936251091054
+        ],
+        [
+         15.143800665262567,
+         -15.958236162270348
+        ],
+        [
+         15.556349186104041,
+         -15.556349186104049
+        ],
+        [
+         15.958236162270325,
+         -15.143800665262589
+        ],
+        [
+         18.09936251091052,
+         -16.51251273121831
+        ],
+        [
+         18.7336867658955,
+         -15.789204544792998
+        ],
+        [
+         17.09721115205334,
+         -13.845048603096448
+        ],
+        [
+         17.45377348640717,
+         -13.392751438191858
+        ],
+        [
+         17.798373876248842,
+         -12.931275550434414
+        ],
+        [
+         20.099835366375082,
+         -14.008805025576503
+        ],
+        [
+         20.634322226049008,
+         -13.208888911319521
+        ],
+        [
+         18.75808361579002,
+         -11.494968423750889
+        ],
+        [
+         19.052558883257646,
+         -11.00000000000001
+        ],
+        [
+         19.333976478563233,
+         -10.497492725711393
+        ],
+        [
+         21.756394465993775,
+         -11.265402781972572
+        ],
+        [
+         22.181898711999896,
+         -10.402565526377492
+        ],
+        [
+         20.09800006813721,
+         -8.948206147667621
+        ],
+        [
+         20.325349715248304,
+         -8.41903551203199
+        ],
+        [
+         20.538769382938433,
+         -7.884094889996617
+        ],
+        [
+         23.040695624287192,
+         -8.329246373409369
+        ],
+        [
+         23.34993676100427,
+         -7.418251361143103
+        ],
+        [
+         21.09403416710024,
+         -6.248337583486318
+        ],
+        [
+         21.250368178359498,
+         -5.694018992255475
+        ],
+        [
+         21.392138248748882,
+         -5.135798004829934
+        ],
+        [
+         23.930764092361372,
+         -5.250574250093757
+        ],
+        [
+         24.11845091820234,
+         -4.307008858391716
+        ],
+        [
+         21.729143493093027,
+         -3.4415582308851036
+        ],
+        [
+         21.811786950223826,
+         -2.871576228841157
+        ],
+        [
+         21.879481698102012,
+         -2.2996261918883754
+        ],
+        [
+         24.411370551953972,
+         -2.0820633456248383
+        ],
+        [
+         24.474291693292074,
+         -1.1220722399447711
+        ],
+        [
+         21.992461149462258,
+         -0.5758928627732375
+        ]
+       ],
+       "height": 8
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     },
+     {
+      "prim": "cylinder",
+      "params": {
+       "radius": 4,
+       "height": 10
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        -1
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "cylinder-tangent-box-face",
+   "category": "tangent",
+   "fdmRationale": "Round rod resting on a block: the cylinder touches the top face along one line (tessellation vertices lie exactly on it).",
+   "deviationMm": 0.01,
+   "expect": "non-manifold-contact",
+   "csg": {
+    "op": "union",
+    "children": [
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        0,
+        0,
+        0
+       ],
+       "max": [
+        20,
+        20,
+        20
+       ]
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     },
+     {
+      "prim": "cylinder",
+      "params": {
+       "radius": 5,
+       "height": 30
+      },
+      "transform": {
+       "rotate": [
+        {
+         "axis": "x",
+         "deg": -90
+        }
+       ],
+       "translate": [
+        10,
+        -5,
+        25
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "hole-tangent-edge",
+   "category": "tangent",
+   "fdmRationale": "Hole placed so its wall just touches the plate side face (a common layout slip); tangent along a line.",
+   "deviationMm": 0.01,
+   "expect": "non-manifold-contact",
+   "csg": {
+    "op": "subtract",
+    "children": [
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        0,
+        0,
+        0
+       ],
+       "max": [
+        30,
+        20,
+        5
+       ]
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     },
+     {
+      "prim": "cylinder",
+      "params": {
+       "radius": 3,
+       "height": 7
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        3,
+        10,
+        -1
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "self-union",
+   "category": "identity",
+   "fdmRationale": "A union with an identical copy (duplicated body in a slicer project): A u A = A.",
+   "deviationMm": 0.01,
+   "expect": "solid",
+   "csg": {
+    "op": "union",
+    "children": [
+     {
+      "prim": "cylinder",
+      "params": {
+       "radius": 5,
+       "height": 10
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     },
+     {
+      "prim": "cylinder",
+      "params": {
+       "radius": 5,
+       "height": 10
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "self-subtract",
+   "category": "identity",
+   "fdmRationale": "Subtracting an identical copy: A - A is empty (expected result volume 0).",
+   "deviationMm": 0.01,
+   "expect": "empty",
+   "csg": {
+    "op": "subtract",
+    "children": [
+     {
+      "prim": "cylinder",
+      "params": {
+       "radius": 5,
+       "height": 10
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     },
+     {
+      "prim": "cylinder",
+      "params": {
+       "radius": 5,
+       "height": 10
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "self-intersect",
+   "category": "identity",
+   "fdmRationale": "Intersecting an identical copy: A n A = A.",
+   "deviationMm": 0.01,
+   "expect": "solid",
+   "csg": {
+    "op": "intersect",
+    "children": [
+     {
+      "prim": "cylinder",
+      "params": {
+       "radius": 5,
+       "height": 10
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     },
+     {
+      "prim": "cylinder",
+      "params": {
+       "radius": 5,
+       "height": 10
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "internal-void",
+   "category": "topology",
+   "fdmRationale": "Sealed internal cavity (weight reduction / embedded magnet pocket): one solid bounded by two shells.",
+   "deviationMm": 0.01,
+   "expect": "solid",
+   "csg": {
+    "op": "subtract",
+    "children": [
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        0,
+        0,
+        0
+       ],
+       "max": [
+        20,
+        20,
+        20
+       ]
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     },
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        5,
+        5,
+        5
+       ],
+       "max": [
+        15,
+        15,
+        15
+       ]
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "disjoint-union",
+   "category": "topology",
+   "fdmRationale": "Two separate parts on one plate: union of disjoint bodies, two components.",
+   "deviationMm": 0.01,
+   "expect": "solid",
+   "csg": {
+    "op": "union",
+    "children": [
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        0,
+        0,
+        0
+       ],
+       "max": [
+        10,
+        10,
+        10
+       ]
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     },
+     {
+      "prim": "cylinder",
+      "params": {
+       "radius": 4,
+       "height": 10
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        25,
+        5,
+        0
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "pin-array-chain-20",
+   "category": "many-operands",
+   "fdmRationale": "Pin header / peg board: a left-deep chain of 20 unions, each pin sunk 1 mm into the base.",
+   "deviationMm": 0.01,
+   "expect": "solid",
+   "csg": {
+    "op": "union",
+    "children": [
+     {
+      "op": "union",
+      "children": [
+       {
+        "op": "union",
+        "children": [
+         {
+          "op": "union",
+          "children": [
+           {
+            "op": "union",
+            "children": [
+             {
+              "op": "union",
+              "children": [
+               {
+                "op": "union",
+                "children": [
+                 {
+                  "op": "union",
+                  "children": [
+                   {
+                    "op": "union",
+                    "children": [
+                     {
+                      "op": "union",
+                      "children": [
+                       {
+                        "op": "union",
+                        "children": [
+                         {
+                          "op": "union",
+                          "children": [
+                           {
+                            "op": "union",
+                            "children": [
+                             {
+                              "op": "union",
+                              "children": [
+                               {
+                                "op": "union",
+                                "children": [
+                                 {
+                                  "op": "union",
+                                  "children": [
+                                   {
+                                    "op": "union",
+                                    "children": [
+                                     {
+                                      "op": "union",
+                                      "children": [
+                                       {
+                                        "op": "union",
+                                        "children": [
+                                         {
+                                          "op": "union",
+                                          "children": [
+                                           {
+                                            "prim": "box",
+                                            "params": {
+                                             "min": [
+                                              0,
+                                              0,
+                                              0
+                                             ],
+                                             "max": [
+                                              50,
+                                              20,
+                                              3
+                                             ]
+                                            },
+                                            "transform": {
+                                             "rotate": [],
+                                             "translate": [
+                                              0,
+                                              0,
+                                              0
+                                             ]
+                                            }
+                                           },
+                                           {
+                                            "prim": "cylinder",
+                                            "params": {
+                                             "radius": 1,
+                                             "height": 8
+                                            },
+                                            "transform": {
+                                             "rotate": [],
+                                             "translate": [
+                                              5,
+                                              5,
+                                              2
+                                             ]
+                                            }
+                                           }
+                                          ]
+                                         },
+                                         {
+                                          "prim": "cylinder",
+                                          "params": {
+                                           "radius": 1,
+                                           "height": 8
+                                          },
+                                          "transform": {
+                                           "rotate": [],
+                                           "translate": [
+                                            9.4,
+                                            5,
+                                            2
+                                           ]
+                                          }
+                                         }
+                                        ]
+                                       },
+                                       {
+                                        "prim": "cylinder",
+                                        "params": {
+                                         "radius": 1,
+                                         "height": 8
+                                        },
+                                        "transform": {
+                                         "rotate": [],
+                                         "translate": [
+                                          13.8,
+                                          5,
+                                          2
+                                         ]
+                                        }
+                                       }
+                                      ]
+                                     },
+                                     {
+                                      "prim": "cylinder",
+                                      "params": {
+                                       "radius": 1,
+                                       "height": 8
+                                      },
+                                      "transform": {
+                                       "rotate": [],
+                                       "translate": [
+                                        18.200000000000003,
+                                        5,
+                                        2
+                                       ]
+                                      }
+                                     }
+                                    ]
+                                   },
+                                   {
+                                    "prim": "cylinder",
+                                    "params": {
+                                     "radius": 1,
+                                     "height": 8
+                                    },
+                                    "transform": {
+                                     "rotate": [],
+                                     "translate": [
+                                      22.6,
+                                      5,
+                                      2
+                                     ]
+                                    }
+                                   }
+                                  ]
+                                 },
+                                 {
+                                  "prim": "cylinder",
+                                  "params": {
+                                   "radius": 1,
+                                   "height": 8
+                                  },
+                                  "transform": {
+                                   "rotate": [],
+                                   "translate": [
+                                    27,
+                                    5,
+                                    2
+                                   ]
+                                  }
+                                 }
+                                ]
+                               },
+                               {
+                                "prim": "cylinder",
+                                "params": {
+                                 "radius": 1,
+                                 "height": 8
+                                },
+                                "transform": {
+                                 "rotate": [],
+                                 "translate": [
+                                  31.400000000000002,
+                                  5,
+                                  2
+                                 ]
+                                }
+                               }
+                              ]
+                             },
+                             {
+                              "prim": "cylinder",
+                              "params": {
+                               "radius": 1,
+                               "height": 8
+                              },
+                              "transform": {
+                               "rotate": [],
+                               "translate": [
+                                35.800000000000004,
+                                5,
+                                2
+                               ]
+                              }
+                             }
+                            ]
+                           },
+                           {
+                            "prim": "cylinder",
+                            "params": {
+                             "radius": 1,
+                             "height": 8
+                            },
+                            "transform": {
+                             "rotate": [],
+                             "translate": [
+                              40.2,
+                              5,
+                              2
+                             ]
+                            }
+                           }
+                          ]
+                         },
+                         {
+                          "prim": "cylinder",
+                          "params": {
+                           "radius": 1,
+                           "height": 8
+                          },
+                          "transform": {
+                           "rotate": [],
+                           "translate": [
+                            44.6,
+                            5,
+                            2
+                           ]
+                          }
+                         }
+                        ]
+                       },
+                       {
+                        "prim": "cylinder",
+                        "params": {
+                         "radius": 1,
+                         "height": 8
+                        },
+                        "transform": {
+                         "rotate": [],
+                         "translate": [
+                          5,
+                          15,
+                          2
+                         ]
+                        }
+                       }
+                      ]
+                     },
+                     {
+                      "prim": "cylinder",
+                      "params": {
+                       "radius": 1,
+                       "height": 8
+                      },
+                      "transform": {
+                       "rotate": [],
+                       "translate": [
+                        9.4,
+                        15,
+                        2
+                       ]
+                      }
+                     }
+                    ]
+                   },
+                   {
+                    "prim": "cylinder",
+                    "params": {
+                     "radius": 1,
+                     "height": 8
+                    },
+                    "transform": {
+                     "rotate": [],
+                     "translate": [
+                      13.8,
+                      15,
+                      2
+                     ]
+                    }
+                   }
+                  ]
+                 },
+                 {
+                  "prim": "cylinder",
+                  "params": {
+                   "radius": 1,
+                   "height": 8
+                  },
+                  "transform": {
+                   "rotate": [],
+                   "translate": [
+                    18.200000000000003,
+                    15,
+                    2
+                   ]
+                  }
+                 }
+                ]
+               },
+               {
+                "prim": "cylinder",
+                "params": {
+                 "radius": 1,
+                 "height": 8
+                },
+                "transform": {
+                 "rotate": [],
+                 "translate": [
+                  22.6,
+                  15,
+                  2
+                 ]
+                }
+               }
+              ]
+             },
+             {
+              "prim": "cylinder",
+              "params": {
+               "radius": 1,
+               "height": 8
+              },
+              "transform": {
+               "rotate": [],
+               "translate": [
+                27,
+                15,
+                2
+               ]
+              }
+             }
+            ]
+           },
+           {
+            "prim": "cylinder",
+            "params": {
+             "radius": 1,
+             "height": 8
+            },
+            "transform": {
+             "rotate": [],
+             "translate": [
+              31.400000000000002,
+              15,
+              2
+             ]
+            }
+           }
+          ]
+         },
+         {
+          "prim": "cylinder",
+          "params": {
+           "radius": 1,
+           "height": 8
+          },
+          "transform": {
+           "rotate": [],
+           "translate": [
+            35.800000000000004,
+            15,
+            2
+           ]
+          }
+         }
+        ]
+       },
+       {
+        "prim": "cylinder",
+        "params": {
+         "radius": 1,
+         "height": 8
+        },
+        "transform": {
+         "rotate": [],
+         "translate": [
+          40.2,
+          15,
+          2
+         ]
+        }
+       }
+      ]
+     },
+     {
+      "prim": "cylinder",
+      "params": {
+       "radius": 1,
+       "height": 8
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        44.6,
+        15,
+        2
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "fine-spheres-50k",
+   "category": "scale",
+   "fdmRationale": "Two finely tessellated overlapping spheres (~50k input triangles): throughput case.",
+   "deviationMm": 0.004,
+   "expect": "solid",
+   "csg": {
+    "op": "union",
+    "children": [
+     {
+      "prim": "sphere",
+      "params": {
+       "radius": 10
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     },
+     {
+      "prim": "sphere",
+      "params": {
+       "radius": 10
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        7,
+        3,
+        2
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "torus-minus-box",
+   "category": "tori",
+   "fdmRationale": "O-ring / handle cut in half so it prints flat; the cut plane passes through a ring of tessellation vertices.",
+   "deviationMm": 0.01,
+   "expect": "solid",
+   "csg": {
+    "op": "subtract",
+    "children": [
+     {
+      "prim": "torus",
+      "params": {
+       "major": 12,
+       "minor": 3
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     },
+     {
+      "prim": "box",
+      "params": {
+       "min": [
+        -16,
+        -16,
+        -4
+       ],
+       "max": [
+        16,
+        16,
+        0
+       ]
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     }
+    ]
+   }
+  },
+  {
+   "id": "r10b-g10-union",
+   "category": "frozen-r10b",
+   "fdmRationale": "The frozen r10b UpperCore g10 UNION operands (exact B-rep, 82 planar faces vs 40 planar + 10 cylindrical faces incl. an ellipse edge) on which the exact general-fuse route stalled; a real printed part.",
+   "deviationMm": 0.01,
+   "expect": "solid",
+   "csg": {
+    "op": "union",
+    "children": [
+     {
+      "prim": "brep",
+      "params": {
+       "source": "fixtures/boolean-stress/r10b-g10-operands.json.gz",
+       "body": 0
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     },
+     {
+      "prim": "brep",
+      "params": {
+       "source": "fixtures/boolean-stress/r10b-g10-operands.json.gz",
+       "body": 1
+      },
+      "transform": {
+       "rotate": [],
+       "translate": [
+        0,
+        0,
+        0
+       ]
+      }
+     }
+    ]
+   }
+  }
+ ]
+}

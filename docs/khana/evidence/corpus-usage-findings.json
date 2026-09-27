@@ -1,0 +1,1648 @@
+{
+  "title": "How cad_khana is actually used in Marc’s CAD workspace",
+  "status": "complete",
+  "date": "2026-09-24",
+  "scope_and_method": {
+    "root": "~/Workspace/cad",
+    "measured_at": "2026-09-24T07:39:13.198060+00:00",
+    "constraints": {
+      "classification": "observed source/artifact or static measurement",
+      "claim": "Read-only source/artifact investigation. No customer models, geometry kernels, viewers or Onshape calls were executed. No code, dependencies, configuration or frozen snapshots changed.",
+      "citations": [
+        "<repo>/AGENTS.md:3-9"
+      ]
+    },
+    "counts": {
+      "walked_files": 151833,
+      "python_files": 4620,
+      "cad_khana_importer_files": 128,
+      "customer_files": 74,
+      "customer_unique_source_hashes": 46,
+      "customer_projects": 14,
+      "customer_calls": 734,
+      "customer_source_calls": 587,
+      "customer_snapshot_calls": 134,
+      "customer_watcher_calls": 13,
+      "all_reviewed_calls": 1425,
+      "upstream_test_calls": 449,
+      "upstream_test_files": 17,
+      "skill_example_calls": 44,
+      "upstream_internal_calls": 99,
+      "vendored_internal_calls": 99,
+      "cli_typer_invocation_sites": 35,
+      "owned_public_declarations_including_fields_constants": 246,
+      "incidental_imported_namespace_bindings": 199
+    },
+    "skipped_directory_names": [
+      ".git",
+      ".venv",
+      "venv",
+      "node_modules",
+      "__pycache__",
+      ".deps",
+      "site-packages",
+      ".mypy_cache",
+      ".pytest_cache",
+      ".ruff_cache"
+    ],
+    "definition": "A call site is one static AST Call node, not an execution or number of loop iterations. Categories keep real models, snapshots, watcher code, upstream tests, library internals, vendored code and skill templates separate. All paths are absolute. Sources are read, not imported.",
+    "artifact_scope": "Every mechanism.json, *-printability.json and *-orientation.json outside skipped environment/cache directories was decoded. STEP/STL/GLB/3MF/BRep inventory covers the whole CAD workspace; presence does not prove cad_khana produced an artifact.",
+    "ledger_contract": "calls-reviewed.json records file, line, column, qualified name, argument source expressions, immediate consumption, containing statement, enclosing assignment targets, subsequent lexical uses, guards/try handlers, function and population category. For a nested constructor, assigned_to describes the enclosing statement result, not the constructor itself. This is source data-flow evidence, not runtime tracing.",
+    "limitations": [
+      "Import aliases and distinctive Assembly method names are resolved statically; dynamic Python dispatch, exec and runtime-generated code cannot be proven exhaustively. No wildcard cad_khana import was found in the scanned source.",
+      "All parsed cad_khana-bearing source succeeded. One unrelated Python-2 OpenLockBatch.py failed AST parsing; its exact path/error is recorded in inventory.json.",
+      "The legacy 17 MB corpus-usage-inventory.json and calls.json are raw. Six internal local-shadowing false positives were removed and two Assertion.evaluate dispatches added for calls-reviewed.json. Customer counts were unaffected.",
+      "Symlink directory targets, installed packages and dependency caches are not recursively treated as Marc’s source. The exact skipped directory paths are in inventory.json.",
+      "Counts include historical snapshots and byte-identical watcher copies. There are 74 customer file paths but only 46 unique whole-file hashes. Do not treat this as 74 independent designs or infer execution frequency from it."
+    ],
+    "evidence_files": {
+      "inventory": "<repo>/tmp/khana/corpus-usage/inventory.json",
+      "call_sites": "<repo>/tmp/khana/corpus-usage/calls-reviewed.json",
+      "raw_call_sites": "<repo>/tmp/khana/corpus-usage/calls.json",
+      "name_counts": "<repo>/tmp/khana/corpus-usage/name-counts.json",
+      "project_usage": "<repo>/tmp/khana/corpus-usage/project-usage.json",
+      "public_api_coverage": "<repo>/tmp/khana/corpus-usage/public-api-coverage.json",
+      "public_definitions": "<repo>/tmp/khana/corpus-usage/public-api.json",
+      "value_references": "<repo>/tmp/khana/corpus-usage/references.json",
+      "assembly_properties": "<repo>/tmp/khana/corpus-usage/properties.json",
+      "cli_test_invocations": "<repo>/tmp/khana/corpus-usage/cli-invocations.json",
+      "outputs": "<repo>/tmp/khana/corpus-usage/outputs.json",
+      "all_artifacts": "<repo>/tmp/khana/corpus-usage/artifacts.json",
+      "review": "<repo>/tmp/khana/corpus-usage/ledger-review.json"
+    }
+  },
+  "executive_findings": [
+    {
+      "classification": "observed source/artifact or static measurement",
+      "claim": "The customer surface is concentrated: immutable named Assembly composition, 183 no-interference declarations, 22 clearance declarations, 14 expected-interference declarations, 54 check calls, 73 inspect calls, 105 FDM construction sites, six orientation calls and 13 viewer pushes. Native diagnostics are essential, not an optional add-on.",
+      "citations": [
+        "<repo>/tmp/khana/corpus-usage/name-counts.json",
+        "~/Workspace/cad/cad-project-033/assembly.py:54-105",
+        "~/Workspace/cad/cad-project-003/overnight-2026-09-05/manufacturing/coupons.py:143-164"
+      ]
+    },
+    {
+      "classification": "observed source/artifact or static measurement",
+      "claim": "Every one of the 54 customer check() returns is ignored; side effects, JSON and exceptions matter. Of 73 inspect() sites, 28 bind a result and 26 read its .status (many snapshot copies); the remaining two assign but never use it. All six customer orientation returns are ignored and their JSON is the artifact.",
+      "citations": [
+        "<repo>/tmp/khana/corpus-usage/calls-reviewed.json",
+        "~/Workspace/cad/cad-project-003/overnight-2026-09-05/manufacturing/coupons.py:149-154",
+        "~/Workspace/cad/cad-project-003/overnight-2026-09-05/manufacturing/preload_z/coupon.py:104-109",
+        "~/Workspace/cad/cad-project-013/assembly.py:268-277"
+      ]
+    },
+    {
+      "classification": "observed source/artifact or static measurement",
+      "claim": "Inspection failures are intentionally caught in customer batch flows so exports and per-part review summaries survive. A skipped check must not return a fake ok or silently emulate a diagnostic object.",
+      "citations": [
+        "~/Workspace/cad/cad-project-003/overnight-2026-09-05/manufacturing/coupons.py:145-154",
+        "<repo>/docs/python-khana.md:148-169"
+      ]
+    },
+    {
+      "classification": "observed source/artifact or static measurement",
+      "claim": "The live watcher loop deliberately skips main-guarded checks and keeps the last assembly for periodic pushes. Building geometry and certifying printability are separate actions in Marc’s current loop.",
+      "citations": [
+        "~/Workspace/cad/cad-project-026/watch.py:35-63",
+        "<repo>/docs/python-khana.md:119-123"
+      ]
+    },
+    {
+      "classification": "observed source/artifact or static measurement",
+      "claim": "Many real parts use severely relaxed global thresholds or simplified diagnostic geometry to suppress known sampling false positives. Compatibility must preserve those inputs, but a new native report should make the exclusions and uncertainty visible.",
+      "citations": [
+        "~/Workspace/cad/cad-project-033/assembly.py:84-105",
+        "~/Workspace/cad/cad-project-046/assembly.py:128-148",
+        "~/Workspace/cad/cad-project-026/assembly.py:69-94"
+      ]
+    },
+    {
+      "classification": "observed source/artifact or static measurement",
+      "claim": "Newer workspace consumers extend beyond the frozen corpus: direct named/color GLB exports, HLR drawing, manual compressor bypass, an animated GLB whose binary JSON is inspected, and .deps-installed geometry packages.",
+      "citations": [
+        "~/Workspace/cad/cad-project-013/camera_mount_assembly.py:355-379",
+        "~/Workspace/cad/cad-project-022/concept-02/study.py:371-392",
+        "~/Workspace/cad/cad-project-039/belt-fixed-r29/wall-r29/design_wall.py:12-18"
+      ]
+    },
+    {
+      "classification": "recommendation/inference, not implemented",
+      "claim": "Unify the khana workflow natively in wonky. Keep kernel geometry in Bend; carry coordination, serialization, CLI and viewer policy in the host. Allow only a reviewed non-geometric numerics/reporting lane, never an external-geometry backdoor.",
+      "citations": [
+        "<repo>/AGENTS.md:4-8",
+        "<repo>/docs/python-khana.md:171-219"
+      ]
+    },
+    {
+      "classification": "revised recommendation",
+      "claim": "Of the 10 flows, keep the cheap existing-file boundary of #1–3 (Assembly declarations, check(), inspect(...).status and JSON before SystemExit), #7 (named assembly/display handoff) and #8–9 (STEP/STL/GLB export and names/colors). #4–6 should be redesigned behind thin inspect/FDM/orientation adapters; #10 animation can be staged explicitly, never silently no-op.",
+      "citations": [
+        "<repo>local design note"
+      ]
+    }
+  ],
+  "usage_tables": {
+    "by_name": [
+      {
+        "name": "cad_khana.draw.draw",
+        "total": 3,
+        "by_category": {
+          "customer-source": 1,
+          "upstream-library": 1,
+          "vendored-library": 1
+        },
+        "customer": 1
+      },
+      {
+        "name": "cad_khana.export.export_animated_glb",
+        "total": 1,
+        "by_category": {
+          "customer-source": 1
+        },
+        "customer": 1
+      },
+      {
+        "name": "cad_khana.export.export_assembly",
+        "total": 3,
+        "by_category": {
+          "customer-source": 1,
+          "upstream-library": 1,
+          "vendored-library": 1
+        },
+        "customer": 1
+      },
+      {
+        "name": "cad_khana.export.export_glb",
+        "total": 4,
+        "by_category": {
+          "customer-source": 2,
+          "upstream-library": 1,
+          "vendored-library": 1
+        },
+        "customer": 2
+      },
+      {
+        "name": "cad_khana.mechanism.assembly.Assembly",
+        "total": 171,
+        "by_category": {
+          "customer-snapshot": 22,
+          "customer-source": 35,
+          "skill-example": 3,
+          "upstream-tests": 111
+        },
+        "customer": 57
+      },
+      {
+        "name": "cad_khana.mechanism.assembly.Assembly.assert_clearance",
+        "total": 37,
+        "by_category": {
+          "customer-source": 22,
+          "skill-example": 6,
+          "upstream-tests": 9
+        },
+        "customer": 22
+      },
+      {
+        "name": "cad_khana.mechanism.assembly.Assembly.assert_interference",
+        "total": 21,
+        "by_category": {
+          "customer-source": 14,
+          "upstream-tests": 7
+        },
+        "customer": 14
+      },
+      {
+        "name": "cad_khana.mechanism.assembly.Assembly.assert_no_interference",
+        "total": 206,
+        "by_category": {
+          "customer-snapshot": 22,
+          "customer-source": 161,
+          "skill-example": 9,
+          "upstream-tests": 14
+        },
+        "customer": 183
+      },
+      {
+        "name": "cad_khana.mechanism.assembly.Assembly.with_part",
+        "total": 330,
+        "by_category": {
+          "customer-snapshot": 22,
+          "customer-source": 180,
+          "skill-example": 9,
+          "upstream-tests": 119
+        },
+        "customer": 202
+      },
+      {
+        "name": "cad_khana.mechanism.check.check",
+        "total": 72,
+        "by_category": {
+          "customer-snapshot": 22,
+          "customer-source": 32,
+          "skill-example": 3,
+          "upstream-tests": 15
+        },
+        "customer": 54
+      },
+      {
+        "name": "cad_khana.printability.inspect.inspect",
+        "total": 86,
+        "by_category": {
+          "customer-snapshot": 23,
+          "customer-source": 50,
+          "skill-example": 6,
+          "upstream-tests": 7
+        },
+        "customer": 73
+      },
+      {
+        "name": "cad_khana.printability.methods.FDM",
+        "total": 118,
+        "by_category": {
+          "customer-snapshot": 23,
+          "customer-source": 82,
+          "skill-example": 6,
+          "upstream-tests": 7
+        },
+        "customer": 105
+      },
+      {
+        "name": "cad_khana.printability.orientation.suggest_orientation",
+        "total": 10,
+        "by_category": {
+          "customer-source": 6,
+          "upstream-tests": 4
+        },
+        "customer": 6
+      },
+      {
+        "name": "cad_khana.viewer.push",
+        "total": 17,
+        "by_category": {
+          "customer-watcher": 13,
+          "skill-example": 2,
+          "upstream-library": 1,
+          "vendored-library": 1
+        },
+        "customer": 13
+      }
+    ],
+    "by_project": {
+      "cad-project-001": {
+        "files": 2,
+        "source": 1,
+        "snapshots": 0,
+        "watchers": 1,
+        "calls": 7,
+        "names": {
+          "cad_khana.mechanism.assembly.Assembly": 1,
+          "cad_khana.mechanism.assembly.Assembly.with_part": 1,
+          "cad_khana.mechanism.assembly.Assembly.assert_no_interference": 2,
+          "cad_khana.mechanism.assembly.Assembly.assert_clearance": 1,
+          "cad_khana.mechanism.check.check": 1,
+          "cad_khana.viewer.push": 1
+        },
+        "unique_bytes": 2
+      },
+      "cad-project-003": {
+        "files": 35,
+        "source": 11,
+        "snapshots": 23,
+        "watchers": 1,
+        "calls": 231,
+        "names": {
+          "cad_khana.mechanism.assembly.Assembly": 31,
+          "cad_khana.mechanism.assembly.Assembly.with_part": 45,
+          "cad_khana.mechanism.assembly.Assembly.assert_no_interference": 43,
+          "cad_khana.mechanism.assembly.Assembly.assert_interference": 2,
+          "cad_khana.mechanism.check.check": 32,
+          "cad_khana.printability.inspect.inspect": 37,
+          "cad_khana.printability.methods.FDM": 36,
+          "cad_khana.mechanism.assembly.Assembly.assert_clearance": 4,
+          "cad_khana.viewer.push": 1
+        },
+        "unique_bytes": 18
+      },
+      "cad-project-013": {
+        "files": 8,
+        "source": 7,
+        "snapshots": 0,
+        "watchers": 1,
+        "calls": 129,
+        "names": {
+          "cad_khana.mechanism.assembly.Assembly": 6,
+          "cad_khana.mechanism.assembly.Assembly.with_part": 49,
+          "cad_khana.mechanism.assembly.Assembly.assert_interference": 4,
+          "cad_khana.mechanism.assembly.Assembly.assert_no_interference": 23,
+          "cad_khana.mechanism.assembly.Assembly.assert_clearance": 4,
+          "cad_khana.printability.methods.FDM": 26,
+          "cad_khana.mechanism.check.check": 5,
+          "cad_khana.printability.orientation.suggest_orientation": 1,
+          "cad_khana.printability.inspect.inspect": 7,
+          "cad_khana.export.export_assembly": 1,
+          "cad_khana.export.export_glb": 1,
+          "cad_khana.draw.draw": 1,
+          "cad_khana.viewer.push": 1
+        },
+        "unique_bytes": 8
+      },
+      "cad-project-017": {
+        "files": 3,
+        "source": 2,
+        "snapshots": 0,
+        "watchers": 1,
+        "calls": 23,
+        "names": {
+          "cad_khana.mechanism.assembly.Assembly": 2,
+          "cad_khana.mechanism.assembly.Assembly.with_part": 9,
+          "cad_khana.mechanism.assembly.Assembly.assert_no_interference": 6,
+          "cad_khana.mechanism.assembly.Assembly.assert_clearance": 1,
+          "cad_khana.mechanism.assembly.Assembly.assert_interference": 1,
+          "cad_khana.mechanism.check.check": 1,
+          "cad_khana.printability.orientation.suggest_orientation": 2,
+          "cad_khana.viewer.push": 1
+        },
+        "unique_bytes": 3
+      },
+      "cad-project-020": {
+        "files": 2,
+        "source": 1,
+        "snapshots": 0,
+        "watchers": 1,
+        "calls": 32,
+        "names": {
+          "cad_khana.mechanism.assembly.Assembly": 1,
+          "cad_khana.mechanism.assembly.Assembly.with_part": 9,
+          "cad_khana.mechanism.assembly.Assembly.assert_no_interference": 11,
+          "cad_khana.mechanism.assembly.Assembly.assert_clearance": 2,
+          "cad_khana.mechanism.assembly.Assembly.assert_interference": 1,
+          "cad_khana.mechanism.check.check": 1,
+          "cad_khana.printability.orientation.suggest_orientation": 2,
+          "cad_khana.printability.methods.FDM": 3,
+          "cad_khana.printability.inspect.inspect": 1,
+          "cad_khana.viewer.push": 1
+        },
+        "unique_bytes": 2
+      },
+      "cad-project-022": {
+        "files": 1,
+        "source": 1,
+        "snapshots": 0,
+        "watchers": 0,
+        "calls": 4,
+        "names": {
+          "cad_khana.mechanism.assembly.Assembly": 1,
+          "cad_khana.mechanism.assembly.Assembly.with_part": 1,
+          "cad_khana.export.export_glb": 1,
+          "cad_khana.export.export_animated_glb": 1
+        },
+        "unique_bytes": 1
+      },
+      "cad-project-025": {
+        "files": 2,
+        "source": 1,
+        "snapshots": 0,
+        "watchers": 1,
+        "calls": 10,
+        "names": {
+          "cad_khana.mechanism.assembly.Assembly": 1,
+          "cad_khana.mechanism.assembly.Assembly.with_part": 2,
+          "cad_khana.mechanism.assembly.Assembly.assert_no_interference": 1,
+          "cad_khana.mechanism.check.check": 1,
+          "cad_khana.printability.inspect.inspect": 2,
+          "cad_khana.printability.methods.FDM": 2,
+          "cad_khana.viewer.push": 1
+        },
+        "unique_bytes": 2
+      },
+      "cad-project-026": {
+        "files": 3,
+        "source": 2,
+        "snapshots": 0,
+        "watchers": 1,
+        "calls": 109,
+        "names": {
+          "cad_khana.mechanism.assembly.Assembly": 2,
+          "cad_khana.mechanism.assembly.Assembly.with_part": 32,
+          "cad_khana.mechanism.assembly.Assembly.assert_no_interference": 49,
+          "cad_khana.mechanism.assembly.Assembly.assert_clearance": 4,
+          "cad_khana.mechanism.check.check": 2,
+          "cad_khana.printability.inspect.inspect": 9,
+          "cad_khana.printability.methods.FDM": 9,
+          "cad_khana.printability.orientation.suggest_orientation": 1,
+          "cad_khana.viewer.push": 1
+        },
+        "unique_bytes": 3
+      },
+      "cad-project-032": {
+        "files": 2,
+        "source": 1,
+        "snapshots": 0,
+        "watchers": 1,
+        "calls": 17,
+        "names": {
+          "cad_khana.mechanism.assembly.Assembly": 1,
+          "cad_khana.mechanism.assembly.Assembly.with_part": 4,
+          "cad_khana.mechanism.assembly.Assembly.assert_no_interference": 2,
+          "cad_khana.mechanism.check.check": 1,
+          "cad_khana.printability.inspect.inspect": 4,
+          "cad_khana.printability.methods.FDM": 4,
+          "cad_khana.viewer.push": 1
+        },
+        "unique_bytes": 2
+      },
+      "cad-project-033": {
+        "files": 2,
+        "source": 1,
+        "snapshots": 0,
+        "watchers": 1,
+        "calls": 40,
+        "names": {
+          "cad_khana.mechanism.assembly.Assembly": 1,
+          "cad_khana.mechanism.assembly.Assembly.with_part": 13,
+          "cad_khana.mechanism.assembly.Assembly.assert_no_interference": 14,
+          "cad_khana.mechanism.assembly.Assembly.assert_clearance": 2,
+          "cad_khana.mechanism.assembly.Assembly.assert_interference": 2,
+          "cad_khana.mechanism.check.check": 1,
+          "cad_khana.printability.inspect.inspect": 3,
+          "cad_khana.printability.methods.FDM": 3,
+          "cad_khana.viewer.push": 1
+        },
+        "unique_bytes": 2
+      },
+      "cad-project-035": {
+        "files": 2,
+        "source": 1,
+        "snapshots": 0,
+        "watchers": 1,
+        "calls": 15,
+        "names": {
+          "cad_khana.mechanism.assembly.Assembly": 1,
+          "cad_khana.mechanism.assembly.Assembly.with_part": 4,
+          "cad_khana.mechanism.assembly.Assembly.assert_no_interference": 4,
+          "cad_khana.mechanism.check.check": 1,
+          "cad_khana.printability.methods.FDM": 3,
+          "cad_khana.printability.inspect.inspect": 1,
+          "cad_khana.viewer.push": 1
+        },
+        "unique_bytes": 2
+      },
+      "cad-project-046": {
+        "files": 8,
+        "source": 7,
+        "snapshots": 0,
+        "watchers": 1,
+        "calls": 83,
+        "names": {
+          "cad_khana.mechanism.assembly.Assembly": 7,
+          "cad_khana.mechanism.assembly.Assembly.with_part": 24,
+          "cad_khana.mechanism.assembly.Assembly.assert_no_interference": 15,
+          "cad_khana.mechanism.assembly.Assembly.assert_clearance": 4,
+          "cad_khana.mechanism.assembly.Assembly.assert_interference": 4,
+          "cad_khana.mechanism.check.check": 6,
+          "cad_khana.printability.methods.FDM": 16,
+          "cad_khana.printability.inspect.inspect": 6,
+          "cad_khana.viewer.push": 1
+        },
+        "unique_bytes": 8
+      },
+      "cad-project-047": {
+        "files": 2,
+        "source": 1,
+        "snapshots": 0,
+        "watchers": 1,
+        "calls": 6,
+        "names": {
+          "cad_khana.mechanism.assembly.Assembly": 1,
+          "cad_khana.mechanism.assembly.Assembly.with_part": 2,
+          "cad_khana.mechanism.assembly.Assembly.assert_no_interference": 1,
+          "cad_khana.mechanism.check.check": 1,
+          "cad_khana.viewer.push": 1
+        },
+        "unique_bytes": 2
+      },
+      "cad-project-048": {
+        "files": 2,
+        "source": 1,
+        "snapshots": 0,
+        "watchers": 1,
+        "calls": 28,
+        "names": {
+          "cad_khana.mechanism.assembly.Assembly": 1,
+          "cad_khana.mechanism.assembly.Assembly.with_part": 7,
+          "cad_khana.mechanism.assembly.Assembly.assert_no_interference": 12,
+          "cad_khana.mechanism.check.check": 1,
+          "cad_khana.printability.inspect.inspect": 3,
+          "cad_khana.printability.methods.FDM": 3,
+          "cad_khana.viewer.push": 1
+        },
+        "unique_bytes": 2
+      }
+    },
+    "citation_note": "Each name/project row is derived from calls-reviewed.json; that ledger contains every constituent absolute file:line and original arguments. Source snapshots and upstream tests are separate categories.",
+    "corpus_vs_workspace": {
+      "classification": "observed source/artifact or static measurement",
+      "claim": "The older 91-file corpus reports 27 cad_khana importers, including eight upstream pytest modules. All 27 contain a refused diagnostic; inspect occurs in 20 files, check in 16, detect_overhang and detect_bores in two each, and draw/export_assembly/detect_pins/enclosed_voids/sharp_vertical_edges/describe_face/describe_edge/face_relations/compute in one each. These are file counts, not this report’s call-site counts.",
+      "citations": [
+        "<repo>/docs/python-khana.md:195-246"
+      ]
+    },
+    "no_customer_direct_usage": {
+      "classification": "observed source/artifact or static measurement",
+      "claim": "No matched direct call in the real customer source/snapshot/watcher partition to RevoluteJoint, with_subassembly/with_joint/with_joint_angle/with_materials/with_detailed_geometry, compute, pick/hints, low-level detect_*/wall routines, diff or environment.probe. Upstream tests and/or library execution do exercise many of them. Zero observed customer sites is a prioritization fact, not license to omit public API parity.",
+      "citations": [
+        "<repo>/tmp/khana/corpus-usage/public-api-coverage.json",
+        "~/Workspace/cad/cad-khana/tests/mechanism/test_assembly.py:1",
+        "~/Workspace/cad/cad-khana/tests/mechanism/test_diagnostics.py:14-139",
+        "~/Workspace/cad/cad-khana/tests/test_diff.py:39-243"
+      ]
+    }
+  },
+  "result_consumption": [
+    {
+      "classification": "observed source/artifact or static measurement",
+      "claim": "Assembly() and with_part/assert_* form fluent chains or rebind the immutable assembly; assertions are consumed later by check, while with_part carries stable names and placement/color. The full call ledger retains all individual builder arguments.",
+      "citations": [
+        "~/Workspace/cad/cad-project-033/assembly.py:50-83",
+        "~/Workspace/cad/cad-project-003/overnight-2026-09-05/manufacturing/preload_z/coupon.py:90-96"
+      ]
+    },
+    {
+      "classification": "observed source/artifact or static measurement",
+      "claim": "check() customer calls use JSON/export/exception side effects only. Upstream tests additionally consume CheckResult.exports and CheckResult.diagnostics, so returning None is not compatible.",
+      "citations": [
+        "~/Workspace/cad/cad-khana/tests/mechanism/test_check.py:19-30",
+        "~/Workspace/cad/cad-khana/tests/mechanism/test_check.py:61-83",
+        "~/Workspace/cad/cad-khana/src/cad_khana/mechanism/check.py:15-18,29-64"
+      ]
+    },
+    {
+      "classification": "observed source/artifact or static measurement",
+      "claim": "Inspect returns are reduced to .status in coupon save_print/save_part, family and robot flows. Failure paths catch SystemExit and emit review/inspect_review/needs_review labels; those are project statuses rather than cad_khana schema values.",
+      "citations": [
+        "~/Workspace/cad/cad-project-003/overnight-2026-09-05/manufacturing/coupons.py:143-154",
+        "~/Workspace/cad/cad-project-003/overnight-2026-09-05/manufacturing/preload_z/coupon.py:99-109",
+        "~/Workspace/cad/cad-project-003/neustart/robot.py:224-232",
+        "~/Workspace/cad/cad-project-003/overnight-2026-09-05/family.py:341-344"
+      ],
+      "minimal_quote": "diag = inspect(shape, method=FDM(wall_min_mm=0.8), name=name, out=CHECKS)\nstatus = diag.status"
+    },
+    {
+      "classification": "observed source/artifact or static measurement",
+      "claim": "lateral_preload assigns the returned diagnostic but does not read it; it subsequently rereads the written printability JSON and propagates status into result.json. A successful call return alone is not the artifact contract.",
+      "citations": [
+        "~/Workspace/cad/cad-project-003/overnight-2026-09-05/experiments/lateral_preload.py:89-97"
+      ]
+    },
+    {
+      "classification": "observed source/artifact or static measurement",
+      "claim": "Unifi caches checks by rounded volume/face/edge/bbox metrics and method settings plus existing report-file presence; it retains a cache entry only when inspect returns without SystemExit. The code does not reread cached status.",
+      "citations": [
+        "~/Workspace/cad/cad-project-046/assembly.py:114-161"
+      ]
+    },
+    {
+      "classification": "recommendation/inference, not implemented",
+      "claim": "Replace the Unifi-style geometric fingerprint with a complete model/pose/method/kernel-revision content hash, report provenance and explicit cache-hit marker. Rounded metrics do not identify topology uniquely; that collision risk is an inference, not a measured stale-result incident.",
+      "citations": [
+        "~/Workspace/cad/cad-project-046/assembly.py:121-153"
+      ]
+    },
+    {
+      "classification": "observed source/artifact or static measurement",
+      "claim": "Orientation customer calls are artifact-only. Upstream tests index the first score, key by up_axis, inspect support_demand_mm3 and plate_contact_mm2, and assert six ranked entries and matching best_up_axis.",
+      "citations": [
+        "~/Workspace/cad/cad-project-026/assembly.py:76-79",
+        "~/Workspace/cad/cad-khana/tests/printability/test_orientation.py:18-40"
+      ]
+    },
+    {
+      "classification": "observed source/artifact or static measurement",
+      "claim": "viewer.push is ignored at the 13 watcher sites; exceptions print tracebacks and the loop continues. The assembly is rebuilt only for changed source mtimes, otherwise reused.",
+      "citations": [
+        "~/Workspace/cad/cad-project-026/watch.py:51-63"
+      ]
+    },
+    {
+      "classification": "observed source/artifact or static measurement",
+      "claim": "The camera mockup ignores export_assembly/export_glb/draw returns and relies on named files. It temporarily replaces private _gltf_transform_join with a no-op because the external optimizer is unavailable, restoring it in finally.",
+      "citations": [
+        "~/Workspace/cad/cad-project-013/camera_mount_assembly.py:355-379"
+      ]
+    },
+    {
+      "classification": "observed source/artifact or static measurement",
+      "claim": "The project-component-0e791726 study checks asm.placed_parts geometry, exports asm.compound to STEP, reimports it for validity/volume and SHA, writes static and animated GLBs, then parses GLB JSON to count animations/channels. This is explicit downstream consumption despite ignored exporter returns.",
+      "citations": [
+        "~/Workspace/cad/cad-project-022/concept-02/study.py:375-392"
+      ]
+    },
+    {
+      "classification": "observed source/artifact or static measurement",
+      "claim": "Upstream diagnostic tests also consume computed dictionaries/dataclasses, assert exception types/codes and reread JSON after failures. These are a contract-test population, not model files that should be treated as successful standalone models.",
+      "citations": [
+        "~/Workspace/cad/cad-khana/tests/mechanism/test_check.py:86-140",
+        "~/Workspace/cad/cad-khana/tests/printability/test_inspect.py:38-92",
+        "<repo>/docs/corpus/cluster-py-imports.md:84-117"
+      ]
+    }
+  ],
+  "priority_flows": [
+    {
+      "priority": 1,
+      "name": "Named assembly fit, contact and intended interference",
+      "observed": "Stable named/color parts plus no-interference, min-gap and expected-overlap assertions. project-component-a8102813 detents intentionally overlap mid-slide; Lego rack has 0.05/0.1/0.5 mm fit budgets.",
+      "sites": [
+        "~/Workspace/cad/cad-project-033/assembly.py:54-79",
+        "~/Workspace/cad/cad-project-026/assembly.py:57-64"
+      ],
+      "recommendation": "Native Bend interference volume and body-to-body minimum distance, structured per-pair witnesses, explicit touch/clearance/expected-interference semantics. Show assertion coverage separately from global interference list."
+    },
+    {
+      "priority": 2,
+      "name": "Tolerance coupons and multi-pose mechanism sweeps",
+      "observed": "Coupon code loops clearance values, checks drop/slide fits, independently probes insertion intersections, and checks five preload stroke ratios.",
+      "sites": [
+        "~/Workspace/cad/cad-project-003/overnight-2026-09-05/manufacturing/coupons.py:157-171",
+        "~/Workspace/cad/cad-project-003/overnight-2026-09-05/manufacturing/preload_z/coupon.py:116-132"
+      ],
+      "recommendation": "Named configurations with per-pose reports, cached unchanged geometry, worst-case witnesses and explicit sampled-not-continuously-proved motion label."
+    },
+    {
+      "priority": 3,
+      "name": "Batch printability with usable failure artifacts",
+      "observed": "Print-ready STL/STEP is exported, inspect is run, SystemExit caught, and a compact summary carries inspect_status/review.",
+      "sites": [
+        "~/Workspace/cad/cad-project-003/overnight-2026-09-05/manufacturing/coupons.py:143-154",
+        "~/Workspace/cad/cad-project-003/overnight-2026-09-05/manufacturing/preload_z/coupon.py:99-109"
+      ],
+      "recommendation": "Keep compatibility exceptions/JSON timing, add a native non-throwing batch API that collects all per-part outcomes. Never turn not-run into ok."
+    },
+    {
+      "priority": 4,
+      "name": "Print-pose aware wall/overhang/bore assessment",
+      "observed": "FDM up_axis is part-local and often not +Z; thread/grip details are disabled only for diagnostic shapes, with per-part wall thresholds.",
+      "sites": [
+        "~/Workspace/cad/cad-project-046/assembly.py:128-148",
+        "~/Workspace/cad/cad-project-033/assembly.py:84-105"
+      ],
+      "recommendation": "Track analyzed geometry versus manufactured geometry, pose and method provenance; identify surfaces and worst-hit wall locations. Analytic/Bend queries remain source of geometric truth."
+    },
+    {
+      "priority": 5,
+      "name": "Targeted waivers instead of global threshold disabling",
+      "observed": "Global overhang 91 degrees suppresses snap-groove/ridge micro-feature noise; very low wall minima work around grazing-ray false positives.",
+      "sites": [
+        "~/Workspace/cad/cad-project-033/assembly.py:84-105",
+        "~/Workspace/cad/cad-project-046/assembly.py:134-148"
+      ],
+      "recommendation": "Per-feature/face waivers with reason, scope and measured residual risk; keep raw metrics and standard-threshold comparison so regression detection is not globally disabled."
+    },
+    {
+      "priority": 6,
+      "name": "Orientation trade-offs and selective expensive checks",
+      "observed": "Orientation writes an advisory ranking, prints choose explicit FDM axes, and project-component-d753d790 gates orientation by ORIENT and selects part inspections with PART.",
+      "sites": [
+        "~/Workspace/cad/cad-project-026/assembly.py:76-94",
+        "~/Workspace/cad/cad-project-013/assembly.py:254-277"
+      ],
+      "recommendation": "Native ranking with support demand, bores, bed contact and stability; report ties/uncertainty. Orientation must not silently rotate or imply guaranteed print success."
+    },
+    {
+      "priority": 7,
+      "name": "Watch/rebuild/display without re-running expensive diagnostics",
+      "observed": "runpy avoids main checks; project module caches are purged on rebuild; last assembly is periodically pushed to repopulate the viewer.",
+      "sites": [
+        "~/Workspace/cad/cad-project-026/watch.py:35-63"
+      ],
+      "recommendation": "A unified wonky watcher with retained last-good scene, source/build/diagnostic generation IDs, stale/unchecked badge and explicit fast/full verification modes. Never reuse ports 4310/4311 during this research."
+    },
+    {
+      "priority": 8,
+      "name": "Manufacturing exports and artifact provenance",
+      "observed": "Customer workflows depend on export files existing before diagnostic failure and STEP read-back; names/colors and per-part outputs feed downstream tools.",
+      "sites": [
+        "~/Workspace/cad/cad-project-003/overnight-2026-09-05/manufacturing/coupons.py:143-154",
+        "~/Workspace/cad/cad-project-022/concept-02/study.py:375-380",
+        "<repo>/docs/python-frontend.md:71-127"
+      ],
+      "recommendation": "One native export pipeline over Bend, append artifact hashes, exactness/tessellation tolerances and source/pose mapping. Export existence does not equal a passing or complete inspection."
+    },
+    {
+      "priority": 9,
+      "name": "Colored static GLB and engineering drawings without extra tooling",
+      "observed": "Camera mockup writes STEP/STL, colored/named GLB and four HLR views, monkeypatching away an external compression/merge tool.",
+      "sites": [
+        "~/Workspace/cad/cad-project-013/camera_mount_assembly.py:355-379"
+      ],
+      "recommendation": "Native scene/export/drawing adapters; internal optional optimization that can be unavailable without private monkeypatches. No OCP geometry or hidden tessellation fallback."
+    },
+    {
+      "priority": 10,
+      "name": "Illustrative animated mechanisms with honest motion provenance",
+      "observed": "project-component-0e791726 study passes a time-to-Assembly factory and discrete ts to animated GLB, verifies animation block/channel counts, and explicitly states 42 seconds is illustrative rather than physical cycle time.",
+      "sites": [
+        "~/Workspace/cad/cad-project-022/concept-02/study.py:382-392"
+      ],
+      "recommendation": "Unify animation poses and sampled checks with stable part identity; label illustrative timing, sampling coverage and geometry representation. Do not infer continuous collision freedom from animation or discrete samples."
+    }
+  ],
+  "package_policy": {
+    "observed_current": {
+      "classification": "observed source/artifact or static measurement",
+      "claim": "Current wonky imports only stdlib, project-local modules and provided shims. Other installed packages fail at import; OCP/OCC/cadquery are refused first. These recommendations are proposed policy changes, not current support.",
+      "citations": [
+        "<repo>/docs/python-khana.md:171-219",
+        "<repo>/python/runner.py:234-239,356-397",
+        "<repo>/AGENTS.md:4-8"
+      ]
+    },
+    "count_definition": "D/T/F = direct / with project modules / first unavailable import, from the 91 unique-path corpus census. Counts overlap, include functions/try/main imports and do not prove execution or full dependency closure.",
+    "packages": [
+      {
+        "name": "numpy",
+        "counts": [
+          18,
+          19,
+          18
+        ],
+        "role": "Pure numerical arrays and model coordinates; analysis matrices.",
+        "uses": [
+          "~/Workspace/cad/cad-project-041/single-step-r10/jobs/belt/geometry.py:21-22,91-100",
+          "~/Workspace/cad/cad-project-041/single-step-r10/src/core_geometry.py:53-89",
+          "~/Workspace/cad/cad-project-041/camera-arm-stiffness-2026-09-19/jobs/exact/build_exact.py:223-244,297-321"
+        ],
+        "recommendation": "Allow pinned non-geometric numerics; shape construction/queries remain native. Do not blanket-authorize external geometry by allowing arrays."
+      },
+      {
+        "name": "pytest",
+        "counts": [
+          13,
+          13,
+          6
+        ],
+        "role": "approx, parametrize, fixtures, skips, exception assertions; tests, not geometry.",
+        "uses": [
+          "~/Workspace/cad/cad-project-014/bottom-drive-review-2026-09-19/tool-improvement/worktree/pruefstand/tests/test_interface.py:51-52,275-293",
+          "~/Workspace/cad/cad-project-014/bottom-drive-review-2026-09-19/tool-improvement/worktree/pruefstand/tests/test_print_pose.py:65-109",
+          "~/Workspace/cad/cad-khana/tests/mechanism/test_check.py:93-111"
+        ],
+        "recommendation": "Allow only a real test lane. No no-op assertion/fixture shims, no standalone test module counted as a model success."
+      },
+      {
+        "name": "trimesh",
+        "counts": [
+          9,
+          10,
+          2
+        ],
+        "role": "Geometry: nearest/proximity, collision manager, clipping/remeshing, watertight cleanup and volume, plus 3MF plate packing.",
+        "uses": [
+          "~/Workspace/cad/cad-project-041/camera-arm-stiffness-2026-09-19/jobs/exact/build_exact.py:272-314",
+          "~/Workspace/cad/cad-project-041/single-step-r10/jobs/rack-frame-mount/geometry.py:167-170,229-235",
+          "~/Workspace/cad/cad-project-014/bottom-drive-review-2026-09-19/tool-improvement/worktree/pruefstand/src/pruefstand/region.py:199-235,300-343",
+          "~/Workspace/cad/cad-project-014/bottom-drive-review-2026-09-19/tool-improvement/worktree/pruefstand/probestaebe/src/make_probestaebe.py:169-179",
+          "~/Workspace/cad/cad-project-014/bottom-drive-review-2026-09-19/tool-improvement/worktree/labs/tile-clip-sockets/merged.py:630-661"
+        ],
+        "recommendation": "Native wonky mesh queries/collision/proximity/packing as needed. Refuse trimesh in the modeling lane; independent exported-artifact validation remains a separate concern."
+      },
+      {
+        "name": "bd_warehouse",
+        "counts": [
+          3,
+          7,
+          7
+        ],
+        "role": "The corpus specifically uses threads, not the entire hardware catalog: IsoThread M10x1, TrapezoidalThread, MetricTrapezoidalThread.",
+        "uses": [
+          "~/Workspace/cad/cad-project-013/wasteboard.py:1395-1402,1525-1532",
+          "~/Workspace/cad/cad-project-026/scissor.py:203-215,254-270",
+          "~/Workspace/cad/cad-project-046/mount.py:491-494,590-597"
+        ],
+        "recommendation": "Native Bend thread geometry and compatible parameters; no silent smooth-cylinder placeholder. Catalog breadth beyond observed constructors can follow a separate native standard-parts roadmap."
+      },
+      {
+        "name": "OCP",
+        "counts": [
+          4,
+          7,
+          1
+        ],
+        "role": "Analytic cylinder queries, adjacency-driven finishing selection, BRep cache, a chamfer subprocess whose geometry is adopted, and raw Fuse tests.",
+        "uses": [
+          "~/Workspace/cad/cad-project-041/camera-arm-stiffness-2026-09-19/jobs/exact/build_exact.py:183-200",
+          "~/Workspace/cad/cad-project-041/single-step-r10/src/endstop_check.py:199-214",
+          "~/Workspace/cad/cad-project-046/mount.py:136-155,246-292,337-423",
+          "~/Workspace/cad/cad-project-043/pruefstand/tests/test_form.py:555-577"
+        ],
+        "recommendation": "Continue refusing production OCP. Build native topology/query/persistence/finishing APIs. OCCT is allowed only as independent validation of already-exported test artifacts."
+      },
+      {
+        "name": "yaml",
+        "counts": [
+          2,
+          4,
+          4
+        ],
+        "role": "Non-geometric safe_load of manufacturing/style profile data.",
+        "uses": [
+          "~/Workspace/cad/cad-project-020/lochwand/printed-parts/style.py:12-35",
+          "~/Workspace/cad/cad-project-014/bottom-drive-review-2026-09-19/tool-improvement/worktree/pruefstand/src/pruefstand/assembly.py:245-263"
+        ],
+        "recommendation": "Allow pinned safe data parsing with source provenance; no unsafe object constructors or geometry delegation."
+      },
+      {
+        "name": "matplotlib",
+        "counts": [
+          2,
+          2,
+          0
+        ],
+        "role": "Agg/headless report plots, not shape construction.",
+        "uses": [
+          "~/Workspace/cad/cad-project-041/archiv/studien/tray-flip-study-2026-09-19/review/source/build_concepts.py:6-8,27-29,60-67"
+        ],
+        "recommendation": "Allow pinned headless reporting, separate from model geometry and its success criteria."
+      },
+      {
+        "name": "scipy",
+        "counts": [
+          2,
+          2,
+          0
+        ],
+        "role": "Mixed: linear_sum_assignment is numerical; ConvexHull creates a polygon that is offset/extruded/exported and is geometric.",
+        "uses": [
+          "~/Workspace/cad/cad-project-041/camera-arm-stiffness-2026-09-19/jobs/exact/build_exact.py:223-247",
+          "~/Workspace/cad/cad-project-003/overnight-2026-09-05/design-review/extract_lilypad.py:72-85"
+        ],
+        "recommendation": "Split by operation: allow audited non-geometric numerics; native support or explicit refusal for spatial hull/geometric operations. Do not blanket-allow scipy because one call is numeric."
+      },
+      {
+        "name": "shapely",
+        "counts": [
+          2,
+          2,
+          0
+        ],
+        "role": "Production 2D unions/intersections/buffers feed extrusion; gear phase checks and test boxes.",
+        "uses": [
+          "~/Workspace/cad/cad-project-041/single-step-r10/jobs/rack-drive-module/geometry.py:161-200,352-383",
+          "~/Workspace/cad/cad-project-014/bottom-drive-review-2026-09-19/tool-improvement/worktree/pruefstand/tests/test_stability.py:12,38-42"
+        ],
+        "recommendation": "Native Bend 2D region operations. Refuse external geometry; do not label polygonal buffers as exact analytic curves."
+      },
+      {
+        "name": "httpx",
+        "counts": [
+          0,
+          1,
+          1
+        ],
+        "role": "Transitive tooling/network client imported through offline -> native.flatten -> bridge; client construction occurs at import, although flatten itself is pure.",
+        "uses": [
+          "~/Workspace/cad/cad-project-014/bottom-drive-purpose-2026-09-19/src/brep_audit.py:5",
+          "~/Workspace/cad/cad-project-014/bottom-drive-purpose-2026-09-19/src/offline.py:11-15",
+          "~/Workspace/cad/cad-project-014/native.py:1-14",
+          "~/Workspace/cad/cad-project-014/bridge.py:9-24"
+        ],
+        "recommendation": "Refuse live network/service geometry in the model lane; split pure flattening from the bridge import. Do not fabricate HTTP results."
+      },
+      {
+        "name": "ocp_tessellate",
+        "counts": [
+          1,
+          1,
+          1
+        ],
+        "role": "The actual census use is get_faces for viewer-order topology enumeration, not tessellation.",
+        "uses": [
+          "~/Workspace/cad/cad-khana/tests/mechanism/test_pick.py:10-19"
+        ],
+        "recommendation": "Native topology enumeration with stable IDs; map legacy indices explicitly or refuse. Do not integrate OCP under a misleading tessellation-only rationale."
+      },
+      {
+        "name": "PIL",
+        "counts": [
+          1,
+          1,
+          0
+        ],
+        "role": "Raster report drawing of triangles already produced by shape.tessellate.",
+        "uses": [
+          "~/Workspace/cad/cad-project-041/single-step-r10/src/endstop_check.py:274-318"
+        ],
+        "recommendation": "Allow pinned raster reporting; tessellation itself must be Bend-owned and tolerance-labeled."
+      }
+    ],
+    "additional_off_path_uses": {
+      "note": "These real pruefstand source uses are outside the current static resolved-path census; do not add them to the D/T/F counts.",
+      "root": "~/Workspace/cad/cad-project-014/bottom-drive-review-2026-09-19/tool-improvement/worktree/pruefstand/src/pruefstand/",
+      "scipy": [
+        "primitives/_relevance.py:142-187 cKDTree prefilter",
+        "primitives/_relevance.py:260-284 ConvexHull mask",
+        "primitives/_relevance.py:288-348 sparse dijkstra",
+        "primitives/_relevance.py:352-361 ndimage opening"
+      ],
+      "shapely": [
+        "primitives/stability.py:83-98 effective buffered cross-section",
+        "primitives/print_pose.py:85-128 layer sections, unions and inscribed radius"
+      ],
+      "PIL": [
+        "primitives/coverage.py:13-40 raster coverage map"
+      ],
+      "yaml": [
+        "assembly.py:245-263 safe_load"
+      ],
+      "OCP": [
+        "form.py:133-153,179-216 tangent, point-face distance and adjacency"
+      ]
+    },
+    "limitations": [
+      {
+        "classification": "observed source/artifact or static measurement",
+        "claim": "The package census uses regex import extraction and skips relative imports/path-based dynamic loads, so its transitive closure is not complete.",
+        "citations": [
+          "<repo>/scripts/python/khana-package-census.mjs:58-84,112-134",
+          "~/Workspace/cad/cad-project-041/single-step-r10/jobs/rack-drive-module/geometry.py:84-94",
+          "~/Workspace/cad/cad-project-041/single-step-r10/jobs/rack-profiles/geometry.py:17-19"
+        ]
+      },
+      {
+        "classification": "observed source/artifact or static measurement",
+        "claim": "The census deduplicates by file path and reads the live CAD source rather than a frozen mirror. The 45 unavailable-import files and 54 files with unavailable imports or geometry readers overlap; package counts must not be summed.",
+        "citations": [
+          "<repo>/scripts/python/khana-package-census.mjs:46-47,118,137-156",
+          "<repo>/docs/corpus/README.md:15-16",
+          "<repo>/docs/python-khana.md:235-246"
+        ]
+      },
+      {
+        "classification": "observed source/artifact or static measurement",
+        "claim": "The source population mixes tests, helpers, CLI tools and broken snapshots. Missing hardware_refs and off-path src packages are different problems from external-package refusal.",
+        "citations": [
+          "<repo>/docs/corpus/cluster-py-imports.md:84-117",
+          "<repo>/docs/python-khana.md:221-233"
+        ]
+      },
+      {
+        "classification": "observed source/artifact or static measurement",
+        "claim": "A newer model adds .deps and then imports ezdxf, numpy, trimesh and shapely. Installation-origin checks must remain effective even if selected numerical/reporting APIs are allowed.",
+        "citations": [
+          "~/Workspace/cad/cad-project-039/belt-fixed-r29/wall-r29/design_wall.py:12-18",
+          "<repo>/docs/python-khana.md:184-193"
+        ]
+      },
+      {
+        "classification": "observed source/artifact or static measurement",
+        "claim": "Existing package refusal reason strings understate actual trimesh usage and misdescribe the ocp_tessellate call as tessellation. Updating explanatory policy text would be a future implementation/documentation task, not a change made here.",
+        "citations": [
+          "<repo>/python/_wonky_packages.py:17-19",
+          "~/Workspace/cad/cad-khana/tests/mechanism/test_pick.py:10-19",
+          "~/Workspace/cad/cad-project-041/single-step-r10/jobs/rack-frame-mount/geometry.py:167-170,229-235"
+        ]
+      }
+    ]
+  },
+  "public_api_accounting": {
+    "source": "<repo>/tmp/khana/corpus-usage/public-api-coverage.json",
+    "rule": "Every non-underscore module declaration, class public method/property/annotated field, constant/type alias and publicly imported binding is listed with its definition file:line. Owned declarations and incidental imported namespace bindings are distinguished. Callable usage is exact-name static matching, with union evaluate dispatch noted explicitly; values/properties use references.json/properties.json and the result/output sections.",
+    "caveat": "Zero direct-call count is not a no-use claim for fields, aliased names, callbacks, CLI entrypoints or library-internal dispatch. Inherited Python/object methods and dynamic __getattr__ space are not asserted to be a finite API census.",
+    "submodules": {
+      "cad_khana._paths": 4,
+      "cad_khana.cli": 23,
+      "cad_khana.core.tessellation": 7,
+      "cad_khana.core.tessellation.Triangle": 3,
+      "cad_khana.diff": 5,
+      "cad_khana.draw": 33,
+      "cad_khana.draw.View": 3,
+      "cad_khana.environment": 9,
+      "cad_khana.environment.EnvironmentReport": 7,
+      "cad_khana.environment.ViewerStatus": 3,
+      "cad_khana.export": 28,
+      "cad_khana.mechanism.assembly": 17,
+      "cad_khana.mechanism.assembly.Assembly": 14,
+      "cad_khana.mechanism.assembly.DetailOverride": 4,
+      "cad_khana.mechanism.assembly.PlacedPart": 5,
+      "cad_khana.mechanism.assembly.RevoluteJoint": 4,
+      "cad_khana.mechanism.assembly.SubAssembly": 5,
+      "cad_khana.mechanism.assertions": 11,
+      "cad_khana.mechanism.assertions.Clearance": 5,
+      "cad_khana.mechanism.assertions.ExpectedInterference": 5,
+      "cad_khana.mechanism.assertions.NoInterference": 4,
+      "cad_khana.mechanism.check": 16,
+      "cad_khana.mechanism.check.CheckResult": 2,
+      "cad_khana.mechanism.diagnostics": 14,
+      "cad_khana.mechanism.diagnostics.AssertionResult": 3,
+      "cad_khana.mechanism.diagnostics.BBox": 2,
+      "cad_khana.mechanism.diagnostics.Diagnostics": 8,
+      "cad_khana.mechanism.diagnostics.Interference": 4,
+      "cad_khana.mechanism.diagnostics.PartDiagnostics": 8,
+      "cad_khana.mechanism.hints": 4,
+      "cad_khana.mechanism.pick": 16,
+      "cad_khana.printability.holes": 21,
+      "cad_khana.printability.holes.Bore": 4,
+      "cad_khana.printability.holes.FaceTag": 4,
+      "cad_khana.printability.inspect": 26,
+      "cad_khana.printability.inspect.PrintabilityDiagnostics": 17,
+      "cad_khana.printability.methods": 3,
+      "cad_khana.printability.methods.FDM": 3,
+      "cad_khana.printability.orientation": 18,
+      "cad_khana.printability.orientation.OrientationScore": 8,
+      "cad_khana.printability.overhangs": 12,
+      "cad_khana.printability.overhangs.Overhang": 2,
+      "cad_khana.printability.pins": 12,
+      "cad_khana.printability.pins.Pin": 4,
+      "cad_khana.printability.structure": 21,
+      "cad_khana.printability.wall": 8,
+      "cad_khana.viewer": 6
+    },
+    "compatibility_priorities": {
+      "classification": "recommendation under revised directive",
+      "claim": "Every name receives a kept/replaced/compat-stub/dropped disposition, not an automatic parity implementation. Keep daily model compatibility cheap; unused internals, incidental imported names and unprincipled heuristics can be replaced or dropped with an explicit replacement-bearing capability error.",
+      "citations": [
+        "<repo>local design note",
+        "<repo>/AGENTS.md:7-8",
+        "<repo>/tmp/khana/corpus-usage/public-api-coverage.json"
+      ]
+    }
+  },
+  "corpus_state_and_adoption": {
+    "modeling": {
+      "classification": "observed source/artifact or static measurement",
+      "claim": "Wonky currently provides cad_khana modeling metadata and shape composition but refuses real diagnostic/tooling computations. Recorded assertion declarations are not evaluated.",
+      "citations": [
+        "<repo>/docs/python-khana.md:12-42,97-117"
+      ]
+    },
+    "skip": {
+      "classification": "observed source/artifact or static measurement",
+      "claim": "Decision 12 permits only check/inspect to be recorded host-side as not-run. The NotRun return rejects attributes, truthiness, equality, length, iteration and indexing, even under try/except. Real .status consumers therefore still stop honestly.",
+      "citations": [
+        "<repo>/docs/python-khana.md:125-169"
+      ]
+    },
+    "first_blockers": {
+      "classification": "observed source/artifact or static measurement",
+      "claim": "The policy corpus run has two reached khana diagnostics: coupons inspect and pin_hinge check; other files often stop first at kernel gaps/imports/timeouts. Absence of reached diagnostic errors is not absence of diagnostic demand.",
+      "citations": [
+        "<repo>/docs/python-khana.md:248-283"
+      ]
+    },
+    "exactness": {
+      "classification": "recommendation/inference, not implemented",
+      "claim": "Native diagnostics should carry measured/estimated/certified/unsupported/not-run distinctions rather than inherit a bare bool/status that implies more proof than exists. Keep geometry exactness separate from diagnostic certainty and display-tessellation tolerance.",
+      "citations": [
+        "<repo>/AGENTS.md:4-8",
+        "<repo>/docs/python-khana.md:148-163"
+      ]
+    }
+  },
+  "open_items": [
+    "No model re-execution, performance benchmarking or mathematical qualification of geometric algorithms was part of this static/artifact research.",
+    "Dynamic Python calls cannot be statically proven complete. Use the call ledger plus preserved tests and independent exported-artifact validation when implementing parity.",
+    "Package allowlist recommendations need an explicit product/security policy and a genuine test/reporting lane; current model imports remain refused.",
+    "Stored artifact presence and schema do not prove current-source freshness, manufacturing validation or historical execution frequency."
+  ],
+  "stored_outputs": {
+    "evidence": "<repo>/tmp/khana/corpus-usage/outputs.json",
+    "census": {
+      "files": 223,
+      "projects": 13,
+      "mechanism": 39,
+      "mechanism_ok": 39,
+      "printability": 175,
+      "printability_ok": 114,
+      "printability_assertion_failed": 61,
+      "orientation": 9,
+      "orientation_candidate_rows": 54,
+      "json_parse_errors": 0
+    },
+    "by_project_columns": [
+      "mechanism",
+      "printability_ok",
+      "printability_failed",
+      "orientation"
+    ],
+    "by_project": {
+      "cad-project-001": [
+        1,
+        0,
+        0,
+        0
+      ],
+      "cad-project-003": [
+        27,
+        46,
+        46,
+        0
+      ],
+      "cad-project-013": [
+        1,
+        32,
+        3,
+        1
+      ],
+      "cad-project-017": [
+        1,
+        0,
+        0,
+        3
+      ],
+      "cad-project-020": [
+        1,
+        4,
+        7,
+        2
+      ],
+      "cad-project-025": [
+        1,
+        3,
+        0,
+        0
+      ],
+      "cad-project-026": [
+        1,
+        9,
+        1,
+        1
+      ],
+      "cad-project-032": [
+        1,
+        4,
+        0,
+        0
+      ],
+      "cad-project-033": [
+        1,
+        3,
+        0,
+        0
+      ],
+      "cad-project-035": [
+        1,
+        2,
+        1,
+        2
+      ],
+      "cad-project-046": [
+        1,
+        8,
+        3,
+        0
+      ],
+      "cad-project-047": [
+        1,
+        0,
+        0,
+        0
+      ],
+      "cad-project-048": [
+        1,
+        3,
+        0,
+        0
+      ]
+    },
+    "count_caveat": "Filenames were selected by inventory.py:200-219. These counts exclude custom geometry-check.json and slicer checks. Three cad-project-003 variant lid files contain identical payloads; file counts are not independent designs. No reruns were performed.",
+    "schemas": {
+      "mechanism": {
+        "version": "0.2",
+        "root": [
+          "schema_version",
+          "status",
+          "error",
+          "hint",
+          "parts",
+          "interferences",
+          "assertions",
+          "exports"
+        ],
+        "parts": "Map by stable placed-part name; each value has bbox.min/max, volume_mm3, surface_area_mm2, center_of_mass_mm, is_valid, face_count, edge_count, vertex_count.",
+        "interferences": [
+          "a",
+          "b",
+          "volume_mm3",
+          "centroid"
+        ],
+        "assertions": [
+          "name",
+          "passed",
+          "detail"
+        ],
+        "kind": "absent",
+        "citation": "~/Workspace/cad/cad-project-001/outputs/mechanism.json:1-35"
+      },
+      "printability": {
+        "version": "0.2",
+        "root": [
+          "schema_version",
+          "kind",
+          "status",
+          "name",
+          "method",
+          "bbox",
+          "volume_mm3",
+          "surface_area_mm2",
+          "center_of_mass_mm",
+          "is_valid",
+          "min_wall_mm",
+          "min_wall_at",
+          "overhang",
+          "bores",
+          "pins",
+          "warnings",
+          "assertions"
+        ],
+        "kind": "printability",
+        "method": "Only the string FDM, not the FDM configuration.",
+        "overhang": "null or {area_mm2,max_angle_deg}",
+        "bores": [
+          "diameter_mm",
+          "at",
+          "axis",
+          "note"
+        ],
+        "pins": "Always [] in this stored population; absence of observed examples is not evidence of detector completeness.",
+        "citation": "~/Workspace/cad/cad-project-003/neustart/checks/body-printability.json:1-45"
+      },
+      "orientation": {
+        "version": null,
+        "status": null,
+        "root": [
+          "kind",
+          "name",
+          "ranked",
+          "best_up_axis"
+        ],
+        "ranked": [
+          "up_axis",
+          "support_demand_mm3",
+          "overhang_area_mm2",
+          "self_bridging_mm2",
+          "risky_bores",
+          "plate_contact_mm2",
+          "contact_vs_footprint",
+          "height_mm"
+        ],
+        "citation": "~/Workspace/cad/cad-project-013/outputs/wasteboard-orientation.json:1-30"
+      }
+    },
+    "schema_findings": [
+      {
+        "classification": "measured artifact/source observation",
+        "claim": "There is no measured old/new schema split in these stored outputs: all mechanism and printability files say 0.2, all 175 printability files include min_wall_at/bores/pins/warnings, and all 54 orientation candidates include contact_vs_footprint. An abridged documentation example omitting fields is not evidence of an older schema.",
+        "citations": [
+          "~/Workspace/cad/cad-khana/src/cad_khana/printability/inspect.py:32-50",
+          "<repo>/tmp/khana/corpus-usage/outputs.json"
+        ]
+      },
+      {
+        "classification": "measured artifact/source observation",
+        "claim": "Reports do not serialize source/revision/hash/time, full method up_axis/configuration, nozzle/material/layer settings or inspected-versus-exported identity. Thresholds are encoded in assertion names. Passing clearance results discard measured distance; expected-overlap reason appears only on failure.",
+        "citations": [
+          "~/Workspace/cad/cad-khana/src/cad_khana/printability/inspect.py:32-50",
+          "~/Workspace/cad/cad-khana/src/cad_khana/mechanism/assertions.py:55-63,80-88",
+          "<repo>/tmp/khana/corpus-usage/outputs.json"
+        ]
+      }
+    ],
+    "mechanism_metrics": {
+      "parts": 199,
+      "assertions": 424,
+      "all_assertions_pass": true,
+      "parts_per_file_range": [
+        2,
+        21
+      ],
+      "assertions_per_file_range": [
+        1,
+        96
+      ],
+      "volume_mm3_range": [
+        13.303,
+        4446000
+      ],
+      "face_count_range": [
+        1,
+        2630
+      ],
+      "edge_count_range": [
+        1,
+        6804
+      ],
+      "files_with_overlap": 7,
+      "overlap_records": 25,
+      "overlap_volume_mm3_range": [
+        0.253,
+        50816.886
+      ]
+    },
+    "mechanism_interpretation": [
+      {
+        "classification": "measured artifact/source observation",
+        "claim": "All 39 mechanism files say ok, but seven contain 25 overlap records. Some reflect intentional overlap or alternate assembly states, not automatically a design fault. Existing status reflects only declared assertions, not a global collision/validity gate.",
+        "citations": [
+          "~/Workspace/cad/cad-khana/src/cad_khana/mechanism/check.py:39-45",
+          "~/Workspace/cad/cad-project-003/outputs/mechanism.json:133",
+          "~/Workspace/cad/cad-project-035/assembly.py:34-42"
+        ]
+      },
+      {
+        "classification": "measured artifact/source observation",
+        "claim": "The sign relief is a real topology-heavy diagnostic consumer: the stored mechanism counts reach 2630 faces and 6804 edges, rather than only simple primitive assemblies.",
+        "citations": [
+          "~/Workspace/cad/cad-project-032/outputs/mechanism.json:45-54"
+        ]
+      }
+    ],
+    "printability_metrics": {
+      "volume_mm3_range": [
+        107.749,
+        734367.687
+      ],
+      "sampled_min_wall_mm_range": [
+        0.0501285,
+        34
+      ],
+      "null_min_wall_count": 0,
+      "non_null_min_wall_at_count": 175,
+      "all_is_valid_true": true,
+      "failure_breakdown": {
+        "wall_only": 55,
+        "overhang_only": 2,
+        "both": 4
+      },
+      "nonnull_overhang_count": 6,
+      "overhang_area_mm2_range": [
+        136.527,
+        1014.084
+      ],
+      "overhang_max_angle_deg_range": [
+        67.5,
+        90
+      ],
+      "reports_with_bores": 145,
+      "bores_total": 1980,
+      "bores_by_axis": {
+        "vertical": 1441,
+        "horizontal": 535,
+        "slanted": 4
+      },
+      "bore_diameter_mm_range": [
+        0.3,
+        88
+      ],
+      "reports_with_warnings": 156,
+      "reports_with_warnings_and_ok": 103,
+      "warning_records_by_type": {
+        "rim_edges": 149,
+        "sharp_vertical_edges": 118
+      },
+      "no_stored_warning_examples": [
+        "enclosed voids",
+        "floating solids"
+      ],
+      "pins_nonempty_count": 0
+    },
+    "printability_citations": [
+      "~/Workspace/cad/cad-project-020/lochwand/printed-parts/outputs/exp/B_slot-printability.json:27",
+      "~/Workspace/cad/cad-project-020/lochwand/printed-parts/outputs/exp/D_disc_bore-printability.json:27",
+      "~/Workspace/cad/cad-project-013/outputs/wasteboard_40-printability.json:19,27",
+      "<repo>/tmp/khana/corpus-usage/outputs.json"
+    ],
+    "orientation_metrics": {
+      "files": 9,
+      "projects": 5,
+      "candidates": 54,
+      "support_proxy_mm3_range": [
+        0,
+        6083474.593
+      ],
+      "contact_ratio_range": [
+        0,
+        1
+      ],
+      "risky_bores_range": [
+        0,
+        103
+      ],
+      "height_mm_range": [
+        6.2,
+        246
+      ]
+    },
+    "orientation_interpretation": [
+      {
+        "classification": "measured artifact/source observation",
+        "claim": "Best does not mean support-free or stable: the filament base best candidate still has support proxy 244890.536 mm3, contact 96 mm2 and contact/footprint 0.00922. The Lego carriage trades +X support proxy 0.208 and 35 risky bores against +Y 18882.502 and zero risky bores.",
+        "citations": [
+          "~/Workspace/cad/cad-project-017/outputs/base-orientation.json:5",
+          "~/Workspace/cad/cad-project-026/outputs/carriage-orientation.json:5,47"
+        ]
+      },
+      {
+        "classification": "measured artifact/source observation",
+        "claim": "Contact metrics are reported but not included in the current orientation sort key. These numbers are ranking proxies, not support-material volume or physical print certification.",
+        "citations": [
+          "~/Workspace/cad/cad-khana/src/cad_khana/printability/orientation.py:115-122"
+        ]
+      }
+    ],
+    "practical_field_priorities": [
+      {
+        "fields": [
+          "status",
+          "assertions[].name/passed/detail",
+          "error",
+          "hint"
+        ],
+        "use": "Primary batch failure/success contract and repair signal; status is read by model code and JSON after SystemExit.",
+        "citations": [
+          "~/Workspace/cad/cad-project-003/overnight-2026-09-05/manufacturing/coupons.py:149-154",
+          "~/Workspace/cad/cad-project-003/overnight-2026-09-05/experiments/lateral_preload.py:89-97"
+        ]
+      },
+      {
+        "fields": [
+          "min_wall_mm",
+          "min_wall_at",
+          "overhang.area_mm2",
+          "overhang.max_angle_deg"
+        ],
+        "use": "Find and quantify local printability problems; ball_joint prints the overhang/wall values from JSON.",
+        "citations": [
+          "~/Workspace/cad/cad-project-046/ball_joint.py:259-262"
+        ]
+      },
+      {
+        "fields": [
+          "parts[name].bbox",
+          "volume_mm3",
+          "face_count",
+          "edge_count",
+          "vertex_count",
+          "is_valid"
+        ],
+        "use": "Shape/placement sanity and changed-geometry detection; related shape metrics also feed a customer inspection cache.",
+        "citations": [
+          "~/Workspace/cad/cad-project-046/assembly.py:121-127",
+          "~/Workspace/cad/cad-khana/tests/mechanism/test_diagnostics.py:98-139"
+        ]
+      },
+      {
+        "fields": [
+          "interferences[].a/b/volume_mm3/centroid"
+        ],
+        "use": "Identify colliding pairs and witnesses; must distinguish alternate poses and explicitly accepted contacts rather than hiding them behind ok.",
+        "citations": [
+          "~/Workspace/cad/cad-project-003/outputs/mechanism.json:133",
+          "~/Workspace/cad/cad-project-033/assembly.py:68-79"
+        ]
+      },
+      {
+        "fields": [
+          "bores[].axis/diameter_mm/at/note",
+          "warnings",
+          "pins"
+        ],
+        "use": "Manufacturing advice reviewed alongside pass/fail; current warnings do not fail inspection. 103 ok reports still have warnings.",
+        "citations": [
+          "~/Workspace/cad/cad-project-026/assembly.py:76-78",
+          "~/Workspace/cad/cad-khana/src/cad_khana/printability/inspect.py:100-149"
+        ]
+      },
+      {
+        "fields": [
+          "best_up_axis",
+          "ranked[].support_demand_mm3/risky_bores/height_mm/plate_contact_mm2/contact_vs_footprint"
+        ],
+        "use": "Advisory orientation trade-off, not an automatic geometry transform.",
+        "citations": [
+          "~/Workspace/cad/cad-project-026/assembly.py:76-94",
+          "~/Workspace/cad/cad-project-017/outputs/base-orientation.json:5"
+        ]
+      },
+      {
+        "fields": [
+          "exports",
+          "GLB node names/colors",
+          "GLB animations/channels",
+          "STEP file hashes/read-back validity"
+        ],
+        "use": "Actual downstream file consumers; diagnose/export provenance independently of check success.",
+        "citations": [
+          "~/Workspace/cad/cad-project-022/concept-02/study.py:375-392",
+          "~/Workspace/cad/cad-project-013/camera_mount_assembly.py:355-379"
+        ]
+      }
+    ],
+    "fdm_caveats": [
+      {
+        "classification": "measured artifact/source observation",
+        "claim": "52 of 175 stored printability files use overhang thresholds >=90 degrees; 50 of those say ok. Because the calculated angle is bounded, null overhang in these reports cannot mean support-free.",
+        "citations": [
+          "~/Workspace/cad/cad-khana/src/cad_khana/printability/overhangs.py:20,54",
+          "<repo>/tmp/khana/corpus-usage/outputs.json"
+        ]
+      },
+      {
+        "classification": "measured artifact/source observation",
+        "claim": "139 of 175 stored wall thresholds are below the 1.5 mm default; 17 are <=0.05 mm, with overall thresholds 0.01–2.5 mm. The sampler discards hits <=0.05 mm. A passing near-floor threshold is not structural certification.",
+        "citations": [
+          "~/Workspace/cad/cad-khana/src/cad_khana/printability/wall.py:7-25",
+          "~/Workspace/cad/cad-project-013/README.md:580-601",
+          "<repo>/tmp/khana/corpus-usage/outputs.json"
+        ]
+      },
+      {
+        "classification": "measured artifact/source observation",
+        "claim": "Some checks deliberately inspect thread-free/ridge-free proxies while exporting detailed shapes. The rationale is documented but was not physically verified in this research.",
+        "citations": [
+          "~/Workspace/cad/cad-project-046/assembly.py:128-148",
+          "~/Workspace/cad/cad-project-013/README.md:603-604"
+        ]
+      },
+      {
+        "classification": "measured artifact/source observation",
+        "claim": "inspect status gates wall and overhang assertions only, not warnings or is_valid. All stored files happen to report is_valid=true, but that observation does not change the gate semantics.",
+        "citations": [
+          "~/Workspace/cad/cad-khana/src/cad_khana/printability/inspect.py:100-103,132-149"
+        ]
+      },
+      {
+        "classification": "measured artifact/source observation",
+        "claim": "Absence of inspect can be intentional or a coverage gap: filament main calls only check plus orientation despite importing inspect; the project-component-46fa3c87 project is laser-cut MDF, not FDM. Do not demand the same check recipe for every CAD project.",
+        "citations": [
+          "~/Workspace/cad/cad-project-017/assembly.py:60-64",
+          "~/Workspace/cad/cad-project-001/assembly.py:9-11"
+        ]
+      }
+    ],
+    "exports": {
+      "full_workspace_counts": {
+        "total": 31149,
+        "STL": 23904,
+        "STEP": 3316,
+        "STP": 2,
+        "3MF": 2399,
+        "BREP": 1503,
+        "GLB": 25
+      },
+      "qualification": "These are all stored workspace artifacts, not cad_khana export counts. The authoritative exhaustive paths, sizes and projects are in artifacts.json.",
+      "report_linked_exports": {
+        "mechanism_reports_with_exports": 34,
+        "STL_STEP_paths": 68,
+        "all_paths_present": true,
+        "total_bytes": 146042202,
+        "reports_without_exports": 5
+      },
+      "citations": [
+        "~/Workspace/cad/cad-project-001/outputs/mechanism.json:841",
+        "<repo>/tmp/khana/corpus-usage/artifacts.json",
+        "<repo>/tmp/khana/corpus-usage/outputs.json"
+      ],
+      "glb_examples": [
+        {
+          "classification": "measured artifact/source observation",
+          "claim": "Five GLBs have clear source linkage to cad_khana: four in the two project-component-0e791726 artifact sets and one project-component-d753d790 mockup. No claim is made that the other 20 are or are not khana products.",
+          "citations": [
+            "~/Workspace/cad/cad-project-022/concept-02/study.py:371-392",
+            "~/Workspace/cad/cad-project-013/camera_mount_assembly.py:355-373"
+          ]
+        },
+        {
+          "classification": "measured artifact/source observation",
+          "claim": "project-component-0e791726 stored geometry-check reports show four STEP poses with 316 valid solids each and one animation with 280 channels; the front-z variant has 300 solids and 268 channels. The 42-second duration is explicitly display timing, and the cuboid representation is occupancy envelopes, not manufactured detail.",
+          "citations": [
+            "~/Workspace/cad/cad-project-022/concept-02/artifacts/geometry-check.json:4-38",
+            "~/Workspace/cad/cad-project-022/concept-02/front-z/geometry-check.json:4-38",
+            "~/Workspace/cad/cad-project-022/concept-02/study.py:386-392"
+          ]
+        },
+        {
+          "classification": "measured artifact/source observation",
+          "claim": "project-component-d753d790’s 928032-byte GLB was produced through a customer path that bypasses the private gltf-transform join helper and disables Draco. It is not evidence that the unmodified normal external-tool pipeline works.",
+          "citations": [
+            "~/Workspace/cad/cad-project-013/camera_mount_assembly.py:355-373"
+          ]
+        },
+        {
+          "classification": "measured artifact/source observation",
+          "claim": "A counterexample to filename-based attribution is alternate-chute build_local.py, whose GLB is exported by a trimesh Scene rather than khana.",
+          "citations": [
+            "~/Workspace/cad/cad-project-002/printed-experiment-r1/source/build_local.py:111-113"
+          ]
+        }
+      ]
+    }
+  },
+  "directive_update": {
+    "citation": "<repo>local design note",
+    "classification": "revised task-design directive; recommendations, not implemented behavior",
+    "summary": "Redesign from first principles around a small reliable native core; the exhaustive name catalogue is evidence and a disposition map, not a requirement to port every upstream behavior.",
+    "must_keep_compat_surface": "Of the 10 flows, keep the cheap existing-file boundary of #1–3 (Assembly declarations, check(), inspect(...).status and JSON before SystemExit), #7 (named assembly/display handoff) and #8–9 (STEP/STL/GLB export and names/colors). #4–6 should be redesigned behind thin inspect/FDM/orientation adapters; #10 animation can be staged explicitly, never silently no-op.",
+    "status_change": "The legacy ok-plus-overlap behavior is measured history, not the target. The native design must never issue an unqualified ok alongside unresolved overlap records; distinguish pose groups, accepted/waived contacts and unresolved collisions.",
+    "waiver_change": "Do not preserve global switch-off thresholds as a clean pass. Per-region stable-ID waivers with reasons, evidence and visible status replace them; a thin compatibility adapter must surface any deliberate semantic break."
+  }
+}

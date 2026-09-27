@@ -1,0 +1,90 @@
+{
+ "id": "hard-boss-root-concave-mitres-r1",
+ "jobSha256": "ff70b2a7fe53e8b850f652d344b1207c1534b0c5350b174420ef6969b4f14e93",
+ "jobBytes": 14433,
+ "sourceSha256": "d3d639c3c9043964a1b59e4ba4a893ffd5ee9b12507398ff00f56dbdf2ad93d9",
+ "buildMs": 4635.945,
+ "kernel": {
+  "closed": true,
+  "volumeMm3": 3800,
+  "areaMm2": null,
+  "precision": "F32x2",
+  "geometry": "analytic"
+ },
+ "counts": {
+  "vertices": 48,
+  "edges": 92,
+  "faces": 46
+ },
+ "surfaces": {
+  "plane": 46
+ },
+ "quantizationErrorMm": 0,
+ "selected": [
+  {
+   "edge": 2,
+   "curve": "line",
+   "faces": [
+    "plane",
+    "plane"
+   ],
+   "convexity": "concave",
+   "dihedralDeg": 270,
+   "length": 10,
+   "sample": [
+    10,
+    10,
+    6
+   ]
+  },
+  {
+   "edge": 9,
+   "curve": "line",
+   "faces": [
+    "plane",
+    "plane"
+   ],
+   "convexity": "concave",
+   "dihedralDeg": 270,
+   "length": 10,
+   "sample": [
+    15,
+    15,
+    6
+   ]
+  },
+  {
+   "edge": 21,
+   "curve": "line",
+   "faces": [
+    "plane",
+    "plane"
+   ],
+   "convexity": "concave",
+   "dihedralDeg": 270,
+   "length": 10,
+   "sample": [
+    20,
+    10,
+    6
+   ]
+  },
+  {
+   "edge": 33,
+   "curve": "line",
+   "faces": [
+    "plane",
+    "plane"
+   ],
+   "convexity": "concave",
+   "dihedralDeg": 270,
+   "length": 10,
+   "sample": [
+    15,
+    5,
+    6
+   ]
+  }
+ ],
+ "step": "out/fillet/input-step/hard-boss-root-concave-mitres-r1.step"
+}

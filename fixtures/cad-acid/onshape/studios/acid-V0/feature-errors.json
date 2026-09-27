@@ -1,0 +1,231 @@
+{
+  "btType" : "BTFeatureScriptEvalResponse-1859",
+  "rejectMicroversionSkew" : false,
+  "microversionSkew" : false,
+  "result" : {
+    "btType" : "com.belmonttech.serialize.fsvalue.BTFSValueMap",
+    "typeTag" : "",
+    "value" : [ {
+      "btType" : "BTFSValueMapEntry-2077",
+      "value" : {
+        "btType" : "com.belmonttech.serialize.fsvalue.BTFSValueMap",
+        "typeTag" : "",
+        "value" : [ {
+          "btType" : "BTFSValueMapEntry-2077",
+          "value" : {
+            "btType" : "com.belmonttech.serialize.fsvalue.BTFSValueNumber",
+            "typeTag" : "",
+            "value" : 0.0
+          },
+          "key" : {
+            "btType" : "com.belmonttech.serialize.fsvalue.BTFSValueString",
+            "typeTag" : "",
+            "value" : "bodies"
+          }
+        }, {
+          "btType" : "BTFSValueMapEntry-2077",
+          "value" : {
+            "btType" : "com.belmonttech.serialize.fsvalue.BTFSValueString",
+            "typeTag" : "ErrorStringEnum",
+            "value" : "FILLET_SELECT_EDGES"
+          },
+          "key" : {
+            "btType" : "com.belmonttech.serialize.fsvalue.BTFSValueString",
+            "typeTag" : "",
+            "value" : "error"
+          }
+        } ]
+      },
+      "key" : {
+        "btType" : "com.belmonttech.serialize.fsvalue.BTFSValueString",
+        "typeTag" : "",
+        "value" : "F0tTp58pdMjfpME_10"
+      }
+    }, {
+      "btType" : "BTFSValueMapEntry-2077",
+      "value" : {
+        "btType" : "com.belmonttech.serialize.fsvalue.BTFSValueMap",
+        "typeTag" : "",
+        "value" : [ {
+          "btType" : "BTFSValueMapEntry-2077",
+          "value" : {
+            "btType" : "com.belmonttech.serialize.fsvalue.BTFSValueNumber",
+            "typeTag" : "",
+            "value" : 0.0
+          },
+          "key" : {
+            "btType" : "com.belmonttech.serialize.fsvalue.BTFSValueString",
+            "typeTag" : "",
+            "value" : "bodies"
+          }
+        }, {
+          "btType" : "BTFSValueMapEntry-2077",
+          "value" : {
+            "btType" : "com.belmonttech.serialize.fsvalue.BTFSValueString",
+            "typeTag" : "ErrorStringEnum",
+            "value" : "PARAMETER_OUT_OF_RANGE"
+          },
+          "key" : {
+            "btType" : "com.belmonttech.serialize.fsvalue.BTFSValueString",
+            "typeTag" : "",
+            "value" : "error"
+          }
+        } ]
+      },
+      "key" : {
+        "btType" : "com.belmonttech.serialize.fsvalue.BTFSValueString",
+        "typeTag" : "",
+        "value" : "F2omtVpzTxRhG3J_11"
+      }
+    }, {
+      "btType" : "BTFSValueMapEntry-2077",
+      "value" : {
+        "btType" : "com.belmonttech.serialize.fsvalue.BTFSValueMap",
+        "typeTag" : "",
+        "value" : [ {
+          "btType" : "BTFSValueMapEntry-2077",
+          "value" : {
+            "btType" : "com.belmonttech.serialize.fsvalue.BTFSValueNumber",
+            "typeTag" : "",
+            "value" : 0.0
+          },
+          "key" : {
+            "btType" : "com.belmonttech.serialize.fsvalue.BTFSValueString",
+            "typeTag" : "",
+            "value" : "bodies"
+          }
+        }, {
+          "btType" : "BTFSValueMapEntry-2077",
+          "value" : {
+            "btType" : "com.belmonttech.serialize.fsvalue.BTFSValueString",
+            "typeTag" : "ErrorStringEnum",
+            "value" : "FILLET_SELECT_EDGES"
+          },
+          "key" : {
+            "btType" : "com.belmonttech.serialize.fsvalue.BTFSValueString",
+            "typeTag" : "",
+            "value" : "error"
+          }
+        } ]
+      },
+      "key" : {
+        "btType" : "com.belmonttech.serialize.fsvalue.BTFSValueString",
+        "typeTag" : "",
+        "value" : "FDTvbrJmSKswNIV_3"
+      }
+    }, {
+      "btType" : "BTFSValueMapEntry-2077",
+      "value" : {
+        "btType" : "com.belmonttech.serialize.fsvalue.BTFSValueMap",
+        "typeTag" : "",
+        "value" : [ {
+          "btType" : "BTFSValueMapEntry-2077",
+          "value" : {
+            "btType" : "com.belmonttech.serialize.fsvalue.BTFSValueNumber",
+            "typeTag" : "",
+            "value" : 0.0
+          },
+          "key" : {
+            "btType" : "com.belmonttech.serialize.fsvalue.BTFSValueString",
+            "typeTag" : "",
+            "value" : "bodies"
+          }
+        }, {
+          "btType" : "BTFSValueMapEntry-2077",
+          "value" : {
+            "btType" : "com.belmonttech.serialize.fsvalue.BTFSValueString",
+            "typeTag" : "ErrorStringEnum",
+            "value" : "REVOLVE_FAILED"
+          },
+          "key" : {
+            "btType" : "com.belmonttech.serialize.fsvalue.BTFSValueString",
+            "typeTag" : "",
+            "value" : "error"
+          }
+        } ]
+      },
+      "key" : {
+        "btType" : "com.belmonttech.serialize.fsvalue.BTFSValueString",
+        "typeTag" : "",
+        "value" : "FUMrGdNgcH3jpSv_18"
+      }
+    }, {
+      "btType" : "BTFSValueMapEntry-2077",
+      "value" : {
+        "btType" : "com.belmonttech.serialize.fsvalue.BTFSValueMap",
+        "typeTag" : "",
+        "value" : [ {
+          "btType" : "BTFSValueMapEntry-2077",
+          "value" : {
+            "btType" : "com.belmonttech.serialize.fsvalue.BTFSValueNumber",
+            "typeTag" : "",
+            "value" : 0.0
+          },
+          "key" : {
+            "btType" : "com.belmonttech.serialize.fsvalue.BTFSValueString",
+            "typeTag" : "",
+            "value" : "bodies"
+          }
+        }, {
+          "btType" : "BTFSValueMapEntry-2077",
+          "value" : {
+            "btType" : "com.belmonttech.serialize.fsvalue.BTFSValueString",
+            "typeTag" : "ErrorStringEnum",
+            "value" : "REGEN_ERROR"
+          },
+          "key" : {
+            "btType" : "com.belmonttech.serialize.fsvalue.BTFSValueString",
+            "typeTag" : "",
+            "value" : "error"
+          }
+        } ]
+      },
+      "key" : {
+        "btType" : "com.belmonttech.serialize.fsvalue.BTFSValueString",
+        "typeTag" : "",
+        "value" : "Fe7pQthlDQj9teC_11"
+      }
+    }, {
+      "btType" : "BTFSValueMapEntry-2077",
+      "value" : {
+        "btType" : "com.belmonttech.serialize.fsvalue.BTFSValueMap",
+        "typeTag" : "",
+        "value" : [ {
+          "btType" : "BTFSValueMapEntry-2077",
+          "value" : {
+            "btType" : "com.belmonttech.serialize.fsvalue.BTFSValueNumber",
+            "typeTag" : "",
+            "value" : 0.0
+          },
+          "key" : {
+            "btType" : "com.belmonttech.serialize.fsvalue.BTFSValueString",
+            "typeTag" : "",
+            "value" : "bodies"
+          }
+        }, {
+          "btType" : "BTFSValueMapEntry-2077",
+          "value" : {
+            "btType" : "com.belmonttech.serialize.fsvalue.BTFSValueString",
+            "typeTag" : "ErrorStringEnum",
+            "value" : "PARAMETER_OUT_OF_RANGE"
+          },
+          "key" : {
+            "btType" : "com.belmonttech.serialize.fsvalue.BTFSValueString",
+            "typeTag" : "",
+            "value" : "error"
+          }
+        } ]
+      },
+      "key" : {
+        "btType" : "com.belmonttech.serialize.fsvalue.BTFSValueString",
+        "typeTag" : "",
+        "value" : "FiYwhi8bAFO3QA4_18"
+      }
+    } ]
+  },
+  "notices" : [ ],
+  "libraryVersion" : 3083,
+  "serializationVersion" : "1.2.21",
+  "sourceMicroversion" : "884a494c591d358445b81dcd",
+  "console" : ""
+}

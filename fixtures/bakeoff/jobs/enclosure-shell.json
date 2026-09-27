@@ -1,0 +1,217 @@
+{
+ "schema": "wonky-bakeoff-fixture/1",
+ "case": "enclosure-shell",
+ "category": "mechanical",
+ "deviationMm": 0.01,
+ "location": "fixtures/bakeoff/jobs",
+ "job": "fixtures/bakeoff/jobs/enclosure-shell.job",
+ "csgJob": "fixtures/bakeoff/jobs/enclosure-shell.csg.job",
+ "jobBytes": 58439,
+ "jobSha256": "2883fc513618e6846d83dbd907eafc3c884fcfe53051c33f3d0f0c96f36963c8",
+ "csgJobSha256": "3bc50cc21269dc2c4a0d1fbbf9f5eca757043f5cd0738b64f15ad3f60a53990e",
+ "leaves": 12,
+ "faces": 45,
+ "vertices": 690,
+ "triangles": 1332,
+ "deviationMeasuredMaxMm": 0.009513254770641133,
+ "leafInfo": [
+  {
+   "leaf": 0,
+   "prim": "box",
+   "vertices": 8,
+   "triangles": 12,
+   "tags": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5
+   ],
+   "deviationMeasuredMm": 0,
+   "deviationMethod": "exact-planar",
+   "vertexOnSurfaceMaxMm": 0,
+   "analyticVolume": 72000
+  },
+  {
+   "leaf": 1,
+   "prim": "box",
+   "vertices": 8,
+   "triangles": 12,
+   "tags": [
+    6,
+    7,
+    8,
+    9,
+    10,
+    11
+   ],
+   "deviationMeasuredMm": 0,
+   "deviationMethod": "exact-planar",
+   "vertexOnSurfaceMaxMm": 0,
+   "analyticVolume": 58464
+  },
+  {
+   "leaf": 2,
+   "prim": "cylinder",
+   "vertices": 90,
+   "triangles": 176,
+   "tags": [
+    12,
+    13,
+    14
+   ],
+   "segments": 44,
+   "deviationMeasuredMm": 0.008917598864120357,
+   "deviationMethod": "barycentric-grid-8 (max lies on sampled chord midlines)",
+   "vertexOnSurfaceMaxMm": 8.881784197001252e-15,
+   "analyticVolume": 1019.8395151715865
+  },
+  {
+   "leaf": 3,
+   "prim": "cylinder",
+   "vertices": 90,
+   "triangles": 176,
+   "tags": [
+    15,
+    16,
+    17
+   ],
+   "segments": 44,
+   "deviationMeasuredMm": 0.008917598864134124,
+   "deviationMethod": "barycentric-grid-8 (max lies on sampled chord midlines)",
+   "vertexOnSurfaceMaxMm": 4.1300296516055823e-14,
+   "analyticVolume": 1019.8395151715865
+  },
+  {
+   "leaf": 4,
+   "prim": "cylinder",
+   "vertices": 90,
+   "triangles": 176,
+   "tags": [
+    18,
+    19,
+    20
+   ],
+   "segments": 44,
+   "deviationMeasuredMm": 0.008917598864134124,
+   "deviationMethod": "barycentric-grid-8 (max lies on sampled chord midlines)",
+   "vertexOnSurfaceMaxMm": 4.1300296516055823e-14,
+   "analyticVolume": 1019.8395151715865
+  },
+  {
+   "leaf": 5,
+   "prim": "cylinder",
+   "vertices": 90,
+   "triangles": 176,
+   "tags": [
+    21,
+    22,
+    23
+   ],
+   "segments": 44,
+   "deviationMeasuredMm": 0.008917598864134124,
+   "deviationMethod": "barycentric-grid-8 (max lies on sampled chord midlines)",
+   "vertexOnSurfaceMaxMm": 4.1300296516055823e-14,
+   "analyticVolume": 1019.8395151715865
+  },
+  {
+   "leaf": 6,
+   "prim": "cylinder",
+   "vertices": 58,
+   "triangles": 112,
+   "tags": [
+    24,
+    25,
+    26
+   ],
+   "segments": 28,
+   "deviationMeasuredMm": 0.007859737633449049,
+   "deviationMethod": "barycentric-grid-8 (max lies on sampled chord midlines)",
+   "vertexOnSurfaceMaxMm": 2.6645352591003757e-15,
+   "analyticVolume": 98.17477042468104
+  },
+  {
+   "leaf": 7,
+   "prim": "cylinder",
+   "vertices": 58,
+   "triangles": 112,
+   "tags": [
+    27,
+    28,
+    29
+   ],
+   "segments": 28,
+   "deviationMeasuredMm": 0.007859737633464814,
+   "deviationMethod": "barycentric-grid-8 (max lies on sampled chord midlines)",
+   "vertexOnSurfaceMaxMm": 4.196643033083092e-14,
+   "analyticVolume": 98.17477042468104
+  },
+  {
+   "leaf": 8,
+   "prim": "cylinder",
+   "vertices": 58,
+   "triangles": 112,
+   "tags": [
+    30,
+    31,
+    32
+   ],
+   "segments": 28,
+   "deviationMeasuredMm": 0.007859737633469477,
+   "deviationMethod": "barycentric-grid-8 (max lies on sampled chord midlines)",
+   "vertexOnSurfaceMaxMm": 2.842170943040401e-14,
+   "analyticVolume": 98.17477042468104
+  },
+  {
+   "leaf": 9,
+   "prim": "cylinder",
+   "vertices": 58,
+   "triangles": 112,
+   "tags": [
+    33,
+    34,
+    35
+   ],
+   "segments": 28,
+   "deviationMeasuredMm": 0.007859737633464814,
+   "deviationMethod": "barycentric-grid-8 (max lies on sampled chord midlines)",
+   "vertexOnSurfaceMaxMm": 4.196643033083092e-14,
+   "analyticVolume": 98.17477042468104
+  },
+  {
+   "leaf": 10,
+   "prim": "box",
+   "vertices": 8,
+   "triangles": 12,
+   "tags": [
+    36,
+    37,
+    38,
+    39,
+    40,
+    41
+   ],
+   "deviationMeasuredMm": 0,
+   "deviationMethod": "exact-planar",
+   "vertexOnSurfaceMaxMm": 0,
+   "analyticVolume": 128
+  },
+  {
+   "leaf": 11,
+   "prim": "cylinder",
+   "vertices": 74,
+   "triangles": 144,
+   "tags": [
+    42,
+    43,
+    44
+   ],
+   "segments": 36,
+   "deviationMeasuredMm": 0.009513254770641133,
+   "deviationMethod": "barycentric-grid-8 (max lies on sampled chord midlines)",
+   "vertexOnSurfaceMaxMm": 4.8405723873656825e-14,
+   "analyticVolume": 78.53981633974483
+  }
+ ]
+}

@@ -1,0 +1,4430 @@
+{
+  "schema": "wonky/cad-acid-tolerance-witness/1",
+  "frozenObservationsSha256": "c08ac0ba8ce2010c9366d5fc4f1744b5ebf9d328182eb24ff1916ef172aadc20",
+  "rows": [
+    {
+      "kernel": "occt",
+      "zone": "AC44",
+      "variant": "V0",
+      "observationSha256": "c90760401cf8531566ea6fed66acaf3961b917399db234bede7987264c98ab0b",
+      "sourceSTEPsha256": "eb8a8fea7c9bf5d0ab40787dd03f819ba4f62c756f88050e29efc303db08d700",
+      "stepFile": "artifacts/occt-a/occt/precision/V0/AC44/model.step",
+      "nativeRawFromFrozenObservationOnly": [
+        {
+          "rawTopology": {
+            "bodies": 1,
+            "shells": 1,
+            "faces": 3,
+            "edges": 3,
+            "vertices": 2,
+            "loops": 3
+          },
+          "rawEuler": 2,
+          "rawGenus": 0.0
+        },
+        {
+          "rawTopology": {
+            "bodies": 1,
+            "shells": 1,
+            "faces": 4,
+            "edges": 6,
+            "vertices": 4,
+            "loops": 4
+          },
+          "rawEuler": 2,
+          "rawGenus": 0.0
+        }
+      ],
+      "witness": {
+        "stepImport": {
+          "bodies": [
+            {
+              "volume": 804.2477193189865,
+              "area": 502.65482457436656,
+              "centroid": [
+                0.0,
+                -1.1368683772161603e-13,
+                7.999999999999999
+              ],
+              "bbox": {
+                "min": [
+                  -4.0,
+                  -4.0,
+                  0.0
+                ],
+                "max": [
+                  4.0,
+                  4.0,
+                  16.0
+                ]
+              },
+              "valid": true,
+              "closed": true,
+              "nondegenerateEdges": true,
+              "allFacesSingleWire": true,
+              "rawTopology": {
+                "shells": 1,
+                "faces": 3,
+                "edges": 3,
+                "vertices": 2,
+                "loops": 3
+              },
+              "rawEuler": 2,
+              "rawGenus": 0.0,
+              "cylinders": [
+                {
+                  "radius": 4.0,
+                  "axisOrigin": [
+                    0.0,
+                    0.0,
+                    0.0
+                  ],
+                  "axisDirection": [
+                    0.0,
+                    0.0,
+                    1.0
+                  ],
+                  "axialMin": 0.0,
+                  "axialMax": 16.0,
+                  "zMin": 0.0,
+                  "zMax": 16.0,
+                  "area": 402.1238596594933
+                }
+              ],
+              "planes": [
+                {
+                  "origin": [
+                    0.0,
+                    0.0,
+                    16.0
+                  ],
+                  "normal": [
+                    0.0,
+                    0.0,
+                    1.0
+                  ],
+                  "area": 50.26548245743666
+                },
+                {
+                  "origin": [
+                    0.0,
+                    0.0,
+                    0.0
+                  ],
+                  "normal": [
+                    0.0,
+                    0.0,
+                    1.0
+                  ],
+                  "area": 50.26548245743666
+                }
+              ],
+              "unsupportedFaces": 0,
+              "otherSurfaces": []
+            },
+            {
+              "volume": 804.2477193190047,
+              "area": 502.65482457438,
+              "centroid": [
+                8.000000000999924,
+                -3.533949646070497e-16,
+                8.000000000000002
+              ],
+              "bbox": {
+                "min": [
+                  4.0,
+                  -4.0,
+                  0.0
+                ],
+                "max": [
+                  12.00000000099999,
+                  4.0,
+                  16.0
+                ]
+              },
+              "valid": true,
+              "closed": true,
+              "nondegenerateEdges": true,
+              "allFacesSingleWire": true,
+              "rawTopology": {
+                "shells": 1,
+                "faces": 4,
+                "edges": 6,
+                "vertices": 4,
+                "loops": 4
+              },
+              "rawEuler": 2,
+              "rawGenus": 0.0,
+              "cylinders": [
+                {
+                  "radius": 4.0,
+                  "axisOrigin": [
+                    8.00000000099999,
+                    0.0,
+                    0.0
+                  ],
+                  "axisDirection": [
+                    0.0,
+                    0.0,
+                    1.0
+                  ],
+                  "axialMin": 0.0,
+                  "axialMax": 16.0,
+                  "zMin": 0.0,
+                  "zMax": 16.0,
+                  "area": 201.06192982974673
+                },
+                {
+                  "radius": 4.0,
+                  "axisOrigin": [
+                    8.00000000099999,
+                    0.0,
+                    0.0
+                  ],
+                  "axisDirection": [
+                    0.0,
+                    0.0,
+                    1.0
+                  ],
+                  "axialMin": 0.0,
+                  "axialMax": 16.0,
+                  "zMin": 0.0,
+                  "zMax": 16.0,
+                  "area": 201.06192982975995
+                }
+              ],
+              "planes": [
+                {
+                  "origin": [
+                    8.00000000099999,
+                    0.0,
+                    0.0
+                  ],
+                  "normal": [
+                    0.0,
+                    0.0,
+                    1.0
+                  ],
+                  "area": 50.26548245743666
+                },
+                {
+                  "origin": [
+                    8.00000000099999,
+                    0.0,
+                    16.0
+                  ],
+                  "normal": [
+                    0.0,
+                    0.0,
+                    1.0
+                  ],
+                  "area": 50.26548245743666
+                }
+              ],
+              "unsupportedFaces": 0,
+              "otherSurfaces": []
+            }
+          ],
+          "valid": true,
+          "closed": true
+        },
+        "stepRoundTrip": {
+          "bodies": [
+            {
+              "volume": 804.2477193189865,
+              "area": 502.65482457436656,
+              "centroid": [
+                0.0,
+                -1.1368683772161603e-13,
+                7.999999999999999
+              ],
+              "bbox": {
+                "min": [
+                  -4.0,
+                  -4.0,
+                  0.0
+                ],
+                "max": [
+                  4.0,
+                  4.0,
+                  16.0
+                ]
+              },
+              "valid": true,
+              "closed": true,
+              "nondegenerateEdges": true,
+              "allFacesSingleWire": true,
+              "rawTopology": {
+                "shells": 1,
+                "faces": 3,
+                "edges": 3,
+                "vertices": 2,
+                "loops": 3
+              },
+              "rawEuler": 2,
+              "rawGenus": 0.0,
+              "cylinders": [
+                {
+                  "radius": 4.0,
+                  "axisOrigin": [
+                    0.0,
+                    0.0,
+                    0.0
+                  ],
+                  "axisDirection": [
+                    0.0,
+                    0.0,
+                    1.0
+                  ],
+                  "axialMin": 0.0,
+                  "axialMax": 16.0,
+                  "zMin": 0.0,
+                  "zMax": 16.0,
+                  "area": 402.1238596594933
+                }
+              ],
+              "planes": [
+                {
+                  "origin": [
+                    0.0,
+                    0.0,
+                    16.0
+                  ],
+                  "normal": [
+                    0.0,
+                    0.0,
+                    1.0
+                  ],
+                  "area": 50.26548245743666
+                },
+                {
+                  "origin": [
+                    0.0,
+                    0.0,
+                    0.0
+                  ],
+                  "normal": [
+                    0.0,
+                    0.0,
+                    1.0
+                  ],
+                  "area": 50.26548245743666
+                }
+              ],
+              "unsupportedFaces": 0,
+              "otherSurfaces": []
+            },
+            {
+              "volume": 804.2477193190047,
+              "area": 502.65482457438,
+              "centroid": [
+                8.000000000999924,
+                -3.533949646070497e-16,
+                8.000000000000002
+              ],
+              "bbox": {
+                "min": [
+                  4.0,
+                  -4.0,
+                  0.0
+                ],
+                "max": [
+                  12.00000000099999,
+                  4.0,
+                  16.0
+                ]
+              },
+              "valid": true,
+              "closed": true,
+              "nondegenerateEdges": true,
+              "allFacesSingleWire": true,
+              "rawTopology": {
+                "shells": 1,
+                "faces": 4,
+                "edges": 6,
+                "vertices": 4,
+                "loops": 4
+              },
+              "rawEuler": 2,
+              "rawGenus": 0.0,
+              "cylinders": [
+                {
+                  "radius": 4.0,
+                  "axisOrigin": [
+                    8.00000000099999,
+                    0.0,
+                    0.0
+                  ],
+                  "axisDirection": [
+                    0.0,
+                    0.0,
+                    1.0
+                  ],
+                  "axialMin": 0.0,
+                  "axialMax": 16.0,
+                  "zMin": 0.0,
+                  "zMax": 16.0,
+                  "area": 201.06192982974673
+                },
+                {
+                  "radius": 4.0,
+                  "axisOrigin": [
+                    8.00000000099999,
+                    0.0,
+                    0.0
+                  ],
+                  "axisDirection": [
+                    0.0,
+                    0.0,
+                    1.0
+                  ],
+                  "axialMin": 0.0,
+                  "axialMax": 16.0,
+                  "zMin": 0.0,
+                  "zMax": 16.0,
+                  "area": 201.06192982975995
+                }
+              ],
+              "planes": [
+                {
+                  "origin": [
+                    8.00000000099999,
+                    0.0,
+                    0.0
+                  ],
+                  "normal": [
+                    0.0,
+                    0.0,
+                    1.0
+                  ],
+                  "area": 50.26548245743666
+                },
+                {
+                  "origin": [
+                    8.00000000099999,
+                    0.0,
+                    16.0
+                  ],
+                  "normal": [
+                    0.0,
+                    0.0,
+                    1.0
+                  ],
+                  "area": 50.26548245743666
+                }
+              ],
+              "unsupportedFaces": 0,
+              "otherSurfaces": []
+            }
+          ],
+          "valid": true,
+          "closed": true
+        }
+      }
+    },
+    {
+      "kernel": "occt",
+      "zone": "AC44",
+      "variant": "V1",
+      "observationSha256": "c2dbdf1c2841568c6c77a33fc139cab2e51742ee232fc918d959aebecaa23014",
+      "sourceSTEPsha256": "9b465bdefcae10f4642fa4ecf81b39bdec9fef3df788ecca0c342d6bec6811cd",
+      "stepFile": "artifacts/occt-a/occt/precision/V1/AC44/model.step",
+      "nativeRawFromFrozenObservationOnly": [
+        {
+          "rawTopology": {
+            "bodies": 1,
+            "shells": 1,
+            "faces": 3,
+            "edges": 3,
+            "vertices": 2,
+            "loops": 3
+          },
+          "rawEuler": 2,
+          "rawGenus": 0.0
+        },
+        {
+          "rawTopology": {
+            "bodies": 1,
+            "shells": 1,
+            "faces": 4,
+            "edges": 6,
+            "vertices": 4,
+            "loops": 4
+          },
+          "rawEuler": 2,
+          "rawGenus": 0.0
+        }
+      ],
+      "witness": {
+        "stepImport": {
+          "bodies": [
+            {
+              "volume": 804.2477193189479,
+              "area": 502.65482457436656,
+              "centroid": [
+                0.0,
+                0.0,
+                8.000000000001819
+              ],
+              "bbox": {
+                "min": [
+                  -4.0,
+                  -4.0,
+                  0.0
+                ],
+                "max": [
+                  4.0,
+                  4.0,
+                  16.0
+                ]
+              },
+              "valid": true,
+              "closed": true,
+              "nondegenerateEdges": true,
+              "allFacesSingleWire": true,
+              "rawTopology": {
+                "shells": 1,
+                "faces": 3,
+                "edges": 3,
+                "vertices": 2,
+                "loops": 3
+              },
+              "rawEuler": 2,
+              "rawGenus": 0.0,
+              "cylinders": [
+                {
+                  "radius": 4.0,
+                  "axisOrigin": [
+                    0.0,
+                    0.0,
+                    0.0
+                  ],
+                  "axisDirection": [
+                    0.0,
+                    0.0,
+                    1.0
+                  ],
+                  "axialMin": 0.0,
+                  "axialMax": 16.0,
+                  "zMin": 0.0,
+                  "zMax": 16.0,
+                  "area": 402.1238596594933
+                }
+              ],
+              "planes": [
+                {
+                  "origin": [
+                    0.0,
+                    0.0,
+                    16.0
+                  ],
+                  "normal": [
+                    0.0,
+                    0.0,
+                    1.0
+                  ],
+                  "area": 50.26548245743666
+                },
+                {
+                  "origin": [
+                    0.0,
+                    0.0,
+                    0.0
+                  ],
+                  "normal": [
+                    0.0,
+                    0.0,
+                    1.0
+                  ],
+                  "area": 50.26548245743666
+                }
+              ],
+              "unsupportedFaces": 0,
+              "otherSurfaces": []
+            },
+            {
+              "volume": 804.2477193190045,
+              "area": 502.65482457438,
+              "centroid": [
+                7.999999999999934,
+                -3.5339496460704975e-16,
+                8.0
+              ],
+              "bbox": {
+                "min": [
+                  4.0,
+                  -4.0,
+                  0.0
+                ],
+                "max": [
+                  12.0,
+                  4.0,
+                  16.0
+                ]
+              },
+              "valid": true,
+              "closed": true,
+              "nondegenerateEdges": true,
+              "allFacesSingleWire": true,
+              "rawTopology": {
+                "shells": 1,
+                "faces": 4,
+                "edges": 6,
+                "vertices": 4,
+                "loops": 4
+              },
+              "rawEuler": 2,
+              "rawGenus": 0.0,
+              "cylinders": [
+                {
+                  "radius": 4.0,
+                  "axisOrigin": [
+                    8.0,
+                    0.0,
+                    0.0
+                  ],
+                  "axisDirection": [
+                    0.0,
+                    0.0,
+                    1.0
+                  ],
+                  "axialMin": 0.0,
+                  "axialMax": 16.0,
+                  "zMin": 0.0,
+                  "zMax": 16.0,
+                  "area": 201.06192982974673
+                },
+                {
+                  "radius": 4.0,
+                  "axisOrigin": [
+                    8.0,
+                    0.0,
+                    0.0
+                  ],
+                  "axisDirection": [
+                    0.0,
+                    0.0,
+                    1.0
+                  ],
+                  "axialMin": 0.0,
+                  "axialMax": 16.0,
+                  "zMin": 0.0,
+                  "zMax": 16.0,
+                  "area": 201.06192982975995
+                }
+              ],
+              "planes": [
+                {
+                  "origin": [
+                    8.0,
+                    0.0,
+                    0.0
+                  ],
+                  "normal": [
+                    0.0,
+                    0.0,
+                    1.0
+                  ],
+                  "area": 50.26548245743666
+                },
+                {
+                  "origin": [
+                    8.0,
+                    0.0,
+                    16.0
+                  ],
+                  "normal": [
+                    0.0,
+                    0.0,
+                    1.0
+                  ],
+                  "area": 50.26548245743666
+                }
+              ],
+              "unsupportedFaces": 0,
+              "otherSurfaces": []
+            }
+          ],
+          "valid": true,
+          "closed": true
+        },
+        "stepRoundTrip": {
+          "bodies": [
+            {
+              "volume": 804.2477193189479,
+              "area": 502.65482457436656,
+              "centroid": [
+                0.0,
+                0.0,
+                8.000000000001819
+              ],
+              "bbox": {
+                "min": [
+                  -4.0,
+                  -4.0,
+                  0.0
+                ],
+                "max": [
+                  4.0,
+                  4.0,
+                  16.0
+                ]
+              },
+              "valid": true,
+              "closed": true,
+              "nondegenerateEdges": true,
+              "allFacesSingleWire": true,
+              "rawTopology": {
+                "shells": 1,
+                "faces": 3,
+                "edges": 3,
+                "vertices": 2,
+                "loops": 3
+              },
+              "rawEuler": 2,
+              "rawGenus": 0.0,
+              "cylinders": [
+                {
+                  "radius": 4.0,
+                  "axisOrigin": [
+                    0.0,
+                    0.0,
+                    0.0
+                  ],
+                  "axisDirection": [
+                    0.0,
+                    0.0,
+                    1.0
+                  ],
+                  "axialMin": 0.0,
+                  "axialMax": 16.0,
+                  "zMin": 0.0,
+                  "zMax": 16.0,
+                  "area": 402.1238596594933
+                }
+              ],
+              "planes": [
+                {
+                  "origin": [
+                    0.0,
+                    0.0,
+                    16.0
+                  ],
+                  "normal": [
+                    0.0,
+                    0.0,
+                    1.0
+                  ],
+                  "area": 50.26548245743666
+                },
+                {
+                  "origin": [
+                    0.0,
+                    0.0,
+                    0.0
+                  ],
+                  "normal": [
+                    0.0,
+                    0.0,
+                    1.0
+                  ],
+                  "area": 50.26548245743666
+                }
+              ],
+              "unsupportedFaces": 0,
+              "otherSurfaces": []
+            },
+            {
+              "volume": 804.2477193190045,
+              "area": 502.65482457438,
+              "centroid": [
+                7.999999999999934,
+                -3.5339496460704975e-16,
+                8.0
+              ],
+              "bbox": {
+                "min": [
+                  4.0,
+                  -4.0,
+                  0.0
+                ],
+                "max": [
+                  12.0,
+                  4.0,
+                  16.0
+                ]
+              },
+              "valid": true,
+              "closed": true,
+              "nondegenerateEdges": true,
+              "allFacesSingleWire": true,
+              "rawTopology": {
+                "shells": 1,
+                "faces": 4,
+                "edges": 6,
+                "vertices": 4,
+                "loops": 4
+              },
+              "rawEuler": 2,
+              "rawGenus": 0.0,
+              "cylinders": [
+                {
+                  "radius": 4.0,
+                  "axisOrigin": [
+                    8.0,
+                    0.0,
+                    0.0
+                  ],
+                  "axisDirection": [
+                    0.0,
+                    0.0,
+                    1.0
+                  ],
+                  "axialMin": 0.0,
+                  "axialMax": 16.0,
+                  "zMin": 0.0,
+                  "zMax": 16.0,
+                  "area": 201.06192982974673
+                },
+                {
+                  "radius": 4.0,
+                  "axisOrigin": [
+                    8.0,
+                    0.0,
+                    0.0
+                  ],
+                  "axisDirection": [
+                    0.0,
+                    0.0,
+                    1.0
+                  ],
+                  "axialMin": 0.0,
+                  "axialMax": 16.0,
+                  "zMin": 0.0,
+                  "zMax": 16.0,
+                  "area": 201.06192982975995
+                }
+              ],
+              "planes": [
+                {
+                  "origin": [
+                    8.0,
+                    0.0,
+                    0.0
+                  ],
+                  "normal": [
+                    0.0,
+                    0.0,
+                    1.0
+                  ],
+                  "area": 50.26548245743666
+                },
+                {
+                  "origin": [
+                    8.0,
+                    0.0,
+                    16.0
+                  ],
+                  "normal": [
+                    0.0,
+                    0.0,
+                    1.0
+                  ],
+                  "area": 50.26548245743666
+                }
+              ],
+              "unsupportedFaces": 0,
+              "otherSurfaces": []
+            }
+          ],
+          "valid": true,
+          "closed": true
+        }
+      }
+    },
+    {
+      "kernel": "occt",
+      "zone": "AC44",
+      "variant": "V2",
+      "observationSha256": "50225e85f63517baa4b06bb79da9ad52f779f2573c58925852565abb51f1c471",
+      "sourceSTEPsha256": "ed51aad59462043c26873ace2cdc5f551f5f2e0933e45addf1147dcb434a9eae",
+      "stepFile": "artifacts/occt-a/occt/precision/V2/AC44/model.step",
+      "nativeRawFromFrozenObservationOnly": [
+        {
+          "rawTopology": {
+            "bodies": 1,
+            "shells": 1,
+            "faces": 4,
+            "edges": 6,
+            "vertices": 4,
+            "loops": 4
+          },
+          "rawEuler": 2,
+          "rawGenus": 0.0
+        },
+        {
+          "rawTopology": {
+            "bodies": 1,
+            "shells": 1,
+            "faces": 3,
+            "edges": 3,
+            "vertices": 2,
+            "loops": 3
+          },
+          "rawEuler": 2,
+          "rawGenus": 0.0
+        }
+      ],
+      "witness": {
+        "stepImport": {
+          "bodies": [
+            {
+              "volume": 804.2477193189865,
+              "area": 502.65482457436656,
+              "centroid": [
+                0.0,
+                -1.1368683772161603e-13,
+                7.999999999999999
+              ],
+              "bbox": {
+                "min": [
+                  -4.0,
+                  -4.0,
+                  0.0
+                ],
+                "max": [
+                  4.0,
+                  4.0,
+                  16.0
+                ]
+              },
+              "valid": true,
+              "closed": true,
+              "nondegenerateEdges": true,
+              "allFacesSingleWire": true,
+              "rawTopology": {
+                "shells": 1,
+                "faces": 3,
+                "edges": 3,
+                "vertices": 2,
+                "loops": 3
+              },
+              "rawEuler": 2,
+              "rawGenus": 0.0,
+              "cylinders": [
+                {
+                  "radius": 4.0,
+                  "axisOrigin": [
+                    0.0,
+                    0.0,
+                    0.0
+                  ],
+                  "axisDirection": [
+                    0.0,
+                    0.0,
+                    1.0
+                  ],
+                  "axialMin": 0.0,
+                  "axialMax": 16.0,
+                  "zMin": 0.0,
+                  "zMax": 16.0,
+                  "area": 402.1238596594933
+                }
+              ],
+              "planes": [
+                {
+                  "origin": [
+                    0.0,
+                    0.0,
+                    16.0
+                  ],
+                  "normal": [
+                    0.0,
+                    0.0,
+                    1.0
+                  ],
+                  "area": 50.26548245743666
+                },
+                {
+                  "origin": [
+                    0.0,
+                    0.0,
+                    0.0
+                  ],
+                  "normal": [
+                    0.0,
+                    0.0,
+                    1.0
+                  ],
+                  "area": 50.26548245743666
+                }
+              ],
+              "unsupportedFaces": 0,
+              "otherSurfaces": []
+            },
+            {
+              "volume": 804.2477193190045,
+              "area": 502.65482457438,
+              "centroid": [
+                8.000000000930934,
+                -2.1203697876422983e-16,
+                8.0
+              ],
+              "bbox": {
+                "min": [
+                  4.0,
+                  -4.0,
+                  0.0
+                ],
+                "max": [
+                  12.000000000931,
+                  4.0,
+                  16.0
+                ]
+              },
+              "valid": true,
+              "closed": true,
+              "nondegenerateEdges": true,
+              "allFacesSingleWire": true,
+              "rawTopology": {
+                "shells": 1,
+                "faces": 4,
+                "edges": 6,
+                "vertices": 4,
+                "loops": 4
+              },
+              "rawEuler": 2,
+              "rawGenus": 0.0,
+              "cylinders": [
+                {
+                  "radius": 4.0,
+                  "axisOrigin": [
+                    8.000000000931,
+                    0.0,
+                    0.0
+                  ],
+                  "axisDirection": [
+                    0.0,
+                    0.0,
+                    1.0
+                  ],
+                  "axialMin": 0.0,
+                  "axialMax": 16.0,
+                  "zMin": 0.0,
+                  "zMax": 16.0,
+                  "area": 201.06192982974673
+                },
+                {
+                  "radius": 4.0,
+                  "axisOrigin": [
+                    8.000000000931,
+                    0.0,
+                    0.0
+                  ],
+                  "axisDirection": [
+                    0.0,
+                    0.0,
+                    1.0
+                  ],
+                  "axialMin": 0.0,
+                  "axialMax": 16.0,
+                  "zMin": 0.0,
+                  "zMax": 16.0,
+                  "area": 201.06192982975995
+                }
+              ],
+              "planes": [
+                {
+                  "origin": [
+                    8.000000000931,
+                    0.0,
+                    0.0
+                  ],
+                  "normal": [
+                    0.0,
+                    0.0,
+                    1.0
+                  ],
+                  "area": 50.26548245743666
+                },
+                {
+                  "origin": [
+                    8.000000000931,
+                    0.0,
+                    16.0
+                  ],
+                  "normal": [
+                    0.0,
+                    0.0,
+                    1.0
+                  ],
+                  "area": 50.26548245743666
+                }
+              ],
+              "unsupportedFaces": 0,
+              "otherSurfaces": []
+            }
+          ],
+          "valid": true,
+          "closed": true
+        },
+        "stepRoundTrip": {
+          "bodies": [
+            {
+              "volume": 804.2477193189865,
+              "area": 502.65482457436656,
+              "centroid": [
+                0.0,
+                -1.1368683772161603e-13,
+                7.999999999999999
+              ],
+              "bbox": {
+                "min": [
+                  -4.0,
+                  -4.0,
+                  0.0
+                ],
+                "max": [
+                  4.0,
+                  4.0,
+                  16.0
+                ]
+              },
+              "valid": true,
+              "closed": true,
+              "nondegenerateEdges": true,
+              "allFacesSingleWire": true,
+              "rawTopology": {
+                "shells": 1,
+                "faces": 3,
+                "edges": 3,
+                "vertices": 2,
+                "loops": 3
+              },
+              "rawEuler": 2,
+              "rawGenus": 0.0,
+              "cylinders": [
+                {
+                  "radius": 4.0,
+                  "axisOrigin": [
+                    0.0,
+                    0.0,
+                    0.0
+                  ],
+                  "axisDirection": [
+                    0.0,
+                    0.0,
+                    1.0
+                  ],
+                  "axialMin": 0.0,
+                  "axialMax": 16.0,
+                  "zMin": 0.0,
+                  "zMax": 16.0,
+                  "area": 402.1238596594933
+                }
+              ],
+              "planes": [
+                {
+                  "origin": [
+                    0.0,
+                    0.0,
+                    16.0
+                  ],
+                  "normal": [
+                    0.0,
+                    0.0,
+                    1.0
+                  ],
+                  "area": 50.26548245743666
+                },
+                {
+                  "origin": [
+                    0.0,
+                    0.0,
+                    0.0
+                  ],
+                  "normal": [
+                    0.0,
+                    0.0,
+                    1.0
+                  ],
+                  "area": 50.26548245743666
+                }
+              ],
+              "unsupportedFaces": 0,
+              "otherSurfaces": []
+            },
+            {
+              "volume": 804.2477193190045,
+              "area": 502.65482457438,
+              "centroid": [
+                8.000000000930934,
+                -2.1203697876422983e-16,
+                8.0
+              ],
+              "bbox": {
+                "min": [
+                  4.0,
+                  -4.0,
+                  0.0
+                ],
+                "max": [
+                  12.000000000931,
+                  4.0,
+                  16.0
+                ]
+              },
+              "valid": true,
+              "closed": true,
+              "nondegenerateEdges": true,
+              "allFacesSingleWire": true,
+              "rawTopology": {
+                "shells": 1,
+                "faces": 4,
+                "edges": 6,
+                "vertices": 4,
+                "loops": 4
+              },
+              "rawEuler": 2,
+              "rawGenus": 0.0,
+              "cylinders": [
+                {
+                  "radius": 4.0,
+                  "axisOrigin": [
+                    8.000000000931,
+                    0.0,
+                    0.0
+                  ],
+                  "axisDirection": [
+                    0.0,
+                    0.0,
+                    1.0
+                  ],
+                  "axialMin": 0.0,
+                  "axialMax": 16.0,
+                  "zMin": 0.0,
+                  "zMax": 16.0,
+                  "area": 201.06192982974673
+                },
+                {
+                  "radius": 4.0,
+                  "axisOrigin": [
+                    8.000000000931,
+                    0.0,
+                    0.0
+                  ],
+                  "axisDirection": [
+                    0.0,
+                    0.0,
+                    1.0
+                  ],
+                  "axialMin": 0.0,
+                  "axialMax": 16.0,
+                  "zMin": 0.0,
+                  "zMax": 16.0,
+                  "area": 201.06192982975995
+                }
+              ],
+              "planes": [
+                {
+                  "origin": [
+                    8.000000000931,
+                    0.0,
+                    0.0
+                  ],
+                  "normal": [
+                    0.0,
+                    0.0,
+                    1.0
+                  ],
+                  "area": 50.26548245743666
+                },
+                {
+                  "origin": [
+                    8.000000000931,
+                    0.0,
+                    16.0
+                  ],
+                  "normal": [
+                    0.0,
+                    0.0,
+                    1.0
+                  ],
+                  "area": 50.26548245743666
+                }
+              ],
+              "unsupportedFaces": 0,
+              "otherSurfaces": []
+            }
+          ],
+          "valid": true,
+          "closed": true
+        }
+      }
+    },
+    {
+      "kernel": "occt",
+      "zone": "AC44",
+      "variant": "V3",
+      "observationSha256": "3c88477b836d98ebdf8969299ff91b905c117119ef3883d66e13ef49758eee77",
+      "sourceSTEPsha256": "7bfa334adc2e563aacad0daf911990f019fc40f18f41e93348bf3a5ada9569b9",
+      "stepFile": "artifacts/occt-a/occt/precision/V3/AC44/model.step",
+      "nativeRawFromFrozenObservationOnly": [
+        {
+          "rawTopology": {
+            "bodies": 1,
+            "shells": 1,
+            "faces": 3,
+            "edges": 3,
+            "vertices": 2,
+            "loops": 3
+          },
+          "rawEuler": 2,
+          "rawGenus": 0.0
+        },
+        {
+          "rawTopology": {
+            "bodies": 1,
+            "shells": 1,
+            "faces": 4,
+            "edges": 6,
+            "vertices": 4,
+            "loops": 4
+          },
+          "rawEuler": 2,
+          "rawGenus": 0.0
+        }
+      ],
+      "witness": {
+        "stepImport": {
+          "bodies": [
+            {
+              "volume": 804.247719318975,
+              "area": 502.6548245743619,
+              "centroid": [
+                2.332853910047561e-10,
+                -2.1373125491663814e-11,
+                8.000000000012717
+              ],
+              "bbox": {
+                "min": [
+                  -3.999999999766942,
+                  -4.000000000021259,
+                  1.2636268478481503e-11
+                ],
+                "max": [
+                  4.000000000233285,
+                  3.9999999999787406,
+                  16.000000000012804
+                ]
+              },
+              "valid": true,
+              "closed": true,
+              "nondegenerateEdges": true,
+              "allFacesSingleWire": true,
+              "rawTopology": {
+                "shells": 1,
+                "faces": 3,
+                "edges": 3,
+                "vertices": 2,
+                "loops": 3
+              },
+              "rawEuler": 2,
+              "rawGenus": 0.0,
+              "cylinders": [
+                {
+                  "radius": 4.0,
+                  "axisOrigin": [
+                    2.332853910047561e-10,
+                    -2.1259438653942198e-11,
+                    1.2716605546359006e-11
+                  ],
+                  "axisDirection": [
+                    -1.7274148160012492e-14,
+                    1.0293530985898521e-14,
+                    1.0
+                  ],
+                  "axialMin": 0.0,
+                  "axialMax": 16.0,
+                  "zMin": 1.2716605546359006e-11,
+                  "zMax": 16.000000000012715,
+                  "area": 402.1238596594935
+                }
+              ],
+              "planes": [
+                {
+                  "origin": [
+                    2.3305801732931286e-10,
+                    -2.1259438653942198e-11,
+                    16.000000000012722
+                  ],
+                  "normal": [
+                    -1.7274148160012492e-14,
+                    1.0293530985898521e-14,
+                    1.0
+                  ],
+                  "area": 50.265482457434175
+                },
+                {
+                  "origin": [
+                    2.332853910047561e-10,
+                    -2.1259438653942198e-11,
+                    1.2716605546359006e-11
+                  ],
+                  "normal": [
+                    -1.7274148160012492e-14,
+                    1.0293530985898521e-14,
+                    1.0
+                  ],
+                  "area": 50.265482457434175
+                }
+              ],
+              "unsupportedFaces": 0,
+              "otherSurfaces": []
+            },
+            {
+              "volume": 804.2477193194168,
+              "area": 502.6548245751587,
+              "centroid": [
+                8.000000001254858,
+                7.956275076052416e-11,
+                8.000000000017868
+              ],
+              "bbox": {
+                "min": [
+                  3.999999999761891,
+                  -3.9999999999623697,
+                  -1.3244516594568267e-11
+                ],
+                "max": [
+                  12.000000001319904,
+                  4.000000000379032,
+                  16.000000000028376
+                ]
+              },
+              "valid": true,
+              "closed": true,
+              "nondegenerateEdges": true,
+              "allFacesSingleWire": true,
+              "rawTopology": {
+                "shells": 1,
+                "faces": 4,
+                "edges": 6,
+                "vertices": 4,
+                "loops": 4
+              },
+              "rawEuler": 2,
+              "rawGenus": 0.0,
+              "cylinders": [
+                {
+                  "radius": 4.0,
+                  "axisOrigin": [
+                    8.000000001319904,
+                    3.7630343285854906e-11,
+                    1.9333867840032326e-11
+                  ],
+                  "axisDirection": [
+                    -1.726209400583475e-14,
+                    1.0293573273293893e-14,
+                    1.0
+                  ],
+                  "axialMin": -6.281926597333e-15,
+                  "axialMax": 16.00000000004162,
+                  "zMin": 1.9327585913434992e-11,
+                  "zMax": 16.000000000060954,
+                  "area": 201.06192983025653
+                },
+                {
+                  "radius": 4.0,
+                  "axisOrigin": [
+                    8.000000001319904,
+                    3.7630343285854906e-11,
+                    1.9333867840032326e-11
+                  ],
+                  "axisDirection": [
+                    -1.726209400583475e-14,
+                    1.0293573273293893e-14,
+                    1.0
+                  ],
+                  "axialMin": -6.281926597333e-15,
+                  "axialMax": 16.00000000004162,
+                  "zMin": 1.9327585913434992e-11,
+                  "zMax": 16.000000000060954,
+                  "area": 201.06192983002893
+                }
+              ],
+              "planes": [
+                {
+                  "origin": [
+                    8.000000001319904,
+                    3.7630343285854906e-11,
+                    1.9333867840032326e-11
+                  ],
+                  "normal": [
+                    -1.726209400583475e-14,
+                    1.0293573273293893e-14,
+                    1.0
+                  ],
+                  "area": 50.26548245743666
+                },
+                {
+                  "origin": [
+                    8.000000000800355,
+                    3.7903191696386784e-10,
+                    15.999999999981966
+                  ],
+                  "normal": [
+                    -1.726209400583475e-14,
+                    1.0293573273293893e-14,
+                    1.0
+                  ],
+                  "area": 50.26548245743666
+                }
+              ],
+              "unsupportedFaces": 0,
+              "otherSurfaces": []
+            }
+          ],
+          "valid": true,
+          "closed": true
+        },
+        "stepRoundTrip": {
+          "bodies": [
+            {
+              "volume": 804.2477193189732,
+              "area": 502.6548245743618,
+              "centroid": [
+                2.3214852262753993e-10,
+                -2.1032064978498966e-11,
+                8.000000000012765
+              ],
+              "bbox": {
+                "min": [
+                  -3.9999999997678515,
+                  -4.000000000021146,
+                  1.2597064068412367e-11
+                ],
+                "max": [
+                  4.000000000232831,
+                  3.9999999999791953,
+                  16.000000000012946
+                ]
+              },
+              "valid": true,
+              "closed": true,
+              "nondegenerateEdges": true,
+              "allFacesSingleWire": true,
+              "rawTopology": {
+                "shells": 1,
+                "faces": 3,
+                "edges": 3,
+                "vertices": 2,
+                "loops": 3
+              },
+              "rawEuler": 2,
+              "rawGenus": 0.0,
+              "cylinders": [
+                {
+                  "radius": 4.0,
+                  "axisOrigin": [
+                    2.3283064365386963e-10,
+                    -2.114575181622058e-11,
+                    1.2766704360345216e-11
+                  ],
+                  "axisDirection": [
+                    -3.6389925986842744e-14,
+                    2.1849821343638927e-14,
+                    1.0
+                  ],
+                  "axialMin": 0.0,
+                  "axialMax": 16.0,
+                  "zMin": 1.2766704360345216e-11,
+                  "zMax": 16.00000000001277,
+                  "area": 402.1238596594935
+                }
+              ],
+              "planes": [
+                {
+                  "origin": [
+                    2.3214852262753993e-10,
+                    -2.0804691303055733e-11,
+                    16.000000000012776
+                  ],
+                  "normal": [
+                    -3.6389925986842744e-14,
+                    2.1849821343638927e-14,
+                    1.0
+                  ],
+                  "area": 50.26548245743416
+                },
+                {
+                  "origin": [
+                    2.3283064365386963e-10,
+                    -2.114575181622058e-11,
+                    1.2766704360345216e-11
+                  ],
+                  "normal": [
+                    -3.6389925986842744e-14,
+                    2.1849821343638927e-14,
+                    1.0
+                  ],
+                  "area": 50.26548245743416
+                }
+              ],
+              "unsupportedFaces": 0,
+              "otherSurfaces": []
+            },
+            {
+              "volume": 804.2477193194168,
+              "area": 502.65482457515884,
+              "centroid": [
+                8.000000001254744,
+                7.96319454945942e-11,
+                8.000000000017868
+              ],
+              "bbox": {
+                "min": [
+                  3.9999999997615854,
+                  -3.9999999999623697,
+                  -1.3244516594568267e-11
+                ],
+                "max": [
+                  12.000000001319904,
+                  4.000000000379032,
+                  16.000000000028376
+                ]
+              },
+              "valid": true,
+              "closed": true,
+              "nondegenerateEdges": true,
+              "allFacesSingleWire": true,
+              "rawTopology": {
+                "shells": 1,
+                "faces": 4,
+                "edges": 6,
+                "vertices": 4,
+                "loops": 4
+              },
+              "rawEuler": 2,
+              "rawGenus": 0.0,
+              "cylinders": [
+                {
+                  "radius": 4.0,
+                  "axisOrigin": [
+                    8.000000001319904,
+                    3.7630343285854906e-11,
+                    1.9333867840032326e-11
+                  ],
+                  "axisDirection": [
+                    -3.637208670942403e-14,
+                    2.1847067223649006e-14,
+                    1.0
+                  ],
+                  "axialMin": -6.281926597333e-15,
+                  "axialMax": 16.00000000004162,
+                  "zMin": 1.9327585913434992e-11,
+                  "zMax": 16.000000000060954,
+                  "area": 201.06192983025653
+                },
+                {
+                  "radius": 4.0,
+                  "axisOrigin": [
+                    8.000000001319904,
+                    3.7630343285854906e-11,
+                    1.9333867840032326e-11
+                  ],
+                  "axisDirection": [
+                    -3.637208670942403e-14,
+                    2.1847067223649006e-14,
+                    1.0
+                  ],
+                  "axialMin": -6.281926597333e-15,
+                  "axialMax": 16.00000000004162,
+                  "zMin": 1.9327585913434992e-11,
+                  "zMax": 16.000000000060954,
+                  "area": 201.06192983002893
+                }
+              ],
+              "planes": [
+                {
+                  "origin": [
+                    8.000000001319904,
+                    3.7630343285854906e-11,
+                    1.9333867840032326e-11
+                  ],
+                  "normal": [
+                    -3.637208670942403e-14,
+                    2.1847067223649006e-14,
+                    1.0
+                  ],
+                  "area": 50.26548245743667
+                },
+                {
+                  "origin": [
+                    8.000000000800355,
+                    3.7903191696386784e-10,
+                    15.999999999981966
+                  ],
+                  "normal": [
+                    -3.637208670942403e-14,
+                    2.1847067223649006e-14,
+                    1.0
+                  ],
+                  "area": 50.26548245743667
+                }
+              ],
+              "unsupportedFaces": 0,
+              "otherSurfaces": []
+            }
+          ],
+          "valid": true,
+          "closed": true
+        }
+      }
+    },
+    {
+      "kernel": "occt",
+      "zone": "AC20",
+      "variant": "V0",
+      "observationSha256": "3a4d1ce42110053904db63ea2bece74f8c7246c71919c39666b37157c201b2b1",
+      "sourceSTEPsha256": "47ae41996faf51523e24e13ce26429452b74ad2189abff4bc0a4d8be242c6eb2",
+      "stepFile": "artifacts/occt-b/occt/curved/V0/AC20/model.step",
+      "nativeRawFromFrozenObservationOnly": [
+        {
+          "rawTopology": {
+            "bodies": 1,
+            "shells": 1,
+            "faces": 5,
+            "edges": 9,
+            "vertices": 6,
+            "loops": 5
+          },
+          "rawEuler": 2,
+          "rawGenus": 0.0
+        }
+      ],
+      "witness": {
+        "stepImport": {
+          "bodies": [
+            {
+              "volume": 5240.6037982689995,
+              "area": 1821.0433604401585,
+              "centroid": [
+                0.9399713221021146,
+                -8.272827375841374e-12,
+                -6.945723165331831e-12
+              ],
+              "bbox": {
+                "min": [
+                  -8.0000001,
+                  -8.0000001,
+                  -12.0000001
+                ],
+                "max": [
+                  16.0000001,
+                  8.0000001,
+                  12.0000001
+                ]
+              },
+              "valid": true,
+              "closed": true,
+              "nondegenerateEdges": true,
+              "allFacesSingleWire": true,
+              "rawTopology": {
+                "shells": 1,
+                "faces": 5,
+                "edges": 9,
+                "vertices": 6,
+                "loops": 5
+              },
+              "rawEuler": 2,
+              "rawGenus": 0.0,
+              "cylinders": [
+                {
+                  "radius": 8.0,
+                  "axisOrigin": [
+                    0.0,
+                    0.0,
+                    -12.0
+                  ],
+                  "axisDirection": [
+                    0.0,
+                    0.0,
+                    1.0
+                  ],
+                  "axialMin": 0.0,
+                  "axialMax": 24.0,
+                  "zMin": -12.0,
+                  "zMax": 12.0,
+                  "area": 1154.365321461132
+                },
+                {
+                  "radius": 4.0,
+                  "axisOrigin": [
+                    0.0,
+                    0.0,
+                    0.0
+                  ],
+                  "axisDirection": [
+                    1.0,
+                    0.0,
+                    0.0
+                  ],
+                  "axialMin": 6.9282032302700145,
+                  "axialMax": 16.0,
+                  "zMin": 0.0,
+                  "zMax": 0.0,
+                  "area": 214.28869686209651
+                }
+              ],
+              "planes": [
+                {
+                  "origin": [
+                    0.0,
+                    0.0,
+                    -12.0
+                  ],
+                  "normal": [
+                    0.0,
+                    0.0,
+                    1.0
+                  ],
+                  "area": 201.06192982974665
+                },
+                {
+                  "origin": [
+                    0.0,
+                    0.0,
+                    12.0
+                  ],
+                  "normal": [
+                    0.0,
+                    0.0,
+                    1.0
+                  ],
+                  "area": 201.06192982974665
+                },
+                {
+                  "origin": [
+                    16.0,
+                    0.0,
+                    0.0
+                  ],
+                  "normal": [
+                    1.0,
+                    0.0,
+                    0.0
+                  ],
+                  "area": 50.26548245743666
+                }
+              ],
+              "unsupportedFaces": 0,
+              "otherSurfaces": []
+            }
+          ],
+          "valid": true,
+          "closed": true
+        },
+        "stepRoundTrip": {
+          "bodies": [
+            {
+              "volume": 5240.6037982689995,
+              "area": 1821.0433604401585,
+              "centroid": [
+                0.9399713221021146,
+                -8.272827375841374e-12,
+                -6.945723165331831e-12
+              ],
+              "bbox": {
+                "min": [
+                  -8.0000001,
+                  -8.0000001,
+                  -12.0000001
+                ],
+                "max": [
+                  16.0000001,
+                  8.0000001,
+                  12.0000001
+                ]
+              },
+              "valid": true,
+              "closed": true,
+              "nondegenerateEdges": true,
+              "allFacesSingleWire": true,
+              "rawTopology": {
+                "shells": 1,
+                "faces": 5,
+                "edges": 9,
+                "vertices": 6,
+                "loops": 5
+              },
+              "rawEuler": 2,
+              "rawGenus": 0.0,
+              "cylinders": [
+                {
+                  "radius": 8.0,
+                  "axisOrigin": [
+                    0.0,
+                    0.0,
+                    -12.0
+                  ],
+                  "axisDirection": [
+                    0.0,
+                    0.0,
+                    1.0
+                  ],
+                  "axialMin": 0.0,
+                  "axialMax": 24.0,
+                  "zMin": -12.0,
+                  "zMax": 12.0,
+                  "area": 1154.365321461132
+                },
+                {
+                  "radius": 4.0,
+                  "axisOrigin": [
+                    0.0,
+                    0.0,
+                    0.0
+                  ],
+                  "axisDirection": [
+                    1.0,
+                    0.0,
+                    0.0
+                  ],
+                  "axialMin": 6.9282032302700145,
+                  "axialMax": 16.0,
+                  "zMin": 0.0,
+                  "zMax": 0.0,
+                  "area": 214.28869686209651
+                }
+              ],
+              "planes": [
+                {
+                  "origin": [
+                    0.0,
+                    0.0,
+                    -12.0
+                  ],
+                  "normal": [
+                    0.0,
+                    0.0,
+                    1.0
+                  ],
+                  "area": 201.06192982974665
+                },
+                {
+                  "origin": [
+                    0.0,
+                    0.0,
+                    12.0
+                  ],
+                  "normal": [
+                    0.0,
+                    0.0,
+                    1.0
+                  ],
+                  "area": 201.06192982974665
+                },
+                {
+                  "origin": [
+                    16.0,
+                    0.0,
+                    0.0
+                  ],
+                  "normal": [
+                    1.0,
+                    0.0,
+                    0.0
+                  ],
+                  "area": 50.26548245743666
+                }
+              ],
+              "unsupportedFaces": 0,
+              "otherSurfaces": []
+            }
+          ],
+          "valid": true,
+          "closed": true
+        }
+      }
+    },
+    {
+      "kernel": "occt",
+      "zone": "AC22",
+      "variant": "V0",
+      "observationSha256": "31e89a24d94e18c8d798f937ce35fefe608ae78611baa69e2beb1571dee9ab3e",
+      "sourceSTEPsha256": "79be7b159adb3035edb7169cee55f6e0d611015c6b8b0706f0ea56a1cc59b63e",
+      "stepFile": "artifacts/occt-b/occt/curved/V0/AC22/model.step",
+      "nativeRawFromFrozenObservationOnly": [
+        {
+          "rawTopology": {
+            "bodies": 1,
+            "shells": 1,
+            "faces": 4,
+            "edges": 6,
+            "vertices": 4,
+            "loops": 4
+          },
+          "rawEuler": 2,
+          "rawGenus": 0.0
+        },
+        {
+          "rawTopology": {
+            "bodies": 1,
+            "shells": 1,
+            "faces": 3,
+            "edges": 3,
+            "vertices": 2,
+            "loops": 3
+          },
+          "rawEuler": 2,
+          "rawGenus": 0.0
+        }
+      ],
+      "witness": {
+        "stepImport": {
+          "bodies": [
+            {
+              "volume": 804.2477193189861,
+              "area": 502.65482457436656,
+              "centroid": [
+                -1.1368683772161603e-13,
+                0.0,
+                8.0
+              ],
+              "bbox": {
+                "min": [
+                  -4.0,
+                  -4.0,
+                  0.0
+                ],
+                "max": [
+                  4.0,
+                  4.0,
+                  16.0
+                ]
+              },
+              "valid": true,
+              "closed": true,
+              "nondegenerateEdges": true,
+              "allFacesSingleWire": true,
+              "rawTopology": {
+                "shells": 1,
+                "faces": 3,
+                "edges": 3,
+                "vertices": 2,
+                "loops": 3
+              },
+              "rawEuler": 2,
+              "rawGenus": 0.0,
+              "cylinders": [
+                {
+                  "radius": 4.0,
+                  "axisOrigin": [
+                    0.0,
+                    0.0,
+                    0.0
+                  ],
+                  "axisDirection": [
+                    0.0,
+                    0.0,
+                    1.0
+                  ],
+                  "axialMin": 0.0,
+                  "axialMax": 16.0,
+                  "zMin": 0.0,
+                  "zMax": 16.0,
+                  "area": 402.1238596594933
+                }
+              ],
+              "planes": [
+                {
+                  "origin": [
+                    0.0,
+                    0.0,
+                    16.0
+                  ],
+                  "normal": [
+                    0.0,
+                    0.0,
+                    1.0
+                  ],
+                  "area": 50.26548245743666
+                },
+                {
+                  "origin": [
+                    0.0,
+                    0.0,
+                    0.0
+                  ],
+                  "normal": [
+                    0.0,
+                    0.0,
+                    1.0
+                  ],
+                  "area": 50.26548245743666
+                }
+              ],
+              "unsupportedFaces": 0,
+              "otherSurfaces": []
+            },
+            {
+              "volume": 804.2477193190045,
+              "area": 502.65482457438,
+              "centroid": [
+                7.999999999999934,
+                -3.5339496460704975e-16,
+                8.0
+              ],
+              "bbox": {
+                "min": [
+                  4.0,
+                  -4.0,
+                  0.0
+                ],
+                "max": [
+                  12.0,
+                  4.0,
+                  16.0
+                ]
+              },
+              "valid": true,
+              "closed": true,
+              "nondegenerateEdges": true,
+              "allFacesSingleWire": true,
+              "rawTopology": {
+                "shells": 1,
+                "faces": 4,
+                "edges": 6,
+                "vertices": 4,
+                "loops": 4
+              },
+              "rawEuler": 2,
+              "rawGenus": 0.0,
+              "cylinders": [
+                {
+                  "radius": 4.0,
+                  "axisOrigin": [
+                    8.0,
+                    0.0,
+                    0.0
+                  ],
+                  "axisDirection": [
+                    0.0,
+                    0.0,
+                    1.0
+                  ],
+                  "axialMin": 0.0,
+                  "axialMax": 16.0,
+                  "zMin": 0.0,
+                  "zMax": 16.0,
+                  "area": 201.06192982974673
+                },
+                {
+                  "radius": 4.0,
+                  "axisOrigin": [
+                    8.0,
+                    0.0,
+                    0.0
+                  ],
+                  "axisDirection": [
+                    0.0,
+                    0.0,
+                    1.0
+                  ],
+                  "axialMin": 0.0,
+                  "axialMax": 16.0,
+                  "zMin": 0.0,
+                  "zMax": 16.0,
+                  "area": 201.06192982975995
+                }
+              ],
+              "planes": [
+                {
+                  "origin": [
+                    8.0,
+                    0.0,
+                    0.0
+                  ],
+                  "normal": [
+                    0.0,
+                    0.0,
+                    1.0
+                  ],
+                  "area": 50.26548245743666
+                },
+                {
+                  "origin": [
+                    8.0,
+                    0.0,
+                    16.0
+                  ],
+                  "normal": [
+                    0.0,
+                    0.0,
+                    1.0
+                  ],
+                  "area": 50.26548245743666
+                }
+              ],
+              "unsupportedFaces": 0,
+              "otherSurfaces": []
+            }
+          ],
+          "valid": true,
+          "closed": true
+        },
+        "stepRoundTrip": {
+          "bodies": [
+            {
+              "volume": 804.2477193189861,
+              "area": 502.65482457436656,
+              "centroid": [
+                -1.1368683772161603e-13,
+                0.0,
+                8.0
+              ],
+              "bbox": {
+                "min": [
+                  -4.0,
+                  -4.0,
+                  0.0
+                ],
+                "max": [
+                  4.0,
+                  4.0,
+                  16.0
+                ]
+              },
+              "valid": true,
+              "closed": true,
+              "nondegenerateEdges": true,
+              "allFacesSingleWire": true,
+              "rawTopology": {
+                "shells": 1,
+                "faces": 3,
+                "edges": 3,
+                "vertices": 2,
+                "loops": 3
+              },
+              "rawEuler": 2,
+              "rawGenus": 0.0,
+              "cylinders": [
+                {
+                  "radius": 4.0,
+                  "axisOrigin": [
+                    0.0,
+                    0.0,
+                    0.0
+                  ],
+                  "axisDirection": [
+                    0.0,
+                    0.0,
+                    1.0
+                  ],
+                  "axialMin": 0.0,
+                  "axialMax": 16.0,
+                  "zMin": 0.0,
+                  "zMax": 16.0,
+                  "area": 402.1238596594933
+                }
+              ],
+              "planes": [
+                {
+                  "origin": [
+                    0.0,
+                    0.0,
+                    16.0
+                  ],
+                  "normal": [
+                    0.0,
+                    0.0,
+                    1.0
+                  ],
+                  "area": 50.26548245743666
+                },
+                {
+                  "origin": [
+                    0.0,
+                    0.0,
+                    0.0
+                  ],
+                  "normal": [
+                    0.0,
+                    0.0,
+                    1.0
+                  ],
+                  "area": 50.26548245743666
+                }
+              ],
+              "unsupportedFaces": 0,
+              "otherSurfaces": []
+            },
+            {
+              "volume": 804.2477193190045,
+              "area": 502.65482457438,
+              "centroid": [
+                7.999999999999934,
+                -3.5339496460704975e-16,
+                8.0
+              ],
+              "bbox": {
+                "min": [
+                  4.0,
+                  -4.0,
+                  0.0
+                ],
+                "max": [
+                  12.0,
+                  4.0,
+                  16.0
+                ]
+              },
+              "valid": true,
+              "closed": true,
+              "nondegenerateEdges": true,
+              "allFacesSingleWire": true,
+              "rawTopology": {
+                "shells": 1,
+                "faces": 4,
+                "edges": 6,
+                "vertices": 4,
+                "loops": 4
+              },
+              "rawEuler": 2,
+              "rawGenus": 0.0,
+              "cylinders": [
+                {
+                  "radius": 4.0,
+                  "axisOrigin": [
+                    8.0,
+                    0.0,
+                    0.0
+                  ],
+                  "axisDirection": [
+                    0.0,
+                    0.0,
+                    1.0
+                  ],
+                  "axialMin": 0.0,
+                  "axialMax": 16.0,
+                  "zMin": 0.0,
+                  "zMax": 16.0,
+                  "area": 201.06192982974673
+                },
+                {
+                  "radius": 4.0,
+                  "axisOrigin": [
+                    8.0,
+                    0.0,
+                    0.0
+                  ],
+                  "axisDirection": [
+                    0.0,
+                    0.0,
+                    1.0
+                  ],
+                  "axialMin": 0.0,
+                  "axialMax": 16.0,
+                  "zMin": 0.0,
+                  "zMax": 16.0,
+                  "area": 201.06192982975995
+                }
+              ],
+              "planes": [
+                {
+                  "origin": [
+                    8.0,
+                    0.0,
+                    0.0
+                  ],
+                  "normal": [
+                    0.0,
+                    0.0,
+                    1.0
+                  ],
+                  "area": 50.26548245743666
+                },
+                {
+                  "origin": [
+                    8.0,
+                    0.0,
+                    16.0
+                  ],
+                  "normal": [
+                    0.0,
+                    0.0,
+                    1.0
+                  ],
+                  "area": 50.26548245743666
+                }
+              ],
+              "unsupportedFaces": 0,
+              "otherSurfaces": []
+            }
+          ],
+          "valid": true,
+          "closed": true
+        }
+      }
+    },
+    {
+      "kernel": "occt",
+      "zone": "AC20",
+      "variant": "V1",
+      "observationSha256": "9a5e96bfcafdcfc9511d934bc6ebec79bcdff37b9476072324d4f38a33889c04",
+      "sourceSTEPsha256": "a8b27633ca099432a50bb2f72c8af179a17df6b9f4aa7d32cc4a41a461338b81",
+      "stepFile": "artifacts/occt-b/occt/curved/V1/AC20/model.step",
+      "nativeRawFromFrozenObservationOnly": [
+        {
+          "rawTopology": {
+            "bodies": 1,
+            "shells": 1,
+            "faces": 5,
+            "edges": 9,
+            "vertices": 6,
+            "loops": 5
+          },
+          "rawEuler": 2,
+          "rawGenus": 0.0
+        }
+      ],
+      "witness": {
+        "stepImport": {
+          "bodies": [
+            {
+              "volume": 5240.603798278146,
+              "area": 1821.043360447082,
+              "centroid": [
+                0.9399713221135411,
+                -8.577029365716837e-12,
+                -6.953535435727632e-12
+              ],
+              "bbox": {
+                "min": [
+                  -8.0000001,
+                  -8.0000001,
+                  -12.0000001
+                ],
+                "max": [
+                  16.0000001,
+                  8.0000001,
+                  12.0000001
+                ]
+              },
+              "valid": true,
+              "closed": true,
+              "nondegenerateEdges": true,
+              "allFacesSingleWire": true,
+              "rawTopology": {
+                "shells": 1,
+                "faces": 5,
+                "edges": 9,
+                "vertices": 6,
+                "loops": 5
+              },
+              "rawEuler": 2,
+              "rawGenus": 0.0,
+              "cylinders": [
+                {
+                  "radius": 8.0,
+                  "axisOrigin": [
+                    0.0,
+                    0.0,
+                    -12.0
+                  ],
+                  "axisDirection": [
+                    0.0,
+                    0.0,
+                    1.0
+                  ],
+                  "axialMin": 0.0,
+                  "axialMax": 24.0,
+                  "zMin": -12.0,
+                  "zMax": 12.0,
+                  "area": 1154.365321461183
+                },
+                {
+                  "radius": 4.0,
+                  "axisOrigin": [
+                    0.0,
+                    0.0,
+                    0.0
+                  ],
+                  "axisDirection": [
+                    1.0,
+                    0.0,
+                    0.0
+                  ],
+                  "axialMin": 6.928203229996143,
+                  "axialMax": 16.0,
+                  "zMin": 0.0,
+                  "zMax": 0.0,
+                  "area": 214.28869686896903
+                }
+              ],
+              "planes": [
+                {
+                  "origin": [
+                    0.0,
+                    0.0,
+                    -12.0
+                  ],
+                  "normal": [
+                    0.0,
+                    0.0,
+                    1.0
+                  ],
+                  "area": 201.06192982974665
+                },
+                {
+                  "origin": [
+                    0.0,
+                    0.0,
+                    12.0
+                  ],
+                  "normal": [
+                    0.0,
+                    0.0,
+                    1.0
+                  ],
+                  "area": 201.06192982974665
+                },
+                {
+                  "origin": [
+                    16.0,
+                    0.0,
+                    0.0
+                  ],
+                  "normal": [
+                    1.0,
+                    0.0,
+                    0.0
+                  ],
+                  "area": 50.26548245743666
+                }
+              ],
+              "unsupportedFaces": 0,
+              "otherSurfaces": []
+            }
+          ],
+          "valid": true,
+          "closed": true
+        },
+        "stepRoundTrip": {
+          "bodies": [
+            {
+              "volume": 5240.603798278146,
+              "area": 1821.043360447082,
+              "centroid": [
+                0.9399713221135411,
+                -8.577029365716837e-12,
+                -6.953535435727632e-12
+              ],
+              "bbox": {
+                "min": [
+                  -8.0000001,
+                  -8.0000001,
+                  -12.0000001
+                ],
+                "max": [
+                  16.0000001,
+                  8.0000001,
+                  12.0000001
+                ]
+              },
+              "valid": true,
+              "closed": true,
+              "nondegenerateEdges": true,
+              "allFacesSingleWire": true,
+              "rawTopology": {
+                "shells": 1,
+                "faces": 5,
+                "edges": 9,
+                "vertices": 6,
+                "loops": 5
+              },
+              "rawEuler": 2,
+              "rawGenus": 0.0,
+              "cylinders": [
+                {
+                  "radius": 8.0,
+                  "axisOrigin": [
+                    0.0,
+                    0.0,
+                    -12.0
+                  ],
+                  "axisDirection": [
+                    0.0,
+                    0.0,
+                    1.0
+                  ],
+                  "axialMin": 0.0,
+                  "axialMax": 24.0,
+                  "zMin": -12.0,
+                  "zMax": 12.0,
+                  "area": 1154.365321461183
+                },
+                {
+                  "radius": 4.0,
+                  "axisOrigin": [
+                    0.0,
+                    0.0,
+                    0.0
+                  ],
+                  "axisDirection": [
+                    1.0,
+                    0.0,
+                    0.0
+                  ],
+                  "axialMin": 6.928203229996143,
+                  "axialMax": 16.0,
+                  "zMin": 0.0,
+                  "zMax": 0.0,
+                  "area": 214.28869686896903
+                }
+              ],
+              "planes": [
+                {
+                  "origin": [
+                    0.0,
+                    0.0,
+                    -12.0
+                  ],
+                  "normal": [
+                    0.0,
+                    0.0,
+                    1.0
+                  ],
+                  "area": 201.06192982974665
+                },
+                {
+                  "origin": [
+                    0.0,
+                    0.0,
+                    12.0
+                  ],
+                  "normal": [
+                    0.0,
+                    0.0,
+                    1.0
+                  ],
+                  "area": 201.06192982974665
+                },
+                {
+                  "origin": [
+                    16.0,
+                    0.0,
+                    0.0
+                  ],
+                  "normal": [
+                    1.0,
+                    0.0,
+                    0.0
+                  ],
+                  "area": 50.26548245743666
+                }
+              ],
+              "unsupportedFaces": 0,
+              "otherSurfaces": []
+            }
+          ],
+          "valid": true,
+          "closed": true
+        }
+      }
+    },
+    {
+      "kernel": "occt",
+      "zone": "AC22",
+      "variant": "V1",
+      "observationSha256": "6b8ec6dfdc6531ac3c611a22e54c76c065a20446bb48e8db0072f3637a5a5d5b",
+      "sourceSTEPsha256": "1330e84a555a10a0e9a4c2342cac16b7fb1d0a124c5d74259aa8bb4d24bf3db7",
+      "stepFile": "artifacts/occt-b/occt/curved/V1/AC22/model.step",
+      "nativeRawFromFrozenObservationOnly": [
+        {
+          "rawTopology": {
+            "bodies": 1,
+            "shells": 1,
+            "faces": 3,
+            "edges": 3,
+            "vertices": 2,
+            "loops": 3
+          },
+          "rawEuler": 2,
+          "rawGenus": 0.0
+        },
+        {
+          "rawTopology": {
+            "bodies": 1,
+            "shells": 1,
+            "faces": 4,
+            "edges": 6,
+            "vertices": 4,
+            "loops": 4
+          },
+          "rawEuler": 2,
+          "rawGenus": 0.0
+        }
+      ],
+      "witness": {
+        "stepImport": {
+          "bodies": [
+            {
+              "volume": 804.2477193189479,
+              "area": 502.65482457436656,
+              "centroid": [
+                1.4551915228366852e-11,
+                3.637978807091713e-12,
+                8.000000000001819
+              ],
+              "bbox": {
+                "min": [
+                  -4.0,
+                  -4.0,
+                  0.0
+                ],
+                "max": [
+                  4.0,
+                  4.0,
+                  16.0
+                ]
+              },
+              "valid": true,
+              "closed": true,
+              "nondegenerateEdges": true,
+              "allFacesSingleWire": true,
+              "rawTopology": {
+                "shells": 1,
+                "faces": 3,
+                "edges": 3,
+                "vertices": 2,
+                "loops": 3
+              },
+              "rawEuler": 2,
+              "rawGenus": 0.0,
+              "cylinders": [
+                {
+                  "radius": 4.0,
+                  "axisOrigin": [
+                    0.0,
+                    0.0,
+                    0.0
+                  ],
+                  "axisDirection": [
+                    0.0,
+                    0.0,
+                    1.0
+                  ],
+                  "axialMin": 0.0,
+                  "axialMax": 16.0,
+                  "zMin": 0.0,
+                  "zMax": 16.0,
+                  "area": 402.1238596594933
+                }
+              ],
+              "planes": [
+                {
+                  "origin": [
+                    0.0,
+                    0.0,
+                    16.0
+                  ],
+                  "normal": [
+                    0.0,
+                    0.0,
+                    1.0
+                  ],
+                  "area": 50.26548245743666
+                },
+                {
+                  "origin": [
+                    0.0,
+                    0.0,
+                    0.0
+                  ],
+                  "normal": [
+                    0.0,
+                    0.0,
+                    1.0
+                  ],
+                  "area": 50.26548245743666
+                }
+              ],
+              "unsupportedFaces": 0,
+              "otherSurfaces": []
+            },
+            {
+              "volume": 804.2477193190045,
+              "area": 502.65482457438,
+              "centroid": [
+                7.999999999999934,
+                -3.5339496460704975e-16,
+                8.0
+              ],
+              "bbox": {
+                "min": [
+                  4.0,
+                  -4.0,
+                  0.0
+                ],
+                "max": [
+                  12.0,
+                  4.0,
+                  16.0
+                ]
+              },
+              "valid": true,
+              "closed": true,
+              "nondegenerateEdges": true,
+              "allFacesSingleWire": true,
+              "rawTopology": {
+                "shells": 1,
+                "faces": 4,
+                "edges": 6,
+                "vertices": 4,
+                "loops": 4
+              },
+              "rawEuler": 2,
+              "rawGenus": 0.0,
+              "cylinders": [
+                {
+                  "radius": 4.0,
+                  "axisOrigin": [
+                    8.0,
+                    0.0,
+                    0.0
+                  ],
+                  "axisDirection": [
+                    0.0,
+                    0.0,
+                    1.0
+                  ],
+                  "axialMin": 0.0,
+                  "axialMax": 16.0,
+                  "zMin": 0.0,
+                  "zMax": 16.0,
+                  "area": 201.06192982974673
+                },
+                {
+                  "radius": 4.0,
+                  "axisOrigin": [
+                    8.0,
+                    0.0,
+                    0.0
+                  ],
+                  "axisDirection": [
+                    0.0,
+                    0.0,
+                    1.0
+                  ],
+                  "axialMin": 0.0,
+                  "axialMax": 16.0,
+                  "zMin": 0.0,
+                  "zMax": 16.0,
+                  "area": 201.06192982975995
+                }
+              ],
+              "planes": [
+                {
+                  "origin": [
+                    8.0,
+                    0.0,
+                    0.0
+                  ],
+                  "normal": [
+                    0.0,
+                    0.0,
+                    1.0
+                  ],
+                  "area": 50.26548245743666
+                },
+                {
+                  "origin": [
+                    8.0,
+                    0.0,
+                    16.0
+                  ],
+                  "normal": [
+                    0.0,
+                    0.0,
+                    1.0
+                  ],
+                  "area": 50.26548245743666
+                }
+              ],
+              "unsupportedFaces": 0,
+              "otherSurfaces": []
+            }
+          ],
+          "valid": true,
+          "closed": true
+        },
+        "stepRoundTrip": {
+          "bodies": [
+            {
+              "volume": 804.2477193189479,
+              "area": 502.65482457436656,
+              "centroid": [
+                1.4551915228366852e-11,
+                3.637978807091713e-12,
+                8.000000000001819
+              ],
+              "bbox": {
+                "min": [
+                  -4.0,
+                  -4.0,
+                  0.0
+                ],
+                "max": [
+                  4.0,
+                  4.0,
+                  16.0
+                ]
+              },
+              "valid": true,
+              "closed": true,
+              "nondegenerateEdges": true,
+              "allFacesSingleWire": true,
+              "rawTopology": {
+                "shells": 1,
+                "faces": 3,
+                "edges": 3,
+                "vertices": 2,
+                "loops": 3
+              },
+              "rawEuler": 2,
+              "rawGenus": 0.0,
+              "cylinders": [
+                {
+                  "radius": 4.0,
+                  "axisOrigin": [
+                    0.0,
+                    0.0,
+                    0.0
+                  ],
+                  "axisDirection": [
+                    0.0,
+                    0.0,
+                    1.0
+                  ],
+                  "axialMin": 0.0,
+                  "axialMax": 16.0,
+                  "zMin": 0.0,
+                  "zMax": 16.0,
+                  "area": 402.1238596594933
+                }
+              ],
+              "planes": [
+                {
+                  "origin": [
+                    0.0,
+                    0.0,
+                    16.0
+                  ],
+                  "normal": [
+                    0.0,
+                    0.0,
+                    1.0
+                  ],
+                  "area": 50.26548245743666
+                },
+                {
+                  "origin": [
+                    0.0,
+                    0.0,
+                    0.0
+                  ],
+                  "normal": [
+                    0.0,
+                    0.0,
+                    1.0
+                  ],
+                  "area": 50.26548245743666
+                }
+              ],
+              "unsupportedFaces": 0,
+              "otherSurfaces": []
+            },
+            {
+              "volume": 804.2477193190045,
+              "area": 502.65482457438,
+              "centroid": [
+                7.999999999999934,
+                -3.5339496460704975e-16,
+                8.0
+              ],
+              "bbox": {
+                "min": [
+                  4.0,
+                  -4.0,
+                  0.0
+                ],
+                "max": [
+                  12.0,
+                  4.0,
+                  16.0
+                ]
+              },
+              "valid": true,
+              "closed": true,
+              "nondegenerateEdges": true,
+              "allFacesSingleWire": true,
+              "rawTopology": {
+                "shells": 1,
+                "faces": 4,
+                "edges": 6,
+                "vertices": 4,
+                "loops": 4
+              },
+              "rawEuler": 2,
+              "rawGenus": 0.0,
+              "cylinders": [
+                {
+                  "radius": 4.0,
+                  "axisOrigin": [
+                    8.0,
+                    0.0,
+                    0.0
+                  ],
+                  "axisDirection": [
+                    0.0,
+                    0.0,
+                    1.0
+                  ],
+                  "axialMin": 0.0,
+                  "axialMax": 16.0,
+                  "zMin": 0.0,
+                  "zMax": 16.0,
+                  "area": 201.06192982974673
+                },
+                {
+                  "radius": 4.0,
+                  "axisOrigin": [
+                    8.0,
+                    0.0,
+                    0.0
+                  ],
+                  "axisDirection": [
+                    0.0,
+                    0.0,
+                    1.0
+                  ],
+                  "axialMin": 0.0,
+                  "axialMax": 16.0,
+                  "zMin": 0.0,
+                  "zMax": 16.0,
+                  "area": 201.06192982975995
+                }
+              ],
+              "planes": [
+                {
+                  "origin": [
+                    8.0,
+                    0.0,
+                    0.0
+                  ],
+                  "normal": [
+                    0.0,
+                    0.0,
+                    1.0
+                  ],
+                  "area": 50.26548245743666
+                },
+                {
+                  "origin": [
+                    8.0,
+                    0.0,
+                    16.0
+                  ],
+                  "normal": [
+                    0.0,
+                    0.0,
+                    1.0
+                  ],
+                  "area": 50.26548245743666
+                }
+              ],
+              "unsupportedFaces": 0,
+              "otherSurfaces": []
+            }
+          ],
+          "valid": true,
+          "closed": true
+        }
+      }
+    },
+    {
+      "kernel": "occt",
+      "zone": "AC20",
+      "variant": "V2",
+      "observationSha256": "ac933da5f97ecde4ec0802d2cf2f7912b539d39d6b45a1af9833f9b43c088615",
+      "sourceSTEPsha256": "a53d6259ad5f5bfbb356838a672987d2d29daddc6b8fbb24fb8eda9329c7704d",
+      "stepFile": "artifacts/occt-b/occt/curved/V2/AC20/model.step",
+      "nativeRawFromFrozenObservationOnly": [
+        {
+          "rawTopology": {
+            "bodies": 1,
+            "shells": 1,
+            "faces": 5,
+            "edges": 9,
+            "vertices": 6,
+            "loops": 5
+          },
+          "rawEuler": 2,
+          "rawGenus": 0.0
+        }
+      ],
+      "witness": {
+        "stepImport": {
+          "bodies": [
+            {
+              "volume": 5240.603798268801,
+              "area": 1821.0433604400057,
+              "centroid": [
+                0.9399713221018663,
+                -8.266305778921625e-12,
+                -6.9462491442954545e-12
+              ],
+              "bbox": {
+                "min": [
+                  -8.0000001,
+                  -8.0000001,
+                  -12.0000001
+                ],
+                "max": [
+                  16.0000001,
+                  8.0000001,
+                  12.0000001
+                ]
+              },
+              "valid": true,
+              "closed": true,
+              "nondegenerateEdges": true,
+              "allFacesSingleWire": true,
+              "rawTopology": {
+                "shells": 1,
+                "faces": 5,
+                "edges": 9,
+                "vertices": 6,
+                "loops": 5
+              },
+              "rawEuler": 2,
+              "rawGenus": 0.0,
+              "cylinders": [
+                {
+                  "radius": 8.0,
+                  "axisOrigin": [
+                    0.0,
+                    0.0,
+                    -12.0
+                  ],
+                  "axisDirection": [
+                    0.0,
+                    0.0,
+                    1.0
+                  ],
+                  "axialMin": 0.0,
+                  "axialMax": 24.0,
+                  "zMin": -12.0,
+                  "zMax": 12.0,
+                  "area": 1154.365321461129
+                },
+                {
+                  "radius": 4.0,
+                  "axisOrigin": [
+                    0.0,
+                    0.0,
+                    0.0
+                  ],
+                  "axisDirection": [
+                    1.0,
+                    0.0,
+                    0.0
+                  ],
+                  "axialMin": 6.928203230276,
+                  "axialMax": 16.0,
+                  "zMin": 0.0,
+                  "zMax": 0.0,
+                  "area": 214.28869686194682
+                }
+              ],
+              "planes": [
+                {
+                  "origin": [
+                    0.0,
+                    0.0,
+                    -12.0
+                  ],
+                  "normal": [
+                    0.0,
+                    0.0,
+                    1.0
+                  ],
+                  "area": 201.06192982974665
+                },
+                {
+                  "origin": [
+                    0.0,
+                    0.0,
+                    12.0
+                  ],
+                  "normal": [
+                    0.0,
+                    0.0,
+                    1.0
+                  ],
+                  "area": 201.06192982974665
+                },
+                {
+                  "origin": [
+                    16.0,
+                    0.0,
+                    0.0
+                  ],
+                  "normal": [
+                    1.0,
+                    0.0,
+                    0.0
+                  ],
+                  "area": 50.26548245743666
+                }
+              ],
+              "unsupportedFaces": 0,
+              "otherSurfaces": []
+            }
+          ],
+          "valid": true,
+          "closed": true
+        },
+        "stepRoundTrip": {
+          "bodies": [
+            {
+              "volume": 5240.603798268801,
+              "area": 1821.0433604400057,
+              "centroid": [
+                0.9399713221018663,
+                -8.266305778921625e-12,
+                -6.9462491442954545e-12
+              ],
+              "bbox": {
+                "min": [
+                  -8.0000001,
+                  -8.0000001,
+                  -12.0000001
+                ],
+                "max": [
+                  16.0000001,
+                  8.0000001,
+                  12.0000001
+                ]
+              },
+              "valid": true,
+              "closed": true,
+              "nondegenerateEdges": true,
+              "allFacesSingleWire": true,
+              "rawTopology": {
+                "shells": 1,
+                "faces": 5,
+                "edges": 9,
+                "vertices": 6,
+                "loops": 5
+              },
+              "rawEuler": 2,
+              "rawGenus": 0.0,
+              "cylinders": [
+                {
+                  "radius": 8.0,
+                  "axisOrigin": [
+                    0.0,
+                    0.0,
+                    -12.0
+                  ],
+                  "axisDirection": [
+                    0.0,
+                    0.0,
+                    1.0
+                  ],
+                  "axialMin": 0.0,
+                  "axialMax": 24.0,
+                  "zMin": -12.0,
+                  "zMax": 12.0,
+                  "area": 1154.365321461129
+                },
+                {
+                  "radius": 4.0,
+                  "axisOrigin": [
+                    0.0,
+                    0.0,
+                    0.0
+                  ],
+                  "axisDirection": [
+                    1.0,
+                    0.0,
+                    0.0
+                  ],
+                  "axialMin": 6.928203230276,
+                  "axialMax": 16.0,
+                  "zMin": 0.0,
+                  "zMax": 0.0,
+                  "area": 214.28869686194682
+                }
+              ],
+              "planes": [
+                {
+                  "origin": [
+                    0.0,
+                    0.0,
+                    -12.0
+                  ],
+                  "normal": [
+                    0.0,
+                    0.0,
+                    1.0
+                  ],
+                  "area": 201.06192982974665
+                },
+                {
+                  "origin": [
+                    0.0,
+                    0.0,
+                    12.0
+                  ],
+                  "normal": [
+                    0.0,
+                    0.0,
+                    1.0
+                  ],
+                  "area": 201.06192982974665
+                },
+                {
+                  "origin": [
+                    16.0,
+                    0.0,
+                    0.0
+                  ],
+                  "normal": [
+                    1.0,
+                    0.0,
+                    0.0
+                  ],
+                  "area": 50.26548245743666
+                }
+              ],
+              "unsupportedFaces": 0,
+              "otherSurfaces": []
+            }
+          ],
+          "valid": true,
+          "closed": true
+        }
+      }
+    },
+    {
+      "kernel": "occt",
+      "zone": "AC22",
+      "variant": "V2",
+      "observationSha256": "3ca9f48c05cf80c73148f3682157f3ed2e371253f40c1c3d2604620efa3c6591",
+      "sourceSTEPsha256": "29a4a5e98c644700424028c725c5b830396e13f11ea2fea4b16d077f23638269",
+      "stepFile": "artifacts/occt-b/occt/curved/V2/AC22/model.step",
+      "nativeRawFromFrozenObservationOnly": [
+        {
+          "rawTopology": {
+            "bodies": 1,
+            "shells": 1,
+            "faces": 3,
+            "edges": 3,
+            "vertices": 2,
+            "loops": 3
+          },
+          "rawEuler": 2,
+          "rawGenus": 0.0
+        },
+        {
+          "rawTopology": {
+            "bodies": 1,
+            "shells": 1,
+            "faces": 4,
+            "edges": 6,
+            "vertices": 4,
+            "loops": 4
+          },
+          "rawEuler": 2,
+          "rawGenus": 0.0
+        }
+      ],
+      "witness": {
+        "stepImport": {
+          "bodies": [
+            {
+              "volume": 804.2477193189861,
+              "area": 502.65482457436656,
+              "centroid": [
+                -1.1368683772161603e-13,
+                0.0,
+                8.0
+              ],
+              "bbox": {
+                "min": [
+                  -4.0,
+                  -4.0,
+                  0.0
+                ],
+                "max": [
+                  4.0,
+                  4.0,
+                  16.0
+                ]
+              },
+              "valid": true,
+              "closed": true,
+              "nondegenerateEdges": true,
+              "allFacesSingleWire": true,
+              "rawTopology": {
+                "shells": 1,
+                "faces": 3,
+                "edges": 3,
+                "vertices": 2,
+                "loops": 3
+              },
+              "rawEuler": 2,
+              "rawGenus": 0.0,
+              "cylinders": [
+                {
+                  "radius": 4.0,
+                  "axisOrigin": [
+                    0.0,
+                    0.0,
+                    0.0
+                  ],
+                  "axisDirection": [
+                    0.0,
+                    0.0,
+                    1.0
+                  ],
+                  "axialMin": 0.0,
+                  "axialMax": 16.0,
+                  "zMin": 0.0,
+                  "zMax": 16.0,
+                  "area": 402.1238596594933
+                }
+              ],
+              "planes": [
+                {
+                  "origin": [
+                    0.0,
+                    0.0,
+                    16.0
+                  ],
+                  "normal": [
+                    0.0,
+                    0.0,
+                    1.0
+                  ],
+                  "area": 50.26548245743666
+                },
+                {
+                  "origin": [
+                    0.0,
+                    0.0,
+                    0.0
+                  ],
+                  "normal": [
+                    0.0,
+                    0.0,
+                    1.0
+                  ],
+                  "area": 50.26548245743666
+                }
+              ],
+              "unsupportedFaces": 0,
+              "otherSurfaces": []
+            },
+            {
+              "volume": 804.2477193190045,
+              "area": 502.65482457438,
+              "centroid": [
+                7.999999999999934,
+                -3.5339496460704975e-16,
+                8.0
+              ],
+              "bbox": {
+                "min": [
+                  4.0,
+                  -4.0,
+                  0.0
+                ],
+                "max": [
+                  12.0,
+                  4.0,
+                  16.0
+                ]
+              },
+              "valid": true,
+              "closed": true,
+              "nondegenerateEdges": true,
+              "allFacesSingleWire": true,
+              "rawTopology": {
+                "shells": 1,
+                "faces": 4,
+                "edges": 6,
+                "vertices": 4,
+                "loops": 4
+              },
+              "rawEuler": 2,
+              "rawGenus": 0.0,
+              "cylinders": [
+                {
+                  "radius": 4.0,
+                  "axisOrigin": [
+                    8.0,
+                    0.0,
+                    0.0
+                  ],
+                  "axisDirection": [
+                    0.0,
+                    0.0,
+                    1.0
+                  ],
+                  "axialMin": 0.0,
+                  "axialMax": 16.0,
+                  "zMin": 0.0,
+                  "zMax": 16.0,
+                  "area": 201.06192982974673
+                },
+                {
+                  "radius": 4.0,
+                  "axisOrigin": [
+                    8.0,
+                    0.0,
+                    0.0
+                  ],
+                  "axisDirection": [
+                    0.0,
+                    0.0,
+                    1.0
+                  ],
+                  "axialMin": 0.0,
+                  "axialMax": 16.0,
+                  "zMin": 0.0,
+                  "zMax": 16.0,
+                  "area": 201.06192982975995
+                }
+              ],
+              "planes": [
+                {
+                  "origin": [
+                    8.0,
+                    0.0,
+                    0.0
+                  ],
+                  "normal": [
+                    0.0,
+                    0.0,
+                    1.0
+                  ],
+                  "area": 50.26548245743666
+                },
+                {
+                  "origin": [
+                    8.0,
+                    0.0,
+                    16.0
+                  ],
+                  "normal": [
+                    0.0,
+                    0.0,
+                    1.0
+                  ],
+                  "area": 50.26548245743666
+                }
+              ],
+              "unsupportedFaces": 0,
+              "otherSurfaces": []
+            }
+          ],
+          "valid": true,
+          "closed": true
+        },
+        "stepRoundTrip": {
+          "bodies": [
+            {
+              "volume": 804.2477193189861,
+              "area": 502.65482457436656,
+              "centroid": [
+                -1.1368683772161603e-13,
+                0.0,
+                8.0
+              ],
+              "bbox": {
+                "min": [
+                  -4.0,
+                  -4.0,
+                  0.0
+                ],
+                "max": [
+                  4.0,
+                  4.0,
+                  16.0
+                ]
+              },
+              "valid": true,
+              "closed": true,
+              "nondegenerateEdges": true,
+              "allFacesSingleWire": true,
+              "rawTopology": {
+                "shells": 1,
+                "faces": 3,
+                "edges": 3,
+                "vertices": 2,
+                "loops": 3
+              },
+              "rawEuler": 2,
+              "rawGenus": 0.0,
+              "cylinders": [
+                {
+                  "radius": 4.0,
+                  "axisOrigin": [
+                    0.0,
+                    0.0,
+                    0.0
+                  ],
+                  "axisDirection": [
+                    0.0,
+                    0.0,
+                    1.0
+                  ],
+                  "axialMin": 0.0,
+                  "axialMax": 16.0,
+                  "zMin": 0.0,
+                  "zMax": 16.0,
+                  "area": 402.1238596594933
+                }
+              ],
+              "planes": [
+                {
+                  "origin": [
+                    0.0,
+                    0.0,
+                    16.0
+                  ],
+                  "normal": [
+                    0.0,
+                    0.0,
+                    1.0
+                  ],
+                  "area": 50.26548245743666
+                },
+                {
+                  "origin": [
+                    0.0,
+                    0.0,
+                    0.0
+                  ],
+                  "normal": [
+                    0.0,
+                    0.0,
+                    1.0
+                  ],
+                  "area": 50.26548245743666
+                }
+              ],
+              "unsupportedFaces": 0,
+              "otherSurfaces": []
+            },
+            {
+              "volume": 804.2477193190045,
+              "area": 502.65482457438,
+              "centroid": [
+                7.999999999999934,
+                -3.5339496460704975e-16,
+                8.0
+              ],
+              "bbox": {
+                "min": [
+                  4.0,
+                  -4.0,
+                  0.0
+                ],
+                "max": [
+                  12.0,
+                  4.0,
+                  16.0
+                ]
+              },
+              "valid": true,
+              "closed": true,
+              "nondegenerateEdges": true,
+              "allFacesSingleWire": true,
+              "rawTopology": {
+                "shells": 1,
+                "faces": 4,
+                "edges": 6,
+                "vertices": 4,
+                "loops": 4
+              },
+              "rawEuler": 2,
+              "rawGenus": 0.0,
+              "cylinders": [
+                {
+                  "radius": 4.0,
+                  "axisOrigin": [
+                    8.0,
+                    0.0,
+                    0.0
+                  ],
+                  "axisDirection": [
+                    0.0,
+                    0.0,
+                    1.0
+                  ],
+                  "axialMin": 0.0,
+                  "axialMax": 16.0,
+                  "zMin": 0.0,
+                  "zMax": 16.0,
+                  "area": 201.06192982974673
+                },
+                {
+                  "radius": 4.0,
+                  "axisOrigin": [
+                    8.0,
+                    0.0,
+                    0.0
+                  ],
+                  "axisDirection": [
+                    0.0,
+                    0.0,
+                    1.0
+                  ],
+                  "axialMin": 0.0,
+                  "axialMax": 16.0,
+                  "zMin": 0.0,
+                  "zMax": 16.0,
+                  "area": 201.06192982975995
+                }
+              ],
+              "planes": [
+                {
+                  "origin": [
+                    8.0,
+                    0.0,
+                    0.0
+                  ],
+                  "normal": [
+                    0.0,
+                    0.0,
+                    1.0
+                  ],
+                  "area": 50.26548245743666
+                },
+                {
+                  "origin": [
+                    8.0,
+                    0.0,
+                    16.0
+                  ],
+                  "normal": [
+                    0.0,
+                    0.0,
+                    1.0
+                  ],
+                  "area": 50.26548245743666
+                }
+              ],
+              "unsupportedFaces": 0,
+              "otherSurfaces": []
+            }
+          ],
+          "valid": true,
+          "closed": true
+        }
+      }
+    },
+    {
+      "kernel": "occt",
+      "zone": "AC20",
+      "variant": "V3",
+      "observationSha256": "7abc666650f1dfab35476665df23ab704470e82e76f643fc9396686879d607c3",
+      "sourceSTEPsha256": "1c333b8293f3dc602a4b9537707eae12283aa5b2b74f1e2c0c349d01b5a8b74b",
+      "stepFile": "artifacts/occt-b/occt/curved/V3/AC20/model.step",
+      "nativeRawFromFrozenObservationOnly": [
+        {
+          "rawTopology": {
+            "bodies": 1,
+            "shells": 1,
+            "faces": 5,
+            "edges": 9,
+            "vertices": 6,
+            "loops": 5
+          },
+          "rawEuler": 2,
+          "rawGenus": 0.0
+        }
+      ],
+      "witness": {
+        "stepImport": {
+          "bodies": [
+            {
+              "volume": 5240.6037982684775,
+              "area": 1821.043360439942,
+              "centroid": [
+                0.9399713220959618,
+                -1.4283577169178693e-11,
+                -7.389960077712361e-12
+              ],
+              "bbox": {
+                "min": [
+                  -8.000000100006536,
+                  -8.000000100007844,
+                  -12.000000100000443
+                ],
+                "max": [
+                  16.00000009999948,
+                  8.00000009999369,
+                  12.000000100000037
+                ]
+              },
+              "valid": true,
+              "closed": true,
+              "nondegenerateEdges": true,
+              "allFacesSingleWire": true,
+              "rawTopology": {
+                "shells": 1,
+                "faces": 5,
+                "edges": 9,
+                "vertices": 6,
+                "loops": 5
+              },
+              "rawEuler": 2,
+              "rawGenus": 0.0,
+              "cylinders": [
+                {
+                  "radius": 8.0,
+                  "axisOrigin": [
+                    -6.536993168992922e-12,
+                    -6.30961949354969e-12,
+                    -12.000000000000284
+                  ],
+                  "axisDirection": [
+                    -1.726209400583475e-14,
+                    1.0293573273293893e-14,
+                    1.0
+                  ],
+                  "axialMin": 0.0,
+                  "axialMax": 24.0,
+                  "zMin": -12.000000000000284,
+                  "zMax": 11.999999999999716,
+                  "area": 1154.3653214610765
+                },
+                {
+                  "radius": 4.0,
+                  "axisOrigin": [
+                    -5.7980287238024175e-12,
+                    -2.1032064978498966e-12,
+                    -3.33288951992472e-13
+                  ],
+                  "axisDirection": [
+                    1.0,
+                    2.148491043262581e-14,
+                    -1.4833385476276584e-14
+                  ],
+                  "axialMin": 6.928203230276,
+                  "axialMax": 16.000000000004334,
+                  "zMin": -5.706231196129617e-13,
+                  "zMax": -4.3605766116514054e-13,
+                  "area": 214.2886968619357
+                }
+              ],
+              "planes": [
+                {
+                  "origin": [
+                    -6.536993168992922e-12,
+                    -6.30961949354969e-12,
+                    -12.000000000000284
+                  ],
+                  "normal": [
+                    -1.726209400583475e-14,
+                    1.0293573273293893e-14,
+                    1.0
+                  ],
+                  "area": 201.06192982974665
+                },
+                {
+                  "origin": [
+                    -5.9117155615240335e-12,
+                    -7.844391802791506e-12,
+                    11.999999999999863
+                  ],
+                  "normal": [
+                    -1.726209400583475e-14,
+                    1.0293573273293893e-14,
+                    1.0
+                  ],
+                  "area": 201.06192982974665
+                },
+                {
+                  "origin": [
+                    15.999999999999375,
+                    -3.979039320256561e-13,
+                    -1.9806378759312793e-13
+                  ],
+                  "normal": [
+                    1.0,
+                    2.148491043262581e-14,
+                    -1.4833385476276584e-14
+                  ],
+                  "area": 50.26548245743666
+                }
+              ],
+              "unsupportedFaces": 0,
+              "otherSurfaces": []
+            }
+          ],
+          "valid": true,
+          "closed": true
+        },
+        "stepRoundTrip": {
+          "bodies": [
+            {
+              "volume": 5240.603798268481,
+              "area": 1821.0433604399425,
+              "centroid": [
+                0.9399713220958079,
+                -1.4174259748206966e-11,
+                -7.40384660487562e-12
+              ],
+              "bbox": {
+                "min": [
+                  -8.000000100006536,
+                  -8.000000100007844,
+                  -12.000000100000623
+                ],
+                "max": [
+                  16.000000099999593,
+                  8.00000009999369,
+                  12.000000100000202
+                ]
+              },
+              "valid": true,
+              "closed": true,
+              "nondegenerateEdges": true,
+              "allFacesSingleWire": true,
+              "rawTopology": {
+                "shells": 1,
+                "faces": 5,
+                "edges": 9,
+                "vertices": 6,
+                "loops": 5
+              },
+              "rawEuler": 2,
+              "rawGenus": 0.0,
+              "cylinders": [
+                {
+                  "radius": 8.0,
+                  "axisOrigin": [
+                    -6.536993168992922e-12,
+                    -6.30961949354969e-12,
+                    -12.000000000000284
+                  ],
+                  "axisDirection": [
+                    -3.637208670942403e-14,
+                    2.1847067223649006e-14,
+                    1.0
+                  ],
+                  "axialMin": 0.0,
+                  "axialMax": 24.0,
+                  "zMin": -12.000000000000284,
+                  "zMax": 11.999999999999716,
+                  "area": 1154.3653214610765
+                },
+                {
+                  "radius": 4.0,
+                  "axisOrigin": [
+                    -5.7980287238024175e-12,
+                    -2.1032064978498966e-12,
+                    -3.33288951992472e-13
+                  ],
+                  "axisDirection": [
+                    1.0,
+                    4.084906086606076e-14,
+                    -3.52884936321577e-14
+                  ],
+                  "axialMin": 6.928203230276,
+                  "axialMax": 16.000000000004334,
+                  "zMin": -8.979048501071482e-13,
+                  "zMax": -5.77774807566361e-13,
+                  "area": 214.2886968619357
+                }
+              ],
+              "planes": [
+                {
+                  "origin": [
+                    -6.536993168992922e-12,
+                    -6.30961949354969e-12,
+                    -12.000000000000284
+                  ],
+                  "normal": [
+                    -3.637208670942403e-14,
+                    2.1847067223649006e-14,
+                    1.0
+                  ],
+                  "area": 201.06192982974667
+                },
+                {
+                  "origin": [
+                    -5.9117155615240335e-12,
+                    -7.844391802791506e-12,
+                    11.999999999999863
+                  ],
+                  "normal": [
+                    -3.637208670942403e-14,
+                    2.1847067223649006e-14,
+                    1.0
+                  ],
+                  "area": 201.06192982974667
+                },
+                {
+                  "origin": [
+                    15.999999999999375,
+                    -3.979039320256561e-13,
+                    -1.9806378759312793e-13
+                  ],
+                  "normal": [
+                    1.0,
+                    4.084906086606076e-14,
+                    -3.52884936321577e-14
+                  ],
+                  "area": 50.26548245743666
+                }
+              ],
+              "unsupportedFaces": 0,
+              "otherSurfaces": []
+            }
+          ],
+          "valid": true,
+          "closed": true
+        }
+      }
+    },
+    {
+      "kernel": "occt",
+      "zone": "AC22",
+      "variant": "V3",
+      "observationSha256": "efb06d9bcf536edc3389fe36ca553be5f74e52aed0d77e037b04a74ba843c2ed",
+      "sourceSTEPsha256": "8794cd1ac7459c58f4b1014288a2f76c0cbae0f1111da201a0de2d94a0f09dca",
+      "stepFile": "artifacts/occt-b/occt/curved/V3/AC22/model.step",
+      "nativeRawFromFrozenObservationOnly": [
+        {
+          "rawTopology": {
+            "bodies": 1,
+            "shells": 1,
+            "faces": 3,
+            "edges": 3,
+            "vertices": 2,
+            "loops": 3
+          },
+          "rawEuler": 2,
+          "rawGenus": 0.0
+        },
+        {
+          "rawTopology": {
+            "bodies": 1,
+            "shells": 1,
+            "faces": 4,
+            "edges": 6,
+            "vertices": 4,
+            "loops": 4
+          },
+          "rawEuler": 2,
+          "rawGenus": 0.0
+        }
+      ],
+      "witness": {
+        "stepImport": {
+          "bodies": [
+            {
+              "volume": 804.2477193189881,
+              "area": 502.6548245743673,
+              "centroid": [
+                -6.0254023992456496e-12,
+                -1.9895196601282805e-12,
+                7.999999999999655
+              ],
+              "bbox": {
+                "min": [
+                  -4.000000000006139,
+                  -4.000000000002046,
+                  -4.233959824866764e-13
+                ],
+                "max": [
+                  3.999999999994202,
+                  3.9999999999980673,
+                  15.999999999999739
+                ]
+              },
+              "valid": true,
+              "closed": true,
+              "nondegenerateEdges": true,
+              "allFacesSingleWire": true,
+              "rawTopology": {
+                "shells": 1,
+                "faces": 3,
+                "edges": 3,
+                "vertices": 2,
+                "loops": 3
+              },
+              "rawEuler": 2,
+              "rawGenus": 0.0,
+              "cylinders": [
+                {
+                  "radius": 4.0,
+                  "axisOrigin": [
+                    -5.7980287238024175e-12,
+                    -2.0463630789890885e-12,
+                    -3.4305891460917337e-13
+                  ],
+                  "axisDirection": [
+                    -1.7274148160012492e-14,
+                    1.0293530985898521e-14,
+                    1.0
+                  ],
+                  "axialMin": 0.0,
+                  "axialMax": 16.0,
+                  "zMin": -3.4305891460917337e-13,
+                  "zMax": 15.999999999999657,
+                  "area": 402.1238596594935
+                }
+              ],
+              "planes": [
+                {
+                  "origin": [
+                    -6.139089236967266e-12,
+                    -1.9326762412674725e-12,
+                    15.999999999999659
+                  ],
+                  "normal": [
+                    -1.7274148160012492e-14,
+                    1.0293530985898521e-14,
+                    1.0
+                  ],
+                  "area": 50.26548245743689
+                },
+                {
+                  "origin": [
+                    -5.7980287238024175e-12,
+                    -2.0463630789890885e-12,
+                    -3.4305891460917337e-13
+                  ],
+                  "normal": [
+                    -1.7274148160012492e-14,
+                    1.0293530985898521e-14,
+                    1.0
+                  ],
+                  "area": 50.2654824574369
+                }
+              ],
+              "unsupportedFaces": 0,
+              "otherSurfaces": []
+            },
+            {
+              "volume": 804.2477193189862,
+              "area": 502.6548245743669,
+              "centroid": [
+                7.999999999991727,
+                -5.7955094846293035e-12,
+                8.000000000000066
+              ],
+              "bbox": {
+                "min": [
+                  3.99999999999136,
+                  -4.000000000007049,
+                  -4.121147867408581e-13
+                ],
+                "max": [
+                  12.000000000000341,
+                  3.999999999994259,
+                  16.000000000000195
+                ]
+              },
+              "valid": true,
+              "closed": true,
+              "nondegenerateEdges": true,
+              "allFacesSingleWire": true,
+              "rawTopology": {
+                "shells": 1,
+                "faces": 4,
+                "edges": 6,
+                "vertices": 4,
+                "loops": 4
+              },
+              "rawEuler": 2,
+              "rawGenus": 0.0,
+              "cylinders": [
+                {
+                  "radius": 4.0,
+                  "axisOrigin": [
+                    7.99999999999136,
+                    -5.7411853049416095e-12,
+                    7.815970093361102e-14
+                  ],
+                  "axisDirection": [
+                    -1.726209400583475e-14,
+                    1.0293573273293893e-14,
+                    1.0
+                  ],
+                  "axialMin": 0.0,
+                  "axialMax": 16.000000000000608,
+                  "zMin": 7.815970093361102e-14,
+                  "zMax": 16.000000000000686,
+                  "area": 201.06192982972598
+                },
+                {
+                  "radius": 4.0,
+                  "axisOrigin": [
+                    7.99999999999136,
+                    -5.7411853049416095e-12,
+                    7.815970093361102e-14
+                  ],
+                  "axisDirection": [
+                    -1.726209400583475e-14,
+                    1.0293573273293893e-14,
+                    1.0
+                  ],
+                  "axialMin": 0.0,
+                  "axialMax": 16.000000000000608,
+                  "zMin": 7.815970093361102e-14,
+                  "zMax": 16.000000000000686,
+                  "area": 201.0619298297676
+                }
+              ],
+              "planes": [
+                {
+                  "origin": [
+                    7.99999999999136,
+                    -5.7411853049416095e-12,
+                    7.815970093361102e-14
+                  ],
+                  "normal": [
+                    -1.726209400583475e-14,
+                    1.0293573273293893e-14,
+                    1.0
+                  ],
+                  "area": 50.26548245743666
+                },
+                {
+                  "origin": [
+                    7.9999999999951115,
+                    -7.048583938740194e-12,
+                    16.000000000000025
+                  ],
+                  "normal": [
+                    -1.726209400583475e-14,
+                    1.0293573273293893e-14,
+                    1.0
+                  ],
+                  "area": 50.26548245743666
+                }
+              ],
+              "unsupportedFaces": 0,
+              "otherSurfaces": []
+            }
+          ],
+          "valid": true,
+          "closed": true
+        },
+        "stepRoundTrip": {
+          "bodies": [
+            {
+              "volume": 804.2477193189882,
+              "area": 502.65482457436724,
+              "centroid": [
+                -6.366462912410498e-12,
+                -1.8189894035458565e-12,
+                7.999999999999684
+              ],
+              "bbox": {
+                "min": [
+                  -4.000000000006594,
+                  -4.000000000002103,
+                  -4.871085658244126e-13
+                ],
+                "max": [
+                  3.9999999999939746,
+                  3.9999999999982947,
+                  15.99999999999985
+                ]
+              },
+              "valid": true,
+              "closed": true,
+              "nondegenerateEdges": true,
+              "allFacesSingleWire": true,
+              "rawTopology": {
+                "shells": 1,
+                "faces": 3,
+                "edges": 3,
+                "vertices": 2,
+                "loops": 3
+              },
+              "rawEuler": 2,
+              "rawGenus": 0.0,
+              "cylinders": [
+                {
+                  "radius": 4.0,
+                  "axisOrigin": [
+                    -6.139089236967266e-12,
+                    -2.1032064978498966e-12,
+                    -3.174682738915635e-13
+                  ],
+                  "axisDirection": [
+                    -3.6389925986842744e-14,
+                    2.1849821343638927e-14,
+                    1.0
+                  ],
+                  "axialMin": 0.0,
+                  "axialMax": 16.0,
+                  "zMin": -3.174682738915635e-13,
+                  "zMax": 15.999999999999682,
+                  "area": 402.1238596594935
+                }
+              ],
+              "planes": [
+                {
+                  "origin": [
+                    -6.59383658785373e-12,
+                    -1.7053025658242404e-12,
+                    15.999999999999682
+                  ],
+                  "normal": [
+                    -3.6389925986842744e-14,
+                    2.1849821343638927e-14,
+                    1.0
+                  ],
+                  "area": 50.26548245743689
+                },
+                {
+                  "origin": [
+                    -6.139089236967266e-12,
+                    -2.1032064978498966e-12,
+                    -3.174682738915635e-13
+                  ],
+                  "normal": [
+                    -3.6389925986842744e-14,
+                    2.1849821343638927e-14,
+                    1.0
+                  ],
+                  "area": 50.26548245743689
+                }
+              ],
+              "unsupportedFaces": 0,
+              "otherSurfaces": []
+            },
+            {
+              "volume": 804.2477193189861,
+              "area": 502.654824574367,
+              "centroid": [
+                7.99999999999161,
+                -5.725943685846405e-12,
+                8.000000000000066
+              ],
+              "bbox": {
+                "min": [
+                  3.99999999999136,
+                  -4.000000000007049,
+                  -4.121147867408581e-13
+                ],
+                "max": [
+                  12.000000000000341,
+                  3.999999999994259,
+                  16.000000000000195
+                ]
+              },
+              "valid": true,
+              "closed": true,
+              "nondegenerateEdges": true,
+              "allFacesSingleWire": true,
+              "rawTopology": {
+                "shells": 1,
+                "faces": 4,
+                "edges": 6,
+                "vertices": 4,
+                "loops": 4
+              },
+              "rawEuler": 2,
+              "rawGenus": 0.0,
+              "cylinders": [
+                {
+                  "radius": 4.0,
+                  "axisOrigin": [
+                    7.99999999999136,
+                    -5.7411853049416095e-12,
+                    7.815970093361102e-14
+                  ],
+                  "axisDirection": [
+                    -3.637208670942403e-14,
+                    2.1847067223649006e-14,
+                    1.0
+                  ],
+                  "axialMin": 0.0,
+                  "axialMax": 16.000000000000608,
+                  "zMin": 7.815970093361102e-14,
+                  "zMax": 16.000000000000686,
+                  "area": 201.061929829726
+                },
+                {
+                  "radius": 4.0,
+                  "axisOrigin": [
+                    7.99999999999136,
+                    -5.7411853049416095e-12,
+                    7.815970093361102e-14
+                  ],
+                  "axisDirection": [
+                    -3.637208670942403e-14,
+                    2.1847067223649006e-14,
+                    1.0
+                  ],
+                  "axialMin": 0.0,
+                  "axialMax": 16.000000000000608,
+                  "zMin": 7.815970093361102e-14,
+                  "zMax": 16.000000000000686,
+                  "area": 201.0619298297676
+                }
+              ],
+              "planes": [
+                {
+                  "origin": [
+                    7.99999999999136,
+                    -5.7411853049416095e-12,
+                    7.815970093361102e-14
+                  ],
+                  "normal": [
+                    -3.637208670942403e-14,
+                    2.1847067223649006e-14,
+                    1.0
+                  ],
+                  "area": 50.265482457436676
+                },
+                {
+                  "origin": [
+                    7.9999999999951115,
+                    -7.048583938740194e-12,
+                    16.000000000000025
+                  ],
+                  "normal": [
+                    -3.637208670942403e-14,
+                    2.1847067223649006e-14,
+                    1.0
+                  ],
+                  "area": 50.265482457436676
+                }
+              ],
+              "unsupportedFaces": 0,
+              "otherSurfaces": []
+            }
+          ],
+          "valid": true,
+          "closed": true
+        }
+      }
+    }
+  ]
+}

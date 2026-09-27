@@ -1,0 +1,74 @@
+{
+ "id": "ch-box-corner-3-d1",
+ "jobSha256": "6ac63506566ba0019de705b81c49297ef0e7d1dbf35e22667bed809fef3cadcc",
+ "jobBytes": 1859,
+ "sourceSha256": "217fda17dd664417f4441c2aad1edce4252733d71f8d15d603df5dd468cad737",
+ "buildMs": 2.117999999999938,
+ "kernel": {
+  "closed": true,
+  "volumeMm3": 7999.999999999999,
+  "areaMm2": 2400,
+  "precision": "F32x2",
+  "geometry": "planar"
+ },
+ "counts": {
+  "vertices": 8,
+  "edges": 12,
+  "faces": 6
+ },
+ "surfaces": {
+  "plane": 6
+ },
+ "quantizationErrorMm": 0,
+ "selected": [
+  {
+   "edge": 5,
+   "curve": "line",
+   "faces": [
+    "plane",
+    "plane"
+   ],
+   "convexity": "convex",
+   "dihedralDeg": 90,
+   "length": 20,
+   "sample": [
+    20,
+    10,
+    20
+   ]
+  },
+  {
+   "edge": 6,
+   "curve": "line",
+   "faces": [
+    "plane",
+    "plane"
+   ],
+   "convexity": "convex",
+   "dihedralDeg": 90,
+   "length": 20,
+   "sample": [
+    10,
+    20,
+    20
+   ]
+  },
+  {
+   "edge": 10,
+   "curve": "line",
+   "faces": [
+    "plane",
+    "plane"
+   ],
+   "convexity": "convex",
+   "dihedralDeg": 90,
+   "length": 20,
+   "sample": [
+    20,
+    20,
+    10
+   ]
+  }
+ ],
+ "step": "out/fillet/input-step/ch-box-corner-3-d1.step"
+}

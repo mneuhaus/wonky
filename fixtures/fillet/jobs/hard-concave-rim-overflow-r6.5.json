@@ -1,0 +1,43 @@
+{
+ "id": "hard-concave-rim-overflow-r6.5",
+ "jobSha256": "552e6f4053d9c3357acf2f87d2227442941fc966fd6f354a8aece234a234611f",
+ "jobBytes": 1452,
+ "sourceSha256": "8a38f509d293e8c97e83323037e86d95d2bbb536b64fa7ffd7407f618f7f8918",
+ "buildMs": 4.840666000000056,
+ "kernel": {
+  "closed": true,
+  "volumeMm3": 1445.1326206513113,
+  "areaMm2": null,
+  "precision": "F32x2",
+  "geometry": "analytic"
+ },
+ "counts": {
+  "vertices": 5,
+  "edges": 7,
+  "faces": 6
+ },
+ "surfaces": {
+  "plane": 4,
+  "cylinder": 2
+ },
+ "quantizationErrorMm": 0,
+ "selected": [
+  {
+   "edge": 1,
+   "curve": "circle",
+   "faces": [
+    "cylinder",
+    "plane"
+   ],
+   "convexity": "concave",
+   "dihedralDeg": 270,
+   "length": 25.132110409154308,
+   "sample": [
+    -4,
+    4.898587196589413e-16,
+    3
+   ]
+  }
+ ],
+ "step": "out/fillet/input-step/hard-concave-rim-overflow-r6.5.step"
+}

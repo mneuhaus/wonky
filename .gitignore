@@ -1,0 +1,13 @@
+.tools/
+node_modules/
+out/
+coverage/
+/reviews/
+**/__pycache__/
+*.pyc
+.DS_Store
+tmp/
+.claude/*
+!.claude/skills/
+kernel/proto/*/.bakeoff-*
+var/

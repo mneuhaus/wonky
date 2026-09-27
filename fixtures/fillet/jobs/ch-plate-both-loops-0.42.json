@@ -1,0 +1,154 @@
+{
+ "id": "ch-plate-both-loops-0.42",
+ "jobSha256": "2631a6ea151cca623fbff5ff5500dc8ee75d594b80a73f02d9e02373164a76e5",
+ "jobBytes": 1882,
+ "sourceSha256": "7b45a561ab75280275f68c8cae03ae31a32dd63b18e342ba35cb7c71f39dcedf",
+ "buildMs": 2.3187090000001263,
+ "kernel": {
+  "closed": true,
+  "volumeMm3": 6000,
+  "areaMm2": 3100,
+  "precision": "F32x2",
+  "geometry": "planar"
+ },
+ "counts": {
+  "vertices": 8,
+  "edges": 12,
+  "faces": 6
+ },
+ "surfaces": {
+  "plane": 6
+ },
+ "quantizationErrorMm": 0,
+ "selected": [
+  {
+   "edge": 0,
+   "curve": "line",
+   "faces": [
+    "plane",
+    "plane"
+   ],
+   "convexity": "convex",
+   "dihedralDeg": 90,
+   "length": 40,
+   "sample": [
+    20,
+    0,
+    0
+   ]
+  },
+  {
+   "edge": 1,
+   "curve": "line",
+   "faces": [
+    "plane",
+    "plane"
+   ],
+   "convexity": "convex",
+   "dihedralDeg": 90,
+   "length": 30,
+   "sample": [
+    40,
+    15,
+    0
+   ]
+  },
+  {
+   "edge": 2,
+   "curve": "line",
+   "faces": [
+    "plane",
+    "plane"
+   ],
+   "convexity": "convex",
+   "dihedralDeg": 90,
+   "length": 40,
+   "sample": [
+    20,
+    30,
+    0
+   ]
+  },
+  {
+   "edge": 3,
+   "curve": "line",
+   "faces": [
+    "plane",
+    "plane"
+   ],
+   "convexity": "convex",
+   "dihedralDeg": 90,
+   "length": 30,
+   "sample": [
+    0,
+    15,
+    0
+   ]
+  },
+  {
+   "edge": 4,
+   "curve": "line",
+   "faces": [
+    "plane",
+    "plane"
+   ],
+   "convexity": "convex",
+   "dihedralDeg": 90,
+   "length": 40,
+   "sample": [
+    20,
+    0,
+    5
+   ]
+  },
+  {
+   "edge": 5,
+   "curve": "line",
+   "faces": [
+    "plane",
+    "plane"
+   ],
+   "convexity": "convex",
+   "dihedralDeg": 90,
+   "length": 30,
+   "sample": [
+    40,
+    15,
+    5
+   ]
+  },
+  {
+   "edge": 6,
+   "curve": "line",
+   "faces": [
+    "plane",
+    "plane"
+   ],
+   "convexity": "convex",
+   "dihedralDeg": 90,
+   "length": 40,
+   "sample": [
+    20,
+    30,
+    5
+   ]
+  },
+  {
+   "edge": 7,
+   "curve": "line",
+   "faces": [
+    "plane",
+    "plane"
+   ],
+   "convexity": "convex",
+   "dihedralDeg": 90,
+   "length": 30,
+   "sample": [
+    0,
+    15,
+    5
+   ]
+  }
+ ],
+ "step": "out/fillet/input-step/ch-plate-both-loops-0.42.step"
+}

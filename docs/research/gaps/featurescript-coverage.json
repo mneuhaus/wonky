@@ -1,0 +1,159 @@
+{
+  "topic": "featurescript-coverage",
+  "currentState": [
+    "Auf vorhandener Arbeit aufgebaut: <repo>/docs/research/llm-code-cad.md:947 enthält bereits evDistance/evArea/evCollision-Priorisierung und :1282 Query-Survival; <repo>/docs/research/synthesis.md:1014 Versionierung; <repo>/docs/language/proposal-dataflow.md:173 Measurement-Barrieren und Replay. Die Addenda <repo>/docs/research/addenda/sktext-as-exact-geometry-truetype-outlines-font-sourcing-and.md, <repo>/docs/research/addenda/exact-2d-arrangements-of-sketch-curves-lines-arcs-conics-wit.md und <repo>/docs/research/addenda/lofts-and-sweeps-ruled-and-skinned-surfaces-vertex-matching-.md behandeln Text, Regionen und allgemeine Lofts bereits. Neu hier: aktuelle Häufigkeiten, konkrete R20-Aufrufpfade, reproduzierte Query-Fehler und kleine Implementierungspakete.",
+    "Korpus-Methode: ~/Workspace/cad rekursiv read-only, ohne Symlinks, .git, node_modules und .venv: 631 FS-Dateien, 452 verschiedene Byte-Inhalte. 481 Dateien direkt geparst; 150 headerlose Fragmente per tokenizer gezählt, alle tokenisierbar. Kommentare/Strings und Funktionsdeklarationen nicht als Aufrufe gezählt. Versionen: 2892 in 177, 3044 in 215, 3070 in 92 Dateien; 147 ohne numerischen Header. SHA256 über sortierte relative Pfade + NUL + jeweilige Inhalts-SHA, zeilenweise verbunden: ff46edae312f0233804e0669f842b5f183b6b6f77f11ce0acf536019440e4e39. Nachfolgend primär Call-Sites pro byte-eindeutiger Datei, nicht dynamische Aufrufe oder erfolgreiche Modelle. Gegenmaß: zusätzlich Dateianzahl, separate Live-Studios und erreichbarer Helper-Graph; generierte gemeinsame Helper und Archive bleiben ein Bias.",
+    "Registrierungsabdeckung der im Gesamtkorpus vorkommenden Namen: Queries einschließlich evaluateQuery/makeRobustQuery 18/26, ev*-Funktionen 3/13, op*-Funktionen 8/15, Sketch-Funktionen 7/10. Das ist ausdrücklich KEINE semantische Erfolgsquote. Häufigste registrierte Queries, eindeutige Call-Sites/Dateien: qCreatedBy 11898/396, qUnion 5666/394, evaluateQuery 2904/394, qSketchRegion 2348/375, qAllModifiableSolidBodies 1206/190, qBodyType 1085/362, qSubtraction 528/189, qEverything 459/112, qContainsPoint 381/71, qOwnedByBody 352/186. Geometrische Filter: qGeometry 103/57, makeRobustQuery 86/14, qCoincidesWithPlane 70/16, qAdjacent 46/30, qClosestTo 33/33, qParallelEdges 22/10.",
+    "Fehlende Queries nach eindeutigen Call-Sites/Dateien: qCompressed 214/8, qNthElement 25/22, qLargest 12/7, qOwnerBody 3/3, qSplitBy 2/1, qEdgeConvexityTypeFilter, qHasAttribute und qEntityFilter je 1/1. Fehlende ev*: evPlane 25/19, evCollision 16/8, evEdgeTangentLine 16/7, evDistance 10/7, evSurfaceDefinition 8/8, evArea 5/5, evCurveDefinition 4/4, evFaceTangentPlane 3/3, evLength 2/1, evApproximateCentroid 1/1. Fehlende op*: opTransform 725/185, opOffsetFace 55/43, opDeleteFace 20/19, opSplitPart 6/6, opSweep 2/2, opThicken und opMoveFace je 1/1. Weitere std-Lücken: fCylinder 410/8, skText 130/122, startsWith 95/7, skEllipse 19/19, newSketch 14/1. Raw-Zahlen verdeutlichen Kopienbias: opTransform 1192/305, skText 185/174, evCollision 81/25, evDistance 50/23. Eigene r20*, m3*, prism/cut-Helfer wurden nicht als fehlende std-Funktionen gewertet.",
+    "Der Live-Manifest ~/Workspace/cad/cad-project-041/single-step-r20/build/studios/manifest.json enthält nur datums, context, probe, tray, edge, return und cores. Kein camera-mast-, frame-, chute- oder separat benanntes cores-feed-Studio vorhanden. ~/Workspace/cad/cad-project-041/single-step-r20/build/studios/r20-motion.json hat unter anderem RACK, RAIL_L/R, WALL_L/R, CHUTE, CHUTE_CATCH und CAM_* mit fs:null. Für diese nächsten Module kann die Recherche keine vorhandene FS-Abdeckung behaupten.",
+    "R20, statisch über beide Branches erreichbare Helper: In sechs der sieben Studios fehlt kein aufgerufener externer Builtin-Name. return.fs hat genau evEdgeTangentLine an :886-888 und evCurveDefinition an :1353 offen, beide im withBlends-Pfad; der Default ist false (:1471). Return benötigt außerdem 19 evVolume-, 14 evaluateQuery-, 6 qOwnedByBody-, 4 qParallelEdges-, 4 opFillet- und 4 opChamfer-Call-Sites. cores.fs:1010 benötigt qParallelEdges plus opChamfer, beides registriert. tray.fs:1077 verwendet qClosestTo auf KREIS-EDGES, nicht auf einer Zylinderfläche. Gleiche Namen bedeuten weiterhin weder erfolgreiche Booleans noch erfolgreiche Blends.",
+    "Aktuelle Produktionsgrenzen: <repo>/src/queries.mjs:102 verweigert ungefiltertes qEverything wegen fehlender Onshape-Defaultkörper; :117 makeRobustQuery bei Split/Consumption und :808 bei Faces/Edges; :222 qAdjacent nur Face-Seeds, EDGE-Adjazenz und FACE/EDGE-Ausgabe. :683 unterdrückt interne periodische Seams und verweigert unklare Pole. <repo>/src/library.mjs:875 erlaubt genau eine geschlossene Sketch-Region; :903 opLoft nur zwei koaxiale Kreise und derzeit nicht einmal das übliche bodyType:SOLID-Feld. opLoft kommt 1576-mal in 187 eindeutigen Dateien vor; das ist keine allgemeine Loft-Abdeckung. <repo>/src/index.mjs:23 lädt geometrische Query-Services nicht im Native-Backend.",
+    "Neue konkrete stille Lücke: <repo>/src/queries.mjs:52-56 und :686 filtern Sketch-Records aus Nicht-BODY-Queries heraus. Kleine echte Builtin-Sequenz newSketchOnPlane/skRectangle/skSolve ohne Kernelbuild: qCreatedBy(sketchId,BODY)=1, EDGE=0, VERTEX=0. Fehlende Sketchtopologie wird als leere Auswahl statt als fehlende Fähigkeit ausgegeben. Von 33 eindeutigen qClosestTo-Call-Sites haben 24 direkt qCreatedBy als Eingang; ein reales Beispiel fragt Sketch-Vertices ab: ~/Workspace/cad/cad-project-014/bottom-drive-purpose-2026-09-19/src/drive-purpose.fs:45. Außerdem matched qCreatedBy momentan nur exakte Id-Keys, nicht automatisch Parent-Ids (:53); die ältere Untersuchung <repo>/docs/language/semantic-core.md:212 nennt denselben Prefix-Gap bereits.",
+    "Bekannte Query-Randfälle lokal nachgeprüft: <repo>/src/queries.mjs:464-488 verweigert qGeometry(vertex,LINE), während MESH eine leere Menge liefert; keine stille vertex-as-edge-Klassifikation. :565 verweigert qClosestTo auf der Achse einer ZYLINDERFLÄCHE: analytischer Zylinder r=2 mm, z=0..10 mm, Punkt (0,0,5). Der Abstand ist eindeutig 2 mm, obwohl der nächste Punkt nicht eindeutig ist. Dieselbe Achsensituation auf den beiden kreisförmigen Randkanten liefert bereits beide Kanten korrekt. Allgemeine getrimmte Cylinder-Faces dürfen nicht durch die unendliche Trägerfläche ersetzt werden.",
+    "Bestätigter falsch-positiver Coincidence-Pfad: <repo>/src/queries.mjs:327 akzeptiert vollständige Extrempunkte innerhalb einer mit dem Weltursprung wachsenden margin ohne deren Obergrenze zu prüfen. Minimaler Vertex-Probe p=(0,0,0.0001) mm gegen z=0 liefert []; gemeinsame Translation von Punkt und Plane um x=100000000 mm liefert [vertex], bei unverändertem Abstand 0.0001 mm. Der Carrier-Sonderpfad :354 hat bereits margin<1e-5 mm, der byPoints-Pfad nicht. :255 bezeichnet GUARD_FACTOR ausdrücklich als operational guard, nicht zertifizierte Intervallschranke. Das verletzt die eigene Genauigkeitsabsicht unabhängig von Onshapes nicht veröffentlichter Plane-Coincidence-Toleranz.",
+    "Weiterer bestätigter Optionsfehler: <repo>/src/queries.mjs:876-886 ignoriert evBox3d.cSys. Synthetischer Body mit Weltbox x=10..12 mm und CoordSystem-Ursprung x=10 mm liefert weiter 10..12 statt lokaler 0..2. Die geprüfte AST-Teilmenge von 412/452 eindeutigen Dateien hat 206 evBox3d-Call-Sites, davon keine mit cSys und 205 mit tight; also ein typischer Onshape-Kompatibilitätsfehler, kein nachgewiesener aktueller R20-Blocker. Unsupported option darf weder still ignoriert noch pauschal als unterstützt gezählt werden.",
+    "Tracer separat gemessen, ohne Geometrie: <repo>/src/lang/dataflow/fs-trace.mjs:376 macht fast jedes ev* zum GraphBreak, selbst im eager Interpreter vorhandenes evVolume. Default-Traces der sieben R20-Studios: cores/edge/return/tray stoppen an evVolume; context/datums an PropertyType.DESCRIPTION (:395); probe an fehlendem unitless aus der Keep-Liste (:269). Ergebnis 0/7 vollständige TRACES, keine Aussage über vollständige eager Builds. Zusätzliche Divergenzen: qUnion nur Array (:350), qIntersection nur Array, qOwnedByBody ohne Typ wird fälschlich zu FACE (:354), qCreatedBy ohne Typ zu BODY (:345), obwohl std alle passenden Typen meint; qEverything im Tracer ignoriert die Produktionsrefusal. Symbolische Unterstützung von opTransform/opSweep/skText ist keine produktive Geometriefähigkeit.",
+    "Helper-Refusals bleiben korrekt außerhalb von try silent, verlieren aber strukturierten Kontext: <repo>/src/errors.mjs:1 speichert nur line/column; <repo>/src/interpreter.mjs:252 führt Stacks nur für Observer; <repo>/src/source-map.mjs:3 beobachtet op/sk, nicht ev/query. Ein Helper mit evCurveDefinition liefert UnsupportedFeatureError samt innerer Zeile, aber file/sourcePath/callStack=null. traceFeatureScript(source,{sourcePath:'/models/refusal.fs'}) liefert ebenfalls einen Fehler ohne Pfad/Stack (:241); graph.meta.source enthält den Pfad separat. CLI <repo>/bin/wonky.mjs:141 und r20ErrorRecord <repo>/src/r20-export.mjs:219 ergänzen den äußeren Dateipfad bereits. Daher gezielt API-/Helper-Provenance reparieren, nicht behaupten, sämtliche CLI-Fehler seien pfadlos."
+  ],
+  "approaches": [
+    {
+      "name": "Nach Nachfrage implementierte std-Verträge statt vollständiger Standardbibliothek",
+      "fitForWonky": "Beste Hauptlinie: unveränderte FS-Programme, gemeinsame Overload-/Typregeln für eager und Tracer, kleine Adapter auf vorhandene Bend-Fähigkeiten. MIT-std-Code zeigt Datenkonstruktoren und Wrapper: qGeometry/qClosestTo delegieren über QueryType an den proprietären Kernel; bloßes Importieren der Bibliothek implementiert keine Geometrie. Return-Evaluatoren vor seltenen generischen Features, opTransform/fCylinder vor neuer Sweep-Engine. Häufigkeit und Zahl betroffener Dateien gemeinsam priorisieren.",
+      "risks": "Der javawizard-Mirror steht am geprüften Commit a2a7b13ea823f144b20d27198043aea35a64d928 vom 15. Mai 2026 und ist kein Beweis für std 3044/3070. Offizielle aktuelle Dokumentation zusätzlich direkt gelesen. qCompressed ist hochfrequent, aber an dokument-/historiengebundene Selektionen gekoppelt; keine erfundenen Ersatz-IDs. Allgemeine Text-, Loft-, Offset- und Split-Arbeiten bleiben in ihren bereits vorhandenen Arbeitspaketen.",
+      "sources": [
+        "[Onshape std-Verträge](https://cad.onshape.com/FsDoc/library.html)",
+        "[Gepinnter MIT-Query-Code](https://github.com/javawizard/onshape-std-library-mirror/blob/a2a7b13ea823f144b20d27198043aea35a64d928/query.fs)",
+        "[Gepinnter Evaluator-Code](https://github.com/javawizard/onshape-std-library-mirror/blob/a2a7b13ea823f144b20d27198043aea35a64d928/evaluate.fs)",
+        "<repo>/src/library.mjs:730",
+        "<repo>/src/queries.mjs:714"
+      ]
+    },
+    {
+      "name": "Analytische Query-Primitiven mit echten Fehlerschranken",
+      "fitForWonky": "Geometrische Entscheidungen bleiben in Bend. Linie/Kreis/Plane und vollständiger endlicher Zylindermantel haben geschlossene Formen. Beim Mantel auf der Achse gilt d=sqrt(r²+axialGap²), nicht 'kein eindeutiger Punkt, also kein Abstand'. Zuerst exakte Inzidenz-/Typentscheidungen, danach bewiesene Fehlerintervalle; unentscheidbare Tie-/Trim-Grenzen benannt verweigern. GTE behandelt beim Kreis explizit equidistant statt Division durch null. OCCT bietet Trägerextrema plus Trim-Prüfung als Lernquelle und unabhängige Kontrolle.",
+      "risks": "OCCT Extrema_ExtPElS gibt im Point-Cylinder-Achsenfall selbst IsDone=false zurück; dieser Low-Level-Aufruf ist kein universeller Oracle. Der Vollmantel-Ausdruck gilt nicht blind für beliebige getrimmte Flächen mit Löchern. Aktuelle GUARD_FACTOR-Margen sind keine zertifizierten Intervalle. Weltkoordinatengröße darf keine geometrische Toleranz vergrößern.",
+      "sources": [
+        "[OCCT 7.9 Point-Surface-Extrema](https://github.com/Open-Cascade-SAS/OCCT/blob/V7_9_0/src/Extrema/Extrema_ExtPElS.cxx)",
+        "[OCCT Trim-/Distance-Code](https://github.com/Open-Cascade-SAS/OCCT/blob/V7_9_0/src/BRepExtrema/BRepExtrema_DistanceSS.cxx)",
+        "[GTE Point-Circle mit equidistant](https://github.com/davideberly/GeometricTools/blob/master/GTE/Mathematics/DistPoint3Circle3.h)",
+        "<repo>/src/queries.mjs:246",
+        "<repo>/src/queries.mjs:491"
+      ]
+    },
+    {
+      "name": "Tracer als anderes Ausführungsmodell, nicht als Coverage-Nachweis",
+      "fitForWonky": "Kurzfristig gemeinsamen Value-/Query-Vertrag verwenden, DESCRIPTION und unitless nachziehen und echte GraphBreaks mit Quelle melden. Eager bleibt der R20-Akzeptanzpfad. Wenn dataflow produktiv benötigt wird, das bereits geplante Flush/Measure/Resume an den jetzt gemessenen vier evVolume-Barrieren umsetzen; niemals Messungen durch erfundene Werte oder verschwundene Assertions ersetzen.",
+      "risks": "R20 führt nach Blends Messungen und neue Selektionen aus. Ein fertiger symbolischer Graph beweist weder Geometrie noch Refusal-Verhalten. Nicht geprüfte expect.count-Spekulationen und abweichende std-Overloads können scheinbar erfolgreiche Traces erzeugen. Neue Staging-Infrastruktur ist für das reine eager R20-Ziel kein Pflichtprojekt.",
+      "sources": [
+        "<repo>/src/lang/dataflow/fs-trace.mjs:196",
+        "<repo>/src/lang/dataflow/fs-values.mjs:16",
+        "<repo>/docs/language/proposal-dataflow.md:173"
+      ]
+    },
+    {
+      "name": "Unabhängige Oracles, keine Selector- oder Mesh-Abkürzung",
+      "fitForWonky": "Closed-form Antworten für Punkt/Linie/Kreis/Plane zuerst; anschließend OCCT über uv für getrimmte STEP-Geometrie und vorhandene eingefrorene Onshape-Ergebnisse für FS-spezifische Semantik. Öffentliche Onshape-Dokumentation garantiert alle qClosestTo-Ties innerhalb TOLERANCE.zeroLength. Eine spätere AABB-Struktur darf Kandidaten ausschließen, aber nicht die analytische Antwort ersetzen.",
+      "risks": "CadQuery NearestToPointSelector vergleicht bei Faces/Edges deren Center, nicht den minimalen geometrischen Abstand. CGAL closest_point liefert einen beliebigen Gewinner und auf Dreiecken die Distanz zur Dreiecksmenge, keine automatische Schranke zur ursprünglichen CAD-Fläche. Weder dieser Selector noch eine Manifold-/Mesh-Antwort ist ein korrekter qClosestTo-Ersatz. OCCT bleibt ausschließlich Oracle, niemals Produktionsfallback.",
+      "sources": [
+        "[CadQuery Selector-Implementierung](https://github.com/CadQuery/cadquery/blob/master/cadquery/selectors.py)",
+        "[CGAL AABB-Distanzverträge](https://doc.cgal.org/latest/AABB_tree/index.html)",
+        "[Onshape qClosestTo](https://cad.onshape.com/FsDoc/library.html#qClosestTo-Query-Vector)",
+        "[Onshape transiente Queries](https://cad.onshape.com/FsDoc/library.html#evaluateQuery-Context-Query)",
+        "<repo>/AGENTS.md:3"
+      ]
+    }
+  ],
+  "recommendation": "Zuerst stille Falschantworten schließen (FSQ-01 und Sketch-Teil von FSQ-03), danach Return mit echten Kurven-Evaluatoren freischalten (FSQ-02), parallel die kleine Fehler-Provenance FSQ-05. Anschließend die häufigen vorhandene-Geometrie-Adapter FSQ-06 und Tracer-Parität FSQ-07. Nicht aus 6/7 Studios ohne fehlenden Funktionsnamen auf 6/7 erfolgreiche Modelle schließen. qCompressed trotz 214 Call-Sites nicht vor portablem opTransform oder Return priorisieren; skText, allgemeine Lofts und evDistance/Collision an die vorhandenen Forschungspläne anbinden. FSQ-09 nur bei tatsächlichem Bedarf für produktives Dataflow, nicht als Voraussetzung für eager R20. Summe der neun Pakete: 6.25 Agent-Tage, davon 1.5 optionales Staging; Annahme 1 Agent-Tag = 8 Stunden Agent-Wall-Time einschließlich Verifikation, grob ±50 %, keine Wartezeiten für neue Referenzcaptures. Ergebnisdatei: <repo>/tmp/research/gaps/featurescript-coverage.json; Checkpoint: local-development-evidence Es wurde noch keine dieser Fähigkeiten implementiert.",
+  "packages": [
+    {
+      "title": "FSQ-01: Coincidence-Bounds und evBox3d-Optionen korrekt auswerten",
+      "scope": "In <repo>/src/queries.mjs:316 die unbeschränkte byPoints-Akzeptanz entfernen. Exakte Prädikate erhalten; lokal bezogene, begründete numerische Schranken verwenden, bei zu großer Unsicherheit verweigern statt Toleranz erweitern. evBox3d.cSys für polyhedrale Körper/Vertices durch echte lokale Extrema auswerten; für nicht abgedeckte analytische Face-/Edge-Boxen benannte Refusal. Kein Ignorieren unbekannter geometrisch wirksamer Optionen.",
+      "acceptance": "Minimalrepro: Punkt 0.0001 mm neben z=0 bleibt nach Translation um 1e8 mm außerhalb oder liefert eine benannte Unsicherheit, niemals Coincidence; tatsächlich inzidente Punkte bleiben ausgewählt. Oracle: exakte Skalarprodukte und Translationsinvarianz. Box x=10..12 in cSys mit Ursprung 10 ergibt 0..2, zusätzlich 90°-Rotation gegen Closed Form und unabhängige OCCT-Box. Planted negatives: alter unbeschränkter margin-Branch bzw. ignoriertes cSys müssen scheitern. Grenzband nicht durch vergrößertes epsilon grün machen.",
+      "estimateAgentDays": 0.5,
+      "r20Impact": "Schützt die Plane-basierten Kantenwahlen in edge.fs:775-818 und tray.fs:1034-1077; cSys ist allgemeine Onshape-Kompatibilität, kein aktueller R20-Call."
+    },
+    {
+      "title": "FSQ-02: Return-Kurven lesen, ohne Kurven zu approximieren",
+      "scope": "evCurveDefinition für vorhandene Line/Circle/Ellipse-Carrier mit echten std-Tags/CoordSystem; evEdgeTangentLine zunächst für lineare Segmente und Kreis-Arcs mit 0..1-Arc-Length-Parametrisierung. Geometrieauswertung in Bend, einschließlich Edge-Sense und Parameterbereich. Ellipsen-Arc-Length und nicht unterstützte face-Orientierungsoptionen ausdrücklich verweigern, bis eine gebundene Lösung vorliegt. Source <repo>/src/queries.mjs neben evLine erweitern.",
+      "acceptance": "Eingefrorene Auszüge aus ~/Workspace/cad/cad-project-041/single-step-r20/build/studios/return.fs:884-924 und :1346-1373 finden die gleichen ARM-Randkanten sowie RET_HUB-Ringe r=25 bei x=133.8 und r=11 bei x=152.3 mm. Oracle: analytische End-/Mittelpunktformeln, Kreisparameter sowie OCCT auf dem eingefrorenen Revolve-STEP; vorhandene Onshape-Capture nur falls vorhanden. Danach withBlends=true ausführen und verbleibende Kernelrefusal getrennt berichten. Planted negatives: vertauschte Kantenorientierung, Grad/Radiant-Fehler, falscher Kreis-CoordSystem-Ursprung und uniformer Ellipsenparameter als angebliche Arc-Length müssen entdeckt werden.",
+      "estimateAgentDays": 0.75,
+      "r20Impact": "Entfernt die zwei tatsächlich fehlenden Builtin-Namen des Return-Blendpfads. Garantiert noch keine erfolgreiche gesamte Fillet-/Boolean-Kette.",
+      "dependsOn": [
+        "FSQ-01"
+      ]
+    },
+    {
+      "title": "FSQ-03: Sketch-Selektionen und typisierte Query-Mengen",
+      "scope": "qCreatedBy auf gelösten einfachen Sketches muss deren echte Vertices/Edges liefern statt still []. qGeometry auf inkompatiblen Topologietypen nach belegtem std-Vertrag behandeln; unklare Fälle weiter benannt verweigern. qOwnerBody, qEntityFilter und qNthElement für tatsächlich vorhandene Topologie ergänzen, negative Indizes und qUnion-Reihenfolge beachten. Keine Nachbildung von Onshapes beliebiger interner Entity-Reihenfolge versprechen. Transiente ausgewertete Face-/Edge-Referenzen an die Body-Revision binden und bei verlorener Zuordnung verweigern statt alte Indizes erneut verwenden; überlebende Referenzen nur mit realer Historienzuordnung weiterführen.",
+      "acceptance": "Minimal: gelöstes 10x10-Rechteck hat vier geometrische Ecken und vier Linien; qClosestTo zur Ecke wählt die richtige, qOwnerBody/qEntityFilter sind mengenrichtig. Reales Motiv: ~/Workspace/cad/cad-project-014/bottom-drive-purpose-2026-09-19/src/drive-purpose.fs:45. Oracle: analytische Sketch-Koordinaten, std-Mengenvertrag, OCCT-Wiretopologie ohne Parasolid-Seam-Gleichheitsannahme. qNthElement auf explizit geordneter qUnion prüft 0 und -1. Planted negatives: erzwungenes [] bei Sketch-VERTEX, Vertex als LINE klassifiziert, vertauschte Union-Reihenfolge und Wiederverwendung eines renummerierten Edge-Index nach Blend müssen fehlschlagen. Ein solcher Blend darf nicht still eine andere Kante bearbeiten.",
+      "estimateAgentDays": 1,
+      "r20Impact": "Verhindert scheinbar leere Geometrieauswahl und sichert Return-Selektionen zwischen Fillet/Chamfer. Breiter Korpusnutzen für die 24 qClosestTo(qCreatedBy(...))-Stellen; reine Registrierung reicht dort derzeit nicht.",
+      "dependsOn": [
+        "FSQ-01"
+      ]
+    },
+    {
+      "title": "FSQ-04: Eindeutige Distanz trotz nicht eindeutigem nächsten Punkt",
+      "scope": "qClosestTo auf der Achse eines vollständigen endlichen Zylindermantels analytisch lösen. Rechteckig getrimmte Mantelbereiche nur nach bewiesener Domain-Zulassung; beliebige Löcher/Trims nicht durch Carrier-Distanz ersetzen. Vorhandene alle-Ties-Semantik und Entfernungsschranken beibehalten bzw. zertifizieren. Bereits funktionierende Kreis-Edge-Achsenselektion unverändert lassen.",
+      "acceptance": "Zylinder r=2, z=0..10: Mantelabstand vom Achsenpunkt z=5 ist 2, von z=13 ist sqrt(13) mm. Zwei gleich weit entfernte Mantelflächen werden beide ausgewählt; knapp jenseits zeroLength nur der sichere Gewinner. Oracle: Closed Forms zuerst, OCCT-BRep-Abstand zusätzlich; IsDone=false des OCCT-Trägerextrema ist kein Gegenbeweis. Planted negatives: Division durch rho=0, nur erster Tie-Gewinner, Verwendung der unendlichen Manteldistanz außerhalb der Höhe sowie unzulässiger Trim mit Loch müssen erkannt werden.",
+      "estimateAgentDays": 0.5,
+      "r20Impact": "Bekannter Query-Gap für künftige Wellen-/Lager-/Kameraauswahl. Nicht fälschlich als Blocker der heutigen tray.fs-Kreis-Edge-Auswahl verkaufen.",
+      "dependsOn": [
+        "FSQ-01"
+      ]
+    },
+    {
+      "title": "FSQ-05: Strukturierte Refusal-Provenance bis in Helpers",
+      "scope": "An Parse/Interpreter/Build/Tracer-Grenzen sourcePath, innere Fehlerposition, Feature-/Operation-Id und echte FS-Helper-Frames an Fehler hängen. Nicht nur op/sk beobachten; unbekannte Builtin-Namen und ev/query-Refusals einschließen. Vorhandenes CLI-format(filename) und r20ErrorRecord wiederverwenden. Keine besondere Debug-Konfiguration voraussetzen.",
+      "acceptance": "Ein eingefrorenes FS-Programm ruft helperA -> helperB -> nicht unterstützte evCurveDefinition in try silent auf. API und Tracer melden absoluten Modelpfad, tatsächliche innere Zeile und beide Helper-Frames; CLI/R20-error.json behalten ihren bisherigen korrekten Pfad. Oracle: feste Positionen im kleinen Quelltext, unabhängig aus dem Fixture gelesen. Planted negatives: sourcePath an einer Grenze entfernen, den inneren Ort durch den äußeren ersetzen oder UnsupportedFeatureError catchable machen müssen scheitern. Auch Parsefehler vor dem ersten Modeling-Aufruf prüfen.",
+      "estimateAgentDays": 0.25,
+      "r20Impact": "Return-Refusals nennen das Modell und den aufrufenden R20-Helper statt nur eine Zeile im gemeinsamen Code; beschleunigt alle nächsten Moduliterationen."
+    },
+    {
+      "title": "FSQ-06: Häufige std-Adapter auf bereits vorhandene Geometrie",
+      "scope": "opTransform für proper rigid transforms in-place auf Body-Records mit korrekter Historie/Properties implementieren, statt opPattern-Kopie plus Delete zu simulieren. fCylinder und belegte reine Value-Wrapper wie startsWith ergänzen. opLoft.bodyType=SOLID für den bereits unterstützten koaxialen Kreisfall zulassen; andere BodyTypes und allgemeine Profile weiter explizit verweigern. Spiegelung, Skalierung und allgemeine Lofts sind separate Fähigkeiten, keine stillen Sonderfälle.",
+      "acceptance": "Frozen-Auszug des Guide-Positionsschritts aus ~/Workspace/cad/cad-project-002/funnel-holder-r2/guide-r2.fs:90 und des koaxialen guideCountersink aus ~/Workspace/cad/cad-project-002/funnel-holder-r4/guide-r4.fs:137-148. Oracle: starre Transformation erhält Volumen, verschiebt Bounds exakt; Frustumvolumen pi*h*(r0²+r0*r1+r1²)/3 sowie OCCT-STEP. Planted negatives: zusätzliche Kopie, doppelte Transformation, verlorener Name, unerlaubte Spiegelung und still akzeptiertes bodyType:SHEET. fCylinder gegen pi*r²*h, startsWith gegen gepinnten std-Vertrag einschließlich Leerstring prüfen.",
+      "estimateAgentDays": 0.75,
+      "r20Impact": "Höchster portabler Korpushebel: opTransform 725, fCylinder 410 eindeutige Sites. Plausibler Nutzen für Kamera/Frame/Chute-Platzierungen, aber deren R20-Studioquellen existieren noch nicht."
+    },
+    {
+      "title": "FSQ-07: Eager/Tracer-Verträge vereinheitlichen",
+      "scope": "Gemeinsame reine Values/Enums und Query-Overload-Validierung statt divergierender Keep-Liste plus veralteten fs-values-Kopien. unitless und DESCRIPTION-Metadaten korrekt tracen. qUnion/qIntersection-Overloads, qOwnedByBody ohne Typ, qCreatedBy ohne Typ und qEverything nicht anders interpretieren als die produktive Bibliothek; soweit eine Semantik noch fehlt, auch im Tracer ehrlich verweigern. GraphBreak bleibt eigener Status.",
+      "acceptance": "Die sieben unveränderten eingefrorenen R20-Studios verlieren die drei künstlichen ersten Blocker (context/datums DESCRIPTION, probe unitless); vier echte evVolume-Barrieren bleiben als solche sichtbar, bis FSQ-09 existiert. Oracle: public std-Verträge plus eager/trace-Differentiallauf, nicht nur gegenseitige Übereinstimmung. Planted negatives: qOwnedByBody ohne Typ zu FACE reduzieren, qUnion(a,b) nur im Tracer ablehnen, ungefiltertes qEverything als vollständig ausgeben und unüberprüftes expect.count akzeptieren müssen scheitern.",
+      "estimateAgentDays": 0.5,
+      "r20Impact": "Verhindert falsche Coverage-Reports und unnötige Tracer-Abbrüche. Liefert selbst keine neue Kernelgeometrie.",
+      "dependsOn": [
+        "FSQ-05"
+      ]
+    },
+    {
+      "title": "FSQ-08: Günstige analytische Evaluatoren für typische Teile",
+      "scope": "Nach Return evPlane und evSurfaceDefinition für vorhandene analytische Carrier implementieren, gegebenenfalls evFaceTangentPlane nur für klar definierte Plane/Cylinder-Domains. Richtige std-Tags, Einheiten und Face-Sense zurückgeben. Allgemeines evDistance/evArea/evCollision nicht neu planen, sondern an P3 in <repo>/docs/research/llm-code-cad.md:947 anbinden. Deren Intervalle/ClashType-Abbildung bleiben Voraussetzung.",
+      "acceptance": "Minimalrepräsentant einer Platte und eines Zylinders liefert Plane-Ursprung/-Normale bzw. Cylinder-Achse/-Radius; rigid transform und umgedrehte Face-Sense mitprüfen. Oracle: Closed Forms und OCCT BRepAdaptor_Surface auf demselben STEP. Planted negatives: inverse Normale, vertauschte Meter/mm, synthetische Plane für gekrümmte Fläche und verschwiegene unsupported options müssen fehlschlagen. Belegter Korpusnutzen: evPlane 25 Sites/19 Dateien und evSurfaceDefinition 8/8, nicht die Behauptung eines vorhandenen R20-Mast-Calls.",
+      "estimateAgentDays": 0.5,
+      "r20Impact": "Erleichtert typische Onshape-Anschlussflächen und künftige Halterteile; optional hinter den belegten Return- und Cores-Anforderungen.",
+      "dependsOn": [
+        "FSQ-02",
+        "FSQ-05"
+      ]
+    },
+    {
+      "title": "FSQ-09: Bedarfsabhängig reale Measurement-Barrieren ausführen",
+      "scope": "Nur falls Dataflow ein produktiver R20-Pfad werden soll: vorhandenen Plan in <repo>/docs/language/proposal-dataflow.md:173 für Flush/Measure/Resume und count-Replay an den vier R20-evVolume-Barrieren umsetzen. Geometrische Auswertung verwendet die gleichen Bend-Dienste wie eager; FS-Kontrollfluss bekommt reale Werte und Bounds-Evidence. Keine neue Sprache, keine Phantomwerte und keine übersprungenen Modellassertions.",
+      "acceptance": "Frozen-Minimalfall aus r20Subtract/r20AssertOneBody: Platte minus Bohrung mit gemessenem Vorher/Nachher-Volumen, späterer Body-Count und bedingtem throw. Oracle: Closed-Form-Volumendifferenz, unabhängige OCCT-Validierung und gleicher eager-Ausgang. Anschließend cores/edge/return/tray bis zum nächsten tatsächlichen Kernelresultat oder benannten Capability-Gap resumieren; kein kompletter Modell-Erfolg ohne Geometrie. Planted negatives: erfundenes evVolume, deaktiviertes throw, nach Boolean falscher Count und zweimal ausgeführte Operation bei Replay müssen fehlschlagen.",
+      "estimateAgentDays": 1.5,
+      "r20Impact": "Entfernt die gemessenen vier Tracer-Measurement-Barrieren, ohne sie als fehlende eager-Kernelcapability zu missdeuten. Für eager R20 ausdrücklich nicht erforderlich.",
+      "dependsOn": [
+        "FSQ-07"
+      ]
+    }
+  ],
+  "openQuestions": [
+    "Keine vollständigen R20-Builds oder unabhängigen OCCT-/Onshape-Replays in dieser Recherche. Eager-End-to-End-Erfolg, Fillet-Ketten und die tatsächlichen nächsten Kernelblocker bleiben offen; Call-Site- und Tracer-Zahlen dürfen das nicht ersetzen.",
+    "Camera mast, frame, chute und zusätzliche feed-Komponenten fehlen als aktuelle Studios. Erst deren konkrete Quellen mit Parametern und Herkunft einfrieren; bis dahin sind passende Korpusbeispiele nur Stellvertreter. Tests dürfen nicht direkt aus ~/Workspace/cad lesen.",
+    "qGeometry auf Vertex-/Body-Mischmengen, Parent-Id-qCreatedBy, unklare Sketch-Entity-Details und qCoincidesWithPlane-Toleranz brauchen versionierte Referenzfälle. Für nicht durch öffentliche Verträge entschiedene Semantik vorhandene eingefrorene Onshape-Captures suchen oder später separat autorisierten Capture nutzen; in diesem Auftrag keine Bridge.",
+    "Return sammelt rim vor dem root-Fillet und verwendet die transienten Queries danach erneut (~/Workspace/cad/cad-project-041/single-step-r20/build/studios/return.fs:1351-1368). <repo>/src/queries.mjs:72 bindet References nur an den Record, während <repo>/src/fillet-fs.mjs:128 dessen body ersetzt. Potenzielle stale-index-Auswahl ist aus Code sichtbar, die vollständige Return-Auswirkung wurde nicht dynamisch verifiziert. Keine Garantie erfinden, dass transiente Onshape-Queries jede Mutation überleben.",
+    "Exakte Carrier-Geometrie bedeutet nicht zertifizierte arithmetische Entscheidungsintervalle. Der derzeitige Faktor-16-Guard in queries.mjs reicht als Beweis nicht. Gemeinsame Budget-/Intervallprimitive in Bend und native Query-Service-Parität bleiben abhängig von der Kernelarbeit.",
+    "qCompressed und externe Dokument-Imports benötigen portable Provenance/Topologieidentität, nicht nur neue Namensregistrierungen. Text/Regionen, allgemeine Lofts/Sweeps, Offsets und SplitPart sind weiterhin große separate Kernelarbeit; die hohen Frequenzen rechtfertigen kein paralleles Wiederholen der vorhandenen Forschung."
+  ]
+}

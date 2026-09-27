@@ -1,0 +1,176 @@
+{
+  "topic": "exact-numerics",
+  "currentState": [
+    "Ausgangspunkt ist <repo>/docs/research/robust-numerics.md, besonders §§3.1–3.3 und P1/P2/P5/P8/P9, sowie <repo>/docs/research/synthesis.md:889-933 (B1/B2). Shewchuk, Joldes/Muller-Rideau, Rump, indirekte Prädikate und feste Limb-Budgets sind dort bereits recherchiert. Neu sind hier ausführbare Gegenbeispiele, eine Korrektur des vorgeschlagenen B1-Fixes, aktuelle Fillet-Eskalation, bestätigter Bitcast und konkrete Exportfehler. Die Factsheet vom 22. September beschreibt nicht den aktuellen Fillet-Stand.",
+    "B2 bestätigt: <repo>/kernel/real.bend:15-29 benutzt Fast2Sum-renorm und eine auslöschungsanfällige Addition. Die normalisierten Paare a=(1,-2^-25), b=(-1+2^-24,-2^-25+2^-49), Bitwörter (3f800000,b3000000) und (bf7fffff,b2ffffff), bleiben unter R.renorm unverändert. Die tatsächliche Bend-JS-Funktion R.add liefert (0,0); unabhängige exakte Bruchrechnung liefert 2^-49. Das ist ein konkretes falsches Nullergebnis, nicht nur eine fehlende Fehlerschranke. R.mul:34-45 weicht ebenfalls von der publizierten Operationsfolge ab; div:47-50 und sqrt:71-84 besitzen keine nachgewiesenen Gesamtschranken.",
+    "B1 bestätigt: <repo>/kernel/intersections.bend:168-184 lässt weiterhin Exponentensumme >=151 zu. Für a=(1+2^-23)2^-52, b=(1+2^-23)2^-51 und p=(1+2^-22)2^-103 ist a*b-p=2^-149. Tatsächlicher JS-Code zertifiziert nicht Null; derselbe kompilierte Code mit ausschließlich im Speicher emuliertem FTZ der F32-Ergebnisse zertifiziert fälschlich Null. <repo>/kernel/ray.bend:91-117 verwendet diese Expansionen für Diskriminanten.",
+    "Neue Korrektur zur bisherigen Recherche: Nur 151 auf 174 anzuheben reicht NICHT. Mit a=(1+2^-23)2^-126, b=2^46, c=2^-80, d=1 beträgt die biased Exponentensumme bereits 174, aber Split(a) verliert sein subnormales Teilwort. Der tatsächliche Code im FTZ-Emulator zertifiziert a*b-c*d=0; exakt ist das Ergebnis 2^-103. Das ist ein arithmetischer Minimalrepro, kein nachgewiesener R20-Aufruf. Ein konservativer Produktpfad braucht zusätzlich normal bleibende Split-Komponenten, etwa individuelle biased Exponenten >=24, sowie passende Obergrenzen, Summen-/Seed-Prüfungen und eine Herleitung für den gesamten Operationsgraphen. <repo>/kernel/intersections.bend:119-159 übernimmt Seed-Wörter derzeit ungeprüft.",
+    "Die exakte Basis existiert: <repo>/kernel/robust-predicates.bend:31-175 decodiert endliche F32-Wörter einschließlich Subnormalen als vorzeichenbehaftete Basis-4096-Integer mal 2^-149; :214-257 enthält den gefilterten Punkt/Ebene-Test. <repo>/kernel/hybrid/corefine/gate.bend:189-248 reduziert bereits auf einen gemeinsamen Exponenten. Seine Null-Abkürzungen :195-218 benutzen jedoch F32-Vergleiche, nicht ausschließlich Bits. Deren DAZ-Verhalten muss vor GPU-Nutzung geprüft werden; hier wurde kein Hardwarefehler dieser Vergleiche behauptet.",
+    "Seit der Vorrecherche gibt es exakte gekrümmte Entscheidungen: <repo>/kernel/fillet/exact.bend:6-64,167-202 implementiert Dyadics und Q(sqrt(p1),...,sqrt(pk)) mit exakter Vorzeichenbestimmung durch Quadrieren. d_real startet stets bei Nenner 2^149, d_mul addiert die Exponenten ohne Zweierfaktoren zu entfernen. Dadurch benötigt selbst 1 zunächst 13 Basis-4096-Limbs; seine achte Potenz benötigt vor Kürzung 100 statt eines Limbs. Das ist hergeleitete Repräsentationsarbeit, keine gemessene Laufzeit. <repo>/kernel/fillet/decide.bend:14-26,175-188 bezeichnet den vorgeschalteten 2^-36*scale-Filter ausdrücklich als engineering bound, nicht als Beweis. Exakter Fallback allein legitimiert einen unbewiesenen akzeptierenden Filter nicht.",
+    "CPU-Routing ist sachlich richtig: <repo>/kernel/fillet/native.bend:23-36 dokumentiert reale Subnormal-Divergenzen bei Taschenboden z≈1e-16, Geräte-Stacküberlauf der Big-Eskalation und sehr schlechte Metal-Zeiten. Der Treiber enthält keinen Fillet-Geräteaufruf mehr. Ein übereinstimmender Metal-Build ist deshalb CPU-Parität, keine Fillet-GPU-Parität. Diese historischen Messungen wurden hier nicht wiederholt.",
+    "Die Apple-MSL-4.1-Spezifikation, §§1.6.3 und 8.1–8.5, wurde direkt gelesen: safe setzt FP contraction auf on, precise Math-Funktionen sind eine separate Einstellung, Subnormale dürfen geflusht werden, und RTNE oder RTZ sind zulässig. Die precise-Tabelle verlangt korrekt gerundete Grundoperationen und sqrt; safe allein belegt diesen gesamten Vertrag nicht. Bends gepinnter Compiler <repo>/.tools/bend-source-2.0.25/bend2/comp.ts:228-238,3323,5016-5022 emittiert clang fp contract(off) und setzt mathMode=safe, aber nicht ausdrücklich mathFloatingPointFunctions=precise. Ob das vorhandene Pragma auf dem konkreten Metal-Compiler alles Nötige verhindert, bleibt eine Probe-Frage. Open Question 8 der Vorrecherche ist dagegen erledigt: U32→F32-Bitcast ist mit U32{w}→F32{w} bereits möglich und wird in <repo>/kernel/fillet/job.bend:160-167 verwendet.",
+    "Die ±10.000-mm-Grenze ist kein einheitlicher numerischer Vertrag: <repo>/src/brep.mjs:71,141-148 prüft sie für seine Profile/Solids; <repo>/kernel/intersections.bend:45-62 erlaubt 1e10; <repo>/src/real.mjs:2-7 erlaubt 1e20; <repo>/src/fillet-op.mjs:34-40 prüft beim Split nur endliche Host-Eingaben. Eine obere Ortsgrenze verhindert weder winzige Low-Wörter noch schlechte Konditionierung. Exakte Vorzeichen beziehen sich auf die decodierten Eingangswörter, nicht automatisch auf ungerundete FeatureScript-/Python-Zahlen oder gerundete Konstruktionen.",
+    "Exportlücke bestätigt: <repo>/src/r20-export.mjs:92-104,108-138,159-165 rundet auf float32, prüft Kantenabschluss/Orientierung/Volumen, reicht achievedDeviationMm aber ohne Speicher-Rundungsanteil weiter. packStl akzeptierte einen geschlossenen Tetraeder bei Translation 9998 mm mit sämtlichen Koordinaten innerhalb ±10000 mm und 0,00023437500021827873 mm maximaler Koordinatenverschiebung. Die gleiche Form bei 512 mm verschob sich um 9,765625e-6 mm. Bei 10000 mm beträgt ein float32-ULP 0,0009765625 mm, bei 1e7 mm bereits 1 mm. <repo>/src/python.mjs:780-798 besitzt einen separaten binären STL-Konverter ohne diese Nachprüfung. Wasserdichtigkeit ersetzt weder einen Abweichungsnachweis noch einen Selbstüberschneidungstest.",
+    "R20-Verbraucher sind konkret: ~/Workspace/cad/cad-project-041/single-step-r20/build/studios/edge.fs:58-63,791-825 fordert 0,42-mm-Fase und R2-Fillets mit Materialänderungsprüfung; ~/Workspace/cad/cad-project-041/single-step-r20/build/studios/tray.fs:997-1042 enthält weitere Fillets. ~/Workspace/cad/cad-project-041/single-step-r20/build/studios/r20-motion.json:930-985 nennt geführte Spalte 1,0±0,05 mm und einen 6-mm-Mindestabstand. Tests müssen daraus eingefrorene, mit Provenienz versehene Fixtures verwenden, nicht den lebenden CAD-Baum. Arithmetic-Fixes lösen keine davon unabhängigen Feature-/STEP-Lücken.",
+    "Probe-Revisionen sind per SHA-256 im Worklog festgehalten: real.bend 5b856b7720e08f2988057fbb0c737ea27ac4e3505eb2b7bbeebdeb876e89da5a; intersections.bend f5b1bd335fa4e236c9087364842c0aa682079754af56af5824a5749850fbc88a; r20-export.mjs b126633448c08e77d5ea21b524c4b61b6b06ad7f6cece5f1ba064c2ac6c039f5. Die kleinen Fraction-Probes sind unabhängig von der Bend-Operationsfolge; die FTZ-Probes sind Emulation, kein Ersatz für Hardware-Verifikation."
+  ],
+  "approaches": [
+    {
+      "name": "Publiziertes Double-Word als Auswertungstyp, nicht als Exaktheit",
+      "fitForWonky": "B2 gezielt abschließen: AccurateDWPlusDW (Joldes Algorithmus 6), anschließend die tatsächlich benutzten Multiplikations-/Divisionsfolgen pinnen oder gesondert begrenzen. Bei u=2^-24 gelten für die passenden Algorithmen unter RTNE und ohne problematischen Exponentenbereich add <=3u²/(1-4u), korrigiert mul <5u² und div <=15u²+56u³. Diese festen skalaren Graphen passen direkt zu Bend. Jeder geometrische Filter benötigt zusätzlich eine absolute, durch den gesamten Ausdruck propagierte Schranke. Der neue normalisierte Null-Repro ist die präzisere Abnahme als eine Million Zufallspaare.",
+      "risks": "Keine dieser Schranken gilt automatisch für die aktuelle abweichende Gruppierung, beliebige Unterläufe, FTZ oder sqrt/trig. Genauere Addition ändert letzte Bits und kann Kosten erhöhen. Keine Golden-Regeneration als Korrektheitsbeweis; unabhängige Geometrieorakel bleiben maßgeblich.",
+      "sources": [
+        "https://hal.science/hal-01351529v3/document",
+        "https://hal.science/hal-02972245v2/document",
+        "https://arxiv.org/pdf/2404.05948",
+        "<repo>/docs/research/robust-numerics.md:1073-1097",
+        "<repo>/kernel/real.bend:15-84"
+      ]
+    },
+    {
+      "name": "Subnormalfreie GPU-Filter mit CPU-Eskalation statt GPU-Fillet",
+      "fitForWonky": "Bevorzugte GPU-Architektur: originale U32-Wörter bewahren, Vorprüfung ausschließlich per Bits, sichere Paare gegebenenfalls exakt mit Zweierpotenzen skalieren, einen bewiesenen normal-only Filter ausführen und Unknown-Jobs auf dem CPU-Pool aus den Originalwörtern exakt entscheiden. Eine Produktfensterprüfung muss auch Split und TwoSum schützen, nicht nur das Endprodukt. Numerische Ungewissheit darf nie als Null zurückkommen. Das vermeidet dynamische Big-Listen und Radikalbäume auf Metal und erhält echte Kontakte für den gekrümmten Kernel.",
+      "risks": "Ein gemeinsamer Scale existiert bei großer Exponentenspanne nicht immer. Schon eine normale Zahl nahe 2^-126 kann beim Split subnormale Teilwörter erzeugen. Nur hi normal, zusätzliche Expansionsterme, Ursprungverschiebung oder ein größeres Epsilon lösen das Problem nicht. Ein ScaledReal mit externem Exponenten wäre nur mit expliziter Mantissenrundung und Fehlerrest subnormalfrei, nicht als verlustfreier Ersatz beliebiger F32x2-Paare. GPU-Nutzung lohnt sich erst nach einem R20-Batchvergleich inklusive Transfers; bisherige Fillet-Messungen sprechen dagegen.",
+      "sources": [
+        "https://developer.apple.com/metal/Metal-Shading-Language-Specification.pdf",
+        "https://raw.githubusercontent.com/dougallj/applegpu/main/applegpu.py",
+        "https://arxiv.org/pdf/2208.00497",
+        "https://people.eecs.berkeley.edu/~jrs/papers/robustr.pdf",
+        "<repo>/kernel/fillet/native.bend:23-36",
+        "<repo>/kernel/intersections.bend:112-218"
+      ]
+    },
+    {
+      "name": "Normalisierte Dyadics und vorhandene Radikal-Eskalation ausbauen",
+      "fitForWonky": "GTE BSNumber liefert das passende Repräsentationsprinzip: sign*oddMantissa*2^exponent, Zweierfaktoren nach Addition/Subtraktion entfernen, Exponenten separat führen. Auf wonkys vorhandenen U32-Limbs neu implementieren; zunächst keine neue Bignum-Bibliothek und kein GMP/OCCT in Produktion. Das reduziert die heute künstlich langen 2^-149-Nenner in fillet/exact.bend. Vorzeichen radikaler Ausdrücke bleiben im vorhandenen exakten Baum. CGAL Sqrt_extension bestätigt das Modell a0+a1*sqrt(root), verlangt aber gleiche Erweiterungsbasis; deren Identität muss auch wonky bewahren. Feste Limb-Budgets erst für nachgewiesene einzelne Polynome, nicht pauschal für Radikalbäume.",
+      "risks": "Quadrieren kann algebraischen Grad und Bitbedarf stark erhöhen; Normalisierung beseitigt nur vermeidbare Null-Limbs. Exponenten müssen überlaufgeprüft sein, Nat ist kein beliebig großer Integer. Ein gemeinsamer Exponent mit massiv auseinanderliegenden Werten kann weiterhin große Mantissen benötigen. CPU-Listen versus feste U32-Tupel ist eine Messfrage; die GPU bekommt nicht den rekursiven Baum. GTE-Konzepte sind BSL-1.0, CGAL-Code hat paketabhängige Lizenzbedingungen; hier wird kein fremder Produktionscode eingebunden.",
+      "sources": [
+        "https://www.geometrictools.com/GTE/Mathematics/BSNumber.h",
+        "https://www.geometrictools.com/GTE/Mathematics/UIntegerALU32.h",
+        "https://doc.cgal.org/latest/Number_types/classCGAL_1_1Sqrt__extension.html",
+        "https://arxiv.org/html/2405.12949",
+        "<repo>/kernel/fillet/exact.bend:25-64,167-202",
+        "<repo>/kernel/hybrid/corefine/gate.bend:189-248"
+      ]
+    },
+    {
+      "name": "RN-Intervalle für Filter, exakte Wurzelisolation für gekrümmte Grenzfälle",
+      "fitForWonky": "GTE SWInterval verwendet nextafter nach den Operationen; CGAL Filtered_predicate akzeptiert nur sichere Intervallergebnisse und eskaliert sonst. Bends bereits vorhandener U32/F32-Bitcast erlaubt einen eigenen nextUp/nextDown ohne Compilererweiterung. Zuerst CPU-Intervalle für konkrete Fillet-Grenzausdrücke, mit explizitem Status bei Null im Divisor oder ungültigen Operanden. Für schmale Wurzelboxen dyadische oder F32x2-Endpunkte verwenden und Diskriminante/Endpunkttests exakt aus Originalkoeffizienten berechnen. Neu gegenüber P9: Ein bloßes binary32-Intervall um sqrt(2) kann niemals Breite 2^-40 erreichen, weil dort ein ULP 2^-23 ist.",
+      "risks": "CGALs FPU-Moduswächter ist nicht unverändert nach Bend/Metal portierbar; GTE-nextafter um ein geflushtes Ergebnis zertifiziert FTZ/DAZ nicht. Rundung der Schranken selbst muss nach außen erfolgen. Ein kleiner Newton-Residual beweist weder Existenz noch Eindeutigkeit. Mehrfachwurzeln brauchen exakte algebraische Prüfung; Iterationsende liefert Unresolved und niemals ExactlyZero. F32-Filterintervalle sind zunächst grob, die exakte Stufe muss reale Grenzfälle weiterhin bauen.",
+      "sources": [
+        "https://www.geometrictools.com/GTE/Mathematics/SWInterval.h",
+        "https://raw.githubusercontent.com/CGAL/cgal/master/Filtered_kernel/include/CGAL/Filtered_predicate.h",
+        "https://doc.cgal.org/latest/Algebraic_kernel_d/classCGAL_1_1Algebraic__kernel__d__1.html",
+        "<repo>/docs/research/robust-numerics.md:672-706,1099-1121",
+        "<repo>/kernel/fillet/job.bend:160-167",
+        "<repo>/kernel/fillet/decide.bend:14-26,175-188"
+      ]
+    },
+    {
+      "name": "Software-IEEE über U32 als vollständige Paritätsoption, vorerst zurückstellen",
+      "fitForWonky": "SoftFloat zeigt den vollständigen Ausweg aus GPU-Floating-Point-Semantik: Binär32-Wörter als Integer decodieren, Signifikanden arithmetisch bearbeiten, Guard/Round/Sticky-Bits und explizites RTNE einschließlich Subnormalen. Ein Bend-eigener kleiner Soft-F32-Kern könnte später targetgleiche add/mul/div/sqrt liefern; SoftFloat/TestFloat dienen dabei nur als unabhängige Orakel. Das ist sinnvoll, falls bitidentische allgemeine GPU-Auswertung tatsächlich Produktanforderung wird, nicht als Voraussetzung für R20.",
+      "risks": "SoftFloat f32_mul.c:104-112 und f32_div.c:119-151 benutzen 64-Bit-Produkte bzw. Reste. Bend braucht dafür explizite Zwei-U32-/Halblimb-Arithmetik und Carry-/Sticky-Beweise. Dies ist keine direkte Library-Verlinkung und kein billiger Zwei-Float-Patch. Deutlich mehr Arbeit als gefilterte CPU-Eskalation; kein Performancegewinn nachgewiesen. TestFloat selbst warnt, schwierige Division-/sqrt-Rundungsfälle nicht besonders gut abzudecken.",
+      "sources": [
+        "https://www.jhauser.us/arithmetic/SoftFloat-3/doc/SoftFloat.html",
+        "https://raw.githubusercontent.com/ucb-bar/berkeley-softfloat-3/master/source/f32_mul.c",
+        "https://raw.githubusercontent.com/ucb-bar/berkeley-softfloat-3/master/source/f32_div.c",
+        "https://www.jhauser.us/arithmetic/TestFloat.html"
+      ]
+    },
+    {
+      "name": "Kommerzielle Toleranzverträge als Vergleich, nicht als numerischer Beweis",
+      "fitForWonky": "Die vorhandene Parasolid-/ACIS-Recherche bleibt gültig: Parasolid dokumentiert standardmäßig 1e-8 bei Weltgröße 1e3 und tolerante Kanten/Vertices; ACIS kann near-coincidence durch tolerante Entitäten erzwingen. Übernehmen sollte wonky explizite Einheiten, getrennte Repräsentations-/Konstruktions-/Exportbudgets und benannte Grenzen. Für STL ist die Speicherquantisierung eine eigene Approximation zusätzlich zur Tessellierung, auch wenn der B-rep-Träger analytisch exakt bleibt. R20-Weltkoordinaten dürfen für einen schöneren Präzisionswert nicht still neu zentriert werden.",
+      "risks": "Herstellerdokumentation legt keine exakte interne Arithmetik oder zertifizierten FTZ-Vertrag offen. Kommerzielle Toleranzen nicht als Epsilon für ExactlyZero übernehmen; toleranzbedingte Verschmelzung ändert die Frage. Ein geschlossenes STL kann trotz kleinem Rundungsbetrag selbstüberschneiden oder Features verlieren. Aktuelle Onshape-Forum-Inhalte waren hinter SSO; keine neuen Live-Onshape-Zahlen werden behauptet.",
+      "sources": [
+        "http://www.q-solid.com/Parasolid_Docs_V35/pdf/ov.pdf",
+        "http://www.q-solid.com/ACIS_Docs_R17/online/SPAacisuserTechArticles/SPAacisuser_mointrbool.htm",
+        "<repo>/docs/research/sources/overview-of-parasolid-v35-july-2022.md:41-48",
+        "<repo>/docs/research/sources/acis-r17-user-guide-booleans-technical-article.md:68-74",
+        "<repo>/src/r20-export.mjs:92-165"
+      ]
+    }
+  ],
+  "recommendation": "CPU-first beibehalten. Zuerst EN1, EN2 und EN5: vollständigen B1-Schutz statt des unzureichenden 174-Einzeilers, nachgewiesen falsche R.add-Null beseitigen und STL-Speicherfehler ehrlich begrenzen. Danach vorhandene exakte Dyadics normalisieren und die Fillet-Filter tatsächlich zertifizieren; keinen zweiten exakten Kernel bauen. Ein kompletter subnormalfreier Real-Ersatz oder allgemeiner GPU-Fillet ist für R20 derzeit nicht gerechtfertigt. Aufwandannahme: 1 Agent-Tag = 8 Stunden aktive Agent-Walltime einschließlich fokussierter Verifikation, keine menschlichen Kalendertage; orientiert an 1–3 Stunden für kleine Fixes und etwa 8 Stunden für fünf R20-Hybrid-Ursachen. EN1+EN2+EN5: 1,75 Agent-Tage; Produktionspakete EN1–EN6 zusammen 4,5, optional EN7 weitere 1,0. Schätzungen, keine gemessenen Lieferzusagen. Nur Ergebnis-JSON und Worklog wurden geschrieben; Source, Tests und Docs blieben unverändert.",
+  "packages": [
+    {
+      "title": "EN1: B1 vollständig schließen und Target-Arithmetik qualifizieren",
+      "scope": "In <repo>/kernel/intersections.bend alle Seed-, Split-, Produkt- und Summenannahmen prüfen, bitbasierte Null-/Finite-Prüfungen verwenden und außerhalb des bewiesenen Fensters den vorhandenen Integer-Pfad für die betroffenen Nullpolynome nutzen. Die Summe 174 allein ist ausdrücklich keine Lösung. Kleiner U32-in/U32-out-Probe für RTNE-Ties, Kontraktion, FTZ/DAZ, Vergleich mit Subnormalen, div/sqrt und Bittransport auf JS/cpu1/cpuN/echtem Metal. Präzise Math-Funktionen und Contract-off der tatsächlich gepinnten Toolchain prüfen; bei fehlendem Vertrag CPU-Routing behalten. Kein komplettes Fillet neu auf GPU bauen.",
+      "acceptance": "Minimalrepros: beide oben angegebenen Produktdifferenzen müssen exakt Nichtnull ergeben oder vor dem Float-Pfad sicher eskalieren; weder 2^-149 noch 2^-103 darf ExactlyZero werden. Tatsächliches Metal muss mindestens einen Gerätepass für den kleinen Probe ausführen; ein Metal-Build ohne Dispatch zählt nicht. Oracle: unabhängige Integer-/Fraction-Auswertung der Eingangswörter und gezielte SoftFloat-Rundungsvektoren. Gepflanztes Negativ: nur 151→174 ändern beziehungsweise einen subnormalen Seed als Null behandeln; die Abnahme muss scheitern. Gefrorene R20-Taschen-/R2-Grenzfälle behalten CPU-Geometrie und korrekt benannte Ergebnisse.",
+      "estimateAgentDays": 0.75,
+      "r20Impact": "Verhindert falsche Degenerationszertifikate und schützt die bereits beobachteten Taschenboden-Low-Wörter. Liefert sichere Rechnung oder CPU-Eskalation, nicht nur zusätzliche Refusals.",
+      "dependsOn": []
+    },
+    {
+      "title": "EN2: AccurateDWPlusDW und überprüfbare Real-Operationsfolgen",
+      "scope": "In <repo>/kernel/real.bend R.add durch die genaue publizierte Folge ersetzen; keine allgemeine sloppy-API ohne konkreten Verbraucher. Multiplikationsfolge auf DWTimesDW1 abgleichen oder ihre eigene Schranke herleiten; Normalisierung und zulässigen Exponentenbereich festlegen. Die davon abhängigen absoluten Filterannahmen in <repo>/kernel/hybrid/corefine/gate.bend überprüfen. Division/sqrt nicht allein durch Analogie als zertifiziert deklarieren.",
+      "acceptance": "Der normalisierte Bitpaar-Repro (3f800000,b3000000)+(bf7fffff,b2ffffff) liefert exakt 2^-49. Muller-Rideau-Property-2.1 und ein begrenzter adjacent-word/cancellation-Sweep erfüllen die jeweilige relative Schranke, mit gesonderter Behandlung des exakten Nullfalls und außerhalb liegender Exponenten. Oracle: BigInt/Fraction auf den Wörtern, nicht binary64 als vermeintlich beliebig genaues Referenzergebnis. Gepflanztes Negativ: alte R.add-Folge zurücksetzen, der konkrete Repro fällt durch. Für eingefrorene R20-Fillets stimmen Topologie, Materialänderungsrichtung und analytische Maße; letzte Bits dürfen sich nur mit unabhängig erklärter Geometrie ändern. CPU/JS-Wortparität und ein Kostenvergleich vor/nach werden separat ausgewiesen.",
+      "estimateAgentDays": 0.5,
+      "r20Impact": "Beseitigt einen real nachgewiesenen falschen Gleichstand bei Auslöschung, relevant für kurze Kanten, Offsets und lokale Schnittpunkte.",
+      "dependsOn": [
+        "EN1"
+      ]
+    },
+    {
+      "title": "EN3: Fillet-Dyadics normalisieren und exakte Eskalation begrenzen",
+      "scope": "Die bestehende D-Repräsentation in <repo>/kernel/fillet/exact.bend um exakte Zweierfaktor-Kürzung beziehungsweise odd mantissa plus überlaufgeprüften Exponenten ergänzen. <repo>/kernel/robust-predicates.bend bleibt die wiederverwendete U32-Arithmetik. Radikandenbasis unveränderlich zuordnen, limb-/degree-Verbrauch begrenzen und echte CapacityExceeded/Undefined-Ergebnisse von ExactlyZero trennen. Keine generelle Festbreiten-GPU-Bignum-Implementierung in diesem Paket.",
+      "acceptance": "1 und seine achte Potenz repräsentieren sich normalisiert mit einem Mantissen-Limb, nicht 13 beziehungsweise 100. Grenzfamilien r=w, r=rho und jeweils exakt ±ein Eingabeschritt für einen minimalen Box-/Zylinder-Fillet behalten ihre exakten Vorzeichen und Boundary-Topologien. Oracle: unabhängige rationale und algebraische Rechnung, zum Beispiel SymPy RootOf/geschlossene Formen via uv; OCCT nur ergänzend für den B-rep, nicht als Null-Orakel. Gepflanzte Negative: Exponentenverschiebung um ein Bit, zu kleines Limb-Budget und falsche Radikandenbasis; entweder Oracle-Mismatch oder benannte Kapazitäts-/Basisverletzung, niemals Null/Erfolg. CPU-Laufzeit und Spitzen-Limbs auf denselben R20-Grenzjobs vor/nach messen.",
+      "estimateAgentDays": 0.75,
+      "r20Impact": "Reduziert unnötige Big-Arbeit beim vorhandenen R2-Fillet und macht schwierige exakte Grenzen kontrollierbar, ohne Material in einer Toleranz zu verschlucken.",
+      "dependsOn": [
+        "EN1"
+      ]
+    },
+    {
+      "title": "EN4: Zertifizierte Filter für konkrete gekrümmte Entscheidungen",
+      "scope": "Den engineering-only Filter in <repo>/kernel/fillet/decide.bend für width/rho/chord-Ausdrücke durch aus den Originalwörtern berechnete RN-Intervalle oder bewiesene absolute Fehlerbälle ersetzen. Vorhandene exakte Radikalformen bleiben der Fallback. Bitbasiertes nextUp/nextDown unter CPU-Vertrag wiederverwenden. Als begrenzten Wurzelverbraucher in <repo>/kernel/ray.bend exakte Diskriminanten plus dyadische Isolation für quadratische Wurzeln integrieren; kein allgemeiner SSI-/Newton-Rewrite.",
+      "acceptance": "Gefrorene R20-edge-R2- und tray-Grenzfälle sowie minimale Linie/Zylinder-Fälle: jede akzeptierte Filterentscheidung stimmt mit dem unabhängigen exakten Koeffizienten-/Radikalorakel überein. x²-2 bekommt dyadische Endpunkte mit exakt nachgeprüften Quadraten und Breite <=2^-40; keine unmögliche F32-Endpunktforderung. Eine echte doppelte Wurzel wird durch exakte Diskriminante als Tangenz erkannt, danebenliegende Fälle als null/zwei Wurzeln; erschöpftes Isolationsbudget bleibt Unresolved. Gepflanzte Negative: nach innen gerundete Intervallgrenze, ausgelassener Low-Wort-Beitrag und frühzeitiges Abbruch→Null müssen erkannt werden. Neu zertifizierte Minimalgeometrie zusätzlich unabhängig über OCCT via uv prüfen.",
+      "estimateAgentDays": 1.5,
+      "r20Impact": "Macht die Entscheidung bauen/Boundary/Sliver/undecidable an Fillet-Grenzen begründet und erhält echte analytische Tangenz, statt das 2^-36-Band nur größer zu wählen.",
+      "dependsOn": [
+        "EN1",
+        "EN2",
+        "EN3"
+      ]
+    },
+    {
+      "title": "EN5: STL-Speicherquantisierung in den tatsächlichen Fehlervertrag aufnehmen",
+      "scope": "Gemeinsamen quantize/check/pack-Pfad für <repo>/src/r20-export.mjs und <repo>/src/python.mjs schaffen. Pro gemeinsamem Vertex die tatsächliche float32-Verschiebung nach außen begrenzen; für unveränderte Triangulierung über baryzentrische Interpolation auf die Fläche übertragen und zum bestehenden Tessellierungs-/Konstruktionsbudget addieren. Bei collapseFloat32 die topologische Änderung separat berücksichtigen; ein bloßer Kollapszähler ist kein Hausdorff-Zertifikat. Gespeichertes Mesh auf Degeneration/Selbstschnitt prüfen oder die betroffene Ausgabe benannt verweigern. R20-Weltkoordinaten beibehalten.",
+      "acceptance": "Minimaler geschlossener Tetraeder bei x=9998,01 mm: die gemessenen 0,00023437500021827873 mm sind im ausgewiesenen Gesamtbudget enthalten; eine angeforderte 1e-5-mm-Grenze darf nicht erfolgreich als eingehalten erscheinen. Dasselbe für Build123d-Binary-STL und nahe Ursprung als Positivfall. Oracle: Rohbytes rücklesen, exakte dyadische Vertexdifferenzen und geschlossene Form; für einen eingefrorenen R20-Fillet ergänzend unabhängige OCCT-Abstandsprüfung. Gepflanzte Negative: Rundungsanteil weglassen und eine dünne Lücke durch Quantisierung kollabieren lassen; beide werden erkannt. Bei Lücke/Selbstschnitt ist trotz Wasserdichtigkeit kein Erfolg erlaubt. STL-Prüfung bleibt nach dem Dateiformat-Runden, nicht davor.",
+      "estimateAgentDays": 0.5,
+      "r20Impact": "Die exportierten Druck- und Bewegungsprüfungen erhalten eine ehrliche Fehlerzahl. Bei zwei Teilen ist die Distanzunsicherheit höchstens die Summe beider ausgewiesener Formabweichungen; nahe 1,0±0,05 mm darf ein unsicheres Ergebnis nicht still als bestanden gelten.",
+      "dependsOn": []
+    },
+    {
+      "title": "EN6: Koordinaten-, Eingabe- und Geometriebudget vereinheitlichen",
+      "scope": "Die bestehenden Adapter <repo>/src/real.mjs, <repo>/src/fillet-op.mjs und <repo>/src/brep.mjs auf einen expliziten öffentlichen Orts-/Größenvertrag abstimmen; dimensionlose Richtungen und interne Polynomwerte getrennt behandeln. Binary64→F32x2-Eingaberundung, Konstruktion, Topologieentscheidung, Tessellierung und Datei-Rundung getrennt ausweisen. Exakte Zweierpotenzskalierung beziehungsweise vorhandene lokale Frames nur verwenden, wenn die Rückabbildung und ihr Budget klar sind; nicht sämtliche Zwischenwerte willkürlich bei 10000 abschneiden und nicht die Grenze einfach erhöhen.",
+      "acceptance": "Dieselbe minimale Fillet-Box über FeatureScript und Python direkt unter/auf/über der öffentlichen Grenze liefert denselben Vertrag: innerhalb korrekte Maße mit Budget, außerhalb benannte Bereichsverletzung, solange keine geprüfte lokale Darstellung existiert. Eine vorhandene lokale Darstellung muss beim Rücktransformieren Maße und Weltpose erhalten. Oracle: exakte Achsentranslation/Zweierpotenzskalierung und OCCT-Abstände auf der gefrorenen Box; R20-motion-Weltachsen und Gelenkpunkte bleiben unverändert. Gepflanztes Negativ: Fillet-Adapter ohne Bereichsprüfung beziehungsweise verschwiegenes Rücktransformations-/Eingaberunden. Ein 1e7-mm-Ergebnis darf nicht unverändert als exact im ±1e4-Vertrag gelten.",
+      "estimateAgentDays": 0.5,
+      "r20Impact": "Verhindert widersprüchliche Zusagen zwischen Frontends und hält die R20-Montage-/Bewegungskoordinaten konsistent. Erweiterung auf sehr große Weltkoordinaten bleibt ein eigenes Capability-Projekt.",
+      "dependsOn": [
+        "EN2",
+        "EN5"
+      ]
+    },
+    {
+      "title": "EN7: Optionaler flacher Metal-Filterbatch mit unverändertem CPU-Fallback",
+      "scope": "Erst nach abgeschlossener Arithmetikqualifikation einen vorhandenen, ausreichend großen Predicate-Batch als feste U32/F32-Datensätze dispatchen. Die GPU liefert sichere Vorzeichen oder Unknown; der CPU-Pool bearbeitet Unknown aus denselben Originalwörtern und fügt Antworten deterministisch nach Job-ID ein. Keine Big-Listen, Fillet-Radikalbäume oder ganzen B-reps auf dem Gerät. Nur bei messbarem End-to-End-Nutzen übernehmen, sonst den Versuch beenden und CPU-Routing behalten.",
+      "acceptance": "Auf einem gefrorenen R20-Predicate-Batch plus FTZ-/Auslöschungsfällen stimmen sämtliche zurückgegebenen Vorzeichen mit unabhängiger Integerrechnung überein und endgültige Geometrie/Fehlertexte mit dem CPU-Pfad. Nachweis echter Gerätepasses. Vorab definierter Leistungsnenner: derselbe vollständige Batch einschließlich Transfer, CPU-Rest und Merge; Gegenmetriken: Unknown-Anteil, Spitzen-Speicher und Anzahl falscher Zertifikate, letztere exakt null. Gepflanzte Negative: Unknown als Zero behandeln und einen unsicheren Exponenten durch die Vorprüfung lassen. Ohne reproduzierbaren Gesamtnutzen keine Umstellung der Produktion.",
+      "estimateAgentDays": 1,
+      "r20Impact": "Mögliche spätere Beschleunigung großer unabhängiger Prüfungen; kein notwendiger R20-Fix und ausdrücklich keine Zusage schnellerer Fillets.",
+      "dependsOn": [
+        "EN1",
+        "EN2",
+        "EN4"
+      ]
+    }
+  ],
+  "openQuestions": [
+    "Welche konkreten Apple-GPU-/SDK-Kombinationen erfüllen bei Bends emittiertem Code RTNE, wirksames contract(off), präzises div/sqrt und bitgetreuen Transport? Die aktuelle MSL-Spezifikation ist ein zulässiger Verhaltensraum, kein Messprotokoll für diesen Rechner.",
+    "Wie häufig eskalieren die aktuellen R20-Fillets tatsächlich und wie viele Limbs/Radikandstufen erreichen sie? Normalisierung hat einen eindeutigen Repräsentationsnutzen; ihr realer Zeitgewinn und die beste fixe/variable Limb-Grenze sind noch ungemessen.",
+    "Welche akzeptierenden Fillet- und corefine-Filter haben nach EN2 eine vollständig hergeleitete Schranke, welche nur große Sicherheitsfaktoren? Erfolgreiche Corpus- und Symmetrietests allein beantworten das nicht.",
+    "Reicht für das Produkt exakte Topologieentscheidung plus zertifiziert begrenzte Koordinaten, oder wird allgemeine bitidentische GPU-Auswertung verlangt? Nur die zweite Forderung würde ein umfassenderes Soft-F32-/ScaledReal-Projekt rechtfertigen; hier wird CPU-first angenommen.",
+    "Soll die öffentliche ±10000-mm-Grenze mittelfristig Weltkoordinaten oder lokale Bauteilkoordinaten beschränken? Bis zu einer bewiesenen lokalen Darstellung keine stillschweigende Bereichserweiterung. STL-Weltkoordinaten für den vorhandenen R20-Verbraucher bleiben verbindlich.",
+    "STL-Kollapsprüfung: Welche vorhandene exakte Mesh-Gate-Funktion lässt sich auf die tatsächlich gespeicherten Vertices wiederverwenden, ohne erneut schwere Geometrie zu bauen? Der aktuelle Packer prüft keine allgemeine Selbstüberschneidung; eine sichere Wiederverwendung muss an realen Kollapsfällen bestätigt werden.",
+    "Alle Pakete sind Planung, keine abgeschlossene Capability. Noch offen sind Umsetzung, unabhängige Verifikation an der Implementierungsrevision, tatsächliche native/Metal-Probes und OCCT-Geometrieorakel. Neue Live-Onshape-Vergleiche sind nicht Teil dieses Auftrags."
+  ]
+}

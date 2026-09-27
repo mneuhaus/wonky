@@ -1,0 +1,3361 @@
+{
+ "categories": {
+  "ABC": "class",
+  "ABCMeta": "class",
+  "APIHeaderSection_MakeHeader": "class",
+  "AbstractContextManager": "class",
+  "AddType": "value",
+  "Airfoil": "line-object",
+  "Align": "enum",
+  "Align2D": "value",
+  "Align3D": "value",
+  "AngularDirection": "enum",
+  "Any": "class",
+  "ApproxOption": "enum",
+  "Arrow": "sketch-object",
+  "ArrowHead": "sketch-object",
+  "AutoNameEnum": "enum",
+  "Axis": "geometry-value",
+  "AxisMeta": "class",
+  "B": "value",
+  "BRepBndLib": "class",
+  "BRepBuilderAPI_MakeFace": "class",
+  "BRepBuilderAPI_MakePolygon": "class",
+  "BRepBuilderAPI_MakeSolid": "class",
+  "BRepBuilderAPI_Sewing": "class",
+  "BRepBuilderAPI_Transform": "class",
+  "BRepGProp": "class",
+  "BRepGProp_Face": "class",
+  "BRepLib": "class",
+  "BRepMesh_IncrementalMesh": "class",
+  "BRepTools": "class",
+  "BRepTools_WireExplorer": "class",
+  "BRep_Builder": "class",
+  "BRep_Tool": "class",
+  "BSpline": "line-object",
+  "BallJoint": "joint",
+  "BaseCurveObject": "shape-class",
+  "BaseEdgeObject": "line-object",
+  "BaseLineObject": "line-object",
+  "BaseObject": "class",
+  "BaseObjectMeta": "class",
+  "BasePartObject": "part-object",
+  "BaseSketchObject": "sketch-object",
+  "Bezier": "line-object",
+  "BinaryIO": "class",
+  "BlendCurve": "line-object",
+  "Bnd_Box": "class",
+  "Bnd_OBB": "class",
+  "BoundBox": "geometry-value",
+  "Box": "part-object",
+  "BuildLine": "builder",
+  "BuildPart": "builder",
+  "BuildScope": "class",
+  "BuildSketch": "builder",
+  "Builder": "class",
+  "BytesIO": "class",
+  "CLASS_REGISTRY": "value",
+  "CM": "value",
+  "Callable": "class",
+  "CenterArc": "line-object",
+  "CenterOf": "enum",
+  "ChamferFilletType": "value",
+  "Circle": "sketch-object",
+  "ClassVar": "operation",
+  "Collection": "class",
+  "Color": "geometry-value",
+  "ColorAndLabel": "class",
+  "ColorIndex": "enum",
+  "ColorLike": "value",
+  "Comparable": "class",
+  "Compound": "shape-class",
+  "Cone": "part-object",
+  "ConstrainedArcs": "shape-class",
+  "ConstrainedLines": "shape-class",
+  "ContinuityLevel": "enum",
+  "ConvexHull": "class",
+  "ConvexPolyhedron": "part-object",
+  "Convexity": "enum",
+  "CounterBoreHole": "part-object",
+  "CounterSinkHole": "part-object",
+  "Curve": "shape-class",
+  "Cylinder": "part-object",
+  "CylindricalJoint": "joint",
+  "DEG2RAD": "value",
+  "DimensionLine": "sketch-object",
+  "DotLength": "enum",
+  "DoubleTangentArc": "line-object",
+  "Draft": "class",
+  "DraftAngleError": "class",
+  "Drawing": "class",
+  "ET": "value",
+  "Edge": "shape-class",
+  "Ellipse": "sketch-object",
+  "EllipticalCenterArc": "line-object",
+  "EllipticalStartArc": "line-object",
+  "Enum": "enum",
+  "Export2D": "class",
+  "ExportDXF": "class",
+  "ExportSVG": "class",
+  "ExtensionLine": "sketch-object",
+  "Extrinsic": "enum",
+  "FT": "value",
+  "Face": "shape-class",
+  "FilletPolyline": "line-object",
+  "FontManager": "class",
+  "FontStyle": "enum",
+  "FrameMethod": "enum",
+  "G": "value",
+  "GEOM_KEY_DIGITS": "value",
+  "GProp_GProps": "class",
+  "G_PER_LB": "value",
+  "GccEnt_enclosed": "value",
+  "GccEnt_enclosing": "value",
+  "GccEnt_outside": "value",
+  "GccEnt_unqualified": "value",
+  "Generic": "class",
+  "GeomAPI_IntCS": "class",
+  "GeomAPI_IntSS": "class",
+  "GeomAPI_ProjectPointOnSurf": "class",
+  "GeomConvert": "class",
+  "GeomConvert_BSplineCurveToBezierCurve": "class",
+  "GeomEncoder": "class",
+  "GeomType": "enum",
+  "Geom_BSplineCurve": "class",
+  "Geom_BezierCurve": "class",
+  "Geom_BoundedSurface": "class",
+  "Geom_ElementarySurface": "class",
+  "Geom_Line": "class",
+  "Geom_Plane": "class",
+  "GridLocations": "location",
+  "GroupBy": "class",
+  "HLRAlgo_Projector": "class",
+  "HLRBRep_Algo": "class",
+  "HLRBRep_HLRToShape": "class",
+  "HeadType": "enum",
+  "Helix": "line-object",
+  "HexLocations": "location",
+  "Hole": "part-object",
+  "HyperbolicCenterArc": "line-object",
+  "IFSelect_ReturnStatus": "class",
+  "IGESControl_Controller": "class",
+  "IN": "value",
+  "IndexedDataMap_TCollection_AsciiString_TCollection_AsciiString": "class",
+  "IntEnum": "enum",
+  "Interface_Static": "class",
+  "IntersectingLine": "line-object",
+  "Intrinsic": "enum",
+  "Iterable": "class",
+  "Iterator": "class",
+  "JernArc": "line-object",
+  "Joint": "joint",
+  "KG": "value",
+  "Keep": "enum",
+  "Kind": "enum",
+  "LB": "value",
+  "LengthMode": "enum",
+  "Lib3MF": "value",
+  "Line": "line-object",
+  "LineType": "enum",
+  "LinearJoint": "joint",
+  "Literal": "operation",
+  "Location": "location",
+  "LocationList": "class",
+  "Locations": "location",
+  "M": "value",
+  "MC": "value",
+  "MM": "value",
+  "Matrix": "geometry-value",
+  "MeshType": "enum",
+  "Mesher": "class",
+  "Message": "class",
+  "Message_Gravity": "class",
+  "Message_ProgressRange": "class",
+  "MirrorType": "value",
+  "Mode": "enum",
+  "Movable": "class",
+  "MovableT": "value",
+  "NotAllLocationLikeError": "class",
+  "NumberDisplay": "enum",
+  "OffsetType": "value",
+  "OrientedBoundBox": "class",
+  "PT": "value",
+  "PageSize": "enum",
+  "ParabolicCenterArc": "line-object",
+  "Part": "shape-class",
+  "Path": "class",
+  "PathDescriptor": "value",
+  "PathLike": "class",
+  "PathSegment": "value",
+  "PbrProperties": "class",
+  "Plane": "geometry-value",
+  "PlaneMeta": "class",
+  "PointLike": "value",
+  "PolarLine": "line-object",
+  "PolarLocations": "location",
+  "Polygon": "sketch-object",
+  "Polyline": "line-object",
+  "Pos": "location",
+  "PositionMode": "enum",
+  "PreOrderIter": "class",
+  "PrecisionMode": "enum",
+  "ProjectType": "value",
+  "Protocol": "class",
+  "Quantity_Color": "class",
+  "Quantity_ColorRGBA": "class",
+  "Quantity_TypeOfColor": "class",
+  "RAD2DEG": "value",
+  "RGB": "class",
+  "RWGltf_CafWriter": "class",
+  "RWStl": "class",
+  "RadiusArc": "line-object",
+  "Rectangle": "sketch-object",
+  "RectangleRounded": "sketch-object",
+  "RegularPolygon": "sketch-object",
+  "RevoluteJoint": "joint",
+  "RigidJoint": "joint",
+  "Rot": "location",
+  "Rotation": "location",
+  "RotationLike": "value",
+  "STEPCAFControl_Controller": "class",
+  "STEPCAFControl_Reader": "class",
+  "STEPCAFControl_Writer": "class",
+  "STEPControl_Controller": "class",
+  "STEPControl_StepModelType": "class",
+  "Sagitta": "enum",
+  "SagittaArc": "line-object",
+  "Select": "enum",
+  "Self": "operation",
+  "Sequence": "class",
+  "Sequence_TDF_Label": "class",
+  "Shape": "shape-class",
+  "ShapeHistory": "class",
+  "ShapeList": "shape-class",
+  "ShapeT": "value",
+  "Shell": "shape-class",
+  "Side": "enum",
+  "Sketch": "shape-class",
+  "SkipClean": "class",
+  "SlotArc": "sketch-object",
+  "SlotCenterPoint": "sketch-object",
+  "SlotCenterToCenter": "sketch-object",
+  "SlotOverall": "sketch-object",
+  "Solid": "shape-class",
+  "SortBy": "enum",
+  "Sphere": "part-object",
+  "Spline": "line-object",
+  "SplitType": "value",
+  "Standard_ConstructionError": "class",
+  "Standard_Failure": "class",
+  "StdFail_NotDone": "class",
+  "StlAPI_Writer": "class",
+  "StrEnum": "enum",
+  "Superellipse": "sketch-object",
+  "SweepType": "value",
+  "T": "value",
+  "T2": "value",
+  "TCollection_AsciiString": "class",
+  "TCollection_ExtendedString": "class",
+  "TCollection_HAsciiString": "class",
+  "TDF_Label": "class",
+  "TDataStd_Name": "class",
+  "TDocStd_Document": "class",
+  "THOU": "value",
+  "TOL": "value",
+  "TOLERANCE": "value",
+  "TOL_DIGITS": "value",
+  "TYPE_CHECKING": "value",
+  "Tangency": "enum",
+  "TangentArc": "line-object",
+  "TechnicalDrawing": "sketch-object",
+  "Text": "sketch-object",
+  "TextAlign": "enum",
+  "TextIO": "class",
+  "ThreePointArc": "line-object",
+  "TopAbs_FACE": "value",
+  "TopAbs_Orientation": "class",
+  "TopAbs_ShapeEnum": "class",
+  "TopExp_Explorer": "class",
+  "TopLoc_Location": "class",
+  "TopoDS": "value",
+  "TopoDS_Compound": "class",
+  "TopoDS_Edge": "class",
+  "TopoDS_Face": "class",
+  "TopoDS_Shape": "class",
+  "TopoDS_Shell": "class",
+  "TopoDS_Solid": "class",
+  "TopoDS_Vertex": "class",
+  "TopoDS_Wire": "class",
+  "Torus": "part-object",
+  "Transition": "enum",
+  "Trapezoid": "sketch-object",
+  "Triangle": "sketch-object",
+  "Type": "operation",
+  "TypeAlias": "operation",
+  "TypeVar": "class",
+  "UNITS_PER_KILOGRAM": "value",
+  "UNITS_PER_METER": "value",
+  "UUID": "class",
+  "Unit": "enum",
+  "Until": "enum",
+  "Vec2": "class",
+  "Vector": "geometry-value",
+  "VectorLike": "value",
+  "Vertex": "shape-class",
+  "Voronoi": "class",
+  "Wedge": "part-object",
+  "Wire": "shape-class",
+  "XCAFApp_Application": "class",
+  "XCAFDoc_ColorCurv": "value",
+  "XCAFDoc_ColorGen": "value",
+  "XCAFDoc_ColorSurf": "value",
+  "XCAFDoc_ColorTool": "class",
+  "XCAFDoc_ColorType": "class",
+  "XCAFDoc_DocumentTool": "class",
+  "XCAFDoc_ShapeTool": "class",
+  "XSControl_WorkSession": "class",
+  "abstractmethod": "operation",
+  "aci2rgb": "operation",
+  "add": "operation",
+  "all_location_like": "operation",
+  "annotations": "value",
+  "ansi_pattern": "operation",
+  "apply_location_like": "operation",
+  "atan2": "operation",
+  "auto": "class",
+  "available_fonts": "operation",
+  "bounding_box": "operation",
+  "brep_from_stl": "value",
+  "build_common": "value",
+  "build_constants": "value",
+  "build_enums": "value",
+  "build_line": "value",
+  "build_part": "value",
+  "build_sketch": "value",
+  "cast": "operation",
+  "chamfer": "operation",
+  "colorsys": "value",
+  "contextmanager": "operation",
+  "contextvars": "value",
+  "copy": "operation",
+  "copy_module": "value",
+  "copysign": "operation",
+  "cos": "operation",
+  "ctypes": "value",
+  "cycle": "class",
+  "dataclass": "operation",
+  "dataclass_field": "operation",
+  "date": "class",
+  "datetime": "class",
+  "degrees": "operation",
+  "delta": "operation",
+  "deprecated": "class",
+  "detect_primitives": "operation",
+  "downcast": "operation",
+  "draft": "operation",
+  "drafting": "value",
+  "edge": "operation",
+  "edges": "operation",
+  "edges_to_wires": "operation",
+  "export_brep": "export",
+  "export_gltf": "export",
+  "export_obj": "export",
+  "export_step": "export",
+  "export_stl": "export",
+  "export_to_pcbway": "export",
+  "exporters": "value",
+  "exporters3d": "value",
+  "extrude": "operation",
+  "ezdxf": "value",
+  "face": "operation",
+  "faces": "operation",
+  "fillet": "operation",
+  "find_max_dimension": "operation",
+  "fix": "operation",
+  "flatten_sequence": "operation",
+  "floor": "operation",
+  "fsdecode": "operation",
+  "full_round": "operation",
+  "functools": "value",
+  "gcd": "operation",
+  "geometry": "value",
+  "gp_Ax1": "class",
+  "gp_Ax2": "class",
+  "gp_Ax3": "class",
+  "gp_Dir": "class",
+  "gp_EulerSequence": "class",
+  "gp_GTrsf": "class",
+  "gp_Lin": "class",
+  "gp_Pln": "class",
+  "gp_Pnt": "class",
+  "gp_Quaternion": "class",
+  "gp_Trsf": "class",
+  "gp_Vec": "class",
+  "gp_XYZ": "class",
+  "import_brep": "import",
+  "import_dxf": "import",
+  "import_step": "import",
+  "import_stl": "import",
+  "import_svg": "import",
+  "import_svg_as_buildline_code": "import",
+  "import_svg_document": "import",
+  "importers": "value",
+  "inf": "value",
+  "inject_materials": "operation",
+  "insert": "operation",
+  "inspect": "value",
+  "io": "value",
+  "isclose_b": "operation",
+  "iso_pattern": "operation",
+  "itertools": "value",
+  "joints": "value",
+  "json": "value",
+  "loft": "operation",
+  "log10": "operation",
+  "log2": "operation",
+  "logger": "value",
+  "logging": "value",
+  "make_brake_formed": "operation",
+  "make_face": "operation",
+  "make_hull": "operation",
+  "math": "value",
+  "mesher": "value",
+  "minimize": "operation",
+  "mirror": "operation",
+  "modify_copyreg": "operation",
+  "new_edges": "operation",
+  "np": "value",
+  "objects_curve": "value",
+  "objects_part": "value",
+  "objects_sketch": "value",
+  "offset": "operation",
+  "offset_topods_face": "operation",
+  "operations_apply_to": "value",
+  "operations_generic": "value",
+  "operations_part": "value",
+  "operations_sketch": "value",
+  "os": "value",
+  "overload": "operation",
+  "pack": "operation",
+  "pack_utils": "value",
+  "permutations": "class",
+  "persistence": "value",
+  "pi": "value",
+  "polar": "operation",
+  "prod": "operation",
+  "product": "class",
+  "project": "operation",
+  "project_workplane": "operation",
+  "radians": "operation",
+  "re": "value",
+  "requests": "value",
+  "revolve": "operation",
+  "scale": "operation",
+  "section": "operation",
+  "sentinel": "class",
+  "sin": "operation",
+  "solid": "operation",
+  "solids": "operation",
+  "sort_wires_by_build_order": "operation",
+  "split": "operation",
+  "sqrt": "operation",
+  "starmap": "class",
+  "svgpathtools": "value",
+  "sweep": "operation",
+  "sys": "value",
+  "ta": "value",
+  "tan": "operation",
+  "tcast": "operation",
+  "tempfile": "value",
+  "text": "value",
+  "thicken": "operation",
+  "to_align_offset": "operation",
+  "topo_distance_to": "operation",
+  "topo_explore_common_vertex": "operation",
+  "topo_explore_connected_edges": "operation",
+  "topo_explore_connected_faces": "operation",
+  "topods_lut": "value",
+  "topology": "value",
+  "trace": "operation",
+  "trianglesolver": "value",
+  "tuplify": "operation",
+  "unicodedata": "value",
+  "unique": "operation",
+  "unit_conversion_scale": "operation",
+  "unwrap_topods_compound": "operation",
+  "validate_inputs": "operation",
+  "version": "value",
+  "vertex": "operation",
+  "vertices": "operation",
+  "warn": "operation",
+  "warnings": "value",
+  "webbrowser": "value",
+  "webcolors": "value",
+  "wire": "operation",
+  "wires": "operation",
+  "zoom": "value"
+ },
+ "methods": {
+  "X": [
+   "Vertex",
+   "Vector"
+  ],
+  "Y": [
+   "Vertex",
+   "Vector"
+  ],
+  "Z": [
+   "Vertex",
+   "Vector"
+  ],
+  "add": [
+   "Vector",
+   "BoundBox"
+  ],
+  "add_code_to_metadata": [
+   "Mesher"
+  ],
+  "add_meta_data": [
+   "Mesher"
+  ],
+  "add_shape": [
+   "Mesher"
+  ],
+  "ancestors": [
+   "Shape",
+   "Part",
+   "Sketch",
+   "Curve",
+   "Solid",
+   "Face",
+   "Edge",
+   "Wire",
+   "Vertex",
+   "Compound",
+   "Shell"
+  ],
+  "anchestors": [
+   "Shape",
+   "Part",
+   "Sketch",
+   "Curve",
+   "Solid",
+   "Face",
+   "Edge",
+   "Wire",
+   "Vertex",
+   "Compound",
+   "Shell"
+  ],
+  "angle_between": [
+   "Axis"
+  ],
+  "append": [
+   "ShapeList"
+  ],
+  "arc_center": [
+   "Edge"
+  ],
+  "area": [
+   "Shape",
+   "Part",
+   "Sketch",
+   "Curve",
+   "Solid",
+   "Face",
+   "Edge",
+   "Wire",
+   "Vertex",
+   "Compound",
+   "Shell"
+  ],
+  "area_without_holes": [
+   "Face"
+  ],
+  "as_shape": [
+   "Shape",
+   "Part",
+   "Sketch",
+   "Curve",
+   "Solid",
+   "Face",
+   "Edge",
+   "Wire",
+   "Vertex",
+   "Compound",
+   "Shell"
+  ],
+  "axes_of_symmetry": [
+   "Face"
+  ],
+  "axis_of_rotation": [
+   "Face"
+  ],
+  "bounding_box": [
+   "Shape",
+   "Part",
+   "Sketch",
+   "Curve",
+   "Solid",
+   "Face",
+   "Edge",
+   "Wire",
+   "Vertex",
+   "Compound",
+   "Shell"
+  ],
+  "build123d_type": [
+   "Shape",
+   "Part",
+   "Sketch",
+   "Curve",
+   "Solid",
+   "Face",
+   "Edge",
+   "Wire",
+   "Vertex",
+   "Compound",
+   "Shell",
+   "ShapeList",
+   "Location",
+   "Plane",
+   "Vector",
+   "Axis",
+   "BuildPart",
+   "BuildSketch",
+   "BuildLine"
+  ],
+  "cast": [
+   "Shape",
+   "Part",
+   "Sketch",
+   "Curve",
+   "Solid",
+   "Face",
+   "Edge",
+   "Wire",
+   "Vertex",
+   "Compound",
+   "Shell"
+  ],
+  "categorical_set": [
+   "Color"
+  ],
+  "center": [
+   "Part",
+   "Sketch",
+   "Curve",
+   "Solid",
+   "Face",
+   "Edge",
+   "Wire",
+   "Vertex",
+   "Compound",
+   "Shell",
+   "ShapeList",
+   "Location",
+   "Vector",
+   "BoundBox"
+  ],
+  "center_location": [
+   "Face"
+  ],
+  "chamfer": [
+   "Part",
+   "Sketch",
+   "Curve",
+   "Solid",
+   "Compound"
+  ],
+  "chamfer_2d": [
+   "Face",
+   "Wire"
+  ],
+  "children": [
+   "Shape",
+   "Part",
+   "Sketch",
+   "Curve",
+   "Solid",
+   "Face",
+   "Edge",
+   "Wire",
+   "Vertex",
+   "Compound",
+   "Shell"
+  ],
+  "clean": [
+   "Shape",
+   "Part",
+   "Sketch",
+   "Curve",
+   "Solid",
+   "Face",
+   "Edge",
+   "Wire",
+   "Vertex",
+   "Compound",
+   "Shell"
+  ],
+  "clear": [
+   "ShapeList"
+  ],
+  "close": [
+   "Edge",
+   "Wire"
+  ],
+  "closest_points": [
+   "Shape",
+   "Part",
+   "Sketch",
+   "Curve",
+   "Solid",
+   "Face",
+   "Edge",
+   "Wire",
+   "Vertex",
+   "Compound",
+   "Shell"
+  ],
+  "color": [
+   "Shape",
+   "Part",
+   "Sketch",
+   "Curve",
+   "Solid",
+   "Face",
+   "Edge",
+   "Wire",
+   "Vertex",
+   "Compound",
+   "Shell"
+  ],
+  "combine": [
+   "Wire"
+  ],
+  "combined_center": [
+   "Shape",
+   "Part",
+   "Sketch",
+   "Curve",
+   "Solid",
+   "Face",
+   "Edge",
+   "Wire",
+   "Vertex",
+   "Compound",
+   "Shell"
+  ],
+  "common_plane": [
+   "Edge",
+   "Wire"
+  ],
+  "composite_factories": [
+   "Shape",
+   "Part",
+   "Sketch",
+   "Curve",
+   "Solid",
+   "Face",
+   "Edge",
+   "Wire",
+   "Vertex",
+   "Compound",
+   "Shell"
+  ],
+  "compound": [
+   "Shape",
+   "Part",
+   "Sketch",
+   "Curve",
+   "Solid",
+   "Face",
+   "Edge",
+   "Wire",
+   "Vertex",
+   "Compound",
+   "Shell",
+   "ShapeList"
+  ],
+  "compounds": [
+   "Shape",
+   "Part",
+   "Sketch",
+   "Curve",
+   "Solid",
+   "Face",
+   "Edge",
+   "Wire",
+   "Vertex",
+   "Compound",
+   "Shell",
+   "ShapeList"
+  ],
+  "compute_mass": [
+   "Shape",
+   "Part",
+   "Sketch",
+   "Curve",
+   "Solid",
+   "Face",
+   "Edge",
+   "Wire",
+   "Vertex",
+   "Compound",
+   "Shell"
+  ],
+  "compute_volume": [
+   "Shape",
+   "Part",
+   "Sketch",
+   "Curve",
+   "Solid",
+   "Face",
+   "Edge",
+   "Wire",
+   "Vertex",
+   "Compound",
+   "Shell"
+  ],
+  "connect_to": [
+   "Joint",
+   "RigidJoint"
+  ],
+  "consolidate_edges": [
+   "BuildSketch"
+  ],
+  "contains": [
+   "Plane",
+   "BoundBox"
+  ],
+  "contains_properly": [
+   "BoundBox"
+  ],
+  "convexity": [
+   "Shape",
+   "Part",
+   "Sketch",
+   "Curve",
+   "Solid",
+   "Face",
+   "Edge",
+   "Wire",
+   "Vertex",
+   "Compound",
+   "Shell"
+  ],
+  "copy": [
+   "ShapeList"
+  ],
+  "copy_attributes_to": [
+   "Shape",
+   "Part",
+   "Sketch",
+   "Curve",
+   "Solid",
+   "Face",
+   "Edge",
+   "Wire",
+   "Vertex",
+   "Compound",
+   "Shell"
+  ],
+  "count": [
+   "ShapeList"
+  ],
+  "covered_by": [
+   "BoundBox"
+  ],
+  "covers": [
+   "BoundBox"
+  ],
+  "cross": [
+   "Vector"
+  ],
+  "curvature_comb": [
+   "Edge",
+   "Wire"
+  ],
+  "cut": [
+   "Shape",
+   "Part",
+   "Sketch",
+   "Curve",
+   "Solid",
+   "Face",
+   "Edge",
+   "Wire",
+   "Vertex",
+   "Compound",
+   "Shell"
+  ],
+  "depth": [
+   "Shape",
+   "Part",
+   "Sketch",
+   "Curve",
+   "Solid",
+   "Face",
+   "Edge",
+   "Wire",
+   "Vertex",
+   "Compound",
+   "Shell"
+  ],
+  "derivative_at": [
+   "Edge",
+   "Wire"
+  ],
+  "descendants": [
+   "Shape",
+   "Part",
+   "Sketch",
+   "Curve",
+   "Solid",
+   "Face",
+   "Edge",
+   "Wire",
+   "Vertex",
+   "Compound",
+   "Shell"
+  ],
+  "diagonal": [
+   "BoundBox"
+  ],
+  "direction": [
+   "Axis"
+  ],
+  "disjoint": [
+   "BoundBox"
+  ],
+  "distance": [
+   "Shape",
+   "Part",
+   "Sketch",
+   "Curve",
+   "Solid",
+   "Face",
+   "Edge",
+   "Wire",
+   "Vertex",
+   "Compound",
+   "Shell"
+  ],
+  "distance_to": [
+   "Shape",
+   "Part",
+   "Sketch",
+   "Curve",
+   "Solid",
+   "Face",
+   "Edge",
+   "Wire",
+   "Vertex",
+   "Compound",
+   "Shell"
+  ],
+  "distance_to_plane": [
+   "Vector"
+  ],
+  "distance_to_with_closest_points": [
+   "Shape",
+   "Part",
+   "Sketch",
+   "Curve",
+   "Solid",
+   "Face",
+   "Edge",
+   "Wire",
+   "Vertex",
+   "Compound",
+   "Shell"
+  ],
+  "distances": [
+   "Shape",
+   "Part",
+   "Sketch",
+   "Curve",
+   "Solid",
+   "Face",
+   "Edge",
+   "Wire",
+   "Vertex",
+   "Compound",
+   "Shell"
+  ],
+  "distribute_locations": [
+   "Edge"
+  ],
+  "do_children_intersect": [
+   "Part",
+   "Sketch",
+   "Curve",
+   "Compound"
+  ],
+  "dot": [
+   "Vector"
+  ],
+  "downcast_LUT": [
+   "Shape",
+   "Part",
+   "Sketch",
+   "Curve",
+   "Solid",
+   "Face",
+   "Edge",
+   "Wire",
+   "Vertex",
+   "Compound",
+   "Shell"
+  ],
+  "dprism": [
+   "Part",
+   "Sketch",
+   "Curve",
+   "Solid",
+   "Compound"
+  ],
+  "draft": [
+   "Solid"
+  ],
+  "edge": [
+   "Shape",
+   "Part",
+   "Sketch",
+   "Curve",
+   "Solid",
+   "Face",
+   "Edge",
+   "Wire",
+   "Vertex",
+   "Compound",
+   "Shell",
+   "ShapeList",
+   "BuildPart",
+   "BuildSketch",
+   "BuildLine"
+  ],
+  "edges": [
+   "Shape",
+   "Part",
+   "Sketch",
+   "Curve",
+   "Solid",
+   "Face",
+   "Edge",
+   "Wire",
+   "Vertex",
+   "Compound",
+   "Shell",
+   "ShapeList",
+   "BuildPart",
+   "BuildSketch",
+   "BuildLine"
+  ],
+  "end_point": [
+   "Edge",
+   "Wire"
+  ],
+  "entities": [
+   "Shape",
+   "Part",
+   "Sketch",
+   "Curve",
+   "Solid",
+   "Face",
+   "Edge",
+   "Wire",
+   "Vertex",
+   "Compound",
+   "Shell"
+  ],
+  "expand": [
+   "ShapeList"
+  ],
+  "extend": [
+   "ShapeList"
+  ],
+  "extrude": [
+   "Shape",
+   "Part",
+   "Sketch",
+   "Curve",
+   "Solid",
+   "Face",
+   "Edge",
+   "Wire",
+   "Vertex",
+   "Compound",
+   "Shell"
+  ],
+  "extrude_linear_with_rotation": [
+   "Solid"
+  ],
+  "extrude_taper": [
+   "Solid"
+  ],
+  "extrude_until": [
+   "Solid"
+  ],
+  "face": [
+   "Shape",
+   "Part",
+   "Sketch",
+   "Curve",
+   "Solid",
+   "Face",
+   "Edge",
+   "Wire",
+   "Vertex",
+   "Compound",
+   "Shell",
+   "ShapeList",
+   "BuildPart",
+   "BuildSketch",
+   "BuildLine"
+  ],
+  "faces": [
+   "Shape",
+   "Part",
+   "Sketch",
+   "Curve",
+   "Solid",
+   "Face",
+   "Edge",
+   "Wire",
+   "Vertex",
+   "Compound",
+   "Shell",
+   "ShapeList",
+   "BuildPart",
+   "BuildSketch",
+   "BuildLine"
+  ],
+  "faces_intersected_by_axis": [
+   "Shape",
+   "Part",
+   "Sketch",
+   "Curve",
+   "Solid",
+   "Face",
+   "Edge",
+   "Wire",
+   "Vertex",
+   "Compound",
+   "Shell"
+  ],
+  "fillet": [
+   "Part",
+   "Sketch",
+   "Curve",
+   "Solid",
+   "Compound"
+  ],
+  "fillet_2d": [
+   "Face",
+   "Wire"
+  ],
+  "filter_by": [
+   "ShapeList"
+  ],
+  "filter_by_position": [
+   "ShapeList"
+  ],
+  "find_intersection_points": [
+   "Part",
+   "Sketch",
+   "Curve",
+   "Solid",
+   "Face",
+   "Edge",
+   "Compound",
+   "Shell"
+  ],
+  "find_outside_box_2d": [
+   "BoundBox"
+  ],
+  "find_tangent": [
+   "Edge"
+  ],
+  "first": [
+   "ShapeList"
+  ],
+  "fix": [
+   "Shape",
+   "Part",
+   "Sketch",
+   "Curve",
+   "Solid",
+   "Face",
+   "Edge",
+   "Wire",
+   "Vertex",
+   "Compound",
+   "Shell"
+  ],
+  "fix_degenerate_edges": [
+   "Wire"
+  ],
+  "forward_transform": [
+   "Plane"
+  ],
+  "from_bounding_box": [
+   "Solid"
+  ],
+  "from_local_coords": [
+   "Plane"
+  ],
+  "from_topo_ds": [
+   "BoundBox"
+  ],
+  "fuse": [
+   "Shape",
+   "Part",
+   "Sketch",
+   "Curve",
+   "Solid",
+   "Face",
+   "Edge",
+   "Wire",
+   "Vertex",
+   "Compound",
+   "Shell"
+  ],
+  "geom_LUT_EDGE": [
+   "Shape",
+   "Part",
+   "Sketch",
+   "Curve",
+   "Solid",
+   "Face",
+   "Edge",
+   "Wire",
+   "Vertex",
+   "Compound",
+   "Shell"
+  ],
+  "geom_LUT_FACE": [
+   "Shape",
+   "Part",
+   "Sketch",
+   "Curve",
+   "Solid",
+   "Face",
+   "Edge",
+   "Wire",
+   "Vertex",
+   "Compound",
+   "Shell"
+  ],
+  "geom_adaptor": [
+   "Face",
+   "Edge",
+   "Wire"
+  ],
+  "geom_equal": [
+   "Edge",
+   "Wire"
+  ],
+  "geom_type": [
+   "Shape",
+   "Part",
+   "Sketch",
+   "Curve",
+   "Solid",
+   "Face",
+   "Edge",
+   "Wire",
+   "Vertex",
+   "Compound",
+   "Shell"
+  ],
+  "geometry": [
+   "Face"
+  ],
+  "geometry_constructors": [
+   "Shape",
+   "Part",
+   "Sketch",
+   "Curve",
+   "Solid",
+   "Face",
+   "Edge",
+   "Wire",
+   "Vertex",
+   "Compound",
+   "Shell"
+  ],
+  "get_angle": [
+   "Vector"
+  ],
+  "get_mesh_properties": [
+   "Mesher"
+  ],
+  "get_meta_data": [
+   "Mesher"
+  ],
+  "get_meta_data_by_key": [
+   "Mesher"
+  ],
+  "get_shape_list": [
+   "Shape",
+   "Part",
+   "Sketch",
+   "Curve",
+   "Solid",
+   "Face",
+   "Edge",
+   "Wire",
+   "Vertex",
+   "Compound",
+   "Shell"
+  ],
+  "get_signed_angle": [
+   "Vector"
+  ],
+  "get_single_shape": [
+   "Shape",
+   "Part",
+   "Sketch",
+   "Curve",
+   "Solid",
+   "Face",
+   "Edge",
+   "Wire",
+   "Vertex",
+   "Compound",
+   "Shell"
+  ],
+  "get_top_level_shapes": [
+   "Shape",
+   "Part",
+   "Sketch",
+   "Curve",
+   "Solid",
+   "Face",
+   "Edge",
+   "Wire",
+   "Vertex",
+   "Compound",
+   "Shell"
+  ],
+  "get_topods_face_normal": [
+   "Plane"
+  ],
+  "get_type": [
+   "Part",
+   "Sketch",
+   "Curve",
+   "Compound"
+  ],
+  "global_location": [
+   "Shape",
+   "Part",
+   "Sketch",
+   "Curve",
+   "Solid",
+   "Face",
+   "Edge",
+   "Wire",
+   "Vertex",
+   "Compound",
+   "Shell"
+  ],
+  "group_by": [
+   "ShapeList"
+  ],
+  "height": [
+   "Shape",
+   "Part",
+   "Sketch",
+   "Curve",
+   "Solid",
+   "Face",
+   "Edge",
+   "Wire",
+   "Vertex",
+   "Compound",
+   "Shell"
+  ],
+  "hollow": [
+   "Part",
+   "Sketch",
+   "Curve",
+   "Solid",
+   "Compound"
+  ],
+  "index": [
+   "ShapeList"
+  ],
+  "inner_wires": [
+   "Face"
+  ],
+  "insert": [
+   "ShapeList"
+  ],
+  "intersect": [
+   "Shape",
+   "Part",
+   "Sketch",
+   "Curve",
+   "Solid",
+   "Face",
+   "Edge",
+   "Wire",
+   "Vertex",
+   "Compound",
+   "Shell",
+   "Location",
+   "Plane",
+   "Vector",
+   "Axis"
+  ],
+  "intersects": [
+   "BoundBox"
+  ],
+  "inverse": [
+   "Location"
+  ],
+  "inverse_shape_LUT": [
+   "Shape",
+   "Part",
+   "Sketch",
+   "Curve",
+   "Solid",
+   "Face",
+   "Edge",
+   "Wire",
+   "Vertex",
+   "Compound",
+   "Shell"
+  ],
+  "is_circular_concave": [
+   "Face"
+  ],
+  "is_circular_convex": [
+   "Face"
+  ],
+  "is_closed": [
+   "Edge",
+   "Wire"
+  ],
+  "is_coaxial": [
+   "Axis"
+  ],
+  "is_coplanar": [
+   "Face"
+  ],
+  "is_equal": [
+   "Shape",
+   "Part",
+   "Sketch",
+   "Curve",
+   "Solid",
+   "Face",
+   "Edge",
+   "Wire",
+   "Vertex",
+   "Compound",
+   "Shell"
+  ],
+  "is_forward": [
+   "Edge",
+   "Wire"
+  ],
+  "is_infinite": [
+   "Edge"
+  ],
+  "is_inside": [
+   "Part",
+   "Sketch",
+   "Curve",
+   "Solid",
+   "Face",
+   "Compound",
+   "BoundBox"
+  ],
+  "is_interior": [
+   "Edge",
+   "Wire"
+  ],
+  "is_leaf": [
+   "Shape",
+   "Part",
+   "Sketch",
+   "Curve",
+   "Solid",
+   "Face",
+   "Edge",
+   "Wire",
+   "Vertex",
+   "Compound",
+   "Shell"
+  ],
+  "is_manifold": [
+   "Shape",
+   "Part",
+   "Sketch",
+   "Curve",
+   "Solid",
+   "Face",
+   "Edge",
+   "Wire",
+   "Vertex",
+   "Compound",
+   "Shell"
+  ],
+  "is_normal": [
+   "Axis"
+  ],
+  "is_null": [
+   "Shape",
+   "Part",
+   "Sketch",
+   "Curve",
+   "Solid",
+   "Face",
+   "Edge",
+   "Wire",
+   "Vertex",
+   "Compound",
+   "Shell"
+  ],
+  "is_opposite": [
+   "Axis"
+  ],
+  "is_parallel": [
+   "Axis"
+  ],
+  "is_planar": [
+   "Face"
+  ],
+  "is_root": [
+   "Shape",
+   "Part",
+   "Sketch",
+   "Curve",
+   "Solid",
+   "Face",
+   "Edge",
+   "Wire",
+   "Vertex",
+   "Compound",
+   "Shell"
+  ],
+  "is_same": [
+   "Shape",
+   "Part",
+   "Sketch",
+   "Curve",
+   "Solid",
+   "Face",
+   "Edge",
+   "Wire",
+   "Vertex",
+   "Compound",
+   "Shell"
+  ],
+  "is_skew": [
+   "Axis"
+  ],
+  "is_valid": [
+   "Shape",
+   "Part",
+   "Sketch",
+   "Curve",
+   "Solid",
+   "Face",
+   "Edge",
+   "Wire",
+   "Vertex",
+   "Compound",
+   "Shell"
+  ],
+  "iter_path_reverse": [
+   "Shape",
+   "Part",
+   "Sketch",
+   "Curve",
+   "Solid",
+   "Face",
+   "Edge",
+   "Wire",
+   "Vertex",
+   "Compound",
+   "Shell"
+  ],
+  "label": [
+   "BuildPart",
+   "BuildSketch",
+   "BuildLine"
+  ],
+  "last": [
+   "ShapeList"
+  ],
+  "lasts": [
+   "BuildPart",
+   "BuildSketch",
+   "BuildLine"
+  ],
+  "leaves": [
+   "Shape",
+   "Part",
+   "Sketch",
+   "Curve",
+   "Solid",
+   "Face",
+   "Edge",
+   "Wire",
+   "Vertex",
+   "Compound",
+   "Shell"
+  ],
+  "length": [
+   "Face",
+   "Edge",
+   "Wire",
+   "Vector"
+  ],
+  "library_version": [
+   "Mesher"
+  ],
+  "line": [
+   "BuildLine"
+  ],
+  "line_local": [
+   "BuildLine"
+  ],
+  "locate": [
+   "Shape",
+   "Part",
+   "Sketch",
+   "Curve",
+   "Solid",
+   "Face",
+   "Edge",
+   "Wire",
+   "Vertex",
+   "Compound",
+   "Shell"
+  ],
+  "located": [
+   "Shape",
+   "Part",
+   "Sketch",
+   "Curve",
+   "Solid",
+   "Face",
+   "Edge",
+   "Wire",
+   "Vertex",
+   "Compound",
+   "Shell",
+   "Axis"
+  ],
+  "location": [
+   "Shape",
+   "Part",
+   "Sketch",
+   "Curve",
+   "Solid",
+   "Face",
+   "Edge",
+   "Wire",
+   "Vertex",
+   "Compound",
+   "Shell",
+   "Plane",
+   "Axis",
+   "BuildPart",
+   "Joint",
+   "RigidJoint"
+  ],
+  "location_at": [
+   "Face",
+   "Edge",
+   "Wire",
+   "Shell"
+  ],
+  "location_between": [
+   "Plane"
+  ],
+  "locations": [
+   "Edge",
+   "Wire",
+   "Locations"
+  ],
+  "make_bezier": [
+   "Edge"
+  ],
+  "make_bezier_surface": [
+   "Face"
+  ],
+  "make_box": [
+   "Solid"
+  ],
+  "make_bspline": [
+   "Edge"
+  ],
+  "make_circle": [
+   "Edge",
+   "Wire"
+  ],
+  "make_composite": [
+   "Shape",
+   "Part",
+   "Sketch",
+   "Curve",
+   "Solid",
+   "Face",
+   "Edge",
+   "Wire",
+   "Vertex",
+   "Compound",
+   "Shell"
+  ],
+  "make_cone": [
+   "Solid"
+  ],
+  "make_constrained_arcs": [
+   "Edge"
+  ],
+  "make_constrained_lines": [
+   "Edge"
+  ],
+  "make_convex_hull": [
+   "Wire"
+  ],
+  "make_cylinder": [
+   "Solid"
+  ],
+  "make_ellipse": [
+   "Edge",
+   "Wire"
+  ],
+  "make_gordon_surface": [
+   "Face"
+  ],
+  "make_helix": [
+   "Edge"
+  ],
+  "make_holes": [
+   "Face"
+  ],
+  "make_hyperbola": [
+   "Edge"
+  ],
+  "make_line": [
+   "Edge"
+  ],
+  "make_loft": [
+   "Solid",
+   "Shell"
+  ],
+  "make_mid_way": [
+   "Edge"
+  ],
+  "make_parabola": [
+   "Edge"
+  ],
+  "make_polygon": [
+   "Wire"
+  ],
+  "make_rect": [
+   "Face",
+   "Wire"
+  ],
+  "make_sphere": [
+   "Solid"
+  ],
+  "make_spline": [
+   "Edge"
+  ],
+  "make_spline_approx": [
+   "Edge"
+  ],
+  "make_surface": [
+   "Face"
+  ],
+  "make_surface_from_array_of_points": [
+   "Face"
+  ],
+  "make_surface_from_curves": [
+   "Face"
+  ],
+  "make_surface_patch": [
+   "Face"
+  ],
+  "make_tangent_arc": [
+   "Edge"
+  ],
+  "make_text": [
+   "Part",
+   "Sketch",
+   "Curve",
+   "Compound"
+  ],
+  "make_three_point_arc": [
+   "Edge"
+  ],
+  "make_torus": [
+   "Solid"
+  ],
+  "make_triad": [
+   "Part",
+   "Sketch",
+   "Curve",
+   "Compound"
+  ],
+  "make_wedge": [
+   "Solid"
+  ],
+  "mass": [
+   "Part",
+   "Sketch",
+   "Curve",
+   "Solid",
+   "Face",
+   "Edge",
+   "Wire",
+   "Vertex",
+   "Compound",
+   "Shell"
+  ],
+  "material": [
+   "Shape",
+   "Part",
+   "Sketch",
+   "Curve",
+   "Solid",
+   "Face",
+   "Edge",
+   "Wire",
+   "Vertex",
+   "Compound",
+   "Shell"
+  ],
+  "matrix_of_inertia": [
+   "Shape",
+   "Part",
+   "Sketch",
+   "Curve",
+   "Solid",
+   "Face",
+   "Edge",
+   "Wire",
+   "Vertex",
+   "Compound",
+   "Shell"
+  ],
+  "max_dimension": [
+   "BuildPart",
+   "BuildSketch",
+   "BuildLine"
+  ],
+  "max_fillet": [
+   "Part",
+   "Sketch",
+   "Curve",
+   "Solid",
+   "Compound"
+  ],
+  "measure": [
+   "BoundBox"
+  ],
+  "mesh": [
+   "Shape",
+   "Part",
+   "Sketch",
+   "Curve",
+   "Solid",
+   "Face",
+   "Edge",
+   "Wire",
+   "Vertex",
+   "Compound",
+   "Shell"
+  ],
+  "mesh_count": [
+   "Mesher"
+  ],
+  "mirror": [
+   "Shape",
+   "Part",
+   "Sketch",
+   "Curve",
+   "Solid",
+   "Face",
+   "Edge",
+   "Wire",
+   "Vertex",
+   "Compound",
+   "Shell",
+   "Location"
+  ],
+  "model_unit": [
+   "Mesher"
+  ],
+  "move": [
+   "Shape",
+   "Part",
+   "Sketch",
+   "Curve",
+   "Solid",
+   "Face",
+   "Edge",
+   "Wire",
+   "Vertex",
+   "Compound",
+   "Shell",
+   "Plane"
+  ],
+  "moved": [
+   "Shape",
+   "Part",
+   "Sketch",
+   "Curve",
+   "Solid",
+   "Face",
+   "Edge",
+   "Wire",
+   "Vertex",
+   "Compound",
+   "Shell",
+   "Plane"
+  ],
+  "multiply": [
+   "Vector"
+  ],
+  "new_edges": [
+   "BuildPart",
+   "BuildSketch",
+   "BuildLine"
+  ],
+  "news": [
+   "BuildPart",
+   "BuildSketch",
+   "BuildLine"
+  ],
+  "normal": [
+   "Edge",
+   "Wire"
+  ],
+  "normal_at": [
+   "Face"
+  ],
+  "normalized": [
+   "Vector"
+  ],
+  "offset": [
+   "Face",
+   "Shell",
+   "Plane"
+  ],
+  "offset_2d": [
+   "Edge",
+   "Wire"
+  ],
+  "offset_3d": [
+   "Part",
+   "Sketch",
+   "Curve",
+   "Solid",
+   "Compound"
+  ],
+  "order": [
+   "Part",
+   "Sketch",
+   "Curve",
+   "Solid",
+   "Face",
+   "Edge",
+   "Wire",
+   "Vertex",
+   "Compound",
+   "Shell"
+  ],
+  "order_chamfer_edges": [
+   "Wire"
+  ],
+  "order_edges": [
+   "Wire"
+  ],
+  "orientation": [
+   "Shape",
+   "Part",
+   "Sketch",
+   "Curve",
+   "Solid",
+   "Face",
+   "Edge",
+   "Wire",
+   "Vertex",
+   "Compound",
+   "Shell",
+   "Location"
+  ],
+  "oriented_bounding_box": [
+   "Shape",
+   "Part",
+   "Sketch",
+   "Curve",
+   "Solid",
+   "Face",
+   "Edge",
+   "Wire",
+   "Vertex",
+   "Compound",
+   "Shell"
+  ],
+  "origin": [
+   "Plane"
+  ],
+  "outer_wire": [
+   "Face"
+  ],
+  "overlaps": [
+   "BoundBox"
+  ],
+  "param_at": [
+   "Edge",
+   "Wire"
+  ],
+  "param_at_point": [
+   "Edge",
+   "Wire"
+  ],
+  "parent": [
+   "Shape",
+   "Part",
+   "Sketch",
+   "Curve",
+   "Solid",
+   "Face",
+   "Edge",
+   "Wire",
+   "Vertex",
+   "Compound",
+   "Shell"
+  ],
+  "part": [
+   "BuildPart"
+  ],
+  "part_local": [
+   "BuildPart"
+  ],
+  "path": [
+   "Shape",
+   "Part",
+   "Sketch",
+   "Curve",
+   "Solid",
+   "Face",
+   "Edge",
+   "Wire",
+   "Vertex",
+   "Compound",
+   "Shell"
+  ],
+  "pending_edges_as_wire": [
+   "BuildPart"
+  ],
+  "perpendicular_line": [
+   "Edge",
+   "Wire"
+  ],
+  "pop": [
+   "ShapeList"
+  ],
+  "position": [
+   "Shape",
+   "Part",
+   "Sketch",
+   "Curve",
+   "Solid",
+   "Face",
+   "Edge",
+   "Wire",
+   "Vertex",
+   "Compound",
+   "Shell",
+   "Location",
+   "Axis"
+  ],
+  "position_at": [
+   "Face",
+   "Edge",
+   "Wire"
+  ],
+  "positions": [
+   "Edge",
+   "Wire"
+  ],
+  "principal_properties": [
+   "Shape",
+   "Part",
+   "Sketch",
+   "Curve",
+   "Solid",
+   "Face",
+   "Edge",
+   "Wire",
+   "Vertex",
+   "Compound",
+   "Shell"
+  ],
+  "project": [
+   "Edge",
+   "Wire"
+  ],
+  "project_faces": [
+   "Shape",
+   "Part",
+   "Sketch",
+   "Curve",
+   "Solid",
+   "Face",
+   "Edge",
+   "Wire",
+   "Vertex",
+   "Compound",
+   "Shell"
+  ],
+  "project_to_line": [
+   "Vector"
+  ],
+  "project_to_plane": [
+   "Vector"
+  ],
+  "project_to_shape": [
+   "Face",
+   "Edge",
+   "Wire"
+  ],
+  "project_to_viewport": [
+   "Part",
+   "Sketch",
+   "Curve",
+   "Solid",
+   "Face",
+   "Edge",
+   "Wire",
+   "Compound",
+   "Shell"
+  ],
+  "radii": [
+   "Face"
+  ],
+  "radius": [
+   "Face",
+   "Edge",
+   "Wire"
+  ],
+  "radius_of_gyration": [
+   "Shape",
+   "Part",
+   "Sketch",
+   "Curve",
+   "Solid",
+   "Face",
+   "Edge",
+   "Wire",
+   "Vertex",
+   "Compound",
+   "Shell"
+  ],
+  "read": [
+   "Mesher"
+  ],
+  "register_composite_factory": [
+   "Shape",
+   "Part",
+   "Sketch",
+   "Curve",
+   "Solid",
+   "Face",
+   "Edge",
+   "Wire",
+   "Vertex",
+   "Compound",
+   "Shell"
+  ],
+  "register_geometry_constructor": [
+   "Shape",
+   "Part",
+   "Sketch",
+   "Curve",
+   "Solid",
+   "Face",
+   "Edge",
+   "Wire",
+   "Vertex",
+   "Compound",
+   "Shell"
+  ],
+  "register_shape_constructor": [
+   "Shape",
+   "Part",
+   "Sketch",
+   "Curve",
+   "Solid",
+   "Face",
+   "Edge",
+   "Wire",
+   "Vertex",
+   "Compound",
+   "Shell"
+  ],
+  "relative_to": [
+   "Joint",
+   "RigidJoint"
+  ],
+  "remove": [
+   "ShapeList"
+  ],
+  "resolve_font": [
+   "Part",
+   "Sketch",
+   "Curve",
+   "Compound"
+  ],
+  "reverse": [
+   "ShapeList",
+   "Plane",
+   "Vector",
+   "Axis"
+  ],
+  "reverse_transform": [
+   "Plane"
+  ],
+  "reversed": [
+   "Edge"
+  ],
+  "revolve": [
+   "Solid",
+   "Face",
+   "Shell"
+  ],
+  "root": [
+   "Shape",
+   "Part",
+   "Sketch",
+   "Curve",
+   "Solid",
+   "Face",
+   "Edge",
+   "Wire",
+   "Vertex",
+   "Compound",
+   "Shell"
+  ],
+  "rotate": [
+   "Shape",
+   "Part",
+   "Sketch",
+   "Curve",
+   "Solid",
+   "Face",
+   "Edge",
+   "Wire",
+   "Vertex",
+   "Compound",
+   "Shell",
+   "Vector"
+  ],
+  "rotated": [
+   "Plane"
+  ],
+  "scale": [
+   "Shape",
+   "Part",
+   "Sketch",
+   "Curve",
+   "Solid",
+   "Face",
+   "Edge",
+   "Wire",
+   "Vertex",
+   "Compound",
+   "Shell"
+  ],
+  "seams": [
+   "Face"
+  ],
+  "semi_angle": [
+   "Face"
+  ],
+  "separator": [
+   "Shape",
+   "Part",
+   "Sketch",
+   "Curve",
+   "Solid",
+   "Face",
+   "Edge",
+   "Wire",
+   "Vertex",
+   "Compound",
+   "Shell"
+  ],
+  "sew_faces": [
+   "Face"
+  ],
+  "shape_LUT": [
+   "Shape",
+   "Part",
+   "Sketch",
+   "Curve",
+   "Solid",
+   "Face",
+   "Edge",
+   "Wire",
+   "Vertex",
+   "Compound",
+   "Shell"
+  ],
+  "shape_constructors": [
+   "Shape",
+   "Part",
+   "Sketch",
+   "Curve",
+   "Solid",
+   "Face",
+   "Edge",
+   "Wire",
+   "Vertex",
+   "Compound",
+   "Shell"
+  ],
+  "shape_properties_LUT": [
+   "Shape",
+   "Part",
+   "Sketch",
+   "Curve",
+   "Solid",
+   "Face",
+   "Edge",
+   "Wire",
+   "Vertex",
+   "Compound",
+   "Shell"
+  ],
+  "shape_type": [
+   "Shape",
+   "Part",
+   "Sketch",
+   "Curve",
+   "Solid",
+   "Face",
+   "Edge",
+   "Wire",
+   "Vertex",
+   "Compound",
+   "Shell"
+  ],
+  "shell": [
+   "Shape",
+   "Part",
+   "Sketch",
+   "Curve",
+   "Solid",
+   "Face",
+   "Edge",
+   "Wire",
+   "Vertex",
+   "Compound",
+   "Shell",
+   "ShapeList"
+  ],
+  "shells": [
+   "Shape",
+   "Part",
+   "Sketch",
+   "Curve",
+   "Solid",
+   "Face",
+   "Edge",
+   "Wire",
+   "Vertex",
+   "Compound",
+   "Shell",
+   "ShapeList"
+  ],
+  "shift_origin": [
+   "Plane"
+  ],
+  "show_topology": [
+   "Shape",
+   "Part",
+   "Sketch",
+   "Curve",
+   "Solid",
+   "Face",
+   "Edge",
+   "Wire",
+   "Vertex",
+   "Compound",
+   "Shell"
+  ],
+  "siblings": [
+   "Shape",
+   "Part",
+   "Sketch",
+   "Curve",
+   "Solid",
+   "Face",
+   "Edge",
+   "Wire",
+   "Vertex",
+   "Compound",
+   "Shell"
+  ],
+  "signed_distance_from_plane": [
+   "Vector"
+  ],
+  "size": [
+   "Shape",
+   "Part",
+   "Sketch",
+   "Curve",
+   "Solid",
+   "Face",
+   "Edge",
+   "Wire",
+   "Vertex",
+   "Compound",
+   "Shell"
+  ],
+  "sketch": [
+   "BuildSketch"
+  ],
+  "sketch_local": [
+   "BuildSketch"
+  ],
+  "solid": [
+   "Shape",
+   "Part",
+   "Sketch",
+   "Curve",
+   "Solid",
+   "Face",
+   "Edge",
+   "Wire",
+   "Vertex",
+   "Compound",
+   "Shell",
+   "ShapeList",
+   "BuildPart",
+   "BuildSketch",
+   "BuildLine"
+  ],
+  "solids": [
+   "Shape",
+   "Part",
+   "Sketch",
+   "Curve",
+   "Solid",
+   "Face",
+   "Edge",
+   "Wire",
+   "Vertex",
+   "Compound",
+   "Shell",
+   "ShapeList",
+   "BuildPart",
+   "BuildSketch",
+   "BuildLine"
+  ],
+  "sort": [
+   "ShapeList"
+  ],
+  "sort_by": [
+   "ShapeList"
+  ],
+  "sort_by_distance": [
+   "ShapeList"
+  ],
+  "split": [
+   "Shape",
+   "Part",
+   "Sketch",
+   "Curve",
+   "Solid",
+   "Face",
+   "Edge",
+   "Wire",
+   "Vertex",
+   "Compound",
+   "Shell"
+  ],
+  "split_by_perimeter": [
+   "Face",
+   "Shell"
+  ],
+  "start_point": [
+   "Edge",
+   "Wire"
+  ],
+  "static_moments": [
+   "Shape",
+   "Part",
+   "Sketch",
+   "Curve",
+   "Solid",
+   "Face",
+   "Edge",
+   "Wire",
+   "Vertex",
+   "Compound",
+   "Shell"
+  ],
+  "stitch": [
+   "Wire"
+  ],
+  "sub": [
+   "Vector"
+  ],
+  "sweep": [
+   "Solid",
+   "Face",
+   "Shell"
+  ],
+  "sweep_multi": [
+   "Solid"
+  ],
+  "symbol": [
+   "Joint",
+   "RigidJoint"
+  ],
+  "tangent_angle_at": [
+   "Edge",
+   "Wire"
+  ],
+  "tangent_at": [
+   "Edge",
+   "Wire"
+  ],
+  "tessellate": [
+   "Shape",
+   "Part",
+   "Sketch",
+   "Curve",
+   "Solid",
+   "Face",
+   "Edge",
+   "Wire",
+   "Vertex",
+   "Compound",
+   "Shell"
+  ],
+  "tessellate_with_uvs": [
+   "Shape",
+   "Part",
+   "Sketch",
+   "Curve",
+   "Solid",
+   "Face",
+   "Edge",
+   "Wire",
+   "Vertex",
+   "Compound",
+   "Shell"
+  ],
+  "thicken": [
+   "Solid"
+  ],
+  "to_align_offset": [
+   "BoundBox"
+  ],
+  "to_dir": [
+   "Vector"
+  ],
+  "to_gp_ax2": [
+   "Plane"
+  ],
+  "to_gp_ax3": [
+   "Plane"
+  ],
+  "to_local_coords": [
+   "Plane"
+  ],
+  "to_pnt": [
+   "Vector"
+  ],
+  "to_splines": [
+   "Shape",
+   "Part",
+   "Sketch",
+   "Curve",
+   "Solid",
+   "Face",
+   "Edge",
+   "Wire",
+   "Vertex",
+   "Compound",
+   "Shell"
+  ],
+  "topo_owner": [
+   "Shape",
+   "Part",
+   "Sketch",
+   "Curve",
+   "Solid",
+   "Face",
+   "Edge",
+   "Wire",
+   "Vertex",
+   "Compound",
+   "Shell"
+  ],
+  "topo_parent": [
+   "Shape",
+   "Part",
+   "Sketch",
+   "Curve",
+   "Solid",
+   "Face",
+   "Edge",
+   "Wire",
+   "Vertex",
+   "Compound",
+   "Shell"
+  ],
+  "touch": [
+   "Shape",
+   "Part",
+   "Sketch",
+   "Curve",
+   "Solid",
+   "Face",
+   "Edge",
+   "Wire",
+   "Vertex",
+   "Compound",
+   "Shell"
+  ],
+  "touches": [
+   "BoundBox"
+  ],
+  "transform": [
+   "Vector"
+  ],
+  "transform_geometry": [
+   "Shape",
+   "Part",
+   "Sketch",
+   "Curve",
+   "Solid",
+   "Face",
+   "Edge",
+   "Wire",
+   "Vertex",
+   "Compound",
+   "Shell"
+  ],
+  "transform_shape": [
+   "Shape",
+   "Part",
+   "Sketch",
+   "Curve",
+   "Solid",
+   "Face",
+   "Edge",
+   "Wire",
+   "Vertex",
+   "Compound",
+   "Shell"
+  ],
+  "transformed": [
+   "Shape",
+   "Part",
+   "Sketch",
+   "Curve",
+   "Solid",
+   "Face",
+   "Edge",
+   "Wire",
+   "Vertex",
+   "Compound",
+   "Shell"
+  ],
+  "translate": [
+   "Shape",
+   "Part",
+   "Sketch",
+   "Curve",
+   "Solid",
+   "Face",
+   "Edge",
+   "Wire",
+   "Vertex",
+   "Compound",
+   "Shell"
+  ],
+  "triangle_counts": [
+   "Mesher"
+  ],
+  "trim": [
+   "Edge",
+   "Wire"
+  ],
+  "trim_infinite": [
+   "Edge"
+  ],
+  "trim_to_length": [
+   "Edge"
+  ],
+  "trim_to_other": [
+   "Edge"
+  ],
+  "unwrap": [
+   "Part",
+   "Sketch",
+   "Curve",
+   "Compound"
+  ],
+  "uv_face": [
+   "Face"
+  ],
+  "validate_inputs": [
+   "BuildPart",
+   "BuildSketch",
+   "BuildLine"
+  ],
+  "vertex": [
+   "Shape",
+   "Part",
+   "Sketch",
+   "Curve",
+   "Solid",
+   "Face",
+   "Edge",
+   "Wire",
+   "Vertex",
+   "Compound",
+   "Shell",
+   "ShapeList",
+   "BuildPart",
+   "BuildSketch",
+   "BuildLine"
+  ],
+  "vertex_counts": [
+   "Mesher"
+  ],
+  "vertices": [
+   "Shape",
+   "Part",
+   "Sketch",
+   "Curve",
+   "Solid",
+   "Face",
+   "Edge",
+   "Wire",
+   "Vertex",
+   "Compound",
+   "Shell",
+   "ShapeList",
+   "BuildPart",
+   "BuildSketch",
+   "BuildLine"
+  ],
+  "volume": [
+   "Part",
+   "Sketch",
+   "Curve",
+   "Solid",
+   "Face",
+   "Edge",
+   "Wire",
+   "Vertex",
+   "Compound",
+   "Shell"
+  ],
+  "width": [
+   "Face"
+  ],
+  "wire": [
+   "Shape",
+   "Part",
+   "Sketch",
+   "Curve",
+   "Solid",
+   "Face",
+   "Edge",
+   "Wire",
+   "Vertex",
+   "Compound",
+   "Shell",
+   "ShapeList",
+   "BuildPart",
+   "BuildSketch",
+   "BuildLine"
+  ],
+  "wires": [
+   "Shape",
+   "Part",
+   "Sketch",
+   "Curve",
+   "Solid",
+   "Face",
+   "Edge",
+   "Wire",
+   "Vertex",
+   "Compound",
+   "Shell",
+   "ShapeList",
+   "BuildPart",
+   "BuildSketch",
+   "BuildLine"
+  ],
+  "within": [
+   "BoundBox"
+  ],
+  "without_holes": [
+   "Face"
+  ],
+  "wrap": [
+   "Face"
+  ],
+  "wrap_faces": [
+   "Face"
+  ],
+  "wrapped": [
+   "Shape",
+   "Part",
+   "Sketch",
+   "Curve",
+   "Solid",
+   "Face",
+   "Edge",
+   "Wire",
+   "Vertex",
+   "Compound",
+   "Shell",
+   "Location",
+   "Plane",
+   "Vector",
+   "Axis"
+  ],
+  "write": [
+   "Mesher"
+  ],
+  "write_stream": [
+   "Mesher"
+  ],
+  "x_axis": [
+   "Location"
+  ],
+  "x_dir": [
+   "Plane"
+  ],
+  "y_axis": [
+   "Location"
+  ],
+  "y_dir": [
+   "Plane"
+  ],
+  "z_axis": [
+   "Location"
+  ],
+  "z_dir": [
+   "Plane"
+  ]
+ },
+ "top": {
+  "ABC": "class",
+  "ABCMeta": "class",
+  "APIHeaderSection_MakeHeader": "class",
+  "AbstractContextManager": "class",
+  "AddType": "value",
+  "Airfoil": "class",
+  "Align": "enum",
+  "Align2D": "value",
+  "Align3D": "value",
+  "AngularDirection": "enum",
+  "Any": "class",
+  "ApproxOption": "enum",
+  "Arrow": "class",
+  "ArrowHead": "class",
+  "AutoNameEnum": "enum",
+  "Axis": "class",
+  "AxisMeta": "class",
+  "B": "value",
+  "BRepBndLib": "class",
+  "BRepBuilderAPI_MakeFace": "class",
+  "BRepBuilderAPI_MakePolygon": "class",
+  "BRepBuilderAPI_MakeSolid": "class",
+  "BRepBuilderAPI_Sewing": "class",
+  "BRepBuilderAPI_Transform": "class",
+  "BRepGProp": "class",
+  "BRepGProp_Face": "class",
+  "BRepLib": "class",
+  "BRepMesh_IncrementalMesh": "class",
+  "BRepTools": "class",
+  "BRepTools_WireExplorer": "class",
+  "BRep_Builder": "class",
+  "BRep_Tool": "class",
+  "BSpline": "class",
+  "BallJoint": "class",
+  "BaseCurveObject": "class",
+  "BaseEdgeObject": "class",
+  "BaseLineObject": "class",
+  "BaseObject": "class",
+  "BaseObjectMeta": "class",
+  "BasePartObject": "class",
+  "BaseSketchObject": "class",
+  "Bezier": "class",
+  "BinaryIO": "class",
+  "BlendCurve": "class",
+  "Bnd_Box": "class",
+  "Bnd_OBB": "class",
+  "BoundBox": "class",
+  "Box": "class",
+  "BuildLine": "class",
+  "BuildPart": "class",
+  "BuildScope": "class",
+  "BuildSketch": "class",
+  "Builder": "class",
+  "BytesIO": "class",
+  "CLASS_REGISTRY": "value",
+  "CM": "value",
+  "Callable": "class",
+  "CenterArc": "class",
+  "CenterOf": "enum",
+  "ChamferFilletType": "value",
+  "Circle": "class",
+  "ClassVar": "function",
+  "Collection": "class",
+  "Color": "class",
+  "ColorAndLabel": "class",
+  "ColorIndex": "enum",
+  "ColorLike": "value",
+  "Comparable": "class",
+  "Compound": "class",
+  "Cone": "class",
+  "ConstrainedArcs": "class",
+  "ConstrainedLines": "class",
+  "ContinuityLevel": "enum",
+  "ConvexHull": "class",
+  "ConvexPolyhedron": "class",
+  "Convexity": "enum",
+  "CounterBoreHole": "class",
+  "CounterSinkHole": "class",
+  "Curve": "class",
+  "Cylinder": "class",
+  "CylindricalJoint": "class",
+  "DEG2RAD": "value",
+  "DimensionLine": "class",
+  "DotLength": "enum",
+  "DoubleTangentArc": "class",
+  "Draft": "class",
+  "DraftAngleError": "class",
+  "Drawing": "class",
+  "ET": "value",
+  "Edge": "class",
+  "Ellipse": "class",
+  "EllipticalCenterArc": "class",
+  "EllipticalStartArc": "class",
+  "Enum": "enum",
+  "Export2D": "class",
+  "ExportDXF": "class",
+  "ExportSVG": "class",
+  "ExtensionLine": "class",
+  "Extrinsic": "enum",
+  "FT": "value",
+  "Face": "class",
+  "FilletPolyline": "class",
+  "FontManager": "class",
+  "FontStyle": "enum",
+  "FrameMethod": "enum",
+  "G": "value",
+  "GEOM_KEY_DIGITS": "value",
+  "GProp_GProps": "class",
+  "G_PER_LB": "value",
+  "GccEnt_enclosed": "value",
+  "GccEnt_enclosing": "value",
+  "GccEnt_outside": "value",
+  "GccEnt_unqualified": "value",
+  "Generic": "class",
+  "GeomAPI_IntCS": "class",
+  "GeomAPI_IntSS": "class",
+  "GeomAPI_ProjectPointOnSurf": "class",
+  "GeomConvert": "class",
+  "GeomConvert_BSplineCurveToBezierCurve": "class",
+  "GeomEncoder": "class",
+  "GeomType": "enum",
+  "Geom_BSplineCurve": "class",
+  "Geom_BezierCurve": "class",
+  "Geom_BoundedSurface": "class",
+  "Geom_ElementarySurface": "class",
+  "Geom_Line": "class",
+  "Geom_Plane": "class",
+  "GridLocations": "class",
+  "GroupBy": "class",
+  "HLRAlgo_Projector": "class",
+  "HLRBRep_Algo": "class",
+  "HLRBRep_HLRToShape": "class",
+  "HeadType": "enum",
+  "Helix": "class",
+  "HexLocations": "class",
+  "Hole": "class",
+  "HyperbolicCenterArc": "class",
+  "IFSelect_ReturnStatus": "class",
+  "IGESControl_Controller": "class",
+  "IN": "value",
+  "IndexedDataMap_TCollection_AsciiString_TCollection_AsciiString": "class",
+  "IntEnum": "enum",
+  "Interface_Static": "class",
+  "IntersectingLine": "class",
+  "Intrinsic": "enum",
+  "Iterable": "class",
+  "Iterator": "class",
+  "JernArc": "class",
+  "Joint": "class",
+  "KG": "value",
+  "Keep": "enum",
+  "Kind": "enum",
+  "LB": "value",
+  "LengthMode": "enum",
+  "Lib3MF": "value",
+  "Line": "class",
+  "LineType": "enum",
+  "LinearJoint": "class",
+  "Literal": "function",
+  "Location": "class",
+  "LocationList": "class",
+  "Locations": "class",
+  "M": "value",
+  "MC": "value",
+  "MM": "value",
+  "Matrix": "class",
+  "MeshType": "enum",
+  "Mesher": "class",
+  "Message": "class",
+  "Message_Gravity": "class",
+  "Message_ProgressRange": "class",
+  "MirrorType": "value",
+  "Mode": "enum",
+  "Movable": "class",
+  "MovableT": "value",
+  "NotAllLocationLikeError": "class",
+  "NumberDisplay": "enum",
+  "OffsetType": "value",
+  "OrientedBoundBox": "class",
+  "PT": "value",
+  "PageSize": "enum",
+  "ParabolicCenterArc": "class",
+  "Part": "class",
+  "Path": "class",
+  "PathDescriptor": "value",
+  "PathLike": "class",
+  "PathSegment": "value",
+  "PbrProperties": "class",
+  "Plane": "class",
+  "PlaneMeta": "class",
+  "PointLike": "value",
+  "PolarLine": "class",
+  "PolarLocations": "class",
+  "Polygon": "class",
+  "Polyline": "class",
+  "Pos": "class",
+  "PositionMode": "enum",
+  "PreOrderIter": "class",
+  "PrecisionMode": "enum",
+  "ProjectType": "value",
+  "Protocol": "class",
+  "Quantity_Color": "class",
+  "Quantity_ColorRGBA": "class",
+  "Quantity_TypeOfColor": "class",
+  "RAD2DEG": "value",
+  "RGB": "class",
+  "RWGltf_CafWriter": "class",
+  "RWStl": "class",
+  "RadiusArc": "class",
+  "Rectangle": "class",
+  "RectangleRounded": "class",
+  "RegularPolygon": "class",
+  "RevoluteJoint": "class",
+  "RigidJoint": "class",
+  "Rot": "class",
+  "Rotation": "class",
+  "RotationLike": "value",
+  "STEPCAFControl_Controller": "class",
+  "STEPCAFControl_Reader": "class",
+  "STEPCAFControl_Writer": "class",
+  "STEPControl_Controller": "class",
+  "STEPControl_StepModelType": "class",
+  "Sagitta": "enum",
+  "SagittaArc": "class",
+  "Select": "enum",
+  "Self": "function",
+  "Sequence": "class",
+  "Sequence_TDF_Label": "class",
+  "Shape": "class",
+  "ShapeHistory": "class",
+  "ShapeList": "class",
+  "ShapeT": "value",
+  "Shell": "class",
+  "Side": "enum",
+  "Sketch": "class",
+  "SkipClean": "class",
+  "SlotArc": "class",
+  "SlotCenterPoint": "class",
+  "SlotCenterToCenter": "class",
+  "SlotOverall": "class",
+  "Solid": "class",
+  "SortBy": "enum",
+  "Sphere": "class",
+  "Spline": "class",
+  "SplitType": "value",
+  "Standard_ConstructionError": "class",
+  "Standard_Failure": "class",
+  "StdFail_NotDone": "class",
+  "StlAPI_Writer": "class",
+  "StrEnum": "enum",
+  "Superellipse": "class",
+  "SweepType": "value",
+  "T": "value",
+  "T2": "value",
+  "TCollection_AsciiString": "class",
+  "TCollection_ExtendedString": "class",
+  "TCollection_HAsciiString": "class",
+  "TDF_Label": "class",
+  "TDataStd_Name": "class",
+  "TDocStd_Document": "class",
+  "THOU": "value",
+  "TOL": "value",
+  "TOLERANCE": "value",
+  "TOL_DIGITS": "value",
+  "TYPE_CHECKING": "value",
+  "Tangency": "enum",
+  "TangentArc": "class",
+  "TechnicalDrawing": "class",
+  "Text": "class",
+  "TextAlign": "enum",
+  "TextIO": "class",
+  "ThreePointArc": "class",
+  "TopAbs_FACE": "value",
+  "TopAbs_Orientation": "class",
+  "TopAbs_ShapeEnum": "class",
+  "TopExp_Explorer": "class",
+  "TopLoc_Location": "class",
+  "TopoDS": "value",
+  "TopoDS_Compound": "class",
+  "TopoDS_Edge": "class",
+  "TopoDS_Face": "class",
+  "TopoDS_Shape": "class",
+  "TopoDS_Shell": "class",
+  "TopoDS_Solid": "class",
+  "TopoDS_Vertex": "class",
+  "TopoDS_Wire": "class",
+  "Torus": "class",
+  "Transition": "enum",
+  "Trapezoid": "class",
+  "Triangle": "class",
+  "Type": "function",
+  "TypeAlias": "function",
+  "TypeVar": "class",
+  "UNITS_PER_KILOGRAM": "value",
+  "UNITS_PER_METER": "value",
+  "UUID": "class",
+  "Unit": "enum",
+  "Until": "enum",
+  "Vec2": "class",
+  "Vector": "class",
+  "VectorLike": "value",
+  "Vertex": "class",
+  "Voronoi": "class",
+  "Wedge": "class",
+  "Wire": "class",
+  "XCAFApp_Application": "class",
+  "XCAFDoc_ColorCurv": "value",
+  "XCAFDoc_ColorGen": "value",
+  "XCAFDoc_ColorSurf": "value",
+  "XCAFDoc_ColorTool": "class",
+  "XCAFDoc_ColorType": "class",
+  "XCAFDoc_DocumentTool": "class",
+  "XCAFDoc_ShapeTool": "class",
+  "XSControl_WorkSession": "class",
+  "abstractmethod": "function",
+  "aci2rgb": "function",
+  "add": "function",
+  "all_location_like": "function",
+  "annotations": "value",
+  "ansi_pattern": "function",
+  "apply_location_like": "function",
+  "atan2": "function",
+  "auto": "class",
+  "available_fonts": "function",
+  "bounding_box": "function",
+  "brep_from_stl": "value",
+  "build_common": "value",
+  "build_constants": "value",
+  "build_enums": "value",
+  "build_line": "value",
+  "build_part": "value",
+  "build_sketch": "value",
+  "cast": "function",
+  "chamfer": "function",
+  "colorsys": "value",
+  "contextmanager": "function",
+  "contextvars": "value",
+  "copy": "function",
+  "copy_module": "value",
+  "copysign": "function",
+  "cos": "function",
+  "ctypes": "value",
+  "cycle": "class",
+  "dataclass": "function",
+  "dataclass_field": "function",
+  "date": "class",
+  "datetime": "class",
+  "degrees": "function",
+  "delta": "function",
+  "deprecated": "class",
+  "detect_primitives": "function",
+  "downcast": "function",
+  "draft": "function",
+  "drafting": "value",
+  "edge": "function",
+  "edges": "function",
+  "edges_to_wires": "function",
+  "export_brep": "function",
+  "export_gltf": "function",
+  "export_obj": "function",
+  "export_step": "function",
+  "export_stl": "function",
+  "export_to_pcbway": "function",
+  "exporters": "value",
+  "exporters3d": "value",
+  "extrude": "function",
+  "ezdxf": "value",
+  "face": "function",
+  "faces": "function",
+  "fillet": "function",
+  "find_max_dimension": "function",
+  "fix": "function",
+  "flatten_sequence": "function",
+  "floor": "function",
+  "fsdecode": "function",
+  "full_round": "function",
+  "functools": "value",
+  "gcd": "function",
+  "geometry": "value",
+  "gp_Ax1": "class",
+  "gp_Ax2": "class",
+  "gp_Ax3": "class",
+  "gp_Dir": "class",
+  "gp_EulerSequence": "class",
+  "gp_GTrsf": "class",
+  "gp_Lin": "class",
+  "gp_Pln": "class",
+  "gp_Pnt": "class",
+  "gp_Quaternion": "class",
+  "gp_Trsf": "class",
+  "gp_Vec": "class",
+  "gp_XYZ": "class",
+  "import_brep": "function",
+  "import_dxf": "function",
+  "import_step": "function",
+  "import_stl": "function",
+  "import_svg": "function",
+  "import_svg_as_buildline_code": "function",
+  "import_svg_document": "function",
+  "importers": "value",
+  "inf": "value",
+  "inject_materials": "function",
+  "insert": "function",
+  "inspect": "value",
+  "io": "value",
+  "isclose_b": "function",
+  "iso_pattern": "function",
+  "itertools": "value",
+  "joints": "value",
+  "json": "value",
+  "loft": "function",
+  "log10": "function",
+  "log2": "function",
+  "logger": "value",
+  "logging": "value",
+  "make_brake_formed": "function",
+  "make_face": "function",
+  "make_hull": "function",
+  "math": "value",
+  "mesher": "value",
+  "minimize": "function",
+  "mirror": "function",
+  "modify_copyreg": "function",
+  "new_edges": "function",
+  "np": "value",
+  "objects_curve": "value",
+  "objects_part": "value",
+  "objects_sketch": "value",
+  "offset": "function",
+  "offset_topods_face": "function",
+  "operations_apply_to": "value",
+  "operations_generic": "value",
+  "operations_part": "value",
+  "operations_sketch": "value",
+  "os": "value",
+  "overload": "function",
+  "pack": "function",
+  "pack_utils": "value",
+  "permutations": "class",
+  "persistence": "value",
+  "pi": "value",
+  "polar": "function",
+  "prod": "function",
+  "product": "class",
+  "project": "function",
+  "project_workplane": "function",
+  "radians": "function",
+  "re": "value",
+  "requests": "value",
+  "revolve": "function",
+  "scale": "function",
+  "section": "function",
+  "sentinel": "class",
+  "sin": "function",
+  "solid": "function",
+  "solids": "function",
+  "sort_wires_by_build_order": "function",
+  "split": "function",
+  "sqrt": "function",
+  "starmap": "class",
+  "svgpathtools": "value",
+  "sweep": "function",
+  "sys": "value",
+  "ta": "value",
+  "tan": "function",
+  "tcast": "function",
+  "tempfile": "value",
+  "text": "value",
+  "thicken": "function",
+  "to_align_offset": "function",
+  "topo_distance_to": "function",
+  "topo_explore_common_vertex": "function",
+  "topo_explore_connected_edges": "function",
+  "topo_explore_connected_faces": "function",
+  "topods_lut": "value",
+  "topology": "value",
+  "trace": "function",
+  "trianglesolver": "value",
+  "tuplify": "function",
+  "unicodedata": "value",
+  "unique": "function",
+  "unit_conversion_scale": "function",
+  "unwrap_topods_compound": "function",
+  "validate_inputs": "function",
+  "version": "value",
+  "vertex": "function",
+  "vertices": "function",
+  "warn": "function",
+  "warnings": "value",
+  "webbrowser": "value",
+  "webcolors": "value",
+  "wire": "function",
+  "wires": "function",
+  "zoom": "value"
+ },
+ "version": "0.13.0"
+}

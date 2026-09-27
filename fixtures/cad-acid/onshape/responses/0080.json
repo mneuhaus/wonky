@@ -1,0 +1,48 @@
+{
+  "btType": "BTFeatureDefinitionResponse-1617",
+  "rejectMicroversionSkew": false,
+  "microversionSkew": false,
+  "featureState": {
+    "btType": "BTFeatureState-1688",
+    "featureStatus": "OK",
+    "inactive": false
+  },
+  "feature": {
+    "btType": "BTMFeature-134",
+    "namespace": "e9fa699cfb71475edafd539f7::ma0ec21012180de4c86f06e59",
+    "name": "boolean-V1-ALL",
+    "suppressed": false,
+    "parameters": [
+      {
+        "btType": "BTMParameterEnum-145",
+        "namespace": "e9fa699cfb71475edafd539f7::ma0ec21012180de4c86f06e59",
+        "nodeId": "Mt5PZ9L4tFar69xJ/",
+        "libraryRelationType": "DEFAULT",
+        "enumName": "AcidVariant",
+        "value": "V1",
+        "parameterId": "variant",
+        "parameterName": ""
+      },
+      {
+        "btType": "BTMParameterEnum-145",
+        "namespace": "e9fa699cfb71475edafd539f7::ma0ec21012180de4c86f06e59",
+        "nodeId": "MMVBWwylSRS8Sgogx",
+        "libraryRelationType": "DEFAULT",
+        "enumName": "AcidBooleanZone",
+        "value": "ALL",
+        "parameterId": "zone",
+        "parameterName": ""
+      }
+    ],
+    "nodeId": "MKFZ3izMnrG+ybV3E",
+    "featureId": "Fl1YKXrVphBNVyS_1",
+    "featureType": "acidBoolean",
+    "returnAfterSubfeatures": false,
+    "subFeatures": [],
+    "parameterLibraries": [],
+    "suppressionState": null
+  },
+  "libraryVersion": 0,
+  "serializationVersion": "1.2.13",
+  "sourceMicroversion": "ac1876a802805683f8d601b8"
+}

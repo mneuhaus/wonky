@@ -1,0 +1,42 @@
+{
+ "id": "ch-box-vertical-edge-d1",
+ "jobSha256": "b5a45e4f9b2ed38207f2e0c921aea5fbc9f56437f2d97a72ac05a3393fddf3ac",
+ "jobBytes": 1860,
+ "sourceSha256": "64f5b91006d3bcf5bd54dd5a1a89437b9a8b20dfbbfaf7c9b869019505c8b8db",
+ "buildMs": 3.624083000000155,
+ "kernel": {
+  "closed": true,
+  "volumeMm3": 1600.0000000000002,
+  "areaMm2": 880,
+  "precision": "F32x2",
+  "geometry": "planar"
+ },
+ "counts": {
+  "vertices": 8,
+  "edges": 12,
+  "faces": 6
+ },
+ "surfaces": {
+  "plane": 6
+ },
+ "quantizationErrorMm": 0,
+ "selected": [
+  {
+   "edge": 10,
+   "curve": "line",
+   "faces": [
+    "plane",
+    "plane"
+   ],
+   "convexity": "convex",
+   "dihedralDeg": 90,
+   "length": 8,
+   "sample": [
+    20,
+    10,
+    4
+   ]
+  }
+ ],
+ "step": "out/fillet/input-step/ch-box-vertical-edge-d1.step"
+}

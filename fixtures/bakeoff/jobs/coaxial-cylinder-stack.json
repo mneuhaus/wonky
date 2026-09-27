@@ -1,0 +1,51 @@
+{
+ "schema": "wonky-bakeoff-fixture/1",
+ "case": "coaxial-cylinder-stack",
+ "category": "cylinders",
+ "deviationMm": 0.01,
+ "location": "fixtures/bakeoff/jobs",
+ "job": "fixtures/bakeoff/jobs/coaxial-cylinder-stack.job",
+ "csgJob": "fixtures/bakeoff/jobs/coaxial-cylinder-stack.csg.job",
+ "jobBytes": 20378,
+ "jobSha256": "64d32aae80dd81d098cf4a256291c3bd3fe7a2c9187ddbb78db2888c6d951071",
+ "csgJobSha256": "a90fdeac03f48784c340d08e569dc806b14c163da1f4a9fc294b669c418d5fbd",
+ "leaves": 2,
+ "faces": 6,
+ "vertices": 260,
+ "triangles": 512,
+ "deviationMeasuredMaxMm": 0.009636350358626089,
+ "leafInfo": [
+  {
+   "leaf": 0,
+   "prim": "cylinder",
+   "vertices": 130,
+   "triangles": 256,
+   "tags": [
+    0,
+    1,
+    2
+   ],
+   "segments": 64,
+   "deviationMeasuredMm": 0.009636350358626089,
+   "deviationMethod": "barycentric-grid-8 (max lies on sampled chord midlines)",
+   "vertexOnSurfaceMaxMm": 7.105427357601002e-15,
+   "analyticVolume": 2010.6192982974676
+  },
+  {
+   "leaf": 1,
+   "prim": "cylinder",
+   "vertices": 130,
+   "triangles": 256,
+   "tags": [
+    3,
+    4,
+    5
+   ],
+   "segments": 64,
+   "deviationMeasuredMm": 0.009636350358626089,
+   "deviationMethod": "barycentric-grid-8 (max lies on sampled chord midlines)",
+   "vertexOnSurfaceMaxMm": 7.105427357601002e-15,
+   "analyticVolume": 2010.6192982974676
+  }
+ ]
+}

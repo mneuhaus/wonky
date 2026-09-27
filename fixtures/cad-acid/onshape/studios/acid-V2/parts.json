@@ -1,0 +1,1717 @@
+[
+  {
+    "name": "AC01_0_V2",
+    "state": "IN_PROGRESS",
+    "description": "acid=AC01@V2",
+    "revision": null,
+    "partNumber": null,
+    "elementId": "a7defcc970d7537f4a25e6b3",
+    "partId": "JHD",
+    "bodyType": "solid",
+    "microversionId": "4effa193234f5d2a47530667",
+    "isFlattenedBody": false,
+    "partQuery": "query=qCompressed(1.0,\"&203$eJyFkc1ugzAQhF9mewzCBEhy5MdN3SaQ2kgVJ2RiK7FKgRqjJm9fE6ReeuCwB+98ux6Pn+IA3kep78eAIQ+EGvhXrS4jN6prU254hI7ef6W495KhNeSU7EkWHaoUn3CW4iwp2Q46rS6q5c0QhYlrF3OQrVHmPk3FHPDfgfmA0z1mNVzVYDo9N7eQUBwVJM+s0PVSP64kIvaAiAgxhBzfCZ0QntFtO76qfXDgjb7oyo0SFw2f0pyvP0rLvLdevqfHPdYKYG+4SF4qnBWkKJmEGZ3tEME2TgDdaBrVyqncyTv1aUBDuqFbymlNz1SwFfItOBFokfAWifUi4S8SVk1Cm2Wcp+UMJbXNaXV2VsIJnB0MXaNE1+Ob0aOQtLY/wj7wqaimiV9HX6MH\",id);",
+    "partIdentity": null,
+    "meshState": "NO_MESH",
+    "isHidden": false,
+    "configurationId": "",
+    "thumbnailConfigurationId": "",
+    "propertySourceTypes": {
+      "57f3fb8efa3416c06701d60d": 2,
+      "57f3fb8efa3416c06701d60e": 2
+    },
+    "metadataMicroversion": "3258649c6bcd360a8d18f75f",
+    "defaultColorHash": "F1x8uJiG5Lalrgr_0_0",
+    "ordinal": 0,
+    "isMesh": false,
+    "appearance": {
+      "color": {
+        "red": 157,
+        "green": 207,
+        "blue": 237
+      },
+      "isGenerated": true,
+      "opacity": 255
+    }
+  },
+  {
+    "name": "AC02_0_V2",
+    "state": "IN_PROGRESS",
+    "description": "acid=AC02@V2",
+    "revision": null,
+    "partNumber": null,
+    "elementId": "a7defcc970d7537f4a25e6b3",
+    "partId": "JKD",
+    "bodyType": "solid",
+    "microversionId": "4effa193234f5d2a47530667",
+    "isFlattenedBody": false,
+    "partQuery": "query=qCompressed(1.0,\"&1da$eJx9UE1zgjAQ/TPboxmDgHrkI7W0CjZhpuOJCSaVTJHQEKb67wsy46VTb7v73tt9b59CD957aa47j2EHhOr4uVSnnlulm5hbHuCd8xfJr61keAEZTTZJGmyLmOxJGpM0OrA1aKNOquF1F3jRfFjMQTZW2euoCjmQe8NcIPGGsBIq1VltpuEKIkqCPMnSAdCtNLeTiQgdSESAGcbIRT7y4RlfVv2r2nhbXpuTKeZBNHe6L2mP1Y8yMmsHL99juNtaAeyN5NFLQdI8yQ9MwkSd7CSCLZELure1amQtP+1onbrUoz5d0hXltKRHKtgMu8iDIWH1iLEAq9sHuA+ltlaf/6G4UOlaUjfyhzLM4sOER+UQf3ZEM4E8tIZO10rollys6YWk5fBo9kH2eTEqfgHVd5ij\",id);",
+    "partIdentity": null,
+    "meshState": "NO_MESH",
+    "isHidden": false,
+    "configurationId": "",
+    "thumbnailConfigurationId": "",
+    "propertySourceTypes": {
+      "57f3fb8efa3416c06701d60d": 2,
+      "57f3fb8efa3416c06701d60e": 2
+    },
+    "metadataMicroversion": "3258649c6bcd360a8d18f75f",
+    "defaultColorHash": "F1x8uJiG5Lalrgr_0_0",
+    "ordinal": 1,
+    "isMesh": false,
+    "appearance": {
+      "color": {
+        "red": 157,
+        "green": 207,
+        "blue": 237
+      },
+      "isGenerated": true,
+      "opacity": 255
+    }
+  },
+  {
+    "name": "AC03_0_V2",
+    "state": "IN_PROGRESS",
+    "description": "acid=AC03@V2",
+    "revision": null,
+    "partNumber": null,
+    "elementId": "a7defcc970d7537f4a25e6b3",
+    "partId": "JND",
+    "bodyType": "solid",
+    "microversionId": "4effa193234f5d2a47530667",
+    "isFlattenedBody": false,
+    "partQuery": "query=qCompressed(1.0,\"&1a9$eJx1kFFvwiAUhf/M3aONaNvpY0uZY9PWQZPFp4YKU7JOOkqj/vtRm/iy+AZ895x7Dk9pBB+9stdNxNEMpO7ET60PvXDanDLhRII2s/+kvLaKozkUjK5onqyrjGxJnpEc7/gSjNUHfRJNl4R46o0FqJPT7jqoUgHkfuEhkGxFeA1H3Tljx8cFYEaSkha5B6ZV9raSynQGVCaIIxSEQRzE8IIui/5Nr6K1aOzBVtMET+fdt3L741lbVbQ+y+9Q7mYrgb+TEr9WJC9pueMKxtExDpU8gsaclR0is5BFLGbPbMEEq9meDdS3OrqHtG/bh9oQGvXlWIhjf0yLbDdyXPs2k30wkUEULKEzjZamJRdne6lY7f+Nf5JtWQ2KP1EFiqo=\",id);",
+    "partIdentity": null,
+    "meshState": "NO_MESH",
+    "isHidden": false,
+    "configurationId": "",
+    "thumbnailConfigurationId": "",
+    "propertySourceTypes": {
+      "57f3fb8efa3416c06701d60d": 2,
+      "57f3fb8efa3416c06701d60e": 2
+    },
+    "metadataMicroversion": "3258649c6bcd360a8d18f75f",
+    "defaultColorHash": "F1x8uJiG5Lalrgr_0_0",
+    "ordinal": 2,
+    "isMesh": false,
+    "appearance": {
+      "color": {
+        "red": 157,
+        "green": 207,
+        "blue": 237
+      },
+      "isGenerated": true,
+      "opacity": 255
+    }
+  },
+  {
+    "name": "AC04_0_V2",
+    "state": "IN_PROGRESS",
+    "description": "acid=AC04@V2",
+    "revision": null,
+    "partNumber": null,
+    "elementId": "a7defcc970d7537f4a25e6b3",
+    "partId": "JQD",
+    "bodyType": "solid",
+    "microversionId": "4effa193234f5d2a47530667",
+    "isFlattenedBody": false,
+    "partQuery": "query=qCompressed(1.0,\"&1bd$eJx9UE1zgjAQ/TPboxmjAfUIIbW0Cm3CTMcTE0iqmaKhEG399w0y00tnPO6+t+9jH+IA3s66u24DgWegTC+PldmfpTP2lEgnI7yd/UeKa6sFnkPO03WaRZsyYa8sS1hGd2IFtjN7c5JNHxE69cIS9MkZdx2uYgnsbxAEWLJmooKD6Z3txuUSKGdRkeaZB2yru5tlquIZpCrCAmNEUIhCeMQ/y/OzWQcb2XT7rpxGdEr6T+3qw7fpdN76LF9DuZusAvHCCvpUsqxIi53QMFLHOKkSC0Sg1/Vg1ugPN0TnhAc85Au+5JJXvOZKTDBBAfiGh3uMOTjb3sFDqKxz9sgJDf0X4jzZjSxa+YaTGk0UCtAKetsYZVuuL7a5aF75X4p39lqUw8UvDWiP2Q==\",id);",
+    "partIdentity": null,
+    "meshState": "NO_MESH",
+    "isHidden": false,
+    "configurationId": "",
+    "thumbnailConfigurationId": "",
+    "propertySourceTypes": {
+      "57f3fb8efa3416c06701d60d": 2,
+      "57f3fb8efa3416c06701d60e": 2
+    },
+    "metadataMicroversion": "3258649c6bcd360a8d18f75f",
+    "defaultColorHash": "F1x8uJiG5Lalrgr_0_0",
+    "ordinal": 3,
+    "isMesh": false,
+    "appearance": {
+      "color": {
+        "red": 157,
+        "green": 207,
+        "blue": 237
+      },
+      "isGenerated": true,
+      "opacity": 255
+    }
+  },
+  {
+    "name": "AC05_0_V2",
+    "state": "IN_PROGRESS",
+    "description": "acid=AC05@V2",
+    "revision": null,
+    "partNumber": null,
+    "elementId": "a7defcc970d7537f4a25e6b3",
+    "partId": "JVD",
+    "bodyType": "solid",
+    "microversionId": "4effa193234f5d2a47530667",
+    "isFlattenedBody": false,
+    "partQuery": "query=qCompressed(1.0,\"&3ba$eJydUt+TmjAQ/me2jzKEA5FHhGhpFeyGmY5PTpSgmaqhIbb1v2+QO8c7r3c3fciv3f322/02n8YBfDsJfZ4HjHhQyZYf1nJ74kaqY8oNj8ncu/eU50Yw8gAFZtMsj2erlC5ontI8WbIIlJZbeeT7NvYSdx6g2yVBwkZQFotiVkyX9iqORhop2tjvo9gaKqHlL1FNtDpcLLwPOndsYw70+mA+0HRKLWQnW6N0bxxBgjQusyK3DtUIfSk1q8YeZFVMGCGO7wydIUzIn9Hpi5wGM77XW71y48QN1soYdfgttSga28PPTpRL2grYV1omn1c0L7NyyQS0P4TZ7PpysoqFjg+t2HRke1EbDHGEEXJcJ8KyDmpnQFy7iBOCPDRaHg0KFkI2X2CWl+mAPMo0vOxXNFYosEbisgEJnQCsqLub5Eh86ydB+iH4AxjV3IORbD6CtsXDa+AQwySyw5jECX3uu507+hg8Tfklz3OJutODR2Yk5K04Dk9F/KMDb3NNFN2a63c6v8GJ/8N53ms4KxZ60Qtrr9+4SJf3fQb2q7ZqLyvVzFTdfRoO7DtdlKsu/i95KBzZ\",id);",
+    "partIdentity": null,
+    "meshState": "NO_MESH",
+    "isHidden": false,
+    "configurationId": "",
+    "thumbnailConfigurationId": "",
+    "propertySourceTypes": {
+      "57f3fb8efa3416c06701d60d": 2,
+      "57f3fb8efa3416c06701d60e": 2
+    },
+    "metadataMicroversion": "3258649c6bcd360a8d18f75f",
+    "defaultColorHash": "F1x8uJiG5Lalrgr_0_0",
+    "ordinal": 4,
+    "isMesh": false,
+    "appearance": {
+      "color": {
+        "red": 157,
+        "green": 207,
+        "blue": 237
+      },
+      "isGenerated": true,
+      "opacity": 255
+    }
+  },
+  {
+    "name": "AC07_0_V2",
+    "state": "IN_PROGRESS",
+    "description": "acid=AC07@V2",
+    "revision": null,
+    "partNumber": null,
+    "elementId": "a7defcc970d7537f4a25e6b3",
+    "partId": "JZD",
+    "bodyType": "solid",
+    "microversionId": "4effa193234f5d2a47530667",
+    "isFlattenedBody": false,
+    "partQuery": "query=qCompressed(1.0,\"%B5$QueryM5S12$disambiguationDataA1M2S12$disambiguationTypeS13$ORIGINAL_DEPENDENCYS9$originalsA2C0M4Sa$entityTypeBa$EntityTypeS4$EDGESb$historyTypeS8$CREATIONSb$operationIdB2$IdA1S11.4.5.7$F1x8uJiG5Lalrgr_0AC07helixopHelixS9$queryTypeS5$DUMMYC0M5R4R5R6R7R8CbA1S-c.-d.7.6$sectionwireOpRbSd$SKETCH_ENTITYSe$sketchEntityIdS4$tubeR4C6S4$BODYR6R7R8CbA1S-c.-d.5.7$solidopSweepRbSa$SWEPT_BODY\",id);",
+    "partIdentity": null,
+    "meshState": "NO_MESH",
+    "isHidden": false,
+    "configurationId": "",
+    "thumbnailConfigurationId": "",
+    "propertySourceTypes": {
+      "57f3fb8efa3416c06701d60d": 2,
+      "57f3fb8efa3416c06701d60e": 2
+    },
+    "metadataMicroversion": "3258649c6bcd360a8d18f75f",
+    "defaultColorHash": "F1x8uJiG5Lalrgr_0_0",
+    "ordinal": 5,
+    "isMesh": false,
+    "appearance": {
+      "color": {
+        "red": 157,
+        "green": 207,
+        "blue": 237
+      },
+      "isGenerated": true,
+      "opacity": 255
+    }
+  },
+  {
+    "name": "AC08_0_V2",
+    "state": "IN_PROGRESS",
+    "description": "acid=AC08@V2",
+    "revision": null,
+    "partNumber": null,
+    "elementId": "a7defcc970d7537f4a25e6b3",
+    "partId": "JdD",
+    "bodyType": "solid",
+    "microversionId": "4effa193234f5d2a47530667",
+    "isFlattenedBody": false,
+    "partQuery": "query=qCompressed(1.0,\"%B5$QueryM5S12$disambiguationDataA1M2S12$disambiguationTypeS13$ORIGINAL_DEPENDENCYS9$originalsA1C0M5Sa$entityTypeBa$EntityTypeS4$EDGESb$historyTypeS8$CREATIONSb$operationIdB2$IdA1S11.4.6.6$F1x8uJiG5Lalrgr_0AC08sketchwireOpS9$queryTypeSd$SKETCH_ENTITYSe$sketchEntityIdS4$seedR4C6S4$BODYR6R7R8CbA1S-c.-d.-14.9$opExtrudeRbSa$SWEPT_BODY\",id);",
+    "partIdentity": null,
+    "meshState": "NO_MESH",
+    "isHidden": false,
+    "configurationId": "",
+    "thumbnailConfigurationId": "",
+    "propertySourceTypes": {
+      "57f3fb8efa3416c06701d60d": 2,
+      "57f3fb8efa3416c06701d60e": 2
+    },
+    "metadataMicroversion": "3258649c6bcd360a8d18f75f",
+    "defaultColorHash": "F1x8uJiG5Lalrgr_0_0",
+    "ordinal": 6,
+    "isMesh": false,
+    "appearance": {
+      "color": {
+        "red": 157,
+        "green": 207,
+        "blue": 237
+      },
+      "isGenerated": true,
+      "opacity": 255
+    }
+  },
+  {
+    "name": "AC08_1_V2",
+    "state": "IN_PROGRESS",
+    "description": "acid=AC08@V2",
+    "revision": null,
+    "partNumber": null,
+    "elementId": "a7defcc970d7537f4a25e6b3",
+    "partId": "JeD",
+    "bodyType": "solid",
+    "microversionId": "4effa193234f5d2a47530667",
+    "isFlattenedBody": false,
+    "partQuery": "query=qCompressed(1.0,\"%B5$QueryM6Sb$derivedFromC0M5S12$disambiguationDataA1M2S12$disambiguationTypeS13$ORIGINAL_DEPENDENCYS9$originalsA1C0M5Sa$entityTypeBa$EntityTypeS4$EDGESb$historyTypeS8$CREATIONSb$operationIdB2$IdA1S11.4.6.6$F1x8uJiG5Lalrgr_0AC08sketchwireOpS9$queryTypeSd$SKETCH_ENTITYSe$sketchEntityIdS4$seedR5C7S4$BODYR7R8R9CcA1S-d.-e.-15.9$opExtrudeRcSa$SWEPT_BODYR5R14R7R8Sc$instanceNameS8$quarter1R9CcA1S-d.-e.5.9$copy1opPatternRcS4$COPY\",id);",
+    "partIdentity": null,
+    "meshState": "NO_MESH",
+    "isHidden": false,
+    "configurationId": "",
+    "thumbnailConfigurationId": "",
+    "propertySourceTypes": {
+      "57f3fb8efa3416c06701d60d": 2,
+      "57f3fb8efa3416c06701d60e": 2
+    },
+    "metadataMicroversion": "3258649c6bcd360a8d18f75f",
+    "defaultColorHash": "F1x8uJiG5Lalrgr_0_0",
+    "ordinal": 7,
+    "isMesh": false,
+    "appearance": {
+      "color": {
+        "red": 157,
+        "green": 207,
+        "blue": 237
+      },
+      "isGenerated": true,
+      "opacity": 255
+    }
+  },
+  {
+    "name": "AC08_2_V2",
+    "state": "IN_PROGRESS",
+    "description": "acid=AC08@V2",
+    "revision": null,
+    "partNumber": null,
+    "elementId": "a7defcc970d7537f4a25e6b3",
+    "partId": "JfD",
+    "bodyType": "solid",
+    "microversionId": "4effa193234f5d2a47530667",
+    "isFlattenedBody": false,
+    "partQuery": "query=qCompressed(1.0,\"%B5$QueryM6Sb$derivedFromC0M5S12$disambiguationDataA1M2S12$disambiguationTypeS13$ORIGINAL_DEPENDENCYS9$originalsA1C0M5Sa$entityTypeBa$EntityTypeS4$EDGESb$historyTypeS8$CREATIONSb$operationIdB2$IdA1S11.4.6.6$F1x8uJiG5Lalrgr_0AC08sketchwireOpS9$queryTypeSd$SKETCH_ENTITYSe$sketchEntityIdS4$seedR5C7S4$BODYR7R8R9CcA1S-d.-e.-15.9$opExtrudeRcSa$SWEPT_BODYR5R14R7R8Sc$instanceNameS8$quarter2R9CcA1S-d.-e.5.9$copy2opPatternRcS4$COPY\",id);",
+    "partIdentity": null,
+    "meshState": "NO_MESH",
+    "isHidden": false,
+    "configurationId": "",
+    "thumbnailConfigurationId": "",
+    "propertySourceTypes": {
+      "57f3fb8efa3416c06701d60d": 2,
+      "57f3fb8efa3416c06701d60e": 2
+    },
+    "metadataMicroversion": "3258649c6bcd360a8d18f75f",
+    "defaultColorHash": "F1x8uJiG5Lalrgr_0_0",
+    "ordinal": 8,
+    "isMesh": false,
+    "appearance": {
+      "color": {
+        "red": 157,
+        "green": 207,
+        "blue": 237
+      },
+      "isGenerated": true,
+      "opacity": 255
+    }
+  },
+  {
+    "name": "AC08_3_V2",
+    "state": "IN_PROGRESS",
+    "description": "acid=AC08@V2",
+    "revision": null,
+    "partNumber": null,
+    "elementId": "a7defcc970d7537f4a25e6b3",
+    "partId": "JgD",
+    "bodyType": "solid",
+    "microversionId": "4effa193234f5d2a47530667",
+    "isFlattenedBody": false,
+    "partQuery": "query=qCompressed(1.0,\"%B5$QueryM6Sb$derivedFromC0M5S12$disambiguationDataA1M2S12$disambiguationTypeS13$ORIGINAL_DEPENDENCYS9$originalsA1C0M5Sa$entityTypeBa$EntityTypeS4$EDGESb$historyTypeS8$CREATIONSb$operationIdB2$IdA1S11.4.6.6$F1x8uJiG5Lalrgr_0AC08sketchwireOpS9$queryTypeSd$SKETCH_ENTITYSe$sketchEntityIdS4$seedR5C7S4$BODYR7R8R9CcA1S-d.-e.-15.9$opExtrudeRcSa$SWEPT_BODYR5R14R7R8Sc$instanceNameS8$quarter3R9CcA1S-d.-e.5.9$copy3opPatternRcS4$COPY\",id);",
+    "partIdentity": null,
+    "meshState": "NO_MESH",
+    "isHidden": false,
+    "configurationId": "",
+    "thumbnailConfigurationId": "",
+    "propertySourceTypes": {
+      "57f3fb8efa3416c06701d60d": 2,
+      "57f3fb8efa3416c06701d60e": 2
+    },
+    "metadataMicroversion": "3258649c6bcd360a8d18f75f",
+    "defaultColorHash": "F1x8uJiG5Lalrgr_0_0",
+    "ordinal": 9,
+    "isMesh": false,
+    "appearance": {
+      "color": {
+        "red": 157,
+        "green": 207,
+        "blue": 237
+      },
+      "isGenerated": true,
+      "opacity": 255
+    }
+  },
+  {
+    "name": "AC09_0_V2",
+    "state": "IN_PROGRESS",
+    "description": "acid=AC09@V2",
+    "revision": null,
+    "partNumber": null,
+    "elementId": "a7defcc970d7537f4a25e6b3",
+    "partId": "JjD",
+    "bodyType": "solid",
+    "microversionId": "4effa193234f5d2a47530667",
+    "isFlattenedBody": false,
+    "partQuery": "query=qCompressed(1.0,\"&19a$eJyFkEFvgzAMhf+MdywiFFh7hJB12VroEqSpJxSaiEbrgIWgtv9+oUi97LCj7c/P7/kpjeBjVOa2izgKQOpBfNe6GYXVXZsJKxK0C/5OyluvOFpCweiG5sm2ysie5BnJ8YGvoTO60a04D8kS+05YgGqttrdpKxVAHgUPgWQbwms46cF2Zm6uADOSlLTI3aDrlbmfpDINgMoEcYS80Iu9GF7QdTW+6U20FWfTmMpPsL8evpQ9ni7aqKJ3Xn6mcHdZCfydlPi1InlJywNXMKOzHSp55EVwUbJRZ90qf3LOQhaxmD2zFROsZkcm+QKFDpsI9C8RsBDHLmNaZIcZwrXzvzh6C+kirGFQSnY9uVozSsVq9yj+SfZlNS38Ata7hHY=\",id);",
+    "partIdentity": null,
+    "meshState": "NO_MESH",
+    "isHidden": false,
+    "configurationId": "",
+    "thumbnailConfigurationId": "",
+    "propertySourceTypes": {
+      "57f3fb8efa3416c06701d60d": 2,
+      "57f3fb8efa3416c06701d60e": 2
+    },
+    "metadataMicroversion": "3258649c6bcd360a8d18f75f",
+    "defaultColorHash": "F1x8uJiG5Lalrgr_0_0",
+    "ordinal": 10,
+    "isMesh": false,
+    "appearance": {
+      "color": {
+        "red": 157,
+        "green": 207,
+        "blue": 237
+      },
+      "isGenerated": true,
+      "opacity": 255
+    }
+  },
+  {
+    "name": "AC09_1_V2",
+    "state": "IN_PROGRESS",
+    "description": "acid=AC09@V2",
+    "revision": null,
+    "partNumber": null,
+    "elementId": "a7defcc970d7537f4a25e6b3",
+    "partId": "JkD",
+    "bodyType": "solid",
+    "microversionId": "4effa193234f5d2a47530667",
+    "isFlattenedBody": false,
+    "partQuery": "query=qCompressed(1.0,\"&1f4$eJyFkE9zgjAQxb/M9ihDVBCO/ImWVsEmzHQ8OZHsaKZCaAhVv31BZ3rx0ONmf+/te3mJPfjo0dw2Pj+ARKN+UC6NrhN343EyBak6UR/UsRdW6SYVVkRkM33elLcWOZlBwbJVlkfrfUq3NE9pnux4CNqoo2rEuYtmd2MB2Fhlb6MqFkD/Bj4Hmq7okOWkOqvN4zGAhNGozIp8WOgWzf1kJuMpZDIinBBn7viOD0tyDfo3tfLW4myOZu9GiRt2X2ir00UZLNohy/dY924rgb/TMnnd07zMyh1HeKCPOJnknuPBBeURz6pBd0zOPOazBQtYyA6sYpIhn5ARGwnyLzFlXrIYOsZFuntASTXkn0hngkOFEDpEqVt6taaXyKrho/gn3Zb7u8BjJBhVvALVdFY0FeaiRu5DrYzR5smt0u1Nt1thLZpmcJtDUmx3v4VGom0=\",id);",
+    "partIdentity": null,
+    "meshState": "NO_MESH",
+    "isHidden": false,
+    "configurationId": "",
+    "thumbnailConfigurationId": "",
+    "propertySourceTypes": {
+      "57f3fb8efa3416c06701d60d": 2,
+      "57f3fb8efa3416c06701d60e": 2
+    },
+    "metadataMicroversion": "3258649c6bcd360a8d18f75f",
+    "defaultColorHash": "F1x8uJiG5Lalrgr_0_0",
+    "ordinal": 11,
+    "isMesh": false,
+    "appearance": {
+      "color": {
+        "red": 157,
+        "green": 207,
+        "blue": 237
+      },
+      "isGenerated": true,
+      "opacity": 255
+    }
+  },
+  {
+    "name": "AC10_0_V2",
+    "state": "IN_PROGRESS",
+    "description": "acid=AC10@V2",
+    "revision": null,
+    "partNumber": null,
+    "elementId": "a7defcc970d7537f4a25e6b3",
+    "partId": "JnD",
+    "bodyType": "solid",
+    "microversionId": "4effa193234f5d2a47530667",
+    "isFlattenedBody": false,
+    "partQuery": "query=qCompressed(1.0,\"&1ca$eJx9UE1vgzAM/TPekahpgbZHPrIObYUuQZo4oUCyErUlDFK1/PuFIu0yqfLF9nt+9vNL6MHnVfbj3mN4CUIN/FKp45UbpduYGx7g/fI/ko+dZHgFGU12SRp8lDE5kDQmaVSwLeheHVXLz0PgRgsrzEG2Rplxmgo5kL+CuUDiHWEVNGowup+bG4goCfIkSy2gO9k/ViYiXEIiAswwRq4NH/nweiGNHk9FfB3z/NaVOIjwotL3xXCSpm5uqpdZZy/6mSw+xAWwd5JHbyVJ8yQvmISZOh+VCLZFLvSyNrw9nuVZfpvJAnWpR326phvKaUVrKpiDPeSBddo8Y6zA6O4J7kOljdEX6ka+/UaYxcXMiirr1KmRI5Aj0RptQd5NfxVSd2ROaGUfy77IIS+nsV8dfpS7\",id);",
+    "partIdentity": null,
+    "meshState": "NO_MESH",
+    "isHidden": false,
+    "configurationId": "",
+    "thumbnailConfigurationId": "",
+    "propertySourceTypes": {
+      "57f3fb8efa3416c06701d60d": 2,
+      "57f3fb8efa3416c06701d60e": 2
+    },
+    "metadataMicroversion": "3258649c6bcd360a8d18f75f",
+    "defaultColorHash": "FmEhoykYDuyTTwp_1_0",
+    "ordinal": 12,
+    "isMesh": false,
+    "appearance": {
+      "color": {
+        "red": 165,
+        "green": 165,
+        "blue": 165
+      },
+      "isGenerated": true,
+      "opacity": 255
+    }
+  },
+  {
+    "name": "AC11_0_V2",
+    "state": "IN_PROGRESS",
+    "description": "acid=AC11@V2",
+    "revision": null,
+    "partNumber": null,
+    "elementId": "a7defcc970d7537f4a25e6b3",
+    "partId": "JxD",
+    "bodyType": "solid",
+    "microversionId": "4effa193234f5d2a47530667",
+    "isFlattenedBody": false,
+    "partQuery": "query=qCompressed(1.0,\"&1ca$eJx9UE1vgzAM/TPesVHTAm2PfGQd2gpdEmnihALJCmpLGAS1/PuFIu0yqfLF9nt+9vNL4MLnoLrx4DK8Aln34lrUp0GYWjeRMMLHh9V/hI+tYngNKY33ceJ/5BE5kiQiSZixHeiuPtWNuPS+Ey6tsADVmNqM01QggPwVzAES7QkroKp7o7u5uYWQEp/HaWIB3arusTKWwQpi6WOGMXJseMiD1yup9HjOomHk/Nbm2A8xLvR92Z+VKatb3am0tRf9TBYf4hLYO+HhW04SHvOMKZip81GxZDvkQKdKI5rTRV3Ut5ksUIe61KMbuqWCFrSkki2wi1ywTqtnjDUY3T7BPSi0MfpKndCz3wjSKJtZYWGdLkq0kGih0AbtQN1NN0ilWzIntLCPZV/kyPNp7BcedZS8\",id);",
+    "partIdentity": null,
+    "meshState": "NO_MESH",
+    "isHidden": false,
+    "configurationId": "",
+    "thumbnailConfigurationId": "",
+    "propertySourceTypes": {
+      "57f3fb8efa3416c06701d60d": 2,
+      "57f3fb8efa3416c06701d60e": 2
+    },
+    "metadataMicroversion": "3258649c6bcd360a8d18f75f",
+    "defaultColorHash": "FmEhoykYDuyTTwp_1_0",
+    "ordinal": 13,
+    "isMesh": false,
+    "appearance": {
+      "color": {
+        "red": 165,
+        "green": 165,
+        "blue": 165
+      },
+      "isGenerated": true,
+      "opacity": 255
+    }
+  },
+  {
+    "name": "AC12_0_V2",
+    "state": "IN_PROGRESS",
+    "description": "acid=AC12@V2",
+    "revision": null,
+    "partNumber": null,
+    "elementId": "a7defcc970d7537f4a25e6b3",
+    "partId": "J7D",
+    "bodyType": "solid",
+    "microversionId": "4effa193234f5d2a47530667",
+    "isFlattenedBody": false,
+    "partQuery": "query=qCompressed(1.0,\"&1ca$eJx9UE1vgzAM/TPekaihQNsjH1mHtkKXIE2cUICsRG0Jg6CWf79QpF0mVb7Yfs/Pfn4JXPgcRT8dXIZtqOXAr6U8jVxL1UZccx8f7P9INnWC4TWkNN7Hif9RRORIkogkYc52oHp5ki2/DL4TrowwB9Fqqad5KuBA/grmAIn2hJXQyEGrfmluIaTEz+I0MYDqRP9YGdeBDXHtY4Yxckx4yIPXK2nUdM6jccqyW1dgP8R2qe6r4Sx01dxkL9LOXPQzW3yI18DeSRa+FSTJ4ixnAhbqclRcsx1yoBeV5u3pIi7iW88WqENd6tEN3VJOS1rRmlnYRS4Yp80zxhq06p7gHpRKa3WlTuiZbwRplC+ssDROrQpZNbIE2qAdiLvux1qojiwJLc1j2Rc5ZsU89gsfbJS9\",id);",
+    "partIdentity": null,
+    "meshState": "NO_MESH",
+    "isHidden": false,
+    "configurationId": "",
+    "thumbnailConfigurationId": "",
+    "propertySourceTypes": {
+      "57f3fb8efa3416c06701d60d": 2,
+      "57f3fb8efa3416c06701d60e": 2
+    },
+    "metadataMicroversion": "3258649c6bcd360a8d18f75f",
+    "defaultColorHash": "FmEhoykYDuyTTwp_1_0",
+    "ordinal": 14,
+    "isMesh": false,
+    "appearance": {
+      "color": {
+        "red": 165,
+        "green": 165,
+        "blue": 165
+      },
+      "isGenerated": true,
+      "opacity": 255
+    }
+  },
+  {
+    "name": "AC12_1_V2",
+    "state": "IN_PROGRESS",
+    "description": "acid=AC12@V2",
+    "revision": null,
+    "partNumber": null,
+    "elementId": "a7defcc970d7537f4a25e6b3",
+    "partId": "J/D",
+    "bodyType": "solid",
+    "microversionId": "4effa193234f5d2a47530667",
+    "isFlattenedBody": false,
+    "partQuery": "query=qCompressed(1.0,\"&1ca$eJx9UE1vgzAM/TPesdFCgbZHPrIObYUuiTRxQgGyErUlDIJa/v3CkHaZVPli+z0/+/kp9OBjlP108Bh2oFaDuJbqNAqjdBsLIwJ8cP4jfOokw2vIaLJP0uC9iMmRpDFJo5ztQPfqpFpxGQI3erbCAmRrlJnmqVAA+SuYCyTeE1ZCowaj+6W5hYiSgCdZagHdyf53ZVKHDiR1gBnGyLXhIx9erqTR0zmPx4nzW1fgIMJOqe94OEtTNTfVy6yzF33PFn/Fa2BvhEevBUl5wnMmYaEuRyU12yEXelkZ0Z4u8iK/zGyButSjPt3QLRW0pBWt2Qp7yAPrtHnEWIPR3QPch1Ibo6/UjXz7jTCL84UVldbpqkKrGq0k2qAdyLvpx1rqjiwJLe1j2Sc58mIe+wEgX5S+\",id);",
+    "partIdentity": null,
+    "meshState": "NO_MESH",
+    "isHidden": false,
+    "configurationId": "",
+    "thumbnailConfigurationId": "",
+    "propertySourceTypes": {
+      "57f3fb8efa3416c06701d60d": 2,
+      "57f3fb8efa3416c06701d60e": 2
+    },
+    "metadataMicroversion": "3258649c6bcd360a8d18f75f",
+    "defaultColorHash": "FmEhoykYDuyTTwp_1_0",
+    "ordinal": 15,
+    "isMesh": false,
+    "appearance": {
+      "color": {
+        "red": 165,
+        "green": 165,
+        "blue": 165
+      },
+      "isGenerated": true,
+      "opacity": 255
+    }
+  },
+  {
+    "name": "AC12_2_V2",
+    "state": "IN_PROGRESS",
+    "description": "acid=AC12@V2",
+    "revision": null,
+    "partNumber": null,
+    "elementId": "a7defcc970d7537f4a25e6b3",
+    "partId": "RDBD",
+    "bodyType": "solid",
+    "microversionId": "4effa193234f5d2a47530667",
+    "isFlattenedBody": false,
+    "partQuery": "query=qCompressed(1.0,\"&1ca$eJx9UE1vgzAM/TPesdFCgbZHPrIObYUuiTRxQgGyErUlDIJa/v3CkHaZVPli+z0/+/kp9OBjlP108Bh2oFaDuJbqNAqjdBsLIwJ8cP4jfOokw2vIaLJP0uC9iMmRpDFJo5ztQPfqpFpxGQI3erbCAmRrlJnmqVAA+SuYCyTeE1ZCowaj+6W5hYiSgCdZagHdyf53ZVKHDiR1gBnGyLXhIx9erqTR0zmPx4nzW1fgIMJOqe/OcJamam6ql1lnL/qeLf6K18DeCI9eC5LyhOdMwkJdjkpqtkMu9LIyoj1d5EV+mdkCdalHfbqhWypoSStasxX2kAfWafOIsQajuwe4D6U2Rl+pG/n2G2EW5wsrKq3TVYVWNVpJtEE7kHfTj7XUHVkSWtrHsk9y5MU89gMhUpS/\",id);",
+    "partIdentity": null,
+    "meshState": "NO_MESH",
+    "isHidden": false,
+    "configurationId": "",
+    "thumbnailConfigurationId": "",
+    "propertySourceTypes": {
+      "57f3fb8efa3416c06701d60d": 2,
+      "57f3fb8efa3416c06701d60e": 2
+    },
+    "metadataMicroversion": "3258649c6bcd360a8d18f75f",
+    "defaultColorHash": "FmEhoykYDuyTTwp_1_0",
+    "ordinal": 16,
+    "isMesh": false,
+    "appearance": {
+      "color": {
+        "red": 165,
+        "green": 165,
+        "blue": 165
+      },
+      "isGenerated": true,
+      "opacity": 255
+    }
+  },
+  {
+    "name": "AC14_0_V2",
+    "state": "IN_PROGRESS",
+    "description": "acid=AC14@V2",
+    "revision": null,
+    "partNumber": null,
+    "elementId": "a7defcc970d7537f4a25e6b3",
+    "partId": "RSBD",
+    "bodyType": "solid",
+    "microversionId": "4effa193234f5d2a47530667",
+    "isFlattenedBody": false,
+    "partQuery": "query=qCompressed(1.0,\"&1ca$eJx9UE1vgzAM/TPesVHTAm2PfGQd2gpdEmnihALJCmpLGAS1/PuFIu0yqfLF9nt+9vNL4MLnoLrx4DK8Aln34lrUp0GYWjeRMMLHh9V/hI+tYngNKY33ceJ/5BE5kiQiSZixHeiuPtWNuPS+Ey6tsADVmNqM01QggPwVzAES7QkroKp7o7u5uYWQEp/HaWIB3arusTKWwQpi6WOGMXJseMiD1yup9HjOomHk/Nbm2A+xU+j7sj8rU1a3ulNpay/6mSw+xCWwd8LDt5wkPOYZUzBT56NiyXbIgU6VRjSni7qobzNZoA51qUc3dEsFLWhJJVtgF7lgnVbPGGswun2Ce1BoY/SVOqFnvxGkUTazwsI6XZRoIdFCoQ3agbqbbpBKt2ROaGEfy77IkefT2C8hWpS/\",id);",
+    "partIdentity": null,
+    "meshState": "NO_MESH",
+    "isHidden": false,
+    "configurationId": "",
+    "thumbnailConfigurationId": "",
+    "propertySourceTypes": {
+      "57f3fb8efa3416c06701d60d": 2,
+      "57f3fb8efa3416c06701d60e": 2
+    },
+    "metadataMicroversion": "3258649c6bcd360a8d18f75f",
+    "defaultColorHash": "FmEhoykYDuyTTwp_1_0",
+    "ordinal": 17,
+    "isMesh": false,
+    "appearance": {
+      "color": {
+        "red": 165,
+        "green": 165,
+        "blue": 165
+      },
+      "isGenerated": true,
+      "opacity": 255
+    }
+  },
+  {
+    "name": "AC16_0_V2",
+    "state": "IN_PROGRESS",
+    "description": "acid=AC16@V2",
+    "revision": null,
+    "partNumber": null,
+    "elementId": "a7defcc970d7537f4a25e6b3",
+    "partId": "RmBD",
+    "bodyType": "solid",
+    "microversionId": "4effa193234f5d2a47530667",
+    "isFlattenedBody": false,
+    "partQuery": "query=qCompressed(1.0,\"&1ca$eJx9UE1vgzAM/TPesVHTAm2PfGQd2gpdEmnihALJCmpLGAS1/PuFIu0yqfLF9nt+9vNL4MLnoLrx4DK8Aln34lrUp0GYWjeRMMLHh9V/hI+tYngNKY33ceJ/5BE5kiQiSZixHeiuPtWNuPS+Ey6tsADVmNqM01QggPwVzAES7QkroKp7o7u5uYWQEp/HaWIB3arusTKWwQpi6WOGMXJseMiD1yup9HjOomHk/Nbm2A+xV+j7sj8rU1a3ulNpay/6mSw+xCWwd8LDt5wkPOYZUzBT56NiyXbIgU6VRjSni7qobzNZoA51qUc3dEsFLWhJJVtgF7lgnVbPGGswun2Ce1BoY/SVOqFnvxGkUTazwsI6XZRoIdFCoQ3agbqbbpBKt2ROaGEfy77IkefT2C8jSJTB\",id);",
+    "partIdentity": null,
+    "meshState": "NO_MESH",
+    "isHidden": false,
+    "configurationId": "",
+    "thumbnailConfigurationId": "",
+    "propertySourceTypes": {
+      "57f3fb8efa3416c06701d60d": 2,
+      "57f3fb8efa3416c06701d60e": 2
+    },
+    "metadataMicroversion": "3258649c6bcd360a8d18f75f",
+    "defaultColorHash": "FmEhoykYDuyTTwp_1_0",
+    "ordinal": 18,
+    "isMesh": false,
+    "appearance": {
+      "color": {
+        "red": 165,
+        "green": 165,
+        "blue": 165
+      },
+      "isGenerated": true,
+      "opacity": 255
+    }
+  },
+  {
+    "name": "AC17_0_V2",
+    "state": "IN_PROGRESS",
+    "description": "acid=AC17@V2",
+    "revision": null,
+    "partNumber": null,
+    "elementId": "a7defcc970d7537f4a25e6b3",
+    "partId": "RwBD",
+    "bodyType": "solid",
+    "microversionId": "4effa193234f5d2a47530667",
+    "isFlattenedBody": false,
+    "partQuery": "query=qCompressed(1.0,\"&1ca$eJx9UE1vgzAM/TPekahpgbZHPrIObYUuQZo4oUCyErUlDFK1/PuFIu0yqfLF9nt+9vNL6MHnVfbj3mN4CUIN/FKp45UbpduYGx7g/fI/ko+dZHgFGU12SRp8lDE5kDQmaVSwLeheHVXLz0PgRgsrzEG2Rplxmgo5kL+CuUDiHWEVNGowup+bG4goCfIkSy2gO9k/ViYiXEIiAswwRq4NH/nweiGNHk9FfB3z/NaVOIjwutL3xXCSpm5uqpdZZy/6mSw+xAWwd5JHbyVJ8yQvmISZOh+VCLZFLvSyNrw9nuVZfpvJAnWpR326phvKaUVrKpiDPeSBddo8Y6zA6O4J7kOljdEX6ka+/UaYxcXMiirr1KmRI5Aj0RptQd5NfxVSd2ROaGUfy77IIS+nsV8kP5TC\",id);",
+    "partIdentity": null,
+    "meshState": "NO_MESH",
+    "isHidden": false,
+    "configurationId": "",
+    "thumbnailConfigurationId": "",
+    "propertySourceTypes": {
+      "57f3fb8efa3416c06701d60d": 2,
+      "57f3fb8efa3416c06701d60e": 2
+    },
+    "metadataMicroversion": "3258649c6bcd360a8d18f75f",
+    "defaultColorHash": "FmEhoykYDuyTTwp_1_0",
+    "ordinal": 19,
+    "isMesh": false,
+    "appearance": {
+      "color": {
+        "red": 165,
+        "green": 165,
+        "blue": 165
+      },
+      "isGenerated": true,
+      "opacity": 255
+    }
+  },
+  {
+    "name": "AC18_0_V2",
+    "state": "IN_PROGRESS",
+    "description": "acid=AC18@V2",
+    "revision": null,
+    "partNumber": null,
+    "elementId": "a7defcc970d7537f4a25e6b3",
+    "partId": "R6BD",
+    "bodyType": "solid",
+    "microversionId": "4effa193234f5d2a47530667",
+    "isFlattenedBody": false,
+    "partQuery": "query=qCompressed(1.0,\"&1cb$eJx9UEtvgzAM/jPesdHSAm2PPLIObYUuiTRxQoFkJSolDII6/v2gSLtM6s3297A/PwUufAyqG48uw2uQuhfXQp8HYbVpImGFj4/r/wgfW8XwBlIaH+LEf88jciJJRJIwY3swnT7rRtS974TPk7EA1Vhtx1kVCCB/DXOARAfCCqh0b023DHcQUuLzOE0mwLSqu6+MZbCGWPqYYYwc5CIPefByJZUZL1k0jJzf2hz7Id61tbCqvyhbVjfdqbSdTvqeM97dJbA3wsPXnCQ85hlTsFCXq2LJ9siBTpVWNOda1erLzhmoQ13q0S3dUUELWlLJVthFLkxRq0eMDVjTPsA9KIy15kqd0JveEaRRtrDCYoq6KtFKopVCW7QH9WO7QSrTkqWgxfRZ9klOPJ9lvwMxlWE=\",id);",
+    "partIdentity": null,
+    "meshState": "NO_MESH",
+    "isHidden": false,
+    "configurationId": "",
+    "thumbnailConfigurationId": "",
+    "propertySourceTypes": {
+      "57f3fb8efa3416c06701d60d": 2,
+      "57f3fb8efa3416c06701d60e": 2
+    },
+    "metadataMicroversion": "3258649c6bcd360a8d18f75f",
+    "defaultColorHash": "FmEhoykYDuyTTwp_1_0",
+    "ordinal": 20,
+    "isMesh": false,
+    "appearance": {
+      "color": {
+        "red": 165,
+        "green": 165,
+        "blue": 165
+      },
+      "isGenerated": true,
+      "opacity": 255
+    }
+  },
+  {
+    "name": "AC49_0_V2",
+    "state": "IN_PROGRESS",
+    "description": "acid=AC49@V2",
+    "revision": null,
+    "partNumber": null,
+    "elementId": "a7defcc970d7537f4a25e6b3",
+    "partId": "RQCD",
+    "bodyType": "solid",
+    "microversionId": "4effa193234f5d2a47530667",
+    "isFlattenedBody": false,
+    "partQuery": "query=qCompressed(1.0,\"&1cb$eJx9UEtvgzAM/jPekWi0QMuRR9ahrdAlkSZOKJCsRKWEQVDHvx8UaZdJvdn+Hvbnp9CFj1H209Gl9gaEGvi1VOeRG6XbmBse2MfNf4RNnaT2FjKSHJI0eC9ifMJpjNMopz7oXp1Vy5shcKLn2ZiDbI0y06IKOeC/hjqA4wOmJdRqMLpfh3uICA5YkqUzoDvZ31cmItxAIgKb2jZykIs85MHLFdd6uuTxODF26wo7iBy/a7iRw0Waqr6pXmbdfNL3kvHuLoC+YRa9FjhlCcuphJW6XpUI6iMHelkZ3p4b2cgvs2QgDnGJR3ZkTzgpSUUEtWwXuTBHrR8xtmB09wD3oNTG6CtxIm9+R5jF+cqKyjmqVSFLIEuiHfJB/ph+FFJ3eC1IOX+WfuITKxbZLwcUlWU=\",id);",
+    "partIdentity": null,
+    "meshState": "NO_MESH",
+    "isHidden": false,
+    "configurationId": "",
+    "thumbnailConfigurationId": "",
+    "propertySourceTypes": {
+      "57f3fb8efa3416c06701d60d": 2,
+      "57f3fb8efa3416c06701d60e": 2
+    },
+    "metadataMicroversion": "3258649c6bcd360a8d18f75f",
+    "defaultColorHash": "FmEhoykYDuyTTwp_1_0",
+    "ordinal": 21,
+    "isMesh": false,
+    "appearance": {
+      "color": {
+        "red": 165,
+        "green": 165,
+        "blue": 165
+      },
+      "isGenerated": true,
+      "opacity": 255
+    }
+  },
+  {
+    "name": "AC19_0_V2",
+    "state": "IN_PROGRESS",
+    "description": "acid=AC19@V2",
+    "revision": null,
+    "partNumber": null,
+    "elementId": "a7defcc970d7537f4a25e6b3",
+    "partId": "RiCD",
+    "bodyType": "solid",
+    "microversionId": "4effa193234f5d2a47530667",
+    "isFlattenedBody": false,
+    "partQuery": "query=qCompressed(1.0,\"&20b$eJxtUMtOwzAQ/JnlWIsNTdMc83BLeCSwjoTKpXJjQw0lDm4K9O9xGolLOYy0j9ndmb1IQ3g8aHe8D8UGlHbmS6uFsx9JkF36GgagzF5+bMzrQfbGtrnsZYL3wXmnPnZa4BVUVCyLMrlb5/yBlzkvs5WIwTrzalq52yd4WixBt73pj8NUKoH/JWIKPF9yr2Zr9r11Y3EOGfGkLqrSN2yn3elkodIACpWgQGRThmzGZrB4fjqGN1W0bc0br77WQZJhLPfvum+238bpqvNyPgfPp80KxC2vs+s1L+uiXgkNI3VUVCgRQWNcs9NIYRZ5dWmVryiiOcVZ4y9PFJtoNnlhEYtB//TuoLTt+BhQ442KJ/5Qr4exwTnh8D4K6Iqm4y8opNnZQmQTvPRA2FBDijS9eB5Ozy9j4zH3iMEzMfqfNqjbWLvTsrVdOgZeXQxFWXMSPKt/AT1yo8o=\",id);",
+    "partIdentity": null,
+    "meshState": "NO_MESH",
+    "isHidden": false,
+    "configurationId": "",
+    "thumbnailConfigurationId": "",
+    "propertySourceTypes": {
+      "57f3fb8efa3416c06701d60d": 2,
+      "57f3fb8efa3416c06701d60e": 2
+    },
+    "metadataMicroversion": "3258649c6bcd360a8d18f75f",
+    "defaultColorHash": "FZWy5JO7hnijEOv_2_0",
+    "ordinal": 22,
+    "isMesh": false,
+    "appearance": {
+      "color": {
+        "red": 59,
+        "green": 97,
+        "blue": 180
+      },
+      "isGenerated": true,
+      "opacity": 255
+    }
+  },
+  {
+    "name": "AC20_0_V2",
+    "state": "IN_PROGRESS",
+    "description": "acid=AC20@V2",
+    "revision": null,
+    "partNumber": null,
+    "elementId": "a7defcc970d7537f4a25e6b3",
+    "partId": "RlCD",
+    "bodyType": "solid",
+    "microversionId": "4effa193234f5d2a47530667",
+    "isFlattenedBody": false,
+    "partQuery": "query=qCompressed(1.0,\"%B5$QueryM5S12$disambiguationDataA1M2S12$disambiguationTypeS13$ORIGINAL_DEPENDENCYS9$originalsA1C0M5Sa$entityTypeBa$EntityTypeS4$EDGESb$historyTypeS8$CREATIONSb$operationIdB2$IdA1S11.4.1.6.6$FZWy5JO7hnijEOv_2AC20asketchwireOpS9$queryTypeSd$SKETCH_ENTITYSe$sketchEntityIdS7$circle1R4C6S4$BODYR6R7R8CbA1S-c.-d.-e.7.9$extrudeopExtrudeRbSa$SWEPT_BODY\",id);",
+    "partIdentity": null,
+    "meshState": "NO_MESH",
+    "isHidden": false,
+    "configurationId": "",
+    "thumbnailConfigurationId": "",
+    "propertySourceTypes": {
+      "57f3fb8efa3416c06701d60d": 2,
+      "57f3fb8efa3416c06701d60e": 2
+    },
+    "metadataMicroversion": "3258649c6bcd360a8d18f75f",
+    "defaultColorHash": "FZWy5JO7hnijEOv_2_0",
+    "ordinal": 23,
+    "isMesh": false,
+    "appearance": {
+      "color": {
+        "red": 59,
+        "green": 97,
+        "blue": 180
+      },
+      "isGenerated": true,
+      "opacity": 255
+    }
+  },
+  {
+    "name": "AC21_0_V2",
+    "state": "IN_PROGRESS",
+    "description": "acid=AC21@V2",
+    "revision": null,
+    "partNumber": null,
+    "elementId": "a7defcc970d7537f4a25e6b3",
+    "partId": "RvCD",
+    "bodyType": "solid",
+    "microversionId": "4effa193234f5d2a47530667",
+    "isFlattenedBody": false,
+    "partQuery": "query=qCompressed(1.0,\"%B5$QueryM5S12$disambiguationDataA1M2S12$disambiguationTypeS13$ORIGINAL_DEPENDENCYS9$originalsA1C0M5Sa$entityTypeBa$EntityTypeS4$EDGESb$historyTypeS8$CREATIONSb$operationIdB2$IdA1S11.4.1.6.6$FZWy5JO7hnijEOv_2AC21asketchwireOpS9$queryTypeSd$SKETCH_ENTITYSe$sketchEntityIdS7$circle1R4C6S4$BODYR6R7R8CbA1S-c.-d.-e.7.9$extrudeopExtrudeRbSa$SWEPT_BODY\",id);",
+    "partIdentity": null,
+    "meshState": "NO_MESH",
+    "isHidden": false,
+    "configurationId": "",
+    "thumbnailConfigurationId": "",
+    "propertySourceTypes": {
+      "57f3fb8efa3416c06701d60d": 2,
+      "57f3fb8efa3416c06701d60e": 2
+    },
+    "metadataMicroversion": "3258649c6bcd360a8d18f75f",
+    "defaultColorHash": "FZWy5JO7hnijEOv_2_0",
+    "ordinal": 24,
+    "isMesh": false,
+    "appearance": {
+      "color": {
+        "red": 59,
+        "green": 97,
+        "blue": 180
+      },
+      "isGenerated": true,
+      "opacity": 255
+    }
+  },
+  {
+    "name": "AC22_0_V2",
+    "state": "IN_PROGRESS",
+    "description": "acid=AC22@V2",
+    "revision": null,
+    "partNumber": null,
+    "elementId": "a7defcc970d7537f4a25e6b3",
+    "partId": "R5CD",
+    "bodyType": "solid",
+    "microversionId": "4effa193234f5d2a47530667",
+    "isFlattenedBody": false,
+    "partQuery": "query=qCompressed(1.0,\"%B5$QueryM5S12$disambiguationDataA1M2S12$disambiguationTypeS13$ORIGINAL_DEPENDENCYS9$originalsA1C0M5Sa$entityTypeBa$EntityTypeS4$EDGESb$historyTypeS8$CREATIONSb$operationIdB2$IdA1S11.4.1.6.6$FZWy5JO7hnijEOv_2AC22asketchwireOpS9$queryTypeSd$SKETCH_ENTITYSe$sketchEntityIdS7$circle1R4C6S4$BODYR6R7R8CbA1S-c.-d.-e.7.9$extrudeopExtrudeRbSa$SWEPT_BODY\",id);",
+    "partIdentity": null,
+    "meshState": "NO_MESH",
+    "isHidden": false,
+    "configurationId": "",
+    "thumbnailConfigurationId": "",
+    "propertySourceTypes": {
+      "57f3fb8efa3416c06701d60d": 2,
+      "57f3fb8efa3416c06701d60e": 2
+    },
+    "metadataMicroversion": "3258649c6bcd360a8d18f75f",
+    "defaultColorHash": "FZWy5JO7hnijEOv_2_0",
+    "ordinal": 25,
+    "isMesh": false,
+    "appearance": {
+      "color": {
+        "red": 59,
+        "green": 97,
+        "blue": 180
+      },
+      "isGenerated": true,
+      "opacity": 255
+    }
+  },
+  {
+    "name": "AC22_1_V2",
+    "state": "IN_PROGRESS",
+    "description": "acid=AC22@V2",
+    "revision": null,
+    "partNumber": null,
+    "elementId": "a7defcc970d7537f4a25e6b3",
+    "partId": "R9CD",
+    "bodyType": "solid",
+    "microversionId": "4effa193234f5d2a47530667",
+    "isFlattenedBody": false,
+    "partQuery": "query=qCompressed(1.0,\"%B5$QueryM5S12$disambiguationDataA1M2S12$disambiguationTypeS13$ORIGINAL_DEPENDENCYS9$originalsA1C0M5Sa$entityTypeBa$EntityTypeS4$EDGESb$historyTypeS8$CREATIONSb$operationIdB2$IdA1S11.4.1.6.6$FZWy5JO7hnijEOv_2AC22bsketchwireOpS9$queryTypeSd$SKETCH_ENTITYSe$sketchEntityIdS7$circle1R4C6S4$BODYR6R7R8CbA1S-c.-d.-e.7.9$extrudeopExtrudeRbSa$SWEPT_BODY\",id);",
+    "partIdentity": null,
+    "meshState": "NO_MESH",
+    "isHidden": false,
+    "configurationId": "",
+    "thumbnailConfigurationId": "",
+    "propertySourceTypes": {
+      "57f3fb8efa3416c06701d60d": 2,
+      "57f3fb8efa3416c06701d60e": 2
+    },
+    "metadataMicroversion": "3258649c6bcd360a8d18f75f",
+    "defaultColorHash": "FZWy5JO7hnijEOv_2_0",
+    "ordinal": 26,
+    "isMesh": false,
+    "appearance": {
+      "color": {
+        "red": 59,
+        "green": 97,
+        "blue": 180
+      },
+      "isGenerated": true,
+      "opacity": 255
+    }
+  },
+  {
+    "name": "AC23_0_V2",
+    "state": "IN_PROGRESS",
+    "description": "acid=AC23@V2",
+    "revision": null,
+    "partNumber": null,
+    "elementId": "a7defcc970d7537f4a25e6b3",
+    "partId": "RCDD",
+    "bodyType": "solid",
+    "microversionId": "4effa193234f5d2a47530667",
+    "isFlattenedBody": false,
+    "partQuery": "query=qCompressed(1.0,\"&1c7$eJx9UMFSgzAQ/Zn1SMZQoO0RQqyoBU2Y6dQLE0gs0ZYgpCp/L5QZL870trvv7e577yby4eWsumHrc+yC1L04lfpwFlabJhZWhHjr/kfyoVUcLyBjySZJw6cips80jWlK9nwNptMH3YhjH3rkdjwsQDVW22HaigTQv4Z7QOMN5SXUuremm4crIIyGeZKlI2Ba1V1eJjJyIZEh5hgjD2EUoADuXneD/5At60a/0+yrcEPiLkT/oWxVf+tOZe0o53Pyd7ksgT/SnNwXNM2TfM8VzNRZUSL5GnnQqcqK5nBUR/VmJ/3MYz4L2JKtmGAlq5jkDvaRD6PN+hpjAda0V/AASmOtOTGPBGMUURbvZxYpR5tOhRyJHIWWaA3qx3ZnqUxL54KVY6p8R5/zYlr7BZq3kwA=\",id);",
+    "partIdentity": null,
+    "meshState": "NO_MESH",
+    "isHidden": false,
+    "configurationId": "",
+    "thumbnailConfigurationId": "",
+    "propertySourceTypes": {
+      "57f3fb8efa3416c06701d60d": 2,
+      "57f3fb8efa3416c06701d60e": 2
+    },
+    "metadataMicroversion": "3258649c6bcd360a8d18f75f",
+    "defaultColorHash": "FZWy5JO7hnijEOv_2_0",
+    "ordinal": 27,
+    "isMesh": false,
+    "appearance": {
+      "color": {
+        "red": 59,
+        "green": 97,
+        "blue": 180
+      },
+      "isGenerated": true,
+      "opacity": 255
+    }
+  },
+  {
+    "name": "AC24_0_V2",
+    "state": "IN_PROGRESS",
+    "description": "acid=AC24@V2",
+    "revision": null,
+    "partNumber": null,
+    "elementId": "a7defcc970d7537f4a25e6b3",
+    "partId": "RQDD",
+    "bodyType": "solid",
+    "microversionId": "4effa193234f5d2a47530667",
+    "isFlattenedBody": false,
+    "partQuery": "query=qCompressed(1.0,\"&24c$eJyFkVtTgzAQhf/M+tiM4dLCI5dYUQFNcJz60gmSlmhLMKRq/72hzPhSR9822XPOfptcxD48HIQ+5j6roRFafojmSqt95CSXucc4iM5Ic6yOvYg5kJ8D8yAu05U1tXIwSk+XASSURFVWFraheqG5karLmtiBrIkwwxh5CKMArp6fjv5NuWg7+UrKj7UTJY7Hh74VWpQ9C+F9hDpl+pA+5vnK4vgMO9DIge9ruT2colNueIRz57xz8mIXSpotsyK6W6fknhQpKZKVjVdabmXHd0PkjcEUJ67diKRLQl3qUT8JLO0sRDNucedoDvXwJsxL+ylHPhqwBtgtqZLrNSmqrFoxAZNgeqGsYSHyQIsXw7vtTuzExkxz6GYaQDGmAcUOxS6b4Rr5YInaf0QuGNX/LbGkyhi1twrnbJUZ9tEChSC+jD40QvVkKuw+HNgTua/W46f+6h19tVI7wTvVx1NhfSFkRUUoI0n1DRYktzw=\",id);",
+    "partIdentity": null,
+    "meshState": "NO_MESH",
+    "isHidden": false,
+    "configurationId": "",
+    "thumbnailConfigurationId": "",
+    "propertySourceTypes": {
+      "57f3fb8efa3416c06701d60d": 2,
+      "57f3fb8efa3416c06701d60e": 2
+    },
+    "metadataMicroversion": "3258649c6bcd360a8d18f75f",
+    "defaultColorHash": "FZWy5JO7hnijEOv_2_0",
+    "ordinal": 28,
+    "isMesh": false,
+    "appearance": {
+      "color": {
+        "red": 59,
+        "green": 97,
+        "blue": 180
+      },
+      "isGenerated": true,
+      "opacity": 255
+    }
+  },
+  {
+    "name": "AC25_0_V2",
+    "state": "IN_PROGRESS",
+    "description": "acid=AC25@V2",
+    "revision": null,
+    "partNumber": null,
+    "elementId": "a7defcc970d7537f4a25e6b3",
+    "partId": "RTDD",
+    "bodyType": "solid",
+    "microversionId": "4effa193234f5d2a47530667",
+    "isFlattenedBody": false,
+    "partQuery": "query=qCompressed(1.0,\"%B5$QueryM5S12$disambiguationDataA1M2S12$disambiguationTypeS13$ORIGINAL_DEPENDENCYS9$originalsA3C0M5Sa$entityTypeBa$EntityTypeS4$EDGESb$historyTypeS8$CREATIONSb$operationIdB2$IdA1S11.4.7.6$FZWy5JO7hnijEOv_2AC25profilewireOpS9$queryTypeSd$SKETCH_ENTITYSe$sketchEntityIdS4$baseC0M5R4R5R6R7R8RaRbRcRdS5$slopeC0M5R4R5R6R7R8RaRbRcRdS4$axisR4C6S4$BODYR6R7R8CbA1S-c.-d.7.9$revolveopRevolveRbSa$SWEPT_BODY\",id);",
+    "partIdentity": null,
+    "meshState": "NO_MESH",
+    "isHidden": false,
+    "configurationId": "",
+    "thumbnailConfigurationId": "",
+    "propertySourceTypes": {
+      "57f3fb8efa3416c06701d60d": 2,
+      "57f3fb8efa3416c06701d60e": 2
+    },
+    "metadataMicroversion": "3258649c6bcd360a8d18f75f",
+    "defaultColorHash": "FZWy5JO7hnijEOv_2_0",
+    "ordinal": 29,
+    "isMesh": false,
+    "appearance": {
+      "color": {
+        "red": 59,
+        "green": 97,
+        "blue": 180
+      },
+      "isGenerated": true,
+      "opacity": 255
+    }
+  },
+  {
+    "name": "AC26_0_V2",
+    "state": "IN_PROGRESS",
+    "description": "acid=AC26@V2",
+    "revision": null,
+    "partNumber": null,
+    "elementId": "a7defcc970d7537f4a25e6b3",
+    "partId": "RXDD",
+    "bodyType": "solid",
+    "microversionId": "4effa193234f5d2a47530667",
+    "isFlattenedBody": false,
+    "partQuery": "query=qCompressed(1.0,\"%B5$QueryM5S12$disambiguationDataA1M2S12$disambiguationTypeS13$ORIGINAL_DEPENDENCYS9$originalsA1C0M5Sa$entityTypeBa$EntityTypeS4$EDGESb$historyTypeS8$CREATIONSb$operationIdB2$IdA1S11.4.7.6$FZWy5JO7hnijEOv_2AC26profilewireOpS9$queryTypeSd$SKETCH_ENTITYSe$sketchEntityIdS6$circleR4C6S4$BODYR6R7R8CbA1S-c.-d.7.9$revolveopRevolveRbSa$SWEPT_BODY\",id);",
+    "partIdentity": null,
+    "meshState": "NO_MESH",
+    "isHidden": false,
+    "configurationId": "",
+    "thumbnailConfigurationId": "",
+    "propertySourceTypes": {
+      "57f3fb8efa3416c06701d60d": 2,
+      "57f3fb8efa3416c06701d60e": 2
+    },
+    "metadataMicroversion": "3258649c6bcd360a8d18f75f",
+    "defaultColorHash": "FZWy5JO7hnijEOv_2_0",
+    "ordinal": 30,
+    "isMesh": false,
+    "appearance": {
+      "color": {
+        "red": 59,
+        "green": 97,
+        "blue": 180
+      },
+      "isGenerated": true,
+      "opacity": 255
+    }
+  },
+  {
+    "name": "AC27_0_V2",
+    "state": "IN_PROGRESS",
+    "description": "acid=AC27@V2",
+    "revision": null,
+    "partNumber": null,
+    "elementId": "a7defcc970d7537f4a25e6b3",
+    "partId": "RcDD",
+    "bodyType": "solid",
+    "microversionId": "4effa193234f5d2a47530667",
+    "isFlattenedBody": false,
+    "partQuery": "query=qCompressed(1.0,\"%B5$QueryM5Sb$derivedFromA2C0M4Sa$entityTypeBa$EntityTypeS4$BODYSb$historyTypeS8$CREATIONSb$operationIdB2$IdA1S11.4.1.8$FZWy5JO7hnijEOv_2AC27asphereOpS9$queryTypeS5$DUMMYC0M4R1R2R3R4R5C8A1S-9.-a.1.-c$bR8R9R1R2R3R4R5C8A1S-9.-a.7.9$booleanopBooleanR8S9$INTERSECT\",id);",
+    "partIdentity": null,
+    "meshState": "NO_MESH",
+    "isHidden": false,
+    "configurationId": "",
+    "thumbnailConfigurationId": "",
+    "propertySourceTypes": {
+      "57f3fb8efa3416c06701d60d": 2,
+      "57f3fb8efa3416c06701d60e": 2
+    },
+    "metadataMicroversion": "3258649c6bcd360a8d18f75f",
+    "defaultColorHash": "FZWy5JO7hnijEOv_2_0",
+    "ordinal": 31,
+    "isMesh": false,
+    "appearance": {
+      "color": {
+        "red": 59,
+        "green": 97,
+        "blue": 180
+      },
+      "isGenerated": true,
+      "opacity": 255
+    }
+  },
+  {
+    "name": "AC28_0_V2",
+    "state": "IN_PROGRESS",
+    "description": "acid=AC28@V2",
+    "revision": null,
+    "partNumber": null,
+    "elementId": "a7defcc970d7537f4a25e6b3",
+    "partId": "RdDD",
+    "bodyType": "solid",
+    "microversionId": "4effa193234f5d2a47530667",
+    "isFlattenedBody": false,
+    "partQuery": "query=qCompressed(1.0,\"%B5$QueryM4Sa$entityTypeBa$EntityTypeS4$BODYSb$historyTypeS8$CREATIONSb$operationIdB2$IdA1S11.4.1.8$FZWy5JO7hnijEOv_2AC28asphereOpS9$queryTypeS5$DUMMY\",id);",
+    "partIdentity": null,
+    "meshState": "NO_MESH",
+    "isHidden": false,
+    "configurationId": "",
+    "thumbnailConfigurationId": "",
+    "propertySourceTypes": {
+      "57f3fb8efa3416c06701d60d": 2,
+      "57f3fb8efa3416c06701d60e": 2
+    },
+    "metadataMicroversion": "3258649c6bcd360a8d18f75f",
+    "defaultColorHash": "FZWy5JO7hnijEOv_2_0",
+    "ordinal": 32,
+    "isMesh": false,
+    "appearance": {
+      "color": {
+        "red": 59,
+        "green": 97,
+        "blue": 180
+      },
+      "isGenerated": true,
+      "opacity": 255
+    }
+  },
+  {
+    "name": "AC29_0_V2",
+    "state": "IN_PROGRESS",
+    "description": "acid=AC29@V2",
+    "revision": null,
+    "partNumber": null,
+    "elementId": "a7defcc970d7537f4a25e6b3",
+    "partId": "RmDD",
+    "bodyType": "solid",
+    "microversionId": "4effa193234f5d2a47530667",
+    "isFlattenedBody": false,
+    "partQuery": "query=qCompressed(1.0,\"&1cb$eJx9UN9PgzAQ/mfORxphwMYjlDobHcyWxOyJFFpHI6MInTr/emEkvpjs7e6+H3ff3SUBvJzVcNkF3PVA6lGcKn08C6tNlworYnfn/UeKS6+4u4Kc0S3N4ucyJXuSpSTDBx6BGfRRd6IdYx/fT8YCVGe1vcyqRAD5a7gPJN0SXkGjR2uGZbgBzEhc0DybANOr4bqSysQDKmOXuy7yUYBCFMJDUjcNLXD7k54+6a5cxdiLRtNqOb4rWzdfelB5P530MWe8ukvgT6TAjyXJClocuIKFulxFJY+QD4OqreiOrWrVm50zMJ8FLGRrtmGCVaxmkjtugAKYoja3GCuwpr+Bh1AZa82J+Tic3pHk6WFh4WqK6tTIkchRaI0iUN92OEtlerIUrJo+y1/Jvihn2S96j5Tb\",id);",
+    "partIdentity": null,
+    "meshState": "NO_MESH",
+    "isHidden": false,
+    "configurationId": "",
+    "thumbnailConfigurationId": "",
+    "propertySourceTypes": {
+      "57f3fb8efa3416c06701d60d": 2,
+      "57f3fb8efa3416c06701d60e": 2
+    },
+    "metadataMicroversion": "3258649c6bcd360a8d18f75f",
+    "defaultColorHash": "FBchhITClzDmvIM_3_0",
+    "ordinal": 33,
+    "isMesh": false,
+    "appearance": {
+      "color": {
+        "red": 234,
+        "green": 234,
+        "blue": 234
+      },
+      "isGenerated": true,
+      "opacity": 255
+    }
+  },
+  {
+    "name": "AC30_0_V2",
+    "state": "IN_PROGRESS",
+    "description": "acid=AC30@V2",
+    "revision": null,
+    "partNumber": null,
+    "elementId": "a7defcc970d7537f4a25e6b3",
+    "partId": "RsDD",
+    "bodyType": "solid",
+    "microversionId": "4effa193234f5d2a47530667",
+    "isFlattenedBody": false,
+    "partQuery": "query=qCompressed(1.0,\"&1cb$eJx9UEtvgzAM/jPekai0gbZHHlmHtkKXME2cUCAZjUYJC6k2/v2gSLtM6s3297A/P4QevF6lGY8ec9cg1MAvlWqu3CrdxdzywD2u/yP52EvmbiCjySFJg5cyJieSxiSNCrYHbVSjOt4OAY5WkzEH2Vllx1kVciB/DcNA4gNhFZzVYLVZhjuIKAnyJEsnQPfS3FYmIlxDIgKXuS7CyEM+8uHxTQvR/GzHg1dLVZQ4iDarQbdKDJ/S1udvZWTWTyd9zRlv7gLYM8mjp5KkeZIXTMJCXa5KBNsjDEbWlndNK1v5YecMFFOP+nRLd5TTitZUMMf1kAdT1PM9xgas7u/gPlTaWn2hOPKnd4RZXCysqJqiOjVyBHIk2qI9yB9rrkLqniwFrabPsndyystZ9gueepT9\",id);",
+    "partIdentity": null,
+    "meshState": "NO_MESH",
+    "isHidden": false,
+    "configurationId": "",
+    "thumbnailConfigurationId": "",
+    "propertySourceTypes": {
+      "57f3fb8efa3416c06701d60d": 2,
+      "57f3fb8efa3416c06701d60e": 2
+    },
+    "metadataMicroversion": "3258649c6bcd360a8d18f75f",
+    "defaultColorHash": "FUoddgx7yG5ceiY_4_0",
+    "ordinal": 34,
+    "isMesh": false,
+    "appearance": {
+      "color": {
+        "red": 196,
+        "green": 226,
+        "blue": 243
+      },
+      "isGenerated": true,
+      "opacity": 255
+    }
+  },
+  {
+    "name": "AC31_0_V2",
+    "state": "IN_PROGRESS",
+    "description": "acid=AC31@V2",
+    "revision": null,
+    "partNumber": null,
+    "elementId": "a7defcc970d7537f4a25e6b3",
+    "partId": "RzDD",
+    "bodyType": "solid",
+    "microversionId": "4effa193234f5d2a47530667",
+    "isFlattenedBody": false,
+    "partQuery": "query=qCompressed(1.0,\"&1cb$eJx9UE1vgzAM/TPekWhpgbZHCFmHtkKbIE09oUDSNholLKTa+PeDIu0yqTfb78N+fooDONyUHXYBxwuQuhfXSp9vwmnTJsKJCO8W/5Fi6BTHS8hZuk2z6L1M6J5mCc3IkW/AWH3WrWj6yCfPo7EA1TrthkkVC6B/DfeBJlvKK7jo3hk7D9dAGI2KNM9GwHTK3lemMl5AKiPMMUY+ClCIQngJTwd7WGQ1GUwi1mUQkSXuTaNl/6lcffnWVuXdeNLXlPHuLoG/0YK8ljQr0uLIFczU+apU8g3ywaraifbcqEad3JSB+SxgIVuxNROsYjWT3MMBCmCMennEWIIz3QM8hMo4Z67MJ+H4jjhPjjOLVGNUr0aeRJ5CK7QB9ePsTSrT0blg1fhZ/kH3RTnJfgEXM5R5\",id);",
+    "partIdentity": null,
+    "meshState": "NO_MESH",
+    "isHidden": false,
+    "configurationId": "",
+    "thumbnailConfigurationId": "",
+    "propertySourceTypes": {
+      "57f3fb8efa3416c06701d60d": 2,
+      "57f3fb8efa3416c06701d60e": 2
+    },
+    "metadataMicroversion": "3258649c6bcd360a8d18f75f",
+    "defaultColorHash": "F6fQrQ2NcCyoDa8_5_0",
+    "ordinal": 35,
+    "isMesh": false,
+    "appearance": {
+      "color": {
+        "red": 248,
+        "green": 135,
+        "blue": 1
+      },
+      "isGenerated": true,
+      "opacity": 255
+    }
+  },
+  {
+    "name": "AC32_0_V2",
+    "state": "IN_PROGRESS",
+    "description": "acid=AC32@V2",
+    "revision": null,
+    "partNumber": null,
+    "elementId": "a7defcc970d7537f4a25e6b3",
+    "partId": "R5DD",
+    "bodyType": "solid",
+    "microversionId": "4effa193234f5d2a47530667",
+    "isFlattenedBody": false,
+    "partQuery": "query=qCompressed(1.0,\"&1a8$eJx1kMtugzAQRX9mugwqBNxkCcZNrTaQ2khRVshgN7EaYmoctfx9TZC6qbKbmTOPe+chS+D9quy4TXgYgdSD6Bp9vAqnzSUXTqThNvpPqrFXPFxCyeiGFulbnZMdKXJS4ANfg7H6qC/iPKQxfvSLBaiL026cpjIB5C/hMZB8Q3gDJz04Y+fiCjAjaUXLwgPTK3s7SWUWAZVpyMMwiAMUIHgeZLdH2OFRkm071ijFy2j4VK49fWuryt5r+ZrM3dZK4K+kwi81KSpaHbiCuXWWQyVH0BjnTDdpZjFLGGJPbMUEa1jLJE/A2zq5O3QJzvR3WAxn9eFYjJEPszI/zBw33syiDRYySII19FYPnenJj7NXqVjj38b3ZFfV08Qv9IaKgQ==\",id);",
+    "partIdentity": null,
+    "meshState": "NO_MESH",
+    "isHidden": false,
+    "configurationId": "",
+    "thumbnailConfigurationId": "",
+    "propertySourceTypes": {
+      "57f3fb8efa3416c06701d60d": 2,
+      "57f3fb8efa3416c06701d60e": 2
+    },
+    "metadataMicroversion": "3258649c6bcd360a8d18f75f",
+    "defaultColorHash": "FsdmW6CtCydEMcy_6_0",
+    "ordinal": 36,
+    "isMesh": false,
+    "appearance": {
+      "color": {
+        "red": 127,
+        "green": 127,
+        "blue": 127
+      },
+      "isGenerated": true,
+      "opacity": 255
+    }
+  },
+  {
+    "name": "AC33_0_V2",
+    "state": "IN_PROGRESS",
+    "description": "acid=AC33@V2",
+    "revision": null,
+    "partNumber": null,
+    "elementId": "a7defcc970d7537f4a25e6b3",
+    "partId": "R+DD",
+    "bodyType": "solid",
+    "microversionId": "4effa193234f5d2a47530667",
+    "isFlattenedBody": false,
+    "partQuery": "query=qCompressed(1.0,\"%B5$QueryM5S12$disambiguationDataA1M2S12$disambiguationTypeS13$ORIGINAL_DEPENDENCYS9$originalsA1C0M5Sa$entityTypeBa$EntityTypeS4$EDGESb$historyTypeS8$CREATIONSb$operationIdB2$IdA1S11.4.6.6$FODI2xhMgkdvzsQ_7AC33sketchwireOpS9$queryTypeSd$SKETCH_ENTITYSe$sketchEntityIdS6$circleR4C6S4$BODYR6R7R8CbA1S-c.-d.4.9$postopExtrudeRbSa$SWEPT_BODY\",id);",
+    "partIdentity": null,
+    "meshState": "NO_MESH",
+    "isHidden": false,
+    "configurationId": "",
+    "thumbnailConfigurationId": "",
+    "propertySourceTypes": {
+      "57f3fb8efa3416c06701d60d": 2,
+      "57f3fb8efa3416c06701d60e": 2
+    },
+    "metadataMicroversion": "3258649c6bcd360a8d18f75f",
+    "defaultColorHash": "FODI2xhMgkdvzsQ_7_0",
+    "ordinal": 37,
+    "isMesh": false,
+    "appearance": {
+      "color": {
+        "red": 250,
+        "green": 182,
+        "blue": 1
+      },
+      "isGenerated": true,
+      "opacity": 255
+    }
+  },
+  {
+    "name": "AC34_0_V2",
+    "state": "IN_PROGRESS",
+    "description": "acid=AC34@V2",
+    "revision": null,
+    "partNumber": null,
+    "elementId": "a7defcc970d7537f4a25e6b3",
+    "partId": "RDED",
+    "bodyType": "solid",
+    "microversionId": "4effa193234f5d2a47530667",
+    "isFlattenedBody": false,
+    "partQuery": "query=qCompressed(1.0,\"&1cb$eJx9UEtvgzAM/jPekWhQQtsjj6yNtkKbIE09oUCyNholFFJ1/PtBkXaZ1Jvt72F/fokwHG6qG3aYux5I3YtLqU83YbVpEmFF6O68/0g+tIq7C8gY3dA0/CgSsidpQtL4yNdgOn3Sjaj70I9fR2MBqrHaDpMqEkD+Gu4DSTaEl3DWvTXdPFxBzEiY0ywdAdOq7rGSysgDKkOXuy7yEUYBCuBtuO48crgQzLflPSxWYbzwe1Nr2X8rW53vulNZO550nTI+3CXwd5LH24KkOc2PXMFMna+ikq+RD52qrGhOtarVl50yMJ9hFrAlWzHBSlYxyR0XIwxj1PMzxgKsaZ/gAZTGWnNhfhyM74iy5Diz4nKM6lTIkchRaInWoH5sd5PKtGQuWDl+ln+SfV5Msl8d/pR/\",id);",
+    "partIdentity": null,
+    "meshState": "NO_MESH",
+    "isHidden": false,
+    "configurationId": "",
+    "thumbnailConfigurationId": "",
+    "propertySourceTypes": {
+      "57f3fb8efa3416c06701d60d": 2,
+      "57f3fb8efa3416c06701d60e": 2
+    },
+    "metadataMicroversion": "3258649c6bcd360a8d18f75f",
+    "defaultColorHash": "FyqM2EQmE5SHbwA_8_0",
+    "ordinal": 38,
+    "isMesh": false,
+    "appearance": {
+      "color": {
+        "red": 157,
+        "green": 207,
+        "blue": 237
+      },
+      "isGenerated": true,
+      "opacity": 255
+    }
+  },
+  {
+    "name": "AC35_0_V2",
+    "state": "IN_PROGRESS",
+    "description": "acid=AC35@V2",
+    "revision": null,
+    "partNumber": null,
+    "elementId": "a7defcc970d7537f4a25e6b3",
+    "partId": "RJED",
+    "bodyType": "solid",
+    "microversionId": "4effa193234f5d2a47530667",
+    "isFlattenedBody": false,
+    "partQuery": "query=qCompressed(1.0,\"&1cb$eJx9UEtvgzAM/jPekWi0hJYjj6xDXaFLmKaeUCBZG40SFoK27tcPitTLpN5sfw/780OE4XWQ5rLDzF2AUD0/V+o4cKt0m3DLQ3e3+I8Ul04ydwk5TTdpFr6UCdmTLCFZfGABaKOOquVNH3rx42jMQbZW2cukijiQW8M8IMmGsApOqrfazMM1xJSERZpnI6A7aa4rUxEtIBWhy1wXeQgjH/nwtP0d9vpcYewNgXkrgzBe4l43SvSf0tanb2Vk3o0nfU0Zr+4C2JYU8XNJsiItDkzCTJ2vSgULkAdG1pa3x0Y28sNOGahHMfXpiq4ppxWtqWCOixGGMerpHmMJVnd3cB8qba0+Uy/2x3dEeXKYWXE1RnVq5AjkSLRCAcgfawYhdUfmglbjZ9k72RflJPsDYc2UwQ==\",id);",
+    "partIdentity": null,
+    "meshState": "NO_MESH",
+    "isHidden": false,
+    "configurationId": "",
+    "thumbnailConfigurationId": "",
+    "propertySourceTypes": {
+      "57f3fb8efa3416c06701d60d": 2,
+      "57f3fb8efa3416c06701d60e": 2
+    },
+    "metadataMicroversion": "3258649c6bcd360a8d18f75f",
+    "defaultColorHash": "FKzuPomb554u9rU_9_0",
+    "ordinal": 39,
+    "isMesh": false,
+    "appearance": {
+      "color": {
+        "red": 165,
+        "green": 165,
+        "blue": 165
+      },
+      "isGenerated": true,
+      "opacity": 255
+    }
+  },
+  {
+    "name": "AC37_0_V2",
+    "state": "IN_PROGRESS",
+    "description": "acid=AC37@V2",
+    "revision": null,
+    "partNumber": null,
+    "elementId": "a7defcc970d7537f4a25e6b3",
+    "partId": "RPED",
+    "bodyType": "solid",
+    "microversionId": "4effa193234f5d2a47530667",
+    "isFlattenedBody": false,
+    "partQuery": "query=qCompressed(1.0,\"&1cc$eJx9UMtuwjAQ/JntMRaBJMAxD5daLQm1LVWcIid2iUWI08Soha+vIVIvlbjt7szuzsxTEsL7WQ2Xbcj8OUg9ilOlD2dhtekyYUXsb+f/EX7pFfMXUFCyIXn8VmZ4h/MM5+mercEM+qA70Y5xkM7cYQGqs9pebluJAPzXsABwtsGsgkaP1gzTcAUpxTEnRe4A06vh/pLIZA5Exr5TgwIUoghF8MzjayUb7l+H44nkpT+L08VyNK2W41HZuvnWgyp6p+nrZvJ+XgJ7xTx9KXHOCd8zBRN1kkUkW6MABlVb0R1a1apPezNBAxrSiC7pigpa0ZpK5vkhCsF5bR4xFmBN/wCPoDLWmhMN0sjlkRTZfmKllfPq1ciTyFNoidagfuxwlsr0eCpo5aJlH3jHy9vaLxKflS4=\",id);",
+    "partIdentity": null,
+    "meshState": "NO_MESH",
+    "isHidden": false,
+    "configurationId": "",
+    "thumbnailConfigurationId": "",
+    "propertySourceTypes": {
+      "57f3fb8efa3416c06701d60d": 2,
+      "57f3fb8efa3416c06701d60e": 2
+    },
+    "metadataMicroversion": "3258649c6bcd360a8d18f75f",
+    "defaultColorHash": "FTAzbdhT1zrkmIN_10_0",
+    "ordinal": 40,
+    "isMesh": false,
+    "appearance": {
+      "color": {
+        "red": 59,
+        "green": 97,
+        "blue": 180
+      },
+      "isGenerated": true,
+      "opacity": 255
+    }
+  },
+  {
+    "name": "AC39_0_V2",
+    "state": "IN_PROGRESS",
+    "description": "acid=AC39@V2",
+    "revision": null,
+    "partNumber": null,
+    "elementId": "a7defcc970d7537f4a25e6b3",
+    "partId": "RVED",
+    "bodyType": "solid",
+    "microversionId": "4effa193234f5d2a47530667",
+    "isFlattenedBody": false,
+    "partQuery": "query=qCompressed(1.0,\"&1c8$eJx9UMtugzAQ/JntEasOj4QjDzdFbSCxkaqckMEusZpgCqZt/r4mSL1Uym13Z3Z3Zh5iHw6THK47n+EVCDXyS63aiRulu5QbHuHd6j9SXnvJsAsFzbZZHr1WKdmTPCV5cmQh6EG1quPnMfKSR3uYg+yMMtd5K+ZA/hrmAUm3hNVwUqPRwzLcQEJJVGZFbgHdy+H2MhPxCjIRYasGeQijAAXwdMHTV39oC680TWAqjKPEDfn4IU1z+laDLHqr53M2eDstgL2QMnmuSF5m5ZFJWKiLpEywEHkwyMbwrj3Ls3w3swHqUZ8GdE03lNOaNlQwB/vIB+vzdI/hgtH9HTyAWhujL9RLAptFXKTHhZXU1qfTIEcgR6I1CkH+mGESUvdkKWhtY2VvZF9W89ovPjuTXw==\",id);",
+    "partIdentity": null,
+    "meshState": "NO_MESH",
+    "isHidden": false,
+    "configurationId": "",
+    "thumbnailConfigurationId": "",
+    "propertySourceTypes": {
+      "57f3fb8efa3416c06701d60d": 2,
+      "57f3fb8efa3416c06701d60e": 2
+    },
+    "metadataMicroversion": "3258649c6bcd360a8d18f75f",
+    "defaultColorHash": "Fm1uvpQgO4Ttc6t_11_0",
+    "ordinal": 41,
+    "isMesh": false,
+    "appearance": {
+      "color": {
+        "red": 234,
+        "green": 234,
+        "blue": 234
+      },
+      "isGenerated": true,
+      "opacity": 255
+    }
+  },
+  {
+    "name": "AC40_0_V2",
+    "state": "IN_PROGRESS",
+    "description": "acid=AC40@V2",
+    "revision": null,
+    "partNumber": null,
+    "elementId": "a7defcc970d7537f4a25e6b3",
+    "partId": "RfED",
+    "bodyType": "solid",
+    "microversionId": "4effa193234f5d2a47530667",
+    "isFlattenedBody": false,
+    "partQuery": "query=qCompressed(1.0,\"&1c8$eJx9UMtugzAQ/JntESsQIMmRh5uiNpDaSE1OyGCXWCWYGEdt/r4mSL1Uym13Z3Z3Zp7iAN6vQt92AXU94HJk51q2V2ak6lNmWOTuvP9IeRsEdZdQkGyb5dFbleI9zlOcJ0e6AaVlK3vWjZGfLOxhBqI30tymrZgB/muoDzjdYlrDSY5G6Xm4hoTgqMyK3AJqEPr+MuOxBxmPXKsG+chFIQrhOTq0Htl1h0AcLjmvXC9K/AUbv4RpTt9Si2Kwei6TwftpDvQVl8lLhfMyK49UwEydJWWcbpAPWjSG9W0nOvFpJgPEJwEJyYqsCSM1aQinjhugAKzP0yPGEowaHuAh1MoYdSZ+Etos4iI9zqyktj6dBjkcOQKt0AbEj9FXLtSA54LUNlb6gfdlNa39AtYKkvk=\",id);",
+    "partIdentity": null,
+    "meshState": "NO_MESH",
+    "isHidden": false,
+    "configurationId": "",
+    "thumbnailConfigurationId": "",
+    "propertySourceTypes": {
+      "57f3fb8efa3416c06701d60d": 2,
+      "57f3fb8efa3416c06701d60e": 2
+    },
+    "metadataMicroversion": "3258649c6bcd360a8d18f75f",
+    "defaultColorHash": "FAXg2RMlX5eXqNd_12_0",
+    "ordinal": 42,
+    "isMesh": false,
+    "appearance": {
+      "color": {
+        "red": 196,
+        "green": 226,
+        "blue": 243
+      },
+      "isGenerated": true,
+      "opacity": 255
+    }
+  },
+  {
+    "name": "AC42_0_V2",
+    "state": "IN_PROGRESS",
+    "description": "acid=AC42@V2",
+    "revision": null,
+    "partNumber": null,
+    "elementId": "a7defcc970d7537f4a25e6b3",
+    "partId": "RzED",
+    "bodyType": "solid",
+    "microversionId": "4effa193234f5d2a47530667",
+    "isFlattenedBody": false,
+    "partQuery": "query=qCompressed(1.0,\"&1c8$eJx9UEFugzAQ/Mz2iFUIkOQIxk2tJpDaSFVOyGCXWE0wBUdNfl8TpF4q5ba7M7s7M09pBO8XNdx2EfcDkHoU51q3F2G16TJhReLvgv9IeesV9xdQMLqhebKtMrIneUZyfOBrMINudSdOYxLiZ3dYgOqstrdpKxVA/hoeAsk2hNdw1KM1wzxcAWYkKWmRO8D0ari/pDINgMrEd2pQiHwUoxheBL3mcrVlSYvVVlf+IsFhIMYvZZvjjx5U0Ts935PB+2kJ/I2U+LUieUnLA1cwU2dJVPI1CmFQjRVde1In9WknAyxkEYvZkq2YYDVrmOSeH6EInM/jI8YCrOkf4DHUxlpzZiGOXRZpkR1mFq6dT69BnkSeQku0BnW1w0Uq05O5YLWLlX+QfVlNa7/fcZMB\",id);",
+    "partIdentity": null,
+    "meshState": "NO_MESH",
+    "isHidden": false,
+    "configurationId": "",
+    "thumbnailConfigurationId": "",
+    "propertySourceTypes": {
+      "57f3fb8efa3416c06701d60d": 2,
+      "57f3fb8efa3416c06701d60e": 2
+    },
+    "metadataMicroversion": "3258649c6bcd360a8d18f75f",
+    "defaultColorHash": "FaIxNd8LRAgCeLi_13_0",
+    "ordinal": 43,
+    "isMesh": false,
+    "appearance": {
+      "color": {
+        "red": 248,
+        "green": 135,
+        "blue": 1
+      },
+      "isGenerated": true,
+      "opacity": 255
+    }
+  },
+  {
+    "name": "AC43_0_V2",
+    "state": "IN_PROGRESS",
+    "description": "acid=AC43@V2",
+    "revision": null,
+    "partNumber": null,
+    "elementId": "a7defcc970d7537f4a25e6b3",
+    "partId": "R9ED",
+    "bodyType": "solid",
+    "microversionId": "4effa193234f5d2a47530667",
+    "isFlattenedBody": false,
+    "partQuery": "query=qCompressed(1.0,\"&1c8$eJx9UMtugzAQ/JntMVYJhiRHHm5iNYHURqpyQga7xCrBFBy1+fuaIPVSKbfdndndmXmKA3i7quF2CLi3BKlHcal0cxVWmy4VVkTeYfkfKW694p4POaNbmkX7MiVHkqUkS058A2bQje5EO0Y4eXaHBajOanubtmIB5K/hGEi6JbyCsx6tGebhGhJGooLmmQNMr4b7SyrjJVAZeU4NwshDIQrhZSu91Fhf75q03dPSw1GCfTF+Klufv/Wg8t7p+ZoM3k9L4K+kSHYlyQpanLiCmTpLopJvEIZB1VZ0Tata9WEnAwyzgIVsxdZMsIrVTPKFF6AAnM/zI4YP1vQP8BAqY625MJyELos4T08zK6mcz0WNFhItFFqhDagfO1ylMj2ZC1a5WPk7ORbltPYLxLyS5w==\",id);",
+    "partIdentity": null,
+    "meshState": "NO_MESH",
+    "isHidden": false,
+    "configurationId": "",
+    "thumbnailConfigurationId": "",
+    "propertySourceTypes": {
+      "57f3fb8efa3416c06701d60d": 2,
+      "57f3fb8efa3416c06701d60e": 2
+    },
+    "metadataMicroversion": "3258649c6bcd360a8d18f75f",
+    "defaultColorHash": "FGd1Dot3iHgDlLI_14_0",
+    "ordinal": 44,
+    "isMesh": false,
+    "appearance": {
+      "color": {
+        "red": 127,
+        "green": 127,
+        "blue": 127
+      },
+      "isGenerated": true,
+      "opacity": 255
+    }
+  },
+  {
+    "name": "AC44_0_V2",
+    "state": "IN_PROGRESS",
+    "description": "acid=AC44@V2",
+    "revision": null,
+    "partNumber": null,
+    "elementId": "a7defcc970d7537f4a25e6b3",
+    "partId": "RHFD",
+    "bodyType": "solid",
+    "microversionId": "4effa193234f5d2a47530667",
+    "isFlattenedBody": false,
+    "partQuery": "query=qCompressed(1.0,\"%B5$QueryM5S12$disambiguationDataA1M2S12$disambiguationTypeS13$ORIGINAL_DEPENDENCYS9$originalsA1C0M5Sa$entityTypeBa$EntityTypeS4$EDGESb$historyTypeS8$CREATIONSb$operationIdB2$IdA1S12.4.1.6.6$FFlXmgnsrRXXVzV_15AC44asketchwireOpS9$queryTypeSd$SKETCH_ENTITYSe$sketchEntityIdS7$circle1R4C6S4$BODYR6R7R8CbA1S-c.-d.-e.7.9$extrudeopExtrudeRbSa$SWEPT_BODY\",id);",
+    "partIdentity": null,
+    "meshState": "NO_MESH",
+    "isHidden": false,
+    "configurationId": "",
+    "thumbnailConfigurationId": "",
+    "propertySourceTypes": {
+      "57f3fb8efa3416c06701d60d": 2,
+      "57f3fb8efa3416c06701d60e": 2
+    },
+    "metadataMicroversion": "3258649c6bcd360a8d18f75f",
+    "defaultColorHash": "FFlXmgnsrRXXVzV_15_0",
+    "ordinal": 45,
+    "isMesh": false,
+    "appearance": {
+      "color": {
+        "red": 250,
+        "green": 182,
+        "blue": 1
+      },
+      "isGenerated": true,
+      "opacity": 255
+    }
+  },
+  {
+    "name": "AC44_1_V2",
+    "state": "IN_PROGRESS",
+    "description": "acid=AC44@V2",
+    "revision": null,
+    "partNumber": null,
+    "elementId": "a7defcc970d7537f4a25e6b3",
+    "partId": "RLFD",
+    "bodyType": "solid",
+    "microversionId": "4effa193234f5d2a47530667",
+    "isFlattenedBody": false,
+    "partQuery": "query=qCompressed(1.0,\"%B5$QueryM5S12$disambiguationDataA1M2S12$disambiguationTypeS13$ORIGINAL_DEPENDENCYS9$originalsA1C0M5Sa$entityTypeBa$EntityTypeS4$EDGESb$historyTypeS8$CREATIONSb$operationIdB2$IdA1S12.4.1.6.6$FFlXmgnsrRXXVzV_15AC44bsketchwireOpS9$queryTypeSd$SKETCH_ENTITYSe$sketchEntityIdS7$circle1R4C6S4$BODYR6R7R8CbA1S-c.-d.-e.7.9$extrudeopExtrudeRbSa$SWEPT_BODY\",id);",
+    "partIdentity": null,
+    "meshState": "NO_MESH",
+    "isHidden": false,
+    "configurationId": "",
+    "thumbnailConfigurationId": "",
+    "propertySourceTypes": {
+      "57f3fb8efa3416c06701d60d": 2,
+      "57f3fb8efa3416c06701d60e": 2
+    },
+    "metadataMicroversion": "3258649c6bcd360a8d18f75f",
+    "defaultColorHash": "FFlXmgnsrRXXVzV_15_0",
+    "ordinal": 46,
+    "isMesh": false,
+    "appearance": {
+      "color": {
+        "red": 250,
+        "green": 182,
+        "blue": 1
+      },
+      "isGenerated": true,
+      "opacity": 255
+    }
+  },
+  {
+    "name": "AC45_0_V2",
+    "state": "IN_PROGRESS",
+    "description": "acid=AC45@V2",
+    "revision": null,
+    "partNumber": null,
+    "elementId": "a7defcc970d7537f4a25e6b3",
+    "partId": "RQFD",
+    "bodyType": "solid",
+    "microversionId": "4effa193234f5d2a47530667",
+    "isFlattenedBody": false,
+    "partQuery": "query=qCompressed(1.0,\"&1a1$eJx1kE1vgzAMhv+MdywqFGh7hJB12VbonEgTJxRI1EbdCoNUG/9+oUi7TL3Zfvzxvn5II3i76n7cR9wPQJlBftbmeJXWtJdMWpn4++A/EWOnub+CAtmO5clrldEDzTOak5Jvoe3N0Vzkx5CEZOkWS9AXa+w4TaUS6F/CQ6DZjvIaTmawbT8XN0CQJoIVuQNtp/vbSabSAJhKfKfGC73Yi+FxaNbPGpdjexZnaio/TkgYDWdtm9O36XXROTFfk7vbXgX8hQryVNFcMFFyDXPrrIcpHsCwnARjiBHGuMYNSqyxwRvy76PgPlphSGLnMy2ycqakdh4WjbdQ3trbgv6x/VXptqNzgLX7F3+nB1FNM78eZYZO\",id);",
+    "partIdentity": null,
+    "meshState": "NO_MESH",
+    "isHidden": false,
+    "configurationId": "",
+    "thumbnailConfigurationId": "",
+    "propertySourceTypes": {
+      "57f3fb8efa3416c06701d60d": 2,
+      "57f3fb8efa3416c06701d60e": 2
+    },
+    "metadataMicroversion": "3258649c6bcd360a8d18f75f",
+    "defaultColorHash": "Fsc7JeR0yokTkEi_16_0",
+    "ordinal": 47,
+    "isMesh": false,
+    "appearance": {
+      "color": {
+        "red": 157,
+        "green": 207,
+        "blue": 237
+      },
+      "isGenerated": true,
+      "opacity": 255
+    }
+  },
+  {
+    "name": "AC46_0_V2",
+    "state": "IN_PROGRESS",
+    "description": "acid=AC46@V2",
+    "revision": null,
+    "partNumber": null,
+    "elementId": "a7defcc970d7537f4a25e6b3",
+    "partId": "RUFD",
+    "bodyType": "solid",
+    "microversionId": "4effa193234f5d2a47530667",
+    "isFlattenedBody": false,
+    "partQuery": "query=qCompressed(1.0,\"&1c8$eJx9UMFygjAQ/ZntkUzBgHKEkCptBZsw0/HEBBI1UyUU4lj/vlFmeumMt919b3ffe09pCB9nNVzXIfcDkHoUp0bvz8Jq02XCisRfB/+R6tor7s+gZPkyL5L3OqMbWmS0IFsegxn0XnfiOCaYPLvDAlRntb3etlIB9K/hGGi2pLyBgx6tGabhAgijSZWXhQNMr4b7y1ymAeQy8Z0ahJGPIhTBS/q6uMSYBKsSj5td7c8TgiMxfinbHi56UGXv9HzfDN5PS+BvtCKrmhZVXm25gok6ScoljxGGQbVWdPujOqqdvRlgmIUsYnO2YII1rGWSe36IQnA+D48YM7Cmf4BH0BhrzYlhErks0jLbTizSOJ9eizyJPIXmKAb1Y4ezVKanU8EaFyv/pJuqvq39Akaekms=\",id);",
+    "partIdentity": null,
+    "meshState": "NO_MESH",
+    "isHidden": false,
+    "configurationId": "",
+    "thumbnailConfigurationId": "",
+    "propertySourceTypes": {
+      "57f3fb8efa3416c06701d60d": 2,
+      "57f3fb8efa3416c06701d60e": 2
+    },
+    "metadataMicroversion": "3258649c6bcd360a8d18f75f",
+    "defaultColorHash": "FBJ8w94C2HO4sPf_17_0",
+    "ordinal": 48,
+    "isMesh": false,
+    "appearance": {
+      "color": {
+        "red": 165,
+        "green": 165,
+        "blue": 165
+      },
+      "isGenerated": true,
+      "opacity": 255
+    }
+  }
+]

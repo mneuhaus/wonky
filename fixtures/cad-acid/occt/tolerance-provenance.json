@@ -1,0 +1,117 @@
+{
+  "schema": "wonky/cad-acid-tolerance-provenance/1",
+  "frozenObservations": "observations.json",
+  "frozenObservationsSha256": "c08ac0ba8ce2010c9366d5fc4f1744b5ebf9d328182eb24ff1916ef172aadc20",
+  "method": "Unmodified archived STEP bytes; independent analytic support and raw Euler witness, original STEP import and round-trip observations checked per file; not proof of historical byte identity where no historical digest exists.",
+  "limitations": "Native raw genus is calculated from frozen per-body rawTopology only, not independently observed native BRep. AC44 sub-resolution positive gap is not certified (in V1 local cylinder axes coincide under OCCT tolerance); this witness proves two valid cylinders, not a preserved E9 gap. AC20 quartic C1 continuity remains pending, not upgraded by this witness.",
+  "files": [
+    {
+      "sourceArtifact": "tmp/acid/fix/run/occt-a/occt/precision/V0/AC44/model.step",
+      "archivePath": "local-development-evidence",
+      "frozenPath": "artifacts/occt-a/occt/precision/V0/AC44/model.step",
+      "sha256": "eb8a8fea7c9bf5d0ab40787dd03f819ba4f62c756f88050e29efc303db08d700",
+      "bytes": 16710,
+      "observationSha256": "c90760401cf8531566ea6fed66acaf3961b917399db234bede7987264c98ab0b",
+      "identity": "observation-agreement; no historical STEP hash or size"
+    },
+    {
+      "sourceArtifact": "tmp/acid/fix/run/occt-a/occt/precision/V1/AC44/model.step",
+      "archivePath": "local-development-evidence",
+      "frozenPath": "artifacts/occt-a/occt/precision/V1/AC44/model.step",
+      "sha256": "9b465bdefcae10f4642fa4ecf81b39bdec9fef3df788ecca0c342d6bec6811cd",
+      "bytes": 16907,
+      "observationSha256": "c2dbdf1c2841568c6c77a33fc139cab2e51742ee232fc918d959aebecaa23014",
+      "identity": "observation-agreement; no historical STEP hash or size"
+    },
+    {
+      "sourceArtifact": "tmp/acid/fix/run/occt-a/occt/precision/V2/AC44/model.step",
+      "archivePath": "local-development-evidence",
+      "frozenPath": "artifacts/occt-a/occt/precision/V2/AC44/model.step",
+      "sha256": "ed51aad59462043c26873ace2cdc5f551f5f2e0933e45addf1147dcb434a9eae",
+      "bytes": 16728,
+      "observationSha256": "50225e85f63517baa4b06bb79da9ad52f779f2573c58925852565abb51f1c471",
+      "identity": "observation-agreement; no historical STEP hash or size"
+    },
+    {
+      "sourceArtifact": "tmp/acid/fix/run/occt-a/occt/precision/V3/AC44/model.step",
+      "archivePath": "local-development-evidence",
+      "frozenPath": "artifacts/occt-a/occt/precision/V3/AC44/model.step",
+      "sha256": "7bfa334adc2e563aacad0daf911990f019fc40f18f41e93348bf3a5ada9569b9",
+      "bytes": 18225,
+      "observationSha256": "3c88477b836d98ebdf8969299ff91b905c117119ef3883d66e13ef49758eee77",
+      "identity": "observation-agreement; no historical STEP hash or size"
+    },
+    {
+      "sourceArtifact": "tmp/acid/fix/run/occt-b/occt/curved/V0/AC20/model.step",
+      "archivePath": "local-development-evidence",
+      "frozenPath": "artifacts/occt-b/occt/curved/V0/AC20/model.step",
+      "sha256": "47ae41996faf51523e24e13ce26429452b74ad2189abff4bc0a4d8be242c6eb2",
+      "bytes": 35725,
+      "observationSha256": "3a4d1ce42110053904db63ea2bece74f8c7246c71919c39666b37157c201b2b1",
+      "identity": "observation-agreement; no historical STEP hash or size"
+    },
+    {
+      "sourceArtifact": "tmp/acid/fix/run/occt-b/occt/curved/V0/AC22/model.step",
+      "archivePath": "local-development-evidence",
+      "frozenPath": "artifacts/occt-b/occt/curved/V0/AC22/model.step",
+      "sha256": "79be7b159adb3035edb7169cee55f6e0d611015c6b8b0706f0ea56a1cc59b63e",
+      "bytes": 16507,
+      "observationSha256": "31e89a24d94e18c8d798f937ce35fefe608ae78611baa69e2beb1571dee9ab3e",
+      "identity": "observation-agreement; no historical STEP hash or size"
+    },
+    {
+      "sourceArtifact": "tmp/acid/fix/run/occt-b/occt/curved/V1/AC20/model.step",
+      "archivePath": "local-development-evidence",
+      "frozenPath": "artifacts/occt-b/occt/curved/V1/AC20/model.step",
+      "sha256": "a8b27633ca099432a50bb2f72c8af179a17df6b9f4aa7d32cc4a41a461338b81",
+      "bytes": 37424,
+      "observationSha256": "9a5e96bfcafdcfc9511d934bc6ebec79bcdff37b9476072324d4f38a33889c04",
+      "identity": "observation-agreement; no historical STEP hash or size"
+    },
+    {
+      "sourceArtifact": "tmp/acid/fix/run/occt-b/occt/curved/V1/AC22/model.step",
+      "archivePath": "local-development-evidence",
+      "frozenPath": "artifacts/occt-b/occt/curved/V1/AC22/model.step",
+      "sha256": "1330e84a555a10a0e9a4c2342cac16b7fb1d0a124c5d74259aa8bb4d24bf3db7",
+      "bytes": 16907,
+      "observationSha256": "6b8ec6dfdc6531ac3c611a22e54c76c065a20446bb48e8db0072f3637a5a5d5b",
+      "identity": "observation-agreement; no historical STEP hash or size"
+    },
+    {
+      "sourceArtifact": "tmp/acid/fix/run/occt-b/occt/curved/V2/AC20/model.step",
+      "archivePath": "local-development-evidence",
+      "frozenPath": "artifacts/occt-b/occt/curved/V2/AC20/model.step",
+      "sha256": "a53d6259ad5f5bfbb356838a672987d2d29daddc6b8fbb24fb8eda9329c7704d",
+      "bytes": 35585,
+      "observationSha256": "ac933da5f97ecde4ec0802d2cf2f7912b539d39d6b45a1af9833f9b43c088615",
+      "identity": "observation-agreement; no historical STEP hash or size"
+    },
+    {
+      "sourceArtifact": "tmp/acid/fix/run/occt-b/occt/curved/V2/AC22/model.step",
+      "archivePath": "local-development-evidence",
+      "frozenPath": "artifacts/occt-b/occt/curved/V2/AC22/model.step",
+      "sha256": "29a4a5e98c644700424028c725c5b830396e13f11ea2fea4b16d077f23638269",
+      "bytes": 16516,
+      "observationSha256": "3ca9f48c05cf80c73148f3682157f3ed2e371253f40c1c3d2604620efa3c6591",
+      "identity": "observation-agreement; no historical STEP hash or size"
+    },
+    {
+      "sourceArtifact": "tmp/acid/fix/run/occt-b/occt/curved/V3/AC20/model.step",
+      "archivePath": "local-development-evidence",
+      "frozenPath": "artifacts/occt-b/occt/curved/V3/AC20/model.step",
+      "sha256": "1c333b8293f3dc602a4b9537707eae12283aa5b2b74f1e2c0c349d01b5a8b74b",
+      "bytes": 37636,
+      "observationSha256": "7abc666650f1dfab35476665df23ab704470e82e76f643fc9396686879d607c3",
+      "identity": "observation-agreement; no historical STEP hash or size"
+    },
+    {
+      "sourceArtifact": "tmp/acid/fix/run/occt-b/occt/curved/V3/AC22/model.step",
+      "archivePath": "local-development-evidence",
+      "frozenPath": "artifacts/occt-b/occt/curved/V3/AC22/model.step",
+      "sha256": "8794cd1ac7459c58f4b1014288a2f76c0cbae0f1111da201a0de2d94a0f09dca",
+      "bytes": 18125,
+      "observationSha256": "efb06d9bcf536edc3389fe36ca553be5f74e52aed0d77e037b04a74ba843c2ed",
+      "identity": "observation-agreement; no historical STEP hash or size"
+    }
+  ]
+}

@@ -1,0 +1,3 @@
+; Shared definitions, prepended by scripts/lang/spike-bench.mjs.
+(def box (x0 y0 z0 x1 y1 h)
+  (extrude (list (list x0 y0) (list x1 y0) (list x1 y1) (list x0 y1)) z0 h))

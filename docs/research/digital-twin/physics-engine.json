@@ -1,0 +1,179 @@
+{
+  "topic": "physics-engine",
+  "localFindings": [
+    "Der Workspace ist eine brauchbare Darstellungsbasis, aber noch kein Mechanikmodell: <repo>/src/viewer/workspace/load.mjs:247-278 instanziert ganze Modelle, erlaubt nur model/transform und vergibt indexbasierte IDs. <repo>/viewer/render/placement.js:1-28 verwendet starre 12er-Matrizen in mm. Bewegungsgruppen innerhalb eines Modells benötigen eigene Body-Occurrence-Transformationen, die auch Picking, Schnitte und Messanzeigen verwenden.",
+    "Nicht mit der Clearance-Roadmap vermischen: <repo>local design note plant H1 für Bindings/Kinematik und H2-H5 für belastbare Abstandsprüfungen. Deren Geometrieergebnisse bleiben unabhängig von approximativer Kontaktphysik. <repo>/docs/FACTSHEET.md:7-20 beschreibt Bend als Geometriekernel und einen begrenzten Stand vom 22.09.; daraus folgt keine pauschale Zertifizierung beliebiger Displaymeshes oder abgeleiteter Kollisionshüllen.",
+    "R20-Vertrag unabhängig gezählt: vier Joints, 67 Layout-Keys, 17 bewegte Keys, 25 FS-Bindings auf 23 eindeutige Bodies und 42 fehlende Bindings. Quelle ~/Workspace/cad/cad-project-041/single-step-r20/build/studios/r20-motion.json:10-349, SHA256 c3677a544f3e927989d6bd3b12bac28760a2825fa514bd82459ca640209ea047. Fehlende Geometrie darf nicht als freier Raum oder vollständiger Twin gelten.",
+    "R20-Mapping ist nicht bloß vier Motoren anlegen: ~/Workspace/cad/cad-project-041/single-step-r20/build/studios/r20-motion.json:10-79 definiert return und dessen Kind rock als +X-Revolute, feed als Prismatic mit Achse [0,0.42261826174069944,0.9063077870366499], service als world-frame Polygonpfad unter rock. Service-Segmente summieren sich zu 550.0106866545945 mm, der deklarierte Lauf endet bei 550 mm (:442-449). Statische context/RAIL_L und RAIL_R sind Hubhüllen, keine bewegten Schienen; cores/BRIDGE enthält drei Layout-Aliase (:351-355).",
+    "Der R20-Cycle enthält offene Freigaben und symbolische Parameter statt einer vollständig ausführbaren Zeitkurve, beispielsweise FEED mit stroke und offener gleichzeitiger Schalenbewegung sowie WIGGLE mit A. Quelle ~/Workspace/cad/cad-project-041/single-step-r20/build/studios/r20-motion.json:495-535. Keine Motorprofile oder Sekunden aus Viewer-Playback erfinden.",
+    "Der frühere MuJoCo-Feeder ist wertvolle Vorarbeit, aber kein Echtzeitnachweis: ~/Workspace/cad/cad-project-043/skills/cad-physics-simulation/references/field-notes.md:117-135 berichtet 1-ms-Schritte, solref 0.005, Reibung 0.5 und 40 Teile in 50 s Simulationszeit bei 220 s Wandzeit, also ungefähr 0.22x auf einer Vierkern-CPU. Das widerspricht der pauschalen Laptop-Echtzeitbehauptung im dortigen AGENTS; die konkrete Laufbeobachtung ist maßgeblich und wurde hier nicht reproduziert.",
+    "Vorhandene LEGO-Proxies begrenzen CoACD auf sechs Hüllen und schätzen Masse offener LDraw-Shells über 0.45 des Hull-Volumens bei 1050 kg/m³. Explizite Gesamtträgheit verhinderte NaNs durch dünne Einzelhüllen. Quellen ~/Workspace/cad/cad-project-043/knowledge/simulation/cad-to-physics-simulation.md:54-64 und ~/Workspace/cad/cad-project-043/skills/cad-physics-simulation/references/sorter-v2-feeder-clip/sim/sim/pieces.py:141-158,199-208. Das sind unkalibrierte Modellentscheidungen, keine gemessenen ABS-/LEGO-Eigenschaften.",
+    "Kleine Funktionsdetails sind bereits nachweislich proxyempfindlich: ~/Workspace/cad/cad-project-012/sim/sim_common.py:1-10 vermeidet Zerlegung für 0.35-mm-Sortierkanten; :81-94 ersetzt Münzzylinder durch Ellipsoide; :105-114 beschreibt ungefähr 0.3 mm Kontaktpenetration je Flanke und verwendet 0.2-ms-Schritte. Primitive verbessern Numerik nur dann sinnvoll, wenn ihre Formabweichung für die untersuchte Funktion akzeptabel ist.",
+    "Der alte no-slip-Antrieb ist ausdrücklich idealisiert: ~/Workspace/cad/cad-project-043/skills/cad-physics-simulation/references/sorter-v2-feeder-clip/sim/sim/scene.py:207-213 setzt armature=20, damping=2 und kv=500. Reale Firmware unterstützt MOVE_STEPS, MOVE_AT_SPEED, GET/SET_POSITION, Beschleunigung, Microsteps, Enable und Stall-Erkennung sowie Servo-MOVE_TO_AND_RELEASE. Quelle ~/Workspace/LegoSorter/sorter-v2/software/firmware/sorter_interface_firmware/sorter_interface_firmware.cpp:83-112,150-161,277-286. Ein Stepper kann Schritte verlieren; unendlich starker Antrieb würde genau diese Fehler verdecken.",
+    "Die Integrationsgrenze passt zu einem Sim-Server: Pico-USB-Discovery und Kamerarollen sind dokumentiert in ~/Workspace/LegoSorter/sorter-v2/software/README.md:17-39,85-94 und ~/Workspace/LegoSorter/sorter-v2-integration/software/README.md:17-39. PTY-Boards und MJPEG-Kameras werden in ~/Workspace/cad/cad-project-043/knowledge/simulation/cad-to-physics-simulation.md:104-110 beschrieben; diese Recherche hat keinen vollständigen vorhandenen Firmware-/Kamera-Simulator verifiziert. Das alte Kamera-FOV 43.3° ist ausdrücklich ein Platzhalter in ~/Workspace/cad/cad-project-043/skills/cad-physics-simulation/references/sorter-v2-feeder-clip/sim/sim/scene.py:45-47.",
+    "Wiederverwendung braucht Lizenzprüfung: ~/Workspace/cad/cad-project-043/skills/cad-physics-simulation/references/sorter-v2-feeder-clip/LICENSE-NOTE.md:5 nennt MIT + Commons Clause für Software und CC BY-NC-SA 4.0 für Design. Nicht ungeprüft in eine permissiv vertriebene wonky-Komponente kopieren. Konzepte und Schnittstellen lassen sich unabhängig implementieren; Asset- und Code-Rechte bleiben getrennt."
+  ],
+  "options": [
+    {
+      "name": "MuJoCo native C-Engine über Python-Sim-Server, bevorzugter erster Backend",
+      "fit": "Apache-2.0. Beste Anschlussfähigkeit an die vorhandenen MJCF-, CoACD-, LEGO- und Kamera-Arbeiten. Artikulierter Joint-Baum, explizite Trägheit, begrenzbare Position-/Velocity-Servos und weiche Reibkontakte passen zu gesteuerten Feedern. Für Flächenkontakt nativeccd/multiccd prüfen; elliptische Reibkegel, Newton und bei vielen gleitenden Kontakten CG vergleichen. Startkandidat 3.14.0 wurde lokal importiert. Native Offscreen-Kameras und POSIX-PTYs erleichtern die Kopplung mit realer Steuerungssoftware.",
+      "risks": "Nicht automatisch schnell genug: der einzige lokale 40-Teile-Lauf lag bei 0.22x. Ein dichter Haufen bildet weitgehend gekoppelte Kontakte; Parallelisierung vieler unabhängiger Welten ist kein Beschleunigungsnachweis für diesen einen Haufen. Weiche Kontakte erlauben Penetration und Kriechen. nativeccd bedeutet CONVEX collision detection, nicht zeitkontinuierliches CCD; schnelle kleine Teile brauchen passende Substeps. Bitidentische Wiederholung gilt laut Dokumentation nur innerhalb derselben Version/Architektur mit vollständigem Integrationszustand einschließlich Warmstart, nicht native gegen WASM. RTF und Reibparameter sind hier ungemessen.",
+      "sources": [
+        "[MuJoCo Architektur](https://mujoco.readthedocs.io/en/stable/overview.html)",
+        "[Kontaktmodell und Reproduzierbarkeit](https://mujoco.readthedocs.io/en/stable/computation/index.html#reproducibility)",
+        "[Solver und Kontaktparameter](https://mujoco.readthedocs.io/en/stable/modeling.html)",
+        "[Verifizierte nativeccd/multiccd-Definitionen](https://github.com/google-deepmind/mujoco/blob/main/doc/XMLreference.rst)",
+        "[Apache-2.0-Lizenz](https://github.com/google-deepmind/mujoco/blob/main/LICENSE)",
+        "~/Workspace/cad/cad-project-043/skills/cad-physics-simulation/references/field-notes.md:117-135"
+      ]
+    },
+    {
+      "name": "Offizielles @mujoco/mujoco WASM im Web Worker, späterer portabler Modus",
+      "fit": "Offizielle Google-DeepMind-JS/TypeScript-Bindings existieren tatsächlich, Apache-2.0; npm-Metadaten lieferten 3.14.0 passend zur nativen Probe. Standardbuild single-threaded; /mt verwendet Web Workers und SharedArrayBuffer. Gleiche MJCF-Assets und Engine-Familie vermeiden einen zweiten Satz Kontaktmodelle. Wonky kann die Transform-Snapshots mit seinem eigenen Renderer anzeigen; die Three.js-Demo ist keine verpflichtende Renderer-Abhängigkeit. Geeignet für lokale Demos, portable Projekte und kleinere Szenen ohne Sim-Server.",
+      "risks": "README kennzeichnet die Bindings weiterhin als WIP. /mt verlangt COOP same-origin und COEP require-corp; das betrifft Cross-Origin-Assets und Kameraressourcen. Browser-Drosselung und Main-Thread-Arbeit dürfen nicht den Physiktakt bestimmen. WASM-Objekte brauchen explizites .delete(); Contact-Accessor kann Kopien liefern. Ein fertiger Kamera-/PTY-Server entsteht durch die Bindings nicht. Keine native/WASM-Bitgleichheit oder Echtzeit behaupten. Das alte mujoco-js/zalo-Paket nicht als neuen Kern wählen: zalo/mujoco_wasm ist inzwischen Demo-Suite für die offiziellen Bindings.",
+      "sources": [
+        "[Offizielle WASM-Bindings, Threading und Speicherverwaltung](https://github.com/google-deepmind/mujoco/blob/main/wasm/README.md)",
+        "[Aktuelle offizielle Paketmetadaten](https://registry.npmjs.org/@mujoco%2Fmujoco/latest)",
+        "[Status des früheren mujoco_wasm](https://github.com/zalo/mujoco_wasm/blob/main/README.md)"
+      ]
+    },
+    {
+      "name": "Rapier WASM, beste schlanke Browser-Alternative",
+      "fit": "Apache-2.0; gepflegte Rust-Engine mit offiziellen JS-Bindings, geprüftes npm-Paket @dimforge/rapier3d-compat 0.21.0. Compound-Convex-Collider, primitive Formen und motorisierte Revolute-/Prismatic-Joints eignen sich für LEGO-Haufen und gesteuerte Mechanik. Die JS-Dokumentation garantiert Cross-Platform-Determinismus bei identischem Engine-Stand, Anfangszustand, Einfügereihenfolge und deterministischen Inputs; Snapshot/Restore ist vorgesehen. Gute Alternative, falls browser-only zwingend wird.",
+      "risks": "Keine lokale Vergleichsmessung: hohe Eignung für interaktive Starrkörper ist keine Zusage korrekter Vibrationsförderung. Reibung, Contact-Skin, Solver und Schlafschwellen müssen auf Millimeterteile abgestimmt werden. Dynamische Triangle-Meshes werden von der Dokumentation wegen Penetrationsproblemen abgeraten; Compound-Proxies verwenden. JS Math.sin/cos können die deterministische Initialisierung verletzen. Rust-parallel darf nicht ungeprüft als Eigenschaft des npm-WASM-Builds verkauft werden. Das separate rapier.js-Repo ist wegen Migration ins Hauptrepo archiviert, nicht wegen Einstellung der Engine.",
+      "sources": [
+        "[Rapier Hauptrepository und Lizenz](https://github.com/dimforge/rapier)",
+        "[JS-Determinismus](https://rapier.rs/docs/user_guides/javascript/determinism/)",
+        "[Collider und Contact-Skin](https://rapier.rs/docs/user_guides/javascript/colliders/)",
+        "[Joint-Motoren](https://rapier.rs/docs/user_guides/javascript/joints/)",
+        "[Binding-Migration](https://github.com/dimforge/rapier.js)",
+        "[Geprüfte npm-Metadaten](https://registry.npmjs.org/@dimforge%2Frapier3d-compat/latest)"
+      ]
+    },
+    {
+      "name": "Jolt WASM, Kandidat für große interaktive Haufen",
+      "fit": "MIT für Engine und JoltPhysics.js; geprüftes npm-Paket jolt-physics 1.1.0. Multicore-orientierte Starrkörperengine, Compound-Convex-Formen, Motoren und zahlreiche Constraints; Triangle-Meshes für statische/kinematische Umgebungen. JS-Port bietet Single-/Multithread- und SIMD-Varianten. CROSS_PLATFORM_DETERMINISTIC=ON kann native und WASM deterministisch angleichen, wenn Quellstand, Defines und API-Reihenfolge übereinstimmen. Sinnvoller gezielter Durchsatz-Gegenkandidat nach MuJoCo, nicht vorsorglich ein zweiter Produktionsbackend.",
+      "risks": "Die tatsächlich gelesenen Defaults mPenetrationSlop=0.02 m und mSpeculativeContactDistance=0.02 m sind für LEGO unverändert unbrauchbar. Convex-Radius, Toleranzen, Restitution und Schlafen müssen ebenfalls maßstabsgerecht eingestellt werden. LinearCast-CCD erfasst schnelle Rotation langer dünner Teile nicht vollständig. Determinismus ist buildabhängig; Broadphase-Query-Reihenfolge hat weitere Caveats. Explizite WASM-Lebensdauerverwaltung und Threading-Deployment erhöhen Integrationsaufwand. Keine gemessene Geschwindigkeitsrangfolge gegenüber MuJoCo/Rapier vorhanden.",
+      "sources": [
+        "[Engine und MIT-Lizenz](https://github.com/jrouwe/JoltPhysics)",
+        "[WASM-Buildvarianten](https://github.com/jrouwe/JoltPhysics.js)",
+        "[CCD und Determinismus](https://github.com/jrouwe/JoltPhysics/blob/master/Docs/Architecture.md)",
+        "[Konkrete Kontakt-Defaults](https://github.com/jrouwe/JoltPhysics/blob/master/Jolt/Physics/PhysicsSettings.h)",
+        "[Geprüfte npm-Metadaten](https://registry.npmjs.org/jolt-physics/latest)"
+      ]
+    },
+    {
+      "name": "Bullet / ammo.js, kompatibel, aber keine neue strategische Wahl",
+      "fit": "Bullet und ammo.js sind zlib-lizenziert. Bewährte Starrkörper-, Compound-Shape- und Constraint-Bausteine, Emscripten-/WASM-Port vorhanden. Attraktiv, wenn bestehende Bullet-Assets oder ein größerer Bullet-Codebestand übernommen werden müssten; solche lokalen Vorarbeiten wurden hier nicht gefunden.",
+      "risks": "Das ammo.js-README nennt ausdrücklich Bullet 2.82 mit einem Fix aus 2.83 und nur die in ammo.idl exponierte API. Moderne native Bullet-Funktionen oder GPU-Pfade sind deshalb nicht automatisch im Browser verfügbar. Kleine stapelnde Körper benötigen eng abgestimmte Margins, Solver/Substeps und Reibung; keine belegte Cross-Platform-Determinismusgarantie des gelesenen Ports. Es fehlt gegenüber offizieller MuJoCo-WASM-Parität oder Rapier/Jolt ein konkreter Vorteil für diesen Twin. Nicht pauschal langsamer oder instabil nennen: vergleichbare Messungen fehlen.",
+      "sources": [
+        "[ammo.js, Lizenz, API-Abdeckung und Bullet-Version](https://github.com/kripken/ammo.js)"
+      ]
+    },
+    {
+      "name": "PhysX WASM über physx-js-webidl, technisch stark, derzeit nachrangig",
+      "fit": "PhysX-Kern BSD-3-Clause, Community-Bindings MIT. Geprüftes Wrapper-Paket 2.7.3 dokumentiert PhysX 5.6.1. Revolute/Prismatic/D6, Articulations, Compound-Collision und TGS bieten gute Voraussetzungen für Gelenke, Massendifferenzen und stapelnde Körper. PhysX unterscheidet statische/dynamische Reibung; TGS verbessert unter anderem Joint-Drives und zeitliche Auflösung. Interessant bei späterem größerem PhysX-/Isaac-Ökosystembedarf.",
+      "risks": "Kein hier belegtes offizielles NVIDIA-JS-SDK: die betrachtete WASM-Schicht ist ein Community-Port mit eigener Versionsbindung. CUDA-Funktionen sind ausdrücklich ausgeschlossen; GPU-PhysX-Leistungswerte gelten nicht für WASM. Enhanced Determinism isoliert deterministisch eingefügte Inseln, garantiert aber nicht beliebige Plattform-/Versionsgleichheit. Contact-/Rest-Offsets und kinematisches Einklemmen kleiner Teile bleiben Modellierungsrisiken. Größere API-/Asset-Cooking-Integration ohne heutigen Vorteil gegenüber dem vorhandenen MuJoCo-Pfad; RTF nicht gemessen.",
+      "sources": [
+        "[Offizieller PhysX-Kern und Lizenz](https://github.com/NVIDIA-Omniverse/PhysX)",
+        "[Community-WASM-Bindings und CUDA-Ausschluss](https://github.com/fabmax/physx-js-webidl)",
+        "[TGS und Determinismus](https://nvidia-omniverse.github.io/PhysX/physx/5.4.1/docs/RigidBodyDynamics.html)",
+        "[Kontakt-Offsets und CCD](https://nvidia-omniverse.github.io/PhysX/physx/5.4.1/docs/AdvancedCollisionDetection.html)",
+        "[Geprüfte npm-Metadaten](https://registry.npmjs.org/physx-js-webidl/latest)"
+      ]
+    },
+    {
+      "name": "Kollisionsassets: analytische Primitive, CoACD und versionierte LEGO-Proxies",
+      "fit": "Primitive bevorzugen, wenn der vollständige zugelassene Body beziehungsweise die relevante Funktionsgeometrie damit korrekt beschrieben ist, nicht bloß eine einzelne analytische Supportfläche. Sonst getrennte Offline-CoACD-Hüllen aus validierten wonky-Meshes; CoACD ist MIT und bietet real_metric=True für Schwellen in Metern. Jede Hülle als eigener Collider/Geom, nicht alle wieder als ein convexifiziertes Mesh laden. V-HACD ist BSD-3-Clause, inzwischen archiviert und empfiehlt CoACD. LEGO visuell mit LDraw; physikalisch mehrstufig: grobe studlose Hülle nur zur Exploration, Box plus Stud-Primitiven und relevante Boden-/Wand-/Tube-Struktur für Sortieren und Verkanten, feinere Teile nur dort, wo sie das Ergebnis beeinflussen. Masse/COM/Trägheit je physischem Body einmal explizit festlegen, unabhängig von überlappenden Hüllen.",
+      "risks": "Zertifiziertes Eingangsmesh macht CoACD-Ausgang nicht zertifiziert; dessen max_convex_hull kann ausdrücklich die Fehlerschwelle verletzen. Sechs Hüllen sind ein Performancebudget, keine Genauigkeitsgarantie. Zerlegung und Vorverarbeitung können Löcher schließen und Studs glätten; Proxyabweichung und Kontaktpenetration getrennt budgetieren. Studlose Proxies sind ungeeignet für Interlocking-/Orientierungsbehauptungen; auch detaillierte starre Studs modellieren keine elastische LEGO-Klemmverbindung. LDraw liefert nicht automatisch geschlossene Massensolids. Aktuelle 3001.dat trägt CC BY 4.0, CAreadme beschreibt zusätzlich Legacy-CC-BY-2.0/4.0; Lizenz und Attribution rekursiv pro Part/Subpart sichern, nicht die veraltete allgemeine Legal-Seite pauschal übernehmen.",
+      "sources": [
+        "[CoACD, metrische Schwellen und Hull-Cap-Caveat](https://github.com/SarahWeiii/CoACD)",
+        "[CoACD MIT](https://github.com/SarahWeiii/CoACD/blob/main/LICENSE)",
+        "[V-HACD Status](https://github.com/kmammou/v-hacd/blob/master/README.md)",
+        "[V-HACD BSD-3-Clause](https://github.com/kmammou/v-hacd/blob/master/LICENSE)",
+        "[Aktueller LDraw-Lizenzvertrag](https://library.ldraw.org/library/official/CAreadme.txt)",
+        "[Konkreter 2x4-Brick-Header](https://library.ldraw.org/library/official/parts/3001.dat)",
+        "~/Workspace/cad/cad-project-043/knowledge/simulation/cad-to-physics-simulation.md:54-64"
+      ]
+    }
+  ],
+  "recommendation": "Native-first, MuJoCo 3.14.0 als zunächst zu qualifizierenden Backend einfrieren; Python ist Prozess-/IO-Hülle, die Physik läuft in der C-Engine. Der vorhandene Node-Viewer startet einen eigenen lokalen Sim-Prozess und rendert dessen Zustände. Offizielles @mujoco/mujoco 3.14.0 im Web Worker folgt optional mit denselben Assets. Rapier ist die browser-first Alternative, Jolt der gezielte Haufen-Durchsatzkandidat. Keine sechs Backends implementieren und keine universelle Geschwindigkeitsrangfolge behaupten.\n\nEin kleiner versionierter Twin-Szenenvertrag ergänzt den Workspace: gepinnte Geometrie-/Motion-Revisionen, explizite Body-Occurrences, Starrgruppen, lokale Frames, Massen/Trägheiten, Kollisionsprofile, Joints, Antriebe und Kamera-Frames. B-rep-Bau und zertifizierte Clearance bleiben ausschließlich wonky/Bend; externe Zerlegung und Engine-Kontakte sind deklarierte, nichtautoritative Simulationsproxies. Geometrieänderung beendet oder pausiert den aktuellen Sim-Epoch; keine unbemerkte Mischung mit last-good Bodies und kein Rebuild pro Frame.\n\nMJCF-Mapping: mm einmal nach m, Grad einmal nach rad, Z-up bewahren; MuJoCo-Quaternionen wxyz ausdrücklich konvertieren. Statische Teile in worldbody, bewegte Starrgruppen in verschachtelte bodies, lose LEGO-Teile mit freejoint und eigenem inertial. return/rock werden hinge mit korrekt aus Home-Frames abgeleiteten lokalen Pivot-/Achsdaten, feed ein slide mit 0 bis 0.13 m. Modell-Placement kommt außerhalb der Feeder-Kinematik hinzu. Service ist kein einzelner Slider: seine Translation wirkt im Feeder-Quellrahmen vor der äußeren Workspace-Platzierung. Im ersten dynamischen Twin bleibt service ein Wartungs-Posemodus bei pausierter Physik; bewegte Service-Kontakte brauchen später einen ausdrücklich modellierten externen Träger/Hand-Antrieb. Fehlende Parts, zusammengeführte Aliase und statische Rail-Hüllen werden explizit aufgelöst, nicht erraten.\n\nEin Sim-Takt ist autoritativ, unabhängig von requestAnimationFrame. Start mit 1 ms, implicitfast, elliptischer Reibung und dem bisherigen solref=0.005 nur als unkalibrierter Ausgangspunkt; mindestens 0.5-ms-Gegenlauf bei gleicher physischer Kontaktweichheit. Vibrationsfrequenz und maximale Randgeschwindigkeit bestimmen weitere Verfeinerung. Command(seq, applyTick, actuator, target) wird an Tick-Grenzen angewendet; WebSocket-Snapshots enthalten epoch, tick, simulationTime und Body-/Joint-Zustände. Der Viewer interpoliert nur die Anzeige mit 30-60 Hz. Kameraaufnahmen beziehen sich auf festgelegte Sim-Ticks, nicht auf interpolierte UI-Posen; vollständige Kameraimplementierung ist ein eigenes Integrationspaket. Pause/Einzelschritt/Reset unterstützen; Rückwärts-Scrubbing über Checkpoints plus Replay, niemals negative Physikschritte.\n\nZwei benannte Antriebsprofile: idealer, nicht schlupfender Drive für frühe Steuerungsabläufe und kraft-/momentbegrenzter Drive für reale Stalls. Positions-/Geschwindigkeitsziele erhalten Rampen, Limits und eine begrenzte Kraft beziehungsweise ein begrenztes Moment; Release/Disable nimmt die aktive Antriebskraft weg. Stepper-Sollwinkel q=sign*2π*n/(fullStepsPerRev*microsteps*gearRatio) plus Nullpunkt, gearRatio bedeutet Motorumdrehungen je Abtriebsumdrehung; Gegenrichtung ist ein negatives Kommando, keine Zeitumkehr. SET_POSITION ändert den Zählerbezug, nicht die körperliche Pose. Kommandierter Schrittzähler und tatsächliche Achsposition bleiben getrennt. Gemessene Übersetzung, Haltemoment, Drehmoment-Drehzahl-Kurve und Spiel ersetzen später Platzhalter. Kein armature=20 als scheinbar reale Motormasse übernehmen.\n\nPTY-/Kamera-Adapter laufen am Sim-Server; Sim-Konfiguration erlaubt ausschließlich explizite virtuelle Ports und darf nicht auf physische USB-Discovery zurückfallen. Bei unveränderter realzeitbasierter Kontrollsoftware muss der gesamte Sim-/Kamera-/IO-Pfad Echtzeit halten. Bei Rückstand sichtbar stoppen oder einen ausdrücklich virtuellen Controller-Takt verwenden, nicht Frames duplizieren und Echtzeit vortäuschen.\n\nEntscheidungsgate: dieselben eingefrorenen Proxysets mit 40 und 100 Teilen, 300 als Stressfall, in Stapel-, Förderer- und Vibrationsszenen messen. RTF=Simulationssekunden/Wandsekunden getrennt für reine Physik und Ende-zu-Ende einschließlich Kameras/IO; Kontakte, Hüllen, p95-Schrittzeit, Speicher und Ausfälle mitberichten. Ziel ist dauerhaft RTF>=1 für den vereinbarten Betriebsfall, keine heutige Zusage. Keine Beschleunigung durch entfernte Studs, ausgeschaltete relevante Kontakte oder gröbere Schritte ohne separate Qualitätsauswertung. Ruhen, Rutschen, Stapeln, Transport und Jam-Verhalten gegen reale Beobachtung kalibrieren; bis dahin ist es ein ausführbares Maschinenmodell, kein validierter digitaler Zwilling.",
+  "packages": [
+    {
+      "title": "PE1 Body-Occurrence- und R20-Adapter",
+      "scope": "Kleinen Twin-Szenenvertrag und MJCF-Zuordnung an die vorhandene Workspace-/Lane-H1-Kinematik anschließen. Frames/Einheiten, Starrgruppen, Aliasauflösung, fehlende Geometrie und expliziten Service-Wartungsmodus behandeln. Unbekannte Felder nicht in das unveränderte Workspace-v1-Schema schmuggeln.",
+      "acceptance": "Gefrorener R20-Vertrag ergibt 4 Joints, 67 Keys, 25 Bindings/23 Bodies und 42 fehlende Bindings. Unabhängige Home-/Pivot-Gegenrechnung unter nichtidentischer Workspace-Platzierung stimmt. Rail-Hüllen bleiben statisch; BRIDGE-Aliase erzeugen keine Doppelmasse. Bodybewegung und Auswahl stimmen überein. Unvollständiger Twin bleibt sichtbar unvollständig.",
+      "estimateAgentDays": 2,
+      "dependsOn": [
+        "Lane H1: gemeinsame Body-Bindings und Kinematik"
+      ]
+    },
+    {
+      "title": "PE2 Kollisionsassets und kleine LEGO-Bibliothek",
+      "scope": "Primitive- und CoACD-Export außerhalb des CAD-Kernels, gecacht nach Geometriehash, Parametern, Toolversion und Seed. Kleine repräsentative Auswahl von Bricks, Plates, Slopes und Technic-Teilen; getrennte Visual-/Proxyassets, Stud-Profile, explizite Masseneigenschaften und Lizenz-/Subpart-Herkunft.",
+      "acceptance": "Jede Hülle bleibt eigener Collider; keine erneute Gesamtconvexifizierung. Relevante Löcher/Spalte bleiben offen und Unterschiede zwischen studlosen und detaillierten Proxies sind ausgewiesen. Gesamtmasse ist unabhängig von Hull-Anzahl, Trägheit positiv definit. Proxyfehler wird nicht als Mesh-Zertifikat ausgegeben; unzulässige Hull-Cap-Abweichung wird gemeldet. Nicht freigegebene Snapshot-Codeübernahme unterbleibt.",
+      "estimateAgentDays": 2,
+      "dependsOn": [
+        "PE1 Body-Occurrence- und R20-Adapter"
+      ]
+    },
+    {
+      "title": "PE3 Nativer MuJoCo-Prozess und Viewer-State-Stream",
+      "scope": "Gepinnte Python/C-Laufzeit, feste Ticks, versionierte Kommandos/Snapshots, Prozess-Lifecycle, Pause/Step/Reset, Checkpoint-Replay, begrenzte Queues und unveränderte Geometriebuffer. Native Engine-Zustände bewegen Body-Occurrences; GUI bleibt unabhängig vom Solver.",
+      "acceptance": "Eine geschlossene Feederszene bewegt lose Teile ausschließlich durch Physik. Pause/Einzelschritt funktionieren ohne versteckte Schritte; Restart und Geometriewechsel können keine alten Snapshots als aktuell anzeigen. Vollständiger gespeicherter Integrationszustand plus Kommando-Replay reproduziert denselben gepinnten nativen Lauf. Nichtfinite Zustände, Solver-/Speicherprobleme und Backlog werden sichtbar beendet statt automatisch als frischer erfolgreicher Lauf fortgesetzt.",
+      "estimateAgentDays": 2,
+      "dependsOn": [
+        "PE1 Body-Occurrence- und R20-Adapter",
+        "PE2 Kollisionsassets und kleine LEGO-Bibliothek"
+      ]
+    },
+    {
+      "title": "PE4 Antriebsmodelle und sichere Controller-Schnittstelle",
+      "scope": "Engine-seitige Position-/Velocity-Drives mit Rampen, Kraft-/Momentgrenzen, Übersetzung, Schrittzähler/Positions-Trennung und Release. Ideales und begrenztes Antriebsprofil unterscheiden. Schmalen PTY-Adaptervertrag mit dem Controller-Arbeitspaket verbinden; keine vollständige RP2040-Emulation.",
+      "acceptance": "Vorwärts/rückwärts, Speed/Acceleration, Microstep-Änderung, SET_POSITION und Servo-Release entsprechen dem eingefrorenen Firmwarevertrag. Eine blockierte begrenzte Achse läuft physisch nicht einfach weiter; Sollzähler und Istlage dürfen auseinanderlaufen. Idealbetrieb behauptet keine Stallvorhersage. Sim-Modus verweigert echte USB-Geräte und Hardware-Fallbacks.",
+      "estimateAgentDays": 2,
+      "dependsOn": [
+        "PE3 Nativer MuJoCo-Prozess und Viewer-State-Stream"
+      ]
+    },
+    {
+      "title": "PE5 Kontaktqualität, Kalibrierungshaken und Echtzeit-Entscheidung",
+      "scope": "Begrenzter szenengleicher Bake-off zuerst MuJoCo native gegen offizielle WASM-Variante. Rapier oder Jolt nur bei konkret verfehltem Browser-/Durchsatzziel ergänzen. 40/100/300 Teile, ruhender Stapel, Gleiten, bewegter Feeder und Vibration; Schritt-/Proxyverfeinerung und gemessene Materialparameter als getrennte Faktoren.",
+      "acceptance": "Reine Physik-RTF und Ende-zu-Ende-RTF, Kontakte/Hüllen, p95-Schrittzeit, Speicher, Penetration, Drift, Tunneling und Ausfälle werden bei gleichem Szenenumfang ausgewiesen. Echtzeitfreigabe nur bei dauerhaft RTF>=1 im vereinbarten Betriebsfall einschließlich notwendiger Kameras/IO. Förder-/Jam-Aussagen benötigen reale Referenz und stabile Ergebnisse unter numerischer Verfeinerung; ohne Referenz ausdrücklich unkalibriert. Ein langsamer ehrlicher Lauf ist kein Performance-Pass.",
+      "estimateAgentDays": 3,
+      "dependsOn": [
+        "PE3 Nativer MuJoCo-Prozess und Viewer-State-Stream",
+        "PE4 Antriebsmodelle und sichere Controller-Schnittstelle"
+      ]
+    },
+    {
+      "title": "PE6 Kamera-Zeitsynchronisation und Integration",
+      "scope": "Für das separate Virtual-Camera-Arbeitspaket feste Kamera-/Mount-Frames, tickgebundene Renderzustände, Zeitstempel, Backpressure und Sim-Clock-Lifecycle bereitstellen. Controller und Kameras an denselben eingefrorenen Szenenstand binden; keine Photorealismus- oder OpenCV-Implementierung in diesem Paket.",
+      "acceptance": "Ein bewegter Brick und eine mitbewegte Kamera haben im ausgegebenen Frame dieselbe Poseversion wie der referenzierte Sim-Tick. Pause, Rewind, Geometriewechsel und zu langsamer Encoder erzeugen erkennbare Epoch-/Zeitwechsel, keine scheinbar live fortlaufende alte Kamera. Zuschauer-Interpolation verändert nicht die Wahrnehmungseingabe.",
+      "estimateAgentDays": 1,
+      "dependsOn": [
+        "PE3 Nativer MuJoCo-Prozess und Viewer-State-Stream",
+        "PE4 Antriebsmodelle und sichere Controller-Schnittstelle"
+      ]
+    },
+    {
+      "title": "PE7 Optionaler offizieller MuJoCo-WASM-Worker",
+      "scope": "Dieselbe Szenen-/Snapshot-Schnittstelle mit @mujoco/mujoco bereitstellen. Single-threaded zuerst, /mt erst bei gemessenem Gewinn. Asset-VFS, explizite Handle-Freigabe, Browser-Lifecycle und COOP/COEP sauber behandeln; kein zusätzlicher Renderer und keine parallele zweite Physikwahrheit.",
+      "acceptance": "Gefrorene Szene lädt in Zielbrowsern, GUI bleibt während Sim-Schritten bedienbar, wiederholtes Laden/Reset hält Speicher begrenzt. Native/WASM werden auf gleiche Modellsemantik und deklarierte numerische Toleranzen geprüft, nicht auf ungarantierte Bitgleichheit. Fehlende Isolation oder Browser-Drosselung führt zu sichtbarem eingeschränktem Modus. RTF wird im Browser neu gemessen.",
+      "estimateAgentDays": 2,
+      "dependsOn": [
+        "PE3 Nativer MuJoCo-Prozess und Viewer-State-Stream",
+        "PE5 Kontaktqualität, Kalibrierungshaken und Echtzeit-Entscheidung"
+      ]
+    }
+  ],
+  "openQuestions": [
+    "Betriebsziel noch nicht festgelegt: maximale gleichzeitig kontaktierende Teile, Teilemix, Vibrationsfrequenz/-amplitude, Anzahl/Kameraauflösung und Zielrechner beziehungsweise Zielbrowser. Annahme für den ersten Ausbau: lokaler Sim-Server, 40-Teile-Baseline, danach 100; 300 zunächst Stressfall.",
+    "Es fehlen belastbare Messwerte für ABS/ABS und ABS/gedruckte Oberflächen, Masse/Trägheit ausgewählter Teile, Restitution, Antriebsübersetzungen, Torque-Speed/Current-Kennlinien und Spiel. Ohne diese Werte keine Aussage über reale Durchsatz-/Jam-Wahrscheinlichkeit oder Motorkräfte.",
+    "Welcher eingefrorene Hardware-/Firmwarestand gilt für den Twin? Alter Vierrotor-Sorter und R20-cad-project-041 sind verschiedene Mechanismen; ~/Workspace/LegoSorter/sorter-v2 und ~/Workspace/LegoSorter/sorter-v2-integration dürfen nicht still kombiniert werden. R20-Cycle-TBDs und der Service-Modus brauchen eine ausdrückliche Modellentscheidung.",
+    "Für 42 R20-Layout-Keys fehlen FS-Bindings. Welche davon sind für Kontakt und Kamera erforderlich, welche dürfen begründet visual-only sein? Vorhandene Rail-Hubräume sind Keep-out-Hüllen, keine korrekten materiellen Hindernisse für die Lose-Teile-Physik.",
+    "Lizenzfreigabe für vorhandenen Sorter-Sim-Code und Designassets ist offen. Konservative Annahme: neue Adapter unabhängig schreiben; nur freigegebene Assets und vollständige LDraw-Lizenzketten ausliefern.",
+    "Welche wonky-Ausgabe liefert für die verwendeten Bodies tatsächlich geschlossene Topologie und ausreichende lokale Fehlerbounds? Dekompositionsfehler, weiche Kontaktpenetration und Fertigungstoleranzen müssen getrennt bleiben; ein Eingangszertifikat darf nicht auf den Simulator übertragen werden.",
+    "Aufwandsschätzung: PE1-PE6 zusammen 12 Agent-Tage, optional PE7 weitere 2, jeweils ungefähr acht Arbeitsstunden inklusive gezielter Verifikation. Vorausgesetzt sind verfügbare Lane-H1-Body-Kinematik und zugängliche Assetexports. Fehlende CAD-Teile konstruieren, physische Messkampagne, vollständiger Firmware-Emulator und Virtual-Camera/CV-Pipeline sind nicht enthalten. Keine dieser Implementierungen oder Echtzeitabnahmen wurde in dieser Recherche ausgeführt."
+  ]
+}

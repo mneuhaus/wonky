@@ -1,0 +1,4 @@
+# Independent benchmark environment only. Never used by production geometry.
+build123d==0.10.0
+# Later ocp-gordon releases require OCCT 8 while build123d 0.10 uses OCCT 7.8.
+ocp-gordon==0.1.17

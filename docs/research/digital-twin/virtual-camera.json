@@ -1,0 +1,191 @@
+{
+  "topic": "virtual-camera",
+  "localFindings": [
+    "Wonky verwendet eigenes WebGL2, nicht Three.js: <repo>/viewer/render/gl.js:32-39 erstellt einen Kontext mit preserveDrawingBuffer=false. <repo>/viewer/render/camera.js:4-25 definiert eine Orbitkamera mit festem 35°-FOV über die kürzere Bildseite; :285-322 baut die Projektionsmatrix. Eine kalibrierte Sensorkamera mit fx/fy/cx/cy, beliebigem Rollwinkel, Auflösung und Verzerrung existiert dort nicht. UI-Screenshots sind deshalb kein geeigneter Sensorpfad.",
+    "Die Wiederverwendungsgrenze ist gut: <repo>/viewer/render/placement.js:1-8,39-43,73-90 verarbeitet starre Instanztransformationen in mm. <repo>/docs/viewer/workspace.md:127-142,159-186 beschreibt Modell-IDs, Instanzen, gemeinsame Tiefenbereiche und eine separate Workspace-Ansicht. Instanz-IDs sind derzeit assembly/index, also bei Umordnung nicht dauerhaft stabil. Sensoren benötigen eine für den Simulationslauf eingefrorene Zuordnung von Instanz, Körper, Part-ID und Geometrieversion.",
+    "Rendering ist derzeit UI-getrieben: <repo>/viewer/render/renderer.js:397-405 plant über requestAnimationFrame. Die Beleuchtung in <repo>/viewer/render/shaders.js:232-242 enthält blickabhängiges Key-/Fill-Licht, keine Abbildung der realen Lampen. Für Sensoren sind explizites renderAt(snapshot), feste Beleuchtung und eine eigene Offscreen-Ausgabe nötig; Auswahlfarben, Schnittansicht, UI-Sichtbarkeit und CAD-Kanten dürfen das Sensorbild nicht verändern.",
+    "MJPEG ist kein neuer Integrationsansatz: ~/Workspace/LegoSorter/sorter-v2/software/scripts/cam-sim/README.md:3-51 dokumentiert URL-Kameras, 720p-Feeder und einen 4K-Klassifikationskanal. ~/Workspace/LegoSorter/sorter-v2/software/scripts/cam-sim/server.py:74-94,109-156 schleift vorbereitete JPEGs mit time.sleep und HTTPServer; das ist ein brauchbares Protokollbeispiel, aber kein zeitgekoppelter Renderer und kein Produktionsserver für mehrere gleichzeitige Leser.",
+    "Wichtiger Branch-Unterschied: ~/Workspace/LegoSorter/sorter-v2/software/sorter/backend/irl/config.py:1133-1183 akzeptiert C2/C3 als URL. ~/Workspace/LegoSorter/sorter-v2-integration/software/sorter/backend/irl/config.py:720-741 erstellt diese beiden Kameras dagegen nur bei Integer-Indizes. Beide Capture-Schichten können URLs öffnen: ~/Workspace/LegoSorter/sorter-v2/software/sorter/backend/vision/camera.py:73-113 und ~/Workspace/LegoSorter/sorter-v2-integration/software/sorter/backend/vision/camera.py:36-39. Für integration müssen C2/C3-URL-Bindings zuerst nachgezogen werden; unverändert funktioniert dort nicht automatisch jede Kamerarolle.",
+    "Die entscheidende Synchronisationslücke liegt beim Empfang: ~/Workspace/LegoSorter/sorter-v2/software/sorter/backend/vision/camera.py:1208-1226 versieht erst das dekodierte und korrigierte Bild mit timestamp=time.time(); integration macht dasselbe in ~/Workspace/LegoSorter/sorter-v2-integration/software/sorter/backend/vision/camera.py:709. Das ist Empfangs-/Verarbeitungszeit, nicht Belichtungs- oder Simulationszeit. Außerdem werden Rotation, Spiegelung und Farbkorrektur bereits im Backend angewendet: virtuelle Bilder müssen entweder rohe Sensorgeometrie liefern oder diese Korrekturen ausdrücklich deaktivieren.",
+    "cad-project-043 liefert echte Rendering-Vorarbeit: ~/Workspace/cad/cad-project-043/skills/cad-physics-simulation/references/sorter-v2-feeder-clip/sim/sim/snapshot.py:46-68 verwendet mj_step und mujoco.Renderer pro benannter Kamera. ~/Workspace/cad/cad-project-043/skills/cad-physics-simulation/references/sorter-v2-feeder-clip/sim/sim/scene.py:46-47,192-193 setzt aber ausdrücklich einen Platzhalter-FOV von 43,3°. Die in sim/AGENTS.md:121-138 beschriebene Live-MJPEG-/Ground-Truth-Brücke war im untersuchten vendorten sim/sim-Dateibestand nicht enthalten. Dokumentation ist hier kein Nachweis einer wiederverwendbaren Live-Implementierung.",
+    "Historische Kosten sprechen für zwei Qualitätsstufen: ~/Workspace/cad/cad-project-043/knowledge/simulation/cad-to-physics-simulation.md:80 nennt 0,22× Echtzeit für 40 Teile auf einem damaligen Vierkernrechner; :98 nennt etwa 8,5 s/Bild für Cycles und 0,5 s/Bild für Workbench. Das sind dokumentierte frühere Beobachtungen, keine aktuellen Messungen. :104-110 trennt reproduzierbaren Trajektorien-Replay von noch offener physischer Kalibrierung. ~/Workspace/simulation ist leer.",
+    "Die reale Kameraanordnung ist neuer als der alte Mast: ~/Workspace/LegoSorter/sorter-v2/docs/src/content/hardware/assembly/feeder/camera-lamp.md:60-73 beschreibt Kamera plus indirektes LED-Ringlicht, OV9732 an den Feederkanälen und IMX415 4K am Klassifikationskanal; die C1-Kamerarolle ist dort ausdrücklich offen. ~/Workspace/LegoSorter/sorter-v2/docs/src/content/sorter/camera-calibration.md:15-49 beschreibt Fokus und Farbe, keine intrinsische Kalibrierung. In den untersuchten Vision-/Kalibrierungsdateien wurde kein gespeichertes K-/Verzerrungsmodell gefunden; dies ist keine Vollsuche über sämtliche privaten Maschinendaten.",
+    "Bewegungssensoren sollten an Lane H1 andocken, nicht die komplette Clearance-Engine abwarten: <repo>local design note plant Bindings und Per-Body-Kinematik vor Abstandsprüfungen. ~/Workspace/cad/cad-project-041/single-step-r20/build/studios/r20-motion.json:1-79 definiert mm/Grad, Gelenke und Elternbeziehungen. Kamerapose = Weltpose des Halters zum Belichtungszeitpunkt × kalibrierte Halter-zu-Sensor-Pose. Physik in Metern muss genau einmal an dieser Grenze umgerechnet werden.",
+    "Keine Überhöhung der Geometriegarantie: <repo>/docs/FACTSHEET.md:7-20 beschreibt analytische Ausgaben, begrenzte exakte Prädikate, explizite Budgets und einen Entwicklungsstand vom 22.09. Zertifizierte Geometrie/Mesh-Toleranzen machen weder Rasterbilder noch Lampen, Reibung, Linsen oder Erkennungsleistung physikalisch zertifiziert. Render-Assets und Collision-Proxys bleiben getrennt; Erkennung darf keine vereinfachten Kontakt-Hüllen sehen.",
+    "Kostenrechnung, keine Messung: 1280×720×4×30 ergibt 110,592 MB/s RGBA-Readback pro Kamera; 1080p 248,832 MB/s, 4K 995,328 MB/s, jeweils vor Kopien und JPEG. Ein 4K-RGBA-Bild belegt 33,178 MB. Drei 720p-Kameras mit angenommenen 100–250 kB JPEG/Bild benötigen zusammen 72–180 Mbit/s; tatsächliche JPEG-Größe hängt stark von Szene und Qualität ab. Deshalb mit einer 720p30-Kamera beginnen und 4K separat messen. Die früheren cad-project-012-Beispiele rendern nach ganzzahligem Schrittmodulo (~/Workspace/cad/cad-project-012/sim/edge_sorter_sim.py:93-102); für neue Sensoren stattdessen rationale Aufnahmezeitpunkte verwenden, damit nichtganzzahlige FPS/Zeitschritt-Verhältnisse nicht driften."
+  ],
+  "openQuestions": [
+    "Welche konkreten Kamera-/Linsenvarianten, Fokusstellungen und Capture-Modi gehören zu Marcs Maschine? Annahme für den Einstieg: eine C2-Kamera, 1280×720 bei 30 Hz, feste Belichtung. OV9732/IMX415 und die Dokumentations-FOVs sind keine Messwerte seiner Objektive.",
+    "Wo liegen gemessene K-Matrizen, Verzerrungskoeffizienten und Halter-zu-optischer-Achse-Posen? Bis zur Kalibrierung nur ausdrücklich als nominal markierte Sensoren anbieten. Shutter-Typ, Auslesedauer, Belichtungszeit, Gain und Weißabgleich bleiben ebenfalls zu bestimmen.",
+    "Welcher Sorter-Branch und welcher Rechner sollen den ersten End-to-End-Lauf ausführen? Annahme: Rendering auf dem Mac, OpenCV wahlweise lokal oder auf einem Linux-Rechner im LAN; der Pico verarbeitet keine Videobilder. integration benötigt zusätzliche URL-Konfiguration für C2/C3.",
+    "Soll unveränderte Software nur in Echtzeit laufen, oder werden Pause, Einzelschritt und langsamere Physik mit deterministischen Entscheidungen benötigt? Letzteres erfordert neben Sensorzeitstempeln auch eine gemeinsame Simulationsuhr für Controller-Timeouts; allein eine virtuelle Webcam löst das nicht.",
+    "Welche Ende-zu-Ende-Latenz ist für die tatsächlichen Fördergeschwindigkeiten zulässig? Vorschlag als zu prüfendes Ziel, nicht Messwert: p95 Bildalter unter 100 ms lokal bzw. 150 ms im LAN bei 720p30; zusätzlich Regelabweichung und verpasste Teile messen, nicht nur FPS.",
+    "Braucht irgendein konkreter Verbraucher wirklich einen Kamera-Geräteindex statt URL? Ohne diesen Nachweis bleiben CoreMediaIO und v4l2loopback optionale Adapter. Welche realen Holdout-Bilder und Part-/Farbklassen dürfen später für die Sim-to-real-Abnahme verwendet werden?"
+  ],
+  "options": [
+    {
+      "name": "A: Kalibrierter WebGL2-Sensor im Wonky-Renderer",
+      "fit": "Beste Primärlösung: dieselben sichtbaren Meshes und Körperposen wie im Viewer, aber eigener Sensor-Renderpass/FBO. Profil enthält Auflösung, K=(fx,fy,cx,cy), Verzerrungsmodell mit benannten Koeffizienten, volle Pose, near/far, FPS, Belichtungszeit/Gain und Shutter-Modell. OpenCV-Achsen rechts/unten/vorne explizit auf Renderachsen umsetzen. Asymmetrische Projektion aus K statt bloß FOV; nachgelagerter inverser Distortion-Warp mit Overscan. Optional OffscreenCanvas im Worker; Headless Chromium verwendet dieselbe Implementierung.",
+      "risks": "Offscreen bedeutet nicht automatisch GPU oder headless. Chromium-GPU-Backend pro Betriebssystem verifizieren und Software-Fallback sichtbar melden. Synchronous readPixels blockiert; kleiner PBO/Fence-Ring statt Screenshots/Base64 oder unbeschränkter Frame-Queues. Auch asynchrones Readback bleibt eine GPU-CPU-Kopie. WebGL-Readback ist vertikal zu korrigieren, OpenCV erwartet BGR statt RGB. Die vorhandene UI-Beleuchtung muss ersetzt werden; PBR-Fotorealismus ist kein Nebenprodukt dieses Pakets.",
+      "sources": [
+        "[Chromium Headless GPU](https://chromium.googlesource.com/chromium/src/+/HEAD/docs/gpu/using-gpu-hardware-in-headless-chrome.md)",
+        "[MDN OffscreenCanvas](https://developer.mozilla.org/en-US/docs/Web/API/OffscreenCanvas)",
+        "[WebGL Readback-Kosten](https://developer.mozilla.org/en-US/docs/Web/API/WebGL_API/WebGL_best_practices)",
+        "[OpenCV Kalibrierung](https://raw.githubusercontent.com/opencv/opencv/4.x/doc/tutorials/calib3d/camera_calibration/camera_calibration.markdown)"
+      ]
+    },
+    {
+      "name": "B: Native MuJoCo-Kamera als alternativer Sensor",
+      "fit": "Sinnvoll, falls der gewählte Physikdienst ohnehin MuJoCo hält: Renderer.update_scene auf einem eingefrorenen Zustand, RGB sowie optional metrische Tiefe und Segmentierung erzeugen. Linux bietet EGL für GPU-Offscreen und OSMesa als CPU-Fallback. Die vorhandenen cad-project-043-Snapshots verkürzen den Einstieg. Gemeinsames Szenen-/Kameraprofil und ID-Mapping verhindern, dass Viewer und Sensor unterschiedliche Maschinen zeigen.",
+      "risks": "Zweiter Renderer und eigener Assetpfad können vom Viewer abweichen. Lens-Warp, Belichtungs-/Bewegungsunschärfe und echtes Sensorauslesen müssen zusätzlich modelliert werden; FOV allein reicht nicht. Python-Segmentierung liefert (Objekt-ID, Objekttyp), nicht automatisch Wonky-Part-IDs; explizit übersetzen. RGB, Labels und Tiefe müssen denselben unveränderten Zustand verwenden. Native macOS-Kontextfunktion und Gesamtlast wurden nicht erprobt. CPU-OSMesa nicht als Echtzeitlösung für mehrere 4K-Kameras einplanen.",
+      "sources": [
+        "[MuJoCo Offscreen-Rendering](https://mujoco.readthedocs.io/en/stable/programming/visualization.html)",
+        "[MuJoCo Kameraparameter](https://mujoco.readthedocs.io/en/stable/XMLreference.html)",
+        "[MuJoCo Renderer-Ausgabeformate](https://raw.githubusercontent.com/google-deepmind/mujoco/main/python/mujoco/rendering/classic/renderer.py)"
+      ]
+    },
+    {
+      "name": "C: HTTP-MJPEG direkt an OpenCV, Standardtransport",
+      "fit": "Kleinster Weg auf macOS und Linux: pro Kamerarolle ein multipart/x-mixed-replace-Endpunkt, machine.toml enthält dessen URL; cv2.VideoCapture(url) verwendet einen verfügbaren Netzwerk-Backend. Keine Systemtreiber. Ein JPEG je Aufnahme erzeugen und an alle Leser verteilen; je Leser nur neuestes vollständiges Bild beziehungsweise streng begrenzte Queue. Backend/Codec-Verfügbarkeit beim Start prüfen. Ein expliziter Render-/Sensor-Control-Endpunkt übernimmt simulierte Belichtungsänderungen, nicht wirkungslose CAP_PROP_EXPOSURE-Aufrufe auf HTTP.",
+      "risks": "JPEG-Encoding und -Decoding kosten CPU; 4K und mehrere Kameras skalieren deutlich schlechter als ein Standbildserver. Keine Interframe-Reorder-Latenz, aber Aufnahmeperiode, Readback, Encoding, Netzwerk und FFmpeg/OpenCV-Puffer bleiben. CAP_PROP_BUFFERSIZE=1 ist keine portable Garantie. Plain VideoCapture liefert eigene Multipart-Header wie Frame-ID nicht zurück: ein separater Metadatenstrom lässt sich nach Drops nicht zuverlässig per Empfangsreihenfolge zuordnen. Für deterministischen Modus einen frame-aware Multipart-Empfänger verwenden, nicht die Zuordnung behaupten. Standardmäßig an Loopback binden; LAN nur bewusst freigeben.",
+      "sources": [
+        "[OpenCV VideoCapture und Backend-spezifische Eigenschaften](https://raw.githubusercontent.com/opencv/opencv/4.x/modules/videoio/include/opencv2/videoio.hpp)",
+        "~/Workspace/LegoSorter/sorter-v2/software/scripts/cam-sim/server.py:109-156",
+        "~/Workspace/LegoSorter/sorter-v2/software/sorter/backend/irl/config.py:1133-1183"
+      ]
+    },
+    {
+      "name": "D: FFmpeg plus MediaMTX/RTSP für Bandbreite und mehrere Verbraucher",
+      "fit": "Nach Messung ergänzen, wenn MJPEG im LAN zu groß ist: Rohbilder einmal zu H.264 encodieren und per RTSP an MediaMTX publizieren. MediaMTX verteilt/remuxt, FFmpeg encodiert. Anfangskonfiguration: keine B-Frames, keine Lookahead-Warteschlange, libx264 ultrafast/zerolatency oder separat geprüfter VideoToolbox-Echtzeitencoder auf macOS. Kurzer GOP begrenzt Beitritts-/Wiederanlaufzeit; Transport TCP versus UDP gezielt vergleichen. OpenCV liest die RTSP-URL.",
+      "risks": "Weniger Netzlast, aber RGB-YUV-Konvertierung, Encoder, Decoder und Clientpuffer können mehr Latenz erzeugen als MJPEG. H.264 4:2:0 und Kompression beeinflussen Farberkennung und kleine Kanten; gegen Originalbilder vergleichen. VideoToolbox-Hardwarebeschleunigung garantiert keine Zero-Copy-Kette ab WebGL. Raspberry Pi 5 hat für diesen H.264-Pfad Software-Encoding, anders als Pi 4; Rendering/Encoding besser auf dem Mac belassen. PTS ist in OpenCV FFmpeg-spezifisch und kein automatisch erhaltener Simulationszeitstempel: Zeitbasis, Epoch und Drops explizit mappen.",
+      "sources": [
+        "[MediaMTX FFmpeg-Publishing](https://mediamtx.org/docs/publish/ffmpeg)",
+        "[MediaMTX Re-encoding](https://mediamtx.org/docs/features/remuxing-reencoding-compression)",
+        "[FFmpeg Encoder-Optionen](https://ffmpeg.org/ffmpeg-codecs.html)",
+        "[Raspberry-Pi-Kamera-Software](https://www.raspberrypi.com/documentation/computers/camera_software.html)",
+        "[OpenCV PTS/Timeout-Eigenschaften](https://raw.githubusercontent.com/opencv/opencv/4.x/modules/videoio/include/opencv2/videoio.hpp)"
+      ]
+    },
+    {
+      "name": "E: v4l2loopback auf Linux, nur bei Geräteindex-Pflicht",
+      "fit": "Ein lokaler Producer schreibt Rohbilder in ein virtuelles /dev/video-Gerät; OpenCV nutzt CAP_V4L2 wie bei einer Kamera. Auf einem entfernten Pi kann ein Netzwerkdecoder diesen Producer bilden. Unkomprimierte lokale Übergabe spart einen JPEG-Zyklus. Pixelformat, Auflösung und FPS vor dem Consumer festlegen; bei exclusive_caps zuerst den Producer anschließen.",
+      "risks": "Kernelmodul mit passenden Headern, administrativer Installation und gegebenenfalls Modulsignatur; nichts davon wurde installiert. Keine automatische GPU-Zero-Copy-Übergabe, mindestens Formatkonvertierung und Kernel-/User-Kopien budgetieren. sustain_framerate kann Bilder duplizieren, Timeout kann Leerbilder liefern: für Erkennung und Zeitmetadaten sichtbar machen. Gerätesimulation liefert nicht automatisch echte UVC-Exposure-Controls. Für einen bereits URL-fähigen Verbraucher unnötiger Betriebsaufwand.",
+      "sources": [
+        "[v4l2loopback Anforderungen und Controls](https://github.com/v4l2loopback/v4l2loopback)"
+      ]
+    },
+    {
+      "name": "F: CoreMediaIO Camera Extension auf macOS, optional",
+      "fit": "Passend für Anwendungen, die nur AVFoundation-Kamerageräte akzeptieren. Moderne Camera Extension statt alter DAL-Plug-ins; Verfügbarkeit seit macOS 12.3. Ein signiertes Host-App-/Extension-Paket nimmt Frames entgegen und liefert CMSampleBuffers über eine Source-Stream-Schnittstelle; Hostzeitstempel und definierte Formate/FPS gehören zum Vertrag. Sink-Stream oder geeignete IPC-Verbindung kann den Producer anbinden.",
+      "risks": "Eigenes Swift-/Xcode-Produkt mit Signing, Entitlements, Installation und Nutzerfreigabe, nicht bloß eine Python-Bibliothek. Das Sandboxed-Extension-Modell darf nicht durch Deaktivieren von SIP oder Sicherheitsprüfungen umgangen werden. Für WebGL-CPU-Frames bleiben Kopien und eventuell YUV-Konvertierung; native Pixelbuffer können spätere Optimierung sein, nicht vorausgesetzte Null-Latenz. Geräteerkennung im Sorter und nicht vorhandene UVC-Controls separat prüfen. Für den URL-Pfad kein Mehrwert im MVP.",
+      "sources": [
+        "[Apple: Camera Extensions mit Core Media IO](https://developer.apple.com/videos/play/wwdc2022/10022/)"
+      ]
+    },
+    {
+      "name": "G: Ground Truth und begrenzte Domain Randomisation direkt in Wonky",
+      "fit": "Pro Snapshot RGB, metrische Z-Tiefe, Integer-Instanzmaske und JSON mit Part-/Farbklasse, T_world_part und T_camera_part erzeugen. IDs über Geometrieversion plus eingefrorene Instanz-/Körperzuordnung auflösen. Unbeleuchteter separater ID-Pass ohne Blending, Dithering oder MSAA; Masken verlustfrei, niemals JPEG. Derselbe Lens-Warp gilt für RGB und Labels, bei IDs mit Nearest-Neighbour. Deterministisch variieren: Lampenintensität/-farbe, ABS-Rauheit/Farbe, Hintergrund, Sensorrauschen, Montageabweichung, Belichtung. Seeds und Profilversion gehören in das Dataset.",
+      "risks": "RGB-Bewegungsunschärfe hat keine eindeutige scharfe Maske: zunächst Labels zum Belichtungsmittelpunkt und Shutterintervall dokumentieren, später temporale Sichtbarkeit ergänzen. Transparente Teile brauchen eine explizite Labelregel. Pixelmasken sind sichtbare Fläche, nicht automatisch amodale Objektkonturen. Zufallswerte überwiegend pro Episode statt pro Bild ziehen, damit Tracking nicht unrealistisches Flackern lernt. Ground Truth bleibt separater Evaluationskanal; echte Erkennung darf sie nicht heimlich konsumieren. Sim-to-real-Erfolg nur an zurückgehaltenen realen Bildern bewerten.",
+      "sources": [
+        "[BlenderProc BOP und COCO-Beispiel](https://dlr-rm.github.io/BlenderProc/examples/datasets/bop_object_pose_sampling/README.html)",
+        "[BlenderProc Lens-Distortion](https://dlr-rm.github.io/BlenderProc/examples/advanced/lens_distortion/README.html)",
+        "[Replicator: Capture getrennt von Simulation](https://docs.isaacsim.omniverse.nvidia.com/5.1.0/replicator_tutorials/tutorial_replicator_getting_started.html)"
+      ]
+    },
+    {
+      "name": "H: BlenderProc für hochwertige Offline-Trainingsdaten",
+      "fit": "Beste Ergänzung zur Echtzeitkamera: geloggte Wonky-/Physikposen und identische Kameraprofile in BlenderProc replayen. Es übernimmt K-Matrizen, OpenCV/OpenGL-Frame-Konvertierung, Brown-Conrady-Warp sowie BOP-Pose-/Intrinsics-/Depth-Ausgaben und COCO-Instanzlabels. Licht und Materialien gezielt randomisieren; fotorealistische ABS-Oberflächen und verdeckte Studs offline ausarbeiten. Passt zu Marcs vorhandener MuJoCo→Blender-Trajektorienpipeline.",
+      "risks": "Batch-Renderer, keine verlässliche Live-Kamera für den Regler. Asset-/Materialübersetzung und Labelgleichheit müssen geprüft werden. Die alten dokumentierten Cycles-Zeiten liegen weit über 33 ms/Bild; neue Laufzeiten werden nicht daraus extrapoliert. Mehr Samples pro Bild und viele Belichtungs-Zeitsamples erhöhen GPU-Kosten. Ein synthetisch gut trainierter Detektor ist ohne reale Holdout-Abnahme noch keine Verbesserung.",
+      "sources": [
+        "[BlenderProc Kamerakonvention und K](https://dlr-rm.github.io/BlenderProc/docs/tutorials/camera.html)",
+        "[BlenderProc Verzerrung](https://dlr-rm.github.io/BlenderProc/examples/advanced/lens_distortion/README.html)",
+        "[BlenderProc BOP/COCO](https://dlr-rm.github.io/BlenderProc/examples/datasets/bop_object_pose_sampling/README.html)"
+      ]
+    },
+    {
+      "name": "I: Isaac Replicator als externer Spezialpfad; Unity Perception nicht neu einführen",
+      "fit": "Isaac zeigt das reichhaltige Gegenmodell: RTX-Kameras mit nativen OpenCV-Pinhole-/Fisheye-Modellen, Annotatoren und expliziter Capture-Orchestrierung. Für einen späteren NVIDIA-Renderrechner denkbar, nicht als Ersatz des Wonky-Viewers. Unity Perception ist als Quelle für Labeler-/Randomizer-Konzepte brauchbar.",
+      "risks": "Isaac verlangt unterstützte NVIDIA-/RTX-Hardware und passende Linux-/Windows-Umgebung; kein nativer Mac-/normaler Raspberry-Pi-Pfad. USD-/Assetimport, zusätzliche Runtime und RTX-Speicher sind erheblicher Aufwand. Replicator rt_subframes bedeutet zusätzliche Renderdurchläufe am gleichen Zustand, nicht automatisch Belichtungsintegration über physikalisch verschiedene Zeiten. Unity erklärt Perception ausdrücklich für eingestellt und nicht mehr unterstützt: für diese neue Integration keine tragfähige Standardabhängigkeit.",
+      "sources": [
+        "[Isaac OpenCV-Linsenmodelle](https://docs.isaacsim.omniverse.nvidia.com/5.1.0/sensors/isaacsim_sensors_camera.html)",
+        "[Isaac Plattformanforderungen](https://docs.isaacsim.omniverse.nvidia.com/latest/installation/requirements.html)",
+        "[Replicator Zeit-/Capture-Steuerung](https://docs.isaacsim.omniverse.nvidia.com/5.1.0/replicator_tutorials/tutorial_replicator_getting_started.html)",
+        "[Unity Perception Wartungsstatus](https://github.com/Unity-Technologies/com.unity.perception)"
+      ]
+    }
+  ],
+  "packages": [
+    {
+      "title": "VC1: Kameraprofil und Mount-Bindung",
+      "scope": "Im Wonky-Workspace einen separaten Sensorvertrag ergänzen, ohne die Orbitkamera umzudeuten: K, D samt Modell, Pixelgröße/Auflösung, FPS als Bruch, vollständige Mount-Extrinsik, Sensororientierung, near/far, Belichtung/Gain und Shutter. K beim Resize/Crop korrekt transformieren; Distortion-Koeffizienten nicht pauschal mitskalieren. Eine nominale C2-Konfiguration und Import gemessener OpenCV-Kalibrierung. Externe Voraussetzung für bewegte Halter: H1-/Physik-Pose-Snapshot; Clearance ist keine Abhängigkeit.",
+      "acceptance": "Bekannte 3D-Marken stimmen für asymmetrisches K, nichtzentrierten Principal Point, Roll und eine bewegte Halterung innerhalb 0,5 Pixel mit unabhängiger OpenCV-Projektion überein. mm/m-, Y-Flip- und Crop-Verwechslungen fallen auf. Nominale Profile sind sichtbar unkalibriert; gemessene Hardwaredaten bleiben bis zur Aufnahme offen.",
+      "estimateAgentDays": 1.5,
+      "dependsOn": []
+    },
+    {
+      "title": "VC2: Headless Sensor-Renderer",
+      "scope": "Eigener WebGL2-FBO-/Sensorpass über vorhandene Render-Assets, renderAt(snapshot) ohne requestAnimationFrame-Abhängigkeit, expliziter Distortion-Warp, feste Weltbeleuchtung und begrenzter asynchroner Readback. Ein Chromium-Prozess für alle Sensoren, keine Browserinstanz je Kamera. UI und Sensor benutzen denselben Szenenstand, aber getrennte Sicht-/Darstellungseinstellungen.",
+      "acceptance": "Ein benannter 720p-Sensor liefert ohne sichtbares Fenster Bilder derselben bewegten Teile; Orbit, Auswahl, UI-Clipping und Geräte-Pixelratio beeinflussen sie nicht. GPU-/Software-Backend wird gemeldet. RGB/BGR, Bildorientierung, Verzerrungsrand und Context-Loss sind überprüft. Renderzeit, Readback-Zeit, Prozess-RSS und Frame-Drops werden separat gemessen; 30 Hz ist ein Ziel, kein vorausgesetztes Ergebnis.",
+      "estimateAgentDays": 2.5,
+      "dependsOn": [
+        "VC1: Kameraprofil und Mount-Bindung"
+      ]
+    },
+    {
+      "title": "VC3: MJPEG an echten Sorter-Capture-Pfad",
+      "scope": "Frame-Producer an rollenbezogene MJPEG-Endpunkte anbinden, JPEG einmal je Frame encodieren, langsame Leser begrenzen/abtrennen, Reconnect und klare Fehlerzustände. Im integration-Branch URL-Konfiguration für C2/C3 nachziehen; keine Änderung der Erkennungslogik. Simulierte Controls über explizite API oder als nicht unterstützt melden. Loopback als Default.",
+      "acceptance": "Der echte Sorter-Capture-Pfad liest C2 zuerst lokal auf macOS und danach über LAN auf dem vorgesehenen Linux-Gerät; Originalsoftware liefert tatsächlich Detektionen aus Renderbildern statt Ground Truth. Zwei Leser und ein absichtlich langsamer Leser erzeugen keine wachsende Queue. p50/p95 Bildalter, Encode-/Decode-Zeit, CPU und Netzlast werden angegeben; angestrebtes p95 <100 ms lokal/<150 ms LAN wird bestanden oder ehrlich als verfehlt berichtet.",
+      "estimateAgentDays": 1,
+      "dependsOn": [
+        "VC2: Headless Sensor-Renderer"
+      ]
+    },
+    {
+      "title": "VC4: Simulationszeit und Frame-Identität",
+      "scope": "FrameEnvelope mit run/epoch, cameraId, sequence, physicsStep, simTimeNs, shutterOpen/Close, Szenen-/Profilversion und separaten Wall-/Monotonic-Zeitpunkten. Alle Kameras einer Aufnahme lesen denselben Snapshot. Rationale Aufnahmetakte statt Schrittmodulo. Echtzeitmodus droppt veraltete Bilder; Lockstep wartet auf alle angeforderten Sensoren. Frame-aware Multipart-/Binary-Empfänger erhält IDs atomar mit dem Bild; Controller-Uhradapter für Pause/Einzelschritt als gemeinsame Digital-Twin-Abhängigkeit integrieren.",
+      "acceptance": "Bei 1-ms-Physik und 30-Hz-Kamera kein kumulativer Zeitdrift. Zwei Kameras tragen denselben Snapshot-Zeitpunkt; gedrosselter Consumer, Restart, Pause, Rücksetzen und Drops erzeugen keine falsche Bild/Label-Zuordnung. timestamp=time.time() wird nicht als Sensorzeit ausgegeben. Bei Physik unter Echtzeit wird der Lauf als zu langsam markiert oder vollständig auf virtuelle Uhr umgestellt, nicht nur der Videostream verlangsamt.",
+      "estimateAgentDays": 2,
+      "dependsOn": [
+        "VC1: Kameraprofil und Mount-Bindung",
+        "VC3: MJPEG an echten Sorter-Capture-Pfad"
+      ]
+    },
+    {
+      "title": "VC5: Pixelgenaue Ground Truth",
+      "scope": "Verlustfreie Instanzmasken und metrische Z-Tiefe neben RGB, stabile Run-Zuordnung von Part-/Farbklassen und Körperposen, gleiche Verzerrungs-/Crop-Geometrie für alle Produkte. Sichtbare Bounding Boxes aus Masken; Pose in Kamera- und Weltkoordinaten. Labelnennung für Transparenz und Belichtungsmittelpunkt explizit. Labels bleiben getrennt vom Erkennungsinput.",
+      "acceptance": "Zwei gleiche LEGO-Teile behalten verschiedene Instanz-IDs bei Bewegung und gegenseitiger Verdeckung. Hintergrund ist eindeutig, Masken enthalten keine gemischten Rand-IDs, metrische Tiefe stimmt an Referenzebenen, bekannte Partpunkte reprojizieren passend. RGB, Labels und Posen tragen dieselbe Frame-ID auch bei Drops; UI-Umordnung ändert keine Zuordnung innerhalb des Laufs.",
+      "estimateAgentDays": 1.5,
+      "dependsOn": [
+        "VC4: Simulationszeit und Frame-Identität"
+      ]
+    },
+    {
+      "title": "VC6: Sensorrealismus und Offline-Datensatz",
+      "scope": "Kalibrierbare Belichtung/Gain/Weißabgleich, Rauschen, Defokus und optionale Mehrzeitpunkt-Bewegungsunschärfe. Rolling Shutter nur mit bekannten Parametern aktivieren. Seeded Licht-/ABS-/Montage-Randomisierung; identische Trajektorien und Kameraprofile nach BlenderProc exportieren. Aufwändige PBR-/Texturvarianten offline, nicht in den ersten Regelkreis laden.",
+      "acceptance": "Feste Seeds reproduzieren Parameter und Frame-/Label-Zuordnung; Belichtungsintegration bewegt Teile wirklich zwischen Shutter-Samples statt dasselbe Bild mehrfach zu rendern. Datensatz enthält K/D, Posen, IDs und Shutterinformationen. Auf realem, zuvor getrenntem Holdout werden Erkennungsrate, Fehlalarme und Farbverwechslungen gegenüber rein realem Training verglichen; ohne Realbildsatz bleibt Sim-to-real-Wirksamkeit ausdrücklich offen.",
+      "estimateAgentDays": 2.5,
+      "dependsOn": [
+        "VC5: Pixelgenaue Ground Truth"
+      ]
+    },
+    {
+      "title": "VC7: Optionale RTSP- und Linux-Geräteadapter",
+      "scope": "Nur bei gemessenem Bandbreitenproblem oder Geräteindex-Verbraucher: FFmpeg→MediaMTX-H.264-Pfad beziehungsweise v4l2loopback-Producer. Farbraum-/Formatkonvertierung und Encoder-Backend explizit; keine automatische privilegierte Modulinstallation. 720p30, Mehrkamera und 4K einzeln vergleichen.",
+      "acceptance": "Gleicher Snapshot über MJPEG und RTSP/Loopback wird hinsichtlich Bildalter, CPU/GPU, Netzlast und Detektorabweichung verglichen. Drops/Duplikate/PTS und Wiederanlauf bleiben nachvollziehbar. Pi-Modell und tatsächlich verwendeter Decoder/Encoder werden genannt; Hardwarebeschleunigung nicht aus dem Gerätenamen abgeleitet.",
+      "estimateAgentDays": 1.5,
+      "dependsOn": [
+        "VC4: Simulationszeit und Frame-Identität"
+      ]
+    },
+    {
+      "title": "VC8: Optionale macOS Camera Extension",
+      "scope": "Nur bei nachgewiesenem AVFoundation-Gerätebedarf: signierte Host-App mit CoreMediaIO-Extension und begrenztem Frame-IPC. Definierte Formate, Source-Stream, Hostzeit-Mapping, sichtbare Stale-/Disconnect-Zustände; Sorter-Geräteerkennung prüfen. Signing und Nutzerfreigabe sind externe Voraussetzungen, keine vom Agenten zu umgehenden Hindernisse.",
+      "acceptance": "Nach regulärer Freigabe erscheint die virtuelle Kamera in OpenCV/AVFoundation und einer zweiten nativen Kamera-App. Start/Stop/Reconnect funktionieren ohne Sicherheitsabsenkung. Framealter und CPU-/Kopierkosten werden mit dem URL-Pfad verglichen; unsupported UVC-Controls werden nicht als erfolgreich ausgegeben.",
+      "estimateAgentDays": 3,
+      "dependsOn": [
+        "VC4: Simulationszeit und Frame-Identität"
+      ]
+    }
+  ],
+  "recommendation": "Wonky um einen kalibrierten Sensorpass ergänzen und zuerst HTTP-MJPEG verwenden. Das nutzt den vorhandenen Viewer und den tatsächlichen Sorter-URL-Pfad; Betriebssystem-Webcams sind nicht der Einstieg. Die wichtigste Zusatzarbeit ist die Zeitkopplung: Plain OpenCV-MJPEG ist hardwareähnlicher Echtzeitinput, aber ohne frame-aware Empfänger und gemeinsame Uhr kein deterministischer Digital Twin. VC1–VC4 ergeben ungefähr 7 Agententage unter der Annahme eines verfügbaren Pose-Snapshot-/Uhrvertrags; Hardwarekalibrierung und fremde Physik-/Controller-Arbeit sind nicht eingerechnet. Danach Ground Truth und gezielte Randomisierung, BlenderProc nur für hochwertige Offline-Daten. MuJoCo-Kameras bleiben eine brauchbare native Alternative, wenn dessen Physikdienst früher verfügbar ist. RTSP erst nach Bandbreitenmessung, CoreMediaIO/v4l2loopback nur für konkrete Geräteindex-Verbraucher; Unity Perception nicht neu einführen. Alle Kosten sind Schätzungen, alle Latenzzahlen Ziele. Ergebnis: <repo>/tmp/research/digital-twin/virtual-camera.json. Sources: [Chromium](https://chromium.googlesource.com/chromium/src/+/HEAD/docs/gpu/using-gpu-hardware-in-headless-chrome.md), [OpenCV](https://raw.githubusercontent.com/opencv/opencv/4.x/modules/videoio/include/opencv2/videoio.hpp), [MediaMTX](https://mediamtx.org/docs/publish/ffmpeg), [BlenderProc](https://dlr-rm.github.io/BlenderProc/docs/tutorials/camera.html); weitere Primärquellen stehen bei den Optionen."
+}

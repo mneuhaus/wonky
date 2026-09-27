@@ -1,0 +1,1052 @@
+{
+  "schema": "wonky/fillet-onshape-probe/v1",
+  "what": "FP22 (docs/fillet-housestyle.md section 5). Input and selection: fixtures/fillet/fp22.fs, feature fp22MixedCorner; one feature per case with the parameters below (dx only shifts the case in the shared Part Studio).",
+  "provenance": {
+    "date": "2026-09-25",
+    "by": "wonky-kernel onshape-probes",
+    "transport": "Onshape session bridge (signed-in session), no API key",
+    "document": {
+      "id": "2b438b22b789f22072661811",
+      "workspace": "fc21ddb3004ffd98cc6c354b",
+      "partStudio": "70c809b3e7d2b0b0790644c2",
+      "featureStudio": "d0c10b411999f1234500c4ec",
+      "namespace": "ed0c10b411999f1234500c4ec::m7a32ddb94318677bb8d6a794",
+      "public": true,
+      "name": "wonky fillet probe FP22 (housestyle section 5)"
+    },
+    "source": {
+      "file": "fixtures/fillet/fp22.fs",
+      "sha256": "f603bdbbe867116ebe4af8d583a3a557fe6ef8324fef56c6beb9f8070f1f8a76",
+      "featureScript": 3044
+    },
+    "calls": 13,
+    "endpoints": "features POST (featureState.featureStatus), parts (name, description carrying the input volume from evVolume), massproperties (volume [value,min,max] in m^3, converted to mm^3), bodydetails (faces with surface parameters, edges with curve types, vertices), tessellatedfaces (angleTolerance 0.05, chordTolerance 0.05, as the R20 KS meshes) written as binary STL in mm",
+    "onshapeMicroversions": [
+      "d20781a68a31a0b50c5c221f",
+      "47d502479c2213bfd19ca8ad",
+      "ed790544f9ded1671134d729",
+      "0268eb0fd626b3d4dc486ee8",
+      "2d41ed08ff915eb3ede9b03f",
+      "3bd889f70df31d38a74cf182",
+      "958fde18c179ffe69566e96b",
+      "127d92e90b6811ebde062e42",
+      "049c246e8ec940d2111f88f9"
+    ],
+    "wonkyRevision": "84ae1ef"
+  },
+  "observations": [
+    "All three: the convex fillet rolls around the concave cylinder's end as a torus with axis = the concave axis, major radius rc + rv, minor rv (a: 3 / 1, b: 3 / 2, c: 2 / 1), tube centres at z 10 - rv; 12 faces (8 planes, 3 cylinders, 1 torus), 28 edges, 18 vertices.",
+    "c (sequential rc 1, rv 1) equals FP14's single three-edge fillet: 4152.720349063199 against 4152.720349063201."
+  ],
+  "faceListFormat": "id, area mm^2, surface type and Onshape surface parameters (lengths in mm; normals/axes unit vectors)",
+  "cases": {
+    "a": {
+      "parameters": {
+        "rc": "2 mm",
+        "rv": "1 mm",
+        "dx": "0 mm"
+      },
+      "featureId": "FuYDNZcYq25bA4k_0",
+      "featureStatus": "OK",
+      "partId": "JHD",
+      "name": "FP22 rc2 rv1",
+      "description": "input_volume_mm3=4159.999999999999; after_concave_mm3=4168.5840734641015",
+      "volume": 4159.250512057823,
+      "volumeMin": 4158.9918833564325,
+      "volumeMax": 4159.509140759214,
+      "inputVolume": 4159.999999999999,
+      "deltaVolume": -0.749487942176529,
+      "area": 2006.2982141307536,
+      "centroid": null,
+      "bbox": [
+        [
+          0,
+          0,
+          0
+        ],
+        [
+          30,
+          30,
+          10.000000000000002
+        ]
+      ],
+      "faces": 12,
+      "edges": 28,
+      "vertices": 18,
+      "faceTypes": {
+        "plane": 8,
+        "cylinder": 3,
+        "torus": 1
+      },
+      "edgeTypes": {
+        "circle": 7,
+        "line": 21
+      },
+      "faceList": [
+        {
+          "id": "JHe",
+          "area": 300,
+          "type": "plane",
+          "origin": [
+            0,
+            15,
+            10
+          ],
+          "normal": [
+            1,
+            0,
+            0
+          ]
+        },
+        {
+          "id": "JHC",
+          "area": 300,
+          "type": "plane",
+          "origin": [
+            15,
+            0,
+            10
+          ],
+          "normal": [
+            0,
+            1,
+            0
+          ]
+        },
+        {
+          "id": "JKO",
+          "area": 79.78539816339745,
+          "type": "plane",
+          "origin": [
+            30,
+            4,
+            10
+          ],
+          "normal": [
+            -1,
+            0,
+            0
+          ]
+        },
+        {
+          "id": "JKe",
+          "area": 179.99999999999997,
+          "type": "plane",
+          "origin": [
+            19,
+            8,
+            10
+          ],
+          "normal": [
+            0,
+            -1,
+            0
+          ]
+        },
+        {
+          "id": "JKi",
+          "area": 179.99999999999997,
+          "type": "plane",
+          "origin": [
+            8,
+            19,
+            10
+          ],
+          "normal": [
+            -1,
+            0,
+            0
+          ]
+        },
+        {
+          "id": "JKS",
+          "area": 79.78539816339746,
+          "type": "plane",
+          "origin": [
+            4,
+            30,
+            10
+          ],
+          "normal": [
+            0,
+            -1,
+            0
+          ]
+        },
+        {
+          "id": "JKa",
+          "area": 372.9314165294229,
+          "type": "plane",
+          "origin": [
+            15,
+            15,
+            10
+          ],
+          "normal": [
+            0,
+            0,
+            1
+          ]
+        },
+        {
+          "id": "JJG",
+          "area": 416.85840734641016,
+          "type": "plane",
+          "origin": [
+            15,
+            15,
+            0
+          ],
+          "normal": [
+            0,
+            0,
+            1
+          ]
+        },
+        {
+          "id": "JKW",
+          "area": 28.274333882308145,
+          "type": "cylinder",
+          "origin": [
+            10,
+            10,
+            10
+          ],
+          "axis": [
+            0,
+            0,
+            1
+          ],
+          "radius": 2
+        },
+        {
+          "id": "JKG",
+          "area": 31.415926535897928,
+          "type": "cylinder",
+          "origin": [
+            15,
+            7,
+            9
+          ],
+          "axis": [
+            1,
+            0,
+            0
+          ],
+          "radius": 1
+        },
+        {
+          "id": "JKC",
+          "area": 5.831406974022122,
+          "type": "torus",
+          "origin": [
+            10,
+            10,
+            9
+          ],
+          "axis": [
+            0,
+            0,
+            1
+          ],
+          "majorRadius": 3,
+          "minorRadius": 1
+        },
+        {
+          "id": "JKK",
+          "area": 31.415926535897906,
+          "type": "cylinder",
+          "origin": [
+            7,
+            15,
+            9
+          ],
+          "axis": [
+            0,
+            -1,
+            0
+          ],
+          "radius": 1
+        }
+      ],
+      "stl": {
+        "file": "fixtures/fillet/onshape/fp22/fp22a.stl",
+        "sha256": "bf484906cde70c0ea96f156c29ce0ce1884a184b2b70ca64ae96c66fd507fe17",
+        "triangles": 2388,
+        "faceTriangles": [
+          [
+            "JHe",
+            "plane",
+            0,
+            2
+          ],
+          [
+            "JHC",
+            "plane",
+            2,
+            2
+          ],
+          [
+            "JKO",
+            "plane",
+            4,
+            34
+          ],
+          [
+            "JKe",
+            "plane",
+            38,
+            2
+          ],
+          [
+            "JKi",
+            "plane",
+            40,
+            2
+          ],
+          [
+            "JKS",
+            "plane",
+            42,
+            34
+          ],
+          [
+            "JKa",
+            "plane",
+            76,
+            36
+          ],
+          [
+            "JJG",
+            "plane",
+            112,
+            36
+          ],
+          [
+            "JKW",
+            "cylinder",
+            148,
+            64
+          ],
+          [
+            "JKG",
+            "cylinder",
+            212,
+            64
+          ],
+          [
+            "JKC",
+            "torus",
+            276,
+            2048
+          ],
+          [
+            "JKK",
+            "cylinder",
+            2324,
+            64
+          ]
+        ]
+      },
+      "wonky": {
+        "command": "NODE_OPTIONS=--max-old-space-size=8192 node bin/wonky.mjs fixtures/fillet/fp22.fs --feature fp22MixedCorner --param 'rc=2 * millimeter' --param 'rv=1 * millimeter' --param 'dx=0 * millimeter'",
+        "name": "w-fp22a",
+        "bodies": [
+          {
+            "name": "FP22 rc2 rv1",
+            "faces": 12,
+            "edges": 28,
+            "vertices": 18,
+            "faceTypes": {
+              "plane": 8,
+              "cylinder": 3,
+              "torus": 1
+            },
+            "edgeTypes": {
+              "line": 21,
+              "circle": 7
+            },
+            "volume": 4159.250512057821,
+            "volumeError": null,
+            "claim": "exact"
+          }
+        ],
+        "result": "built",
+        "maxRssMB": 272
+      },
+      "centroidNote": "not available: Onshape massproperties without an assigned density report [0,0,0]"
+    },
+    "b": {
+      "parameters": {
+        "rc": "1 mm",
+        "rv": "2 mm",
+        "dx": "40 mm"
+      },
+      "featureId": "FusZe0bOJyqFxg0_1",
+      "featureStatus": "OK",
+      "partId": "JND",
+      "name": "FP22 rc1 rv2",
+      "description": "input_volume_mm3=4160; after_concave_mm3=4162.146018366026",
+      "volume": 4124.142155599285,
+      "volumeMin": 4123.884984348126,
+      "volumeMax": 4124.399326850444,
+      "inputVolume": 4160,
+      "deltaVolume": -35.857844400715294,
+      "area": 1989.4636870327904,
+      "centroid": null,
+      "bbox": [
+        [
+          40,
+          0,
+          0
+        ],
+        [
+          70,
+          30,
+          10
+        ]
+      ],
+      "faces": 12,
+      "edges": 28,
+      "vertices": 18,
+      "faceTypes": {
+        "plane": 8,
+        "cylinder": 3,
+        "torus": 1
+      },
+      "edgeTypes": {
+        "circle": 7,
+        "line": 21
+      },
+      "faceList": [
+        {
+          "id": "JNe",
+          "area": 300,
+          "type": "plane",
+          "origin": [
+            40,
+            15,
+            10
+          ],
+          "normal": [
+            1,
+            0,
+            0
+          ]
+        },
+        {
+          "id": "JNC",
+          "area": 300.00000000000006,
+          "type": "plane",
+          "origin": [
+            55,
+            0,
+            10
+          ],
+          "normal": [
+            0,
+            1,
+            0
+          ]
+        },
+        {
+          "id": "JQO",
+          "area": 79.1415926535898,
+          "type": "plane",
+          "origin": [
+            70,
+            4,
+            10
+          ],
+          "normal": [
+            -1,
+            0,
+            0
+          ]
+        },
+        {
+          "id": "JQe",
+          "area": 168.00000000000006,
+          "type": "plane",
+          "origin": [
+            59,
+            8,
+            10
+          ],
+          "normal": [
+            0,
+            -1,
+            0
+          ]
+        },
+        {
+          "id": "JQi",
+          "area": 168,
+          "type": "plane",
+          "origin": [
+            48,
+            19,
+            10
+          ],
+          "normal": [
+            -1,
+            0,
+            0
+          ]
+        },
+        {
+          "id": "JQS",
+          "area": 79.1415926535898,
+          "type": "plane",
+          "origin": [
+            44,
+            30,
+            10
+          ],
+          "normal": [
+            0,
+            -1,
+            0
+          ]
+        },
+        {
+          "id": "JQa",
+          "area": 325.93141652942296,
+          "type": "plane",
+          "origin": [
+            55,
+            15,
+            10
+          ],
+          "normal": [
+            0,
+            0,
+            1
+          ]
+        },
+        {
+          "id": "JPG",
+          "area": 416.21460183660264,
+          "type": "plane",
+          "origin": [
+            55,
+            15,
+            0
+          ],
+          "normal": [
+            0,
+            0,
+            1
+          ]
+        },
+        {
+          "id": "JQW",
+          "area": 12.566370614359174,
+          "type": "cylinder",
+          "origin": [
+            49,
+            9,
+            10
+          ],
+          "axis": [
+            0,
+            0,
+            1
+          ],
+          "radius": 1
+        },
+        {
+          "id": "JQG",
+          "area": 65.97344572538567,
+          "type": "cylinder",
+          "origin": [
+            55,
+            6,
+            8
+          ],
+          "axis": [
+            1,
+            0,
+            0
+          ],
+          "radius": 2
+        },
+        {
+          "id": "JQC",
+          "area": 8.521221294454467,
+          "type": "torus",
+          "origin": [
+            49,
+            9,
+            8
+          ],
+          "axis": [
+            0,
+            0,
+            1
+          ],
+          "majorRadius": 3,
+          "minorRadius": 2
+        },
+        {
+          "id": "JQK",
+          "area": 65.97344572538564,
+          "type": "cylinder",
+          "origin": [
+            46,
+            15,
+            8
+          ],
+          "axis": [
+            0,
+            -1,
+            0
+          ],
+          "radius": 2
+        }
+      ],
+      "stl": {
+        "file": "fixtures/fillet/onshape/fp22/fp22b.stl",
+        "sha256": "8e8421a603c2a95006dc3c67a1265357ca5a159292c67c10f2e9c3c399410717",
+        "triangles": 2388,
+        "faceTriangles": [
+          [
+            "JNe",
+            "plane",
+            0,
+            2
+          ],
+          [
+            "JNC",
+            "plane",
+            2,
+            2
+          ],
+          [
+            "JQO",
+            "plane",
+            4,
+            34
+          ],
+          [
+            "JQe",
+            "plane",
+            38,
+            2
+          ],
+          [
+            "JQi",
+            "plane",
+            40,
+            2
+          ],
+          [
+            "JQS",
+            "plane",
+            42,
+            34
+          ],
+          [
+            "JQa",
+            "plane",
+            76,
+            36
+          ],
+          [
+            "JPG",
+            "plane",
+            112,
+            36
+          ],
+          [
+            "JQW",
+            "cylinder",
+            148,
+            64
+          ],
+          [
+            "JQG",
+            "cylinder",
+            212,
+            64
+          ],
+          [
+            "JQC",
+            "torus",
+            276,
+            2048
+          ],
+          [
+            "JQK",
+            "cylinder",
+            2324,
+            64
+          ]
+        ]
+      },
+      "wonky": {
+        "command": "NODE_OPTIONS=--max-old-space-size=8192 node bin/wonky.mjs fixtures/fillet/fp22.fs --feature fp22MixedCorner --param 'rc=1 * millimeter' --param 'rv=2 * millimeter' --param 'dx=40 * millimeter'",
+        "name": "w-fp22b",
+        "bodies": [
+          {
+            "name": "FP22 rc1 rv2",
+            "faces": 12,
+            "edges": 28,
+            "vertices": 18,
+            "faceTypes": {
+              "plane": 8,
+              "cylinder": 3,
+              "torus": 1
+            },
+            "edgeTypes": {
+              "line": 21,
+              "circle": 7
+            },
+            "volume": null,
+            "volumeError": "Volume integration produced a non-finite value",
+            "claim": "exact"
+          }
+        ],
+        "result": "built",
+        "maxRssMB": 267
+      },
+      "centroidNote": "not available: Onshape massproperties without an assigned density report [0,0,0]"
+    },
+    "c": {
+      "parameters": {
+        "rc": "1 mm",
+        "rv": "1 mm",
+        "dx": "80 mm"
+      },
+      "featureId": "Fs9U3YSUij6jRqn_2",
+      "featureStatus": "OK",
+      "partId": "JTD",
+      "name": "FP22 rc1 rv1",
+      "description": "input_volume_mm3=4159.999999999998; after_concave_mm3=4162.146018366024",
+      "volume": 4152.720349063199,
+      "volumeMin": 4152.461991136525,
+      "volumeMax": 4152.978706989873,
+      "inputVolume": 4159.999999999998,
+      "deltaVolume": -7.279650936799044,
+      "area": 2009.118424050097,
+      "centroid": null,
+      "bbox": [
+        [
+          80,
+          0,
+          0
+        ],
+        [
+          110,
+          30,
+          10.000000000000002
+        ]
+      ],
+      "faces": 12,
+      "edges": 28,
+      "vertices": 18,
+      "faceTypes": {
+        "plane": 8,
+        "cylinder": 3,
+        "torus": 1
+      },
+      "edgeTypes": {
+        "circle": 7,
+        "line": 21
+      },
+      "faceList": [
+        {
+          "id": "JTe",
+          "area": 300,
+          "type": "plane",
+          "origin": [
+            80,
+            15,
+            10
+          ],
+          "normal": [
+            1,
+            0,
+            0
+          ]
+        },
+        {
+          "id": "JTC",
+          "area": 300,
+          "type": "plane",
+          "origin": [
+            95,
+            0,
+            10
+          ],
+          "normal": [
+            0,
+            1,
+            0
+          ]
+        },
+        {
+          "id": "JWO",
+          "area": 79.78539816339745,
+          "type": "plane",
+          "origin": [
+            110,
+            4,
+            10
+          ],
+          "normal": [
+            -1,
+            0,
+            0
+          ]
+        },
+        {
+          "id": "JWe",
+          "area": 189.00000000000006,
+          "type": "plane",
+          "origin": [
+            99,
+            8,
+            10
+          ],
+          "normal": [
+            0,
+            -1,
+            0
+          ]
+        },
+        {
+          "id": "JWi",
+          "area": 189,
+          "type": "plane",
+          "origin": [
+            88,
+            19,
+            10
+          ],
+          "normal": [
+            -1,
+            0,
+            0
+          ]
+        },
+        {
+          "id": "JWS",
+          "area": 79.78539816339739,
+          "type": "plane",
+          "origin": [
+            84,
+            30,
+            10
+          ],
+          "normal": [
+            0,
+            -1,
+            0
+          ]
+        },
+        {
+          "id": "JWa",
+          "area": 371.85840734641,
+          "type": "plane",
+          "origin": [
+            95,
+            15,
+            10
+          ],
+          "normal": [
+            0,
+            0,
+            1
+          ]
+        },
+        {
+          "id": "JVG",
+          "area": 416.2146018366024,
+          "type": "plane",
+          "origin": [
+            95,
+            15,
+            0
+          ],
+          "normal": [
+            0,
+            0,
+            1
+          ]
+        },
+        {
+          "id": "JWW",
+          "area": 14.137166941154073,
+          "type": "cylinder",
+          "origin": [
+            89,
+            9,
+            10
+          ],
+          "axis": [
+            0,
+            0,
+            1
+          ],
+          "radius": 1
+        },
+        {
+          "id": "JWG",
+          "area": 32.98672286269284,
+          "type": "cylinder",
+          "origin": [
+            95,
+            7,
+            9
+          ],
+          "axis": [
+            1,
+            0,
+            0
+          ],
+          "radius": 1
+        },
+        {
+          "id": "JWC",
+          "area": 3.364005873749789,
+          "type": "torus",
+          "origin": [
+            89,
+            9,
+            9
+          ],
+          "axis": [
+            0,
+            0,
+            1
+          ],
+          "majorRadius": 2,
+          "minorRadius": 1
+        },
+        {
+          "id": "JWK",
+          "area": 32.98672286269282,
+          "type": "cylinder",
+          "origin": [
+            87,
+            15,
+            9
+          ],
+          "axis": [
+            0,
+            -1,
+            0
+          ],
+          "radius": 1
+        }
+      ],
+      "stl": {
+        "file": "fixtures/fillet/onshape/fp22/fp22c.stl",
+        "sha256": "d7c799cecb1b3ca32b6a4cd94472b29b555455028f770a384a304285cf85e125",
+        "triangles": 2388,
+        "faceTriangles": [
+          [
+            "JTe",
+            "plane",
+            0,
+            2
+          ],
+          [
+            "JTC",
+            "plane",
+            2,
+            2
+          ],
+          [
+            "JWO",
+            "plane",
+            4,
+            34
+          ],
+          [
+            "JWe",
+            "plane",
+            38,
+            2
+          ],
+          [
+            "JWi",
+            "plane",
+            40,
+            2
+          ],
+          [
+            "JWS",
+            "plane",
+            42,
+            34
+          ],
+          [
+            "JWa",
+            "plane",
+            76,
+            36
+          ],
+          [
+            "JVG",
+            "plane",
+            112,
+            36
+          ],
+          [
+            "JWW",
+            "cylinder",
+            148,
+            64
+          ],
+          [
+            "JWG",
+            "cylinder",
+            212,
+            64
+          ],
+          [
+            "JWC",
+            "torus",
+            276,
+            2048
+          ],
+          [
+            "JWK",
+            "cylinder",
+            2324,
+            64
+          ]
+        ]
+      },
+      "wonky": {
+        "command": "NODE_OPTIONS=--max-old-space-size=8192 node bin/wonky.mjs fixtures/fillet/fp22.fs --feature fp22MixedCorner --param 'rc=1 * millimeter' --param 'rv=1 * millimeter' --param 'dx=80 * millimeter'",
+        "name": "w-fp22c",
+        "bodies": [
+          {
+            "name": "FP22 rc1 rv1",
+            "faces": 12,
+            "edges": 28,
+            "vertices": 18,
+            "faceTypes": {
+              "plane": 8,
+              "cylinder": 3,
+              "torus": 1
+            },
+            "edgeTypes": {
+              "line": 21,
+              "circle": 7
+            },
+            "volume": null,
+            "volumeError": "Volume integration produced a non-finite value",
+            "claim": "exact"
+          }
+        ],
+        "result": "built",
+        "maxRssMB": 263
+      },
+      "centroidNote": "not available: Onshape massproperties without an assigned density report [0,0,0]"
+    }
+  }
+}

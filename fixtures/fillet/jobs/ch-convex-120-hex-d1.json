@@ -1,0 +1,42 @@
+{
+ "id": "ch-convex-120-hex-d1",
+ "jobSha256": "ef05d45e1bab353f6a17b3022780a542aab56e49a24a32024d5fc695914465f2",
+ "jobBytes": 3876,
+ "sourceSha256": "30b979bbf55ff3b78020c195f28c253ddd273f0d736fbbdf7794573436ed2152",
+ "buildMs": 1033.782167,
+ "kernel": {
+  "closed": true,
+  "volumeMm3": 5196.152422706638,
+  "areaMm2": 1719.615242270664,
+  "precision": "F32x2",
+  "geometry": "planar"
+ },
+ "counts": {
+  "vertices": 12,
+  "edges": 18,
+  "faces": 8
+ },
+ "surfaces": {
+  "plane": 8
+ },
+ "quantizationErrorMm": 4.440892098500626e-16,
+ "selected": [
+  {
+   "edge": 17,
+   "curve": "line",
+   "faces": [
+    "plane",
+    "plane"
+   ],
+   "convexity": "convex",
+   "dihedralDeg": 119.99999999999994,
+   "length": 20,
+   "sample": [
+    10,
+    0,
+    10
+   ]
+  }
+ ],
+ "step": "out/fillet/input-step/ch-convex-120-hex-d1.step"
+}

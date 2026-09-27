@@ -1,0 +1,42 @@
+{
+ "id": "pp-convex-120-hex-r2",
+ "jobSha256": "6ec34d7f2642fcc0418d37572cb5a4b2760f3b72676ec1d4573177167f29afcb",
+ "jobBytes": 3414,
+ "sourceSha256": "ae51f4422b1f1bdde51cdec7b14a22e8563c03776a29b49bab12665cdf36b4ec",
+ "buildMs": 4.475083000000268,
+ "kernel": {
+  "closed": true,
+  "volumeMm3": 2598.0763435363765,
+  "areaMm2": 1119.615283970461,
+  "precision": "F32x2",
+  "geometry": "planar"
+ },
+ "counts": {
+  "vertices": 12,
+  "edges": 18,
+  "faces": 8
+ },
+ "surfaces": {
+  "plane": 8
+ },
+ "quantizationErrorMm": 8.881784197001252e-15,
+ "selected": [
+  {
+   "edge": 15,
+   "curve": "line",
+   "faces": [
+    "plane",
+    "plane"
+   ],
+   "convexity": "convex",
+   "dihedralDeg": 120.00000252451049,
+   "length": 10,
+   "sample": [
+    10,
+    0,
+    5
+   ]
+  }
+ ],
+ "step": "out/fillet/input-step/pp-convex-120-hex-r2.step"
+}

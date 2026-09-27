@@ -1,0 +1,154 @@
+{
+ "id": "corpus-u-plate-vertical-edges-r4.2",
+ "jobSha256": "a6a20c65094ae50748d1d04b3be5d06898bbd8b8d1aa82bc260ec6ec136548d9",
+ "jobBytes": 3722,
+ "sourceSha256": "830248421f48b7b138a88e2abd2dd9b3743854d3460ba6005b13b8ee745821a8",
+ "buildMs": 18.92495800000006,
+ "kernel": {
+  "closed": true,
+  "volumeMm3": 24000,
+  "areaMm2": 6880,
+  "precision": "F32x2",
+  "geometry": "planar"
+ },
+ "counts": {
+  "vertices": 16,
+  "edges": 24,
+  "faces": 10
+ },
+ "surfaces": {
+  "plane": 10
+ },
+ "quantizationErrorMm": 0,
+ "selected": [
+  {
+   "edge": 16,
+   "curve": "line",
+   "faces": [
+    "plane",
+    "plane"
+   ],
+   "convexity": "convex",
+   "dihedralDeg": 90,
+   "length": 12,
+   "sample": [
+    0,
+    0,
+    6
+   ]
+  },
+  {
+   "edge": 17,
+   "curve": "line",
+   "faces": [
+    "plane",
+    "plane"
+   ],
+   "convexity": "convex",
+   "dihedralDeg": 90,
+   "length": 12,
+   "sample": [
+    60,
+    0,
+    6
+   ]
+  },
+  {
+   "edge": 18,
+   "curve": "line",
+   "faces": [
+    "plane",
+    "plane"
+   ],
+   "convexity": "convex",
+   "dihedralDeg": 90,
+   "length": 12,
+   "sample": [
+    60,
+    40,
+    6
+   ]
+  },
+  {
+   "edge": 19,
+   "curve": "line",
+   "faces": [
+    "plane",
+    "plane"
+   ],
+   "convexity": "convex",
+   "dihedralDeg": 90,
+   "length": 12,
+   "sample": [
+    40,
+    40,
+    6
+   ]
+  },
+  {
+   "edge": 20,
+   "curve": "line",
+   "faces": [
+    "plane",
+    "plane"
+   ],
+   "convexity": "concave",
+   "dihedralDeg": 270,
+   "length": 12,
+   "sample": [
+    40,
+    20,
+    6
+   ]
+  },
+  {
+   "edge": 21,
+   "curve": "line",
+   "faces": [
+    "plane",
+    "plane"
+   ],
+   "convexity": "concave",
+   "dihedralDeg": 270,
+   "length": 12,
+   "sample": [
+    20,
+    20,
+    6
+   ]
+  },
+  {
+   "edge": 22,
+   "curve": "line",
+   "faces": [
+    "plane",
+    "plane"
+   ],
+   "convexity": "convex",
+   "dihedralDeg": 90,
+   "length": 12,
+   "sample": [
+    20,
+    40,
+    6
+   ]
+  },
+  {
+   "edge": 23,
+   "curve": "line",
+   "faces": [
+    "plane",
+    "plane"
+   ],
+   "convexity": "convex",
+   "dihedralDeg": 90,
+   "length": 12,
+   "sample": [
+    0,
+    40,
+    6
+   ]
+  }
+ ],
+ "step": "out/fillet/input-step/corpus-u-plate-vertical-edges-r4.2.step"
+}

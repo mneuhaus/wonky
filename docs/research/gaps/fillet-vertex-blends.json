@@ -1,0 +1,222 @@
+{
+  "topic": "fillet-vertex-blends",
+  "currentState": [
+    "Do not restart the survey or the fillet implementation. <repo>/docs/research/synthesis.md:288-318 already establishes the stripe/corner/attachment pipeline; <repo>/docs/research/fillets-blends-offsets.md:513-621 covers spheres, Gregory patches, overflow and surgery. <repo>/docs/fillet-housestyle.md:505-739 already specifies HS-0 through HS-6. The additions here are implementation-level carrier identity, clipped-domain predicates, ellipse-arc extrema, source-level patch limitations, and a bounded freeform implementation contract.",
+    "The 22 September factsheet is stale for this topic. Production geometry has Plane/Cylinder/Cone/Sphere/Torus, but only Line/Circle/Ellipse curves and no production spline/Gregory surface: <repo>/kernel/analytic.bend:8-26. Corner construction supports three-plane sphere/triangle cases, not general n-sided patches: <repo>/kernel/fillet/corners.bend:1071-1085,1143-1165. <repo>/src/fillet-fs.mjs:47-62 accepts smoothCorners=false only and defaults tangentPropagation to false.",
+    "Planar fragments are partly handled, not solved end-to-end. <repo>/kernel/fillet/ladder.bend:761-788 identifies adjacent coplanar fragments; <repo>/kernel/fillet/main.bend:93-116 ignores their selected internal edges but does not join a selected boundary piece through a fragment-only vertex when propagation=false. <repo>/kernel/fillet/bounds.bend:507-518 still admits such internal edges as obstacles. <repo>/kernel/fillet/surgery.bend:1703-1758 joins output line/circle pieces only after surgery, using near predicates. That output cleanup is not an exact input-carrier identity proof.",
+    "Curved same-kind tangent faces remain deliberately unresolved: <repo>/kernel/fillet/ladder.bend:790-815 returns tangent-undecided instead of the swallowable smooth-edge error. <repo>/kernel/fillet/bounds.bend:718-779 separately rejects an unselected genuine G1 continuation, mixed-convexity corners and higher-valence vertices. Removing tangent-undecided globally would confuse a split cylinder with two distinct tangent cylinders.",
+    "Two advertised gaps are already partly fixed. Circular obstacles now carry arc extents, and reflex backer seams use the concave dual of the riser cap: <repo>/docs/fillet-plan.md:1498-1592,1594-1677. Remaining ellipse obstacles have no extent field and use a whole-ellipse lower bound: <repo>/kernel/fillet/bounds.bend:34-43,371-400. Noncoaxial circle/arc endpoint ties still have no implemented exact fallback, not a mathematical impossibility of an exact decision.",
+    "The low-riser refusal is conservative geometry, not a need for a general setback patch. <repo>/kernel/fillet/corners.bend:565-647 encloses the entire cap spandrel in a ball and tests other edges against that ball; the R4.2 threshold near 5.94 mm follows from r*sqrt(2). Chamfer boundary overflow is explicitly excluded at <repo>/kernel/fillet/notch.bend:300; notch attachment also excludes mitre/chain/corner ends at :320-340. <repo>/kernel/fillet/main.bend:271-285 only admits overflow after a valid notch/meet record.",
+    "P1-P4 and measured target constructions are already recorded at <repo>/docs/fillet-housestyle.md:61-65,86-101,192-477: KS09 needs plane/cone conic trims; FP14 is a torus corner; FP06 consumes one stripe; KS04 needs a selected-chamfer meet with a quartic ridge; KS01 additionally needs quartic Boolean edges and unresolved variable-dihedral chamfer semantics. These are not all instances of n-sided freeform filling. 'Non-elementary' and 'quartic' do not mean inherently approximate: exact algebraic carriers/curves are possible, although current consumers cannot represent them.",
+    "Actual R20 anchors are ~/Workspace/cad/cad-project-041/single-step-r20/build/studios/return.fs:1017-1038 (R2 arm junctions, then 0.42 rims), :1145-1168 (R4.2 seat block, R2 seam), and ~/Workspace/cad/cad-project-041/single-step-r20/build/studios/edge.fs:791-823. The live edge file already changes the foot query to backerBackPlane at :817-822; the old documented stop at line 818 is not evidence of today's failure. Live input SHA256: edge.fs 941e779901f792ff17b2e5d8f7ec24d39dfab21ee4dd706c388d7ec898481b65; return.fs 8a873c9a228ccd551d8ddd741940255a67a1cdf9d2d7c11c700c93f384d1d95d. Tests must freeze needed inputs, not read these live files.",
+    "The acceptance constraint is physical, not visual: ~/Workspace/cad/cad-project-041/single-step-r20/build/studios/r20-motion.json:791-817 specifies 6 mm default moving clearance and 1 mm guided gaps with 0.05 mm tolerance. Approximation and export errors on both moving parts must be deducted from measured clearance; passing a pretty patch or a nominal volume does not establish motion clearance. Only a small scalar-extrema probe was run here: 120 deterministic arc intervals, 3001 samples each, confirmed the derived candidate minimum was never above the samples; the largest missed sampled minimum was 1.994e-6. This is a sanity check, not a wonky or certification test."
+  ],
+  "approaches": [
+    {
+      "name": "Exact same-domain normalization before fillet selection",
+      "fitForWonky": "Use a logical quotient of connected faces/edges on proven identical carriers before stripe generation. Keep geometric sameness, topology adjacency, orientation and source history distinct. For cylinders, prove parallel axes, zero perpendicular axis separation and equal radius; ignore parameter seam/frame differences, but preserve required periodic seam uses. Start with source-carrier identity, then exact predicates on stored input words. A fragment-only degree-two continuation belongs to one geometric edge regardless of tangentPropagation; propagation across a genuine G1 carrier change remains opt-in. OCCT's separate UnifyFaces/UnifyEdges/ConcatBSplines/KeepShape/History concepts support this separation.",
+      "risks": "Do not copy OCCT's tolerance-based coincidence or enable spline concatenation to hide near-coincident features. Cone angle/frame equality needs provenance or a proved implicit-coefficient comparison, not an epsilon on angle. Merging must rebuild compatible 3D curves and pcurves without removing holes or shell boundaries. OCCT issue #1541 reports a 180-degree circle/pcurve phase mismatch and exploding tolerance after unification; it is a single unconfirmed report, useful as an adversary rather than proof that every version is broken.",
+      "sources": [
+        "[OCCT same-domain contract](https://occt3d.com/dev/doc/refman/html/class_shape_upgrade___unify_same_domain.html)",
+        "[Reported merge/pcurve failure, September 2026](https://github.com/Open-Cascade-SAS/OCCT/issues/1541)",
+        "<repo>/docs/fillet-housestyle.md:505-536",
+        "<repo>/kernel/fillet/surgery.bend:1703-1758"
+      ]
+    },
+    {
+      "name": "Exact local event geometry instead of a generic vertex patch",
+      "fitForWonky": "Extend HS-1 with one finite stripe-domain object: support region, edge sector/slab and both endpoint cut planes. Bounds first discover candidate obstacles; the corner stage clips them to the constructed domain before a final verdict. This handles KS07, short risers and cut-corner false overlaps with unchanged elementary surfaces. Distinguish no collision, tangent/consumed face, stripe consumption, selected-neighbour meet and unsupported overflow as separate topology events. The final clearance check must include face-region occupancy, including a face covering a cap without any edge crossing it.",
+      "risks": "Ignoring an obstacle because one limiting point is beyond a mitre is insufficient: another portion may enter the clipped stripe. Removing the enclosing-ball test without a replacement is unsafe. Broad-phase boxes, edge samples and positive Jacobians alone are not global collision proofs. Preserve a named refusal when trimmed-face occupancy cannot be decided.",
+      "sources": [
+        "<repo>/docs/fillet-housestyle.md:538-574,636-657",
+        "<repo>/kernel/fillet/corners.bend:565-647",
+        "[Parasolid overflow taxonomy](http://www.q-solid.com/Parasolid_Docs/chapters/fd_chap.32.html)",
+        "<repo>/docs/research/fillets-blends-offsets.md:548-621"
+      ]
+    },
+    {
+      "name": "Finite-candidate ellipse-arc and algebraic trim predicates",
+      "fitForWonky": "New derivation: for the existing RL axial metric, substitute X(t)=c+u*cos(t)+v*sin(t), obtaining lambda(t)=C+A*cos(t)+B*sin(t). The minimum on a clipped arc is among its endpoints, stationary directions plus/minus(A,B)/sqrt(A^2+B^2), and intersections with domain cut planes. Use oriented arc membership and exact/radical comparisons without deciding from approximate atan2. For a radial-plane distance metric, differentiating squared projected distance gives a trigonometric polynomial of degree two, reducible to a quartic by tan(t/2); isolate all roots or refuse. Keep exact conic/algebraic trims in the model and certify only representations that really need approximation.",
+      "risks": "The simple sinusoid formula does not cover every TC/RP/RL metric. The rational half-angle chart needs its omitted t=pi endpoint, branch ordering and multiple-root handling. Stored ellipse points and frames can contain construction error; predicate exactness on stored words must not be inflated into exactness of their intended construction. Example z=.4+.2*cos(t), t in [-pi/3,pi/3], has minimum .5 versus whole-ellipse .2: a .42 chamfer can be admitted, but only after the complete support/end-domain check.",
+      "sources": [
+        "<repo>/kernel/fillet/bounds.bend:371-400",
+        "<repo>/docs/fillet-plan.md:1518-1533,1572-1592",
+        "<repo>/docs/fillet-housestyle.md:575-634,702-724"
+      ]
+    },
+    {
+      "name": "Analytic sphere/torus corner ladder; cyclides only for the right semantics",
+      "fitForWonky": "Keep existing equal-radius trihedral spheres. Admit higher-valence plane corners only if a common offset-plane centre exists, all contact domains fit, and the spherical patch is manifold. FP14 remains the much cheaper exact toroidal roll with major radius r_concave+r_convex, not a Gregory problem. Dupin cyclides give exact rational biquadratic transitions for special compatible configurations; Wallner-Pottmann gives designer-controlled exact rational C1 transitions between quadrics. These are useful future transition features, not a substitute for the prescribed constant-radius edge stripes.",
+      "risks": "Three independent offset planes give a candidate sphere, not guaranteed valid trims; four or more planes are generally inconsistent. A generic Dupin cyclide has variable rolling-sphere radius, and general constant-radius pipes are not necessarily rational. Rationality of a surface does not certify trimming, clearance or Parasolid equivalence. Avoid adding a Cyclide type for current R20 without a concrete case needing it.",
+      "sources": [
+        "<repo>/docs/fillet-housestyle.md:399-440,659-680",
+        "<repo>/docs/research/sources/dupin-cyclide-blends-shene-1998-two-cones-and-foufou-et-al-2.md:25-96",
+        "[Wallner-Pottmann exact quadric transitions](https://dmg.tuwien.ac.at/geom/ig/papers/pot078.pdf)",
+        "<repo>/docs/research/sources/varady-rockwood-geometric-construction-for-setback-vertex-bl.md:89-103"
+      ]
+    },
+    {
+      "name": "Boundary-first Gregory or Hahn n-sided fill, with explicit shape policy",
+      "fitForWonky": "Build on the existing Varady-Rockwood/Vida-Martin-Varady notes, not an invented rereading of their inaccessible full texts. A general setback boundary alternates stripe cross-curves and support spring-curves, up to 2n sides. New primary reading: Hettinga-Kosinka 2018 resolves incompatible corner twists with rational Gregory terms; its Gregory-GB representation has 5n+1 controls instead of the much larger S-patch net. SISL s1391 first prepares cross-boundary derivative curves, then sh1460 uses Hahn's split into n quadrilateral Coons patches of orders 7 and 5. This is a practical alternative to one monolithic n-sided surface, but not a turnkey fillet operator.",
+      "risks": "G1 boundary interpolation does not establish injectivity, global nonintersection, prescribed radius or a unique design. The 2018 paper explicitly reports foldovers for some nonconvex polygons and has removable corner parametrization singularities. Its mesh/normal-based construction must not replace exact CAD boundary curves. Zhou-Qian 2010 advertises an exact rational S-patch polyhedral setback construction, but only its metadata/search abstract was accessible; do not promise its scope or numerical certification. 'Suitcase corner' is ambiguous CAD vocabulary, not a unique geometric specification.",
+      "sources": [
+        "[Hettinga-Kosinka 2018, full text read](https://www.cs.rug.nl/~jiri/papers/18HeKo.pdf)",
+        "[SISL boundary preparation](https://github.com/SINTEF-Geometry/SISL/blob/e0a82b1a851e932657f3e1af25033fbbcd33e907/src/s1391.c)",
+        "[SISL Hahn construction](https://github.com/SINTEF-Geometry/SISL/blob/e0a82b1a851e932657f3e1af25033fbbcd33e907/src/sh1460.c)",
+        "[Zhou-Qian 2010, full text unavailable](https://doi.org/10.1016/j.cagd.2010.01.001)",
+        "<repo>/docs/research/sources/varady-rockwood-geometric-construction-for-setback-vertex-bl.md",
+        "<repo>/docs/research/sources/vida-martin-varady-a-survey-of-blending-methods-that-use-par.md"
+      ]
+    },
+    {
+      "name": "Permissive patch evaluator as a mathematical reference, not production fallback",
+      "fitForWonky": "The earlier chapter already lists salvipeter/transfinite; this pass read commit 2324dcb781844e98aca686441e156b820a993baa. Its MIT corner-based evaluator blends ribbon interpolants. Surface::overrideNormalFence can supply true support normals; the default ribbon normal is a rotation-minimizing frame and is not automatically the CAD support normal. Reimplement analytic boundary jets and removable-limit evaluation in Bend. Use a rational/Bezier subdivision certificate for positive denominators, boundary-position and normal error, regularity, and patch/body separation; the certificate must gate emitted geometry, not exist only as a report.",
+      "risks": "Direct port is not certified: surface.cc:267-282 estimates twists with step 1e-4; :187-218 and :300-303 have epsilon/zero branches. parameterization-barycentric.cc:23-35 documents a workaround that is discontinuous outside its stated domain. OCCT CnCrn is no stronger: :2697-2706 warns G1 constraints can undulate; :3488-3495 samples the contour and uses max(tolapp,10*G0Error). SISL/OCCT are study/oracle sources, not production dependencies. An exact rational patch is exact for its chosen definition, not automatically the same shape as an Onshape setback.",
+      "sources": [
+        "[MIT transfinite library](https://github.com/salvipeter/transfinite/tree/2324dcb781844e98aca686441e156b820a993baa)",
+        "[Evaluator, twists and boundary handling](https://github.com/salvipeter/transfinite/blob/2324dcb781844e98aca686441e156b820a993baa/src/transfinite/surface.cc)",
+        "[Normal-fence override](https://github.com/salvipeter/transfinite/blob/2324dcb781844e98aca686441e156b820a993baa/src/transfinite/ribbon.cc)",
+        "[Parametrization limitation](https://github.com/salvipeter/transfinite/blob/2324dcb781844e98aca686441e156b820a993baa/src/transfinite/parameterization-barycentric.cc)",
+        "[OCCT corner construction at researched revision](https://github.com/Open-Cascade-SAS/OCCT/blob/3d097a0328e71b826377d4814ab05ec3c3d23871/src/ModelingAlgorithms/TKFillet/ChFi3d/ChFi3d_Builder_CnCrn.cxx)"
+      ]
+    },
+    {
+      "name": "Commercial compatibility is a separate contract from mathematical validity",
+      "fitForWonky": "Rechecked primary docs: Onshape opFillet defaults tangentPropagation=false, allowEdgeOverflow=true, smoothCorners=false; UI tangent propagation is enabled by default. Parasolid's published older contract distinguishes unspecified setback from zero: unspecified lets the kernel choose, zero prevents setback on that edge; user setbacks require all edges at a valence>=3 vertex and do not apply to chamfers. ACIS distinguishes minimum/no-setback, autosetback and autoblend; autosetback forces n-sided patches, while autoblend can retain simple spheres/tori. Preserve these distinctions rather than treating every vertex-blend refusal as permission to insert any smooth patch.",
+      "risks": "The public Parasolid manual is old and does not specify today's Onshape sizing heuristics. Onshape's optional Smooth fillet corners is not evidence that default opFillet disables every automatic setback. Archived surface points constrain shape but cannot prove an unknown default rule. KS01's two inferred offset ranges are not enough to derive the conversion from width=.42 or selection-order invariance. Patents and source licenses require review before copying algorithms; private use is not a blanket patent exemption.",
+      "sources": [
+        "[Onshape operation documentation](https://cad.onshape.com/FsDoc/library.html)",
+        "[Onshape UI fillet documentation](https://cad.onshape.com/help/Content/fillet.htm)",
+        "[Parasolid setback options, section 30.3.3](http://www.q-solid.com/Parasolid_Docs/chapters/fd_chap.31.html)",
+        "[ACIS blending manual](http://www-isl.ece.arizona.edu/ACIS-docs/PDF/BLND/01CMP.PDF)",
+        "<repo>/docs/fillet-housestyle.md:133-167,741-754"
+      ]
+    }
+  ],
+  "recommendation": "Keep the analytic/local-surgery architecture. Execute the existing house-style plan with the new exact-domain and carrier-identity details below, rather than starting a general fillet rewrite. First FVB-01 and FVB-03, then FVB-05/FVB-06 and FVB-07; take FVB-04 beside the bounds work, FVB-02 when split curved carriers reach R20, and FVB-08 for KS04. FVB-09 is a small optional exact extension. General setback filling FVB-10 and KS01 FVB-11 remain opt-in and gated by a defined shape policy and necessary curve infrastructure. All production geometry remains Bend. Shared acceptance: freeze minimal R20 inputs with provenance; assert meaningful changed geometry, topology, analytic carrier/radius and G1 conditions; independently validate exported STEP with OCCT through uv; compare closed forms or certified integration bounds plus archived Onshape geometry where available; run planted negatives and js/cpu1, then cpuN at integration. Do not count a new refusal as completed capability, a sample maximum as a certificate, or agreement with Onshape's approximate mean volume as exactness. Existing house-style quadrature convergence to 1e-12 is evidence, not by itself a rigorous integration bound. Estimates assume 8 hours per agent-day, informed by 1-3-hour local fixes and the 8-hour five-cause hybrid fix; local packages include verification, new freeform infrastructure has roughly factor-two uncertainty. The nine exact/local packages total 7.25 agent-days; optional bounded freeform and KS01 work add 7, excluding external SSI prerequisites and any wait for authorized reference probes. This is planning, not a claim these capabilities were implemented.",
+  "packages": [
+    {
+      "title": "FVB-01: Finish planar fragment regions and geometric-edge selection",
+      "scope": "Implement HS-0 in <repo>/kernel/fillet/{main,bounds,surgery}.bend: remove proven internal region edges from width obstacles; continue a selected edge through fragment-only vertices independent of tangentPropagation; consume a complete region, not one fragment. Carry source-to-result history through selection and qCreatedBy/qAdjacent. The extension must require the same oriented carrier and two compatible support regions, not merely tangent directions.",
+      "acceptance": "Freeze HS-0's union-built box/pocket and stacked-piece R4.2/.42 cases. Each must match the unsplit one-box closed form and support geometry through FS and build123d, including try silent; OCCT STEP validity and curve-on-surface checks pass. Planted negatives: restore fragment obstacles, suppress piece continuation, and deliberately continue across FP11's real G1 vertex. The first two must break positives; the third must be caught because FP11 still needs its unsupported cap, not silent propagation.",
+      "estimateAgentDays": 0.5,
+      "r20Impact": "Highest-value P1/P3 cleanup: selectors see one manufactured edge rather than Boolean tessellation history. Extends existing HS-0, not a new parallel workstream."
+    },
+    {
+      "title": "FVB-02: Resolve split analytic curved carriers without conflating tangency",
+      "scope": "Extend FVB-01's region identity first to cylinders and circles, then easy sphere/torus identity cases. Use exact invariants or preserved carrier provenance; account for reversed axes, shifted axis origins, parameter rotations and periodic seams. Return tangent-undecided only for unproved identity; do not change genuine tangentPropagation semantics. Keep cones without a proved identity path explicitly out of scope.",
+      "acceptance": "Minimal repro: a cylinder split axially and circumferentially, then the same rim chamfer/root fillet as an unsplit cylinder. Closed-form area/volume and carrier equations agree; OCP through uv validates the exported solid and both periodic pcurve traversals. Planted negatives: replace identity with a tangent-normal test on two distinct tangent cylinders; rotate one pcurve by pi; change one fragment radius by a resolvable nonzero amount. None may be merged as the original surface.",
+      "dependsOn": [
+        "FVB-01"
+      ],
+      "estimateAgentDays": 0.75,
+      "r20Impact": "Makes post-Boolean boss and bore blends robust to curved fragmentation. Conditional priority because upstream Boolean recovery can still stop the live model before these blends."
+    },
+    {
+      "title": "FVB-03: Clip width and riser certificates to the actual stripe domain",
+      "scope": "Complete HS-1 using a shared endpoint-cut domain in <repo>/kernel/fillet/{bounds,corners,main}.bend. Recompute provisional bounds after mitres/caps exist. Replace the enclosing-ball riser rule with exact spandrel/domain clearance, including trimmed-face coverage checks; start with planar line/circle cases. Do not bypass safety checks merely because the old certificate lacks a demonstrated counterexample.",
+      "acceptance": "KS07 must build with volume 8663.819321628 within its independently derived integration allowance, agree with OCCT and archived Onshape interval [8661.007,8666.973], and satisfy the archived 308 contact vertices. R4.2 risers at heights 0.5, 5.9 and values around r*sqrt(2) must match their one-piece closed forms when the actual spandrel is clear. Planted negatives: a hole inside the stripe, an obstacle inside the cap region, and an entire small face covering it without crossing an edge; flipped endpoint-plane sense or ignored face occupancy must be detected.",
+      "dependsOn": [
+        "FVB-01"
+      ],
+      "estimateAgentDays": 0.75,
+      "r20Impact": "Removes P1/P3 over-refusals and KS07's must-build blocker without introducing freeform surfaces. Preserves the already-working concave backer seam."
+    },
+    {
+      "title": "FVB-04: Exact ellipse-arc bounds and first noncoaxial endpoint tie",
+      "scope": "Add oriented extent to OEll and evaluate the finite candidate set for the RL axial metric and cap-plane tests. Reuse the clipped domain from FVB-03. Add exact/radical sign refinement for endpoint distances instead of borrowing the coaxial formula. Keep general quartic RP extrema separately refused until root isolation is available. Include the existing ellipse-bounded cylinder pcurve export follow-up; geometric success alone is not package completion.",
+      "acceptance": "Freeze an oblique cylinder-sector cap giving z=.4+.2*cos(t) on [-pi/3,pi/3]: arc minimum .5, full-ellipse minimum .2, requested chamfer .42. Check against the analytic extrema, an independent high-precision evaluator, and OCCT STEP geometry. Sweep arc wrap, reversed sense, stationary point inclusion and exact/near ties. Planted negatives: use the whole ellipse, omit an interior stationary point, accept every endpoint tie, or phase-shift the exported ellipse pcurve. The positive or its paired real-overflow case must fail each mutant.",
+      "dependsOn": [
+        "FVB-03"
+      ],
+      "estimateAgentDays": 0.5,
+      "r20Impact": "P1/P4 inclined-top and post-R4.2 cases; closes the remaining extent problem rather than redoing the already-fixed circle-arc work."
+    },
+    {
+      "title": "FVB-05: KS09 conic mitres with complete production consumers",
+      "scope": "Implement HS-2 as one integration unit: exact plane/cone intersection classification, Parabola/Hyperbola trims, local attachment, mapping, queries, meshing and STEP pcurves. Keep 3D conics exact. If a cone's conventional parameter curve needs approximation, certify its composition with the surface against the exact 3D edge and label that export allowance. Audit every <repo>/kernel/analytic.bend Curve consumer for implementation or a named refusal.",
+      "acceptance": "KS09 .42 severed-rim chamfer builds its intended solid, preserves the separate corner islands, agrees with 8374.638733077 under a justified volume allowance and archived conic contact points, and passes strict uv/OCCT STEP checks. Add a non-parabolic plane/cone control so dispatch is not hard-coded. Planted negatives: focal length perturbed by 1e-6, wrong hyperbola branch, omitted island, or missing consumer support. Each must fail geometry/topology/export acceptance, not be hidden by a larger tolerance.",
+      "dependsOn": [
+        "FVB-01",
+        "FVB-03"
+      ],
+      "estimateAgentDays": 1.25,
+      "r20Impact": "Direct P1 gain for bores/counterbores intersecting rims, and prerequisite for KS04. Existing HS-2 already identifies the feature; the increment is a full consumer and error-budget boundary."
+    },
+    {
+      "title": "FVB-06: Consumed short stripe and elementary chamfer meets",
+      "scope": "Complete HS-4 and the elementary portion of HS-3a through explicit event surgery: delete a consumed short stripe, intersect its surviving neighbours, retain the short-face cap; for selected opposing planar/coaxial chamfers construct the valid ridge rather than forcing a fillet notch. No arbitrary boundary overflow, multiple adjacent consumed stripes or unsupported mixed-convexity case is silently admitted.",
+      "acceptance": "FP06 builds 11 faces, matches 1186.8365165437 with a justified integration bound and the 121 archived surface vertices, and passes OCCT STEP validation even where OCCT cannot construct the feature. A .6-mm land with two .42 chamfers has the analytically derived meet ridge. Sweep c*(1+1/sqrt(2)) and land=2d on both sides; require exact topology-event handling or the declared sliver refusal. Planted negatives: keep the consumed face, omit FP06's cap, or permit a meet ridge outside both chamfer domains. All must be caught. Onshape parity for the unprobed chamfer cut-corner variants remains conditional on an owner-supplied frozen FP19 reference.",
+      "dependsOn": [
+        "FVB-03"
+      ],
+      "estimateAgentDays": 1,
+      "r20Impact": "P1 short rim segments and P4 narrow lands; removes concrete 'chamfer overflow is not a notch' refusals without claiming all overflow supported."
+    },
+    {
+      "title": "FVB-07: FP14 exact mixed-convexity toroidal corner",
+      "scope": "Implement HS-5's specific rim-roll pattern in <repo>/kernel/fillet/{bounds,corners,surgery}.bend. Construct the existing Torus carrier with major=r_concave+r_convex and minor=r_convex; certify its trimmed domain and G1 joins. Do not generalize this recognition to all mixed-convexity vertices.",
+      "acceptance": "FP14 produces 12 faces (8 planes, 3 cylinders, 1 torus), volume 4152.7203490632, agrees with archived Onshape's 361 corner points and the independent OCCT replay, and exports strict valid STEP. Planted negatives: use major=r_concave, reverse a torus trim, or recognize a non-rim mixed corner. The first two must fail geometry checks; the last must remain a named unsupported configuration. Unequal-radii Onshape parity is withheld until archived FP22 exists.",
+      "dependsOn": [
+        "FVB-03"
+      ],
+      "estimateAgentDays": 0.5,
+      "r20Impact": "P2 rib/plate and convex-rim junctions. This is a small exact capability, not a reason to launch the n-sided patch program."
+    },
+    {
+      "title": "FVB-08: KS04 algebraic ridge with bounded export",
+      "scope": "Complete HS-3b/c after conic mitres: selected chamfers trim one another on narrow lands. Keep the parallel-axis cone/cone ridge as an exact algebraic intersection with an isolated branch/domain, rather than claiming every quartic is a NURBS. Wire cone point queries, independent bounded volume integration and certified spline STEP curve/pcurve export. No exact-export label when the exchange curve is fitted.",
+      "acceptance": "KS04 .42 chamfers on the .2-mm land match the intended mutual trim, volume near 2811.923144934 within a justified numerical interval, archived interval [2811.707,2812.140] and 57 ridge points. OCCT validates the exported solid within the predeclared geometric budget; the exact kernel ridge satisfies both cone equations. Planted negatives: choose the other algebraic branch, omit mutual trim (countermodel 2811.323186), or let the ridge exit a chamfer range. Each is rejected by branch/domain/geometry checks, not volume alone.",
+      "dependsOn": [
+        "FVB-05",
+        "FVB-06"
+      ],
+      "estimateAgentDays": 1.5,
+      "r20Impact": "P4 cam-lever land and bore-near-edge cases. Requires coordination with curve/query/export owners; current upstream query failures are not repaired by vertex filling."
+    },
+    {
+      "title": "FVB-09: Optional exact higher-valence spherical corner",
+      "scope": "Generalize the three-plane sphere candidate to a bounded all-selected, same-radius, uniform-convexity n-plane corner. Solve one independent triple, prove all remaining signed-offset constraints and contact-domain conditions, and construct a spherical polygon. Restrict admission to exact/provenance-backed normal data initially; no approximate least-squares sphere disguised as exact.",
+      "acceptance": "Minimal repro: a symmetric four-valent polyhedral apex with a common insphere centre. Validate all plane distances, circle boundary equations, G1 normals, closed topology and independently computed solid volume; use OCCT through uv as an export validator and constructor only where supported. Planted negatives: perturb one plane so the offset system is inconsistent, reverse one spherical boundary, or truncate a support before the contact. Each must refuse or fail validation rather than fit a near-sphere.",
+      "dependsOn": [
+        "FVB-01",
+        "FVB-03"
+      ],
+      "estimateAgentDays": 0.5,
+      "r20Impact": "No demonstrated immediate R20 blocker; inexpensive optional exact coverage before considering a general n-sided fallback."
+    },
+    {
+      "title": "FVB-10: Opt-in certified setback patch for a bounded polyhedral family",
+      "scope": "After the analytic packages, implement a narrow experimental corner family, initially three blended edges with unequal radii and explicit setbacks on planar supports. Construct the alternating cross/spring boundary and support-normal ribbons, then a Gregory or Hahn-style fill in Bend with analytic derivatives and corner limits. Introduce a production patch representation and bounded STEP/mesh export. Admission must prove boundary closure/G1 budget, denominator bounds, local regularity plus a sufficient global embedding/separation condition; difficult domains return vertex-patch-uncertified. Keep exact rational construction separate from certified approximation of that target, and both separate from Parasolid shape parity.",
+      "acceptance": "Minimal 30-mm box corner with radii 1/2/3 mm and explicit 6-mm setbacks must produce a nonempty closed opt-in model and STEP, with an explicit proposed export budget of 0.001 mm and boundary-normal budget of 1e-4 rad. An independently written high-precision/rational evaluator checks boundary jets and certificate subdivision leaves; OCCT via uv checks imported topology and edge/surface consistency. Also retain an equal-radius spherical control and a deliberately twisted/nonconvex boundary that cannot certify. Planted negatives: swap ribbon order, use the default RMF normal instead of a support normal, insert a narrow interior fold between samples, and underreport export error. All must be detected. Matching a frozen Onshape corner is a separate prerequisite for exposing this as default-compatible opFillet.",
+      "dependsOn": [
+        "FVB-03",
+        "FVB-05"
+      ],
+      "estimateAgentDays": 4,
+      "r20Impact": "Future general vertex-blend capability; no current evidence it unlocks more R20 than the exact packages. Estimate covers only the bounded family, patch representation and certification/export path, not arbitrary n, general curved supports or general spline Booleans."
+    },
+    {
+      "title": "FVB-11: KS01 variable-dihedral chamfer, only after semantics and SSI prerequisites",
+      "scope": "Complete a bounded KS01 chain after upstream exact/algebraic cradle intersection support and independently supplied frozen FP17/FP18 references identify width-to-range and selection-order behavior. Reuse the certified surface/export machinery, but preserve analytic bottom/countersink pieces. Construct the known range-offset chord surface over the isolated spine branch; preserve the explicit opt-in approximation label. Do not substitute OCCT's per-point equal-setback interpretation or fit two observed sections and declare compatibility.",
+      "acceptance": "The frozen KS01 cradle chain, reversed input-edge order, and width .42/1.0 controls must build with the resolved semantic rule; independent offset/contact equations and a high-precision reference evaluator bound the entire chain, not just mesh vertices. Archived Onshape contacts and volume interval cross-check compatibility; OCCT validates the exported solid. Planted negatives: swap ranges, use constant .42 pointwise setbacks, change the SSI branch, and bypass a missing reference/range rule. Each must fail. If the prerequisites remain missing, this package remains blocked, not completed by another typed refusal.",
+      "dependsOn": [
+        "FVB-02",
+        "FVB-08",
+        "FVB-10"
+      ],
+      "estimateAgentDays": 3,
+      "r20Impact": "Completes the difficult P1 clamp class after the much cheaper rim cases. Excludes the upstream quartic SSI program and future authorized Onshape probe time from its estimate."
+    }
+  ],
+  "openQuestions": [
+    "Which house-style packages have landed in other active worktrees since this snapshot? Reconcile by code and frozen case outputs before scheduling; this report did not run the fillet suites or live R20.",
+    "FP17/FP18/FP19/FP21/FP22 are proposed references in <repo>/docs/fillet-housestyle.md:741-754, not live measurements in this research. KS01 range conversion, chamfer cut-corner policy, ridge-range boundaries and unequal-radii FP14 parity remain unresolved. No bridge access was used or requested.",
+    "A deterministic wonky setback shape policy is still needed before general patches can mean Onshape compatibility. Omitted setback, explicit zero, explicit positive setback and smoothCorners must not be conflated. General G1 constraints alone do not choose a unique corner.",
+    "Exact representation policy needs an explicit distinction between elementary analytic, exact algebraic/procedural and certified approximated exchange geometry. The present Curve/Surface variants cannot express KS04's ridge or a general vertex patch; infrastructure ownership is a dependency, not an incidental fillet edit.",
+    "The 0.001-mm and 1e-4-rad experimental patch budgets are planning assumptions, not approved project tolerances. Any accepted budgets must compose construction, trimming, exchange and tessellation errors and preserve the 0.05-mm R20 guided-gap allowance; whole-motion clearance was not evaluated.",
+    "The existing house-style 'closed-form' volumes sometimes use converged numerical quadrature. Preserve them as valuable independent targets, but obtain analytic integrals or rigorous remainder/interval bounds before advertising certified 1e-12 accuracy. Onshape mean-volume disagreement inside its uncertainty interval is not a reason to weaken geometric checks.",
+    "Varady-Rockwood 1997 and Vida-Martin-Varady 1994 full texts remain inaccessible; Zhou-Qian 2010 was only metadata/abstract-level evidence. Full implementation claims for those papers are deliberately withheld. The 2018 Gregory paper and the cited open-source code were actually read.",
+    "Licensing/patent clearance is not settled by this research. The inspected transfinite revision is MIT; SISL is AGPL/commercial and OCCT LGPL with exception, for study/oracles only here. Prior notes flag setback patents; do not infer a private-use exemption or current legal status from those notes."
+  ]
+}

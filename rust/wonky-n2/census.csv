@@ -1,0 +1,12 @@
+class,root_degree,independent_radicands,max_algebraic_degree,consumer,source_lines,expression,owner
+rational,1,0,1,plane section and parameter comparisons,kernel/curve-plane.bend:448-453,-c/b and cross-multiplied parameter differences,N2
+one_square_root,2,1,2,line-circle candidates and ordering,kernel/sketch-arcs-intersections.bend:266-282,foot +/- direction*sqrt(height2),N2
+two_square_roots,2,2,4,candidates from two distinct circle intersections,kernel/sketch-arcs-intersections.bend:284-310,a+b*sqrt(c)+d*sqrt(e) after denominator clearing,N2
+biquadratic_cross,2,2,4,angular ordering of two quadratic points,kernel/curve-plane.bend:366-377;kernel/sketch-arcs.bend:155-176,A+B*sqrt(c)+C*sqrt(e)+D*sqrt(c)*sqrt(e) (replace atan2 ordering),N2
+arc_opening,2,2,4,minor/major/wrapped angular inclusion,kernel/sketch-arcs.bend:155-176;kernel/curve-plane.bend:185-231,half-plane and cross signs with explicit winding,N2
+rational_incircle,1,0,1,AR1/TE1 triangulation,docs/rust-migration.md:137;docs/rust-migration.md:142,degree-four determinant on dyadic coordinates (not a root equation),N2
+fillet_three_norms,2,3,8,BL1 translation-stripe decisions,kernel/fillet/decide.bend:129-155;kernel/fillet/exact.bend:115-122,"Q(sqrt(ni.ni),sqrt(nj.nj),sqrt(t.t)) with mixed products and positive denominator",N3
+fillet_generic_tower,2,k,2^k,BL1 generalized exact sign,kernel/fillet/exact.bend:124-210,nested u+v*sqrt(p) with sign cases,k<=2 N2; k=3 N3; beyond counted class AL2
+plane_cylinder_generators,2,1,2,SI1 closed sections,kernel/intersections.bend:354-360,sqrt(radius^2-distance^2) after rational denominator clearing,N2
+round_plane_parameters,2,1,2,SI1 circular/elliptical plane section,kernel/curve-plane.bend:470-477,sqrt(a^2+b^2-c^2); order via rays rather than atan2,N2
+conic_events,4,not_a_radical_sum,4,AL2/SI3 general intersections,docs/rust-migration.md:323;docs/rust-migration.md:483,conic-conic resultant and bivariate events,AL2

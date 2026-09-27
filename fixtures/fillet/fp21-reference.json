@@ -1,0 +1,786 @@
+{
+  "schema": "wonky/fillet-onshape-probe/v1",
+  "what": "FP21 (docs/fillet-housestyle.md section 5). Input and selection: fixtures/fillet/fp21.fs, feature fp21MeetBoundaries; one feature per case with the parameters below (dx only shifts the case in the shared Part Studio).",
+  "provenance": {
+    "date": "2026-09-25",
+    "by": "wonky-kernel onshape-probes",
+    "transport": "Onshape session bridge (signed-in session), no API key",
+    "document": {
+      "id": "3d2eb37287c5e807e26b23b3",
+      "workspace": "fbc36d1be361580ad5dc7c01",
+      "partStudio": "88b4518214664bd0e33b706d",
+      "featureStudio": "aa47e04d065f2bc1942d37e9",
+      "namespace": "eaa47e04d065f2bc1942d37e9::mf93ee78de268199a028c74c8",
+      "public": true,
+      "name": "wonky fillet probe FP21 (housestyle section 5)"
+    },
+    "source": {
+      "file": "fixtures/fillet/fp21.fs",
+      "sha256": "45415e76222f55648c93e5feb7019c32928abca58afff931c1bf8e3b3e0c5ecc",
+      "featureScript": 3044
+    },
+    "calls": 12,
+    "endpoints": "features POST (featureState.featureStatus), parts (name, description carrying the input volume from evVolume), massproperties (volume [value,min,max] in m^3, converted to mm^3), bodydetails (faces with surface parameters, edges with curve types, vertices), tessellatedfaces (angleTolerance 0.05, chordTolerance 0.05, as the R20 KS meshes) written as binary STL in mm",
+    "onshapeMicroversions": [
+      "48419cbb7a1e01b377683412",
+      "a71f1ba5ce0f535d78eb4060",
+      "717df93deaee1a6a47b1987b",
+      "6c128dd8124df9e8d321a448",
+      "70b52074d50c5e726d62a9a9",
+      "6542f687c6d070337b355c9e",
+      "36f521db8fe05194b2d5ebb6",
+      "acb38cfc6fcf3ae4c43389bc"
+    ],
+    "wonkyRevision": "84ae1ef",
+    "stlPointOracle": {
+      "usable": false,
+      "reason": "Onshape's default STL export tessellation is too coarse for a point-on-surface oracle: part a has a vertex 0.001724515 mm off its cone (independent check 2026-09-25). Use the volume interval and topology; recapture with a fine export tolerance before using these STLs as point oracles.",
+      "worst": {
+        "part": "a",
+        "maxPointDeviationMm": 0.001724515,
+        "surface": "cone"
+      }
+    }
+  },
+  "observations": [
+    "a (plate, land 0.3): builds; the plane chamfer and the bore cone chamfer (half angle 45 deg) are trimmed at one ridge edge of type icurve, midpoint (0.0008, 9.85, 5.73) on the plane chamfer y + z = 15.58 and on the cone (r 4.15 about the bore axis at z 5.73).",
+    "b (KS04, land 0.05): builds; 19 faces (8 planes, 3 cylinders, 8 cones), 6 icurve edges: the two ridges (top and bottom, end points x 50 +- 4.493134, y 4.807093, z 6; midpoint (50, 6.811385, 5.768614) on top) and the four reflex-corner mitres."
+  ],
+  "faceListFormat": "id, area mm^2, surface type and Onshape surface parameters (lengths in mm; normals/axes unit vectors)",
+  "cases": {
+    "a": {
+      "parameters": {
+        "land": "0.3 mm",
+        "d": "0.42 mm",
+        "lever": false,
+        "dx": "0 mm"
+      },
+      "featureId": "Fze7JxiemX2nvTo_0",
+      "featureStatus": "OK",
+      "partId": "JHD",
+      "name": "FP21a plate land 0.3 d0.42000000000000004",
+      "description": "input_volume_mm3=3298.4071052553795; selected_edges=2",
+      "volume": 3293.6330323633915,
+      "volumeMin": 3293.40518219247,
+      "volumeMax": 3293.8608825343126,
+      "inputVolume": 3298.4071052553795,
+      "deltaVolume": -4.7740728919879984,
+      "area": 1836.1148353237118,
+      "centroid": null,
+      "bbox": [
+        [
+          -15,
+          -10,
+          0
+        ],
+        [
+          15,
+          10.239896006459917,
+          6.38992599822328
+        ]
+      ],
+      "faces": 9,
+      "edges": 20,
+      "vertices": 12,
+      "faceTypes": {
+        "plane": 7,
+        "cylinder": 1,
+        "cone": 1
+      },
+      "edgeTypes": {
+        "line": 16,
+        "circle": 3,
+        "icurve": 1
+      },
+      "faceList": [
+        {
+          "id": "JOK",
+          "area": 119.91180000000001,
+          "type": "plane",
+          "origin": [
+            -15,
+            0,
+            6
+          ],
+          "normal": [
+            -1,
+            0,
+            0
+          ]
+        },
+        {
+          "id": "JHS",
+          "area": 179.99999999999997,
+          "type": "plane",
+          "origin": [
+            0,
+            -10,
+            6
+          ],
+          "normal": [
+            0,
+            1,
+            0
+          ]
+        },
+        {
+          "id": "JOO",
+          "area": 119.91180000000001,
+          "type": "plane",
+          "origin": [
+            15,
+            0,
+            6
+          ],
+          "normal": [
+            -1,
+            0,
+            0
+          ]
+        },
+        {
+          "id": "JOS",
+          "area": 167.4,
+          "type": "plane",
+          "origin": [
+            0,
+            10,
+            6
+          ],
+          "normal": [
+            0,
+            1,
+            0
+          ]
+        },
+        {
+          "id": "JOa",
+          "area": 527.5685358785901,
+          "type": "plane",
+          "origin": [
+            0,
+            0,
+            6
+          ],
+          "normal": [
+            0,
+            0,
+            1
+          ]
+        },
+        {
+          "id": "JNG",
+          "area": 549.7345175425633,
+          "type": "plane",
+          "origin": [
+            0,
+            0,
+            0
+          ],
+          "normal": [
+            0,
+            0,
+            1
+          ]
+        },
+        {
+          "id": "JOW",
+          "area": 140.24069605624837,
+          "type": "cylinder",
+          "origin": [
+            0,
+            5.7,
+            6.5
+          ],
+          "axis": [
+            0,
+            0,
+            -1
+          ],
+          "radius": 4
+        },
+        {
+          "id": "JOC",
+          "area": 16.741257043953127,
+          "type": "plane",
+          "origin": [
+            0,
+            10,
+            5.58
+          ],
+          "normal": [
+            0,
+            -0.707106781,
+            -0.707106781
+          ]
+        },
+        {
+          "id": "JOG",
+          "area": 14.606178906903189,
+          "type": "cone",
+          "origin": [
+            0,
+            5.7,
+            6
+          ],
+          "axis": [
+            0,
+            0,
+            1
+          ],
+          "radius": 4.42,
+          "halfAngle": 0.7853981633974483
+        }
+      ],
+      "stl": {
+        "file": "fixtures/fillet/onshape/fp21/fp21a.stl",
+        "sha256": "0f626eeeb81ed26c10f0aebf0cb3e7f7391236aa7ca014f5b6903950276f062b",
+        "triangles": 810,
+        "faceTriangles": [
+          [
+            "JOK",
+            "plane",
+            0,
+            3
+          ],
+          [
+            "JHS",
+            "plane",
+            3,
+            2
+          ],
+          [
+            "JOO",
+            "plane",
+            5,
+            3
+          ],
+          [
+            "JOS",
+            "plane",
+            8,
+            2
+          ],
+          [
+            "JOa",
+            "plane",
+            10,
+            110
+          ],
+          [
+            "JNG",
+            "plane",
+            120,
+            130
+          ],
+          [
+            "JOW",
+            "cylinder",
+            250,
+            252
+          ],
+          [
+            "JOC",
+            "plane",
+            502,
+            39
+          ],
+          [
+            "JOG",
+            "cone",
+            541,
+            269
+          ]
+        ]
+      },
+      "wonky": {
+        "command": "NODE_OPTIONS=--max-old-space-size=8192 node bin/wonky.mjs fixtures/fillet/fp21.fs --feature fp21MeetBoundaries --param 'land=0.3 * millimeter' --param 'd=0.42 * millimeter' --param 'lever=false' --param 'dx=0 * millimeter'",
+        "name": "w-fp21a",
+        "result": "refused",
+        "refusal": "fixtures/fillet/fp21.fs:46:5: opChamfer is not implemented for this input: overflow: the contact of edge 6 on face 1 needs width 4.200000000e-1 but edge 13 limits the face to 3.000000000e-1 (short by 1.200e-1); no notch: the contact of edge 6 leaves its face and chamfer overflow is not a notch in v1 [order 6 13]",
+        "maxRssMB": 269
+      },
+      "centroidNote": "not available: Onshape massproperties without an assigned density report [0,0,0]"
+    },
+    "b": {
+      "parameters": {
+        "land": "0.05 mm",
+        "d": "0.42 mm",
+        "lever": true,
+        "dx": "50 mm"
+      },
+      "featureId": "FCCO9ZKIF3hSaSW_1",
+      "featureStatus": "OK",
+      "partId": "JRD",
+      "name": "FP21b lever land 0.05 d0.42000000000000004",
+      "description": "input_volume_mm3=2835.912304300673; selected_edges=10",
+      "volume": 2812.3017380397646,
+      "volumeMin": 2812.0771121412727,
+      "volumeMax": 2812.5263639382565,
+      "inputVolume": 2835.912304300673,
+      "deltaVolume": -23.6105662609084,
+      "area": 1737.5123836608022,
+      "centroid": null,
+      "bbox": [
+        [
+          43,
+          -6.999999999999999,
+          -0.3545506975958692
+        ],
+        [
+          95,
+          7.094946628007898,
+          6.354550697595869
+        ]
+      ],
+      "faces": 19,
+      "edges": 38,
+      "vertices": 20,
+      "faceTypes": {
+        "cylinder": 3,
+        "plane": 8,
+        "cone": 8
+      },
+      "edgeTypes": {
+        "line": 16,
+        "circle": 16,
+        "icurve": 6
+      },
+      "faceList": [
+        {
+          "id": "Jiq",
+          "area": 169.4742959356038,
+          "type": "cylinder",
+          "origin": [
+            50,
+            0,
+            6
+          ],
+          "axis": [
+            0,
+            0,
+            -1
+          ],
+          "radius": 7
+        },
+        {
+          "id": "KiGB",
+          "area": 400.1612691637256,
+          "type": "plane",
+          "origin": [
+            50,
+            0,
+            6
+          ],
+          "normal": [
+            0,
+            0,
+            1
+          ]
+        },
+        {
+          "id": "KiCB",
+          "area": 400.16126916372565,
+          "type": "plane",
+          "origin": [
+            50,
+            0,
+            0
+          ],
+          "normal": [
+            0,
+            0,
+            1
+          ]
+        },
+        {
+          "id": "Jiu",
+          "area": 181.12126585447754,
+          "type": "plane",
+          "origin": [
+            70,
+            -5,
+            6
+          ],
+          "normal": [
+            0,
+            1,
+            0
+          ]
+        },
+        {
+          "id": "Jiy",
+          "area": 181.12126585447754,
+          "type": "plane",
+          "origin": [
+            70,
+            5,
+            6
+          ],
+          "normal": [
+            0,
+            1,
+            0
+          ]
+        },
+        {
+          "id": "Ji2",
+          "area": 81.05309046261672,
+          "type": "cylinder",
+          "origin": [
+            90,
+            0,
+            6
+          ],
+          "axis": [
+            0,
+            0,
+            -1
+          ],
+          "radius": 5
+        },
+        {
+          "id": "JhK",
+          "area": 126.66901579274054,
+          "type": "cylinder",
+          "origin": [
+            50,
+            2.15,
+            6.5
+          ],
+          "axis": [
+            0,
+            0,
+            -1
+          ],
+          "radius": 4.2
+        },
+        {
+          "id": "Ji+",
+          "area": 11.716528561926857,
+          "type": "cone",
+          "origin": [
+            50,
+            2.15,
+            6
+          ],
+          "axis": [
+            0,
+            0,
+            1
+          ],
+          "radius": 4.8,
+          "halfAngle": 0.7853981633974512
+        },
+        {
+          "id": "Ji6",
+          "area": 11.716528561926573,
+          "type": "cone",
+          "origin": [
+            50,
+            2.15,
+            0.6
+          ],
+          "axis": [
+            0,
+            0,
+            -1
+          ],
+          "radius": 4.2,
+          "halfAngle": 0.7853981633974512
+        },
+        {
+          "id": "Jie",
+          "area": 8.93819189498698,
+          "type": "cone",
+          "origin": [
+            90,
+            0,
+            6
+          ],
+          "axis": [
+            0,
+            0,
+            -1
+          ],
+          "radius": 4.58,
+          "halfAngle": 0.7853981633974442
+        },
+        {
+          "id": "JiO",
+          "area": 20.900475042366445,
+          "type": "plane",
+          "origin": [
+            50,
+            -4.58,
+            6
+          ],
+          "normal": [
+            0,
+            -0.707106781,
+            0.707106781
+          ]
+        },
+        {
+          "id": "JiW",
+          "area": 20.900475042366306,
+          "type": "plane",
+          "origin": [
+            70,
+            5,
+            5.58
+          ],
+          "normal": [
+            0,
+            -0.707106781,
+            -0.707106781
+          ]
+        },
+        {
+          "id": "JiG",
+          "area": 16.88716011857328,
+          "type": "cone",
+          "origin": [
+            50,
+            0,
+            6
+          ],
+          "axis": [
+            0,
+            0,
+            -1
+          ],
+          "radius": 6.58,
+          "halfAngle": 0.7853981633974442
+        },
+        {
+          "id": "Jim",
+          "area": 19.532513306522386,
+          "type": "cone",
+          "origin": [
+            50,
+            2.15,
+            6
+          ],
+          "axis": [
+            0,
+            0,
+            1
+          ],
+          "radius": 5.22,
+          "halfAngle": 1.1780972450961715
+        },
+        {
+          "id": "Jia",
+          "area": 8.93819189498698,
+          "type": "cone",
+          "origin": [
+            90,
+            0,
+            0.42
+          ],
+          "axis": [
+            0,
+            0,
+            1
+          ],
+          "radius": 5,
+          "halfAngle": 0.7853981633974442
+        },
+        {
+          "id": "JiS",
+          "area": 20.900475042366352,
+          "type": "plane",
+          "origin": [
+            50,
+            4.58,
+            0
+          ],
+          "normal": [
+            0,
+            0.707106781,
+            -0.707106781
+          ]
+        },
+        {
+          "id": "JiK",
+          "area": 20.900475042366313,
+          "type": "plane",
+          "origin": [
+            70,
+            -5,
+            0.42
+          ],
+          "normal": [
+            0,
+            0.707106781,
+            0.707106781
+          ]
+        },
+        {
+          "id": "JiC",
+          "area": 16.8871601185733,
+          "type": "cone",
+          "origin": [
+            50,
+            0,
+            0.42
+          ],
+          "axis": [
+            0,
+            0,
+            1
+          ],
+          "radius": 7,
+          "halfAngle": 0.7853981633974442
+        },
+        {
+          "id": "Jii",
+          "area": 19.532513306522638,
+          "type": "cone",
+          "origin": [
+            50,
+            2.15,
+            0
+          ],
+          "axis": [
+            0,
+            0,
+            -1
+          ],
+          "radius": 5.22,
+          "halfAngle": 1.1780972450961713
+        }
+      ],
+      "stl": {
+        "file": "fixtures/fillet/onshape/fp21/fp21b.stl",
+        "sha256": "6cebd730cddef35bdc09492fa604370f9d451ffdb79254a6cea606c7ec050b21",
+        "triangles": 2916,
+        "faceTriangles": [
+          [
+            "Jiq",
+            "cylinder",
+            0,
+            188
+          ],
+          [
+            "KiGB",
+            "plane",
+            188,
+            215
+          ],
+          [
+            "KiCB",
+            "plane",
+            403,
+            215
+          ],
+          [
+            "Jiu",
+            "plane",
+            618,
+            2
+          ],
+          [
+            "Jiy",
+            "plane",
+            620,
+            2
+          ],
+          [
+            "Ji2",
+            "cylinder",
+            622,
+            126
+          ],
+          [
+            "JhK",
+            "cylinder",
+            748,
+            252
+          ],
+          [
+            "Ji+",
+            "cone",
+            1000,
+            252
+          ],
+          [
+            "Ji6",
+            "cone",
+            1252,
+            252
+          ],
+          [
+            "Jie",
+            "cone",
+            1504,
+            126
+          ],
+          [
+            "JiO",
+            "plane",
+            1630,
+            2
+          ],
+          [
+            "JiW",
+            "plane",
+            1632,
+            2
+          ],
+          [
+            "JiG",
+            "cone",
+            1634,
+            263
+          ],
+          [
+            "Jim",
+            "cone",
+            1897,
+            313
+          ],
+          [
+            "Jia",
+            "cone",
+            2210,
+            126
+          ],
+          [
+            "JiS",
+            "plane",
+            2336,
+            2
+          ],
+          [
+            "JiK",
+            "plane",
+            2338,
+            2
+          ],
+          [
+            "JiC",
+            "cone",
+            2340,
+            263
+          ],
+          [
+            "Jii",
+            "cone",
+            2603,
+            313
+          ]
+        ]
+      },
+      "wonky": {
+        "command": "NODE_OPTIONS=--max-old-space-size=8192 node bin/wonky.mjs fixtures/fillet/fp21.fs --feature fp21MeetBoundaries --param 'land=0.05 * millimeter' --param 'd=0.42 * millimeter' --param 'lever=true' --param 'dx=50 * millimeter'",
+        "name": "w-fp21b",
+        "result": "refused",
+        "refusal": "fixtures/fillet/fp21.fs:39:14: qContainsPoint over a cone face is not implemented (Bend face classification covers plane and cylinder faces)",
+        "maxRssMB": 269
+      },
+      "centroidNote": "not available: Onshape massproperties without an assigned density report [0,0,0]"
+    }
+  }
+}

@@ -1,0 +1,152 @@
+{
+  "topic": "hybrid-robustness",
+  "currentState": [
+    "Vorarbeit nicht wiederholen: <repo>/docs/research/mesh-booleans.md:940-1041 enthält bereits coplanar exact pass und Schnittprovenienz; <repo>/docs/research/brep-booleans-ssi.md:953-1178 bereits singuläre Ecken, Tangentialsektoren und Near-contact-Verfeinerung. Neu hier sind die Zuordnung zu den fünf aktuellen Blockern, konkrete Integrationsstellen und Negativfälle. Die Aussage 'kein Topologieproblem' in <repo>/docs/research/synthesis.md:77 ist für crossing membranes inzwischen zu eng.",
+    "Cores: <repo>/src/library.mjs:168-179 entscheidet Materialabtrag anhand von tool-/target-Herkunft und gemeinsamem Carrier. Ein tool-only Ergebnispatch auf einem Target-Carrier bleibt absichtlich unentscheidbar. Carrier-Gleichheit ist keine Gleichheit der begrenzten Face-Region. Wichtiges Statusupdate: ~/Workspace/cad/cad-project-041/single-step-r20/build/studios/cores.fs:953-965 enthält bereits einen CAD-Workaround, einen gemeinsamen Revolve statt separat flush beginnendem Zugangszylinder. Deshalb nicht behaupten, die aktuelle gesamte cores.fs scheitere unverändert; der ursprüngliche Null-Überlauf-Fall muss separat eingefroren werden.",
+    "Return: ~/Workspace/cad/cad-project-041/single-step-r20/build/studios/return.fs:1228-1241 vereinigt die bereits gerundete Platte und den R4.2-Block, danach folgt ein Seam-Fillet. local-development-evidence dokumentiert Mesh-Fallback wegen |det|=1.5321078e-14 und anschließend verweigerte Edge-Query. <repo>/kernel/hybrid/recover/geom.bend:193-302 wählt bereits das beste Carrier-Tripel und ergänzt für tangentiale Ebene/Zylinder-Paare axiale Hilfsebenen. Diese Techniken sind NICHT neu zu implementieren. Die pauschalen Schranken bleiben in <repo>/kernel/hybrid/recover/topo.bend:1857-1867; die tatsächliche lokale Carrier-Konfiguration der Return-Ecke wurde hier nicht neu diagnostiziert.",
+    "Membranen: <repo>/kernel/hybrid/corefine/membrane.bend:39-70,485-550 akzeptiert nur einheitlich orientierte Restgruppen; gemischte Gruppen bleiben unverändert. Die Ausgabe enthält Halfedges, aber keine neuen Schnittpunkte. local-development-evidence berichtet 40 erfolgreiche und 8 verweigerte der 48 u-overhang-Permutationen. Ein kleiner unabhängiger Integer-Zellprobe dieser Recherche bestätigt für P=[0,20]²×[0,10], Q=[10,30]×[5,15]×[10,20]: Unionvolumen 6000 mm³, Fläche 2400 mm². In z=10 bleiben +300 und -100 mm²: Nettofläche 200 ist nicht die echte Grenzfläche 400 mm². Eine Orientierung pro Gruppe kann das nicht darstellen.",
+    "Probe 51°: local-development-evidence zeigt den Unterschied zum behobenen 52°-Fall. Beide Normalen sind exakt (0,-1,0), aber die Offsets sind -271.00000000000006 und -271. Die Differenz ist 2^-44 mm; das wurde hier separat numerisch überprüft. <repo>/kernel/hybrid/unify.bend:332-359 schließt aus dem exakten Normalenvektor fälschlich auf einen ungerundeten Offset. <repo>/src/hybrid.mjs:53-60,101-102 überträgt nur numerische Carrier, keine Konstruktionsherkunft ihres Offsets. Aus diesen Zahlen allein ist beabsichtigter Kontakt nicht von einem echten winzigen Spalt unterscheidbar.",
+    "KT1-rotfar: <repo>/docs/hybrid-robust.md:753-768 dokumentiert, dass Layer 1 behoben ist; Layer 2 betrifft Eckvertex 227 auf Ebene 5 und Zylindern 9/10, dessen Boundary-Drift schon vor dem Verschieben unbekannt ist. <repo>/src/hybrid-mesh.mjs:475-513 propagiert einen nicht validierten Newton-Fußpunkt als NaN. <repo>/kernel/volume.bend:165-235,1352-1415 liefert gedämpfte Newton-Kandidaten, Residuen und Winkel, aber keinen Existenz-/Eindeutigkeitsnachweis. Die konkrete Ursache des fehlenden Fußpunkts bleibt offen; mehr Iterationen oder ein größeres Residuum sind keine belegte Lösung.",
+    "Zertifikatsgrenze: <repo>/docs/hybrid-mesh-bodies.md:51-56 unterscheidet Carrier-Abstand ausdrücklich von Hausdorff-Abstand zum getrimmten Ergebnis. <repo>/src/hybrid-mesh.mjs:629-646 benutzt zweimal die an Endpunkten gemessene Krümmung als Intervallannahme; <repo>/docs/hybrid-mesh-bodies.md:217-220 nennt diese Annahme selbst. Das ist noch kein allgemeiner zertifizierter Krümmungs-Supremumswert. Hier wurde kein neuer falscher Export demonstriert; die Garantie ist aber enger als ein voraussetzungsloses Zertifikat.",
+    "Near-contact: <repo>/kernel/hybrid/recover/tangent.bend:14-63 schützt bereits vor der falschen Topologie gemeinsamer Mesh-Orakel, einschließlich durch dritte Operanden verdeckter Grazing-Schnitte. Diese Schranke behalten. ~/Workspace/cad/cad-project-041/single-step-r20/build/studios/r20-motion.json:10-55 beschreibt Return/Feed-Bewegungen, ist aber kein Nachweis für Kontaktfreiheit oder diese fünf Boolean-Ergebnisse. Historische Verifier-Ergebnisse wurden gelesen, nicht neu ausgeführt; nur die kleinen mathematischen Probes sind eigene Messungen. OCCT und aktuelle Onshape-Referenzen wurden hier nicht neu erzeugt."
+  ],
+  "approaches": [
+    {
+      "name": "Lokales exaktes Coplanar-Arrangement nach Zhou und Cherchi",
+      "fitForWonky": "Beste gezielte Erweiterung, kein neuer Boolean-Kern. Zhou verlangt eine gemeinsame Triangulierung je coplanarem Cluster und behält orientierte Mehrfachbeiträge bis zur Zellselektion. Im gelesenen libigl-Code bilden remesh_intersections.cpp:96-119,349-377 genau solche Cluster. Cherchi 2022, Commit 7bd6c2697695f555f9a15d7e154e084d841316f0, arrangements/code/triangulation.cpp:1226-1263 dedupliziert gemeinsame Pockets und vereinigt deren Operand-Labels. Für wonky: zuerst alle Kreuzungen und Überlappungsenden eines Membranclusters splitten, dann pro atomarer Region Orientierung und Operandbelegung entscheiden. Das ergänzt die existierende exakte Winding-Abfrage genau dort, wo ein Halfedge heute seinen Vorzeichenbereich wechselt.",
+      "risks": "Exakte orient2d-Zeichen allein reichen nicht: konstruierte rationale Kreuzungspunkte müssen bis zur Klassifikation exakt bleiben, Mehrfachschnitte eine gemeinsame Identität haben und Splits alle inzidenten Faces erreichen. Separates Earclipping je ursprünglichem Face reproduziert den Fehler. Cherchis implizite Punkte sind kein kostenloser iterierbarer Zahlentyp; gerundete Ausgabe kann wieder schneiden. Gemeinsame Papierideen neu implementieren; libigl/CGAL-Code nicht ungeprüft transliterieren, Cherchi-Abhängigkeiten haben andere Lizenzen als das MIT-Hauptprojekt.",
+      "sources": [
+        "[Zhou et al. 2016](https://www.cs.columbia.edu/cg/mesh-arrangements/)",
+        "[Cherchi et al. 2022](https://ar5iv.labs.arxiv.org/html/2205.14151)",
+        "[Cherchi-Implementierung](https://github.com/gcherchi/InteractiveAndRobustMeshBooleans/tree/7bd6c2697695f555f9a15d7e154e084d841316f0)",
+        "<repo>/docs/research/mesh-booleans.md:483-538,940-1041",
+        "<repo>/tmp/research/zhou-grinspun-zorin-jacobson-2016-mesh-arrangements-for-soli/libigl/include/igl/copyleft/cgal/remesh_intersections.cpp:96-119,349-377"
+      ]
+    },
+    {
+      "name": "Manifold-Symbolik und RemoveIfFolded als begrenzter Fast-path",
+      "fitForWonky": "Bestehende corefine-Architektur behalten. Im gelesenen Manifold-Commit 36d0aab44ef9168a49b15d82dad9887624465e2a entfernt src/edge_op.cpp:693-716 zwei gepaarte Dreiecke, wenn auch deren dritter Vertex dieselbe Identität hat, und verbindet die übrigen Halfedge-Paare neu. Das ist eine präzise lokale Fold-Regel, keine allgemeine Lösung für sich kreuzende Polygonreste. wonkys F1/F1b bleibt ein sinnvoller unveränderter Fast-path vor einem gezielten Arrangement-Fallback.",
+      "risks": "Die Symbolik entscheidet konsistent, aber nicht automatisch die gewünschte coplanare CAD-Semantik. RemoveIfFolded erzeugt weder fehlende Kreuzungspunkte noch Belege für echte Materialentfernung. Normalensummen, Epsilon-Welding oder mehr Cleanup-Runden schließen den t51-/u-overhang-Typ nicht grundsätzlich. Apache-2.0 erlaubt Übernahme unter Lizenzbedingungen; ein Port wäre dennoch kein unabhängiges Orakel.",
+      "sources": [
+        "[Manifold RemoveIfFolded, gepinnter Code](https://github.com/elalish/manifold/blob/36d0aab44ef9168a49b15d82dad9887624465e2a/src/edge_op.cpp#L693-L716)",
+        "[Manifold Boolean3, gepinnter Code](https://github.com/elalish/manifold/blob/36d0aab44ef9168a49b15d82dad9887624465e2a/src/boolean3.cpp)",
+        "<repo>/kernel/hybrid/corefine/membrane.bend:11-70"
+      ]
+    },
+    {
+      "name": "EMBER: lokale plane-basierte Konstruktionen und eindeutige Patch-Eigentümerschaft",
+      "fitForWonky": "EMBERs lokale BSP-Splits und homogener Punkt aus drei Ebenen liefern einen kleinen, endlichen Konstruktionswortschatz. Figur 8 vergibt coplanare Überlappungen über eine totale Polygonordnung höchstens einmal; die Winding-Beiträge müssen trotzdem erhalten bleiben. wonky besitzt diese Ideen bereits in <repo>/kernel/proto/exact-plane/arrange.bend:9-19. Wiederverwendbar sind beschränkte lokale Splits, kanonische Eigentümer und exakte Punktidentitäten, nicht der komplette Prototyp als Produktionsfallback.",
+      "risks": "EMBERs Exaktheit gilt nur innerhalb seiner homogenen Ganzzahlrepräsentation; Abschnitt 6 warnt vor Quantisierung und Export. wonkys exact-plane rastert auf 2^-24 mm und ist deshalb für echte 1e-11-mm-Skins kein Wahrheitsorakel. Neue Koplanarität nicht durch dieses Raster erzeugen. Die publizierten festen Bitbreiten gelten nicht automatisch für beliebige F32x2-Eingaben; Bitbudget ableiten oder vorhandene Big-Integer verwenden. Kein offener EMBER-Code wurde gefunden.",
+      "sources": [
+        "[EMBER-Paper](https://www.graphics.rwth-aachen.de/media/papers/339/ember_exact_mesh_booleans_via_efficient_and_robust_local_arrangements.pdf)",
+        "<repo>/tmp/research/pdf/trettner2022-ember.txt:490-545,975-981",
+        "<repo>/kernel/proto/exact-plane/arrange.bend:9-19",
+        "<repo>/docs/research/mesh-booleans.md:540-595"
+      ]
+    },
+    {
+      "name": "CGAL Corefinement: Referenzvertrag und unabhängiges Mesh-Orakel",
+      "fitForWonky": "Die aktuelle Dokumentation garantiert identische Triangulierungen coplanarer Bereiche beider verfeinerter Inputs. Exact predicates schützen die kombinatorische Topologie; exact constructions werden für die Einbettung und aufeinanderfolgende Operationen benötigt. Der gelesene Face_graph_output_builder.h:143-195 wählt coplanare Patches operationsabhängig und mit eindeutiger Operand-Eigentümerschaft. Für wonky sind gerade diese zusätzlichen Belegungsinformationen nützlich, statt vom behaltenen Face-Tag auf Materialabtrag zu schließen. EPECK eignet sich als unabhängiges Orakel für kleine plane Repros.",
+      "risks": "Ein korrektes Mesh-Boolean beweist keine Topologie unterhalb der Tessellierungsabweichung analytischer Inputs. Der manifold-Boolean-Vertrag lehnt echte Null-Dicke und nichtmannigfaltige Ergebnisse ab; Nef- oder Non_manifold_output_visitor-Ergebnisse sind nicht automatisch wonky-admissibel. Bei iterativer Snap-Rounding-Ausgabe müssen Erfolg und Bewegung geprüft werden. GPL-/kommerzielle Lizenz: als getrenntes Orakel verwenden oder Algorithmus aus den Quellen neu entwickeln, nicht als Produktionsabhängigkeit.",
+      "sources": [
+        "[CGAL Boolean Operations, aktueller Paketpfad](https://doc.cgal.org/latest/PMP_Boolean_operations/index.html)",
+        "[CGAL Snap-Rounding-Vertrag](https://www.cgal.org/2025/06/13/autorefine-and-snap/)",
+        "<repo>/tmp/research/cgal-sparse/PMP_Boolean_operations/include/CGAL/Polygon_mesh_processing/internal/Corefinement/Face_graph_output_builder.h:143-195"
+      ]
+    },
+    {
+      "name": "Rangbewusste analytische Rückgewinnung plus zertifizierte reguläre Charts",
+      "fitForWonky": "Ein kleiner Determinant unterscheidet drei Fälle nicht: redundanter Punkt auf einer regulären Kurve, isolierter singulärer Schnittpunkt und mehrere unaufgelöste Äste. QI/Dupont-Lazard-Lazard-Petitjean Part III liefert die Klassifikation singulärer Quadrikenschnitte; bestehende SSI-Vorarbeit enthält bereits deren Übertragung. Zuerst die in Return/KT1 tatsächlich auftretenden Ebene-/Zylinder-Kombinationen geschlossen lösen, anschließend Trims und Sektoren prüfen. Für reguläre Reststücke bietet Burr/Hauenstein/Lee 2026 einen parametrischen Krawczyk-Nachweis mit eindeutigem Ast und Fehlergrenze. Eigener Minimalbeleg: zwei tangierende Einheitszylinder x²+y²=1 und (x-2)²+y²=1 mit z=0 haben den eindeutigen Punkt (1,0,0), obwohl det(J)=0.",
+      "risks": "Gewöhnliches Intervall-Newton/Krawczyk löst singuläre Ecken nicht: die Regularitätsvoraussetzung muss zuvor analytisch hergestellt werden. Pseudoinverse oder kleines Residuum beweisen weder Existenz noch den richtigen Ast. Paarweise Carrier-Abstände ersetzen keine Distanz zum getrimmten Face. Keine allgemeine QI-/NURBS-Bibliothek in diese R20-Pakete ziehen. Die QI-HAL-Seite war bei dieser Recherche zugriffsgeschützt; Part III stützt sich hier auf die bereits vorhandene Tiefenrecherche.",
+      "sources": [
+        "[QI, singuläre Fälle Part III](https://inria.hal.science/inria-00186091)",
+        "[Burr, Hauenstein, Lee 2026](https://arxiv.org/html/2602.07718v1)",
+        "<repo>/docs/research/sources/dupont-lazard-lazard-petitjean-2008-near-optimal-parameteriz.md:76-95,177-183",
+        "<repo>/docs/research/brep-booleans-ssi.md:953-1061",
+        "<repo>/kernel/hybrid/recover/geom.bend:193-302"
+      ]
+    },
+    {
+      "name": "Kommerzielle B-reps: bekannte Koinzidenz nutzen, Fuzz nicht nachahmen",
+      "fitForWonky": "Parasolid V35 dokumentiert vom Aufrufer bekannte matched regions; ACIS R17 Glue verlangt vollständige korrekte Paare koinzidenter Faces. Daraus folgt für t51 eine Produktionsanforderung: Koinzidenzbelege aus der Konstruktion mitführen, nicht aus einem achsparallelen Normalenvektor erraten. OCCT trennt same-domain Faces und degenerierte pcurve-Edges als Topologieaufgaben; das ist keine Freigabe für beliebige fast-singuläre Newton-Ecken. Onshapes öffentliche Boolean-Hilfe beschreibt Offset als Option und fordert keinen Cutter-Überlauf. Ein Workaround im CAD ist daher keine passende Kernel-Spezifikation.",
+      "risks": "Parasolid/ACIS-Dokumentation beschreibt Verträge, keine überprüfbare heutige Implementierung. V35/R17 sind ältere Dokumentstände und kein Beleg für aktuelle numerische Grenzwerte bei Onshape. Fuzz, tolerante Entitäten und implizites Zusammenziehen echter Spalte widersprechen wonkys Vertrag. Konstruktionsmetadaten sind nur dann Beweise, wenn ihre Invarianten validiert werden; ein ungeprüftes 'intended contact'-Flag reicht nicht. Kein Live-Onshape-Verhalten wurde neu gemessen.",
+      "sources": [
+        "[Parasolid V35, Dokumentationsspiegel](http://www.q-solid.com/Parasolid_Docs_V35/pdf/ov.pdf)",
+        "[ACIS R17 Booleans, Dokumentationsspiegel](http://www.q-solid.com/ACIS_Docs_R17/online/SPAacisuserTechArticles/SPAacisuser_mointrbool.htm)",
+        "[OCCT Boolean-Spezifikation](https://occt3d.com/dev/doc/overview/html/specification__boolean_operations.html)",
+        "[Onshape Boolean-Hilfe](https://cad.onshape.com/help/Content/PartStudio/boolean.htm)",
+        "<repo>/docs/research/sources/overview-of-parasolid-v35-july-2022.md:60,178-179",
+        "<repo>/docs/research/sources/acis-r17-user-guide-booleans-technical-article.md:57-74"
+      ]
+    }
+  ],
+  "recommendation": "corefine+recover behalten. Zuerst Carrier-Herkunft für den 51°-Fall, dann ein lokales Arrangement für gemischte Membranreste und ein tatsächlich konsumiertes Materialabtragsresultat. Parallel die Return-Ecke nach ihrem geometrischen Rang behandeln; anschließend dieselben analytischen Kontaktlösungen für KT1s Druckgrenze verwenden. Kein global größeres Epsilon, kein automatischer Tool-Überlauf, kein gedrehter Retry als Beweis und kein OCCT-Produktionsfallback. Alle geometrischen Entscheidungen und neuen Konstruktionen bleiben in Bend; JavaScript transportiert die Resultate. Exakte Form, sonst explizit eingeschlossene Approximation, sonst benannte Verweigerung. Die sechs Pakete schätze ich auf zusammen 5 Agententage bei der Annahme 1 Agententag = 8 Stunden Agenten-Wallzeit inklusive fokussierter Verifikation. Das sind Planungsschätzungen, keine Messung; gewöhnliche lokale Fixes liegen laut Auftrag bei 1–3 Stunden, Arrangement und belastbare Intervallgrenzen sind größere Arbeiten. Pro Paket bestehende Fixtures und Prüfer erweitern, keine separate Zertifikatsverwaltung oder neue Benchmark-Kampagne. Grenzfälle brauchen geschlossene Formen oder einen unabhängigen rationalen Zell-Oracle; Manifold allein ist wegen gemeinsamer Abstammung nicht unabhängig genug. OCCT via uv nur als Oracle, aktuelle Onshape-Messungen nur nach späterer Freigabe. Erfolg heißt der benannte R20-Fall baut korrekt, nicht nur eine schönere Verweigerung.",
+  "packages": [
+    {
+      "title": "HR1: Plane-Offset-Herkunft statt axis_exact-Heuristik",
+      "scope": "Den t51-Face-Produzenten bis vor die Rundung verfolgen. In <repo>/src/hybrid.mjs:53-60,101-102 und <repo>/kernel/hybrid/mesh-io.bend einen schmalen Carrier-Beleg transportieren: exakter Ursprungssupport, validierter Transform-/Konstruktionsbezug und eingeschlossene Auswertungsabweichung. <repo>/kernel/hybrid/unify.bend:332-359 konsumiert den Beleg statt 'Einheitsnormalenvektor bedeutet exakter Offset'. Gemeinsame Supports symbolisch/konstruktiv nachweisen; überlappende Fehlerintervalle allein beweisen KEINE Gleichheit. Tatsächlich verschiedene exakte Supports bleiben getrennt. Alte Jobs ohne ausreichende Herkunft dürfen weiterhin gezielt verweigern; kein geratenes Flag nachtragen.",
+      "acceptance": "Den vollständigen 51°-Probe-Aufbau samt Freecut als Fixture mit echter Producer-Herkunft einfrieren: kein Stop bei 307:5 und 48/48 exakte Achsenpermutationen ohne Membranfehler. Oracle: analytischer identischer Support aus der Konstruktion, geschlossene Probe-Volumenform und getrennte OCCT-Kontrolle via uv bei normalen Größen. Planted negative: zwei ausdrücklich verschiedene axiale Supports mit 2^-44-mm-Abstand sowie die vorhandenen 2e-11-/1e-11-mm-Skins dürfen nicht vereinigt werden; Herkunft absichtlich vertauschen muss erkannt werden. 52° bleibt erfolgreich. Legacy-Dump ohne Beleg ist kein gefälschter must-pass.",
+      "estimateAgentDays": 0.75,
+      "r20Impact": "Schließt die bekannte F2-Lücke beim 51°-Probe, ohne echte dünne Haut zu einem Loch zu machen. Liefert die Kontaktidentität für spätere coplanare Features.",
+      "dependsOn": []
+    },
+    {
+      "title": "HR2: Crossing membranes durch ein gemeinsames 2D-Arrangement auflösen",
+      "scope": "In <repo>/kernel/hybrid/corefine/membrane.bend den bestehenden einorientierten Fast-path behalten. Nur gemischte Gruppen werden in eine kanonische Projektion zerlegt: echte Segmentkreuzungen, kollineare Überlappungsenden und T-Junctions exakt splitten; homogene rationale Punktidentitäten einschließlich Mehrfachschnitt behalten; signed winding und Operandbeiträge pro Atom bestimmen. Einmal triangulieren und Orientierung/Carrier pro Region zuweisen. Die bisher nur Halfedges enthaltende Ausgabe und <repo>/kernel/hybrid/corefine/boolean.bend:455 erweitern, damit neue Vertices, Provenienz und Splits sämtlicher inzidenter Faces konsistent weiterlaufen. Einmalige F32x2-Materialisierung mit Bewegungsgrenze und unveränderten Output-Gates; Bit- und Arbeitsbudget mit benanntem Abbruch.",
+      "acceptance": "Vorhandenes <repo>/fixtures/r20/membrane/f1b-u-overhang-bd-rnd3.job in allen 48 Permutationen, plus u-side-partial und x-cross: keine der bisherigen 8 Verweigerungen, korrekte V/Fläche/Orientierung und keine doppelte Membran. Oracle: unabhängige exakte Koordinatenzellen, beim kanonischen u-overhang V=6000 mm³/A=2400 mm²; CGAL EPECK für einen rationalen Nicht-Achsenfall. Planted negatives: entgegengesetzte Deckflächen wieder einsetzen, einen Kreuzungssplit auf der Nachbarface weglassen und eine echte Mikrohaut als koplanar deklarieren; Area-/Topologie-/Herkunftsprüfung muss jeweils anschlagen. Echtes Punkt-/Kantenkontakt-Nonmanifold bleibt benannt verweigert, nicht zu einem Solid verschweißt.",
+      "estimateAgentDays": 1,
+      "r20Impact": "Beseitigt die u-overhang-Orientierungsabhängigkeit und macht flush Freecuts/Face-Contact-Unions belastbarer. Kein Ersatz für Near-contact-Zertifikate gekrümmter Faces.",
+      "dependsOn": [
+        "HR1: Plane-Offset-Herkunft statt axis_exact-Heuristik"
+      ]
+    },
+    {
+      "title": "HR3: Materialabtrag aus Operandbelegung beweisen",
+      "scope": "Die vorhandenen Klassifikationsentscheidungen um Removed/Unchanged/Unknown ergänzen, mit einem überprüfbaren offenen 3D-Zellzeugen für Target∩Tool oder vollständigem Ausschluss aller relevanten Zellen einschließlich Containment. Coplanare Atome brauchen Belegung auf beiden Seiten und begrenzte Face-Regionen, nicht nur Carrier-Tags. Durch <repo>/src/hybrid.mjs bis <repo>/src/library.mjs:129-179 transportieren; dort den Beleg unmittelbar für die bestehende No-op-Semantik verwenden. Vollständige Entfernung und mehrere Target-Komponenten mitbehandeln. Keine Differenz zweier approximierter Gesamtvolumina als Nulltest.",
+      "acceptance": "Den vor dem Workaround verwendeten Cores-Zugangszylinder am gemeinsamen Target-Plane einfrieren und korrekt subtrahieren, ohne Überlauf. Minimalfälle: echtes flush pocket, A−A, enthaltenes Tool, identische Carrier mit disjunkten getrimmten Regionen und lediglich außen berührendes Tool. Oracle: exakte Zellbelegung bei Boxen sowie geschlossenes Bohrungs-/Pocket-Volumen und OCCT bei normalen Abständen. Planted negatives: 0.125-mm³-Notch in 1e9-mm³-Target muss als Abtrag gelten; ein künstlich auf Removed gesetzter Kontaktfall muss scheitern. Unchanged erreicht weiterhin die vorhandene benannte FS-No-op-Verweigerung, bis die Onshape-Tool-Lifecycle-Semantik separat belegt ist.",
+      "estimateAgentDays": 0.5,
+      "r20Impact": "Behebt 'cannot tell whether this hybrid result removed material' an der Ursache; der CAD-Workaround wird unnötig. Nicht behaupten, damit sämtliche weiteren Cores-Features geschlossen zu haben.",
+      "dependsOn": [
+        "HR2: Crossing membranes durch ein gemeinsames 2D-Arrangement auflösen"
+      ]
+    },
+    {
+      "title": "HR4: Return-Ecken nach Rang, Ast und Trim rekonstruieren",
+      "scope": "Zuerst den konkreten ARM_R/join-Vertex mit Carrierliste, Inzidenzen und Trims einfrieren. <repo>/kernel/hybrid/recover/geom.bend:193-302 und <repo>/kernel/hybrid/recover/topo.bend:1857-1867 um eine gemeinsame Rangklassifikation ergänzen: reguläres Tripel, redundanter Kurven-/Seampunkt, isolierter analytischer Tangentialpunkt oder ungelöste Äste. Bestehende Best-Tripel- und Ebene/Zylinder-Helfer nutzen. Nur die tatsächlich benötigte analytische Kontaktform ergänzen, insbesondere ggf. Zylinder/Zylinder-Kontakt plus Cap. Provenienz, alle Originalcarrier, lokale Sektoren und getrimmte Astzugehörigkeit validieren. Kein det-Schwellwert-Absenken und kein willkürliches Pseudoinversen-Ergebnis als exakter Vertex.",
+      "acceptance": "Eingefrorenes geblendetes Return plate+block join muss eine exakte B-rep liefern und die nachfolgende reale Seam-Edge-Query ermöglichen. Oracle: unabhängige OCCT-Union der gefrorenen analytischen Operanden, STEP-Validität und vorhandene geschlossene Plate-/Block-Teilvolumina. Minimaler Singularfall: x²+y²=1, (x−2)²+y²=1, z=0 ergibt genau (1,0,0). Planted negative: Zylinderabstand 2±2^-20 erzeugt null bzw. zwei Lösungen statt eines Tangentialpunkts; eine außerhalb der Trims liegende algebraische Lösung darf nicht gewählt werden. Ein nur redundanter Seampunkt darf keine Face löschen. Falls die Return-Ecke eine andere Kontaktklasse benötigt, bleibt genau dieser R20-Fall offen und wird nicht durch den Minimalfall als erledigt ausgegeben.",
+      "estimateAgentDays": 0.75,
+      "r20Impact": "Verhindert den unnötigen Mesh-Fallback, der ARM_R-Seam-Fillets und Edge-Queries blockiert. Kein Versprechen auf allgemeine singuläre Quadric-Recovery.",
+      "dependsOn": []
+    },
+    {
+      "title": "HR5: KT1-Layer-2-Fußpunkte und Boundary-Abstand wirklich einschließen",
+      "scope": "Corner 227 einschließlich benachbarter Kanten als kleine Fixture isolieren. In <repo>/kernel/volume.bend:1352-1415 Newton nur als Kandidat nutzen: geschlossene R20-Carrier-Paare zuerst, sonst ein reguläres Intervall-Chart mit eindeutigem Ast; Singularitäten über HR4 behandeln. <repo>/src/hybrid-mesh.mjs:475-513,629-646 muss eingeschlossene Fußpunkt-/Trim-Distanzen und einen über das gesamte Segment bewiesenen Krümmungs-/Abstandsbound konsumieren. Geometrische Zertifikatsrechnung in Bend, nicht neue JS-Heuristiken. Die Annahme 'zweimal Endpunktkrümmung genügt' für diese Pfade ersetzen. Unbekannt bleibt unbekannt, nie Drift=0; bei Budgetende vorhandene feinere Boolean-Neuberechnung oder benannte Verweigerung.",
+      "acceptance": "adv:kt1-rotfar exportiert bei angeforderter 0.01 mm einen geschlossenen Druckmesh mit gültigem Face-/Boundary-Bound; Original-Body und Mesh für nachfolgende Booleans bleiben unverändert. Oracle: analytische Distanz für isolierte Ebene/Zylinder-Fälle, unabhängige OCCT BRepExtrema-Kontrolle an Vertex, Kanteninnerem und Face-Innerem; der eigentliche Gesamtbound kommt aus dem Intervall-/Analytiknachweis, nicht aus Sampling. Planted negatives: Vertex über Request verschieben, falschen Schnittast wählen und einen Krümmungspeak zwischen zwei Samples platzieren; Zertifizierung muss scheitern oder verfeinern. Float32-STL-Verschiebung separat zum gespeicherten Gesamtbound addieren, nicht als unbekannte Drift verstecken.",
+      "estimateAgentDays": 1.25,
+      "r20Impact": "Schließt den verbliebenen KT1-rotfar-Druckexport und stärkt dessen tatsächliche 0.01-mm-Aussage. Kein bloßes 'Newton konvergiert jetzt'.",
+      "dependsOn": [
+        "HR4: Return-Ecken nach Rang, Ast und Trim rekonstruieren"
+      ]
+    },
+    {
+      "title": "HR6: Near-contact gezielt entscheiden und beschränkt nachverfeinern",
+      "scope": "Die bestehende Schranke in <repo>/kernel/hybrid/recover/tangent.bend:14-63 nicht abschalten. Für ihre markierten Paare zuerst geschlossene Ebene/Zylinder- und Parallelzylinder-Relationen mit getrimmtem Domainbezug, sonst eingeschlossene Abstands-/Transversalitätsintervalle auswerten. Ergebnis getrennt als disjoint, proven contact, crossing oder unresolved. Bei bewiesenem Crossing unter der Meshauflösung die betroffenen ganzen Leaves konform neu tessellieren und denselben Job wiederholen, mit festem Dreiecks-/Versuchsbudget. Benötigte Auflösung und verbleibende Ungewissheit melden. Herkunftsidentität aus HR1 für echte Koinzidenz verwenden; kein beliebiges Zusammenziehen naher Faces.",
+      "acceptance": "Vorhandene 0.005-mm-Boss-/Thin-wall-Fälle aus der SSI-Vorarbeit bauen korrekt oder erreichen bei absichtlich zu kleinem Budget die spezifische Budgetverweigerung. Muss-Erfolg auf den analytisch entscheidbaren Fällen, nicht nur bessere Fehlertexte. Oracle: exakte Abstands-/Schnittformeln; OCCT via uv als zusätzliche Kontrolle oberhalb seiner Toleranz. Planted negatives: eine sub-deviation grazing sliver mit positivem analytischem Volumen darf niemals als leeres exaktes Resultat gelten; eine dritte Subtraktion, die sichtbare Schnittdreiecke entfernt, darf das bestehende Pre-certificate nicht umgehen. Echte getrennte Skins bleiben bestehen. R20-Bore-/Pocket-Varianten bei signed permutations und 2^k-Skalierung gegen denselben Bound prüfen.",
+      "estimateAgentDays": 0.75,
+      "r20Impact": "Macht flache Bohrungs-/Pocket-Kontakte beherrschbar, ohne die bereits gefundene falsche gemeinsame Mesh-Topologie erneut zuzulassen. Voraussetzung für zuverlässig kleine FDM-Abstände, nicht für beliebige tangierende Flächen.",
+      "dependsOn": [
+        "HR1: Plane-Offset-Herkunft statt axis_exact-Heuristik",
+        "HR5: KT1-Layer-2-Fußpunkte und Boundary-Abstand wirklich einschließen"
+      ]
+    }
+  ],
+  "openQuestions": [
+    "Return: Welche Carrier und Trims treffen am dokumentierten Vertex 2 tatsächlich zusammen? Der Determinant allein entscheidet nicht zwischen G1-Seam, redundanter Ecke und isoliertem Singularpunkt. HR4 beginnt mit dieser kleinen Diagnose; keine Behauptung einer schon bewiesenen Lösung.",
+    "Probe 51°: Welche unverrundete gemeinsame Support-Definition kann der Producer konkret erhalten? Falls der Eingang nur die zwei verschiedenen numerischen Ebenen ohne Provenienz enthält, ist intended coincidence informationstheoretisch nicht rekonstruierbar; dann bleibt dieser Legacy-Input eine Verweigerung statt einer Epsilon-Reparatur.",
+    "Cores: Der aktuelle Live-Code enthält bereits den Revolve-Workaround. Der historische getrennte Zugangszylinder muss aus einer bekannten Revision oder als nachvollziehbar abgeleiteter Minimalfall eingefroren werden. Rückbau des CAD-Workarounds ist nicht Teil dieser Kernel-Recherche.",
+    "KT1: Warum fehlt der Paar-Fußpunkt konkret, und ist Vertex 227 noch derselbe im nächsten eingefrorenen Snapshot? Die gelesenen Dokumente benennen Layer 2, liefern aber keine abgeschlossene Ursachenanalyse. Die aktuellen Krümmungsannahmen müssen für einen echten Bound ersetzt oder ausdrücklich als unbewiesen behandelt werden.",
+    "FS-No-op: Ob Onshape bei reiner Berührung oder wirkungsloser Subtraktion Tools verbraucht bzw. Target-Identitäten verändert, ist im Code ausdrücklich unverifiziert. HR3 darf geometrisches Unchanged liefern, aber diese Frontend-Semantik nicht erfinden. Live-Onshape bleibt bis zur Freigabe aus.",
+    "Exactness-Vertrag: Vereinheitlichte gerundete Supports ergeben nicht automatisch das exakte Boolean der rohen Wire-Werte. Konstruktionsevidenz und numerischer Verschiebungsbound müssen im Resultat getrennt bleiben. Echte Null-Dicke bleibt nach gegenwärtigem wonky-Vertrag eine benannte Verweigerung; keine implizite Einführung allgemeiner nichtmannigfaltiger Bodies.",
+    "Umsetzungsevidenz: Die vorgeschlagenen Pakete sind nicht implementiert oder benchmarked. Vor Abschluss je Paket eingefrorene Quelldateien, unabhängige Oracle-Ergebnisse, planted negative und JS/native-Differenz prüfen; vorhandene gleiche vier-Target-Läufe nur bei unveränderten Kernelquellen wiederverwenden. Aktuelle Onshape-Referenzhashes können sich vom hier gelesenen R20-Stand unterscheiden."
+  ]
+}

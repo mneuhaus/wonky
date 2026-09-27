@@ -1,0 +1,337 @@
+/* Section feature: view action, floating section panel above the view
+   actions, cap rows with body color swatches, exact-contour status. */
+
+.view-actions #section-toggle[aria-pressed=true] {
+  background: var(--green-soft);
+  color: var(--green);
+}
+
+.section-panel {
+  position: absolute;
+  right: 20px;
+  bottom: calc(var(--hud-bottom) + 60px);
+  z-index: 12;
+  width: 304px;
+  max-height: calc(100% - 190px);
+  overflow: auto;
+  padding: 9px 11px 10px;
+  background: color-mix(in srgb, var(--surface) 96%, transparent);
+  border-radius: 10px;
+  box-shadow: var(--shadow);
+  font-size: 12px;
+  color: var(--ink);
+}
+
+.section-panel[hidden],
+.section-body[hidden] {
+  display: none;
+}
+
+.section-head {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.section-title {
+  font-weight: 650;
+  font-size: 12px;
+}
+
+.section-tag {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  padding: 1px 6px;
+  border-radius: 4px;
+  background: var(--canvas);
+  color: var(--ink-soft);
+  font-size: 11px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  cursor: help;
+}
+
+.section-icon {
+  width: 22px;
+  height: 22px;
+  border: 0;
+  border-radius: 5px;
+  background: transparent;
+  color: var(--muted);
+  font-size: 15px;
+  line-height: 1;
+}
+
+.section-icon:hover {
+  background: var(--green-soft);
+  color: var(--green);
+}
+
+.section-body {
+  margin-top: 7px;
+}
+
+.section-tabs {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 7px;
+}
+
+.section-tab,
+.section-small,
+.section-segment button {
+  height: 24px;
+  padding: 0 8px;
+  border: 1px solid var(--line);
+  border-radius: 5px;
+  background: var(--surface);
+  color: var(--ink);
+  font-size: 11px;
+}
+
+.section-tab[aria-pressed=true],
+.section-segment button[aria-pressed=true] {
+  border-color: var(--line-strong);
+  background: var(--green-soft);
+  color: var(--green);
+  font-weight: 600;
+}
+
+.section-add {
+  color: var(--muted);
+  border-style: dashed;
+}
+
+.section-tab:hover,
+.section-small:hover,
+.section-segment button:hover {
+  border-color: var(--line-strong);
+  color: var(--green);
+}
+
+.section-row {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin: 5px 0;
+}
+
+.section-label {
+  color: var(--muted);
+  font-size: 11px;
+  min-width: 42px;
+}
+
+.section-segment {
+  display: inline-flex;
+}
+
+.section-segment button {
+  width: 26px;
+  padding: 0;
+  border-radius: 0;
+}
+
+.section-segment button:first-child {
+  border-radius: 5px 0 0 5px;
+}
+
+.section-segment button:last-child {
+  border-radius: 0 5px 5px 0;
+}
+
+.section-segment button + button {
+  margin-left: -1px;
+}
+
+.section-slider {
+  flex: 1;
+  min-width: 0;
+  accent-color: var(--green);
+}
+
+.section-value {
+  width: 78px;
+  height: 24px;
+  padding: 0 5px;
+  border: 1px solid var(--line);
+  border-radius: 5px;
+  font: inherit;
+  font-size: 12px;
+  text-align: right;
+}
+
+.section-unit {
+  color: var(--muted);
+  font-size: 11px;
+}
+
+.section-plane-text {
+  margin: 2px 0 4px;
+  color: var(--ink-soft);
+  font-size: 11px;
+  line-height: 1.35;
+}
+
+.section-plane-actions {
+  justify-content: space-between;
+}
+
+.section-check {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+}
+
+.section-caps {
+  margin: 7px 0 6px;
+  padding-top: 6px;
+  border-top: 1px solid var(--line);
+}
+
+.section-cap-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.section-cap {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  padding: 2px 0;
+  font-size: 11px;
+}
+
+.section-cap-name {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.section-cap-name small {
+  color: var(--muted);
+}
+
+.section-cap-status {
+  color: var(--green);
+  white-space: nowrap;
+}
+
+.section-cap.unavailable {
+  flex-wrap: wrap;
+}
+
+.section-cap.unavailable .section-cap-status {
+  flex-basis: 100%;
+  padding-left: 16px;
+  color: var(--danger);
+  white-space: normal;
+}
+
+.section-cap.pending,
+.section-cap.idle .section-cap-status {
+  color: var(--muted);
+}
+
+.section-swatch {
+  --section-swatch: #c9d6ca;
+  flex: none;
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+  background: repeating-linear-gradient(135deg, var(--section-swatch) 0 3px,
+    color-mix(in srgb, var(--section-swatch) 78%, #000) 3px 4px);
+  box-shadow: inset 0 0 0 1px #0000001a;
+}
+
+.section-exact {
+  padding-top: 6px;
+  border-top: 1px solid var(--line);
+}
+
+.section-exact-button {
+  height: 28px;
+  font-size: 12px;
+}
+
+.section-exact-status p {
+  margin: 4px 0;
+  line-height: 1.4;
+  font-size: 11px;
+}
+
+.section-note {
+  color: var(--muted);
+}
+
+.section-pending {
+  color: var(--green);
+}
+
+.section-failed {
+  color: var(--danger);
+}
+
+.section-failures {
+  margin: 4px 0;
+  padding: 0;
+  list-style: none;
+  font-size: 11px;
+}
+
+.section-failure {
+  padding: 4px 6px;
+  border-radius: 5px;
+  background: var(--copper-soft);
+  margin-bottom: 4px;
+}
+
+.section-verbatim {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 11px;
+}
+
+.section-reason {
+  display: block;
+  margin-top: 3px;
+  white-space: normal;
+  word-break: break-word;
+  font-size: var(--text-xs);
+  color: var(--copper);
+}
+
+.section-failure details {
+  margin-top: 3px;
+}
+
+.section-failure pre {
+  max-height: 140px;
+  overflow: auto;
+  margin: 3px 0 0;
+  font-size: var(--text-xs);
+}
+
+@media (max-width: 900px) {
+  .section-panel {
+    top: 135px;
+    bottom: auto;
+    right: 17px;
+    max-height: calc(100% - 180px);
+  }
+}
+
+@media (max-width: 650px) {
+  .section-panel {
+    top: auto;
+    bottom: calc(var(--hud-bottom) + 51px);
+    left: 12px;
+    right: 12px;
+    width: auto;
+    max-height: 46%;
+  }
+}

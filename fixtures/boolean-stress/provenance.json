@@ -1,0 +1,15 @@
+{
+  "schema": "wonky-stress-inputs/1",
+  "source": "fixtures/r10b/r10b.fs",
+  "sourceSha256": "219ee9630f37f9e54fe7e1b4e09094ab25748a811ed8f9e8b9ebf4892d8b8349",
+  "origin": "Actual operand snapshots from traceBuild of frozen singleStepR10b with explicit tolerated-regularized contact cap 1e-7 mm",
+  "operationId": "model/UpperCore/g7/op",
+  "operation": "UNION",
+  "file": "r10b-g7-operands.json",
+  "sha256": "1ac9496d29364343e9a55ae2e1d2b03a6209fa69d35e1d128c570464d72e7cd7",
+  "expected": {
+    "components": 1,
+    "volumeMm3": 51985.642486572266,
+    "derivation": "Box volume (186.60000610351562 * 4 * 63) plus prism thickness 4.790000915527344 times its yz profile area outside the box (1156 - 120). Coordinates are the actually represented F32 operands."
+  }
+}

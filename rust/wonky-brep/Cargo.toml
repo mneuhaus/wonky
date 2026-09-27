@@ -1,0 +1,14 @@
+[package]
+name = "wonky-brep"
+version = "0.1.0"
+edition = "2021"
+description = "Construction-preserving arena B-rep prototype"
+publish = false
+
+[dependencies]
+wonky-contract = { path = "../wonky-contract" }
+wonky-num = { path = "../wonky-num" }
+
+[dev-dependencies]
+num-rational = "0.4"
+num-traits = "0.2"

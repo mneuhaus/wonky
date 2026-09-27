@@ -1,0 +1,13 @@
+[package]
+name = "wonky-replay"
+version = "0.1.0"
+edition = "2021"
+description = "Replay binaries for captured kernel calls (planar-spike: the spike's planar Boolean CLI)"
+publish = false
+
+[dependencies]
+wonky-ops = { path = "../wonky-ops" }
+rayon = "1"
+
+[features]
+plant = ["wonky-ops/plant"]

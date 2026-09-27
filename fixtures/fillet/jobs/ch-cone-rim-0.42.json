@@ -1,0 +1,43 @@
+{
+ "id": "ch-cone-rim-0.42",
+ "jobSha256": "3432e33c1c97d22eabd7cf7796b3323641c6e7d50b78a45650d8e6ac5b8381a1",
+ "jobBytes": 768,
+ "sourceSha256": "9e1309c203a5656d82353153299ec52a081632ec1f692ff5a672057ca1411a82",
+ "buildMs": 3.19204099999979,
+ "kernel": {
+  "closed": true,
+  "volumeMm3": 1350.8848410436076,
+  "areaMm2": null,
+  "precision": "F32x2",
+  "geometry": "analytic"
+ },
+ "counts": {
+  "vertices": 2,
+  "edges": 3,
+  "faces": 3
+ },
+ "surfaces": {
+  "plane": 2,
+  "cone": 1
+ },
+ "quantizationErrorMm": 0,
+ "selected": [
+  {
+   "edge": 1,
+   "curve": "circle",
+   "faces": [
+    "plane",
+    "cone"
+   ],
+   "convexity": "convex",
+   "dihedralDeg": 106.69924423399371,
+   "length": 31.415138011442924,
+   "sample": [
+    -5,
+    6.123233995736766e-16,
+    10
+   ]
+  }
+ ],
+ "step": "out/fillet/input-step/ch-cone-rim-0.42.step"
+}

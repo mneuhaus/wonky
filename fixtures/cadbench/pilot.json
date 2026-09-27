@@ -1,0 +1,353 @@
+{
+  "schema": "wonky-cadbench-pilot/1",
+  "scope": "Manually authored public-spec FeatureScript adaptations; not an official CADBench run or model-agent evaluation.",
+  "selection": "Four small complete nominal specifications plus a known unsupported Boolean boundary case. Deliberately selected for an initial kernel pilot; not representative of all 100 tasks.",
+  "cases": [
+    {
+      "id": "washer",
+      "upstreamId": "21d1517841",
+      "source": "adapted/washer.fs",
+      "sourceSha256": "a81f2131f61851aaa5d2b1fa4185ee376309f7662bd3e066621cb9818bc3f33d",
+      "feature": "main",
+      "adaptation": "Full nominal annular geometry; axis Z, bottom z=0. Material/Grade A is not evaluated.",
+      "expected": {
+        "solids": 1,
+        "volumeFormula": "pi * (4.5^2 - 1.6^2) * 0.8",
+        "volumeMm3": 44.45981923360275,
+        "boundsMm": {
+          "min": [
+            -4.5,
+            -4.5,
+            0
+          ],
+          "max": [
+            4.5,
+            4.5,
+            0.8
+          ]
+        },
+        "relativeTolerance": 0.000001,
+        "absoluteToleranceMm": 0.00001,
+        "probes": [
+          {
+            "id": "washer/ring",
+            "pointMm": [
+              3,
+              0,
+              0.4
+            ],
+            "classification": "Inside"
+          },
+          {
+            "id": "washer/bore",
+            "pointMm": [
+              0,
+              0,
+              0.4
+            ],
+            "classification": "Outside"
+          },
+          {
+            "id": "washer/radial",
+            "pointMm": [
+              5,
+              0,
+              0.4
+            ],
+            "classification": "Outside"
+          },
+          {
+            "id": "washer/below",
+            "pointMm": [
+              3,
+              0,
+              -1
+            ],
+            "classification": "Outside"
+          }
+        ],
+        "surfaceTypes": [
+          "cylinder",
+          "plane"
+        ],
+        "nominalUnsplitFaceCounts": {
+          "plane": 2,
+          "cylinder": 2
+        }
+      }
+    },
+    {
+      "id": "cup",
+      "upstreamId": "1b9f95801c",
+      "source": "adapted/cup.fs",
+      "sourceSha256": "561d5dda89bcf1f6325c9bf774ce3171c04b55e7eeba67e5c96b12be3761f3dc",
+      "feature": "main",
+      "adaptation": "Full nominal open cylindrical cup; thickness is 2 mm at both sidewall and bottom, axis Z, bottom z=0.",
+      "expected": {
+        "solids": 1,
+        "volumeFormula": "pi * (40^2 * 120 - 38^2 * 118)",
+        "volumeMm3": 67883.53405876824,
+        "boundsMm": {
+          "min": [
+            -40,
+            -40,
+            0
+          ],
+          "max": [
+            40,
+            40,
+            120
+          ]
+        },
+        "relativeTolerance": 0.000001,
+        "absoluteToleranceMm": 0.00001,
+        "probes": [
+          {
+            "id": "cup/wall",
+            "pointMm": [
+              39,
+              0,
+              60
+            ],
+            "classification": "Inside"
+          },
+          {
+            "id": "cup/cavity",
+            "pointMm": [
+              0,
+              0,
+              60
+            ],
+            "classification": "Outside"
+          },
+          {
+            "id": "cup/floor",
+            "pointMm": [
+              0,
+              0,
+              1
+            ],
+            "classification": "Inside"
+          },
+          {
+            "id": "cup/above",
+            "pointMm": [
+              0,
+              0,
+              121
+            ],
+            "classification": "Outside"
+          }
+        ],
+        "surfaceTypes": [
+          "cylinder",
+          "plane"
+        ],
+        "nominalUnsplitFaceCounts": {
+          "plane": 3,
+          "cylinder": 2
+        }
+      }
+    },
+    {
+      "id": "frustum",
+      "upstreamId": "f3e10795e7",
+      "source": "adapted/frustum.fs",
+      "sourceSha256": "92d5ac5bb016d558dbbd1a7cd2cc83fc3ff7fa0cb27eac18ce6f22053dd2dda3",
+      "feature": "main",
+      "adaptation": "Full nominal conical frustum loft; 25 mm bottom diameter at z=0, 15 mm top diameter at z=30.",
+      "expected": {
+        "solids": 1,
+        "volumeFormula": "pi * 30/3 * (12.5^2 + 12.5*7.5 + 7.5^2)",
+        "volumeMm3": 9621.127501618741,
+        "boundsMm": {
+          "min": [
+            -12.5,
+            -12.5,
+            0
+          ],
+          "max": [
+            12.5,
+            12.5,
+            30
+          ]
+        },
+        "relativeTolerance": 0.000001,
+        "absoluteToleranceMm": 0.00001,
+        "probes": [
+          {
+            "id": "frustum/axis",
+            "pointMm": [
+              0,
+              0,
+              15
+            ],
+            "classification": "Inside"
+          },
+          {
+            "id": "frustum/middle-outside",
+            "pointMm": [
+              11,
+              0,
+              15
+            ],
+            "classification": "Outside"
+          },
+          {
+            "id": "frustum/bottom-inside",
+            "pointMm": [
+              11,
+              0,
+              1
+            ],
+            "classification": "Inside"
+          },
+          {
+            "id": "frustum/top-outside",
+            "pointMm": [
+              8,
+              0,
+              29
+            ],
+            "classification": "Outside"
+          }
+        ],
+        "surfaceTypes": [
+          "cone",
+          "plane"
+        ],
+        "nominalUnsplitFaceCounts": {
+          "plane": 2,
+          "cone": 1
+        }
+      }
+    },
+    {
+      "id": "stairs",
+      "upstreamId": "0f27beedee",
+      "source": "adapted/stairs.fs",
+      "sourceSha256": "0c5caa3bc6ccd3b19b404b689ae76c183b3dbe8eedc045b1ef3a19ed501d676f",
+      "feature": "main",
+      "adaptation": "Full nonconvex five-tier polygon extruded along +Y; each tread is 300 mm, each rise 170 mm, width 1200 mm, origin and axes follow the public spec.",
+      "expected": {
+        "solids": 1,
+        "volumeFormula": "1200 * 300 * 170 * (1+2+3+4+5)",
+        "volumeMm3": 918000000,
+        "boundsMm": {
+          "min": [
+            0,
+            0,
+            0
+          ],
+          "max": [
+            1500,
+            1200,
+            850
+          ]
+        },
+        "relativeTolerance": 0.000001,
+        "absoluteToleranceMm": 0.00001,
+        "probes": [
+          {
+            "id": "stairs/first-step",
+            "pointMm": [
+              150,
+              600,
+              85
+            ],
+            "classification": "Inside"
+          },
+          {
+            "id": "stairs/first-clearance",
+            "pointMm": [
+              150,
+              600,
+              255
+            ],
+            "classification": "Outside"
+          },
+          {
+            "id": "stairs/fifth-step",
+            "pointMm": [
+              1350,
+              600,
+              765
+            ],
+            "classification": "Inside"
+          },
+          {
+            "id": "stairs/width-outside",
+            "pointMm": [
+              1350,
+              1300,
+              765
+            ],
+            "classification": "Outside"
+          }
+        ],
+        "surfaceTypes": [
+          "plane"
+        ],
+        "nominalUnsplitFaceCounts": {
+          "plane": 14
+        }
+      }
+    },
+    {
+      "id": "square-washer",
+      "upstreamId": "3582a53285",
+      "source": "adapted/square-washer.fs",
+      "sourceSha256": "20c4d994bd14d41778891019406c082ca721c5d5a9874feb1dd8fc12c2da6f4c",
+      "feature": "main",
+      "adaptation": "Full 40 by 40 by 5 mm plate with central 7.5 mm through bore; general planar/cylinder subtraction is attempted and must fail explicitly until supported.",
+      "expected": {
+        "solids": 1,
+        "volumeFormula": "40 * 40 * 5 - pi * 3.75^2 * 5",
+        "volumeMm3": 7779.106766544468,
+        "boundsMm": {
+          "min": [
+            -20,
+            -20,
+            0
+          ],
+          "max": [
+            20,
+            20,
+            5
+          ]
+        },
+        "relativeTolerance": 0.000001,
+        "absoluteToleranceMm": 0.00001,
+        "probes": [
+          {
+            "id": "square-washer/plate",
+            "pointMm": [
+              10,
+              0,
+              2.5
+            ],
+            "classification": "Inside"
+          },
+          {
+            "id": "square-washer/bore",
+            "pointMm": [
+              0,
+              0,
+              2.5
+            ],
+            "classification": "Outside"
+          }
+        ],
+        "surfaceTypes": [
+          "cylinder",
+          "plane"
+        ],
+        "nominalUnsplitFaceCounts": {
+          "plane": 6,
+          "cylinder": 1
+        }
+      }
+    }
+  ],
+  "oracleRevision": "2: Require the specified analytic surface families, not minimal unsegmented face counts. Coaxial arrangements may subdivide a supporting surface without changing geometry. Native counts remain observations; STEP must preserve exported topology."
+}
