@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <title>CAD-Acid · 3D kernel comparison</title>
+  <meta name="description" content="Explore synthetic CAD-Acid V0 solids from three kernels with one synchronized camera.">
+  <link rel="icon" href="./favicon.png" type="image/png">
+  <link rel="stylesheet" href="./style.css">
+  <script type="module" src="./viewer.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#viewer">Skip to 3D comparison</a>
+  <div class="app-shell">
+    <header class="masthead">
+      <div class="brand"><span class="brand-mark" aria-hidden="true"><span></span><span></span><span></span></span><span>wonky <span class="brand-slash">/</span> CAD-Acid</span></div>
+      <div class="masthead-meta"><span>01—49 <span class="muted">/ 48 catalog zones</span></span><span>V0 <span class="muted">/ aligned world frame</span></span></div>
+    </header>
+
+    <main>
+      <div class="intro">
+        <div>
+          <p class="eyebrow">GEOMETRY LAB <span class="eyebrow-line"></span> THREE-KERNEL VIEW</p>
+          <h1>One shape. Three answers.</h1>
+          <p class="deck">Compare the actual V0 solids at the same scale. Turn any model and the other two follow. Missing geometry stays missing.</p>
+        </div>
+        <div class="revision"><span>LIVE RUST REVISION</span><strong id="revision">Loading</strong><small>Onshape and build123d/OCCT are frozen references, not live reruns.</small></div>
+      </div>
+
+      <div class="workbench" id="viewer">
+        <aside class="zone-rail" aria-label="Select a zone">
+          <div class="rail-head"><div><span class="small-label">CATALOG</span><h2>Zones <span id="zone-count">48</span></h2></div><span class="rail-hint">V0</span></div>
+          <div class="zone-list" id="zone-list" role="group" aria-label="CAD-Acid zones"></div>
+          <p class="rail-note">The catalog has 48 zones. AC06 is intentionally absent; AC49 is included.</p>
+        </aside>
+        <section class="comparison" aria-label="Synchronized 3D models">
+          <div class="comparison-head"><div><p class="small-label">SELECTED ZONE <span class="rule-dot">·</span> VARIANT 0</p><h2><span id="zone-id">AC01</span> <span class="heading-separator">/</span> <span id="zone-title">Loading zone</span></h2></div><button id="fit-button" class="fit-button" type="button" title="Frame all available solids">⊡ <span>Fit all</span></button></div>
+          <div class="viewports" id="viewports">
+            <article class="model-panel" data-kernel="onshape">
+              <div class="panel-head"><span class="kernel-number">01</span><div><h3>Onshape</h3><span class="panel-source">Frozen STEP reference</span></div><span class="verdict" aria-label="Loading verdict">LOADING</span></div>
+              <div class="canvas-wrap"><canvas aria-label="Onshape 3D model, drag to rotate, scroll to zoom"></canvas><p class="placeholder" aria-live="polite">Loading geometry…</p><span class="axis-label">X · Y · Z&nbsp; ↑</span></div>
+              <div class="panel-foot"><span class="reason">Loading status…</span></div>
+            </article>
+            <article class="model-panel" data-kernel="wonky-rust">
+              <div class="panel-head"><span class="kernel-number">02</span><div><h3>wonky <span class="kernel-aside">/ Rust</span></h3><span class="panel-source">Live run</span></div><span class="verdict" aria-label="Loading verdict">LOADING</span></div>
+              <div class="canvas-wrap"><canvas aria-label="wonky Rust 3D model, drag to rotate, scroll to zoom"></canvas><p class="placeholder" aria-live="polite">Loading geometry…</p><span class="axis-label">X · Y · Z&nbsp; ↑</span></div>
+              <div class="panel-foot"><span class="reason">Loading status…</span></div>
+            </article>
+            <article class="model-panel" data-kernel="occt">
+              <div class="panel-head"><span class="kernel-number">03</span><div><h3>build123d <span class="kernel-aside">/ OCCT</span></h3><span class="panel-source">Frozen twin preview</span></div><span class="verdict" aria-label="Loading verdict">LOADING</span></div>
+              <div class="canvas-wrap"><canvas aria-label="build123d OCCT 3D model, drag to rotate, scroll to zoom"></canvas><p class="placeholder" aria-live="polite">Loading geometry…</p><span class="axis-label">X · Y · Z&nbsp; ↑</span></div>
+              <div class="panel-foot"><span class="reason">Loading status…</span></div>
+            </article>
+          </div>
+          <div class="stage-footer"><span class="controls-note">DRAG TO ORBIT <span>·</span> SCROLL TO ZOOM <span>·</span> RIGHT-DRAG TO PAN</span><div class="steps"><button id="prev-button" type="button" aria-label="Previous zone">← <span>Previous</span></button><span id="position">01 / 48</span><button id="next-button" type="button" aria-label="Next zone"><span>Next</span> →</button></div></div>
+        </section>
+      </div>
+      <footer class="footnote"><p><strong>How to read this</strong> Solid geometry is V0; each badge is the stricter verdict across V0–V3. DISPUTED is a suspended catalog zone, not a kernel failure. Empty results and refusals are never replaced with invented shapes.</p><p>Coordinates in millimetres · +Z up · one shared camera · <a href="./manifest.json">source manifest</a></p></footer>
+    </main>
+  </div>
+</body>
+</html>
