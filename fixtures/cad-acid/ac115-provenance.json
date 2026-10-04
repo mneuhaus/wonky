@@ -1,0 +1,15 @@
+{
+  "schema": "wonky/fixture-provenance/1",
+  "origin": "AC115 frozen draft plus unchanged Z1 helpers from a8fb13117118d908444cc3d1f2147d38fbc02fd8",
+  "defect": "Changing a shared twin file deactivates existing frozen reference rows; these per-zone snapshots preserve those inputs.",
+  "draftFiles": {
+    "contract.json": "5701c799799258721d5de5d7d1364e5911de2c7d870149cdb9e3de544286a508",
+    "acid-boolean-z1.fs": "09f66aa60402de4995aa5e40d0be66a6a4ca6750c69824f37ad478bd5217c7ac",
+    "acid_boolean_z1.py": "fe14f9cef6b87b132a1a444b4c86cef47a9283e014c84657ef4f2f574a167e9d"
+  },
+  "files": {
+    "fixtures/cad-acid/fs/acid-ac115.fs": "a6902801250de9f70ac987e172607275190b48b1892460972e4586519ecebc66",
+    "fixtures/cad-acid/b3d/acid_ac115.py": "3df845387476f22e680284f910aebd3f89571ed7faa378c55aab8edadbaadc67"
+  },
+  "recipe": "Base Z1 twins at a8fb1311 with only the frozen draft AC115 enum/selector/function or build_zone branch added. Original shared twins are unmodified. No AC117 restoration."
+}

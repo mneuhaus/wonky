@@ -27,6 +27,7 @@
 // matched by body id only; no geometric correspondence is inferred.
 import { logicalFaces as defaultLogicalFaces } from './logical-faces.mjs';
 import { changedSourceLines } from './source-diff.mjs';
+import { viewerRecord } from './model-record.mjs';
 
 export const COMPARE_SCHEMA = 'wonky.compare/1';
 export const REVISIONS_SCHEMA = 'wonky.revisions/1';
@@ -283,6 +284,8 @@ const withModules = descriptor => (descriptor.source ? {
 } : null);
 
 export function compareModels(before, after, { logical = defaultLogicalFaces } = {}) {
+  before = viewerRecord(before);
+  after = viewerRecord(after);
   const left = descriptorOf(before);
   const right = descriptorOf(after);
   const b = revisionFacts(left, logical);

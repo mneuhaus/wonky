@@ -11,7 +11,7 @@ import(path : "onshape/std/geometry.fs", version : "2909.0");
 // (src/boolean.mjs code 6, "a blind pocket needs a floor"). The bake-off
 // recover route builds it exactly (docs/corpus/cluster-fs-interpreter-semantics.md §5).
 // Expected volume: 60*3*50 + 20*11*20 - 20*3*20 - pi*1.3^2*10 = 12146.907 mm^3.
-function box(context is Context, id is Id, x0, y0, z0, x1, y1, z1) returns Query
+function boxBody(context is Context, id is Id, x0, y0, z0, x1, y1, z1) returns Query
 {
     fCuboid(context, id, { "corner1" : vector(x0, y0, z0) * millimeter, "corner2" : vector(x1, y1, z1) * millimeter });
     return qCreatedBy(id, EntityType.BODY);
@@ -20,8 +20,8 @@ annotation { "Feature Type Name" : "Repro" }
 export const repro = defineFeature(function(context is Context, id is Id, definition is map)
     precondition {}
     {
-        var plate = box(context, id + "plate", 0, 16, -50, 60, 19, 0);
-        var block = box(context, id + "block", 40, 16, -40, 60, 27, -20);
+        var plate = boxBody(context, id + "plate", 0, 16, -50, 60, 19, 0);
+        var block = boxBody(context, id + "block", 40, 16, -40, 60, 27, -20);
         opBoolean(context, id + "join", { "tools" : qUnion([plate, block]), "operationType" : BooleanOperationType.UNION });
         var sk = newSketchOnPlane(context, id + "sk", { "sketchPlane" : plane(vector(52, 17, -32) * millimeter, vector(0, 1, 0)) });
         skCircle(sk, "c", { "center" : vector(0, 0) * millimeter, "radius" : 1.3 * millimeter });

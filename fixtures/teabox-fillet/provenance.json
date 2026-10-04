@@ -1,0 +1,11 @@
+{
+  "frozenAt": "2026-10-03T01:39:39Z",
+  "note": "Own fixture, re-authored per fillets3d design D5: the tea box of the sources below with plain rectangles and opFillet r 2 on the eight vertical edges instead of three-point sketch arcs (revised 2026-10-03T08:05:58Z: the outer box and the pocket tool are each rounded before the subtraction, the same solid as rounding the eight vertical edges of the open box); the 0.42 mm bottom chamfer and its edge selection are unchanged.",
+  "files": [
+    { "file": "rrc-fillet.fs", "sha256": "96bb50413f2f71f66ecd666929211c75aa88bfa81a7959f40e1d1d229e38ef7d" }
+  ],
+  "derivedFrom": [
+    { "origin": "<repo>/tmp/teabox/rrc.fs", "sha256": "f14cd4ababca4b7293cd6f0b7c6707401f267b9929d3e6acad2153ed0e08795f" },
+    { "origin": "fixtures/blend-extrusions-2/rrc.fs", "sha256": "f14cd4ababca4b7293cd6f0b7c6707401f267b9929d3e6acad2153ed0e08795f" }
+  ]
+}

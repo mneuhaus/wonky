@@ -9,14 +9,15 @@ export function rustChamferBuiltins(engine, h, api) {
   const refuse = (reason, loc) => { throw new RustCapabilityError('opChamfer', `chamfer/${reason}`, loc); };
   return {
     opChamfer: ([context, id, definition], loc) => {
-      const d = h.fieldMap(definition, ['entities', 'chamferType', 'width'], ['tangentPropagation', 'oppositeDirection'], loc);
+      const d = h.fieldMap(definition, ['entities', 'chamferType'], ['width', 'width1', 'width2', 'angle', 'tangentPropagation', 'oppositeDirection'], loc);
       if (context !== engine.context) raise('Invalid modeling context', loc);
       if (!(d.chamferType instanceof EnumValue) || d.chamferType.enumType !== 'ChamferType') raise('opChamfer requires ChamferType', loc);
+      if (d.chamferType.name === 'TWO_OFFSETS') refuse('two-offsets-side-order-unprobed', loc);
       if (d.chamferType.name !== 'EQUAL_OFFSETS') refuse('requires-equal-offsets', loc);
+      h.fieldMap(d, ['entities', 'chamferType', 'width'], ['tangentPropagation', 'oppositeDirection'], loc);
       for (const key of ['tangentPropagation', 'oppositeDirection']) {
         if (d[key] !== undefined && typeof d[key] !== 'boolean') raise(`opChamfer ${key} must be boolean`, loc);
       }
-      if (d.tangentPropagation === true) refuse('tangent-propagation-unimplemented', loc);
       const width = metres(d.width, 'opChamfer width', loc);
       if (!(width > 0)) raise('opChamfer width must be positive', loc);
       const selected = resolveTopology(engine, d.entities, loc);
@@ -32,6 +33,7 @@ export function rustChamferBuiltins(engine, h, api) {
         const edges = [...indices].sort((a, b) => a - b);
         const request = new Request(OP.CHAMFER).block(words(record.body)).f64(width).u32(edges.length);
         for (const edge of edges) request.u32(edge);
+        request.u32(d.tangentPropagation === true ? 1 : 0);
         const replacement = new RustBody(record.body.id, call(engine.kernel, request.done(), 'opChamfer', loc), null);
         const m = measure(engine.kernel, replacement);
         replacement.validation = { closed: m.validity.closed, brep: m.validity.brep, volumeMm3: m.volumeMm3,

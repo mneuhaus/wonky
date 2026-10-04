@@ -3,19 +3,14 @@ import { validateAnalytic } from './analytic.mjs';
 import { unsupported } from './errors.mjs';
 import { rustModel, rustModelKernel, rustStep, rustStl } from './native/rust-host.mjs';
 import { isMeshBody, refuseMeshBody } from './hybrid-mesh.mjs';
-import { loadStepPCurves, fullBandPCurve, sphereFaceFrame, sphereNeedsPCurve, sphereCirclePCurve, cylinderLinesOnly } from './step-pcurves.mjs';
-import { loadStepCylinderPCurves, cylinderPCurves } from './step-cylinder-pcurves.mjs';
+import { fullBandPCurve, sphereFaceFrame, sphereNeedsPCurve, sphereCirclePCurve, cylinderLinesOnly } from './step-pcurves.mjs';
+import { cylinderPCurves } from './step-cylinder-pcurves.mjs';
+import { exportKernels } from './native/backend.mjs';
 
-// The synchronous serializer uses a checked, loaded Bend module. Host code
-// selects topology and writes its output; it does not approximate geometry.
-// WONKY_BACKEND=native|diff: both modules are outside the native build, so the
-// backend hands out namespaces that refuse every call and no Bend JS loads.
-// WONKY_BACKEND=rust|rust-diff|rust-mixed: the entries resolve through the Rust
-// kernel loadKernel() opened (src/native/rust-kernel.mjs).
-const backend = process.env.WONKY_BACKEND;
-const [stepPCurves, stepCylinderPCurves] = await (['native', 'diff', 'rust', 'rust-diff', 'rust-mixed'].includes(backend)
-  ? import('./native/backend.mjs').then(native => native.exportKernels(backend))
-  : Promise.all([loadStepPCurves(), loadStepCylinderPCurves()]));
+// Share the kernel selector's Rust default. These namespaces defer to the
+// opened Rust kernel or refuse missing entries; importing an exporter (also
+// for CLI help) must never implicitly initialize the retired Bend backend.
+const [stepPCurves, stepCylinderPCurves] = await exportKernels();
 
 const text = value => String(value).replaceAll("'", "''").replace(/[^\x20-\x7e]/g, '_');
 function real(value) {

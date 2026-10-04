@@ -13,8 +13,8 @@ export const modifyExistingPart = defineFeature(function(context is Context, id 
         var source = qUnion(evaluateQuery(context, qAllModifiableSolidBodies()));
         if (size(evaluateQuery(context, source)) != 1)
             throw regenError("Derive exactly one source part into this Part Studio first");
-        var box = evBox3d(context, { "topology" : source, "tight" : true });
-        if (abs((box.maxCorner[0] - box.minCorner[0]) / millimeter - 40) > 0.2)
+        var boxBody = evBox3d(context, { "topology" : source, "tight" : true });
+        if (abs((boxBody.maxCorner[0] - boxBody.minCorner[0]) / millimeter - 40) > 0.2)
             throw regenError("Unexpected source part");
         var sketch = newSketchOnPlane(context, id + "s", { "sketchPlane" : plane(vector(20, 10, -1) * millimeter, vector(0, 0, 1), vector(1, 0, 0)) });
         skCircle(sketch, "hole", { "center" : vector(0, 0) * millimeter, "radius" : 2 * millimeter });

@@ -190,6 +190,12 @@ pub fn generated(seed: u64) -> Body {
             radius: f(scalar(3)),
             angle: f(0.1),
         },
+        SurfaceGeometry::ConeSlope {
+            origin, axis, x, radius: f(scalar(3)), slope: f(scalar(6)),
+        },
+        SurfaceGeometry::ConeMeridian {
+            origin, axis, x, start: [f(2.), f(-1.)], end: [f(1.), f(2.)],
+        },
         SurfaceGeometry::Sphere {
             origin,
             axis,

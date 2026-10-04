@@ -1,6 +1,9 @@
 """Offline reader of the push script's immutable raw Onshape freeze. Never HTTP.
 
-Caller MUST check SHA256SUMS, zones SHA and all source SHAs before invocation.
+Caller MUST check SHA256SUMS, zones SHA and all source SHAs before invocation
+and pass the capture's active (zone, variant) keys (per-zone binding): only those
+rows are observed. Group membership of an ALL feature comes from the capture's
+own catalog copy (inputs/zones.json); observation uses the current catalog.
 One Part Studio per variant holds every group feature, so parts, mass
 properties and the STEP file are shared by the feature states of a variant.
 STEP solids are attributed to zones by the solid name Onshape writes
@@ -26,7 +29,7 @@ from OCP.TopoDS import TopoDS_Compound
 from OCP.TopAbs import TopAbs_SOLID
 from measure import entities, observe, measure, export_step, props
 
-ZONE_NAME = re.compile(r'^(AC\d{2})(?=_|\s|$)')
+ZONE_NAME = re.compile(r'^(AC\d{2,})(?=_|\s|$)')
 
 
 def compound(solids):
@@ -81,10 +84,14 @@ def plain(value):
 
 def main():
     directory, catalog_file, output = map(Path,sys.argv[1:4])
+    active = set(json.loads(Path(sys.argv[4]).read_text())) if len(sys.argv) > 4 else None
     cat = json.loads(catalog_file.read_text())
     provenance = json.loads((directory/'provenance.json').read_text())
+    frozen_catalog = directory/'inputs/zones.json'
+    captured = json.loads(frozen_catalog.read_text()) if frozen_catalog.is_file() else cat
     zones = {z['id']:z for z in cat['zones']}
-    groups = {g['id']:g for g in cat['groups']}
+    groups = {g['id']:g for g in captured['groups']}
+    wanted = lambda zid, variant: active is None or f'{zid}/{variant}' in active
     errors = {}
     for studio in provenance.get('partStudios',[]):
         if studio.get('featureErrors'):
@@ -94,7 +101,7 @@ def main():
         ids = groups[state['group']]['zoneIds'] if state['zone']=='ALL' else [state['zone']]
         if state['featureStatus']!='OK':
             # Failed group rows are superseded by isolated fallback observations.
-            if state['zone']!='ALL':
+            if state['zone']!='ALL' and wanted(state['zone'],state['variant']):
                 enum = (errors.get(state['featureId']) or {}).get('error')
                 rows.append({'kernel':'onshape','zone':state['zone'],'variant':state['variant'],'outcome':'error','onshapeError':enum,
                              'reason':f'ONSHAPE_FEATURE_STATUS_{state["featureStatus"]} ({enum}): no predeclared mapping from Onshape errors to refusal categories'})
@@ -108,6 +115,8 @@ def main():
             if len(steps[state['step']])!=sum(p.get('bodyType')=='solid' for p in parts):
                 raise ValueError('ONSHAPE_STEP_BODY_COUNT_MISMATCH')
         for zid in ids:
+            if not wanted(zid,state['variant']):
+                continue
             z = zones[zid]
             native = []
             for part in parts:
@@ -131,11 +140,11 @@ def main():
                    'nativeVolume':{'value':sum(n['value'] for n in native),'min':sum(n['min'] for n in native),'max':sum(n['max'] for n in native),
                                    'basis':'Onshape REST massproperties value/min/max; scored volume is the OCCT volume of the exported B-rep inside these bounds'},
                    'source':{'element':state['element'],'featureId':state['featureId'],'featureZone':state['zone'],'microversion':state['microversion'],'step':state['step']}}
-            row['metrics'] = observe(shape,z,cat,state['variant'])
+            row['metrics'] = observe(shape,z,cat,state['variant'],reference_surface_semantics=True)
             with tempfile.TemporaryDirectory(prefix='acid-onshape-') as tmp:
                 step = Path(tmp)/'zone.step'
                 export_step(shape,step)
-                measured = measure(step,z,cat,state['variant'])
+                measured = measure(step,z,cat,state['variant'],reference_surface_semantics=True)
                 row['stepRoundTrip'] = {'ok':True,'metrics':measured['metrics'],'secondImport':measured['stepRoundTrip']}
             rows.append(row)
     output.write_text(json.dumps({'zonesSha256':provenance['zonesSha256'],'rows':rows},indent=2,allow_nan=False)+'\n')

@@ -16,11 +16,11 @@
 // Slow lane: two cold cargo release builds plus `cargo test --release` (about two minutes).
 import assert from 'node:assert/strict';
 import { execFileSync, spawnSync } from 'node:child_process';
-import { appendFileSync, cpSync, mkdirSync, mkdtempSync, readFileSync, realpathSync, rmSync, symlinkSync, writeFileSync } from 'node:fs';
+import { appendFileSync, cpSync, existsSync, mkdirSync, mkdtempSync, readFileSync, realpathSync, rmSync, symlinkSync, writeFileSync } from 'node:fs';
 import { computeKey as addonKey } from '../src/native/rust-build-key.mjs';
 import { artifactInsideSources, outerCargoConfigs } from '../scripts/rust/build-key.mjs';
 import { tmpdir } from 'node:os';
-import { dirname, join } from 'node:path';
+import { dirname, join, relative, resolve } from 'node:path';
 import { after, before, test } from 'node:test';
 import { fileURLToPath } from 'node:url';
 import { buildKey, openRustArtifact, sourceFiles } from '../scripts/rust/build-key.mjs';
@@ -44,6 +44,15 @@ before(() => {
   for (const path of sourceFiles(root)) {
     mkdirSync(dirname(join(exportDir, path)), { recursive: true });
     cpSync(join(root, path), join(exportDir, path));
+  }
+  // Rust tests include fixtures outside rust/ (include_bytes!/include_str!); the offline export needs them.
+  for (const path of sourceFiles(root).filter(file => file.endsWith('.rs'))) {
+    for (const match of readFileSync(join(root, path), 'utf8').matchAll(/include_(?:bytes|str)!\(\s*"([^"]+)"/g)) {
+      const target = relative(root, resolve(dirname(join(root, path)), match[1]));
+      if (target.startsWith('..') || !existsSync(join(root, target)) || existsSync(join(exportDir, target))) continue;
+      mkdirSync(dirname(join(exportDir, target)), { recursive: true });
+      cpSync(join(root, target), join(exportDir, target));
+    }
   }
   execFileSync('git', ['init', '-q'], { cwd: exportDir });
   execFileSync('git', ['add', '-A'], { cwd: exportDir });

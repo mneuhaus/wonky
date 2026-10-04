@@ -1,5 +1,48 @@
 # Reproduzierbare r10b-Akzeptanz
 
+## Aktuelle Rust-Policy für Skizzen (2026-09-28)
+
+Der historische r10b-Bericht unten ist kein aktuelles Akzeptanzziel. Für Rust
+bleibt `strict` der Standard: exakte Konstruktion oder benannte Ablehnung.
+Optional kann die bestehende Policy kleine Trägeränderungen bei gemeinsamen
+Endpunkten von Linie/3-Punkt-Bogen oder zwei 3-Punkt-Bögen zulassen:
+
+```sh
+WONKY_BACKEND=rust node bin/wonky.mjs model.fs --json \
+  --curved-contacts tolerated-regularized --contact-cap-mm 1e-9
+WONKY_BACKEND=rust node scripts/r20/modules.mjs --out out/r20-regularized \
+  --curved-contacts tolerated-regularized --contact-cap-mm 1e-9
+```
+
+Die Änderung des gesamten getrimmten Bogens wird rational gegen die explizite
+Obergrenze geprüft. Endpunkte bleiben unverändert; die resultierenden Träger
+und die Topologie werden exakt geprüft. Jede Änderung steht im
+`regularization.merges`-Bericht mit Operation, beteiligten Entitäten und
+Abweichungsobergrenze. Geänderte Körper und STEP-Ausgaben tragen `regularized`
+und `exact:false`; B-rep JSON enthält zusätzlich die replaybare Konstruktion.
+STL bleibt separat als tesselliertes Mesh gekennzeichnet. Frühere Änderungen
+bleiben auch bei einer späteren Ablehnung im Bericht erhalten.
+
+Diese Policy ist keine allgemeine Skizzenreparatur, keine Endpunktverschweißung
+und keine allgemeine gekrümmte Boolean-Anordnung. Für Kreis-Träger gibt es eine
+vorgelagerte Koinzidenzprüfung: rekonstruierte 3-Punkt-Bögen gegen Zylinder oder
+Kegelränder, bei exakt übereinstimmender radialer Basis (auch mit vertauschten
+oder negierten Achsen). Ursprünge werden rational zwischen den Frames abgebildet.
+Der gesamte mögliche Trägerversatz wird im Weltmaßstab rational beschränkt.
+
+Die fehlende Boolean-Topologie wird dadurch **nicht** ersetzt. Der Aufruf lehnt
+mit `regularization/coincidence/boolean-arrangement-unimplemented` ab und meldet
+`regularization.coincidences`, jeweils mit `applied:false`, Entitäten,
+`withinCap`, `maxResidualMm` und `boundMmExact`. Das sind geprüfte Kandidaten,
+keine ausgeführten Merges; es gibt keinen Ergebnis-Körper oder gemeinsamen Rand.
+Überschreitet jede geprüfte Obergrenze das Cap, lautet die Ablehnung
+`regularization/coincidence/residual-bound-above-cap`. Eine konservative
+Obergrenze über dem Cap beweist nicht, dass der tatsächliche Abstand darüber liegt.
+Nicht unterstützte Frame-Beziehungen behalten die ursprüngliche Ablehnung.
+CAD-Acid läuft weiterhin ausschließlich in der unveränderten Exaktklasse.
+
+## Historischer r10b-Stand
+
 Das vollständige Ziel ist weiterhin **nicht erfüllt**. Der beauftragte eigene
 CAD-Kern muss die unveränderte FeatureScript-Datei wirklich auswerten und
 gültige Ergebnisgeometrie liefern. Erfolgreiche Grundkörper, eingefrorene

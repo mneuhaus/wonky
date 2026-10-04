@@ -6,7 +6,10 @@
 // plus { kernel } (the loaded Bend kernel) and the revision facts the
 // manifest records (modelId, label, revision, snapshot, inspect).
 //
-// The mesh is src/print-mesh.mjs (import only): every circle is divided by a
+// The mesh of a Rust (WC0) record is the Rust mesh path (host op OP_MESH,
+// wonky-mesh/1, the tessellation bin/wonky.mjs writes as STL), with the
+// requested deviation as its stated bound (0 for planar-only bodies). Other
+// records use src/print-mesh.mjs (import only): every circle is divided by a
 // count Bend chooses for the requested chord deviation, and the achieved
 // deviation is a computed bound. The STL is a display approximation of the
 // exact B-rep for the slicer; the manifest states the deviation and names the
@@ -20,7 +23,10 @@
 import { createHash } from 'node:crypto';
 import { isMainThread, parentPort, Worker, workerData } from 'node:worker_threads';
 import { formatTolerance } from '../../viewer/core/format.js';
+import { UnsupportedFeatureError } from '../errors.mjs';
+import { rustMesh } from '../native/rust-host.mjs';
 import { toPrintStl } from '../print-mesh.mjs';
+import { isRustRecord, recordWords } from '../rust-review-scene.mjs';
 import { HttpError } from './http.mjs';
 
 export const PRINT_SCHEMA = 'wonky.viewer-print-export/1';
@@ -62,23 +68,56 @@ export function printFileName({ label, modelId, revision = null, body = null }) 
   ].filter(Boolean).join('-') + '.stl';
 }
 
-function deviationStatement(requestedMm, achievedMm) {
+function deviationStatement(requestedMm, achievedMm, rust) {
   if (achievedMm === 0) {
     return 'Planar bodies without circular edges are meshed from their own faces: 0 mm'
       + ' chord deviation.';
   }
   return `Every facet lies within ${formatTolerance(achievedMm, 4)} mm of the exact B-rep`
-    + ` surface (chord deviation bound computed by Bend; requested at most ${requestedMm} mm).`;
+    + ` surface (chord deviation bound ${rust ? 'stated by the Rust mesh path' : 'computed by Bend'};`
+    + ` requested at most ${requestedMm} mm).`;
+}
+
+const cross = (u, v) => [u[1] * v[2] - u[2] * v[1], u[2] * v[0] - u[0] * v[2], u[0] * v[1] - u[1] * v[0]];
+
+// ASCII STL of Rust records from the Rust mesh path, in the print-mesh/1 manifest
+// shape. The mesh path refuses by name what it cannot cover (no fallback mesh).
+function rustPrintStl(kernel, model, { deviationMm }) {
+  const lines = [], manifest = { schema: 'wonky.print-mesh/1', deviationMm, bodies: [] };
+  for (const body of model.bodies) {
+    const mesh = rustMesh(kernel, [recordWords(body)], deviationMm).bodies[0];
+    const point = i => [mesh.vertices[3 * i], mesh.vertices[3 * i + 1], mesh.vertices[3 * i + 2]];
+    const name = body.id.replace(/[^A-Za-z0-9_-]/g, '_');
+    lines.push(`solid ${name}`);
+    for (let t = 0; t < mesh.triangles.length; t += 3) {
+      const [a, b, c] = [0, 1, 2].map(k => point(mesh.triangles[t + k]));
+      const n = cross(a.map((v, i) => b[i] - v), a.map((v, i) => c[i] - v)), length = Math.hypot(...n);
+      if (!(length > 0)) throw new Error(`Rust mesh of '${body.id}' has a degenerate triangle`);
+      lines.push(`  facet normal ${n.map(v => (v / length).toPrecision(9)).join(' ')}`, '    outer loop',
+        ...[a, b, c].map(p => `      vertex ${p.map(v => v.toPrecision(9)).join(' ')}`), '    endloop', '  endfacet');
+    }
+    lines.push(`endsolid ${name}`);
+    const planar = body.faces.every(face => face.surface?.type === 'plane')
+      && body.edges.every(edge => edge.curve === 'line');
+    manifest.bodies.push({ id: body.id, chordCount: null, triangles: mesh.triangles.length / 3,
+      achievedDeviationMm: planar ? 0 : deviationMm, exactVolumeMm3: body.validation?.volumeMm3 ?? null,
+      meshSource: 'rust-mesh' });
+  }
+  return { stl: lines.join('\n') + '\n', manifest };
 }
 
 export function printExport(model, {
   body = null, deviationMm = DEFAULT_DEVIATION_MM, kernel, modelId = null, label = null,
   revision = null, snapshot = null, inspect = null,
 } = {}) {
-  if (!kernel) throw new Error('Print export needs the loaded Bend kernel');
+  if (!kernel) throw new Error('Print export needs the loaded kernel');
   const selected = selectBody(model, body);
   const subset = selected ? { ...model, bodies: [selected.body] } : model;
-  const printed = toPrintStl(kernel, subset, { deviationMm });
+  const rust = subset.bodies.length > 0 && subset.bodies.every(isRustRecord);
+  if (!rust && subset.bodies.some(isRustRecord)) {
+    throw new UnsupportedFeatureError('Print export: a model mixes Rust WC0 bodies and legacy bodies');
+  }
+  const printed = rust ? rustPrintStl(kernel, subset, { deviationMm }) : toPrintStl(kernel, subset, { deviationMm });
   const stl = Buffer.from(printed.stl, 'utf8');
   const achievedMm = Math.max(0, ...printed.manifest.bodies.map(entry => entry
     .achievedDeviationMm));
@@ -101,7 +140,7 @@ export function printExport(model, {
       requestedMm: deviationMm,
       achievedMm,
       exactness: 'display-approximation',
-      statement: deviationStatement(deviationMm, achievedMm),
+      statement: deviationStatement(deviationMm, achievedMm, rust),
     },
     snapshot, inspect,
     printMesh: printed.manifest,
@@ -111,8 +150,10 @@ export function printExport(model, {
   return { stl, manifest };
 }
 
-const errorOf = ({ name, message, status }) => {
-  if (name === 'UnsupportedFeatureError') {
+// A capability refusal (UnsupportedFeatureError or a subclass such as the Rust
+// kernel's named refusals) is 422; the worker marks it, since only fields cross.
+const errorOf = ({ name, message, status, capability }) => {
+  if (capability || name === 'UnsupportedFeatureError') {
     return Object.assign(new HttpError(422, message), { capability: true });
   }
   if (Number.isInteger(status)) return new HttpError(status, message);
@@ -202,7 +243,8 @@ async function serve() {
       parentPort.postMessage({ id, ok: true, stl: copy, manifest }, [copy.buffer]);
     } catch (error) {
       const { name = 'Error', message, status } = error ?? {};
-      parentPort.postMessage({ id, ok: false, error: { name, message: String(message), status } });
+      const capability = error instanceof UnsupportedFeatureError;
+      parentPort.postMessage({ id, ok: false, error: { name, message: String(message), status, capability } });
     }
   });
 }

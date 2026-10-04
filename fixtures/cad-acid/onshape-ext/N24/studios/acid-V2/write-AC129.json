@@ -1,0 +1,48 @@
+{
+  "btType": "BTFeatureDefinitionResponse-1617",
+  "rejectMicroversionSkew": false,
+  "microversionSkew": false,
+  "featureState": {
+    "btType": "BTFeatureState-1688",
+    "featureStatus": "ERROR",
+    "inactive": false
+  },
+  "feature": {
+    "btType": "BTMFeature-134",
+    "namespace": "e3ea84acc68fc1160cc473836::mc3c6ac175442bb3adf9518f7",
+    "name": "sweep-zw1-V2-AC129",
+    "suppressed": false,
+    "parameters": [
+      {
+        "btType": "BTMParameterEnum-145",
+        "namespace": "e3ea84acc68fc1160cc473836::mc3c6ac175442bb3adf9518f7",
+        "nodeId": "MpgtOzMcLQ8fp7O+9",
+        "libraryRelationType": "DEFAULT",
+        "enumName": "AcidVariant",
+        "value": "V2",
+        "parameterId": "variant",
+        "parameterName": ""
+      },
+      {
+        "btType": "BTMParameterEnum-145",
+        "namespace": "e3ea84acc68fc1160cc473836::mc3c6ac175442bb3adf9518f7",
+        "nodeId": "MqCzmP7Wl9Zl0/Qs4",
+        "libraryRelationType": "DEFAULT",
+        "enumName": "AcidSweepZW1Zone",
+        "value": "AC129",
+        "parameterId": "zone",
+        "parameterName": ""
+      }
+    ],
+    "featureId": "FS2HXPTxVi8ca5I_19",
+    "nodeId": "M5nyQSuGgmJX066Yg",
+    "featureType": "acidSweepZW1",
+    "returnAfterSubfeatures": false,
+    "subFeatures": [],
+    "parameterLibraries": [],
+    "suppressionState": null
+  },
+  "libraryVersion": 0,
+  "serializationVersion": "1.2.21",
+  "sourceMicroversion": "645d2f0f1a07a80d47a74d5f"
+}

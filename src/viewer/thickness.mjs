@@ -42,6 +42,9 @@ import {
   aliasOf, bodyTolerance, cachedLogicalFaces, exactMath, faceTolerance, logicalGroup, parseAlias,
 } from './geometry.mjs';
 import { CapabilityError, HttpError } from './http.mjs';
+import { isRustRecord } from '../rust-review-scene.mjs';
+
+export const RUST_THICKNESS = 'unsupported on Rust: a thickness probe needs a ray-body host query, which the Rust kernel does not provide yet (the Bend ray and classification kernels are retired)';
 
 export const THICKNESS_SCHEMA = 'wonky.viewer-thickness/1';
 export const EXACTNESS = 'kernel-resolved';
@@ -659,6 +662,7 @@ export async function probeThickness(model, request, { kernels, signal } = {}) {
 
 // Query-worker handler (kind `thickness`).
 export async function thicknessQuery(model, payload, { signal } = {}) {
+  if (Array.isArray(model?.bodies) && model.bodies.some(isRustRecord)) throw new CapabilityError(RUST_THICKNESS);
   if (!Array.isArray(model?.bodies) || !model.bodies.length) {
     throw new CapabilityError('Thickness probe needs at least one body; this model has none');
   }

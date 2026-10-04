@@ -1,0 +1,48 @@
+{
+  "btType": "BTFeatureDefinitionResponse-1617",
+  "rejectMicroversionSkew": false,
+  "microversionSkew": false,
+  "featureState": {
+    "btType": "BTFeatureState-1688",
+    "featureStatus": "OK",
+    "inactive": false
+  },
+  "feature": {
+    "btType": "BTMFeature-134",
+    "namespace": "e251a911e276ed233dff9c246::m7bebb0fcdd1f007d19b364fe",
+    "name": "fillet-zf1-V3-AC119",
+    "suppressed": false,
+    "parameters": [
+      {
+        "btType": "BTMParameterEnum-145",
+        "namespace": "e251a911e276ed233dff9c246::m7bebb0fcdd1f007d19b364fe",
+        "nodeId": "Mz6l/q+WvzYgmED2F",
+        "libraryRelationType": "DEFAULT",
+        "enumName": "AcidVariant",
+        "value": "V3",
+        "parameterId": "variant",
+        "parameterName": ""
+      },
+      {
+        "btType": "BTMParameterEnum-145",
+        "namespace": "e251a911e276ed233dff9c246::m7bebb0fcdd1f007d19b364fe",
+        "nodeId": "MVZEHxubx5W3/xF2M",
+        "libraryRelationType": "DEFAULT",
+        "enumName": "AcidFilletZF1Zone",
+        "value": "AC119",
+        "parameterId": "zone",
+        "parameterName": ""
+      }
+    ],
+    "featureId": "Fm7axiIFHaWb9ZD_8",
+    "nodeId": "MLN4H3HRvMSeqh+cp",
+    "featureType": "acidFilletZF1",
+    "returnAfterSubfeatures": false,
+    "subFeatures": [],
+    "parameterLibraries": [],
+    "suppressionState": null
+  },
+  "libraryVersion": 0,
+  "serializationVersion": "1.2.21",
+  "sourceMicroversion": "9e370e7f0db60ba7cd536883"
+}

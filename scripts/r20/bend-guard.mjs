@@ -55,6 +55,8 @@ for (const name of ['spawn', 'spawnSync', 'execFile', 'execFileSync']) {
     if (typeof file === 'string' && inNativeCache(file)) note('bend-native', `${name} ${file}`);
     return original.call(this, file, ...rest);
   };
+  // Keep util.promisify(execFile) resolving to { stdout, stderr }.
+  for (const symbol of Object.getOwnPropertySymbols(original)) childProcess[name][symbol] = original[symbol];
 }
 syncBuiltinESMExports();
 

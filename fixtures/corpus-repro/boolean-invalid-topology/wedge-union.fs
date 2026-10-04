@@ -29,8 +29,8 @@ function prism(context is Context, id is Id, pl is Plane, points is array, depth
 function run(context is Context, id is Id, corner is array)
 {
     var wedge = prism(context, id + "wedge", plane(vector(0, 0, 0) * millimeter, vector(0, 0, 1), vector(1, 0, 0)), [[0, 0], [10, 0], corner], 5);
-    var box = prism(context, id + "box", plane(vector(0, 0, 2) * millimeter, vector(0, 0, 1), vector(1, 0, 0)), [[-2, -2], [4, -2], [4, 3], [-2, 3]], 6);
-    opBoolean(context, id + "join", { "tools" : qUnion([wedge, box]), "operationType" : BooleanOperationType.UNION });
+    var boxBody = prism(context, id + "box", plane(vector(0, 0, 2) * millimeter, vector(0, 0, 1), vector(1, 0, 0)), [[-2, -2], [4, -2], [4, 3], [-2, 3]], 6);
+    opBoolean(context, id + "join", { "tools" : qUnion([wedge, boxBody]), "operationType" : BooleanOperationType.UNION });
 }
 
 annotation { "Feature Type Name" : "Slanted wedge union" }
@@ -48,6 +48,6 @@ export const square = defineFeature(function(context is Context, id is Id, defin
     precondition {}
     {
         var block = prism(context, id + "block", plane(vector(0, 0, 0) * millimeter, vector(0, 0, 1), vector(1, 0, 0)), [[0, 0], [10, 0], [10, 7], [0, 7]], 5);
-        var box = prism(context, id + "box", plane(vector(0, 0, 2) * millimeter, vector(0, 0, 1), vector(1, 0, 0)), [[-2, -2], [4, -2], [4, 3], [-2, 3]], 6);
-        opBoolean(context, id + "join", { "tools" : qUnion([block, box]), "operationType" : BooleanOperationType.UNION });
+        var boxBody = prism(context, id + "box", plane(vector(0, 0, 2) * millimeter, vector(0, 0, 1), vector(1, 0, 0)), [[-2, -2], [4, -2], [4, 3], [-2, 3]], 6);
+        opBoolean(context, id + "join", { "tools" : qUnion([block, boxBody]), "operationType" : BooleanOperationType.UNION });
     });

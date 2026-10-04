@@ -47,6 +47,11 @@ fn domain() -> Domain {
 #[derive(Clone, Debug)]
 pub struct Cells {
     pub boxes: Vec<Box3>,
+    /// The replayed arrangement: sorted exact axis values, the audited
+    /// component's lattice cells, and the construction root (for `model`).
+    grid: [Vec<f64>; 3],
+    lattice: BTreeSet<I3>,
+    root: usize,
 }
 
 #[derive(Clone)]
@@ -80,6 +85,26 @@ impl Expr {
     }
 }
 
+/// A coordinate prism: an Extrude without parameters over one Interpreter
+/// node holding its six corner values.
+fn box_leaf(nodes: &[Construction], n: &Construction) -> R<Box3> {
+    let p = nodes
+        .get(n.parents[0].0 as usize)
+        .ok_or_else(|| err("construction-reference"))?;
+    if p.operation != (Operation::Interpreter {})
+        || !p.parents.is_empty()
+        || p.parameters.len() != 6
+    {
+        return Err(err("box-input"));
+    }
+    let a: Vec<_> = p.parameters.iter().map(|x| x.get()).collect();
+    let box3 = [[a[0], a[1], a[2]], [a[3], a[4], a[5]]];
+    if !(0..3).all(|k| box3[0][k] < box3[1][k]) {
+        return Err(err("empty-prism"));
+    }
+    Ok(box3)
+}
+
 // The construction grammar is deliberately small and replayable. An Extrude
 // with no parameters and one Interpreter parent (six corner values) is a
 // coordinate prism. Boolean's one parameter is 0 union, 1 difference, 2 common.
@@ -95,21 +120,7 @@ fn expression(nodes: &[Construction], root: usize, fuel: &mut usize) -> R<Expr> 
         return Err(err("construction-version"));
     }
     if n.operation == (Operation::Extrude {}) && n.parameters.is_empty() && n.parents.len() == 1 {
-        let p = nodes
-            .get(n.parents[0].0 as usize)
-            .ok_or_else(|| err("construction-reference"))?;
-        if p.operation != (Operation::Interpreter {})
-            || !p.parents.is_empty()
-            || p.parameters.len() != 6
-        {
-            return Err(err("box-input"));
-        }
-        let a: Vec<_> = p.parameters.iter().map(|x| x.get()).collect();
-        let box3 = [[a[0], a[1], a[2]], [a[3], a[4], a[5]]];
-        if !(0..3).all(|k| box3[0][k] < box3[1][k]) {
-            return Err(err("empty-prism"));
-        }
-        return Ok(Expr::Box(box3));
+        return box_leaf(nodes, n).map(Expr::Box);
     }
     if n.operation == (Operation::Intersection {})
         && n.parents.len() == 1
@@ -196,15 +207,13 @@ pub fn cuboid(key: BodyKey, a: [f64; 3], c: [f64; 3]) -> R<Body> {
         },
     ];
     let mut bodies = construct(key, Affine::IDENTITY, nodes, 1)?;
-    bodies.pop().ok_or_else(|| err("empty-result"))
+    bodies.pop().ok_or_else(|| Refused::geometric_verdict(err("empty-result").0))
 }
 
 pub fn transform(body: &Audited, frame: Affine) -> R<Body> {
-    if crate::planar_boolean::candidate(&body.body) { return Err(err("arranged-placement-unsupported")); }
-    // A placement is symbolic: do not round world-space vertices, and do not
-    // round a composed frame into another authoritative interpreter input.
-    if body.frame != Affine::IDENTITY {
-        return Err(err("composed-placement"));
+    if crate::planar_boolean::candidate(&body.body) {
+        let mut key=body.body.key.clone();key.revision=key.revision.checked_add(1).ok_or_else(||err("revision-range"))?;
+        return Ok(crate::pattern::place(body,key,&crate::placement::Post::Interpreter(frame))?.body);
     }
     if frame
         .orthonormality_defect()
@@ -212,6 +221,37 @@ pub fn transform(body: &Audited, frame: Affine) -> R<Body> {
         > 1e-12
     {
         return Err(err("non-rigid-placement"));
+    }
+    // Recorded sketch planes bind their source frames, and an arrangement can
+    // contain several independent frames. Preserve these even on the first
+    // placement. Coordinate-only native inputs retain the existing fast path.
+    if body.arrangement.is_some()
+        || body.body.constructions.iter().any(|n| n.operation == (Operation::Sketch {}))
+    {
+        let mut key = body.body.key.clone();
+        key.revision = key
+            .revision
+            .checked_add(1)
+            .ok_or_else(|| err("revision-range"))?;
+        return Ok(
+            crate::pattern::place(body, key, &crate::placement::Post::Interpreter(frame))?.body,
+        );
+    }
+    // A placement is symbolic: never round world-space vertices, and never round
+    // a composed frame into another authoritative interpreter input. A body that
+    // is already placed is placed again by appending the exact map to its frame
+    // chain (`pattern::place`), so the result is the exact product of both.
+    // Profile recipes record their original plane in construction parameters.
+    // Replacing only frame 1 would change that recipe during stack replay.
+    if body.frame != Affine::IDENTITY || crate::polyhedron::source_profile_candidate(&body.body) {
+        let mut key = body.body.key.clone();
+        key.revision = key
+            .revision
+            .checked_add(1)
+            .ok_or_else(|| err("revision-range"))?;
+        return Ok(
+            crate::pattern::place(body, key, &crate::placement::Post::Interpreter(frame))?.body,
+        );
     }
     let mut out = body.body.clone();
     let fid = out.vertices[0].frame.0 as usize;
@@ -240,7 +280,12 @@ pub fn boolean(key: BodyKey, op: u8, bodies: &[Audited]) -> R<Vec<Body>> {
     {
         return crate::planar_boolean::boolean(key, op, bodies);
     }
-    let frame = bodies[0].frame.as_affine()?;
+    let Ok(frame) = bodies[0].frame.as_affine() else {
+        // Equal composed placements still cannot be represented by the grid
+        // replay's single interpreter frame. Keep their exact frame chains in
+        // the general planar arrangement instead of refusing or rounding them.
+        return crate::planar_boolean::boolean(key, op, bodies);
+    };
     let mut nodes = Vec::new();
     let mut parents = Vec::new();
     for a in bodies {
@@ -316,7 +361,7 @@ fn arrangement(expr: &Expr) -> R<([Vec<f64>; 3], Vec<BTreeSet<I3>>)> {
             for a in &components[i] {
                 for c in &components[j] {
                     if (0..3).all(|k| a[k].abs_diff(c[k]) <= 1) {
-                        return Err(err("non-manifold-result"));
+                        return Err(Refused::geometric_verdict(err("non-manifold-result").0));
                     }
                 }
             }
@@ -395,7 +440,7 @@ fn patches(cells: &BTreeSet<I3>) -> R<Vec<Patch>> {
             let mut next = BTreeMap::new();
             for (a, b) in edges {
                 if next.insert(a, b).is_some() {
-                    return Err(err("non-manifold-result"));
+                    return Err(Refused::geometric_verdict(err("non-manifold-result").0));
                 }
             }
             let mut loops = Vec::new();
@@ -446,7 +491,7 @@ fn patches(cells: &BTreeSet<I3>) -> R<Vec<Patch>> {
                 loops.push((area > 0, lp));
             }
             if loops.iter().filter(|(outer, _)| *outer).count() != 1 {
-                return Err(err("non-manifold-result"));
+                return Err(Refused::geometric_verdict(err("non-manifold-result").0));
             }
             loops.sort_by_key(|(outer, _)| !*outer);
             out.push(Patch {
@@ -501,7 +546,7 @@ pub(crate) fn construct(key: BodyKey, frame: Affine, nodes: Vec<Construction>, r
     let expr = expression(&nodes, root, &mut 2048)?;
     let (_, components) = arrangement(&expr)?;
     if components.is_empty() {
-        return Err(err("empty-result"));
+        return Err(Refused::geometric_verdict(err("empty-result").0));
     }
     components
         .iter()
@@ -696,7 +741,7 @@ fn build_body(
         }
     }
     if owners.values().any(|o| o.len() != 2) {
-        return Err(err("non-manifold-result"));
+        return Err(Refused::geometric_verdict(err("non-manifold-result").0));
     }
     let mut rest: BTreeSet<usize> = (0..body.faces.len()).collect();
     while let Some(&seed) = rest.first() {
@@ -771,7 +816,7 @@ fn build_body(
             .collect(),
     };
     if !crate::planar::topo::contact_valid(&solid) {
-        return Err(err("non-manifold-result"));
+        return Err(Refused::geometric_verdict(err("non-manifold-result").0));
     }
     body.clone().check().map_err(|_| err("contract"))?;
     Ok(body)
@@ -795,11 +840,91 @@ pub fn audit(body: &Body, frame: Affine) -> R<Cells> {
         )?;
         if &candidate == body {
             return Ok(Cells {
-                boxes: c.into_iter().map(|i| cell_box(&axes, i)).collect(),
+                boxes: c.iter().map(|&i| cell_box(&axes, i)).collect(),
+                grid: axes,
+                lattice: c,
+                root,
             });
         }
     }
     Err(err("boundary-not-construction"))
+}
+
+/// The leaf boxes of a construction with the node that defines each: the
+/// coordinate prisms and the cavities of shells, in node order.
+fn leaves(nodes: &[Construction], root: usize) -> R<Vec<(usize, Box3)>> {
+    let mut found = BTreeMap::new();
+    let mut seen = BTreeSet::new();
+    let mut todo = vec![root];
+    while let Some(i) = todo.pop() {
+        if !seen.insert(i) {
+            continue;
+        }
+        let n = nodes.get(i).ok_or_else(|| err("construction-reference"))?;
+        if n.operation == (Operation::Extrude {}) && n.parameters.is_empty() && n.parents.len() == 1 {
+            found.insert(i, box_leaf(nodes, n)?);
+            continue;
+        }
+        if n.operation == (Operation::Shell {}) {
+            let source = n.parents.first().and_then(|p| nodes.get(p.0 as usize));
+            let (Some(source), [thickness, side]) = (source, n.parameters.as_slice()) else {
+                return Err(err("shell-lineage"));
+            };
+            let bounds = box_leaf(nodes, source)?;
+            found.insert(i, crate::planar_shell::cavity(bounds, thickness.get(), side.get() as usize)?);
+        }
+        todo.extend(n.parents.iter().map(|p| p.0 as usize));
+    }
+    Ok(found.into_iter().collect())
+}
+
+/// The exact Model of an audited body of this family (boolean3d strand G1;
+/// dark: no host path calls it). It is built from the replayed arrangement,
+/// never from WC0 caches: vertices are lattice points of the exact axis
+/// values (interpreter inputs), each face lies on its lattice plane, and a
+/// carrier's provenance is the lowest leaf node with a face on that plane
+/// (slot `axis * 2 + 1` for the leaf's max face, `axis * 2` for its min face).
+pub(crate) fn model(cells: &Cells, body: &Body, placement: wonky_geom::frame::Frame) -> R<wonky_geom::model::Model> {
+    use wonky_geom::model::{polyhedron, Label, Plane3, PolyFace, Provenance, VertexDef};
+    let leaves = leaves(&body.constructions, cells.root)?;
+    let unit = |k: usize, sign: i64| -> [wonky_geom::Q; 3] {
+        std::array::from_fn(|i| wonky_geom::Q::from_integer(if i == k { sign.into() } else { 0.into() }))
+    };
+    let mut faces = vec![];
+    for patch in patches(&cells.lattice)? {
+        let (axis, level) = (patch.axis, cells.grid[patch.axis][patch.level]);
+        let (node, max) = leaves
+            .iter()
+            .find_map(|(node, b)| {
+                if b[1][axis] == level {
+                    Some((*node, 1))
+                } else if b[0][axis] == level {
+                    Some((*node, 0))
+                } else {
+                    None
+                }
+            })
+            .ok_or_else(|| err("model-carrier-provenance"))?;
+        let mut o = [0.; 3];
+        o[axis] = level;
+        faces.push(PolyFace {
+            carrier: Plane3 {
+                o: wonky_geom::point(o).map_err(|e| Refused(e.0.into()))?,
+                x: unit((axis + 1) % 3, 1),
+                n: unit(axis, if patch.positive { 1 } else { -1 }),
+            },
+            forward: true,
+            loops: patch
+                .loops
+                .iter()
+                .map(|lp| lp.iter().map(|p| VertexDef::Input([0, 1, 2].map(|k| cells.grid[k][p[k]]))).collect())
+                .collect(),
+            provenance: Provenance { node: node as u32, slot: (axis * 2 + max) as u32 },
+        });
+    }
+    polyhedron(placement, Label::Exact, cells.root as u32, faces)
+        .and_then(wonky_geom::model::Draft::check)
+        .map_err(|e| Refused(e.0.into()))
 }
 
 pub fn is_candidate(body: &Body) -> bool {
@@ -877,16 +1002,21 @@ impl Cells {
     }
     /// Exact-coordinate bbox extent, rounded once after subtraction and units.
     pub fn extents_mm(&self) -> R<[f64; 3]> {
-        let a = self.source_bbox();
-        let mut out = [0.; 3];
-        let mut g = Guard::new();
-        for k in 0..3 {
-            let d = sum(&[a[1][k]], &neg(&[a[0][k]]), &mut g);
-            out[k] = round(&mul(&d, &[1000.], &mut g)).map_err(|_| err("extent-range"))?;
-        }
-        if !g.exact() {
-            return Err(err("extent-range"));
-        }
-        Ok(out)
+        extents_mm(self.source_bbox())
     }
+}
+
+/// Extents of an exact binary64 source box: one rounding after the exact
+/// subtraction and the unit change.
+pub(crate) fn extents_mm(a: Box3) -> R<[f64; 3]> {
+    let mut out = [0.; 3];
+    let mut g = Guard::new();
+    for k in 0..3 {
+        let d = sum(&[a[1][k]], &neg(&[a[0][k]]), &mut g);
+        out[k] = round(&mul(&d, &[1000.], &mut g)).map_err(|_| err("extent-range"))?;
+    }
+    if !g.exact() {
+        return Err(err("extent-range"));
+    }
+    Ok(out)
 }

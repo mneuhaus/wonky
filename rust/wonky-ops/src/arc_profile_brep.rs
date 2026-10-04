@@ -1,8 +1,16 @@
-//! Serialization of an audited three-point-arc extrusion. Geometry remains
-//! analytic (circle edges and cylindrical sides), never polygonized.
-use super::arc_profile::{b, enclose, finite, no, ArcPrism, R};
+//! Serialization of an audited profile extrusion (three-point arcs, lines and,
+//! for the rule 3 curve profiles of `curve_profile`, B-splines). Geometry
+//! remains analytic, never polygonized: circle edges on cylindrical sides, and a
+//! spline piece as `CurveGeometry::BSpline` edges (certified binary64 pole
+//! caches at each level) on a `SurfaceGeometry::LinearExtrusion` side over
+//! the lower edge, with `PcurveGeometry::BSpline` cap pcurves and (u, v) line
+//! pcurves on the side (u the spline parameter, v the height above the lower
+//! cap). A spline edge runs along its parameter; when the profile traverses the
+//! piece the other way, the edge is stored reversed and its coedges flip.
+use super::arc_profile::{b, no, ArcPrism, R};
+use num_traits::ToPrimitive;
 use wonky_contract::*;
-use wonky_num::{Iv, Scalar};
+use wonky_curve as wc;
 fn v3(p: [f64; 3]) -> R<Vector3> {
     Ok([b(p[0])?, b(p[1])?, b(p[2])?])
 }
@@ -10,16 +18,71 @@ fn v2(p: [f64; 2]) -> R<Vector2> {
     Ok([b(p[0])?, b(p[1])?])
 }
 fn domain(t: f64) -> R<Domain> {
+    span(0., t)
+}
+fn span(lower: f64, upper: f64) -> R<Domain> {
     Ok(Domain {
         lower: Limit::Finite {
-            value: b(0.)?,
+            value: b(lower)?,
             closed: true,
         },
         upper: Limit::Finite {
-            value: b(t)?,
+            value: b(upper)?,
             closed: true,
         },
     })
+}
+/// Knot and trim parameters must be exactly representable in binary64.
+fn exact(x: &wc::Q) -> R<f64> {
+    let f = x.to_f64().filter(|f| f.is_finite()).ok_or_else(|| no("spline-data-range"))?;
+    if wc::numeric::q(f) != *x {
+        return Err(no("spline-data-not-binary64"));
+    }
+    Ok(f)
+}
+/// A spline piece's binary64 observation cache. Knots and trim parameters
+/// are exact; rational poles are rounded and checked by source replay.
+pub(crate) struct Spline {
+    pub(crate) degree: u32,
+    pub(crate) knots: Vec<f64>,
+    pub(crate) controls: Vec<[f64; 2]>,
+    /// Spline parameters of the piece's first and second end.
+    pub(crate) from: f64,
+    pub(crate) to: f64,
+}
+impl Spline {
+    /// Observation caches of an exact mapped carrier. The caller replays the
+    /// rational map and includes control rounding in its export budget.
+    pub(crate) fn mapped(k: &wc::carrier::SplineCarrier) -> R<Self> {
+        if k.spline.is_rational() { return Err(no("rational-spline-unsupported")); }
+        let cache = |q: &wc::Q| -> R<f64> { Ok(wc::numeric::enclose(q)?.m) };
+        Ok(Self {
+            degree: k.spline.degree() as u32,
+            knots: k.spline.knots().iter().map(cache).collect::<R<_>>()?,
+            controls: k.spline.poles().iter().map(|p| Ok([cache(&p[0])?, cache(&p[1])?])).collect::<R<_>>()?,
+            from: cache(&k.from)?, to: cache(&k.to)?,
+        })
+    }
+
+    fn new(k: &wc::carrier::SplineCarrier) -> R<Self> {
+        if k.spline.is_rational() {
+            return Err(no("rational-spline-unsupported"));
+        }
+        Ok(Self {
+            degree: k.spline.degree() as u32,
+            knots: k.spline.knots().iter().map(exact).collect::<R<_>>()?,
+            controls: k.spline.poles().iter().map(|p| Ok([wc::numeric::enclose(&p[0])?.m, wc::numeric::enclose(&p[1])?.m])).collect::<R<_>>()?,
+            from: exact(&k.from)?,
+            to: exact(&k.to)?,
+        })
+    }
+    /// The piece runs against the spline parameter.
+    fn reversed(&self) -> bool {
+        self.from > self.to
+    }
+    pub(crate) fn domain(&self) -> R<Domain> {
+        span(self.knots[0], self.knots[self.knots.len() - 1])
+    }
 }
 struct Carrier {
     a: [f64; 2],
@@ -30,6 +93,7 @@ struct Carrier {
     tangent: [f64; 2],
     turn: f64,
     ccw: bool,
+    spline: Option<Spline>,
 }
 impl ArcPrism {
     fn xyz(&self, p: [f64; 2], z: f64) -> [f64; 3] {
@@ -37,43 +101,51 @@ impl ArcPrism {
     }
     fn carriers(&self) -> R<Vec<Carrier>> {
         self.profile
-            .segments
+            .segments()
             .iter()
             .map(|s| {
-                let mut out = Carrier {
-                    a: s.a,
-                    b: s.b,
-                    center: None,
-                    radius: 0.,
-                    radial: [0.; 2],
-                    tangent: [0.; 2],
-                    turn: 1.,
-                    ccw: true,
+                let [a, b] = *s.cache();
+                let line_or_arc = || -> R<Carrier> {
+                    let frame = s.frame()?;
+                    Ok(match frame.arc {
+                        None => Carrier {
+                            a,
+                            b,
+                            center: None,
+                            radius: 0.,
+                            radial: [0.; 2],
+                            tangent: frame.tangent,
+                            turn: 1.,
+                            ccw: true,
+                            spline: None,
+                        },
+                        Some(arc) => Carrier {
+                            a,
+                            b,
+                            center: Some(arc.centre),
+                            radius: arc.radius,
+                            radial: arc.radial,
+                            tangent: frame.tangent,
+                            turn: arc.turn,
+                            ccw: arc.ccw,
+                            spline: None,
+                        },
+                    })
                 };
-                let dx = Iv::point(s.b[0]) - Iv::point(s.a[0]);
-                let dy = Iv::point(s.b[1]) - Iv::point(s.a[1]);
-                let len = finite(dx.norm3(dy, Iv::point(0.)))?;
-                if len.lo() <= 0. {
-                    return Err(no("edge-length-range"));
+                match s.chart() {
+                    wc::Chart::Line | wc::Chart::Circle(_) => line_or_arc(),
+                    wc::Chart::BSpline(k) => Ok(Carrier {
+                        a,
+                        b,
+                        center: None,
+                        radius: 0.,
+                        radial: [0.; 2],
+                        tangent: [0.; 2],
+                        turn: 1.,
+                        ccw: true,
+                        spline: Some(Spline::new(k)?),
+                    }),
                 }
-                out.tangent = [finite(dx / len)?.mid(), finite(dy / len)?.mid()];
-                if let Some(c) = &s.circle {
-                    let radius = finite(enclose(&c.r2)?.sqrt())?;
-                    if radius.lo() <= 0. {
-                        return Err(no("radius-range"));
-                    }
-                    let center = [enclose(&c.c[0])?, enclose(&c.c[1])?];
-                    out.center = Some(center.map(|x| x.mid()));
-                    out.radius = radius.mid();
-                    out.ccw = c.ccw;
-                    out.radial = [
-                        finite((Iv::point(s.a[0]) - center[0]) / radius)?.mid(),
-                        finite((Iv::point(s.a[1]) - center[1]) / radius)?.mid(),
-                    ];
-                    out.turn =
-                        finite(c.angle.abs() / (Iv::point(2.) * crate::analytic_pi::pi()))?.mid();
-                }
-                Ok(out)
             })
             .collect()
     }
@@ -88,8 +160,10 @@ pub(crate) fn construct(
     let n = segs.len();
     let [u, v, w] = [0, 1, 2];
     let levels = s.levels;
-    let fid = FrameId(1);
-    let prov = Provenance::Construction { node: NodeId(2) };
+    let fid = constructions.last().ok_or_else(|| no("construction"))?.frame;
+    // The serializer also serves replayed profile blends. Their geometry
+    // belongs to the new root, not to a fixed source-extrusion node index.
+    let prov = Provenance::Construction { node: NodeId((constructions.len() - 1) as u32) };
     let mut body = Body {
         key,
         frames,
@@ -132,8 +206,14 @@ pub(crate) fn construct(
             },
         });
     }
-    for seg in &segs {
-        let geometry = if let Some(c) = seg.center {
+    for (i, seg) in segs.iter().enumerate() {
+        let geometry = if seg.spline.is_some() {
+            // Swept along +z from the lower cap edge of this piece (curve i).
+            SurfaceGeometry::LinearExtrusion {
+                curve: CurveId(i as u32),
+                direction: v3(unit(w, 1.))?,
+            }
+        } else if let Some(c) = seg.center {
             SurfaceGeometry::Cylinder {
                 origin: v3(s.xyz(c, 0.))?,
                 axis: v3(unit(w, 1.))?,
@@ -157,6 +237,33 @@ pub(crate) fn construct(
     }
     for level in 0..2 {
         for (i, seg) in segs.iter().enumerate() {
+            let [start, end] = [VertexId((level * n + i) as u32), VertexId((level * n + (i + 1) % n) as u32)];
+            if let Some(sp) = &seg.spline {
+                // The entity's own controls at this level; the sketch-plane edge
+                // names the sketch node, the other cap the extrusion (the
+                // provenance `curve_source` replays).
+                let z = levels[level];
+                let cid = CurveId(body.curves.len() as u32);
+                body.curves.push(Curve {
+                    frame: fid,
+                    provenance: Provenance::Construction { node: NodeId(if z == 0. { 1 } else { 2 }) },
+                    geometry: CurveGeometry::BSpline {
+                        degree: sp.degree,
+                        knots: sp.knots.iter().map(|&k| b(k)).collect::<R<_>>()?,
+                        controls: sp.controls.iter().map(|&p| v3(s.xyz(p, z))).collect::<R<_>>()?,
+                        weights: vec![],
+                        periodic: false,
+                    },
+                    domain: sp.domain()?,
+                    supports: vec![],
+                });
+                body.edges.push(Edge {
+                    curve: cid,
+                    domain: sp.domain()?,
+                    vertices: if sp.reversed() { vec![end, start] } else { vec![start, end] },
+                });
+                continue;
+            }
             let geometry = if let Some(c) = seg.center {
                 CurveGeometry::Circle {
                     origin: v3(s.xyz(c, levels[level]))?,
@@ -183,10 +290,7 @@ pub(crate) fn construct(
             body.edges.push(Edge {
                 curve: cid,
                 domain: dom,
-                vertices: vec![
-                    VertexId((level * n + i) as u32),
-                    VertexId((level * n + (i + 1) % n) as u32),
-                ],
+                vertices: vec![start, end],
             });
         }
     }
@@ -221,16 +325,26 @@ pub(crate) fn construct(
             (2 * n + i, false),
         ]);
     }
+    // A spline edge stored against the profile direction flips its coedges.
+    let stored_reversed = |edge: usize| edge < 2 * n && segs[edge % n].spline.as_ref().is_some_and(Spline::reversed);
     for (face, cycle) in face_cycles.into_iter().enumerate() {
         let mut uses = vec![];
         for (edge, forward) in cycle {
+            let forward = forward != stored_reversed(edge);
             let e = &body.edges[edge];
             let dom = e.domain.clone();
             let seg = &segs[edge % n];
             let geometry = if face < 2 {
                 let sign = if face == 0 { -1. } else { 1. };
                 let chart = |p: [f64; 2]| [p[0], sign * p[1]];
-                if let Some(c) = seg.center {
+                if let Some(sp) = &seg.spline {
+                    PcurveGeometry::BSpline {
+                        degree: sp.degree,
+                        knots: sp.knots.iter().map(|&k| b(k)).collect::<R<_>>()?,
+                        controls: sp.controls.iter().map(|&p| v2(chart(p))).collect::<R<_>>()?,
+                        weights: vec![],
+                    }
+                } else if let Some(c) = seg.center {
                     PcurveGeometry::CircularArc {
                         center: v2(chart(c))?,
                         x: v2(chart(seg.radial))?,
@@ -242,6 +356,22 @@ pub(crate) fn construct(
                         a: v2(chart(seg.a))?,
                         b: v2(chart(seg.b))?,
                     }
+                }
+            } else if let Some(sp) = &segs[face - 2].spline {
+                // Chart (u, v) of the extrusion: u the spline parameter, v the
+                // height above the swept lower edge. Cap edges run along u in
+                // the parameter direction; a generator stands at the parameter
+                // of its vertex (the side's first end `from`, its second `to`).
+                let height = levels[1] - levels[0];
+                if edge < 2 * n {
+                    let v = if edge < n { 0. } else { height };
+                    PcurveGeometry::Line {
+                        a: v2([sp.knots[0], v])?,
+                        b: v2([sp.knots[sp.knots.len() - 1], v])?,
+                    }
+                } else {
+                    let u = if edge - 2 * n == face - 2 { sp.from } else { sp.to };
+                    PcurveGeometry::Line { a: v2([u, 0.])?, b: v2([u, height])? }
                 }
             } else {
                 let side = &segs[face - 2];
@@ -292,9 +422,19 @@ pub(crate) fn construct(
             outer: true,
             coedges: uses,
         });
+        let forward = face < 2 || {
+            let side = &segs[face - 2];
+            match &side.spline {
+                // An extrusion's normal C'(u) x z points right of the parameter
+                // direction: outward exactly when the counter-clockwise profile
+                // runs along the parameter.
+                Some(sp) => !sp.reversed(),
+                None => side.center.is_none() || side.ccw,
+            }
+        };
         body.faces.push(Face {
             surface: SurfaceId(face as u32),
-            forward: face < 2 || segs[face - 2].center.is_none() || segs[face - 2].ccw,
+            forward,
             loops: vec![lp],
         });
     }

@@ -49,10 +49,10 @@ test('changed source data or adapted programs fail before creating benchmark out
   } finally { rmSync(dir, { recursive: true, force: true }); }
 });
 
-test('real Bend pilot retains every case and failed attempt without awarding an official score', async () => {
+test('Rust pilot retains every case and failed attempt without awarding an official score', async () => {
   const dir = mkdtempSync(join(tmpdir(), 'wonky-cadbench-pilot-'));
   try {
-    writeFileSync(join(dir, 'cadbench-square-washer.step'), 'stale successful-looking output');
+    writeFileSync(join(dir, 'cadbench-frustum.step'), 'stale successful-looking output');
     const report = await runCadbench({ out: dir, validateStep: false });
     assert.equal(report.official.totalTasks, 100);
     assert.equal(report.official.attemptedTasks, 0);
@@ -65,12 +65,19 @@ test('real Bend pilot retains every case and failed attempt without awarding an 
     assert.equal(report.inventory.filter(row => row.localAdaptation === 'not-attempted').length, 95);
     assert.equal(report.accepted, false);
     assert.equal(report.stepValidation.status, 'not-run');
-    for (const id of ['washer', 'frustum', 'stairs']) {
+    for (const id of ['washer', 'cup', 'stairs', 'square-washer']) {
       const row = report.local.cases.find(row => row.id === id);
       assert.equal(row.status, 'kernel-passed', JSON.stringify(row.error));
       assert.ok(row.actual.volumeMm3 > 0);
-      assert.ok(existsSync(join(dir, `cadbench-${id}.step`)));
+      for (const extension of ['step', 'brep.json']) assert.ok(existsSync(join(dir, `cadbench-${id}.${extension}`)));
     }
+    // The Rust kernel lofts only planar line profiles today: the circle-to-circle
+    // frustum is a named capability refusal, never a pass or a silent approximation.
+    const frustum = report.local.cases.find(row => row.id === 'frustum');
+    assert.equal(frustum.status, 'unsupported');
+    assert.equal(frustum.error.code, 'loft/planar-line-profiles-required');
+    assert.match(frustum.error.message, /^opLoft: /);
+    assert.deepEqual(report.local.counts, { 'kernel-passed': 4, unsupported: 1 });
     for (const row of report.local.cases.filter(row => row.status === 'unsupported' || row.status === 'failed')) {
       assert.ok(row.error.message);
       assert.equal(existsSync(join(dir, `cadbench-${row.id}.step`)), false);
@@ -81,14 +88,27 @@ test('real Bend pilot retains every case and failed attempt without awarding an 
   } finally { rmSync(dir, { recursive: true, force: true }); }
 });
 
-test('local geometry checks reject a wrong volume, extra solid or alternate backend', async () => {
+test('local geometry checks reject a wrong volume, extra solid, alternate backend or inexact or unvalidated bodies', async () => {
   const item = verifyCadbenchFixtures().pilot.cases.find(row => row.id === 'washer');
-  const model = await build(readFileSync(join(cadbenchFixtures, item.source), 'utf8'), { feature: 'main' });
+  const washer = () => build(readFileSync(join(cadbenchFixtures, item.source), 'utf8'), { feature: 'main', trace: false });
+  const model = await washer();
   assert.ok(checkCadbenchModel(model, item.expected).volumeMm3 > 0);
   assert.throws(() => checkCadbenchModel(model, { ...item.expected, volumeMm3: item.expected.volumeMm3 * 2 }), /Volume/);
   assert.throws(() => checkCadbenchModel(model, { ...item.expected, surfaceTypes: ['plane'] }), /Analytic surface types/);
   assert.throws(() => checkCadbenchModel({ ...model, bodies: [...model.bodies, ...model.bodies] }, item.expected), /Solid count/);
-  assert.throws(() => checkCadbenchModel({ ...model, backend: { language: 'OpenCascade' } }, item.expected), /real Bend backend/);
+  // No real geometry: another backend's label, or a Rust label over bodies the
+  // Rust kernel did not build (a legacy-shaped body that claims to be closed).
+  const noGeometry = /requires exact, closed, validated Rust kernel bodies/;
+  for (const language of ['OpenCascade', 'Bend'])
+    assert.throws(() => checkCadbenchModel({ ...model, backend: { language } }, item.expected), noGeometry);
+  const legacy = { id: 'model/outer', validation: { ...model.bodies[0].validation }, faces: [], edges: [], vertices: [] };
+  assert.throws(() => checkCadbenchModel({ ...model, bodies: [legacy] }, item.expected), noGeometry);
+  const regularized = await washer();
+  regularized.bodies[0].exactness = 'regularized';
+  assert.throws(() => checkCadbenchModel(regularized, item.expected), /has regularized, not exact, geometry/);
+  const unvalidated = await washer();
+  unvalidated.bodies[0].validation = { ...unvalidated.bodies[0].validation, closed: false };
+  assert.throws(() => checkCadbenchModel(unvalidated, item.expected), /is not a closed, validated B-rep/);
 });
 
 test('subset CLI retains the full denominator and skipped STEP checks cannot yield a validated pass', () => {

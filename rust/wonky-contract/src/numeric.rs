@@ -51,3 +51,36 @@ pub(crate) fn on_line_at(p: P3, a: P3, b: P3, t: f64) -> Result<bool> {
     }
     Ok(true)
 }
+/// (p - o) x axis == 0 exactly: p lies on the line through o along axis.
+pub(crate) fn on_axis(p: P3, o: P3, axis: P3) -> Result<bool> {
+    check(
+        &[p.x, p.y, p.z, o.x, o.y, o.z, axis.x, axis.y, axis.z],
+        "wire v3 axis incidence",
+    )?;
+    let mut g = ex::Guard::new();
+    let d = [
+        ex::difference(p.x, o.x, &mut g),
+        ex::difference(p.y, o.y, &mut g),
+        ex::difference(p.z, o.z, &mut g),
+    ];
+    let a = [axis.x, axis.y, axis.z];
+    for (i, j) in [(1, 2), (2, 0), (0, 1)] {
+        let c = ex::sum(
+            &ex::scale(&d[i], a[j], &mut g),
+            &ex::neg(&ex::scale(&d[j], a[i], &mut g)),
+            &mut g,
+        );
+        if finish(&c, &g)? != Sign::Zero {
+            return Ok(false);
+        }
+    }
+    Ok(true)
+}
+/// |b - a| == 1 exactly: a chart segment spans one full turn.
+pub(crate) fn unit_span(a: f64, b: f64) -> Result<bool> {
+    check(&[a, b], "wire v3 turn span")?;
+    let mut g = ex::Guard::new();
+    let d = ex::difference(b, a, &mut g);
+    Ok(finish(&ex::sum(&d, &[-1.], &mut g), &g)? == Sign::Zero
+        || finish(&ex::sum(&d, &[1.], &mut g), &g)? == Sign::Zero)
+}

@@ -1,0 +1,14 @@
+{
+  "source": "/Volumes/SSD/wonky-remote/wt/cat-ce9-ce10-22cd729bf5/fixtures/cad-acid/b3d/acid_blend_ce9.py",
+  "sourceSha256": "a26baffcd830eef7b0f4056097f70805542df0181abb0f6ab5e77520b9c0fdc3",
+  "zonesSha256": "63f0352f9c6c5cfba25a277a211e1fc6ecd3114dd359c1c9f6ce0a56b59d2cc4",
+  "feature": "acidBlend",
+  "parameters": {
+    "variant": "AcidVariant.V0",
+    "zone": "AcidBlendZone.AC36"
+  },
+  "zone": "AC36",
+  "variant": "V0",
+  "out": "/Volumes/SSD/wonky-remote/wt/cat-ce9-ce10-22cd729bf5/out/ce9-ce10-corrected-clean/occt/blend/V0/AC36",
+  "catalog": "/Volumes/SSD/wonky-remote/wt/cat-ce9-ce10-22cd729bf5/fixtures/cad-acid/zones.json"
+}

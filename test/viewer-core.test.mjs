@@ -30,6 +30,11 @@ test('format prints values to the decade of their tolerance', () => {
   assert.equal(format.formatWithTolerance(12.345678, 0.02), '12.35 mm ±0.02');
   assert.equal(format.formatTolerance(0.00025), '0.0003', 'tolerances round up, never down');
   assert.equal(format.formatTolerance(0.0003), '0.0003');
+  // A binary64 kernel tolerance (Rust): the value keeps the decade of its tolerance, so
+  // "value ±t" stays true (a four-decimal 19.0526 would be off by 4e-5, not 1e-12).
+  assert.equal(format.toleranceDecimals(9.081624341433789e-13), 13);
+  assert.equal(format.formatWithTolerance(19.05255888325765, 9.081624341433789e-13),
+    '19.0525588832576 mm ±0.0000000000010');
   assert.equal(format.formatLength(Number.NaN, 0.01), 'not evaluated');
   assert.equal(format.formatAngle(45), '45.000°');
   assert.equal(format.formatAngle(format.radiansToDegrees(Math.PI / 3)), '60.000°');

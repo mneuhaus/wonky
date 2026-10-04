@@ -123,7 +123,8 @@ Stubs answer honestly: a planned route whose module registers nothing yet is
 | `scripts/viewer/check-contracts.mjs` | DOM ids, facade fields and harness functions against `contracts.md` (`--browser <url>` checks a running viewer) |
 | `scripts/viewer/qa/fixtures.mjs` | builds the QA models into `tmp/viewer/fixtures/` (examples, audit samples, every `.fs` in `scripts/viewer/qa/fixtures/`) |
 | `scripts/viewer/qa/serve.mjs` | `start`/`stop`/`status` of a private viewer on a port in 4320-4399 |
-| `scripts/viewer/qa/browser.mjs` | Playwright helpers (loaded from `~/.dev-browser` or `$WONKY_PLAYWRIGHT`, not a repo dependency) |
+| `scripts/viewer/qa/browser.mjs` | Playwright helpers using the pinned repo dev dependency and checkout-local Chromium |
+| `scripts/viewer/qa/provision-browser.mjs` | SHA512-verified dependency and Chromium headless-shell provisioning under `tmp/viewer-browser/` |
 | `scripts/viewer/qa/foundation.mjs`, `inventory.mjs`, `inventory-extras.mjs`, `foundation-extras.mjs`, `api-smoke.mjs`, `compare-shots.mjs`, `compare-styles.mjs` | the foundation's differential QA (same script against two viewers) |
 | `scripts/viewer/test-support/fake-env.mjs` | fake browser environment for the VS harness and core tests (JSON or binary answers) |
 | `scripts/viewer/test-support/fake-event-source.mjs` | fake EventSource for the live and workspace client tests |
@@ -131,6 +132,16 @@ Stubs answer honestly: a planned route whose module registers nothing yet is
 | `test/viewer-state.test.mjs` (VS) | 32 legacy state tests; only the harness changed |
 | `test/viewer-core.test.mjs` | format, camera, keyboard conflicts, composition, feature failure, multi-selection, core services |
 | `test/viewer-server.test.mjs` | router, static serving, Host allowlist, error mapping, bind-first, settings, archive, compact scenes, route isolation, query pool, frozen stubs |
+
+The Rust lane provisions its mandatory browser before starting test workers. Direct
+browser QA also provisions automatically through `launch()`. To warm the cache,
+run `node scripts/viewer/qa/provision-browser.mjs`. This needs Node, `tar`, and network
+access on a cold cache, but no package manager on the runner host. The package
+version and archive integrity come from `package.json` and `package-lock.json`;
+Playwright's pinned CLI owns the matching Chromium revision. No files in `HOME`
+or shared `node_modules` are needed or modified. Failed download, launch, or WebGL
+availability fails the lane, never skips it. Browser cache reuse is safe only for
+the same pinned version; dependency upgrades must update both repo lockfiles.
 
 The `scripts/viewer/audit-*.mjs` probes belong to the audit stage. They
 inject into the pre-foundation single-file `app.js` and only run against the

@@ -219,6 +219,25 @@ fn geometry(a: &Audited, edges: &[usize], width: f64) -> R<Chamfered> {
         return Err(no("requires-orthogonal-single-shell"));
     }
     metric(a.frame.as_affine()?)?;
+    Ok(Chamfered {
+        faces: clip_local(a, edges, width)?,
+        points: vec![],
+    })
+}
+/// Exact equal-offset faces of a rectilinear solid in its own source frame:
+/// (outward normal, vertex loops). Callers own the frame metric: a perforated
+/// body bounds a near-rigid frame by its orthonormality defect instead.
+pub(crate) fn clipped_faces(a: &Audited, edges: &[usize], width: f64) -> R<Vec<(V, Vec<Vec<V>>)>> {
+    if !width.is_finite() || width <= 0. {
+        return Err(no("invalid-width"));
+    }
+    if a.orthogonal.is_none() || a.body.shells.len() != 1 {
+        return Err(no("requires-orthogonal-single-shell"));
+    }
+    let faces = if edges.is_empty() { source_faces(a)? } else { clip_local(a, edges, width)? };
+    Ok(faces.into_iter().map(|f| (f.normal, f.loops)).collect())
+}
+fn clip_local(a: &Audited, edges: &[usize], width: f64) -> R<Vec<Face>> {
     let mut faces = source_faces(a)?;
     let mut owners = vec![Vec::new(); a.body.edges.len()];
     for (i, face) in a.body.faces.iter().enumerate() {
@@ -328,10 +347,7 @@ fn geometry(a: &Audited, edges: &[usize], width: f64) -> R<Chamfered> {
     for (n, d) in cuts {
         clip(&mut faces, n, d)?;
     }
-    Ok(Chamfered {
-        faces,
-        points: vec![],
-    })
+    Ok(faces)
 }
 fn assemble(
     template: &Body,
@@ -503,6 +519,17 @@ pub(crate) fn candidate(body: &Body) -> bool {
         .is_some_and(|n| n.operation == Operation::Intersection {} && n.rule_version == 2)
 }
 pub fn equal_offsets(a: &Audited, edges: &[usize], width: f64) -> R<Body> {
+    if a.orthogonal.is_none() {
+        if let Some(result) = crate::pattern::modify(a, |source| equal_offsets(source, edges, width))? {
+            return Ok(result);
+        }
+    }
+    if a.orthogonal.is_none() && crate::profile_blend::admits(a, edges) {
+        return crate::profile_blend::apply(a, edges, width, false);
+    }
+    if a.arcs.is_some() {
+        return crate::fillet_rim::apply_band(a, edges, width, true);
+    }
     let mut spec = geometry(a, edges, width)?;
     let mut nodes = a.body.constructions.clone();
     let parent = root(&a.body).ok_or_else(|| no("construction-parent"))?;
@@ -620,6 +647,24 @@ impl Chamfered {
     }
     pub(crate) fn volume(&self) -> R<Iv> {
         ball(&(self.volume6() * q(1e9) / q(6.)))
+    }
+    /// Exact face loops in world mm (axis-permutation frames only, as every
+    /// other chamfer observation), measured by the shared exact polyhedron probe.
+    pub(crate) fn probe(&self, a: &Audited, point_mm: [f64; 3]) -> crate::polyhedron::Probe {
+        let faces = self
+            .faces
+            .iter()
+            .map(|f| {
+                f.loops
+                    .iter()
+                    .map(|lp| lp.iter().map(|p| Self::world(p, a)).collect::<R<Vec<_>>>())
+                    .collect::<R<Vec<_>>>()
+            })
+            .collect::<R<Vec<_>>>();
+        match faces {
+            Ok(faces) => crate::distance::point_to_faces(&faces, point_mm),
+            Err(e) => crate::polyhedron::Probe::Refused(e.0),
+        }
     }
     fn world(p: &V, a: &Audited) -> R<V> {
         let f = a.frame.as_affine()?;

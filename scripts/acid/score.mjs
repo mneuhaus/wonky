@@ -2,21 +2,42 @@
 // Scores observations, never guesses missing measurements or modifies the frozen bands.
 import fs from 'node:fs';
 import path from 'node:path';
-import {ROOT, VARIANTS, KERNELS, loadCatalog, kernelClass, closedForm, sortBodies, readJSON, writeJSON, isMain, loadErrata, sha256} from './common.mjs';
+import {ROOT, ALL_VARIANTS, KERNELS, loadCatalog, kernelClass, closedForm, sortBodies, readJSON, writeJSON, isMain, loadErrata, sha256, zoneVariants, requireZonesBound} from './common.mjs';
 import {verifyExactObservation,canonical} from './evidence.mjs';
-import {executionEvidence} from './execution.mjs';
-import {loadToleranceRules, toleranceContract} from './tolerance.mjs';
+import {executionEvidence,resultsCatalog} from './execution.mjs';
+import {loadToleranceRules, toleranceContract, bindToleranceRules} from './tolerance.mjs';
 const defaultToleranceRules=loadToleranceRules();
 const defaultErrata=loadErrata();
+function requireScoringErrata(errata) {
+  if(canonical(errata)!==canonical(defaultErrata))throw new Error('ERRATA_RULES_MISMATCH: scoring requires the versioned fixtures/cad-acid/errata.json; overlays cannot produce a production scoreboard');
+}
 const finite=Number.isFinite;
 const rel=(a,b,t)=>finite(a)&&finite(b)&&Math.abs(a-b)<=Math.abs(b)*t;
 const abs=(a,b,t)=>finite(a)&&finite(b)&&Math.abs(a-b)<=t;
 const val=x=>x?.valueFloat;
 const measurementBand=(m,z,cl)=>m.tolerance?.[cl]??{abs:z.tolerance.measureAbsMm[cl]};
 const nearMeasurement=(a,b,band)=>band.abs!==undefined?abs(a,b,band.abs):rel(a,b,band.rel);
+// A scored topology field. surfaceTypes is the face-class histogram the OCCT observer (measure.py) records beside the
+// canonical counts; a native exact observation carries none, and its OCCT-observed STEP round trip is scored instead.
+const NATIVE_BASIS='native-f64-construction';
+function topologyValue(m,field) { return field==='surfaceTypes'?canonical(m?.surfaceTypes??null):m?.topology?.[field]; }
+function topologyMismatch(m,cf,field) {
+  if(field!=='surfaceTypes')return m.topology?.[field]!==cf.topology[field]?`${field}: ${m.topology?.[field]} vs ${cf.topology[field]}`:null;
+  if(m.basis===NATIVE_BASIS)return null;
+  return topologyValue(m,field)!==canonical(cf.topology.surfaceTypes)?`surfaceTypes: ${JSON.stringify(m.surfaceTypes??null)} vs ${JSON.stringify(cf.topology.surfaceTypes)}`:null;
+}
 function boxEqual(a,b,t) { return a===null&&b===null || a&&b&&['min','max'].every(s=>a[s]?.length===3&&a[s].every((x,i)=>abs(x,b[s][i],t))); }
+// Failed observation processes supply no geometric verdict. A completed observer's
+// rejection (or an absent round trip without process evidence) remains WRONG.
+function stepInfrastructureFailure(rt) {
+  const execution=rt?.execution;
+  if(rt?.metrics || rt?.ok===true || execution?.ok!==false)return null;
+  const failure=execution.error || (execution.signal?`signal ${execution.signal}`:
+    execution.stderrTail?.find(line=>/interpreter.*not found|No interpreter found|Failed to spawn/i.test(line)));
+  return failure?`observation infrastructure: STEP measurement did not complete (${failure})`:null;
+}
 function checks(zone,branch,row,cl,{roundTrip=false,reference=null,topologyPolicy=null}={}) {
-  const cf=closedForm(zone,branch), m=row.metrics, errors=[];
+  const cf=closedForm(zone,branch,row.variant), m=row.metrics, errors=[];
   const bad=(type,reason)=>errors.push({type,reason});
   if (!m) { bad('geometry','missing measurements'); if(!roundTrip&&row.stepRoundTrip?.ok!==true)bad('validity','STEP round trip missing or failed'); return errors; }
   if (m.cellAttribution===false) bad('geometry','body lies outside declared zone cell');
@@ -34,7 +55,7 @@ function checks(zone,branch,row,cl,{roundTrip=false,reference=null,topologyPolic
       if(b && !(finite(m[name]) && (b.strict?m[name]>val(b.lower)&&m[name]<val(b.upper):m[name]>=val(b.lower)&&m[name]<=val(b.upper)))) bad('geometry',`${name}: outside closed-form bounds`);
     }
     if(topologyPolicy&&!topologyPolicy.accepts(m))bad('topology','tolerance rule requires independently witnessed support, per-body genus and preserved material');
-    for(const field of cf.topology?.scored??[]) if(!topologyPolicy?.fields.includes(field)&&m.topology?.[field]!==cf.topology[field]) bad('topology',`${field}: ${m.topology?.[field]} vs ${cf.topology[field]}`);
+    for(const field of cf.topology?.scored??[]) { const mismatch=!topologyPolicy?.fields.includes(field)&&topologyMismatch(m,cf,field); if(mismatch) bad('topology',mismatch); }
     const b=cf.bbox?.variants?.[row.variant];
     const world=b?{min:b.min.map((x,i)=>x+zone.cell.originMm[i]),max:b.max.map((x,i)=>x+zone.cell.originMm[i])}:null;
     if (b || cf.bbox===null) { if(!boxEqual(m.bbox,world,zone.tolerance.bboxAbsMm[cl])) bad('geometry','bounding box differs'); }
@@ -68,8 +89,8 @@ function strictVariant(catalog,zone,kernel,row,reference=null,{errata=defaultErr
   const disputed=errata.entries.filter(e=>e.zones.includes(zone.id)&&(e.kernels.includes('*')||e.kernels.includes(kernel)));
   if(disputed.length)return {status:'DISPUTED',errata:disputed.map(e=>e.id),reason:disputed.map(e=>`${e.id}: ${e.reason}`).join('; ')};
   if(row&&!kernel.startsWith('wonky-')&&(executionEvidence(row)?.status==='unverified'||row.reverification))return {status:'UNVERIFIED',reason:'Frozen external observation could not be verified'};
-  // Old post-build failures must not launder a successful construction into ERROR.
-  if(row?.builtBeforeFailure&&row.outcome!=='built')row={...row,outcome:'built',stepRoundTrip:{ok:false,error:row.error}};
+  // Old post-build failures remain built observations; retain explicit observer infrastructure evidence.
+  if(row?.builtBeforeFailure&&row.outcome!=='built')row={...row,outcome:'built',stepRoundTrip:stepInfrastructureFailure(row.stepRoundTrip)?row.stepRoundTrip:{ok:false,error:row.error}};
   if(!row||row.outcome==='not_run') return {status:'NOT_RUN',reason:row?.reason??'variant not executed'};
   const cl=kernelClass(catalog,kernel);
   if(row.outcome==='refused') {
@@ -81,6 +102,8 @@ function strictVariant(catalog,zone,kernel,row,reference=null,{errata=defaultErr
     return {status:'REFUSED',reason};
   }
   if(row.outcome!=='built') return {status:'ERROR',reason:row.error?.message??row.reason??'execution failed'};
+  const infrastructure=stepInfrastructureFailure(row.stepRoundTrip)??(row.stepRoundTrip?.ok===true?stepInfrastructureFailure(row.stepRoundTrip.secondImport):null);
+  if(infrastructure)return {status:'ERROR',reason:infrastructure};
   // Execution admission above covers every result, including post-build failure.
   // The complete-artifact consistency check only applies when export succeeded;
   // partial failures can be classified solely because we just executed them.
@@ -116,7 +139,7 @@ export function scoreVariant(catalog,zone,kernel,row,reference=null,options={}) 
 }
 function applyTiers(catalog,zones,byKey,options,admitted) {
   const {toleranceRules}=options;
-  if(toleranceRules.zonesSha256!==loadCatalog().zonesSha256)throw new Error('TOLERANCE_ZONES_SHA_MISMATCH');
+  bindToleranceRules(toleranceRules,catalog);
   for(const cell of zones) {
     const zone=catalog.zones.find(z=>z.id===cell.zone);
     cell.strictStatus=cell.status;cell.strictPoints=cell.points;cell.practicalPoints=cell.points;
@@ -127,23 +150,26 @@ function applyTiers(catalog,zones,byKey,options,admitted) {
     if(cell.status==='WRONG'&&pending.length)cell.evidencePending=pending.map(p=>p.reason);
     if(cell.status!=='WRONG'||kernelClass(catalog,cell.kernel)==='exact'||
       Object.values(cell.variants).some(v=>!['CORRECT','WRONG'].includes(v.status)))continue;
-    const rows=VARIANTS.map(v=>byKey.get(`${cell.kernel}/${cell.zone}/${v}`));
+    const cellVariants=zoneVariants(zone);
+    const rows=cellVariants.map(v=>byKey.get(`${cell.kernel}/${cell.zone}/${v}`));
     for(const rule of toleranceRules.rules) {
       const matches=rows.map(row=>matchRule(zone,cell.kernel,row,rule));
       if(matches.some(m=>!m)||new Set(matches.map(m=>m.branch.id)).size!==1)continue;
       // A rule must cover the whole metamorphic outcome, not just one residual.
-      const first=rows[0], cf=closedForm(matches[0].zone,matches[0].branch), t=matches[0].zone.tolerance;
-      const coherent=rows.slice(1).every(row=>['volume','area'].every(k=>rel(row.metrics[k],first.metrics[k],t[`${k}Rel`].tolerance))&&
-        (cf.topology?.scored??[]).filter(k=>!matches[0].topologyPolicy?.fields.includes(k)).every(k=>row.metrics.topology[k]===first.metrics.topology[k])&&
+      // V4 is a parameter change checked against its own closed form by matchRule
+      // above, so (as in the strict path) it is not compared with V0's metrics.
+      const i0=cellVariants.indexOf('V0'), first=rows[i0], cf=closedForm(matches[0].zone,matches[0].branch), t=matches[0].zone.tolerance;
+      const coherent=rows.filter((_,i)=>i!==i0&&cellVariants[i]!=='V4').every(row=>['volume','area'].every(k=>rel(row.metrics[k],first.metrics[k],t[`${k}Rel`].tolerance))&&
+        (cf.topology?.scored??[]).filter(k=>!matches[0].topologyPolicy?.fields.includes(k)).every(k=>topologyValue(row.metrics,k)===topologyValue(first.metrics,k))&&
         (cf.measurements??[]).every(p=>nearMeasurement(row.metrics.measurements?.[p.name],first.metrics.measurements?.[p.name],measurementBand(p,zone,'tolerance'))));
       if(!coherent)continue;
       if(!rows.every(admitted)) {
         cell.status='UNVERIFIED';cell.reasons=['Execution or frozen-reference admission required for practical points'];
-        for(const v of VARIANTS)if(!admitted(byKey.get(`${cell.kernel}/${cell.zone}/${v}`)))cell.variants[v]={...cell.variants[v],status:'UNVERIFIED',reason:cell.reasons[0]};
+        for(const v of cellVariants)if(!admitted(byKey.get(`${cell.kernel}/${cell.zone}/${v}`)))cell.variants[v]={...cell.variants[v],status:'UNVERIFIED',reason:cell.reasons[0]};
         break;
       }
       cell.status='TOLERANT';cell.practicalPoints=1;cell.toleranceRuleIds=[rule.id];cell.reasons=[];
-      for(const [i,v] of VARIANTS.entries())if(cell.variants[v].status==='WRONG')cell.variants[v]={...cell.variants[v],status:'TOLERANT',
+      for(const [i,v] of cellVariants.entries())if(cell.variants[v].status==='WRONG')cell.variants[v]={...cell.variants[v],status:'TOLERANT',
         toleranceRuleIds:[rule.id],toleranceWitness:matches[i].witness,strictReason:cell.variants[v].reason,reason:`${rule.id}: all declared measurable acceptance checks passed`};
       break;
     }
@@ -167,7 +193,7 @@ function agreement(zone,a,b) {
     if(!x.centroid?.every((c,k)=>abs(c,y.centroid?.[k],t.bboxAbsMm.tolerance))) reasons.push(`body ${i} centroid`);
   });
   const scored=zone.closedForm.topology?.scored??[];
-  for(const k of scored) if(a.metrics?.topology?.[k]!==b.metrics?.topology?.[k])reasons.push(k);
+  for(const k of scored) if(topologyValue(a.metrics,k)!==topologyValue(b.metrics,k))reasons.push(k);
   for(const p of zone.closedForm.measurements??[]) if(!nearMeasurement(a.metrics?.measurements?.[p.name],b.metrics?.measurements?.[p.name],measurementBand(p,zone,'tolerance'))) reasons.push(p.name);
   return {status:reasons.length?'DIFFER':'AGREE',reasons};
 }
@@ -175,9 +201,13 @@ export function score(catalog, results, {zonesSha256=null,errata=defaultErrata,a
   const frozen=loadCatalog();
   if(canonical(toleranceRules)!==canonical(defaultToleranceRules))throw new Error('TOLERANCE_RULES_MISMATCH: scoring requires the predeclared versioned rules');
   if(canonical(catalog)!==canonical(frozen.catalog))throw new Error('SCORING_CATALOG_MISMATCH: scoring requires the frozen catalog object');
-  if(results.zonesSha256!==frozen.zonesSha256 || zonesSha256!==null&&zonesSha256!==frozen.zonesSha256)
+  if(zonesSha256!==null&&zonesSha256!==frozen.zonesSha256)
     throw Object.assign(new Error('REFERENCE_ZONES_SHA_MISMATCH: result catalog hash differs'),{name:'REFERENCE_ZONES_SHA_MISMATCH'});
-  if(errata.zonesSha256!==frozen.zonesSha256)throw new Error('ERRATA_ZONES_SHA_MISMATCH');
+  // Results, errata and tolerance rules bind per zone: a catalog extension
+  // leaves them valid for every zone it does not change (common.mjs).
+  resultsCatalog(results,catalog);
+  requireZonesBound(catalog,errata.zonesSha256,[...errata.entries,...(errata.annotations??[])].flatMap(e=>e.zones??[]),'ERRATA_ZONES_SHA_MISMATCH',`errata ${errata.version}`);
+  requireScoringErrata(errata);
   const options={errata,artifactRoot,code:results.code??null};
   // Numerical classifications alone are not execution claims. Even callers
   // that skip reference verification cannot mint points from synthetic rows.
@@ -188,8 +218,8 @@ export function score(catalog, results, {zonesSha256=null,errata=defaultErrata,a
   for(const row of rows) { const key=`${row.kernel}/${row.zone}/${row.variant}`; if(byKey.has(key))throw new Error(`DUPLICATE_OBSERVATION: ${key}`); byKey.set(key,row); }
   const get=(k,z,v)=>byKey.get(`${k}/${z}/${v}`), zones=[], twinAgreement=[];
   for(const zone of catalog.zones) {
-    const references={};
-    for(const v of VARIANTS) {
+    const references={}, vs=zoneVariants(zone);
+    for(const v of vs) {
       const on=get('onshape',zone.id,v),oc=get('occt',zone.id,v),ag=agreement(zone,on,oc);
       twinAgreement.push({zone:zone.id,variant:v,pair:'onshape-FS / occt-b3d',...ag});
       for(const k of ['wonky-bend','wonky-rust']) {
@@ -200,36 +230,42 @@ export function score(catalog, results, {zonesSha256=null,errata=defaultErrata,a
       if(zone.closedForm.crossComparisonOnly && ag.status==='AGREE' && ['onshape','occt'].every(k=>admitted(get(k,zone.id,v))&&strictVariant(catalog,zone,k,get(k,zone.id,v),null,options).status==='DISPUTED')) references[v]=on;
     }
     for(const kernel of KERNELS) {
-      const variants=Object.fromEntries(VARIANTS.map(v=>[v,strictVariant(catalog,zone,kernel,get(kernel,zone.id,v),references[v]??null,options)]));
+      const variants=Object.fromEntries(vs.map(v=>[v,strictVariant(catalog,zone,kernel,get(kernel,zone.id,v),references[v]??null,options)]));
       let status=['WRONG','UNVERIFIED','ERROR','REFUSED','NOT_RUN','DISPUTED'].find(s=>Object.values(variants).some(v=>v.status===s));
       const reasons=[];
       const successful=Object.values(variants).filter(v=>['PASS','REFUSED_EXPECTED'].includes(v.status));
       if(new Set(successful.map(v=>`${v.status}/${v.branch}`)).size>1) { status='WRONG'; reasons.push('metamorphic: accepted branch differs between variants'); }
-      if(!status && successful.length===4) {
+      if(!status && successful.length===vs.length) {
         status=successful[0].status;
         if(status==='PASS') {
+          // V4 is a genuine parameter change (a radius bump), not a rigid
+          // frame transform: it must match its OWN per-variant closed form
+          // (already enforced inside checks()/strictVariant above), not V0's
+          // raw metrics. V0-V3 and V5 (alternate idiom, same geometry) are
+          // required to reproduce V0's observed metrics exactly.
           const first=get(kernel,zone.id,'V0'), branch=acceptedBranches(zone,kernelClass(catalog,kernel)).find(o=>o.id===variants.V0.branch),cf=closedForm(zone,branch),cl=kernelClass(catalog,kernel);
-          for(const v of VARIANTS.slice(1)) {
+          for(const v of vs.filter(v=>v!=='V0'&&v!=='V4')) {
             const other=get(kernel,zone.id,v);
             for(const field of ['volume','area']) if(!rel(other.metrics[field],first.metrics[field],zone.tolerance[`${field}Rel`][cl]))reasons.push(`metamorphic: ${v} ${field}`);
-            for(const field of cf.topology?.scored??[])if(other.metrics.topology[field]!==first.metrics.topology[field])reasons.push(`metamorphic: ${v} ${field}`);
+            for(const field of cf.topology?.scored??[])if(topologyValue(other.metrics,field)!==topologyValue(first.metrics,field))reasons.push(`metamorphic: ${v} ${field}`);
             for(const p of cf.measurements??[])if(!nearMeasurement(other.metrics.measurements[p.name],first.metrics.measurements[p.name],measurementBand(p,zone,cl)))reasons.push(`metamorphic: ${v} ${p.name}`);
           }
           if(reasons.length)status='WRONG';
         }
       }
       status??='NOT_RUN';
-      const verified=VARIANTS.every(v=>admitted(get(kernel,zone.id,v)));
+      const verified=vs.every(v=>admitted(get(kernel,zone.id,v)));
       if(!verified&&['PASS','REFUSED_EXPECTED'].includes(status)) {
         status='UNVERIFIED';
-        for(const v of VARIANTS)if(!admitted(get(kernel,zone.id,v)))variants[v]={status:'UNVERIFIED',reason:'Execution or frozen-reference admission required'};
+        for(const v of vs)if(!admitted(get(kernel,zone.id,v)))variants[v]={status:'UNVERIFIED',reason:'Execution or frozen-reference admission required'};
       }
-      zones.push({kernel,zone:zone.id,title:zone.title,status,points:verified?(catalog.scoring.perZonePerKernel[status]??0):0,variants,reasons});
+      zones.push({kernel,zone:zone.id,title:zone.title,family:familyOf(zone),declaredVariants:vs,status,points:verified?(catalog.scoring.perZonePerKernel[status]??0):0,variants,reasons});
     }
   }
   const strictZones=structuredClone(zones);
   applyTiers(catalog,zones,byKey,{...options,toleranceRules},admitted);
-  const kernels=Object.fromEntries(KERNELS.map(k=>{const zz=zones.filter(z=>z.kernel===k);const strict=zz.reduce((s,z)=>s+z.strictPoints,0);return[k,{score:strict,strict,practical:zz.reduce((s,z)=>s+z.practicalPoints,0),total:catalog.zones.length,WRONG:zz.filter(z=>z.status==='WRONG').length,wrongSubtypes:wrongSubtypes(zz),counts:Object.fromEntries(['CORRECT','TOLERANT','REFUSED','ERROR','WRONG','NOT_RUN','DISPUTED','UNVERIFIED'].map(s=>[s,zz.filter(z=>z.status===s).length])),strictCounts:Object.fromEntries(['PASS','REFUSED_EXPECTED','REFUSED','ERROR','WRONG','NOT_RUN','DISPUTED','UNVERIFIED'].map(s=>[s,strictZones.filter(z=>z.kernel===k&&z.status===s).length])),notRun:zz.filter(z=>z.status==='NOT_RUN').map(z=>z.zone)}];}));
+  const kernels=Object.fromEntries(KERNELS.map(k=>{const zz=zones.filter(z=>z.kernel===k);const strict=zz.reduce((s,z)=>s+z.strictPoints,0);return[k,{score:strict,strict,practical:zz.reduce((s,z)=>s+z.practicalPoints,0),total:catalog.zones.length,WRONG:zz.filter(z=>z.status==='WRONG').length,wrongSubtypes:wrongSubtypes(zz),counts:Object.fromEntries(['CORRECT','TOLERANT','REFUSED','ERROR','WRONG','NOT_RUN','DISPUTED','UNVERIFIED'].map(s=>[s,zz.filter(z=>z.status===s).length])),strictCounts:Object.fromEntries(['PASS','REFUSED_EXPECTED','REFUSED','ERROR','WRONG','NOT_RUN','DISPUTED','UNVERIFIED'].map(s=>[s,strictZones.filter(z=>z.kernel===k&&z.status===s).length])),notRun:zz.filter(z=>z.status==='NOT_RUN').map(z=>z.zone),
+    byFamily:byFamily(catalog,zz),byAxis:byAxis(zz)}];}));
   const evidenceKernels=Object.fromEntries(KERNELS.map(kernel=>{
     const rr=rows.filter(r=>r.kernel===kernel);
     const modes=rr.map(r=>executionEvidence(r)?.status??'unverified');
@@ -255,7 +291,24 @@ export function score(catalog, results, {zonesSha256=null,errata=defaultErrata,a
   const verification={status:Object.values(evidenceKernels).some(k=>k.rows&&k.counts.unverified)?'UNVERIFIED':'EXECUTION_SCOPED',kernels:evidenceKernels,addons,referenceFixtures,liveReferences,
     mismatches:results.reverification?.mismatches??[],
     scope:'Wonky points require construction and observation by this scorer process, or matching live re-execution. External reference points require exact frozen-observation matches. Live OCCT diagnostics are live-reference, zero points, excluded from the frozen columns. Artifact hashes establish consistency only, never execution. Unverified identities are recorded claims, not the current tree/addon.',code:results.code??null};
-  return {schema:'wonky/cad-acid-scoreboard/2',toleranceRules:{...toleranceRules,sha256:sha256(JSON.stringify(toleranceRules))},verification,errata:{...errata,sha256:sha256(JSON.stringify(errata))},zonesSha256:frozen.zonesSha256,kernels,zones,twinAgreement,noClaim:'No image comparison; missing kernels and observations are zero points. Strict v1 points are unchanged; practical points require an evidenced measured tolerance rule. Synthetic unit tests are not live kernel evidence. OCCT reimport is a tolerance measurement, not an exact E9 construction proof.'};
+  const cells=catalog.zones.reduce((n,z)=>n+zoneVariants(z).length,0);
+  return {schema:'wonky/cad-acid-scoreboard/3',catalog:{version:catalog.version,zones:catalog.zones.length,cells,zonesSha256:frozen.zonesSha256},toleranceRules:{...toleranceRules,sha256:sha256(JSON.stringify(toleranceRules))},verification,errata:{...errata,sha256:sha256(JSON.stringify(errata))},zonesSha256:frozen.zonesSha256,kernels,zones,twinAgreement,noClaim:'No image comparison; missing kernels and observations are zero points. Strict v1 points are unchanged; practical points require an evidenced measured tolerance rule. Synthetic unit tests are not live kernel evidence. Frozen references bind per zone: a zone without an active frozen Onshape or OCCT row is NOT_RUN for that reference, never agreement. OCCT reimport is a tolerance measurement, not an exact E9 construction proof. V4 (radius-bump) is scored against its own closed form, not V0 metamorphic identity; V5 (alternate idiom) is held to the same V0 identity as V1-V3.'};
+}
+// Families group the headline breakdown: the five base groups plus the
+// extension families (catalog.families); a base zone's family is its group.
+const familyOf=zone=>zone.family??zone.group;
+function byFamily(catalog,rows) {
+  const ids=[...new Set(catalog.zones.map(familyOf))];
+  const titles=new Map([...catalog.groups.map(g=>[g.id,g.title]),...(catalog.families??[]).map(f=>[f.id,f.title])]);
+  return Object.fromEntries(ids.map(id=>{const rr=rows.filter(r=>r.family===id);return [id,{title:titles.get(id)??id,zones:rr.length,
+    strict:rr.reduce((s,r)=>s+r.strictPoints,0),practical:rr.reduce((s,r)=>s+r.practicalPoints,0),WRONG:rr.filter(r=>r.status==='WRONG').length}];}));
+}
+// Variant axes count zones, not cells: how many zones declare the axis and how
+// many of those have the axis cell CORRECT (strict) or CORRECT/TOLERANT (practical).
+function byAxis(rows) {
+  return Object.fromEntries(ALL_VARIANTS.map(v=>{const rr=rows.filter(r=>r.declaredVariants.includes(v));return [v,{zones:rr.length,
+    strict:rr.filter(r=>r.variants[v]?.status==='CORRECT').length,practical:rr.filter(r=>['CORRECT','TOLERANT'].includes(r.variants[v]?.status)).length,
+    WRONG:rr.filter(r=>r.variants[v]?.status==='WRONG').length}];}).filter(([,a])=>a.zones));
 }
 // Zone -> kernel WRONG subtype counts (geometry/validity/topology/metamorphic), per the catalog report rule.
 function wrongSubtypes(zones) {
@@ -277,7 +330,8 @@ export function writeScoreboard(report,out,{markdown=true,catalogErrors=null,rev
   writeJSON(path.join(out,'scoreboard.json'),report);
   if(!markdown)return;
   const lines=['# CAD-Acid','',...(report.revision?[`Revision: ${report.revision}`,'']:[]),report.noClaim,'',`Evidence: ${report.verification.status}. ${report.verification.scope}`,'',
-    `Catalog SHA-256: ${report.zonesSha256}`,
+    `Catalog ${report.catalog.version}: ${report.catalog.zones} zones, ${report.catalog.cells} declared variant cells (SHA-256 ${report.zonesSha256}).`,
+    ...Object.entries(report.kernels).map(([k,v])=>`${k}: strict ${v.strict}/${v.total} · practical ${v.practical}/${v.total} · WRONG ${v.WRONG}`),
     `Recorded tree SHA-256: ${report.verification.code?.treeSha256??'unavailable'}`,
     ...Object.entries(report.verification.addons??{}).flatMap(([kernel,identities])=>identities.map(identity=>`Recorded ${kernel} addon (${report.verification.kernels[kernel].status}): sourceHash=${identity.sourceHash??'unavailable'}; addonSha256=${identity.addonSha256??'unavailable'}`)),
     ...(Object.keys(report.verification.addons??{}).length?[]:['Recorded addon hashes: unavailable']),
@@ -288,20 +342,24 @@ export function writeScoreboard(report,out,{markdown=true,catalogErrors=null,rev
     '| Kernel | Evidence | Strict | Practical | CORRECT | TOLERANT | WRONG | WRONG subtypes | REFUSED | ERROR | NOT_RUN | DISPUTED | UNVERIFIED |','|---|---|---:|---:|---:|---:|---:|---|---:|---:|---:|---:|---:|'];
   for(const [k,v] of Object.entries(report.kernels))lines.push(`| ${k} | ${report.verification.kernels[k].status} | ${v.strict}/${v.total} | ${v.practical}/${v.total} | ${v.counts.CORRECT} | ${v.counts.TOLERANT} | ${v.WRONG?`<strong style="color:red">${v.WRONG}</strong>`:0} | ${Object.entries(v.wrongSubtypes??{}).map(([t,n])=>`${t} ${n}`).join(', ')} | ${v.counts.REFUSED} | ${v.counts.ERROR} | ${v.counts.NOT_RUN} | ${v.counts.DISPUTED} | ${v.counts.UNVERIFIED} |`);
   if(report.errata.entries.length) {
-    lines.push('',`Declared errata ${report.errata.version} (${report.errata.sha256}): listed cells are DISPUTED for every kernel until v2 or re-frozen twins.`);
+    lines.push('',`Declared errata ${report.errata.version} (${report.errata.sha256}): listed cells are DISPUTED for every kernel until corrected, re-frozen twins are independently verified.`);
     for(const e of report.errata.entries)lines.push(`- ${e.id} ${e.zones.join(', ')}: ${e.reason} Evidence: ${e.evidence.join(' ')}`);
   }
   for(const e of report.errata.annotations??[])lines.push(`- Informational ${e.id}: ${e.reason} ${e.scoreEffect}`);
   lines.push('',`Tolerance rules ${report.toleranceRules.version} (${report.toleranceRules.sha256}): strict = CORRECT; practical = CORRECT + TOLERANT. REFUSED_EXPECTED is CORRECT with an expected-refusal note.`);
   for(const rule of report.toleranceRules.rules)lines.push(`- ${rule.id} (${rule.kernels.join(', ')}): ${rule.phenomenon} ${rule.acceptance.description}`);
+  lines.push('','By family (zones; strict/practical points):','','| Kernel | '+Object.values(Object.values(report.kernels)[0].byFamily).map(f=>f.title).join(' | ')+' |','|---|'+Object.keys(Object.values(report.kernels)[0].byFamily).map(()=>'---:').join('|')+'|');
+  for(const [k,v] of Object.entries(report.kernels))lines.push(`| ${k} | ${Object.values(v.byFamily).map(f=>`${f.strict}/${f.practical} of ${f.zones}${f.WRONG?`, WRONG ${f.WRONG}`:''}`).join(' | ')} |`);
+  lines.push('','By variant axis (zones declaring the axis; strict/practical cells correct):','','| Kernel | '+Object.keys(Object.values(report.kernels)[0].byAxis).join(' | ')+' |','|---|'+Object.keys(Object.values(report.kernels)[0].byAxis).map(()=>'---:').join('|')+'|');
+  for(const [k,v] of Object.entries(report.kernels))lines.push(`| ${k} | ${Object.values(v.byAxis).map(a=>`${a.strict}/${a.practical} of ${a.zones}`).join(' | ')} |`);
   lines.push('','NOT_RUN (0 points, in the denominator):');
   for(const [k,v] of Object.entries(report.kernels))if(v.notRun.length)lines.push(`- ${k}: ${v.notRun.length===v.total?'all zones':v.notRun.join(', ')}`);
   if(report.catalogErrors?.length) {
     lines.push('','Catalog errors (recorded; the frozen catalog is unchanged):');
     for(const e of report.catalogErrors)lines.push(`- ${e.id} ${e.zone}: ${e.field}. ${e.impact} ${e.resolution}${e.scoreEffect?` Score effect: ${e.scoreEffect}`:''}`.replaceAll('\n',' '));
   }
-  lines.push('','| Zone | Kernel | Verdict | V0 | V1 | V2 | V3 | Details |','|---|---|---|---|---|---|---|---|');
-  for(const r of report.zones)lines.push(`| ${r.zone}${r.catalogErrors?` (catalog error ${r.catalogErrors.join(', ')})`:''} | ${r.kernel} | ${r.status} | ${VARIANTS.map(v=>r.variants[v].status).join(' | ')} | ${[...r.reasons,...(r.toleranceRuleIds??[]),...(r.evidencePending??[]),...new Set(Object.values(r.variants).filter(v=>!['CORRECT'].includes(v.status)).map(v=>v.reason))].join('; ').replaceAll('|','/').replaceAll('\n',' ')} |`);
+  lines.push('','| Zone | Kernel | Verdict | '+ALL_VARIANTS.join(' | ')+' | Details |','|---|---|---|'+ALL_VARIANTS.map(()=>'---').join('|')+'|---|');
+  for(const r of report.zones)lines.push(`| ${r.zone}${r.catalogErrors?` (catalog error ${r.catalogErrors.join(', ')})`:''} | ${r.kernel} | ${r.status} | ${ALL_VARIANTS.map(v=>r.variants[v]?.status??'–').join(' | ')} | ${[...r.reasons,...(r.toleranceRuleIds??[]),...(r.evidencePending??[]),...new Set(Object.values(r.variants).filter(v=>!['CORRECT'].includes(v.status)).map(v=>v.reason))].join('; ').replaceAll('|','/').replaceAll('\n',' ')} |`);
   lines.push('','| Zone | Variant | Twins | Agreement | Differences |','|---|---|---|---|---|');
   for(const r of report.twinAgreement)lines.push(`| ${r.zone} | ${r.variant} | ${r.pair} | ${r.status} | ${(r.reasons??[]).join(', ')} |`);
   fs.writeFileSync(path.join(out,'scoreboard.md'),lines.join('\n')+'\n');
@@ -316,6 +374,7 @@ async function main() {
     const {catalog,zonesSha256}=loadCatalog(),results=readJSON(input);
     if(args.length>2||args.some(a=>a.startsWith('--')))throw new Error('UNKNOWN_SCORE_OPTION');
     const errata=errataFile?loadErrata(errataFile):defaultErrata;
+    requireScoringErrata(errata);
     const {verifyStoredReferences}=await import('./execution.mjs');
     let report;
     if(reverify)report=await (await import('./run.mjs')).run({out:path.join(out,'reverify'),claims:results,kernels:results.rows.some(r=>r.kernel==='wonky-rust')?['wonky-rust']:[],noSmoke:true,jsonOnly:true,errata,artifactRoot});

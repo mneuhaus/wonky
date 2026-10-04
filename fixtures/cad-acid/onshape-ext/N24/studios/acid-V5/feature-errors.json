@@ -1,0 +1,56 @@
+{
+  "btType": "BTFeatureScriptEvalResponse-1859",
+  "rejectMicroversionSkew": false,
+  "microversionSkew": false,
+  "result": {
+    "btType": "com.belmonttech.serialize.fsvalue.BTFSValueMap",
+    "typeTag": "",
+    "value": [
+      {
+        "btType": "BTFSValueMapEntry-2077",
+        "value": {
+          "btType": "com.belmonttech.serialize.fsvalue.BTFSValueMap",
+          "typeTag": "",
+          "value": [
+            {
+              "btType": "BTFSValueMapEntry-2077",
+              "value": {
+                "btType": "com.belmonttech.serialize.fsvalue.BTFSValueNumber",
+                "typeTag": "",
+                "value": 0
+              },
+              "key": {
+                "btType": "com.belmonttech.serialize.fsvalue.BTFSValueString",
+                "typeTag": "",
+                "value": "bodies"
+              }
+            },
+            {
+              "btType": "BTFSValueMapEntry-2077",
+              "value": {
+                "btType": "com.belmonttech.serialize.fsvalue.BTFSValueString",
+                "typeTag": "ErrorStringEnum",
+                "value": "REGEN_ERROR"
+              },
+              "key": {
+                "btType": "com.belmonttech.serialize.fsvalue.BTFSValueString",
+                "typeTag": "",
+                "value": "error"
+              }
+            }
+          ]
+        },
+        "key": {
+          "btType": "com.belmonttech.serialize.fsvalue.BTFSValueString",
+          "typeTag": "",
+          "value": "Ff5owjNPYWJc74v_7"
+        }
+      }
+    ]
+  },
+  "notices": [],
+  "libraryVersion": 3083,
+  "serializationVersion": "1.2.21",
+  "sourceMicroversion": "19248a0e1ff6b49220e7dbee",
+  "console": ""
+}

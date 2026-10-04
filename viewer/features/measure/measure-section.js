@@ -145,8 +145,8 @@ export function measurementContent(references, entry, { message } = {}) {
     + `${data ? '' : ' disabled'}>Copy measurement</button></div>`
     + (message ? `<p class="measure-message">${escape(message)}</p>` : '')
     + primaryNote
-    + '<p class="small muted inspector-note">Closed forms over the stored analytic parameters'
-    + ' (kernel.precise); decisions use the angular tolerance and the larger entity tolerance.'
+    + '<p class="small muted inspector-note">Closed forms over the stored analytic parameters;'
+    + ' decisions use the angular tolerance and the larger entity tolerance.'
     + ' Shift-click or ⌘-click adds or removes entities.</p>';
 }
 

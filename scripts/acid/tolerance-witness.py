@@ -102,8 +102,14 @@ def freeze(archive_root):
     frozen = OCCT / 'observations.json'
     observations = json.loads(frozen.read_text())
     zones = {zone['id']: zone for zone in catalog['zones']}
+    # Per-zone binding: the witnessed zones must be unchanged since the frozen OCCT catalog.
     if digest(ROOT / 'fixtures/cad-acid/zones.json') != observations['zonesSha256']:
-        raise ValueError('ZONES_CHANGED_SINCE_FREEZE')
+        history = ROOT / 'fixtures/cad-acid/catalog-history' / f"{observations['zonesSha256']}.json"
+        if not history.is_file() or digest(history) != observations['zonesSha256']:
+            raise ValueError('ZONES_CHANGED_SINCE_FREEZE')
+        frozen_zones = {zone['id']: zone for zone in json.loads(history.read_text())['zones']}
+        if any(json.dumps(frozen_zones.get(t), sort_keys=True) != json.dumps(zones.get(t), sort_keys=True) for t in TARGETS):
+            raise ValueError('ZONES_CHANGED_SINCE_FREEZE')
     rows = [row for row in observations['rows'] if row['kernel'] == 'occt' and row['zone'] in TARGETS]
     if len(rows) != 12 or len({(r['zone'], r['variant']) for r in rows}) != 12:
         raise ValueError('INCOMPLETE_OCCT_ARCHIVE')

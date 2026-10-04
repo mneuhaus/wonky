@@ -1,4 +1,4 @@
-import { fail, raise, unsupported } from './errors.mjs';
+import { fail, raise, refuseNamed, unsupported } from './errors.mjs';
 import { EnumValue, Id, map, matchesType, Plane, Quantity, STD_ENUM_UNIMPLEMENTED, tagged, Transform, Vector, vectorNumbers } from './values.mjs';
 import { cross, dot, norm, normalized, sub } from './brep.mjs';
 import { array, list, transformInBend } from './kernel.mjs';
@@ -51,10 +51,56 @@ const enumIs = (value, type, name) => value instanceof EnumValue && value.enumTy
 const resultKey = r => `${r.record.key}:${r.kind}:${r.index ?? ''}`;
 const unique = rows => [...new Map(rows.map(row => [resultKey(row), row])).values()];
 
+// A set of sketch regions (Rust port, docs/fs-queries.md "Sketch regions on the
+// Rust port"): the leaf Query of qSketchRegion (library.mjs) and these nodes,
+// built lazily and evaluated by the opExtrude that consumes them
+// (native/rust-host.mjs evaluateRegions). Kinds: nothing, union {queries},
+// intersection {queries}, subtract {a, b}, pick {builtin, query, point, loc}
+// (qContainsPoint / qClosestTo), nth {query, n}, ref {id, index} (one region
+// that evaluateQuery returned).
+export class RegionQuery {
+  constructor(kind, data = {}) { this.type = 'Query'; this.kind = kind; Object.assign(this, data); }
+}
+export const isRegionQuery = query => query?.type === 'Query' && !(query instanceof TopologyQuery);
+// qNothing() and qUnion([]): an empty topology query is the empty set of any entity.
+const isEmptyTopology = query => query instanceof TopologyQuery && query.kind === 'union' && query.queries.every(isEmptyTopology);
+export const REGION_HINTS = {
+  mixed: 'Keep sketch regions and topology queries apart: extrude the regions of qSketchRegion(...) with one opExtrude, and evaluate topology queries separately.',
+  topology: 'Pass qSketchRegion(sketchId) or a qUnion, qSubtraction, qIntersection, qContainsPoint, qClosestTo, qGeometry or qEntityFilter of sketch regions to opExtrude.',
+};
+export const regionRefusal = (builtin, reason, message, hint, loc) => refuseNamed(builtin, reason, message, hint, loc);
+// The operands of a set operation as region queries, or null when none of them
+// is a region query (topology operands keep their topology semantics).
+function regionOperands(builtin, operands, loc) {
+  if (!operands.some(isRegionQuery)) return null;
+  return operands.map(query => {
+    if (isRegionQuery(query)) return query;
+    if (query?.type !== 'Query') raise(`${builtin} expects queries`, loc);
+    if (isEmptyTopology(query)) return new RegionQuery('nothing');
+    return regionRefusal(builtin, 'sketch-region/mixed-with-topology', 'a sketch-region query and a topology query cannot be combined', REGION_HINTS.mixed, loc);
+  });
+}
+// Filters and selectors that need Onshape facts about the owner body or the
+// edges of a sketch region, which are not documented: named, never guessed.
+const REGION_UNDOCUMENTED = {
+  qBodyType: ['sketch-region/owner-body-type-undocumented', 'the body type that owns a sketch-region face is not documented'],
+  qOwnedByBody: ['sketch-region/owner-body-undocumented', 'the body that owns a sketch-region face is not documented'],
+  qAdjacent: ['sketch-region/adjacency-unavailable', 'the entities adjacent to a sketch region are not computed'],
+  qCoincidesWithPlane: ['sketch-region/coincidence-tolerance-unpublished', 'Onshape publishes no tolerance for qCoincidesWithPlane, so coincidence of a region with a plane is not decided'],
+  qParallelEdges: ['sketch-region/parallel-edges-of-faces-undocumented', 'qParallelEdges over faces (which have no linear edge of their own) is not documented'],
+  makeRobustQuery: ['sketch-region/robust-query-unavailable', 'makeRobustQuery of sketch regions is not implemented'],
+};
+export function refuseRegionQuery(builtin, loc) {
+  const [reason, message] = REGION_UNDOCUMENTED[builtin];
+  return regionRefusal(builtin, reason, message,
+    `${builtin} has no exact meaning for a sketch region here; select regions with qUnion, qSubtraction, qIntersection, qContainsPoint, qClosestTo, qGeometry(..., GeometryType.PLANE) or qEntityFilter(..., EntityType.FACE) instead.`, loc);
+}
+
 export function resolveTopology(engine, query, loc) {
   if (!(query instanceof TopologyQuery)) {
     // A sketch-region Query is an Onshape Query too; wonky keeps it separate.
-    if (query?.type === 'Query') unsupported('A sketch-region query cannot be used as a topology query here', loc);
+    if (query?.type === 'Query') regionRefusal('query', 'sketch-region/not-a-topology-query', 'a sketch-region query cannot be used as a topology query here',
+      'Sketch regions are consumed by opExtrude; use a topology query (qEverything, qCreatedBy, qAllModifiableSolidBodies, ...) here.', loc);
     raise('Expected a topology Query', loc);
   }
   const native = engine.nativeTopologyResolver?.(query, loc);
@@ -64,8 +110,10 @@ export function resolveTopology(engine, query, loc) {
   switch (query.kind) {
     case 'allSolid': return bodies.filter(row => row.record.kind === 'solid');
     case 'created': {
+      if (enumIs(query.entityType, 'EntityType', 'BODY')) {
+        return bodies.filter(({ record }) => (record.bodyCreatedBy ?? record.createdBy).has(query.id.key()));
+      }
       const found = bodies.filter(row => row.record.createdBy.has(query.id.key()));
-      if (enumIs(query.entityType, 'EntityType', 'BODY')) return found;
       if (engine.entityCreators?.has(query.id.key())) return createdEntities(found, query, loc);
       return withoutCreatedInBody(engine, owned(engine, found, query.entityType, loc), query, loc);
     }
@@ -762,10 +810,14 @@ export function queryBuiltins(engine) {
     BooleanOperationType: enumSet('BooleanOperationType', ['UNION', 'SUBTRACTION', 'INTERSECTION']),
     PropertyType: enumSet('PropertyType', ['NAME', 'APPEARANCE', 'DESCRIPTION'], ['MATERIAL', 'PART_NUMBER', 'VENDOR', 'PROJECT', 'PRODUCT_LINE',
       'TITLE_1', 'TITLE_2', 'TITLE_3', 'EXCLUDE_FROM_BOM', 'CUSTOM', 'MASS_OVERRIDE', 'REVISION']), // propertytype.gen.fs
+    // clashtype.gen.fs, std member order.
+    ClashType: enumSet('ClashType', ['NONE', 'INTERFERE', 'EXISTS', 'ABUT_NO_CLASS', 'ABUT_TOOL_IN_TARGET', 'ABUT_TOOL_OUT_TARGET', 'TARGET_IN_TOOL', 'TOOL_IN_TARGET']),
     AdjacencyType: enumSet('AdjacencyType', ['VERTEX', 'EDGE']), // query.fs:315
     ChamferType: enumSet('ChamferType', ['EQUAL_OFFSETS', 'TWO_OFFSETS', 'OFFSET_ANGLE', 'RAW_OFFSET']), // chamfertype.gen.fs
+    DraftType: enumSet('DraftType', ['NEUTRAL_PLANE', 'REFERENCE_ENTITY', 'REFERENCE_SURFACE']), // drafttype.gen.fs
     // std query.fs qAdjacent(seed, adjacencyType[, entityType]); see adjacent().
     qAdjacent: builtin('qAdjacent', 2, 3, ([query, adjacencyType, entityType], loc) => {
+      if (isRegionQuery(query)) refuseRegionQuery('qAdjacent', loc);
       if (!(query instanceof TopologyQuery)) raise('qAdjacent expects a topology Query', loc);
       if (!(adjacencyType instanceof EnumValue && adjacencyType.enumType === 'AdjacencyType')) raise('qAdjacent expects an AdjacencyType', loc);
       if (entityType !== undefined && !(entityType instanceof EnumValue && entityType.enumType === 'EntityType')) raise('qAdjacent expects an EntityType', loc);
@@ -784,11 +836,15 @@ export function queryBuiltins(engine) {
     qUnion: builtin('qUnion', 1, 4, (args, loc) => {
       const queries = args.length === 1 ? args[0] : args;
       if (!Array.isArray(queries) || (args.length > 1 && Array.isArray(args[0]))) raise('qUnion expects an array of queries or two to four queries', loc);
-      if (queries.some(q => !(q instanceof TopologyQuery) && q?.type === 'Query')) unsupported('qUnion of sketch-region queries is not implemented', loc);
+      const regions = regionOperands('qUnion', queries, loc);
+      if (regions) return new RegionQuery('union', { queries: regions });
       if (!queries.every(q => q instanceof TopologyQuery)) raise('qUnion expects an array of topology queries', loc);
       return new TopologyQuery('union', { queries });
     }),
-    qSubtraction: builtin('qSubtraction', 2, 2, ([a, b]) => new TopologyQuery('subtract', { a, b })),
+    qSubtraction: builtin('qSubtraction', 2, 2, ([a, b], loc) => {
+      const regions = regionOperands('qSubtraction', [a, b], loc);
+      return regions ? new RegionQuery('subtract', { a: regions[0], b: regions[1] }) : new TopologyQuery('subtract', { a, b });
+    }),
     // std query.fs qNothing(): an empty query.
     qNothing: builtin('qNothing', 0, 0, () => new TopologyQuery('union', { queries: [] })),
     qEverything: builtin('qEverything', 0, 1, ([entityType], loc) => {
@@ -798,10 +854,14 @@ export function queryBuiltins(engine) {
     // std query.fs qIntersection(subqueries is array) and qIntersection(query1, query2).
     qIntersection: builtin('qIntersection', 1, 2, (args, loc) => {
       const queries = args.length === 2 ? args : args[0];
+      const regions = Array.isArray(queries) ? regionOperands('qIntersection', queries, loc) : null;
+      if (regions) return new RegionQuery('intersection', { queries: regions });
       if (!Array.isArray(queries) || !queries.every(q => q instanceof TopologyQuery)) raise('qIntersection expects topology queries', loc);
       return new TopologyQuery('intersection', { queries });
     }),
     qContainsPoint: builtin('qContainsPoint', 2, 2, ([query, point], loc) => {
+      if (isRegionQuery(query)) return regionRefusal('qContainsPoint', 'sketch-region/point-selection-needs-rust-kernel', 'qContainsPoint over sketch regions is decided by the Rust kernel only',
+        'Run with WONKY_BACKEND=rust (the wonky CLI default backend).', loc);
       if (!(query instanceof TopologyQuery)) raise('qContainsPoint expects a topology Query', loc);
       vectorNumbers(point, 1, 3, loc);
       return new TopologyQuery('containsPoint', { query, point });
@@ -810,16 +870,21 @@ export function queryBuiltins(engine) {
     // coincidesWithPlane(), hasGeometryType() and closestTo().
     GeometryType: enumSet('GeometryType', GEOMETRY_TYPES),
     qCoincidesWithPlane: builtin('qCoincidesWithPlane', 2, 2, ([query, plane], loc) => {
+      if (isRegionQuery(query)) refuseRegionQuery('qCoincidesWithPlane', loc);
       if (!(query instanceof TopologyQuery)) raise('qCoincidesWithPlane expects a topology Query', loc);
       if (!(plane instanceof Plane)) raise('qCoincidesWithPlane expects a Plane', loc);
       return new TopologyQuery('coincidesWithPlane', { query, plane });
     }),
     qGeometry: builtin('qGeometry', 2, 2, ([query, geometryType], loc) => {
-      if (!(query instanceof TopologyQuery)) raise('qGeometry expects a topology Query', loc);
+      if (!(query instanceof TopologyQuery) && !isRegionQuery(query)) raise('qGeometry expects a topology Query', loc);
       if (!(geometryType instanceof EnumValue && geometryType.enumType === 'GeometryType')) raise('qGeometry expects a GeometryType', loc);
+      // Every sketch region is a planar face: PLANE keeps the set, any other type keeps nothing.
+      if (isRegionQuery(query)) return enumIs(geometryType, 'GeometryType', 'PLANE') ? query : new RegionQuery('nothing');
       return new TopologyQuery('geometry', { query, geometryType });
     }),
     qClosestTo: builtin('qClosestTo', 2, 2, ([query, point], loc) => {
+      if (isRegionQuery(query)) return regionRefusal('qClosestTo', 'sketch-region/point-selection-needs-rust-kernel', 'qClosestTo over sketch regions is decided by the Rust kernel only',
+        'Run with WONKY_BACKEND=rust (the wonky CLI default backend).', loc);
       if (!(query instanceof TopologyQuery)) raise('qClosestTo expects a topology Query', loc);
       vectorNumbers(point, 1, 3, loc); // query.fs precondition is3dLengthVector(point)
       return new TopologyQuery('closestTo', { query, point });
@@ -828,6 +893,9 @@ export function queryBuiltins(engine) {
     // parallelEdges(). The one-argument form is @internal in std ("Unconventional
     // semantics, not for general use") and refuses by name.
     qParallelEdges: builtin('qParallelEdges', 1, 2, ([query, reference], loc) => {
+      // Regions as the reference `edges` too: that is a valid std call, not a
+      // (try-catchable) type error.
+      if (isRegionQuery(query) || isRegionQuery(reference)) refuseRegionQuery('qParallelEdges', loc);
       if (!(query instanceof TopologyQuery)) raise('qParallelEdges expects a topology Query', loc);
       if (reference === undefined) unsupported('qParallelEdges(referenceEdges) is internal to std (query.fs: "Unconventional semantics, not for general use") and not implemented; use qParallelEdges(queryToFilter, direction) or qParallelEdges(queryToFilter, edges)', loc);
       if (reference instanceof Vector) {
@@ -849,8 +917,35 @@ export function queryBuiltins(engine) {
       const owner = context(c, loc);
       return new TopologyQuery('robust', { rows, owner, firstLaterRecord: owner.nextRecord });
     }),
-    qBodyType: builtin('qBodyType', 2, 2, ([query, bodyType]) => new TopologyQuery('bodyType', { query, bodyType })),
-    qOwnedByBody: builtin('qOwnedByBody', 2, 2, ([query, entityType]) => new TopologyQuery('owned', { query, entityType })),
+    qBodyType: builtin('qBodyType', 2, 2, ([query, bodyType], loc) => {
+      if (isRegionQuery(query)) refuseRegionQuery('qBodyType', loc);
+      return new TopologyQuery('bodyType', { query, bodyType });
+    }),
+    qOwnedByBody: builtin('qOwnedByBody', 2, 2, ([query, entityType], loc) => {
+      // Regions as the `body` of std qOwnedByBody(queryToFilter, body) too.
+      if (isRegionQuery(query) || isRegionQuery(entityType)) refuseRegionQuery('qOwnedByBody', loc);
+      return new TopologyQuery('owned', { query, entityType });
+    }),
+    // std query.fs qEntityFilter(query, entityType): the entities of that type in
+    // the query. A sketch region is a face: FACE keeps the set; a region has no
+    // edge, vertex or body of its own in the set, so those keep nothing.
+    qEntityFilter: builtin('qEntityFilter', 2, 2, ([query, entityType], loc) => {
+      if (!(entityType instanceof EnumValue && entityType.enumType === 'EntityType')) raise('qEntityFilter expects an EntityType', loc);
+      if (isRegionQuery(query)) return enumIs(entityType, 'EntityType', 'FACE') ? query : new RegionQuery('nothing');
+      if (query instanceof TopologyQuery) return regionRefusal('qEntityFilter', 'query/entity-filter-topology-not-implemented', 'qEntityFilter over topology queries is not implemented',
+        'Use qEverything(entityType), qOwnedByBody(query, entityType) or qAdjacent(query, ..., entityType) to select entities of one type.', loc);
+      return raise('qEntityFilter expects a Query', loc);
+    }),
+    // std query.fs qNthElement(query, n): zero-based, negative n counts from the
+    // end, "deterministic but arbitrary" order. Onshape's order is not
+    // reproducible, so a set of regions is decided only when it has one member.
+    qNthElement: builtin('qNthElement', 2, 2, ([query, n], loc) => {
+      if (!Number.isInteger(n)) raise('qNthElement expects an integer index', loc);
+      if (isRegionQuery(query)) return new RegionQuery('nth', { query, n, loc });
+      if (query instanceof TopologyQuery) return regionRefusal('qNthElement', 'query/nth-element-topology-not-implemented', 'qNthElement over topology queries is not implemented',
+        'Select the entity with a geometric query such as qClosestTo(query, point) or qContainsPoint(query, point).', loc);
+      return raise('qNthElement expects a Query', loc);
+    }),
     evaluateQuery: builtin('evaluateQuery', 2, 2, ([c, query], loc) => {
       return resolve(c, query, loc).map(row => new TopologyQuery('reference', { rows: [row], owner: context(c, loc) }));
     }),
@@ -911,6 +1006,7 @@ export function queryBuiltins(engine) {
       }
       return new Quantity(total * 1e-9, 3);
     }),
+    evCollision: builtin('evCollision', 2, 2, (_args, loc) => unsupported('evCollision requires the Rust host port', loc)),
     evDistance: builtin('evDistance', 2, 2, (_args, loc) => unsupported('evDistance requires the Rust host port', loc)),
     evBox3d: builtin('evBox3d', 2, 2, ([c, definition], loc) => {
       if (definition.tight !== undefined && typeof definition.tight !== 'boolean') raise('evBox3d.tight must be boolean', loc);

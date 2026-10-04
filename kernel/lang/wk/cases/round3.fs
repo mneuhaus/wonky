@@ -26,7 +26,7 @@ function prism(context is Context,id is Id,o is Vector,n is Vector,x is Vector,p
  opExtrude(context,id+"ex",{"entities":qSketchRegion(id+"s",true),"direction":d,"endBound":BoundingType.BLIND,"endDepth":h*millimeter});
  opDeleteBodies(context,id+"ds",{"entities":qCreatedBy(id+"s",EntityType.BODY)});return qCreatedBy(id+"ex",EntityType.BODY);
 }
-function box(context is Context,id is Id,p0 is Vector,p1 is Vector) returns Query
+function boxBody(context is Context,id is Id,p0 is Vector,p1 is Vector) returns Query
 {return prism(context,id,vector(0,0,p0[2]),vector(0,0,1),vector(1,0,0),[vector(p0[0],p0[1]),vector(p1[0],p0[1]),vector(p1[0],p1[1]),vector(p0[0],p1[1])],vector(0,0,1),p1[2]-p0[2]);}
 function subtract(context is Context,id is Id,b is Query,tool is Query)
 {opBoolean(context,id,{"targets":b,"tools":tool,"operationType":BooleanOperationType.SUBTRACTION});}
@@ -76,7 +76,7 @@ annotation {"Feature Type Name":"bigPlate"}
 export const bigPlate=defineFeature(function(context is Context,id is Id,definition is map)
 precondition {}
 {
- var p=box(context,id+"p",vector(-150.3,-150.7,0.1),vector(150.9,150.2,40.3)); var t=cylinder(context,id+"t",vector(12.25,-7.5,-1),3.3,45); subtract(context,id+"h",p,t);
+ var p=boxBody(context,id+"p",vector(-150.3,-150.7,0.1),vector(150.9,150.2,40.3)); var t=cylinder(context,id+"t",vector(12.25,-7.5,-1),3.3,45); subtract(context,id+"h",p,t);
 });
 // defect 2: a loft whose axis dot product is exactly the F32x2 rounding of 1 - 1e-6 (today refuses)
 annotation {"Feature Type Name":"axisThreshold"}
@@ -96,7 +96,7 @@ annotation {"Feature Type Name":"hugeOffset"}
 export const hugeOffset=defineFeature(function(context is Context,id is Id,definition is map)
 precondition {}
 {
- var b=box(context,id+"b",vector(0,0,0),vector(10,10,10));
+ var b=boxBody(context,id+"b",vector(0,0,0),vector(10,10,10));
  opPattern(context,id+"p",{"entities":b,"transforms":[transform(vector(1e39,0,0)*millimeter)],"instanceNames":["far"]});
 });
 annotation {"Feature Type Name":"trySilentHuge"}
@@ -104,7 +104,7 @@ export const trySilentHuge=defineFeature(function(context is Context,id is Id,de
 precondition {}
 {
  try silent(prism(context,id+"p",vector(0,0,0),vector(0,0,1),vector(1,0,0),[vector(0,0),vector(10,0),vector(10,10),vector(0,10)],vector(0,0,1),1e39));
- box(context,id+"b",vector(20,0,0),vector(30,10,10));
+ boxBody(context,id+"b",vector(20,0,0),vector(30,10,10));
 });
 // defect 6: kernel failures inside try: the decorate idiom, a fallback handler, try silent
 annotation {"Feature Type Name":"decorated"}
@@ -117,24 +117,24 @@ annotation {"Feature Type Name":"decoratedMessage"}
 export const decoratedMessage=defineFeature(function(context is Context,id is Id,definition is map)
 precondition {}
 {
- box(context,id+"b",vector(20,0,0),vector(30,10,10));
+ boxBody(context,id+"b",vector(20,0,0),vector(30,10,10));
  try { loftOff(context,id+"z",vector(0,0,0),5,4,0,0); } catch (e) { throw regenError("R4 build: " ~ e); }
 });
 annotation {"Feature Type Name":"fallback"}
 export const fallback=defineFeature(function(context is Context,id is Id,definition is map)
 precondition {}
 {
- try { loftOff(context,id+"z",vector(0,0,0),5,4,0,0); } catch (e) { box(context,id+"fb",vector(0,0,0),vector(10,10,10)); }
+ try { loftOff(context,id+"z",vector(0,0,0),5,4,0,0); } catch (e) { boxBody(context,id+"fb",vector(0,0,0),vector(10,10,10)); }
 });
 annotation {"Feature Type Name":"silentNullVolume"}
 export const silentNullVolume=defineFeature(function(context is Context,id is Id,definition is map)
 precondition {}
 {
- var p=box(context,id+"p",vector(0,0,0),vector(40,20,5)); subtract(context,id+"h",p,cylinder(context,id+"t",vector(10,10,-1),2,7));
+ var p=boxBody(context,id+"p",vector(0,0,0),vector(40,20,5)); subtract(context,id+"h",p,cylinder(context,id+"t",vector(10,10,-1),2,7));
  opPattern(context,id+"q",{"entities":p,"transforms":[transform(rotz(90*degree),vector(100,0,0)*millimeter)],"instanceNames":["r"]});
  var q=qCreatedBy(id+"q",EntityType.BODY);
  try silent(subtract(context,id+"h2",q,cylinder(context,id+"t2",vector(90,20,-1),2,7)));
- box(context,id+"b",vector(200,0,0),vector(210,10,10));
+ boxBody(context,id+"b",vector(200,0,0),vector(210,10,10));
 });
 // defect 4, continued: a Boolean and a pattern consume an above-F32-range body.
 // Nothing native may consume it before today's decoder rejects it (stage boundary).
@@ -142,7 +142,7 @@ annotation {"Feature Type Name":"hugeConsumed"}
 export const hugeConsumed=defineFeature(function(context is Context,id is Id,definition is map)
 precondition {}
 {
- var a=box(context,id+"a",vector(0,0,0),vector(10,10,10));
+ var a=boxBody(context,id+"a",vector(0,0,0),vector(10,10,10));
  var p=prism(context,id+"p",vector(5,5,0),vector(0,0,1),vector(1,0,0),[vector(0,0),vector(10,0),vector(10,10),vector(0,10)],vector(0,0,1),1e39);
  try silent(unite(context,id+"u",a,p));
  opPattern(context,id+"q",{"entities":a,"transforms":[transform(vector(20,0,0)*millimeter)],"instanceNames":["c"]});

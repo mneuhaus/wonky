@@ -1,8 +1,11 @@
-"""Update the self-contained CAD-Acid status page from a v2 scoreboard.
+"""Update the self-contained CAD-Acid status page from a scoreboard (schema /2 or /3).
 
 Usage: uv run --no-project python scripts/acid/build-status-page.py SCOREBOARD_JSON
-The tracked page provides the 48 comparison modals and embedded V0 renders; this
-builder deliberately preserves those artifacts and changes only verdict presentation.
+The tracked page provides one comparison modal per zone and embedded V0 renders;
+this builder deliberately preserves those artifacts and changes only verdict
+presentation. Schema /3 declares its catalog (N zones): zones added to the
+catalog after the page was rendered get a tile, a modal and a matrix row without
+a V0 preview; a page zone missing from the scoreboard is an error.
 """
 
 import argparse
@@ -55,20 +58,42 @@ def replace_one(text, pattern, replacement, description, flags=0):
     return result
 
 
+SCHEMAS = ("wonky/cad-acid-scoreboard/2", "wonky/cad-acid-scoreboard/3")
+
+
+def catalog_size(data):
+    """N zones: 48 for schema /2 (the frozen catalog), else the declared catalog."""
+    if data.get("schema") not in SCHEMAS:
+        raise ValueError("Expected wonky/cad-acid-scoreboard/2 or /3, not a legacy or unverified score")
+    if data["schema"].endswith("/2"):
+        return 48
+    catalog = data.get("catalog") or {}
+    if not isinstance(catalog.get("zones"), int) or catalog["zones"] < 48 or not isinstance(catalog.get("cells"), int):
+        raise ValueError("Schema /3 scoreboard must declare catalog.zones (>= 48) and catalog.cells")
+    return catalog["zones"]
+
+
+def verdict_scope(data):
+    return "four-variant" if data["schema"].endswith("/2") else "declared-variant"
+
+
 def validate(data):
-    if data.get("schema") != "wonky/cad-acid-scoreboard/2":
-        raise ValueError("Expected wonky/cad-acid-scoreboard/2, not a legacy or unverified score")
+    n = catalog_size(data)
     rows = {(r["kernel"], r["zone"]): r for r in data["zones"] if r["kernel"] in KERNELS}
     zones = sorted({zone for _, zone in rows})
-    if len(zones) != 48 or len(rows) != 144:
-        raise ValueError(f"Expected 48 zones x 3 kernels; got {len(zones)} zones and {len(rows)} rows")
+    if len(zones) != n or len(rows) != 3 * n:
+        raise ValueError(f"Expected {n} zones x 3 kernels; got {len(zones)} zones and {len(rows)} rows")
+    if n != 48 or data["schema"].endswith("/3"):
+        cells = sum(len(rows["wonky-rust", zone].get("declaredVariants") or []) for zone in zones)
+        if cells != data["catalog"]["cells"]:
+            raise ValueError(f"Declared variants ({cells}) do not match catalog.cells ({data['catalog']['cells']})")
     rules = {str(rule["id"]): rule for rule in data["toleranceRules"]["rules"]}
     if len(rules) != len(data["toleranceRules"]["rules"]):
         raise ValueError("Duplicate tolerance rule ID")
     for kernel in KERNELS:
         summary = data["kernels"][kernel]
         counts = Counter(rows[kernel, zone]["status"] for zone in zones)
-        if summary["total"] != 48 or any(counts[tier] != summary["counts"].get(tier, 0) for tier in TIERS):
+        if summary["total"] != n or any(counts[tier] != summary["counts"].get(tier, 0) for tier in TIERS):
             raise ValueError(f"Scoreboard counts do not match rows for {kernel}")
         if summary["practical"] != counts["CORRECT"] + counts["TOLERANT"]:
             raise ValueError(f"Practical points inconsistent for {kernel}")
@@ -93,9 +118,10 @@ def badge(tier):
 
 
 def score_pair(summary):
+    total = summary["total"]
     return ('<span class="score-pair">'
-            f'<span><small>Strict</small> <strong class="strict-value">{summary["strict"]}/48</strong></span>'
-            f'<span><small>Practical</small> <strong class="practical-value">{summary["practical"]}/48</strong></span>'
+            f'<span><small>Strict</small> <strong class="strict-value">{summary["strict"]}/{total}</strong></span>'
+            f'<span><small>Practical</small> <strong class="practical-value">{summary["practical"]}/{total}</strong></span>'
             '</span>')
 
 
@@ -124,10 +150,61 @@ def pending_note(row, element="p"):
     return f'<{element} class="evidence-pending">Evidence pending (verdict unchanged): {note}</{element}>'
 
 
+def zone_order(data):
+    """Catalog order as scored (base zones first, extensions appended)."""
+    return list(dict.fromkeys(r["zone"] for r in data["zones"] if r["kernel"] in KERNELS))
+
+
+def add_missing_zones(source, data, rows, zones):
+    """Append a preview-free tile, modal and matrix row for every scored zone the page lacks."""
+    present = re.findall(r'<div class="zone-modal" id="zone-(AC\d{2,})"', source)
+    if len(present) != len(set(present)) or source.count('class="zone-modal"') != len(present):
+        raise ValueError("The source must retain one comparison modal per zone")
+    stale = sorted(set(present) - set(zones))
+    if stale:
+        raise ValueError(f"Page zones missing from the scoreboard: {', '.join(stale)}")
+    missing = [zone for zone in zone_order(data) if zone not in present]
+    if not missing:
+        return source
+    title = {zone: rows["wonky-rust", zone]["title"] for zone in missing}
+
+    def tile(zone):
+        return (f'<div class="status-entry v-not_run"><a class="status-tile" href="#zone-{zone}" aria-label="{zone} {escape(title[zone])}; open comparison">'
+                f'<span class="no-solid">No V0 preview</span><span class="tile-meta"><strong>{zone}</strong> {badge("NOT_RUN")}</span></a></div>')
+
+    def modal(zone):
+        columns = ''.join(f'<section class="kernel-column no-render" aria-label="{name}"><h4>{name}</h4><div class="modal-visual"><span class="no-solid">No V0 preview</span></div>'
+                          f'<p>{badge("NOT_RUN")}</p><p class="kernel-detail"></p></section>' for name in NAMES)
+        return (f'<div class="zone-modal" id="zone-{zone}"><a class="modal-shade" href="#status-report" aria-label="Close {zone} detail"></a>'
+                f'<div class="modal-panel" role="dialog" aria-modal="true" aria-labelledby="zone-title-{zone}"><a class="modal-close" href="#status-report" aria-label="Close detail">Close ×</a>'
+                f'<h3 id="zone-title-{zone}">{zone} · {escape(title[zone])}</h3><div class="kernel-columns">{columns}</div>'
+                f'<a class="viewer-link" href="VIEWER_URL#{zone}">Open in 3D</a></div></div>')
+
+    def matrix_row(zone):
+        return f'<tr><th scope="row">{zone} · {escape(title[zone])}</th>' + ''.join(f'<td>{badge("NOT_RUN")}</td>' for _ in KERNELS) + '</tr>'
+
+    def after_last(text, pattern, lines, description):
+        found = list(re.finditer(pattern, text))
+        if not found:
+            raise ValueError(f"No {description} to extend")
+        end = found[-1].end()
+        return text[:end] + ''.join('\n' + line for line in lines) + text[end:]
+
+    def extend_grid(match):
+        return after_last(match.group(0), r'<div class="status-entry [^\n]+', [tile(z) for z in missing], "gallery tiles")
+    source, count = re.subn(r'<div class="grid-block">[\s\S]*?(?=<div class="grid-block">|<div class="zone-modal")', extend_grid, source)
+    if count != 3:
+        raise ValueError(f"Expected 3 status grids, got {count}")
+    source = after_last(source, r'<div class="zone-modal" id="zone-AC\d{2,}"[^\n]*', [modal(z) for z in missing], "comparison modals")
+    return after_last(source, r'<tr><th scope="row">AC\d{2,}[^\n]*', [matrix_row(z) for z in missing], "matrix rows")
+
+
 def render(data, source):
     rows, zones, rules = validate(data)
-    if source.count('class="zone-modal"') != 48:
-        raise ValueError("The source must retain all 48 comparison modals")
+    n, scope = len(zones), verdict_scope(data)
+    source = add_missing_zones(source, data, rows, zones)
+    if source.count('class="zone-modal"') != n:
+        raise ValueError(f"The page must carry all {n} comparison modals")
     if MARKER in source:
         source = replace_one(source, r"\n\s*" + re.escape(MARKER) + r"[\s\S]*?(?=\n</style>)", "", "old generated CSS")
     source = replace_one(source, r"</style>", lambda _: CSS + "\n</style>", "style block")
@@ -140,7 +217,7 @@ def render(data, source):
     intro = ('<h2 id="status-report">Status report</h2>\n'
              f'<p>Rust tested code tree SHA-256: {tree_identity}. Git HEAD (which can omit uncommitted changes): {head}. '
              'Onshape and build123d / OCCT are frozen independent references, '
-             'not live runs today. Scores use 48 zones per kernel; disputed zones stay in the denominator. '
+             f'not live runs today. Scores use {n} zones per kernel; disputed zones stay in the denominator. '
              'The strict score follows the frozen v1 rules (including declared measurement tolerances). The practical score additionally accepts '
              'only rule-cited, documented tolerance behaviour; it never accepts a changed solid as correct.</p>\n')
     table = ('<div class="score-scroll"><table class="headline"><thead><tr>'
@@ -160,7 +237,7 @@ def render(data, source):
                          lambda _: intro + table, "headline")
     source = replace_one(source, r'<h3>V0 result galleries</h3><p>[^\n]*</p>',
                          '<h3>V0 result galleries</h3><p>The embedded V0 solids are illustrative snapshots, '
-                         'not evidence of a four-variant verdict. Each badge and score comes from the cited '
+                         f'not evidence of a {scope} verdict. Each badge and score comes from the cited '
                          'scoreboard; a missing older preview does not mean the current run produced no solid. '
                          'Tap or click a tile for the larger three-kernel comparison and rule citation. '
                          'The three views use matching camera and scale within each zone; fine details may '
@@ -172,7 +249,7 @@ def render(data, source):
                           'teal TOLERANT means a rule-cited practical acceptance, not exact agreement. '
                           'Red WRONG is a changed result, grey REFUSED is a safe refusal, amber ERROR an execution error, '
                           'and striped DISPUTED a suspended comparison. NOT_RUN and UNVERIFIED earn no points. '
-                          'The badge states the four-variant verdict; tiles show V0 only. '
+                          f'The badge states the {scope} verdict; tiles show V0 only. '
                           'Use the chips to filter each grid.</p>'), "gallery legend")
 
     def update_grid(match):
@@ -195,14 +272,14 @@ def render(data, source):
 
         def update_tile(tile_match):
             tile = tile_match.group(0)
-            zone = re.search(r'href="#zone-(AC\d{2})"', tile).group(1)
+            zone = re.search(r'href="#zone-(AC\d{2,})"', tile).group(1)
             tier = rows[kernel, zone]["status"]
             tile = re.sub(r'(<div class="status-entry )v-[a-z_]+',
                           lambda m: m.group(1) + 'v-' + tier.lower(), tile, count=1)
             return re.sub(r'<span class="verdict [a-z_]+">[^<]+</span>', badge(tier), tile, count=1)
         block, count = re.subn(r'<div class="status-entry [^\n]+', update_tile, block)
-        if count != 48:
-            raise ValueError(f"Expected 48 gallery tiles for {kernel}, got {count}")
+        if count != n:
+            raise ValueError(f"Expected {n} gallery tiles for {kernel}, got {count}")
         # Old audit numbers describe the strict-v1 verdict and cannot be used as v2 counts.
         block = re.sub(r'<div class="grid-audit">[^\n]*</div>', '', block)
         return block
@@ -225,7 +302,7 @@ def render(data, source):
             section = replace_one(section, r'<span class="verdict [a-z_]+">[^<]+</span>',
                                   badge(row["status"]), "modal badge")
             v0 = row["variants"]["V0"]
-            explanation = (f'Current four-variant verdict: {row["status"]}. '
+            explanation = (f'Current {scope} verdict: {row["status"]}. '
                            f'Strict: {row["strictStatus"]}. V0 strict: {v0.get("strictStatus", v0["status"])}.')
             reasons = [v0.get("reason"), *(row.get("reasons") or [])]
             explanation += ''.join(f' {str(reason)}' for reason in reasons if reason)
@@ -246,9 +323,9 @@ def render(data, source):
         if column_count != 3:
             raise ValueError(f"Expected 3 columns in modal {zone}, got {column_count}")
         return line
-    source, count = re.subn(r'<div class="zone-modal" id="zone-(AC\d{2})"[^\n]*', update_modal, source)
-    if count != 48:
-        raise ValueError(f"Expected 48 comparison modals, got {count}")
+    source, count = re.subn(r'<div class="zone-modal" id="zone-(AC\d{2,})"[^\n]*', update_modal, source)
+    if count != n:
+        raise ValueError(f"Expected {n} comparison modals, got {count}")
 
     def update_matrix_row(match):
         line, zone = match.group(0), match.group(1)
@@ -264,9 +341,9 @@ def render(data, source):
         if cell_count != 3:
             raise ValueError(f"Expected 3 matrix cells for {zone}, got {cell_count}")
         return line
-    source, count = re.subn(r'<tr><th scope="row">(AC\d{2})[^\n]*', update_matrix_row, source)
-    if count != 48:
-        raise ValueError(f"Expected 48 matrix rows, got {count}")
+    source, count = re.subn(r'<tr><th scope="row">(AC\d{2,})[^\n]*', update_matrix_row, source)
+    if count != n:
+        raise ValueError(f"Expected {n} matrix rows, got {count}")
     source = replace_one(source, r'<h3>Every zone, side by side</h3>[\s\S]*?(?=<div class="score-scroll"><table class="matrix">)',
                          '<h3>Every zone, side by side</h3><p>Strict follows the frozen v1 rules: PASS and predeclared REFUSED_EXPECTED score one. Practical adds only TOLERANT cells backed by a named rule. A wrong solid is never TOLERANT. Frozen strict audit notes remain alongside affected cells as provenance, not practical verdicts: A = kernel issue (including safe refusal), B = documented tolerance behaviour, C = catalog, twin or measurement error. DISPUTED zones score zero for every kernel. All cells carry text labels as well as colour.</p><p class="status-legend">'
                          + ' '.join(badge(tier) for tier in TIERS) + '</p>\n', "matrix explanation")
@@ -296,7 +373,7 @@ def main():
     source = args.page.read_text(encoding="utf-8")
     rendered = render(data, source)
     args.page.write_text(rendered, encoding="utf-8")
-    print(f"Wrote {args.page}: {len(rendered.encode('utf-8'))} bytes; 48 comparison modals")
+    print(f"Wrote {args.page}: {len(rendered.encode('utf-8'))} bytes; {rendered.count('class=\"zone-modal\"')} comparison modals")
 
 
 if __name__ == "__main__":

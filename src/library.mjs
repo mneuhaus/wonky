@@ -1,3 +1,4 @@
+import { attachAngleWitness, tangentWitness } from './angle-witness.mjs';
 import { fail, raise, unsupported } from './errors.mjs';
 import { rememberFrame, rememberPlane } from './construction-frame.mjs';
 import { EnumValue, Id, KeyedMap, Matrix, Plane, Quantity, Transform, Vector, binary, cast, checkType, isFunctionValue, isMap, length, map, matchesType, memberless, scalar, stdMapView, tagged, vectorNumbers } from './values.mjs';
@@ -6,10 +7,10 @@ import { array, list, extrudeInBend } from './kernel.mjs';
 import { loadBend } from './bend-loader.mjs';
 import { isStrictRustKernel } from './native/backend.mjs';
 import { guardHostBuiltins } from './native/host-ops.mjs';
-import { rememberPlacement, rememberWorldPoint, rememberQueryPlane } from './native/rust-placement.mjs';
+import { rememberPlacement, rememberRotationPlacement, rememberWorldPoint, rememberQueryPlane } from './native/rust-placement.mjs';
 import { vector as realVector, coords as realCoords, real, number } from './real.mjs';
 import { scalarBuiltins, verifyBounds } from './scalars.mjs';
-import { queryBuiltins, resolveTopology } from './queries.mjs';
+import { queryBuiltins, resolveTopology, RegionQuery, REGION_HINTS, regionRefusal } from './queries.mjs';
 import { instantiatorBuiltins } from './modules.mjs';
 import { circularFrustumInBend, sweepInBend } from './analytic.mjs';
 import { booleanInBend, HYBRID_METHOD, PRISM_METHOD } from './boolean.mjs';
@@ -21,6 +22,19 @@ import { fsBlend } from './fillet-fs.mjs';
 import { loadFilletProduction } from './fillet.mjs';
 import { fsOutput } from './fs-output.mjs';
 import { noteRefusal, noteProfileFaces } from './diagnostics.mjs';
+
+// D1 / OM1: this is the sole default parameter formula. Source SI
+// binary64 points are authoritative; Rust solves on these exact dyadics.
+export function fitSplineParameters(points) {
+  const cumulative = [0];
+  let total = 0;
+  for (let i = 1; i < points.length; i++) {
+    const dx = points[i][0] - points[i - 1][0], dy = points[i][1] - points[i - 1][1];
+    total += Math.sqrt(Math.sqrt(dx * dx + dy * dy));
+    cumulative.push(total);
+  }
+  return cumulative.map(t => t / total);
+}
 
 class Context { constructor(engine) { this.type = 'Context'; this.engine = engine; } }
 class Sketch {
@@ -317,7 +331,8 @@ function stdValueBuiltins() {
       const c = Math.cos(theta.value), s = Math.sin(theta.value), t = 1 - c;
       const rotation = new Matrix([[t * x * x + c, t * x * y - s * z, t * x * z + s * y],
         [t * x * y + s * z, t * y * y + c, t * y * z - s * x], [t * x * z - s * y, t * y * z + s * x, t * z * z + c]]);
-      return new Transform(rotation, binary('-', line.origin, binary('*', rotation, line.origin, loc), loc));
+      return rememberRotationPlacement(new Transform(rotation, binary('-', line.origin, binary('*', rotation, line.origin, loc), loc)),
+        [x,y,z], theta.value, line.origin.items.map(q => q.value), line);
     }),
     // surfaceGeometry.fs mirrorAcross(plane) = transform(I - 2nᵀn, origin - linear * origin).
     // A value only: opPattern refuses the reflection until Bend reverses orientation.
@@ -349,7 +364,7 @@ function stdValueBuiltins() {
     if (typeof value !== 'number') raise(`${name} expects a number`, loc);
     const result = Math[name](value);
     if (!Number.isFinite(result)) raise(`${name} is undefined for ${value}`, loc);
-    return angle(result);
+    return name === 'atan' && Number.isFinite(value) && !Object.is(value, -0) ? attachAngleWitness(angle(result), tangentWitness(value)) : angle(result);
   });
   // math.fs min(value1, value2) = value1 < value2 ? value1 : value2, max the
   // mirror; min(arr)/max(arr) fold with operator < and return undefined when empty.
@@ -548,7 +563,12 @@ export class ModelingContext {
       const descriptors = Object.getOwnPropertyDescriptors(record), body = descriptors.body?.value;
       return { record, descriptors, body: body && { body, ...Object.fromEntries(BODY_PROPERTIES.map(key => [key, Object.getOwnPropertyDescriptor(body, key)])) } };
     });
-    const sketches = [...this.sketches.values()].map(sketch => ({ sketch, fields: { ...sketch, profiles: [...sketch.profiles], lineSegments: [...sketch.lineSegments], curveEntities: [...sketch.curveEntities], entityIds: new Set(sketch.entityIds) } }));
+    const sketches = [...this.sketches.values()].map(sketch => ({ sketch, fields: {
+      ...sketch, profiles: [...sketch.profiles], lineSegments: [...sketch.lineSegments], curveEntities: [...sketch.curveEntities], entityIds: new Set(sketch.entityIds),
+      // Rust sketch coordinates and solved regions are plain, mutable data.
+      // Keep the Sketch object itself: FeatureScript variables still refer to it.
+      ...(sketch.rust && { rust: structuredClone(sketch.rust) }),
+    } }));
     return { records, sketches, ids: new Set(this.ids), consumedBy: new Map(this.consumedBy), evidence: this.operationEvidence.length };
   }
   restore({ records, sketches, ids, consumedBy, evidence }) {
@@ -561,14 +581,19 @@ export class ModelingContext {
       return [record.key, record];
     }));
     this.sketches = new Map(sketches.map(({ sketch, fields }) => {
-      if (!Object.hasOwn(fields, 'deleted')) delete sketch.deleted;
+      for (const key of Object.keys(sketch)) if (!Object.hasOwn(fields, key)) delete sketch[key];
       return [sketch.id.key(), Object.assign(sketch, fields)];
     }));
     this.ids = ids; this.consumedBy = consumedBy;
     this.operationEvidence.length = evidence;
   }
   addSolid(id, body) {
-    const key = String(this.nextRecord++); this.records.set(key, { key, kind: 'solid', body, createdBy: new Set([id.key()]) });
+    const key = String(this.nextRecord++), createdBy = new Set([id.key()]);
+    this.records.set(key, { key, kind: 'solid', body, createdBy,
+      // Native topology history also includes modifying features. A surviving
+      // BODY, unlike newly split/created topology, keeps its original creators.
+      ...(isStrictRustKernel(this.kernel) && { bodyCreatedBy: new Set(createdBy) }),
+    });
   }
   claim(context, id, loc) {
     if (context !== this.context) raise('Invalid modeling context', loc);
@@ -815,7 +840,7 @@ export class ModelingContext {
         return rememberQueryPlane(result, origin, normal);
       }),
       defineFeature: register('defineFeature', 1, 2, ([fn, defaults = map({})], loc) => {
-        if (fn?.type !== 'function' || !isMap(defaults)) fail('defineFeature expects a function and optional defaults map', loc);
+        if (!isFunctionValue(fn) || !isMap(defaults)) raise('defineFeature expects a function and optional defaults map', loc);
         return { type: 'feature', fn, defaults };
       }),
       // units.fs isLength(val): a ValueWithUnits of length units, false otherwise.
@@ -887,6 +912,10 @@ export class ModelingContext {
         sketch.profiles.push({ type: 'circle', center: vectorNumbers(d.center, 1, 2, loc), radius });
         sketch.entityIds.add(id);
       }),
+      // std sketch.fs skBezier (control points, degree = points - 1): only the
+      // Rust curve-profile port builds it (src/native/rust-host.mjs).
+      skFitSpline: register('skFitSpline', 3, 3, (_args, loc) => unsupported('skFitSpline requires the Rust curve-profile port', loc)),
+      skBezier: register('skBezier', 3, 3, (_args, loc) => unsupported('skBezier requires the Rust curve-profile port (WONKY_BACKEND=rust)', loc)),
       skSolve: register('skSolve', 1, 1, ([sketch], loc) => {
         this.sketch(sketch, loc, true);
         if (sketch.curveEntities.some(entity => entity.type === 'arc')) {
@@ -1047,10 +1076,20 @@ export class ModelingContext {
     // Unknown functions and enum values fail at their source location instead
     // of being approximated by a similar operation. On strict rust the geometry
     // operations route to the Rust host port or refuse by name (host-ops.mjs).
-    return guardHostBuiltins(values, this, isStrictRustKernel(this.kernel), { Sketch, Query, fieldMap, checkType });
+    return guardHostBuiltins(values, this, isStrictRustKernel(this.kernel), { Sketch, Query, fieldMap, checkType, fitSplineParameters });
   }
   resolve(query, loc) {
-    if (!(query instanceof Query)) unsupported('Only qSketchRegion queries are implemented here', loc);
+    // A region-set query (qUnion, qSubtraction, qContainsPoint, ... of
+    // qSketchRegion) names only some regions of a sketch. Only the Rust port's
+    // opExtrude evaluates it (native/rust-host.mjs); any other caller that
+    // would use every region of one sketch refuses it by name instead.
+    if (query instanceof RegionQuery) {
+      // The Rust host's own refusal (a RustCapabilityError) for a point selection.
+      if (query.kind === 'pick') query.refuse(loc);
+      regionRefusal('query', 'sketch-region/query-outside-extrude', 'a set of sketch regions is consumed only by opExtrude',
+        'Pass the region query to opExtrude, or use qSketchRegion(sketchId) here.', loc);
+    }
+    if (!(query instanceof Query)) regionRefusal('query', 'sketch-region/topology-query-not-extrudable', 'only sketch regions are implemented here, not a topology query', REGION_HINTS.topology, loc);
     const sketch = this.sketches.get(query.id.key());
     if (!sketch?.solved || sketch.deleted) raise(`Sketch '${query.id}' does not exist or has not been solved`, loc);
     return sketch;

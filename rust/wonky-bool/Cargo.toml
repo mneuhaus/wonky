@@ -1,0 +1,73 @@
+[package]
+name = "wonky-bool"
+version = "0.1.0"
+edition = "2021"
+publish = false
+description = "The general exact 3D Boolean on wonky-geom Models (boolean3d plan, C19). Stage A0 (strands G2-G5): plane relation table, certified candidate boxes, V-V..E-F paves, plane x plane section pieces, the planar face split, classification, selection, sewing and shell nesting"
+
+[dependencies]
+wonky-alg = { path = "../wonky-alg" }
+wonky-num = { path = "../wonky-num" }
+wonky-geom = { path = "../wonky-geom" }
+# Section pieces carry their pcurves as exact 2D pieces (plan: every chart-level
+# object is a wonky-curve object).
+wonky-curve = { path = "../wonky-curve" }
+num-rational = "0.4"
+num-traits = "0.2"
+
+[dev-dependencies]
+# Tests/acid_relations.rs and tests/curved_boolean.rs: the frozen CAD-Acid WC0 bodies become Models
+# through the G1 adapters. The crate itself never reads WC0.
+wonky-ops = { path = "../wonky-ops" }
+wonky-wire = { path = "../wonky-wire" }
+wonky-contract = { path = "../wonky-contract" }
+
+[features]
+# Planted negatives of strand G2. Never in a production build.
+# Pave points are identified by their binary64 world caches instead of their
+# exact keys: tests/planar_fixtures.rs must fail on the near-coincident 2^-30
+# configurations placed at 2^25.
+plant_pave_cache_dedup = []
+# The relation table decides on binary64 world caches of the carriers instead
+# of the exact construction data: tests/acid_relations.rs must fail on AC42
+# (the 1.7e-15 mm gap merges into a contact).
+plant_relation_world_cache = []
+# Strand G3: the face split attaches a component's exterior as a hole to
+# every containing cell, not only the innermost one, so a half-edge lies in
+# two cycles: tests/face_split.rs must fail with
+# boolean/contract-violation:split/half-edge-cycles on the nested fixtures.
+plant_split_hole_in_two_cells = []
+# Strand G4: the local side test's sign is flipped. The second opinion must
+# catch it (boolean/contract-violation:classify/second-opinion), so AC14
+# differs from the family result in the shadow harness.
+plant_classify_side_flip = []
+# Strand G4: propagation also crosses the section pieces between two
+# fragments of one face; tests/classify.rs must fail with
+# boolean/contract-violation:classify/*.
+plant_classify_cross_section = []
+
+# G5 planted negative: treats opposite outward orientations as mergeable.
+# The carrier identity guard test must fail; AC16 alone cannot exercise this
+# defect because selection retains only one identical operand.
+plant_merge_opposite = []
+
+# G9: a tangent generator is duplicated as two crossings.
+plant_ssi_double_crossing = []
+
+# G10 negative: identify unequal seam intervals and inter-operand shells
+# through a tolerance. Library gap tests and live AC44 shadows must fail.
+plant_periodic_weld = []
+
+# G10: flip the primary component class; the direct opinion must refuse.
+plant_periodic_classify_flip = []
+
+# G10: keep the initial seam even when it passes through a real vertex.
+plant_periodic_fixed_seam = []
+
+# G10: drop transverse-origin flux terms; translated partial bands are wrong.
+plant_periodic_omit_translation = []
+
+# G14: a sphere section radius observed as the binary64 square root of r².
+# The substitution identity must refuse every circle without a rational
+# radius (tests/sphere.rs), so AC111 cannot build.
+plant_sphere_f64_radius = []

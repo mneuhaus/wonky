@@ -1,0 +1,28 @@
+{
+  "schema": "wonky-step-reference-fixture/1",
+  "origin": "Authored for Wonky Kernel; no third-party geometry",
+  "license": "CC0-1.0",
+  "generator": "Owned synthetic entity writer; analytic ring-bounded cylinder, truncated cone, hemispheres and half torus, two nested translations",
+  "noClaim": "Reference observations; no certified interior or repair claim",
+  "files": {
+    "analytical.step": {
+      "sha256": "6b044161189ad566b1678cd242c7cfddf7f21e45ad421fc8040eaba9ecef7109"
+    },
+    "rational-pcurves.step": {
+      "sha256": "5c4b5c07b523da7d893a70b023804e99e03e107103e2ca4c75b0dce0e55e8afa",
+      "origin": "Owned tetra-si.step with a rational straight spline, two rational planar pcurves and authored declared 1e-6 mm source uncertainty",
+      "baseSha256": "6ab96b3253d27920c1250f3343b58b022d94a53d6843acbe7d5c52e05681a7c8"
+    },
+    "tetra-reference.step": {
+      "sha256": "e540cc0d9fb247c9d6689385a60ca24ad96e762f530ea417a8cb32386b1accc0",
+      "origin": "Owned tetra-si.step; explicit zero source uncertainty for exact synthetic observations",
+      "baseSha256": "6ab96b3253d27920c1250f3343b58b022d94a53d6843acbe7d5c52e05681a7c8"
+    },
+    "spline-trim.step": {
+      "sha256": "231ebdba38d31b32b7d9ebed0ffcf8e6189bbaa6f0165ea1621a3ac050df757f",
+      "origin": "Owned tetrahedron, bottom triangular face on a rational degree-(1,1) tensor surface with explicit matching source pcurves. No external geometry.",
+      "generator": "Repository-authored Part21 writer (2026-10-02)",
+      "sourceUncertaintyMm": 1e-06
+    }
+  }
+}

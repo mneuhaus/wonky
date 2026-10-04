@@ -1,9 +1,9 @@
 // Serialization only. Arithmetic on these words takes place in the kernel.
 // Bend (WONKY_BACKEND js, native, diff, rust-diff, rust-mixed) takes a Real as
 // its F32x2 split { hi: fround(x), lo: fround(x - hi) }. The Rust kernel
-// (WONKY_BACKEND=rust, wire v2) takes the host binary64 itself: { hi: x, lo: 0 },
-// no Math.fround and no split (docs/rust-migration.md 3.3).
-export const binary64Host = () => process.env.WONKY_BACKEND === 'rust';
+// (default or WONKY_BACKEND=rust, wire v2) takes the host binary64 itself:
+// { hi: x, lo: 0 }, no Math.fround and no split (docs/rust-migration.md 3.3).
+export const binary64Host = () => (process.env.WONKY_BACKEND ?? 'rust') === 'rust';
 export function real(value) {
   if (binary64Host()) {
     if (!Number.isFinite(value)) throw new RangeError('Rust Real serialization requires a finite binary64');

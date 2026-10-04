@@ -183,6 +183,93 @@ The R20 tray's T01 is a certified mesh already after its cavity cut (recover:
 a cylinder/cylinder space quartic), so `r20TrayBlends` finds its two end-wall
 faces by carrier, but the edge queries built on them refuse at `qAdjacent`.
 
+## Sketch regions on the Rust port
+
+On `WONKY_BACKEND=rust` a sketch-region query (`qSketchRegion(id)` of a line
+sketch, CAD-Acid AC99) is a lazy set of regions, evaluated exactly when
+`opExtrude` consumes it (`src/native/rust-host.mjs`, `src/queries.mjs`,
+`rust/wonky-ops/src/region_query.rs`). `test/rust-region-queries.test.mjs`
+sweeps every query builtin against a plain and a point-selected region and
+checks each build against a closed-form volume or a named refusal.
+
+Implemented, following std `query.fs` and the Onshape query reference:
+
+- `qUnion` keeps the operands' precedence order, `qIntersection` the first
+  operand's order, `qSubtraction` the first query's; a region is never in a
+  set twice. `qNothing()` operands are the empty set.
+- `qContainsPoint` / `qClosestTo` decide among the regions of their subquery
+  (nested selections and set algebra included), in the frame of the
+  extrusion that consumes them. A region's distance to the point is the height
+  over its plane when the foot lies in or on the loop, else the distance to its
+  nearest boundary segment. `qContainsPoint` is a closed set within
+  `TOLERANCE.zeroLength` (a point that `toWorld` rounded off a rotated plane
+  still lies in its region); `qClosestTo` keeps every region within that tie
+  of the closest. The Rust kernel receives the candidate indices of the
+  subquery and answers among them only.
+  Over a sketch with circles, arcs or crossing or nested closed chains (the
+  wonky-curve arrangement, `rust/wonky-ops/src/sketch_pick.rs`, host op
+  `SKETCH_PICK`) the point is taken to the sketch plane exactly, membership
+  is the exact winding number and `Trimmed::contains` of each cell's
+  boundary, and the distance is a certified interval to the cell's boundary
+  pieces (curved regions, crescents and lenses included). A point on the edge
+  of two or more cells refuses `point-on-boundary`.
+- A sketch region is a planar face: `qGeometry(..., PLANE)` and
+  `qEntityFilter(..., FACE)` keep the set, every other geometry or entity
+  type selects nothing.
+- `qNthElement` is zero-based with negative indexing. Onshape orders its
+  result "deterministically but arbitrarily", so only a single-region set is
+  decided.
+- `evaluateQuery(context, regions)` returns one query per region, in wonky's
+  arrangement order. Onshape's order is the same "deterministic but
+  arbitrary" one as for `qNthElement`, so iterating over the result or taking
+  its `size` matches Onshape, but indexing one element of a multi-region
+  result (`evaluateQuery(context, regions)[0]`) is not guaranteed to pick the
+  region Onshape picks. This is not refused: nothing here can tell an index
+  from an iteration.
+- Selecting nothing is the `opExtrude` refusal `empty-region`.
+
+Named refusals (each carries a hint; `sketch-region/...` codes are the CLI
+`code`):
+
+- `multiple-sketches`, `multi-sketch-point-selection`: regions of several
+  sketches in one extrusion or one point selection.
+- `point-on-boundary`: a `qContainsPoint` point that lies on the boundary
+  of more than one candidate cell (within `TOLERANCE.zeroLength`, exact in the
+  sketch plane). std `query.fs` documents only "all entities ... containing a
+  specified point", not whether a point on an edge shared by two regions is
+  contained by both (the gear plan's OM5 probe is unmeasured), so wonky picks
+  neither one side nor both. A point on the edge of exactly one candidate
+  selects it (closed set).
+- `tie-undecided`: the certified distance interval cannot separate a
+  `qContainsPoint` boundary test or a `qClosestTo` tie from the tolerance.
+- `point-selection-legacy-numbering`: a sketch with arcs or circles whose
+  regions came from the loose-edge solvers, not the arrangement, so a region
+  index would mean something else in the pick.
+- `point-selection-outside-extrude`, `query-outside-extrude`,
+  `topology-query-not-extrudable`, `not-a-topology-query`: any other consumer
+  (such as `opRevolve` or `opLoft`), which would otherwise use every region, or
+  a topology query given to `opExtrude`.
+- `mixed-with-topology`: a set operation combining regions with a non-empty
+  topology query.
+- `nth-element-order-unspecified`, `nth-element-out-of-range`: the two cases
+  `qNthElement` leaves undocumented.
+- `owner-body-type-undocumented` (`qBodyType`), `owner-body-undocumented`
+  (`qOwnedByBody`), `adjacency-unavailable` (`qAdjacent`),
+  `coincidence-tolerance-unpublished` (`qCoincidesWithPlane`),
+  `parallel-edges-of-faces-undocumented` (`qParallelEdges`),
+  `robust-query-unavailable` (`makeRobustQuery`): Onshape does not document
+  what the query means for a sketch region (or wonky does not compute it), so
+  no answer is guessed. Regions as the second query argument
+  (`qOwnedByBody(queryToFilter, regions)`, `qParallelEdges(queryToFilter,
+  regions)`) refuse the same way.
+- `invalid-candidates`: the host request named a candidate outside the
+  arrangement (a bug in the caller, never a geometry result).
+
+`qEntityFilter` and `qNthElement` over topology queries refuse with
+`query/entity-filter-topology-not-implemented` and
+`query/nth-element-topology-not-implemented`. `qContainsPoint` over topology
+stays unported on the Rust port.
+
 ## Validation
 
 ```sh

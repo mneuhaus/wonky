@@ -1,0 +1,6 @@
+{
+  "source": "<repo>/tmp/servo-bracket/servo-slide.fs",
+  "sha256": "f4a34ab80e4be557a309dfea6223ab72850f3fac5e30bebc2a87f3edbbc08a5d",
+  "frozenAt": "2026-09-29T19:49:21.667Z",
+  "variant": "servo-slide-nonconvex.fs keeps the planar fit bodies and rotates the real unioned coupler instead of convexParts"
+}

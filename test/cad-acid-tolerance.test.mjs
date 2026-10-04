@@ -4,7 +4,7 @@ import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 import {spawnSync} from 'node:child_process';
-import {ROOT, loadCatalog, readJSON, VARIANTS} from '../scripts/acid/common.mjs';
+import {ROOT, loadCatalog, readJSON, VARIANTS, sha256} from '../scripts/acid/common.mjs';
 import {loadToleranceRules} from '../scripts/acid/tolerance.mjs';
 import {score, scoreVariant} from '../scripts/acid/score.mjs';
 import {executeRun} from '../scripts/acid/execution.mjs';
@@ -69,13 +69,51 @@ test('every rule is checked across all 48 zones; invalid OCCT lens and exact cla
 test('strict points are v1 points, practical adds only admitted witnessed cells and CE12 is informational',{skip: !fs.existsSync(path.join(ROOT, 'out/build123d-performance/reference-venv/bin/python')) && 'REFERENCE_VENV_UNAVAILABLE: frozen STEP observer integration'},async()=>{
   const dir=fs.mkdtempSync(path.join(os.tmpdir(),'acid-tolerance-'));
   try {
-    // AC32 needs agreement of both references; an OCCT-only report correctly
-    // leaves its cross-comparison-only cell disputed and is not a 37/48 claim.
+    // AC32 needs agreement of both references; executeRun admits both checked
+    // frozen references rather than treating an OCCT-only report as proof.
     const input=await executeRun({kernels:[],out:dir,noSmoke:true});
     const report=score(catalog,input,{zonesSha256}), occt=report.kernels.occt;
-    assert.equal(occt.strict,37);assert.equal(occt.score,37);assert.equal(occt.practical,39);
+    // The v1 claim is about the 48 base zones; zones added by a catalog extension
+    // score their own frozen OCCT captures (occt-ext/*) and never gain a tolerance tier.
+    const added=new Set(catalog.history.flatMap(h=>h.addedZones??[]));
+    const cells=report.zones.filter(z=>z.kernel==='occt'),base=cells.filter(z=>!added.has(z.zone)),extension=cells.filter(z=>added.has(z.zone));
+    assert.equal(base.length,48);
+    const sum=(rows,key)=>rows.reduce((s,z)=>s+z[key],0);
+    const resolved=new Set(['AC25','AC26','AC48','AC36','AC38']);
+    // Preserve both historical assertions. Independently verified revolve,
+    // crossed-cylinder blend and reference-surface draft freezes each restore
+    // one strict/practical point after their errata resolve.
+    const conserved=base.filter(z=>!resolved.has(z.zone));
+    assert.equal(sum(conserved,'strictPoints'),37);assert.equal(sum(conserved,'practicalPoints'),39);
+    for(const id of resolved){const cell=base.find(z=>z.zone===id);assert.equal(cell.status,'CORRECT',id);assert.equal(cell.strictPoints,1,id);assert.equal(cell.practicalPoints,1,id);for(const variant of VARIANTS)assert.equal(cell.variants[variant].status,'CORRECT',`${id}/${variant}`);}
+    assert.equal(sum(base,'strictPoints'),37+resolved.size);assert.equal(sum(base,'practicalPoints'),39+resolved.size);
+    for(const z of extension)assert.equal(z.practicalPoints,z.strictPoints,`${z.zone}: no tolerance tier outside the witnessed base cells`);
+    assert.equal(occt.score,occt.strict);assert.equal(occt.practical-occt.strict,2);
     assert.equal(occt.strict,occt.strictCounts.PASS+occt.strictCounts.REFUSED_EXPECTED);
-    assert.equal(occt.counts.TOLERANT,2);assert.equal(occt.counts.WRONG,2);assert.equal(occt.counts.DISPUTED,6);
+    // Open errata CE13 (AC111) and CE14 (AC129) dispute those zones for every kernel, OCCT included.
+    assert.equal(occt.counts.TOLERANT,2);assert.equal(occt.counts.DISPUTED,2);
+    assert.deepEqual(cells.filter(z=>z.status==='DISPUTED').map(z=>z.zone).sort(),['AC111','AC129']);
+    // Preserve the original all-pre-Z1 assertion while extending the denominator.
+    // Only the explicitly observed Z1 oracle limits may add WRONG verdicts.
+    const z1=['AC66','AC74','AC111','AC112','AC113'];
+    const previous=cells.filter(z=>!z1.includes(z.zone));
+    assert.equal(previous.filter(z=>z.status==='WRONG').length,2);
+    const limits=cells.filter(z=>z1.includes(z.zone)&&z.status==='WRONG');
+    // The observed AC111/V3 OCCT limit is masked, not removed, while CE13 disputes AC111.
+    assert.deepEqual(limits.map(z=>z.zone).sort(),[]);
+    const ac111=cells.find(z=>z.zone==='AC111');
+    for(const variant of ['V0','V1','V2','V3','V4'])assert.deepEqual([ac111.variants[variant].status,ac111.variants[variant].errata],['DISPUTED',['CE13']],`AC111/${variant}`);
+    assert.equal(occt.counts.WRONG,2+limits.length);
+    const captured=readJSON(path.join(ROOT,'fixtures/cad-acid/occt-ext/Z1/provenance.json'));
+    assert.deepEqual(captured.namedLimits.map(r=>`${r.zone}/${r.variant}`).sort(),
+      ['AC111/V3']);
+    assert.deepEqual(captured.observedVerdicts,{CORRECT:26,WRONG:1});
+    // Catalog-owner decision 4: freshly captured AddOptimal bounds still overestimate
+    // the rotated trimmed sphere. The WRONG stays scored; no tolerance or point changes.
+    // The frozen capture binds its original observer; main extends the live observer.
+    assert.deepEqual(captured.observer,{bounds:'BRepBndLib.AddOptimal_s(shape, box, False, False)',gap:0,triangulation:false,sourceSha256:sha256(fs.readFileSync(path.join(ROOT,'fixtures/cad-acid/occt-ext/Z1/inputs/measure.py')))});
+    assert(captured.errata.some(r=>r.zone==='AC111'&&r.variant==='V3'&&r.limit==='occt/AddOptimal-trimmed-sphere-bbox'));
+    assert.deepEqual(captured.zones,z1);assert.equal(captured.cells,27);
     for(const id of ['AC22','AC44']) {
       const cell=report.zones.find(z=>z.kernel==='occt'&&z.zone===id);
       assert.equal(cell.strictStatus,'WRONG');assert.equal(cell.strictPoints,0);assert.equal(cell.practicalPoints,1);

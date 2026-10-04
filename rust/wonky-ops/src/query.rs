@@ -19,35 +19,66 @@ pub struct Entity {
 fn no(s: &str) -> Refused {
     Refused(format!("query/{s}"))
 }
+// Curved rule-6 Models carry observation caches, not authoritative plane
+// coordinates. Geometric queries need a Model-aware implementation; the
+// generic WC0 path would skip ConstructionLine edges or decide from caches.
+fn require_source_geometry(s: &Solid) -> R<()> {
+    if s.curved_model() {
+        return Err(no("curved-model-geometry-unimplemented"));
+    }
+    Ok(())
+}
 fn get(p: &Vector3) -> [f64; 3] {
     p.each_ref().map(|x| x.get())
 }
 fn body(s: &Solid) -> &Body {
     match s {
-        Solid::Planar(a) => &a.body,
+        Solid::Columns(a) => &a.body,
+        Solid::PrismHoles(a) => &a.body,
+        Solid::PrismStack(a) => &a.body,
+        Solid::Revolved(a) => &a.body,
+        Solid::Placed(a) => &a.body,
+        Solid::Planar(a) | Solid::Model(a, _) => &a.body,
         Solid::Cylinder(c) => &c.body,
+        Solid::Conical(c) => &c.body,
         Solid::Bicylinder(c) => &c.body,
+        Solid::CylinderTee(c) => &c.body,
         Solid::Perforated(p) => &p.body,
+        Solid::PerforatedChamfer(p) => &p.body,
         Solid::Spherical(s) => &s.body,
         Solid::Axial(a) => &a.body,
+        Solid::Coaxial(a) => &a.body,
         Solid::Lens(a) => &a.body,
     }
 }
 fn frame(s: &Solid) -> R<Affine> {
     match s {
         Solid::Planar(a) if a.chamfer.is_some() => Err(no("chamfer-geometry-unimplemented")),
-        Solid::Planar(a) => a.frame.as_affine(),
+        Solid::Planar(a) if a.arcs.as_ref().is_some_and(|p| p.profile.has_split_vertices()) => {
+            Err(no("arc-profile-split-geometry-unimplemented"))
+        }
+        Solid::Planar(a) | Solid::Model(a, _) => a.frame.as_affine(),
+        Solid::PrismHoles(_) => Err(no("profile-holes-geometry-unimplemented")),
+        Solid::PrismStack(a) => a.frame.as_affine(),
+        Solid::Columns(a) => a.base.frame().as_affine(),
+        Solid::Revolved(a) => Ok(a.frame),
+        Solid::Placed(_) => Err(no("placed-geometry-unimplemented")),
         Solid::Cylinder(c) => c.frame.as_affine(),
+        Solid::Conical(c) => c.frame.as_affine(),
         Solid::Bicylinder(c) => Ok(c.frame),
+        Solid::CylinderTee(c) => Ok(c.frame),
         Solid::Perforated(p) => p.base.frame.as_affine(),
+        // Chamfer vertices are rounded witnesses of exact rational clipping.
+        Solid::PerforatedChamfer(_) => Err(no("perforated-chamfer-geometry-unimplemented")),
         Solid::Spherical(s) => Ok(s.frame),
         Solid::Axial(a) => Ok(a.frame),
+        Solid::Coaxial(a) => Ok(a.frame),
         Solid::Lens(a) => Ok(a.frame),
     }
 }
 fn validate(body: &Body, e: Entity) -> R<()> {
     let n = match e.kind {
-        BODY => 1,
+        BODY => body.solids.len(),
         FACE => body.faces.len(),
         EDGE => body.edges.len(),
         VERTEX => body.vertices.len(),
@@ -88,7 +119,7 @@ pub fn owned(s: &Solid, kind: u32) -> R<Vec<Entity>> {
     let body = body(s);
     let seam = seams(body);
     let n = match kind {
-        BODY => 1,
+        BODY => body.solids.len(),
         FACE => body.faces.len(),
         EDGE => body.edges.len(),
         VERTEX => body.vertices.len(),
@@ -152,11 +183,13 @@ pub fn geometry(s: &Solid, entities: &[Entity], name: &str) -> R<Vec<Entity>> {
             FACE => match b.surfaces[b.faces[e.index as usize].surface.0 as usize].geometry {
                 SurfaceGeometry::Plane { .. } => "PLANE",
                 SurfaceGeometry::Cylinder { .. } => "CYLINDER",
-                SurfaceGeometry::Cone { .. } => "CONE",
+                SurfaceGeometry::Cone { .. } | SurfaceGeometry::ConeSlope { .. } | SurfaceGeometry::ConeMeridian { .. } => "CONE",
                 SurfaceGeometry::Sphere { .. } => "SPHERE",
                 SurfaceGeometry::Torus { .. } => "TORUS",
+                SurfaceGeometry::LinearExtrusion { .. } => "EXTRUDED",
             },
             EDGE => match &b.curves[b.edges[e.index as usize].curve.0 as usize].geometry {
+                CurveGeometry::ConstructionCurve { .. } => return Err(no("construction-curve-geometry-unavailable")),
                 CurveGeometry::Line { .. } | CurveGeometry::ConstructionLine { .. } => "LINE",
                 CurveGeometry::SphereCircle { .. } => "CIRCLE",
                 CurveGeometry::Circle {
@@ -296,10 +329,15 @@ fn point(body: &Body, frame: Affine, p: Vector3, id: FrameId) -> R<[Exp; 3]> {
     Ok(out)
 }
 pub fn parallel_edges(s: &Solid, entities: &[Entity], direction: [f64; 3]) -> R<Vec<Entity>> {
-    if let Solid::Planar(a) = s {
+    require_source_geometry(s)?;
+    if let Solid::Planar(a) | Solid::Model(a, _) = s {
         if a.arrangement.is_some() {
-            for &e in entities { validate(&a.body, e)?; }
-            if direction.iter().any(|x| !x.is_finite()) { return Err(no("invalid-direction")); }
+            for &e in entities {
+                validate(&a.body, e)?;
+            }
+            if direction.iter().any(|x| !x.is_finite()) {
+                return Err(no("invalid-direction"));
+            }
             return crate::planar_geometry::parallel_edges(a, entities, direction);
         }
     }
@@ -357,9 +395,12 @@ pub fn coincides(
     origin: [f64; 3],
     normal: [f64; 3],
 ) -> R<Vec<Entity>> {
-    if let Solid::Planar(a) = s {
+    require_source_geometry(s)?;
+    if let Solid::Planar(a) | Solid::Model(a, _) = s {
         if a.arrangement.is_some() {
-            if origin.iter().chain(&normal).any(|x| !x.is_finite()) { return Err(no("invalid-plane")); }
+            if origin.iter().chain(&normal).any(|x| !x.is_finite()) {
+                return Err(no("invalid-plane"));
+            }
             return crate::planar_geometry::coincides(a, entities, origin, normal, false);
         }
     }
@@ -378,12 +419,15 @@ pub fn coincides_in_frame(
     origin: [f64; 3],
     normal: [f64; 3],
 ) -> R<Vec<Entity>> {
+    require_source_geometry(s)?;
     if source_frame != frame(s)? {
         return Err(no("different-exact-frames"));
     }
-    if let Solid::Planar(a) = s {
+    if let Solid::Planar(a) | Solid::Model(a, _) = s {
         if a.arrangement.is_some() {
-            if origin.iter().chain(&normal).any(|x| !x.is_finite()) { return Err(no("invalid-plane")); }
+            if origin.iter().chain(&normal).any(|x| !x.is_finite()) {
+                return Err(no("invalid-plane"));
+            }
             return crate::planar_geometry::coincides(a, entities, origin, normal, true);
         }
     }
@@ -430,6 +474,41 @@ fn coincides_in_chart(
                         && incident(&point(b, frame, *origin, surf.frame)?, &o, &n)?
                 } else {
                     false
+                }
+            }
+            EDGE => {
+                let edge = &b.edges[e.index as usize];
+                let c = &b.curves[edge.curve.0 as usize];
+                match &c.geometry {
+                    CurveGeometry::Line { a, b: end } => {
+                        incident(&point(b, frame, *a, c.frame)?, &o, &n)?
+                            && incident(&point(b, frame, *end, c.frame)?, &o, &n)?
+                    }
+                    CurveGeometry::Circle { origin, normal, x, .. } => {
+                        let (at, u, v) = if matches!(s, Solid::Planar(a) if a.arcs.as_ref().is_some_and(|p|p.rim.is_none())) {
+                            // Three-point arc centres/radial axes in the wire are
+                            // rounded caches. The audited source arc lies in XY
+                            // at its endpoint's exact extrusion level. Use that
+                            // plane, never the chord or a rounded radial vector.
+                            let at = &b.vertices[edge.vertices[0].0 as usize];
+                            (point(b, frame, at.point, at.frame)?,
+                                mapped(frame, [1., 0., 0.], false)?,
+                                mapped(frame, [0., 1., 0.], false)?)
+                        } else {
+                            let mut g = Guard::new();
+                            let y = cross(&get(normal).map(|v| vec![v]), &get(x).map(|v| vec![v]), &mut g);
+                            let v = mapped_vector(frame, &y)?;
+                            if !g.exact() { return Err(no("predicate-range")); }
+                            (point(b, frame, *origin, c.frame)?, mapped(frame, get(x), false)?, v)
+                        };
+                        // Any nondegenerate circular arc spans its support plane;
+                        // checking only endpoints would incorrectly admit chords.
+                        let mut g = Guard::new();
+                        let dual = cross(&u, &v, &mut g);
+                        if !g.exact() { return Err(no("predicate-range")); }
+                        parallel(&dual, &n)? && incident(&at, &o, &n)?
+                    }
+                    _ => return Err(no("plane-curve-unimplemented")),
                 }
             }
             VERTEX => {

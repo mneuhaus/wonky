@@ -1,0 +1,48 @@
+{
+  "btType": "BTFeatureDefinitionResponse-1617",
+  "rejectMicroversionSkew": false,
+  "microversionSkew": false,
+  "featureState": {
+    "btType": "BTFeatureState-1688",
+    "featureStatus": "OK",
+    "inactive": false
+  },
+  "feature": {
+    "btType": "BTMFeature-134",
+    "namespace": "e4456f2b605bc40d3ce91cf93::ma82bab4429fa55b30aa6cf59",
+    "name": "regions-a-V5-ALL",
+    "suppressed": false,
+    "parameters": [
+      {
+        "btType": "BTMParameterEnum-145",
+        "namespace": "e4456f2b605bc40d3ce91cf93::ma82bab4429fa55b30aa6cf59",
+        "nodeId": "MJl9dLwi5SZPaRp1Y",
+        "libraryRelationType": "DEFAULT",
+        "enumName": "AcidVariant",
+        "value": "V5",
+        "parameterId": "variant",
+        "parameterName": ""
+      },
+      {
+        "btType": "BTMParameterEnum-145",
+        "namespace": "e4456f2b605bc40d3ce91cf93::ma82bab4429fa55b30aa6cf59",
+        "nodeId": "MkD0L0S2jmfLUMuVp",
+        "libraryRelationType": "DEFAULT",
+        "enumName": "AcidRegionsAZone",
+        "value": "ALL",
+        "parameterId": "zone",
+        "parameterName": ""
+      }
+    ],
+    "featureId": "FB0gEwsyQbd6d6z_1",
+    "nodeId": "MQOHt95J58YAocRi7",
+    "featureType": "acidRegionsA",
+    "returnAfterSubfeatures": false,
+    "subFeatures": [],
+    "parameterLibraries": [],
+    "suppressionState": null
+  },
+  "libraryVersion": 0,
+  "serializationVersion": "1.2.21",
+  "sourceMicroversion": "32f1bdc29073abbc35137cc4"
+}

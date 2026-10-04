@@ -1,0 +1,444 @@
+{
+  "documentMicroversion": "owned-planar-fixture-v1",
+  "bodies": [
+    {
+      "id": "tetrahedron",
+      "type": "solid",
+      "consumedByComposite": null,
+      "vertices": [
+        {
+          "id": "v0",
+          "point": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "id": "v1",
+          "point": [
+            1.984375,
+            0.0,
+            0.0
+          ]
+        },
+        {
+          "id": "v2",
+          "point": [
+            0.0,
+            1.984375,
+            0.0
+          ]
+        },
+        {
+          "id": "v3",
+          "point": [
+            0.0,
+            0.0,
+            1.984375
+          ]
+        }
+      ],
+      "edges": [
+        {
+          "id": "e01",
+          "vertices": [
+            "v0",
+            "v1"
+          ],
+          "curve": {
+            "type": "line"
+          },
+          "geometry": {
+            "startPoint": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "endPoint": [
+              1.984375,
+              0.0,
+              0.0
+            ],
+            "quarterPoint": [
+              0.49609375,
+              0.0,
+              0.0
+            ],
+            "midPoint": [
+              0.9921875,
+              0.0,
+              0.0
+            ],
+            "startVector": [
+              1,
+              0,
+              0
+            ],
+            "endVector": [
+              1,
+              0,
+              0
+            ]
+          }
+        },
+        {
+          "id": "e02",
+          "vertices": [
+            "v0",
+            "v2"
+          ],
+          "curve": {
+            "type": "line"
+          },
+          "geometry": {
+            "startPoint": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "endPoint": [
+              0.0,
+              1.984375,
+              0.0
+            ],
+            "quarterPoint": [
+              0.0,
+              0.49609375,
+              0.0
+            ],
+            "midPoint": [
+              0.0,
+              0.9921875,
+              0.0
+            ],
+            "startVector": [
+              0,
+              1,
+              0
+            ],
+            "endVector": [
+              0,
+              1,
+              0
+            ]
+          }
+        },
+        {
+          "id": "e03",
+          "vertices": [
+            "v0",
+            "v3"
+          ],
+          "curve": {
+            "type": "line"
+          },
+          "geometry": {
+            "startPoint": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "endPoint": [
+              0.0,
+              0.0,
+              1.984375
+            ],
+            "quarterPoint": [
+              0.0,
+              0.0,
+              0.49609375
+            ],
+            "midPoint": [
+              0.0,
+              0.0,
+              0.9921875
+            ],
+            "startVector": [
+              0,
+              0,
+              1
+            ],
+            "endVector": [
+              0,
+              0,
+              1
+            ]
+          }
+        },
+        {
+          "id": "e12",
+          "vertices": [
+            "v1",
+            "v2"
+          ],
+          "curve": {
+            "type": "line"
+          },
+          "geometry": {
+            "startPoint": [
+              1.984375,
+              0.0,
+              0.0
+            ],
+            "endPoint": [
+              0.0,
+              1.984375,
+              0.0
+            ],
+            "quarterPoint": [
+              1.48828125,
+              0.49609375,
+              0.0
+            ],
+            "midPoint": [
+              0.9921875,
+              0.9921875,
+              0.0
+            ],
+            "startVector": [
+              -1,
+              1,
+              0
+            ],
+            "endVector": [
+              -1,
+              1,
+              0
+            ]
+          }
+        },
+        {
+          "id": "e13",
+          "vertices": [
+            "v1",
+            "v3"
+          ],
+          "curve": {
+            "type": "line"
+          },
+          "geometry": {
+            "startPoint": [
+              1.984375,
+              0.0,
+              0.0
+            ],
+            "endPoint": [
+              0.0,
+              0.0,
+              1.984375
+            ],
+            "quarterPoint": [
+              1.48828125,
+              0.0,
+              0.49609375
+            ],
+            "midPoint": [
+              0.9921875,
+              0.0,
+              0.9921875
+            ],
+            "startVector": [
+              -1,
+              0,
+              1
+            ],
+            "endVector": [
+              -1,
+              0,
+              1
+            ]
+          }
+        },
+        {
+          "id": "e23",
+          "vertices": [
+            "v2",
+            "v3"
+          ],
+          "curve": {
+            "type": "line"
+          },
+          "geometry": {
+            "startPoint": [
+              0.0,
+              1.984375,
+              0.0
+            ],
+            "endPoint": [
+              0.0,
+              0.0,
+              1.984375
+            ],
+            "quarterPoint": [
+              0.0,
+              1.48828125,
+              0.49609375
+            ],
+            "midPoint": [
+              0.0,
+              0.9921875,
+              0.9921875
+            ],
+            "startVector": [
+              0,
+              -1,
+              1
+            ],
+            "endVector": [
+              0,
+              -1,
+              1
+            ]
+          }
+        }
+      ],
+      "faces": [
+        {
+          "id": "f0",
+          "orientation": true,
+          "surface": {
+            "type": "plane",
+            "origin": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "normal": [
+              0,
+              0,
+              -7
+            ]
+          },
+          "loops": [
+            {
+              "type": "outer",
+              "coedges": [
+                {
+                  "edgeId": "e02",
+                  "orientation": true
+                },
+                {
+                  "edgeId": "e12",
+                  "orientation": false
+                },
+                {
+                  "edgeId": "e01",
+                  "orientation": false
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "f1",
+          "orientation": true,
+          "surface": {
+            "type": "plane",
+            "origin": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "normal": [
+              0,
+              -3,
+              0
+            ]
+          },
+          "loops": [
+            {
+              "type": "outer",
+              "coedges": [
+                {
+                  "edgeId": "e01",
+                  "orientation": true
+                },
+                {
+                  "edgeId": "e13",
+                  "orientation": true
+                },
+                {
+                  "edgeId": "e03",
+                  "orientation": false
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "f2",
+          "orientation": true,
+          "surface": {
+            "type": "plane",
+            "origin": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "normal": [
+              -5,
+              0,
+              0
+            ]
+          },
+          "loops": [
+            {
+              "type": "outer",
+              "coedges": [
+                {
+                  "edgeId": "e03",
+                  "orientation": true
+                },
+                {
+                  "edgeId": "e23",
+                  "orientation": false
+                },
+                {
+                  "edgeId": "e02",
+                  "orientation": false
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "f3",
+          "orientation": true,
+          "surface": {
+            "type": "plane",
+            "origin": [
+              1.984375,
+              0.0,
+              0.0
+            ],
+            "normal": [
+              2,
+              2,
+              2
+            ]
+          },
+          "loops": [
+            {
+              "type": "outer",
+              "coedges": [
+                {
+                  "edgeId": "e12",
+                  "orientation": true
+                },
+                {
+                  "edgeId": "e23",
+                  "orientation": true
+                },
+                {
+                  "edgeId": "e13",
+                  "orientation": false
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

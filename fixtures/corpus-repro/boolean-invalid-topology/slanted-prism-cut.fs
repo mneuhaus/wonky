@@ -28,7 +28,7 @@ export const slantedPrismCut = defineFeature(function(context is Context, id is 
         // project-component-4c7a33fe.fs nose profile: the side (47,23)-(64,11) is the slanted face.
         var nose = prism(context, id + "nose", plane(vector(0, 40, 0) * millimeter, vector(0, -1, 0), vector(1, 0, 0)),
             [[47, 23], [64, 11], [68, 11], [68, 45], [47, 45]], 80);
-        var box = prism(context, id + "box", plane(vector(0, 0, 5) * millimeter, vector(0, 0, 1), vector(1, 0, 0)),
+        var boxBody = prism(context, id + "box", plane(vector(0, 0, 5) * millimeter, vector(0, 0, 1), vector(1, 0, 0)),
             [[50, -5], [66, -5], [66, 5], [50, 5]], 10);
-        opBoolean(context, id + "cut", { "targets" : nose, "tools" : box, "operationType" : BooleanOperationType.SUBTRACTION });
+        opBoolean(context, id + "cut", { "targets" : nose, "tools" : boxBody, "operationType" : BooleanOperationType.SUBTRACTION });
     });

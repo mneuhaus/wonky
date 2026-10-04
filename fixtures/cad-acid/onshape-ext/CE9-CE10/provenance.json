@@ -1,0 +1,332 @@
+{
+  "schema": "wonky/cad-acid-onshape/1",
+  "zonesSha256": "3e4f8229d0f01fc7814a3ae308f6da802a22eee81eac4a7dda656b578c30423b",
+  "groups": [
+    "blend"
+  ],
+  "zones": [
+    "AC36",
+    "AC38"
+  ],
+  "twin": {
+    "file": "fixtures/cad-acid/fs/acid-blend-errata.fs",
+    "sha256": "f4703a584279952f82318d98ac78bfbd9190aa75762dbb894ed2ce14658ab05a",
+    "replacesGroupDefault": "fixtures/cad-acid/fs/acid-blend.fs"
+  },
+  "capture": {
+    "script": "capture.mjs",
+    "sha256": "19e6323309fd169dae00efcd9a0ac7f2416b5d9f75dc6ba30bd27450f569eace",
+    "derivedFrom": "scripts/acid/onshape-push.mjs",
+    "brief": "docs/cad-acid-errata-capture.md",
+    "briefSha256": "9278acbed250241b1956c906143bc882246a8e80d20a666f9e532f92d8b39de3"
+  },
+  "sources": {
+    "fixtures/cad-acid/fs/acid-blend-errata.fs": "f4703a584279952f82318d98ac78bfbd9190aa75762dbb894ed2ce14658ab05a"
+  },
+  "featureStudios": [
+    {
+      "group": "blend",
+      "file": "fixtures/cad-acid/fs/acid-blend-errata.fs",
+      "element": "b0f311766233560ea35f4727",
+      "namespace": "eb0f311766233560ea35f4727::m156d27b19fa9221326b74937",
+      "sourceMicroversion": "156d27b19fa9221326b74937",
+      "sha256": "f4703a584279952f82318d98ac78bfbd9190aa75762dbb894ed2ce14658ab05a"
+    }
+  ],
+  "partStudios": [
+    {
+      "variant": "V0",
+      "element": "56afb614e2fe540733db90a1",
+      "complete": true,
+      "microversion": "49fd3bc79f9bd3d67cac1a40",
+      "parts": "studios/acid-V0/parts.json",
+      "mass": {
+        "JHD": "studios/acid-V0/massproperties.json",
+        "JTD": "studios/acid-V0/massproperties.json"
+      },
+      "partBoundingBoxes": {
+        "JHD": "studios/acid-V0/boundingbox-part0.json",
+        "JTD": "studios/acid-V0/boundingbox-part1.json"
+      },
+      "bodydetails": "studios/acid-V0/bodydetails.json",
+      "boundingboxes": "studios/acid-V0/boundingboxes.json",
+      "translation": "studios/acid-V0/translation.json",
+      "step": "studios/acid-V0/model.step",
+      "stepBytes": 24044,
+      "stepSha256": "6411077ddf8ea2d125c8f0881592626fd58de94b7a6f51ecedb0e82bb743c5ab",
+      "stepSolids": 2
+    },
+    {
+      "variant": "V1",
+      "element": "b3e4b99104c22c0eda1f92b2",
+      "complete": true,
+      "microversion": "8689582bf98f3c14346ad6dd",
+      "parts": "studios/acid-V1/parts.json",
+      "mass": {
+        "JHD": "studios/acid-V1/massproperties.json",
+        "JTD": "studios/acid-V1/massproperties.json"
+      },
+      "partBoundingBoxes": {
+        "JHD": "studios/acid-V1/boundingbox-part0.json",
+        "JTD": "studios/acid-V1/boundingbox-part1.json"
+      },
+      "bodydetails": "studios/acid-V1/bodydetails.json",
+      "boundingboxes": "studios/acid-V1/boundingboxes.json",
+      "translation": "studios/acid-V1/translation.json",
+      "step": "studios/acid-V1/model.step",
+      "stepBytes": 24146,
+      "stepSha256": "dfdbbe9df5cea7ef211f6e2355a847ba4ef1d948bd555acc025afb24b52cc64f",
+      "stepSolids": 2
+    },
+    {
+      "variant": "V2",
+      "element": "2552701893ae1456ac73fbeb",
+      "complete": true,
+      "microversion": "80d5c517d807af4fb09681d7",
+      "parts": "studios/acid-V2/parts.json",
+      "mass": {
+        "JHD": "studios/acid-V2/massproperties.json",
+        "JTD": "studios/acid-V2/massproperties.json"
+      },
+      "partBoundingBoxes": {
+        "JHD": "studios/acid-V2/boundingbox-part0.json",
+        "JTD": "studios/acid-V2/boundingbox-part1.json"
+      },
+      "bodydetails": "studios/acid-V2/bodydetails.json",
+      "boundingboxes": "studios/acid-V2/boundingboxes.json",
+      "translation": "studios/acid-V2/translation.json",
+      "step": "studios/acid-V2/model.step",
+      "stepBytes": 23972,
+      "stepSha256": "20a893b4c1b1e43d408f1a07f5581075a21ac160bebc37a25bba874fcc118d3e",
+      "stepSolids": 2
+    },
+    {
+      "variant": "V3",
+      "element": "508f6dd227bb874472f7f236",
+      "complete": true,
+      "microversion": "3ddd935ef7c56e878f6738e1",
+      "parts": "studios/acid-V3/parts.json",
+      "mass": {
+        "JHD": "studios/acid-V3/massproperties.json",
+        "JTD": "studios/acid-V3/massproperties.json"
+      },
+      "partBoundingBoxes": {
+        "JHD": "studios/acid-V3/boundingbox-part0.json",
+        "JTD": "studios/acid-V3/boundingbox-part1.json"
+      },
+      "bodydetails": "studios/acid-V3/bodydetails.json",
+      "boundingboxes": "studios/acid-V3/boundingboxes.json",
+      "translation": "studios/acid-V3/translation.json",
+      "step": "studios/acid-V3/model.step",
+      "stepBytes": 27318,
+      "stepSha256": "17ed3fcd4408775272c6bf9375fa6adb2358874f4f2e0de0d61a2cb9754dd6e5",
+      "stepSolids": 2
+    }
+  ],
+  "studios": [
+    {
+      "group": "blend",
+      "variant": "V0",
+      "zone": "AC36",
+      "element": "56afb614e2fe540733db90a1",
+      "featureId": "FskwDfPKlrchbA2_0",
+      "featureStatus": "OK",
+      "writeResponse": "studios/acid-V0/write-AC36.json",
+      "microversion": "49fd3bc79f9bd3d67cac1a40",
+      "parts": "studios/acid-V0/parts.json",
+      "mass": {
+        "JHD": "studios/acid-V0/massproperties.json",
+        "JTD": "studios/acid-V0/massproperties.json"
+      },
+      "bodydetails": "studios/acid-V0/bodydetails.json",
+      "boundingboxes": "studios/acid-V0/boundingboxes.json",
+      "partBoundingBoxes": {
+        "JHD": "studios/acid-V0/boundingbox-part0.json",
+        "JTD": "studios/acid-V0/boundingbox-part1.json"
+      },
+      "translation": "studios/acid-V0/translation.json",
+      "step": "studios/acid-V0/model.step"
+    },
+    {
+      "group": "blend",
+      "variant": "V0",
+      "zone": "AC38",
+      "element": "56afb614e2fe540733db90a1",
+      "featureId": "FC6upZqiXb5gryT_1",
+      "featureStatus": "OK",
+      "writeResponse": "studios/acid-V0/write-AC38.json",
+      "microversion": "49fd3bc79f9bd3d67cac1a40",
+      "parts": "studios/acid-V0/parts.json",
+      "mass": {
+        "JHD": "studios/acid-V0/massproperties.json",
+        "JTD": "studios/acid-V0/massproperties.json"
+      },
+      "bodydetails": "studios/acid-V0/bodydetails.json",
+      "boundingboxes": "studios/acid-V0/boundingboxes.json",
+      "partBoundingBoxes": {
+        "JHD": "studios/acid-V0/boundingbox-part0.json",
+        "JTD": "studios/acid-V0/boundingbox-part1.json"
+      },
+      "translation": "studios/acid-V0/translation.json",
+      "step": "studios/acid-V0/model.step"
+    },
+    {
+      "group": "blend",
+      "variant": "V1",
+      "zone": "AC36",
+      "element": "b3e4b99104c22c0eda1f92b2",
+      "featureId": "F7jdYWpVO575WXC_0",
+      "featureStatus": "OK",
+      "writeResponse": "studios/acid-V1/write-AC36.json",
+      "microversion": "8689582bf98f3c14346ad6dd",
+      "parts": "studios/acid-V1/parts.json",
+      "mass": {
+        "JHD": "studios/acid-V1/massproperties.json",
+        "JTD": "studios/acid-V1/massproperties.json"
+      },
+      "bodydetails": "studios/acid-V1/bodydetails.json",
+      "boundingboxes": "studios/acid-V1/boundingboxes.json",
+      "partBoundingBoxes": {
+        "JHD": "studios/acid-V1/boundingbox-part0.json",
+        "JTD": "studios/acid-V1/boundingbox-part1.json"
+      },
+      "translation": "studios/acid-V1/translation.json",
+      "step": "studios/acid-V1/model.step"
+    },
+    {
+      "group": "blend",
+      "variant": "V1",
+      "zone": "AC38",
+      "element": "b3e4b99104c22c0eda1f92b2",
+      "featureId": "FuCYg8j3XjX1Cbs_1",
+      "featureStatus": "OK",
+      "writeResponse": "studios/acid-V1/write-AC38.json",
+      "microversion": "8689582bf98f3c14346ad6dd",
+      "parts": "studios/acid-V1/parts.json",
+      "mass": {
+        "JHD": "studios/acid-V1/massproperties.json",
+        "JTD": "studios/acid-V1/massproperties.json"
+      },
+      "bodydetails": "studios/acid-V1/bodydetails.json",
+      "boundingboxes": "studios/acid-V1/boundingboxes.json",
+      "partBoundingBoxes": {
+        "JHD": "studios/acid-V1/boundingbox-part0.json",
+        "JTD": "studios/acid-V1/boundingbox-part1.json"
+      },
+      "translation": "studios/acid-V1/translation.json",
+      "step": "studios/acid-V1/model.step"
+    },
+    {
+      "group": "blend",
+      "variant": "V2",
+      "zone": "AC36",
+      "element": "2552701893ae1456ac73fbeb",
+      "featureId": "F7txOMinUfJyz79_0",
+      "featureStatus": "OK",
+      "writeResponse": "studios/acid-V2/write-AC36.json",
+      "microversion": "80d5c517d807af4fb09681d7",
+      "parts": "studios/acid-V2/parts.json",
+      "mass": {
+        "JHD": "studios/acid-V2/massproperties.json",
+        "JTD": "studios/acid-V2/massproperties.json"
+      },
+      "bodydetails": "studios/acid-V2/bodydetails.json",
+      "boundingboxes": "studios/acid-V2/boundingboxes.json",
+      "partBoundingBoxes": {
+        "JHD": "studios/acid-V2/boundingbox-part0.json",
+        "JTD": "studios/acid-V2/boundingbox-part1.json"
+      },
+      "translation": "studios/acid-V2/translation.json",
+      "step": "studios/acid-V2/model.step"
+    },
+    {
+      "group": "blend",
+      "variant": "V2",
+      "zone": "AC38",
+      "element": "2552701893ae1456ac73fbeb",
+      "featureId": "FZJa0er3ITLCVBR_1",
+      "featureStatus": "OK",
+      "writeResponse": "studios/acid-V2/write-AC38.json",
+      "microversion": "80d5c517d807af4fb09681d7",
+      "parts": "studios/acid-V2/parts.json",
+      "mass": {
+        "JHD": "studios/acid-V2/massproperties.json",
+        "JTD": "studios/acid-V2/massproperties.json"
+      },
+      "bodydetails": "studios/acid-V2/bodydetails.json",
+      "boundingboxes": "studios/acid-V2/boundingboxes.json",
+      "partBoundingBoxes": {
+        "JHD": "studios/acid-V2/boundingbox-part0.json",
+        "JTD": "studios/acid-V2/boundingbox-part1.json"
+      },
+      "translation": "studios/acid-V2/translation.json",
+      "step": "studios/acid-V2/model.step"
+    },
+    {
+      "group": "blend",
+      "variant": "V3",
+      "zone": "AC36",
+      "element": "508f6dd227bb874472f7f236",
+      "featureId": "FzNHDc5hnRFNze6_0",
+      "featureStatus": "OK",
+      "writeResponse": "studios/acid-V3/write-AC36.json",
+      "microversion": "3ddd935ef7c56e878f6738e1",
+      "parts": "studios/acid-V3/parts.json",
+      "mass": {
+        "JHD": "studios/acid-V3/massproperties.json",
+        "JTD": "studios/acid-V3/massproperties.json"
+      },
+      "bodydetails": "studios/acid-V3/bodydetails.json",
+      "boundingboxes": "studios/acid-V3/boundingboxes.json",
+      "partBoundingBoxes": {
+        "JHD": "studios/acid-V3/boundingbox-part0.json",
+        "JTD": "studios/acid-V3/boundingbox-part1.json"
+      },
+      "translation": "studios/acid-V3/translation.json",
+      "step": "studios/acid-V3/model.step"
+    },
+    {
+      "group": "blend",
+      "variant": "V3",
+      "zone": "AC38",
+      "element": "508f6dd227bb874472f7f236",
+      "featureId": "F9x7P6HTge6n9jo_1",
+      "featureStatus": "OK",
+      "writeResponse": "studios/acid-V3/write-AC38.json",
+      "microversion": "3ddd935ef7c56e878f6738e1",
+      "parts": "studios/acid-V3/parts.json",
+      "mass": {
+        "JHD": "studios/acid-V3/massproperties.json",
+        "JTD": "studios/acid-V3/massproperties.json"
+      },
+      "bodydetails": "studios/acid-V3/bodydetails.json",
+      "boundingboxes": "studios/acid-V3/boundingboxes.json",
+      "partBoundingBoxes": {
+        "JHD": "studios/acid-V3/boundingbox-part0.json",
+        "JTD": "studios/acid-V3/boundingbox-part1.json"
+      },
+      "translation": "studios/acid-V3/translation.json",
+      "step": "studios/acid-V3/model.step"
+    }
+  ],
+  "runs": [
+    {
+      "startedAt": "2026-10-02T22:28:42.685Z",
+      "variants": [
+        "V0",
+        "V1",
+        "V2",
+        "V3"
+      ],
+      "finishedAt": "2026-10-02T22:30:33.884Z"
+    }
+  ],
+  "fsEvals": 0,
+  "document": "4fd030e6f6d0829de88fa3d3",
+  "workspace": "057457e625e977740887d284",
+  "featureStudioElement": "b0f311766233560ea35f4727",
+  "contentsResponse": "responses/0007.json",
+  "featureSpecsResponse": "responses/0008.json",
+  "complete": true,
+  "frozenAt": "2026-10-02T22:30:33.886Z"
+}

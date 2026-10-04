@@ -12,17 +12,12 @@ attribute vec3 normal;
 uniform vec3 center;
 uniform float extent;
 uniform vec2 scale;
-uniform vec2 angles;
+uniform mat3 viewRotation;
 varying vec3 shadeNormal;
-vec3 view(vec3 p) {
-  float c = cos(angles.x), s = sin(angles.x);
-  float a = p.x * c - p.y * s, b = p.x * s + p.y * c;
-  return vec3(a, b * sin(angles.y) + p.z * cos(angles.y), b * cos(angles.y) - p.z * sin(angles.y));
-}
 void main() {
-  vec3 p = view(position - center);
+  vec3 p = viewRotation * (position - center);
   gl_Position = vec4(p.xy * scale, -p.z / (extent * 3.0), 1.0);
-  shadeNormal = view(normal);
+  shadeNormal = viewRotation * normal;
 }`;
 const fragmentSource = `
 precision mediump float;
@@ -49,7 +44,7 @@ gl.attachShader(program, shader(gl.FRAGMENT_SHADER, fragmentSource));
 gl.linkProgram(program);
 if (!gl.getProgramParameter(program, gl.LINK_STATUS)) throw new Error(gl.getProgramInfoLog(program));
 gl.useProgram(program);
-const uniforms = Object.fromEntries(['center', 'extent', 'scale', 'angles', 'edgePass'].map(name => [name, gl.getUniformLocation(program, name)]));
+const uniforms = Object.fromEntries(['center', 'extent', 'scale', 'viewRotation', 'edgePass'].map(name => [name, gl.getUniformLocation(program, name)]));
 const position = gl.getAttribLocation(program, 'position'), normal = gl.getAttribLocation(program, 'normal');
 const all = bodies.flatMap(b => b.vertices);
 const min = [0, 1, 2].map(k => Math.min(...all.map(p => p[k]))), max = [0, 1, 2].map(k => Math.max(...all.map(p => p[k])));
@@ -73,7 +68,12 @@ function renderBuffer(buffer, mode) {
   gl.vertexAttribPointer(normal, 3, gl.FLOAT, false, 24, 12);
   gl.drawArrays(mode, 0, buffer.count);
 }
-let yaw = -0.65, pitch = -0.55, zoom = 1, showEdges = true, drag = null;
+// Same convention-2 rotation as the live viewer: right × up = toward (det +1),
+// world +Z up, default Iso eye at (+X, -Y, +Z), above the front (-Y) side.
+// Top is yaw=π, pitch=-π/2: +X right, +Y up, +Z toward the eye.
+// Only the clip-depth mapping negates Z (nearer = smaller WebGL depth).
+let [yaw, pitch] = previewCamera.iso;
+let zoom = 1, showEdges = true, drag = null;
 function draw() {
   const w = canvas.clientWidth, h = canvas.clientHeight, dpr = Math.min(devicePixelRatio, 2);
   canvas.width = Math.round(w * dpr); canvas.height = Math.round(h * dpr);
@@ -82,7 +82,7 @@ function draw() {
   gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
   const factor = Math.min(w, h) * 0.57 / extent * zoom;
   gl.uniform2f(uniforms.scale, 2 * factor / w, 2 * factor / h);
-  gl.uniform2f(uniforms.angles, yaw, pitch);
+  gl.uniformMatrix3fv(uniforms.viewRotation, false, new Float32Array(previewCamera.normalMatrix({ yaw, pitch })));
   gl.uniform1i(uniforms.edgePass, 0);
   gl.enable(gl.POLYGON_OFFSET_FILL); gl.polygonOffset(1, 1);
   renderBuffer(triangles, gl.TRIANGLES);
@@ -108,7 +108,7 @@ canvas.addEventListener('keydown', e => {
   if (e.key === 'ArrowDown') pitch += 0.12;
   draw();
 });
-document.querySelector('#fit').onclick = () => { yaw = -0.65; pitch = -0.55; zoom = 1; draw(); };
+document.querySelector('#fit').onclick = () => { [yaw, pitch] = previewCamera.iso; zoom = 1; draw(); };
 document.querySelector('#edges').onclick = e => { showEdges = !showEdges; e.target.setAttribute('aria-pressed', String(showEdges)); draw(); };
 new ResizeObserver(draw).observe(canvas);
 draw();

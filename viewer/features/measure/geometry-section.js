@@ -236,9 +236,8 @@ export function exactSectionContent(entry, { pending = false, error = null } = {
   return `<h3>Exact geometry ${chip}</h3>`
     + `<p class="exact-summary">${escape(summaryText(entry))}</p>${fragmentMarkup(entry)}`
     + `<dl class="properties exact-properties">${exactRows(entry).map(rowMarkup).join('')}</dl>`
-    + '<p class="small muted inspector-note">Closed form over the stored analytic parameters'
-    + ' (kernel.precise); tolerance t is the recorded entity tolerance. The display mesh is not'
-    + ' used.</p>';
+    + '<p class="small muted inspector-note">Closed form over the stored analytic parameters;'
+    + ' tolerance t is the recorded entity tolerance. The display mesh is not used.</p>';
 }
 
 // "Exact geometry" inspector section for the primary selection.

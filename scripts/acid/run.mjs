@@ -1,8 +1,8 @@
 #!/usr/bin/env node
-// Build, observe and score in one process with the same checked live addon.
+// Build, observe and score with checked live addons and ordered cell admission.
 import path from 'node:path';
-import {ROOT,VARIANTS,loadCatalog,isMain} from './common.mjs';
-import {executeRun} from './execution.mjs';
+import {ROOT,ALL_VARIANTS,loadCatalog,isMain} from './common.mjs';
+import {executeRun,invalidateRunOutputs} from './execution.mjs';
 import {score,writeScoreboard} from './score.mjs';
 
 export async function run(options) {
@@ -14,11 +14,15 @@ export async function run(options) {
 }
 
 async function main() {
-  const opts={out:path.join(ROOT,'out/cad-acid'),kernels:['wonky-rust'],variants:VARIANTS,zones:null,timeout:180,noSmoke:false};
+  const opts={out:path.join(ROOT,'out/cad-acid'),kernels:['wonky-rust'],variants:ALL_VARIANTS,zones:null,timeout:180,noSmoke:false};
   try {
     const args=process.argv.slice(2);
+    // Resolve the destination even when an earlier argument is invalid. A failed
+    // CLI attempt must retire its previous output before the parser can throw.
+    for(let i=0;i<args.length-1;i++)if(args[i]==='--out'&&!args[i+1].startsWith('--'))opts.out=path.resolve(args[++i]);
+    invalidateRunOutputs(opts.out);
     for(let i=0;i<args.length;i++) {
-      const a=args[i],next=()=>{if(!args[i+1])throw new Error(`${a} needs a value`);return args[++i];};
+      const a=args[i],next=()=>{if(!args[i+1]||args[i+1].startsWith('--'))throw new Error(`${a} needs a value`);return args[++i];};
       if(a==='--out')opts.out=path.resolve(next());
       else if(a==='--kernels')opts.kernels=next().split(',');
       else if(a==='--zones')opts.zones=next().split(',');

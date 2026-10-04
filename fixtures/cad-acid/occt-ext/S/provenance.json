@@ -1,0 +1,32 @@
+{
+ "schema": "wonky/cad-acid-occt-frozen/1",
+ "origin": {
+  "file": "tmp/studio/out/occt-freeze-S/results.json",
+  "sha256": "8e16966aa818bef09008e5c3a4a3fc2310ea13cec69407a649031458507df3a1",
+  "code": {
+   "head": null,
+   "treeSha256": "fd7d1c1866551c66e739cc767c60000fc729fd7c7d30bcc7da3ebf88668eb630"
+  },
+  "startedAt": "2026-09-28T18:38:21.070Z",
+  "finishedAt": "2026-09-28T18:39:07.266Z",
+  "versions": [
+   {
+    "build123d": "0.10.0",
+    "cadquery-ocp": "7.8.1.1.post1"
+   }
+  ]
+ },
+ "batch": "S",
+ "zonesSha256": "cd794ed4d7415063800e3e37d5627a03d69745bb89743a7e2a8ef5bf77f2a47c",
+ "catalogVersion": "AC1-2026-09-28-extS-splines-a",
+ "zones": [
+  "AC100",
+  "AC102"
+ ],
+ "cells": 11,
+ "sources": {
+  "fixtures/cad-acid/b3d/acid_splines_a.py": "14a61e26a3a084d81234f329d933c71510256c1b9c033ab04c095d29ac1dd8e1"
+ },
+ "observations": "observations.json",
+ "note": "Unmodified live OCCT (build123d twin) rows for the zones added by catalog extension batch S; only the live-reference marker is dropped. Contracts were declared before this freeze; OCCT checks them and never defines them. Base zones keep fixtures/cad-acid/occt/. A row stays active only while its zone contract binding and b3d twin bytes are unchanged (per-zone binding, docs/cad-acid.md)."
+}

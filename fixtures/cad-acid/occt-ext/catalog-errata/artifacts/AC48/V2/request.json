@@ -1,0 +1,14 @@
+{
+  "source": "local-development-evidence",
+  "sourceSha256": "5af4fa7e307e46e7d1a0b97f04ba57eb3007ceec5a4e7fb809d029752f014849",
+  "zonesSha256": "b742021a3035026efd47da6ff70fb1da29daba22e2052ee85ef0bf05b4ac2062",
+  "feature": "acidPrecision",
+  "parameters": {
+    "variant": "AcidVariant.V2",
+    "zone": "AcidPrecisionZone.AC48"
+  },
+  "zone": "AC48",
+  "variant": "V2",
+  "out": "local-development-evidence",
+  "catalog": "local-development-evidence"
+}

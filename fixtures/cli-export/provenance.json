@@ -21,6 +21,13 @@
       "sha256": "c4cf5344df05d81c1b3c9ed4f3d6c70fe24346ab8787ecfb96cd9c02879ff0ef",
       "bytes": 952,
       "purpose": "Curved mesh acceptance with an independently calculated hemisphere volume"
+    },
+    {
+      "snapshot": "conical-spacer.fs",
+      "origin": "Authored here from original FeatureScript opRevolve of a trapezoid (test/rust-revolve.test.mjs syntax) for the same 8/4/12 mm blank as examples/conical-spacer.fs",
+      "sha256": "f794a54312124de157cfa62202bee19349aee1ca73dfe0875eed614913de7e48",
+      "bytes": 1240,
+      "purpose": "Curved conical STEP export through the CLI on Rust (the circle loft of the example is refused)"
     }
   ]
 }

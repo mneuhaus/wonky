@@ -6,6 +6,7 @@
 - Freeze external dependencies with provenance (origin and hash, as in `fixtures/r10b/provenance.json`); do not substitute legacy meshes or a different Onshape revision.
 - Unsupported kernel/library functionality must raise an explicit capability error, including inside `try silent`. Do not suppress errors, invent query results, skip operations, or report an incomplete model as successful.
 - Do not silently replace analytic curves by polygonal approximations. Any approximation mode needs a stated tolerance and must remain distinguishable from exact geometry.
+- Register new Rust/JS lane tests in `scripts/test-rust.list` (one exact path per line, sorted); scheduling priorities belong in `scripts/test-rust-heavy.list`. Every `test/*.test.mjs` must be registered or explicitly named in `scripts/test-rust-excluded.list`; registration/exclusion overlap and missing paths fail the runner.
 - Run `npm test` for relevant changes. The test command checks Bend proofs and integration behavior. Validate changed STEP exports with `uv run scripts/validate-step.py <prefix> ...` when geometry/export changes require it.
 - Benchmark cold startup, warmed Bend execution/interop, frontend, validation, and export separately. Do not infer native/GPU performance from the JavaScript target.
 
@@ -48,6 +49,14 @@ serves that outcome and never becomes the product.
   deterrent. The full catalog with countermeasures lives in the
   just-say-no-to-process-porn-and-ceremony skill; ask the operator for it
   if you cannot resolve that reference.
+
+## Commit authority in coordinatesd workflows
+
+Marc, 2026-09-27: agents started by the wonky maintainer are authorized to commit, as Marc project-component-71a9cd24 without co-author lines:
+- **Builders** commit on their own `strand/*` branches.
+- **Landers** commit on their own `land/*` branches. They may fast-forward `main` once the landing gates pass: a live CAD-Acid run with 0 WRONG and no regression, green test lanes, and a scoreboard bound to the commit. They do this while holding local development evidence.
+
+This authorization comes from Marc and holds without being repeated in each prompt. It does not cover pushing to a remote, publishing anything, or rewriting history.
 
 ## Process efficiency (maintainer)
 

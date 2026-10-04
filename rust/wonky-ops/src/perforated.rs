@@ -1,4 +1,4 @@
-//! Exact box minus disjoint full-through axial cylinders. The boundary retains
+//! Exact box minus disjoint full-through coordinate-axis cylinders. The boundary retains
 //! planar multi-loop caps and inward cylindrical walls with periodic seams.
 //! A replay of the original binary64 construction binds every carrier; neither
 //! a tessellation nor STEP healing decides connectivity, tangency or membership.
@@ -8,11 +8,14 @@ use crate::{
     orthogonal,
     polyhedron::{self, Audited, Refused},
 };
-use std::result::Result;
+use num_rational::BigRational as Q;
+use num_traits::Zero;
+use std::{cmp::Ordering, result::Result};
+use crate::probe_exact::{enclose, local_point, q, radial};
 use wonky_contract::*;
 use wonky_num::{
     expansion::{self as ex, Guard},
-    Iv,
+    Iv, Scalar,
 };
 type R<T> = Result<T, Refused>;
 fn no(s: &str) -> Refused {
@@ -30,21 +33,45 @@ pub struct Perforated {
     pub body: Body,
     pub base: Audited,
     pub holes: Vec<Spec>,
-    pub axis: usize,
     pub bounds: [[f64; 3]; 2],
 }
 
 pub fn is_candidate(body: &Body) -> bool {
     body.constructions.last().is_some_and(|n| {
         n.operation == (Operation::Boolean {})
-            && n.parameters.len() == 1
-            && n.parameters[0].get() == 1.
+            && ((n.parameters.len() == 1 && n.parameters[0].get() == 1.)
+                || n.rule_version == 2 && n.parameters.len() >= 6 && n.parameters.len() % 3 == 0)
     })
+}
+
+/// Relate a full-through cutter before materializing coordinates. The far
+/// endpoints are rational frame sums; only the retained cap coordinates need
+/// binary64 carriers. Radial coordinates are never rounded.
+fn through_spec(base: &Audited, tool: &Cylinder, bounds: [[f64; 3]; 2]) -> R<Spec> {
+    let exact = crate::construction_geom::Axial::in_frame(tool, &base.frame)?;
+    let k = exact.axis;
+    let lo = q(bounds[0][k]).map_err(|_| no("numeric-range"))?;
+    let hi = q(bounds[1][k]).map_err(|_| no("numeric-range"))?;
+    if exact.bottom[k] > lo || exact.top[k] < hi {
+        return Err(no("blind-or-partial-hole"));
+    }
+    let mut bottom = [0.; 3];
+    let mut top = [0.; 3];
+    for j in 0..3 {
+        if j == k {
+            bottom[j] = bounds[0][j];
+            top[j] = bounds[1][j];
+        } else {
+            bottom[j] = crate::prism_holes::exact_float(&exact.bottom[j])?;
+            top[j] = bottom[j];
+        }
+    }
+    Ok(Spec { bottom, top, radius: tool.spec.radius })
 }
 
 /// Classify strict containment in the two radial slab intervals with exact
 /// expansions. Touching a side creates a different face arrangement and refuses.
-fn classify(base: &Audited, tools: &[Cylinder]) -> R<(usize, [[f64; 3]; 2], Vec<Spec>)> {
+fn classify(base: &Audited, tools: &[Cylinder]) -> R<([[f64; 3]; 2], Vec<Spec>)> {
     let cells = base
         .orthogonal
         .as_ref()
@@ -52,20 +79,19 @@ fn classify(base: &Audited, tools: &[Cylinder]) -> R<(usize, [[f64; 3]; 2], Vec<
     let [bounds] = cells.boxes.as_slice() else {
         return Err(no("non-box-target"));
     };
-    let mut holes = Vec::new();
-    let mut axis = None;
+    let mut holes: Vec<Spec> = Vec::new();
     for tool in tools {
         match cylinder::tangent_box_noop(base, std::slice::from_ref(tool)) {
             Ok(_) => continue,
-            Err(e) if e.0 == "cylinder/box-cylinder-cut-arrangement" => {}
+            Err(e) if ["cylinder/box-cylinder-cut-arrangement", "cylinder/cross-frame-cut-arrangement"].contains(&e.0.as_str()) => {}
             Err(e) => return Err(e),
         }
-        let s = tool.spec;
+        let s = if tool.frame == base.frame {
+            tool.spec
+        } else {
+            through_spec(base, tool, *bounds)?
+        };
         let k = s.axis()?;
-        if axis.is_some_and(|a| a != k) {
-            return Err(no("cross-axis-holes"));
-        }
-        axis = Some(k);
         if s.bottom[k] > bounds[0][k] || s.top[k] < bounds[1][k] {
             return Err(no("blind-or-partial-hole"));
         }
@@ -87,19 +113,52 @@ fn classify(base: &Audited, tools: &[Cylinder]) -> R<(usize, [[f64; 3]; 2], Vec<
             }
         }
         for &other in &holes {
-            if cylinder::radial_relation(s, other)? <= 0 {
-                return Err(no("holes-contact-or-overlap"));
+            let other_axis = other.axis()?;
+            if k == other_axis {
+                if cylinder::radial_relation(s, other)? <= 0 {
+                    return Err(no("holes-contact-or-overlap"));
+                }
+            } else {
+                // Separation in the one coordinate perpendicular to *both*
+                // axes proves the entire cylinders disjoint, independently of
+                // their axial intervals. No rounded bounding-box comparisons.
+                let j = (0..3).find(|&j| j != k && j != other_axis).unwrap();
+                let mut g = Guard::new();
+                let delta = ex::sum(&[s.bottom[j]], &[-other.bottom[j]], &mut g);
+                let radii = ex::sum(&[s.radius], &[other.radius], &mut g);
+                let separation = ex::sum(&ex::mul(&delta, &delta, &mut g),
+                    &ex::neg(&ex::mul(&radii, &radii, &mut g)), &mut g);
+                if !g.exact() { return Err(no("predicate-range")); }
+                if ex::sign(&separation) <= 0 {
+                    return Err(no("cross-axis-intersection-unresolved"));
+                }
             }
         }
         holes.push(s);
     }
-    Ok((axis.unwrap_or(2), *bounds, holes))
+    Ok((*bounds, holes))
 }
 
 pub fn subtract(key: BodyKey, base: &Audited, tools: &[Cylinder]) -> R<Body> {
-    let (_, bounds, holes) = classify(base, tools)?;
+    // This assembler binds its Boolean witnesses and bore charts to frame 1.
+    // Constructed target images are carried by the general prism-hole replay;
+    // refuse before emitting a boundary with mismatched construction frames.
+    if base.body.surfaces.iter().any(|s| s.frame != FrameId(1)) {
+        return Err(no("constructed-target-frame"));
+    }
+    let (bounds, holes) = classify(base, tools)?;
     if holes.is_empty() {
         return Ok(base.body.clone());
+    }
+    if tools.iter().any(|c| c.frame != base.frame) {
+        let operands = tools.iter().cloned().map(crate::prism_holes::Base::Cylinder).collect::<Vec<_>>();
+        let (frames, mut nodes, parents, parameters) = crate::prism_holes::graft_sources(
+            &crate::prism_holes::Base::Planar(base.clone()), &operands)?;
+        nodes.push(Construction { operation: Operation::Boolean {}, rule_version: 2,
+            parents, parameters, frame: FrameId(1) });
+        let mut source = base.clone();
+        source.body.frames = frames;
+        return assemble(key, &source, &holes, bounds, nodes);
     }
     let mut nodes = base.body.constructions.clone();
     let mut parents = vec![NodeId(nodes.len() as u32 - 1)];
@@ -133,7 +192,6 @@ fn assemble(
     bounds: [[f64; 3]; 2],
     nodes: Vec<Construction>,
 ) -> R<Body> {
-    let k = holes[0].axis()?;
     let mut body = base.body.clone();
     body.key = key;
     body.constructions = nodes;
@@ -149,32 +207,49 @@ fn assemble(
     for s in &mut body.surfaces {
         s.provenance = provenance.clone();
     }
-    let mut caps = [None; 2];
-    for (fi, face) in body.faces.iter().enumerate() {
-        if let SurfaceGeometry::Plane { normal, origin, .. } =
-            &body.surfaces[face.surface.0 as usize].geometry
-        {
-            let n = get(normal);
-            if n[k] != 0. {
-                let cap = usize::from(n[k] > 0.);
-                if get(origin)[k] == bounds[cap][k] {
-                    caps[cap] = Some(fi);
+    for &input in holes {
+        let k = input.axis()?;
+        let mut caps = [None; 2];
+        for (fi, face) in body.faces.iter().enumerate() {
+            if let SurfaceGeometry::Plane { normal, origin, .. } =
+                &body.surfaces[face.surface.0 as usize].geometry
+            {
+                let n = get(normal);
+                if n[k] != 0. {
+                    let cap = usize::from(n[k] > 0.);
+                    if get(origin)[k] == bounds[cap][k] {
+                        caps[cap] = Some(fi);
+                    }
                 }
             }
         }
-    }
-    let caps = [
-        caps[0].ok_or_else(|| no("missing-cap"))?,
-        caps[1].ok_or_else(|| no("missing-cap"))?,
-    ];
-    for &input in holes {
+        let caps = [
+            caps[0].ok_or_else(|| no("missing-cap"))?,
+            caps[1].ok_or_else(|| no("missing-cap"))?,
+        ];
         let mut s = input;
         s.bottom[k] = bounds[0][k];
         s.top[k] = bounds[1][k];
         // Reuse the cylinder's exact circle/line charts, but never claim the
         // clipped endpoints were fresh interpreter values: provenance is the
         // Boolean node carrying the original box and cylinder inputs.
-        let c = cylinder::assemble(body.key.clone(), s, base.frame.as_affine()?, body.constructions.clone())?;
+        // Build local charts in their own valid source frame, then graft only
+        // the charts. The operand DAG can contain several source frames and
+        // must never be checked against this temporary cylinder's frame table.
+        let mut c = cylinder::create(body.key.clone(), s)?;
+        for v in &mut c.vertices {
+            if matches!(v.provenance, Provenance::Construction { .. }) {
+                v.provenance = provenance.clone();
+            }
+        }
+        for curve in &mut c.curves {
+            if matches!(curve.provenance, Provenance::Construction { .. }) {
+                curve.provenance = provenance.clone();
+            }
+        }
+        for surface in &mut c.surfaces {
+            surface.provenance = provenance.clone();
+        }
         let frame_id = body.frames.len() as u32;
         body.frames.push(c.frames[2].clone());
         let vo = body.vertices.len() as u32;
@@ -257,19 +332,54 @@ fn assemble(
             loops: vec![LoopId(lo + 2)],
         });
     }
-    body.clone().check().map_err(|_| no("contract"))?;
+    body.clone().check().map_err(|e| no(&format!("contract: {e:?}")))?;
     Ok(body)
 }
 
 pub fn audit(checked: &CheckedBody) -> R<Perforated> {
     let body = checked.body();
-    let root = body
-        .constructions
+    let replayed = replay(body.key.clone(), &body.frames, &body.constructions)?;
+    if *body != replayed.body {
+        return Err(no("construction-carrier-mismatch"));
+    }
+    Ok(replayed)
+}
+
+/// Rebuild the audited perforated boundary from its construction DAG alone.
+/// A later operation (a chamfer) replays its parent through this, never from
+/// the rounded carriers of its own output.
+pub(crate) fn replay(key: BodyKey, frames: &[Frame], constructions: &[Construction]) -> R<Perforated> {
+    let root = constructions
         .len()
         .checked_sub(1)
         .ok_or_else(|| no("construction"))?;
-    let n = &body.constructions[root];
-    if !is_candidate(body)
+    let n = &constructions[root];
+    if n.rule_version == 2 && n.operation == (Operation::Boolean {}) {
+        if n.frame != FrameId(1) || n.parents.len() < 2 || n.parents.len() > 65
+            || n.parameters.len() != n.parents.len() * 3 {
+            return Err(no("construction"));
+        }
+        // ungraft reads only the source DAG, never these geometry caches.
+        let dag = Body { key: key.clone(), frames: frames.to_vec(),
+            constructions: constructions.to_vec(), vertices: vec![], curves: vec![],
+            surfaces: vec![], pcurves: vec![], edges: vec![], coedges: vec![],
+            loops: vec![], faces: vec![], shells: vec![], solids: vec![], facts: vec![], budgets: vec![] };
+        let (mut operands, frame_count) = crate::prism_holes::ungraft(&dag, &n.parameters, &n.parents)?;
+        let crate::prism_holes::Base::Planar(base) = operands.remove(0) else {
+            return Err(no("non-box-target"));
+        };
+        let tools = operands.into_iter().map(|b| match b {
+            crate::prism_holes::Base::Cylinder(c) => Ok(c),
+            _ => Err(no("tool-carrier")),
+        }).collect::<R<Vec<_>>>()?;
+        let (bounds, holes) = classify(&base, &tools)?;
+        if holes.is_empty() { return Err(no("no-hole")); }
+        let mut source = base.clone();
+        source.body.frames = frames[..frame_count].to_vec();
+        let body = assemble(key, &source, &holes, bounds, constructions.to_vec())?;
+        return Ok(Perforated { body, base, holes, bounds });
+    }
+    if !(n.operation == (Operation::Boolean {}) && n.parameters.len() == 1 && n.parameters[0].get() == 1.)
         || n.rule_version != 1
         || n.frame != FrameId(1)
         || n.parents.len() < 2
@@ -282,7 +392,7 @@ pub fn audit(checked: &CheckedBody) -> R<Perforated> {
         origin,
         x,
         z,
-    }, ..] = body.frames.as_slice()
+    }, ..] = frames
     else {
         return Err(no("frame"));
     };
@@ -304,9 +414,9 @@ pub fn audit(checked: &CheckedBody) -> R<Perforated> {
         return Err(no("construction-order"));
     }
     let mut bases = orthogonal::construct(
-        body.key.clone(),
+        key.clone(),
         frame,
-        body.constructions[..=target_root].to_vec(),
+        constructions[..=target_root].to_vec(),
         target_root,
     )?;
     if bases.len() != 1 {
@@ -321,12 +431,12 @@ pub fn audit(checked: &CheckedBody) -> R<Perforated> {
     )?;
     let mut tools = Vec::new();
     for p in &n.parents[1..] {
-        let spec = cylinder::replay(&body.constructions, p.0 as usize, &mut 1024)?;
+        let spec = cylinder::replay(constructions, p.0 as usize, &mut 1024)?;
         let tool = cylinder::assemble(
-            body.key.clone(),
+            key.clone(),
             spec,
             frame,
-            body.constructions[..=p.0 as usize].to_vec(),
+            constructions[..=p.0 as usize].to_vec(),
         )?;
         tools.push(Cylinder {
             frame: crate::placement::Placement::from_frames(&tool, FrameId(1)).map_err(|_|no("frame"))?,
@@ -334,31 +444,24 @@ pub fn audit(checked: &CheckedBody) -> R<Perforated> {
             spec,
         });
     }
-    let (axis, bounds, holes) = classify(&base, &tools)?;
+    let (bounds, holes) = classify(&base, &tools)?;
     if holes.is_empty() {
         return Err(no("no-hole"));
     }
-    let expected = assemble(
-        body.key.clone(),
-        &base,
-        &holes,
-        bounds,
-        body.constructions.clone(),
-    )?;
-    if *body != expected {
-        return Err(no("construction-carrier-mismatch"));
-    }
+    let body = assemble(key, &base, &holes, bounds, constructions.to_vec())?;
     Ok(Perforated {
-        body: body.clone(),
+        body,
         base,
         holes,
-        axis,
         bounds,
     })
 }
 
 impl Perforated {
     pub fn transform(&self, frame: Affine) -> R<Body> {
+        if self.body.constructions.last().is_some_and(|n| n.rule_version == 2) {
+            return Err(no("grafted-placement-unimplemented"));
+        }
         let base = orthogonal::transform(&self.base, frame)?;
         let base = polyhedron::audit(&base.check().map_err(|_| no("target-contract"))?)?;
         assemble(
@@ -393,19 +496,19 @@ impl Perforated {
     pub fn measures_mm(&self) -> R<(Iv, Iv, Vec<f64>, Vec<f64>)> {
         let d = self.lengths();
         let pi = Self::pi()?;
-        let k = self.axis;
         let mut volume = d[0] * d[1] * d[2];
-        let mut cut_area = Iv::point(0.);
-        let mut circumference = Iv::point(0.);
+        let mut cut_area = [Iv::point(0.); 3];
+        let mut circumference = [Iv::point(0.); 3];
         let mut side_areas = Vec::new();
         let mut side_perimeters = Vec::new();
         for h in &self.holes {
             let r = Iv::point(h.radius) * Iv::point(1000.);
+            let k = h.axis()?;
             let disc = pi * r * r;
             let ring = Iv::point(2.) * pi * r;
             volume = volume - disc * d[k];
-            cut_area = cut_area + disc;
-            circumference = circumference + ring;
+            cut_area[k] = cut_area[k] + disc;
+            circumference[k] = circumference[k] + ring;
             side_areas.push(ring * d[k]);
             side_perimeters.push(Iv::point(2.) * (ring + d[k]));
         }
@@ -426,10 +529,8 @@ impl Perforated {
                 .ok_or_else(|| no("base-carrier"))?;
             let mut a = d[(axis + 1) % 3] * d[(axis + 2) % 3];
             let mut p = Iv::point(2.) * (d[(axis + 1) % 3] + d[(axis + 2) % 3]);
-            if axis == k {
-                a = a - cut_area;
-                p = p + circumference;
-            }
+            a = a - cut_area[axis];
+            p = p + circumference[axis];
             area = area + a;
             areas.push(finite(a * scale)?.m);
             perimeters.push(finite(p * scale)?.m);
@@ -452,7 +553,6 @@ impl Perforated {
     pub fn centroid_mm(&self) -> R<[f64; 3]> {
         let d = self.lengths();
         let pi = Self::pi()?;
-        let k = self.axis;
         let base = d[0] * d[1] * d[2];
         let mut volume = base;
         let center = [0, 1, 2].map(|j| {
@@ -461,6 +561,7 @@ impl Perforated {
         let mut moment = center.map(|c| c * base);
         for hole in &self.holes {
             let r = Iv::point(hole.radius) * Iv::point(1000.);
+            let k = hole.axis()?;
             let v = pi * r * r * d[k];
             volume = volume - v;
             for j in 0..3 {
@@ -498,47 +599,39 @@ impl Perforated {
             + 16. * self.scale()?.r * reach)
             .next_up())
     }
-    pub fn probe(&self, q: [f64; 3]) -> R<(f64, bool, f64)> {
-        let (p, error) = self
-            .base
-            .frame
-            .inverse_approx(q.map(|v| v / 1000.))
-            .map_err(|_| no("probe-frame"))?;
-        let magnitude = p.into_iter().map(f64::abs).fold(0_f64, f64::max);
-        let e = (8. * error + 64. * f64::EPSILON * magnitude).next_up();
-        let k = self.axis;
-        let delta = [0, 1, 2].map(|j| (self.bounds[0][j] - p[j]).max(p[j] - self.bounds[1][j]));
-        if delta.iter().any(|d| d.abs() <= e) {
-            return Err(no("probe-boundary-undecided"));
+    pub fn probe(&self, point_mm: [f64; 3]) -> R<(f64, bool, f64)> {
+        let p = local_point(&self.base.frame, point_mm).map_err(no)?;
+        let mut delta = std::array::from_fn::<Q, 3, _>(|_| Q::zero());
+        for j in 0..3 {
+            delta[j] = (q(self.bounds[0][j]).map_err(no)? - &p[j])
+                .max(&p[j] - q(self.bounds[1][j]).map_err(no)?);
         }
-        let mut radial = 0_f64;
-        let mut in_hole = false;
+        let mut hole_gap = None;
         for h in &self.holes {
-            let distance = (p[(k + 1) % 3] - h.bottom[(k + 1) % 3])
-                .hypot(p[(k + 2) % 3] - h.bottom[(k + 2) % 3]);
-            let gap = h.radius - distance;
-            if gap.abs() <= e {
-                return Err(no("probe-boundary-undecided"));
-            }
-            if gap > 0. {
-                in_hole = true;
-                radial = gap;
+            let k = h.axis()?;
+            let r = radial(&p, k, h.bottom, h.radius).map_err(no)?;
+            // The removed open cylinder excludes its wall: the exact wall and
+            // box boundary still belong to the closed material solid.
+            if r.comparison == Ordering::Less {
+                hole_gap = Some((k, (Iv::point(0.) - r.offset().map_err(no)?).max(Iv::point(0.))));
+                break; // Admission proves the through-holes are disjoint.
             }
         }
-        let inside = delta.iter().all(|&d| d < 0.) && !in_hole;
-        let distance = if in_hole {
-            radial.hypot(delta[k].max(0.))
+        let inside = delta.iter().all(|d| *d <= Q::zero()) && hole_gap.is_none();
+        if inside {
+            return Ok((0., true, 0.));
+        }
+        let mut outside = [Iv::point(0.); 3];
+        for j in 0..3 {
+            outside[j] = enclose(&delta[j]).map_err(no)?.max(Iv::point(0.));
+        }
+        let distance = if let Some((k, gap)) = hole_gap {
+            gap.norm3(outside[k], Iv::point(0.))
         } else {
-            delta[0]
-                .max(0.)
-                .hypot(delta[1].max(0.))
-                .hypot(delta[2].max(0.))
+            outside[0].norm3(outside[1], outside[2])
         };
-        let bound = (4. * e + self.scale()?.r * distance) * 1000.;
-        if !distance.is_finite() || !bound.is_finite() {
-            return Err(no("probe-range"));
-        }
-        Ok((distance * 1000., inside, bound))
+        let distance = finite(distance * Iv::point(1000.) * self.scale()?)?;
+        Ok((distance.m, false, distance.r))
     }
     pub fn measure_json(&self, map: Option<[[f64; 4]; 3]>, probes: &[[f64; 3]]) -> R<String> {
         let (volume, area, areas, perimeters) = self.measures_mm()?;

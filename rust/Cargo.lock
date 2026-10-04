@@ -109,6 +109,34 @@ dependencies = [
 ]
 
 [[package]]
+name = "wonky-blend"
+version = "0.1.0"
+dependencies = [
+ "num-bigint",
+ "num-traits",
+ "wonky-contract",
+ "wonky-curve",
+ "wonky-geom",
+ "wonky-ops",
+ "wonky-wire",
+]
+
+[[package]]
+name = "wonky-bool"
+version = "0.1.0"
+dependencies = [
+ "num-rational",
+ "num-traits",
+ "wonky-alg",
+ "wonky-contract",
+ "wonky-curve",
+ "wonky-geom",
+ "wonky-num",
+ "wonky-ops",
+ "wonky-wire",
+]
+
+[[package]]
 name = "wonky-brep"
 version = "0.1.0"
 dependencies = [
@@ -126,6 +154,29 @@ dependencies = [
 ]
 
 [[package]]
+name = "wonky-curve"
+version = "0.1.0"
+dependencies = [
+ "num-bigint",
+ "num-rational",
+ "num-traits",
+ "wonky-alg",
+ "wonky-num",
+]
+
+[[package]]
+name = "wonky-geom"
+version = "0.1.0"
+dependencies = [
+ "num-rational",
+ "num-traits",
+ "wonky-alg",
+ "wonky-curve",
+ "wonky-num",
+ "wonky-radical3",
+]
+
+[[package]]
 name = "wonky-n2"
 version = "0.1.0"
 dependencies = [
@@ -138,6 +189,8 @@ dependencies = [
 name = "wonky-node"
 version = "0.1.0"
 dependencies = [
+ "wonky-alg",
+ "wonky-geom",
  "wonky-ops",
  "wonky-wire",
 ]
@@ -159,7 +212,12 @@ dependencies = [
  "num-rational",
  "num-traits",
  "rayon",
+ "wonky-alg",
+ "wonky-blend",
+ "wonky-bool",
  "wonky-contract",
+ "wonky-curve",
+ "wonky-geom",
  "wonky-num",
  "wonky-oracle",
  "wonky-sketch",
@@ -181,6 +239,8 @@ dependencies = [
 name = "wonky-radical3"
 version = "0.1.0"
 dependencies = [
+ "num-rational",
+ "num-traits",
  "wonky-num",
 ]
 

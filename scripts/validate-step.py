@@ -8,6 +8,12 @@ Usage: uv run scripts/validate-step.py out/box out/bracket out/tilted-plate
 Each prefix must have .step and .brep.json siblings produced by the CLI.
 Optional: --points probes.json adds independent point-in-solid observations.
 """
+# Only live CAD-Acid requests this sidecar; correctness stdout/exit stay intact.
+import os
+if os.environ.get('WONKY_ACID_PHASE_PERF'):
+    from acid.python_perf import start_timing
+    start_timing(os.environ['WONKY_ACID_PHASE_PERF'])
+
 import argparse
 import hashlib
 import json
@@ -15,6 +21,8 @@ import math
 import re
 import sys
 from pathlib import Path
+
+from occt_properties import integration_shape
 
 from OCP.BRepCheck import BRepCheck_Analyzer
 from OCP.BRepGProp import BRepGProp
@@ -25,6 +33,7 @@ from OCP.TopAbs import TopAbs_EDGE, TopAbs_FACE, TopAbs_SOLID, TopAbs_VERTEX
 from OCP.TopExp import TopExp_Explorer
 from OCP.TopoDS import TopoDS
 from OCP.BRep import BRep_Tool
+from OCP.BRepAdaptor import BRepAdaptor_Curve, BRepAdaptor_Surface
 
 
 def step_fields(text, separator=","):
@@ -52,6 +61,10 @@ def step_fields(text, separator=","):
     return fields
 
 
+CURVE_TYPES = {"LINE", "CIRCLE", "ELLIPSE", "HYPERBOLA", "PARABOLA", "POLYLINE",
+               "SURFACE_CURVE", "SEAM_CURVE", "B_SPLINE_CURVE", "B_SPLINE_CURVE_WITH_KNOTS"}
+
+
 def check_ap214_subset(text):
     """AP214 E3 ADVANCED_FACE WR3, plus curve associations for our subset.
 
@@ -63,8 +76,16 @@ def check_ap214_subset(text):
         match = re.fullmatch(r"#(\d+)\s*=\s*([A-Z_0-9]+)\s*\((.*)\)", statement, re.S)
         if match:
             entities["#" + match[1]] = (match[2], step_fields(match[3]))
-    allowed = {"LINE", "CIRCLE", "ELLIPSE", "HYPERBOLA", "PARABOLA", "POLYLINE",
-               "SURFACE_CURVE", "SEAM_CURVE", "B_SPLINE_CURVE", "B_SPLINE_CURVE_WITH_KNOTS"}
+            continue
+        # A complex instance, e.g. a rational B-spline curve
+        # `(BOUNDED_CURVE() B_SPLINE_CURVE(...) ... RATIONAL_B_SPLINE_CURVE(...))`:
+        # it is of every listed type; record a curve type it carries, if any.
+        match = re.fullmatch(r"#(\d+)\s*=\s*\((.*)\)", statement, re.S)
+        if match:
+            parts = re.findall(r"([A-Z_0-9]+)\s*\(", match[2])
+            kind = next((part for part in parts if part in CURVE_TYPES - {"SURFACE_CURVE", "SEAM_CURVE"}), "COMPLEX")
+            entities["#" + match[1]] = (kind, [])
+    allowed = CURVE_TYPES
     edges = 0
     for label, (kind, fields) in entities.items():
         if kind == "EDGE_CURVE":
@@ -100,6 +121,33 @@ def unique_shapes(shape, kind):
 
 def count_unique(shape, kind):
     return len(unique_shapes(shape, kind))
+
+
+def surface_types(shape):
+    """Face count per OCCT surface type, named as FreeCAD names them (Plane, SurfaceOfExtrusion, BSplineSurface, ...).
+
+    A writer that turns an exact extrusion into a spline surface shows up here on every host.
+    """
+    counts = {}
+    for face in unique_shapes(shape, TopAbs_FACE):
+        name = BRepAdaptor_Surface(TopoDS.Face(face)).GetType().name.removeprefix("GeomAbs_")
+        counts[name] = counts.get(name, 0) + 1
+    return dict(sorted(counts.items()))
+
+
+def curve_types(shape):
+    """Edge count per OCCT 3D curve type (Line, Circle, BSplineCurve, ...); degenerated edges have none.
+
+    A writer that turns an exact circle into an unlabelled spline shows up here on every host.
+    """
+    counts = {}
+    for edge in unique_shapes(shape, TopAbs_EDGE):
+        edge = TopoDS.Edge(edge)
+        if BRep_Tool.Degenerated_s(edge):
+            continue
+        name = BRepAdaptor_Curve(edge).GetType().name.removeprefix("GeomAbs_")
+        counts[name] = counts.get(name, 0) + 1
+    return dict(sorted(counts.items()))
 
 
 def digest(path):
@@ -252,7 +300,7 @@ def validate(prefix, points=None, tolerance=None, point_file=None):
         measured_areas = []
         for face in unique_shapes(shape, TopAbs_FACE):
             properties = GProp_GProps()
-            BRepGProp.SurfaceProperties_s(face, properties, 1e-9, False)
+            BRepGProp.SurfaceProperties_s(integration_shape(face), properties, Eps=1e-9, SkipShared=False)
             measured_areas.append(properties.Mass())
         if len(source_areas) != len(measured_areas):
             raise ValueError(f"{prefix}: incomplete source face-area oracle")
@@ -265,7 +313,7 @@ def validate(prefix, points=None, tolerance=None, point_file=None):
                 raise ValueError(f"{prefix}: face {i} area differs: {measured} != {reference}")
     properties = GProp_GProps()
     integration_tolerance = 1e-10
-    integration_error = BRepGProp.VolumeProperties_s(shape, properties, integration_tolerance, True, False)
+    integration_error = BRepGProp.VolumeProperties_s(integration_shape(shape), properties, Eps=integration_tolerance, OnlyClosed=True, SkipShared=False)
     if not math.isfinite(integration_error) or integration_error < 0:
         raise ValueError(f"{prefix}: invalid adaptive volume integration error estimate")
     volume = properties.Mass()
@@ -281,6 +329,8 @@ def validate(prefix, points=None, tolerance=None, point_file=None):
               "sourceFaceAreasCompared": len(source_areas),
               "volumeMm3": volume, "volumeComparedWithKernel": expected_volume is not None}
     result["schemaSubset"] = schema_check
+    result["surfaceTypes"] = surface_types(shape)
+    result["curveTypes"] = curve_types(shape)
     result["sameParameter"] = True
     result["sameRange"] = True
     result["importedTolerance"] = {**tolerance_maxima, "sourceBudgetMm": source_budget,
@@ -298,7 +348,7 @@ def validate(prefix, points=None, tolerance=None, point_file=None):
     return result
 
 
-if __name__ == "__main__":
+def main():
     if len(sys.argv) < 2:
         raise SystemExit("Pass one or more export prefixes, e.g. out/bracket")
     parser = argparse.ArgumentParser(description=__doc__)
@@ -314,3 +364,11 @@ if __name__ == "__main__":
         if digest(args.points) != probe_hash:
             raise ValueError("Point request file changed during validation")
     print(json.dumps(report, indent=2))
+
+
+if __name__ == "__main__":
+    if sys.argv[1:] == ["--serve"]:
+        from acid.serve_worker import serve
+        serve(sys.argv[0], main)
+    else:
+        main()

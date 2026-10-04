@@ -6,12 +6,22 @@ description = "Kernel operations of the wonky Rust kernel; planar = the decision
 publish = false
 
 [dependencies]
+wonky-blend = { path = "../wonky-blend" }
+wonky-geom = { path = "../wonky-geom" }
 wonky-num = { path = "../wonky-num" }
 # The planar extrusion slice (host ops): WC0 bodies, sketch regions, v3 transport.
 wonky-contract = { path = "../wonky-contract" }
 wonky-sketch = { path = "../wonky-sketch" }
+# Seam I: the exact 2D curve pieces (carriers, exact points, one operation table).
+wonky-curve = { path = "../wonky-curve" }
 wonky-wire = { path = "../wonky-wire" }
 wonky-validated = { path = "../wonky-validated" }
+# Exact univariate algebra (Bernstein/power, deflation, Sturm counts, algebraic
+# parameters) for the 2D curve layer that moves in with wonky-curve (plan S2/S3).
+wonky-alg = { path = "../wonky-alg" }
+# The general exact Boolean (boolean3d plan); only the opt-in shadow harness
+# (shadow.rs, WONKY_BOOLEAN_SHADOW=1) calls it until strand G7 routes to it.
+wonky-bool = { path = "../wonky-bool" }
 # Only for the optional N-thread cell classification of the planar Boolean.
 rayon = "1"
 # Transient exact decisions for solid distance and closest-edge predicates.
@@ -36,3 +46,46 @@ plant_depth_ulp = []
 plant_reverse_face = []
 plant_v1_vertex = []
 plant_cylinder_radius = []
+# Planted negative of S7 (test/rust-curve-carrier-step.test.mjs must catch it): the
+# linear extrusion face is written as B_SPLINE_SURFACE_WITH_KNOTS, which FreeCAD
+# reads as a BSplineSurface instead of a SurfaceOfExtrusion.
+plant_step_bspline_surface = []
+# Planted negative of G11 (test/rust-model-export.test.mjs must catch it): the general
+# Model writer emits every circle as an unlabelled rational B-spline (the exact circle),
+# which FreeCAD reads as a BSplineCurve instead of a Circle and whose OCCT pcurve on a
+# written band fails the exact CurveOnSurface check.
+plant_step_model_circle_bspline = []
+# Planted negative of Seam I (S3): the crate's generic half-open winding takes its UPPER
+# endpoint inclusive. Only the wonky-curve unit tests catch it; the wonky-ops tests
+# still pass (checked 2026-09-28), and no acid run has been made with it.
+plant_curve_inclusive_upper = ["wonky-curve/plant_inclusive_upper"]
+# Planted negative of strand G1 (boolean3d): the Model's canonical form orders
+# vertices by their binary64 world caches. tests/model_planar.rs must then fail
+# (V0 vs V1-V3 of the acid zones). Never in a production build.
+plant_canonical_cache_order = ["wonky-geom/plant_canonical_cache_order"]
+# Planted negative of Seam II (S4): Circle cut order along a piece is reversed.
+plant_curve_cut_order = ["wonky-curve/plant_reversed_cut_order"]
+# Planted negatives of strand G4 (boolean3d). plant_shadow_mutates: the shadow
+# harness reverses each family body's shell face order in place, so the host
+# reply changes with WONKY_BOOLEAN_SHADOW=1 (tests/shadow.rs must fail).
+# plant_classify_side_flip forwards wonky-bool's flipped local side test: the
+# shadow must then report AC14 as a diff.
+plant_shadow_mutates = []
+plant_classify_side_flip = ["wonky-bool/plant_classify_side_flip"]
+# Planted negative of S9: a spline piece's point distance uses its two ends only
+# (tests/curve_profile_prism.rs must fail on AC100 probe_normal).
+plant_curve_probe_endpoints_only = ["wonky-curve/plant_probe_endpoints_only"]
+# Planted negative of the S9 mesh separation constraint: the curve-profile mesher
+# skips the check and meshes its first sampling (tests/curve_profile_prism.rs must fail).
+plant_mesh_skip_separation = []
+
+# G6 planted negatives: a shape dispatcher and cache-as-authority must fail.
+plant_model_shape_dispatch = []
+plant_model_cache_trusted = []
+plant_placement_f64_compose = []
+# Exact polygon rim mitres: poisoned contacts and missing quadratic corner terms.
+plant_rim_miter_contact = []
+plant_rim_miter_linear_area = []
+# F2c planted negatives (tests/model_rim.rs, tea box host route).
+plant_chamfer_offset_binary64 = ["wonky-blend/plant_chamfer_offset_binary64"]
+plant_cone_patch_apex_flip = ["wonky-geom/plant_cone_patch_apex_flip"]

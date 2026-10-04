@@ -1,0 +1,15 @@
+{
+  "outcome": "refused",
+  "stage": "build",
+  "error": {
+    "name": "NotImplementedError",
+    "message": "OCCT opFillet edge overflow, radius 4 mm on a 2 mm plate, unsupported by this twin: Failed creating a fillet with radius of 4, try a smaller value or use max_fillet() to find the largest valid fillet radius"
+  },
+  "builtBeforeFailure": false,
+  "refusal": {
+    "name": "NotImplementedError",
+    "category": "capability",
+    "capability": true,
+    "operationUnderTest": false
+  }
+}

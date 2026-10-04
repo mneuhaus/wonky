@@ -455,12 +455,21 @@ fn blend_metric_and_trim_decisions_do_not_snap_nearly_exact_inputs() {
     let a = box_body(Affine::IDENTITY, [1.; 3]);
     let candidates: Vec<_> = (0..a.body.edges.len()).map(|i| (&a, i)).collect();
     let edges = edge_query::closest(&candidates, [1., 1., 0.5], 0.).unwrap();
-    // 1 - binary64(0.1) is not representable: rounded vertices would no
-    // longer lie on the construction's exact circle.
-    assert_eq!(
-        fillet::constant_radius(&a, &edges, 0.1).unwrap_err().0,
-        "fillet/trim-not-representable"
-    );
+    // 1 - binary64(0.1) is not representable. The source circle and its
+    // contacts remain rational; WC0 caches are authenticated by replay.
+    let body = fillet::constant_radius(&a, &edges, 0.1).unwrap();
+    let rounded = audit(&body.clone().check().unwrap()).unwrap();
+    assert_eq!((rounded.topology().faces,rounded.topology().edges,rounded.topology().vertices),(7,15,10));
+    let expected = (1. - 0.1*0.1*(1.-std::f64::consts::PI/4.))*1e9;
+    assert!((rounded.volume_mm3().unwrap()-expected).abs() < expected*1e-14);
+    assert!(wonky_ops::step::write(&[("offset".into(),&rounded)],"offset").unwrap().contains("CYLINDRICAL_SURFACE"));
+    let mut bad = body.clone();
+    let coordinate = bad.vertices.iter_mut().flat_map(|v| &mut v.point).find(|c| c.get() != 0.).unwrap();
+    *coordinate = wonky_contract::Binary64::new(coordinate.get().next_up()).unwrap();
+    assert!(audit(&bad.check().unwrap()).is_err());
+    let mut bad = body;
+    bad.constructions.last_mut().unwrap().parameters[0] = wonky_contract::Binary64::new(0.1f64.next_up()).unwrap();
+    assert!(audit(&bad.check().unwrap()).is_err());
     let shifted = orthogonal::cuboid(
         wonky_contract::BodyKey {
             id: [2, 4, 6, 8],
@@ -519,7 +528,7 @@ fn source_radius_keeps_affine_volume_boundary_and_query_uncertainty_honest() {
     }
     let candidates: Vec<_> = (0..blend.body.edges.len()).map(|e| (&blend, e)).collect();
     assert_eq!(edge_query::closest(&candidates, [0.5 * s, 0.5 * s, 0.5], 0.).unwrap_err().0,
-        "fillet/query-world-metric-unresolved");
+        "edge-query/query-world-metric-unresolved");
     // Public wire input can carry a stronger affine map than opTransform's
     // observation admission. The blend must still reject that map by name.
     let mut large = box_body(Affine::IDENTITY, [1.; 3]).body;
@@ -529,4 +538,84 @@ fn source_radius_keeps_affine_volume_boundary_and_query_uncertainty_honest() {
     let large = audit(&large.check().unwrap()).unwrap();
     assert_eq!(fillet::constant_radius(&large, &[0], 0.25).unwrap_err().0,
         "source-frame/world-metric-distortion");
+}
+
+#[test]
+fn composed_placement_preserves_rational_blend_carrier_dispatch() {
+    let body = orthogonal::cuboid(BodyKey { id: [1,2,3,4], revision: 0 },
+        [0.;3], [0.04,0.03,0.02]).unwrap();
+    let source = audit(&body.check().unwrap()).unwrap();
+    let edge = source.body.edges.iter().position(|e| e.vertices.iter().all(|v| {
+        let p = source.body.vertices[v.0 as usize].point;
+        p[0].get() == 0.04 && p[1].get() == 0.03
+    })).unwrap();
+    let rows = [[1.,0.,0.],[0.,1.,0.],[0.,0.,1.]];
+    let first = wonky_ops::pattern::copy(&source, source.body.key.clone(), rows, [0.017,0.019,0.023]).unwrap();
+    let second = wonky_ops::pattern::copy(&first, source.body.key.clone(),
+        [[0.,-1.,0.],[0.,0.,-1.],[1.,0.,0.]], [0.1,0.2,0.3]).unwrap();
+    let blend = fillet::constant_radius(&second, &[edge], 0.004).unwrap();
+    let wonky_ops::analytic::Solid::Planar(result) = wonky_ops::analytic::audit(&blend.check().unwrap()).unwrap() else {
+        panic!("placed blend must retain its profile carrier")
+    };
+    let want = (40.*30.-16.*(1.-std::f64::consts::PI/4.))*20.;
+    assert!((result.volume_mm3().unwrap()-want).abs()<1e-8);
+    assert!(wonky_ops::step::write(&[("placed blend".into(), &result)], "placed blend").unwrap().contains("CIRCLE"));
+}
+
+#[test]
+fn first_sketch_placement_keeps_recorded_plane_inputs_for_offset_replay() {
+    let lines = [[0.,0.,0.04,0.],[0.04,0.,0.04,0.03],
+        [0.04,0.03,0.,0.03],[0.,0.03,0.,0.]];
+    let segments = lines.map(|p| [wonky_num::p2(p[0],p[1]),wonky_num::p2(p[2],p[3])]);
+    let regions = wonky_sketch::region::lines_region(&segments).unwrap();
+    let original = wonky_ops::extrude::blind_prism(&wonky_ops::extrude::Prism {
+        key: BodyKey { id:[1,2,3,4], revision:0 }, source:[1,2,3,4],
+        frame: Affine::IDENTITY, segments:&lines, region:&regions.loops[0], depth:0.02, reverse:false,
+    }).unwrap();
+    let source = audit(&original.clone().check().unwrap()).unwrap();
+    let first = orthogonal::transform(&source, Affine {origin:[0.017,0.019,0.023],..Affine::IDENTITY}).unwrap();
+    assert_eq!(&first.frames[..original.frames.len()], &original.frames);
+    let first = audit(&first.check().unwrap()).unwrap();
+    let second = orthogonal::transform(&first, Affine {
+        origin:[0.1,0.2,0.3], x:[0.,0.,1.], z:[0.,-1.,0.],
+    }).unwrap();
+    let second = audit(&second.check().unwrap()).unwrap();
+    let edge = second.body.edges.iter().position(|e| e.vertices.iter().all(|v| {
+        let p=second.body.vertices[v.0 as usize].point;
+        p[0].get()==0.04 && p[1].get()==0.03
+    })).unwrap();
+    for fillet in [true,false] {
+        let output = if fillet { fillet::constant_radius(&second,&[edge],0.004) }
+            else { wonky_ops::chamfer::equal_offsets(&second,&[edge],0.004) }.unwrap();
+        let result = wonky_ops::analytic::audit(&output.check().unwrap()).unwrap();
+        let wonky_ops::analytic::Solid::Planar(result) = result else {panic!("profile carrier required")};
+        let removed = if fillet {16.*(1.-std::f64::consts::PI/4.)} else {8.};
+        assert!((result.volume_mm3().unwrap()-(40.*30.-removed)*20.).abs()<1e-8);
+    }
+}
+
+#[test]
+fn placed_rational_fillet_mesh_rejects_changed_source_radius() {
+    use wonky_contract::{Binary64, Operation};
+    use wonky_ops::{mesh, pattern};
+    let original = box_body(Affine::IDENTITY, [0.04, 0.03, 0.02]);
+    let rounded = audit(&blend_at(&original, [0.04, 0.03, 0.01], 0.004).check().unwrap()).unwrap();
+    let placed = pattern::copy(
+        &rounded, rounded.body.key.clone(),
+        [[1., 0., 0.], [0., 1., 0.], [0., 0., 1.]], [0.017, 0.019, 0.023],
+    ).unwrap();
+    let checked = placed.body.clone().check().unwrap();
+    let output = mesh::tessellate(&checked, 0.005).unwrap();
+    mesh::check_watertight(&output).unwrap();
+    mesh::binary_stl(&[output], 0.005).unwrap();
+
+    // Keep every display cache unchanged while altering the authoritative
+    // radius. A sampler which only reads WC0 observations emits the old solid.
+    let mut altered = placed.body;
+    let source = altered.constructions.iter_mut()
+        .find(|n| n.operation == (Operation::Fillet {})).unwrap();
+    source.parameters[0] = Binary64::new(0.003).unwrap();
+    let checked = altered.check().unwrap();
+    assert!(mesh::tessellate(&checked, 0.005).is_err(),
+        "placed rational profile caches cannot replace source replay");
 }

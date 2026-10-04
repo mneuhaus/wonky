@@ -9,15 +9,28 @@ Canonicalization drops periodic seams, collapsed edges and smooth split vertices
 never merges faces. Raw topology is retained. Measurements are never read from
 closed-form answers: only probe definitions and coordinate frames are consumed.
 """
+# Only live CAD-Acid requests this sidecar; correctness stdout/exit stay intact.
+import os
+if os.environ.get('WONKY_ACID_PHASE_PERF'):
+    from python_perf import start_timing
+    start_timing(os.environ['WONKY_ACID_PHASE_PERF'])
+
 import argparse
 import hashlib
+import io
 import importlib.metadata
 import json
 import math
+from fractions import Fraction
+import sys
 from pathlib import Path
 import re
 import tempfile
+from extrusion_support import extrusion_support
 from collections import Counter
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+from occt_properties import integration_shape
 
 from OCP.BRep import BRep_Tool, BRep_Builder
 from OCP.BRepAdaptor import BRepAdaptor_Curve, BRepAdaptor_Surface
@@ -30,9 +43,13 @@ from OCP.BRepGProp import BRepGProp
 from OCP.Bnd import Bnd_Box
 from OCP.GCPnts import GCPnts_AbscissaPoint
 from OCP.GProp import GProp_GProps
-from OCP.GeomAbs import GeomAbs_Cone, GeomAbs_Torus, GeomAbs_Cylinder, GeomAbs_Plane
+from OCP.GeomAdaptor import GeomAdaptor_Surface
+from OCP.TopLoc import TopLoc_Location
+from OCP.GeomAbs import GeomAbs_Cone, GeomAbs_Torus, GeomAbs_SurfaceOfRevolution, GeomAbs_Circle, GeomAbs_Line, GeomAbs_Plane, GeomAbs_Cylinder, GeomAbs_Sphere
 from OCP.IFSelect import IFSelect_RetDone
+from OCP.Interface import Interface_Static
 from OCP.STEPControl import STEPControl_Reader, STEPControl_Writer, STEPControl_AsIs
+from OCP.StepData import StepData_StepWriter
 from OCP.TopAbs import TopAbs_SOLID, TopAbs_SHELL, TopAbs_FACE, TopAbs_EDGE, TopAbs_VERTEX, TopAbs_WIRE, TopAbs_IN, TopAbs_ON
 from OCP.TopExp import TopExp
 from OCP.TopTools import TopTools_IndexedMapOfShape
@@ -55,7 +72,12 @@ def same_index(items, item):
 
 
 def frame(catalog, zone, variant):
+    # V4 (radius bump) and V5 (alternate idiom) carry no frame of their own:
+    # both point at the frame that actually moves the cell via baseFrame,
+    # defaulting to the variant itself so V0-V3 (which never set it) are
+    # unaffected.
     v = catalog["variants"][variant]
+    v = catalog["variants"][v.get("baseFrame", variant)]
     if "matrix" in v:
         r, t = v["matrix"], v["translationMm"]
     else:
@@ -110,13 +132,136 @@ def inside(solid, point):
     return BRepClass3d_SolidClassifier(solid, gp_Pnt(*point), 1e-7).State() in (TopAbs_IN, TopAbs_ON)
 
 
-def canonical(shape):
+def surface_class(surface):
+    """The face class the observer files: the OCCT GeomAbs surface type name without its prefix (Plane, Cylinder,
+    Cone, Sphere, Torus, SurfaceOfExtrusion, BSplineSurface, ...). The canonical histogram (surfaceTypes, which a zone
+    can score) and the physical witness buckets both read it."""
+    return str(surface.GetType()).split('.')[-1].removeprefix('GeomAbs_')
+
+
+def revolution_axis_contacts(surf, face, coordinate_resolution=0):
+    """Geometric meridian/axis contacts, independent of surface representation.
+
+    Only analytic circle and line meridians are handled here. Unsupported
+    meridians are left to their observed B-rep boundaries, never inferred
+    from the catalog's expected singularPoints. Native circle/axis contact
+    uses exact dyadic arithmetic on the unplaced surface, so a rigid pose
+    cannot turn a positive hole into a pinch. STEP observation explicitly
+    supplies the existing 1e-7 mm transfer resolution; neither constructs
+    production geometry or claims exact E9 provenance for OCCT.
+    """
+    if surf.GetType() != GeomAbs_SurfaceOfRevolution:
+        return [], False
+    location = TopLoc_Location()
+    geometry = GeomAdaptor_Surface(BRep_Tool.Surface_s(face, location))
+    axis = geometry.AxeOfRevolution()
+    curve = geometry.BasisCurve()
+    origin, direction = axis.Location(), gp_Vec(axis.Direction())
+    def radial(point):
+        offset = gp_Vec(origin, point)
+        return offset.Subtracted(direction.Multiplied(offset.Dot(direction)))
+    def radial_squared(point):
+        o = [Fraction(p)-Fraction(a) for p,a in zip(point.Coord(), origin.Coord())]
+        d = [Fraction(x) for x in axis.Direction().Coord()]
+        return sum(x*x for x in o) - sum(x*y for x,y in zip(o,d))**2/sum(x*x for x in d)
+    def on_trimmed_face(point):
+        # The supporting meridian can touch the axis outside the face's
+        # parameter interval or trimming wires. Measure distance to the actual
+        # B-rep face (including its boundaries), in world coordinates. This is
+        # OCCT observer resolution, not a native axis-contact epsilon: the
+        # analytic predicate still decides whether contact exists.
+        return distance(point_shape(point.Coord()), face) <= 1e-7
+    if curve.GetType() == GeomAbs_Circle:
+        circle = curve.Circle()
+        centre = circle.Location()
+        offset = radial(centre)
+        # A meridian circle lies in a plane containing the revolve axis.
+        if abs(gp_Vec(circle.Axis().Direction()).Dot(direction)) > 1e-12:
+            return [], False
+        radius, rho = circle.Radius(), offset.Magnitude()
+        if rho == 0:
+            return [], True
+        # Distance squared to a line: |o|² - (o.d)²/|d|².
+        # All operands are the surface's original f64 payloads, interpreted
+        # as exact dyadics. No epsilon decides native axis contact.
+        tangent = radial_squared(centre) == Fraction(radius)**2
+        if not tangent and not (coordinate_resolution and abs(rho-radius) <= coordinate_resolution):
+            return [], True
+        contact = centre.Translated(offset.Multiplied(-1)).Transformed(location.Transformation())
+        return ([(contact, True)] if on_trimmed_face(contact) else []), True
+    if curve.GetType() == GeomAbs_Line:
+        tangent = gp_Vec(curve.Line().Direction())
+        # A radial meridian generates a smooth planar disc, whose centre is
+        # not a surface singularity. Only an oblique meridian has a cone apex.
+        if abs(tangent.Dot(direction)) <= 1e-12 or tangent.Crossed(direction).Magnitude() <= 1e-12:
+            return [], False
+        contacts = []
+        for u in [surf.FirstVParameter(), surf.LastVParameter()]:
+            if math.isfinite(u) and abs(u) < 1e100:
+                point = curve.Value(u)
+                if radial_squared(point) == 0 or (coordinate_resolution and radial(point).Magnitude() <= coordinate_resolution):
+                    contact = point.Transformed(location.Transformation())
+                    if on_trimmed_face(contact):
+                        contacts.append((contact, False))
+        return contacts, False
+    return [], False
+
+
+def transverse_analytic_join(vertex, faces, coordinate_resolution=0):
+    """Certify a smooth intersection independently of fitted edge tangents.
+
+    Two regular implicit surfaces with independent normals have a locally
+    smooth intersection (implicit function theorem). This applies only to a
+    degree-two join on the same two faces. A fitted B-spline's endpoint D1
+    need not reproduce that intersection's tangent to angular precision.
+
+    Interpret analytic payloads as exact dyadics. Bound normal variation over
+    the vertex/face OCCT tolerance ball (plus declared STEP resolution); keep
+    ambiguous/tangent joins. This is observer normalization, not a geometry
+    construction or a relaxation of the score's tolerance bands.
+    """
+    if len(faces) != 2:
+        return False
+    point = [Fraction(x) for x in BRep_Tool.Pnt_s(vertex).Coord()]
+    normals, errors = [], []
+    for face in faces:
+        surface = BRepAdaptor_Surface(face)
+        kind = surface.GetType()
+        error = Fraction(BRep_Tool.Tolerance_s(vertex)) + Fraction(BRep_Tool.Tolerance_s(face)) + Fraction(coordinate_resolution)
+        if kind == GeomAbs_Plane:
+            normal = [Fraction(x) for x in surface.Plane().Axis().Direction().Coord()]
+            error = Fraction(0)
+        elif kind in (GeomAbs_Cylinder, GeomAbs_Sphere):
+            support = surface.Cylinder() if kind == GeomAbs_Cylinder else surface.Sphere()
+            normal = [x-Fraction(y) for x,y in zip(point,support.Location().Coord())]
+            if kind == GeomAbs_Cylinder:
+                axis = [Fraction(x) for x in support.Axis().Direction().Coord()]
+                axial = sum(x*y for x,y in zip(normal,axis))/sum(x*x for x in axis)
+                normal = [x-axial*y for x,y in zip(normal,axis)]
+        else:
+            return False
+        normals.append(normal)
+        errors.append(error)
+    a,b = normals
+    ea,eb = errors
+    # Each cross-product component contains two products. Euclidean normal
+    # errors bound each coordinate; L1 norms give a conservative rational
+    # bound, with no square roots or floating sign decisions.
+    bound = ea*sum(abs(x) for x in b) + eb*sum(abs(x) for x in a) + 2*ea*eb
+    return any(abs(a[i]*b[j]-a[j]*b[i]) > bound for i,j in ((0,1),(1,2),(2,0)))
+
+
+def canonical(shape, coordinate_resolution=0):
     faces, edges, vertices = (entities(shape, kind) for kind in (TopAbs_FACE, TopAbs_EDGE, TopAbs_VERTEX))
     raw = {name: len(entities(shape, kind)) for name, kind in [("bodies",TopAbs_SOLID),("shells",TopAbs_SHELL),("faces",TopAbs_FACE),("edges",TopAbs_EDGE),("vertices",TopAbs_VERTEX),("loops",TopAbs_WIRE)]}
     keep, incidence, ends = [], {}, {}
     for i, edge in enumerate(edges):
         adjacent = [j for j, face in enumerate(faces) if any(e.IsSame(edge) for e in entities(face, TopAbs_EDGE))]
-        if BRep_Tool.Degenerated_s(edge) or any(BRep_Tool.IsClosed_s(edge, faces[j]) for j in adjacent):
+        # Boolean-trimmed periodic surfaces can retain two pcurves for a
+        # genuine boundary shared with another face. IsClosed alone then
+        # mislabels that boundary as a seam. A seam must also be internal to
+        # one face; shared boundaries remain part of the cell complex.
+        if BRep_Tool.Degenerated_s(edge) or (len(adjacent) == 1 and BRep_Tool.IsClosed_s(edge, faces[adjacent[0]])):
             continue
         keep.append(i)
         incidence[i] = set(adjacent)
@@ -132,6 +277,10 @@ def canonical(shape):
         if len(inc) == 1 and len(ends[inc[0]]) == 1:
             removed.add(v)
         elif len(inc) == 2 and incidence[inc[0]] == incidence[inc[1]]:
+            if transverse_analytic_join(vertex, [faces[j] for j in sorted(incidence[inc[0]])], coordinate_resolution):
+                parent[root(inc[1])] = root(inc[0])
+                removed.add(v)
+                continue
             directions = []
             for i in inc:
                 curve = BRepAdaptor_Curve(edges[i])
@@ -155,7 +304,7 @@ def canonical(shape):
     closed_tori = 0
     for j, face in enumerate(faces):
         surf = BRepAdaptor_Surface(face)
-        histogram[str(surf.GetType()).split('.')[-1].removeprefix('GeomAbs_')] += 1
+        histogram[surface_class(surf)] += 1
         fe = [i for i in keep if j in incidence[i]]
         # Boundary loops can be connected by a removed seam in a raw wire.
         remaining = set(fe)
@@ -169,6 +318,13 @@ def canonical(shape):
                 component |= extra
                 remaining -= extra
             loops += 1
+        contacts, circular_meridian = revolution_axis_contacts(surf, face, coordinate_resolution)
+        if circular_meridian and not fe:
+            closed_tori += 1
+        for point, is_pinch in contacts:
+            if not any(point.Distance(p) <= 1e-7 for p in singular):
+                singular.append(point)
+                pinch += int(is_pinch)
         if surf.GetType() == GeomAbs_Cone:
             apex = surf.Cone().Apex()
             if any(BRep_Tool.Pnt_s(v).Distance(apex)<=1e-7 for v in entities(face,TopAbs_VERTEX)):
@@ -178,7 +334,7 @@ def canonical(shape):
             torus = surf.Torus()
             if not fe:
                 closed_tori += 1
-            if abs(torus.MajorRadius()-torus.MinorRadius())<=1e-7:
+            if torus.MajorRadius() == torus.MinorRadius():
                 centre = torus.Location()
                 if not any(centre.Distance(p)<=1e-7 for p in singular):
                     singular.append(centre)
@@ -214,12 +370,13 @@ def physical_witness(shape, zone, catalog, variant):
         # Each face with n boundary wires contributes Euler characteristic 2-n.
         euler = raw['vertices'] - raw['edges'] + 2 * raw['faces'] - raw['loops']
         genus = (2 * raw['shells'] - euler) / 2 if valid and closed and nondegenerate else None
-        cylinders, planes, other = [], [], []
+        cylinders, planes, extrusions, bsplines, other = [], [], [], [], []
         for face in entities(solid, TopAbs_FACE):
             surface = BRepAdaptor_Surface(face)
             face_area = GProp_GProps()
-            BRepGProp.SurfaceProperties_s(face, face_area, 1e-10)
-            if surface.GetType() == GeomAbs_Cylinder:
+            BRepGProp.SurfaceProperties_s(integration_shape(face), face_area, Eps=1e-10)
+            kind = surface_class(surface)
+            if kind == 'Cylinder':
                 cyl = surface.Cylinder()
                 p, d = cyl.Location(), cyl.Axis().Direction()
                 # V is signed axial distance from the analytic surface origin.
@@ -232,20 +389,30 @@ def physical_witness(shape, zone, catalog, variant):
                                   'zMin': min(origin[2] + v * direction[2] for v in (v0, v1)),
                                   'zMax': max(origin[2] + v * direction[2] for v in (v0, v1)),
                                   'area': face_area.Mass()})
-            elif surface.GetType() == GeomAbs_Plane:
+            elif kind == 'Plane':
                 plane = surface.Plane()
                 p, d = plane.Location(), plane.Axis().Direction()
                 planes.append({'origin': [p.X(), p.Y(), p.Z()],
                                'normal': [d.X(), d.Y(), d.Z()], 'area': face_area.Mass()})
+            elif kind == 'SurfaceOfExtrusion':
+                # A swept spline (or other) directrix: its generator direction and the directrix class.
+                d = surface.Direction()
+                extrusions.append({'direction': [d.X(), d.Y(), d.Z()],
+                                   'directrix': str(surface.BasisCurve().GetType()).split('.')[-1].removeprefix('GeomAbs_'),
+                                   'area': face_area.Mass()})
+            elif kind == 'BSplineSurface':
+                spline = surface.BSpline()
+                bsplines.append({'degrees': [spline.UDegree(), spline.VDegree()], 'poles': [spline.NbUPoles(), spline.NbVPoles()],
+                                 'rational': bool(spline.IsURational() or spline.IsVRational()), 'area': face_area.Mass()})
             else:
-                other.append(str(surface.GetType()).split('.')[-1].removeprefix('GeomAbs_'))
+                other.append(kind)
         body_props = props(solid)
         bodies.append({'volume': body_props['volume'], 'area': body_props['area'],
                        'centroid': body_props['centroid'], 'bbox': body_props['bbox'],
                        'valid': valid, 'closed': closed, 'nondegenerateEdges': nondegenerate,
                        'allFacesSingleWire': all_single_wire,
                        'rawTopology': raw, 'rawEuler': euler, 'rawGenus': genus,
-                       'cylinders': cylinders, 'planes': planes,
+                       'cylinders': cylinders, 'planes': planes, 'extrusions': extrusions, 'bsplines': bsplines,
                        'unsupportedFaces': len(other), 'otherSurfaces': other})
     bodies.sort(key=lambda b: (b['centroid'][0], b['centroid'][1], b['centroid'][2]))
     # A face-only or open-shell export must not pass as a collection of valid solids.
@@ -256,18 +423,29 @@ def physical_witness(shape, zone, catalog, variant):
 
 def props(shape):
     volume, area = GProp_GProps(), GProp_GProps()
-    BRepGProp.VolumeProperties_s(shape, volume, 1e-10)
-    BRepGProp.SurfaceProperties_s(shape, area, 1e-10)
+    smooth = integration_shape(shape)
+    BRepGProp.VolumeProperties_s(smooth, volume, Eps=1e-10)
+    BRepGProp.SurfaceProperties_s(smooth, area, Eps=1e-10)
     centre = volume.CentreOfMass()
     return {"volume":volume.Mass(),"area":area.Mass(),"centroid":[centre.X(),centre.Y(),centre.Z()],"bbox":bbox(shape)}
 
 
-def probes(shape, solids, zone, fr):
+def probes(shape, solids, zone, fr, variant=None):
     result = {}
     definitions = {m["name"]:m["definition"] for m in zone["closedForm"].get("measurements",[])}
     for outcome in zone["expected"]["outcomes"]:
         if isinstance(outcome.get("closedForm"),dict):
             definitions.update({m["name"]:m["definition"] for m in outcome["closedForm"].get("measurements",[])})
+        # A V4 radius bump can move a probe's own point/axis, not just its
+        # expected value; when a zone declares a per-variant closed form for
+        # the running variant, its measurement definitions take precedence.
+        variant_cf = outcome.get("closedFormByVariant",{}).get(variant) if variant else None
+        # Same resolution as common.mjs closedForm(): a name other than the
+        # two keywords points at zone.closedFormByVariant[name].
+        if isinstance(variant_cf,str) and variant_cf not in ("primary","sliverBound"):
+            variant_cf = zone.get("closedFormByVariant",{}).get(variant_cf)
+        if isinstance(variant_cf,dict):
+            definitions.update({m["name"]:m["definition"] for m in variant_cf.get("measurements",[])})
     for name, d in definitions.items():
         kind = d["kind"]
         if not solids:
@@ -296,17 +474,30 @@ def probes(shape, solids, zone, fr):
     return result
 
 
-def observe(shape, zone, catalog, variant):
+def observe(shape, zone, catalog, variant, coordinate_resolution=0, *, reference_surface_semantics=False):
     solids = entities(shape,TopAbs_SOLID)
     fr = frame(catalog,zone,variant)
     bodies = []
     totals = Counter()
     raw_totals = Counter()
     histogram = Counter()
+    raw_histogram = Counter()
+    support_proofs = []
     for solid in solids:
-        top, raw, hist = canonical(solid)
+        top, raw, hist = canonical(solid, coordinate_resolution)
         totals.update(top)
         raw_totals.update(raw)
+        raw_histogram.update(hist)
+        if reference_surface_semantics:
+            hist = dict(hist)
+            for face in entities(solid, TopAbs_FACE):
+                surface = BRepAdaptor_Surface(face)
+                proof = extrusion_support(surface.BSpline(), 1e-7) if surface_class(surface) == 'BSplineSurface' else None
+                if proof is not None:
+                    hist['BSplineSurface'] -= 1
+                    hist['SurfaceOfExtrusion'] = hist.get('SurfaceOfExtrusion', 0) + 1
+                    support_proofs.append(proof)
+            hist = {key: value for key, value in hist.items() if value}
         histogram.update(hist)
         bodies.append({**props(solid),"topology":top,"rawTopology":raw,"valid":BRepCheck_Analyzer(solid).IsValid()})
     bodies.sort(key=lambda b:(b["volume"],*b["centroid"]))
@@ -318,7 +509,8 @@ def observe(shape, zone, catalog, variant):
     return {"volume":sum(b["volume"] for b in bodies),"area":sum(b["area"] for b in bodies),
             "bodies":bodies,"bbox":bbox(shape),"localBbox":bbox(local_shape(shape,fr)),
             "topology":dict(totals),"rawTopology":dict(raw_totals),"surfaceTypes":dict(histogram),
-            "measurements":probes(shape,solids,zone,fr),
+            "surfaceRepresentation":{"rawTypes":dict(raw_histogram),"extrusionProofs":support_proofs,"referenceSemantics":reference_surface_semantics},
+            "measurements":probes(shape,solids,zone,fr,variant),
             "cellAttribution":zone['id']=='AC46' or all(all(-90<=x<=90 for x in bbox(local_shape(s,fr))[side]) for s in solids for side in ('min','max')),
             "validity":{"brep":BRepCheck_Analyzer(shape).IsValid() and not extra_faces,"closed":all_closed and not extra_faces,"positive":all(b['volume']>0 for b in bodies)}}
 
@@ -344,9 +536,61 @@ def read_step(file):
 
 
 def export_step(shape, file):
-    writer = STEPControl_Writer()
-    if writer.Transfer(shape,STEPControl_AsIs) != IFSelect_RetDone or writer.Write(str(file)) != IFSelect_RetDone:
-        raise ValueError(f"STEP_EXPORT_FAILED: {file}")
+    # Initialize the STEP parameter registry before reading caller settings.
+    STEPControl_Writer()
+    def write(mode):
+        if not Interface_Static.SetIVal_s("write.surfacecurve.mode", mode):
+            raise ValueError("STEP_SURFACE_CURVE_MODE_UNAVAILABLE")
+        writer = STEPControl_Writer()
+        if writer.Transfer(shape,STEPControl_AsIs) != IFSelect_RetDone:
+            raise ValueError(f"STEP_EXPORT_FAILED: {file}")
+        # STEPControl_Writer.Write uses OCCT's default 12 significant digits.
+        # At a large placement this can erase a representable analytic gap before
+        # the second import (AC115), even though the first import was exact/valid.
+        # Preserve every binary64 value; this changes neither healing nor budgets.
+        model = writer.Model()
+        step = StepData_StepWriter(model)
+        step.FloatWriter().SetFormat('%.17g')
+        step.SendModel(model.Protocol())
+        output = io.BytesIO()
+        if not step.Print(output):
+            raise ValueError(f"STEP_EXPORT_FAILED: {file}")
+        Path(file).write_bytes(output.getvalue())
+
+    # Preserve pcurves when their normal transfer is valid: rebuilding them
+    # from 3D curves can change trimmed areas even on a valid imported body.
+    # Only a failed transfer of a valid source may try the alternate STEP
+    # representation. Its validity, metric drift and tolerance growth are
+    # checked explicitly at the already declared 1e-7 mm reader resolution.
+    mode = Interface_Static.IVal_s("write.surfacecurve.mode")
+    try:
+        write(mode)
+        transferred = read_step(file)
+        if BRepCheck_Analyzer(transferred).IsValid() or not BRepCheck_Analyzer(shape).IsValid():
+            return
+        write(0)
+        transferred = read_step(file)
+        if not BRepCheck_Analyzer(transferred).IsValid():
+            raise ValueError("STEP_ALTERNATE_REPRESENTATION_INVALID")
+        resolution = 1e-7
+        def properties(body):
+            volume, area, length = GProp_GProps(), GProp_GProps(), GProp_GProps()
+            smooth = integration_shape(body)
+            BRepGProp.VolumeProperties_s(smooth, volume, Eps=1e-10)
+            BRepGProp.SurfaceProperties_s(smooth, area, Eps=1e-10)
+            BRepGProp.LinearProperties_s(body, length)
+            tolerance = max(BRep_Tool.Tolerance_s(e) for kind in (TopAbs_VERTEX, TopAbs_EDGE, TopAbs_FACE) for e in entities(body, kind))
+            return volume.Mass(), area.Mass(), length.Mass(), tolerance
+        source, target = properties(shape), properties(transferred)
+        if abs(source[0]-target[0]) > resolution*max(source[1], target[1]):
+            raise ValueError("STEP_ALTERNATE_REPRESENTATION_VOLUME_DRIFT")
+        if abs(source[1]-target[1]) > resolution*max(source[2], target[2]):
+            raise ValueError("STEP_ALTERNATE_REPRESENTATION_AREA_DRIFT")
+        if target[3] > source[3]+resolution:
+            raise ValueError("STEP_ALTERNATE_REPRESENTATION_TOLERANCE_GROWTH")
+    finally:
+        if not Interface_Static.SetIVal_s("write.surfacecurve.mode", mode):
+            raise ValueError("STEP_SURFACE_CURVE_MODE_RESTORE_FAILED")
 
 
 def unhealed_sliver(file, fr):
@@ -380,15 +624,15 @@ def unhealed_sliver(file, fr):
             "basis":"unhealed STEP vertex points; STEP author must use mm"}
 
 
-def measure(file, zone, catalog, variant):
+def measure(file, zone, catalog, variant, *, reference_surface_semantics=False):
     shape = read_step(file)
-    initial = observe(shape,zone,catalog,variant)
+    initial = observe(shape,zone,catalog,variant,coordinate_resolution=1e-7, reference_surface_semantics=reference_surface_semantics)
     with tempfile.TemporaryDirectory(prefix='acid-step-') as temp:
         second = Path(temp)/'roundtrip.step'
         export_step(shape,second)
-        roundtrip = observe(read_step(second),zone,catalog,variant)
+        roundtrip = observe(read_step(second),zone,catalog,variant,coordinate_resolution=1e-7, reference_surface_semantics=reference_surface_semantics)
     return {"schema":"wonky/cad-acid-measure/1","stepSha256":hashlib.sha256(Path(file).read_bytes()).hexdigest(),
-            "observer":"OCCT tolerance observer (not exact E9 provenance)","observerVersion":importlib.metadata.version('cadquery-ocp'),"metrics":initial,
+            "observer":"OCCT tolerance observer (not exact E9 provenance)","coordinateResolutionMm":1e-7,"observerVersion":importlib.metadata.version('cadquery-ocp'),"metrics":initial,
             "stepRoundTrip":{"ok":True,"metrics":roundtrip,"unhealedSliver":unhealed_sliver(file,frame(catalog,zone,variant)) if zone['id']=='AC41' else None}}
 
 
@@ -397,7 +641,7 @@ def main():
     parser.add_argument('step')
     parser.add_argument('--zones',default=str(ROOT/'fixtures/cad-acid/zones.json'))
     parser.add_argument('--zone',required=True)
-    parser.add_argument('--variant',choices=['V0','V1','V2','V3'],required=True)
+    parser.add_argument('--variant',choices=['V0','V1','V2','V3','V4','V5'],required=True)
     parser.add_argument('--out',required=True)
     a = parser.parse_args()
     catalog = json.loads(Path(a.zones).read_text())
@@ -406,4 +650,8 @@ def main():
     Path(a.out).write_text(json.dumps(result,indent=2,allow_nan=False)+'\n')
 
 if __name__=='__main__':
-    main()
+    if sys.argv[1:]==['--serve']:
+        from serve_worker import serve
+        serve(sys.argv[0], main)
+    else:
+        main()

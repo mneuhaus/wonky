@@ -28,8 +28,12 @@ pub enum Expr {
     Exp(Box<Self>),
     Log(Box<Self>),
     Sqrt(Box<Self>),
+    Asin(Box<Self>),
 }
 impl Expr {
+    pub fn asin(self) -> Self {
+        Self::Asin(Box::new(self))
+    }
     pub fn sin(self) -> Self {
         Self::Sin(Box::new(self))
     }
@@ -156,6 +160,23 @@ fn evaluate(expr: &Expr, x: I, depth: usize) -> Result<Jet, Error> {
             }
             y
         }
+        Expr::Asin(a) => {
+            let av = eval(a)?;
+            let den = eval(&(Expr::Constant(1.) - (**a).clone().square()).sqrt())?;
+            let derivative = std::array::from_fn(|n| {
+                if n < 4 {
+                    I::point((n + 1) as f64) * av[n + 1]
+                } else {
+                    I::ZERO
+                }
+            });
+            let quotient = div(derivative, den);
+            let mut y = constant(super::transcendental::asin_interval(av[0])?);
+            for n in 1..5 {
+                y[n] = quotient[n - 1] / I::point(n as f64);
+            }
+            y
+        }
         Expr::Sqrt(a) => {
             let a = eval(a)?;
             let mut y = constant(finite(a[0].sqrt())?);
@@ -254,4 +275,42 @@ pub fn integrate(
         }
         cells = refined;
     }
+}
+
+/// Export-only cubic Hermite approximation. The error is a uniform absolute
+/// bound for the returned binary64 Bernstein controls, not a sample residual.
+#[derive(Clone, Copy, Debug)]
+pub struct Cubic {
+    pub controls: [f64; 4],
+    pub error: f64,
+}
+/// The same expression owns both endpoint jets and whole-domain fourth
+/// derivatives. ||f-H|| <= h^4 sup|f''''|/384; convex Bernstein weights bound
+/// the additional control-point rounding by the largest control enclosure.
+pub fn cubic(expr: &Expr, a: f64, b: f64) -> Result<Cubic, Error> {
+    if !in_range(a) || !in_range(b) || a >= b {
+        return Err(Error::InvalidInput);
+    }
+    let left = evaluate(expr, I::point(a), 0)?;
+    let right = evaluate(expr, I::point(b), 0)?;
+    let fourth = evaluate(expr, I { lo: a, hi: b }, 0)?[4];
+    let h = I::point(b) - I::point(a);
+    let points = [
+        left[0],
+        left[0] + h * left[1] / I::point(3.),
+        right[0] - h * right[1] / I::point(3.),
+        right[0],
+    ];
+    // Reject invalid controls before max/selection: f64::max ignores NaN.
+    for point in points {
+        finite(point)?;
+    }
+    let controls = points.map(|x| x.lo * 0.5 + x.hi * 0.5);
+    let mut rounding = 0_f64;
+    for i in 0..4 {
+        rounding = rounding.max((points[i] - I::point(controls[i])).abs_max());
+    }
+    let error =
+        finite(h.pow(4) * I::point(fourth.abs_max()) / I::point(16.) + I::point(rounding))?.hi;
+    Ok(Cubic { controls, error })
 }

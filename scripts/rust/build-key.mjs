@@ -38,12 +38,15 @@ export const CACHE_DIR = 'tmp/rust/cache';
 // Build env (K0 verify defect 3: the /1 key covered only the RUSTFLAGS family).
 const KEYED_ENV = /^(CARGO_|RUST)/;
 const KEYED_ENV_EXTRA = new Set(['CC', 'CXX', 'AR', 'CFLAGS', 'CXXFLAGS', 'LDFLAGS', 'MACOSX_DEPLOYMENT_TARGET', 'SDKROOT']);
+// Compiler caches do not change compiled output. Exclude their settings so the
+// loader can recompute the same key without the build shell's RUSTC_WRAPPER.
+const CACHE_ENV = /^(RUSTC_WRAPPER|CARGO_BUILD_RUSTC_WRAPPER|SCCACHE_.*)$/;
 // Not keyed: locations (CARGO_TARGET_DIR is set by build.mjs), logging, terminal, network, parallelism.
 const UNKEYED_ENV = /^(CARGO_HOME|CARGO_TARGET_DIR|CARGO_BUILD_TARGET_DIR|CARGO_NET_.*|CARGO_HTTP_.*|CARGO_TERM_.*|CARGO_REGISTRIES_.*|CARGO_REGISTRY_.*|CARGO_LOG|CARGO_BUILD_JOBS|RUSTUP_HOME|RUST_LOG|RUST_BACKTRACE|RUST_LIB_BACKTRACE|RUST_TEST_THREADS|RUST_MIN_STACK)$/;
 
 /** The keyed part of `env`: name -> value, sorted by name. */
 export function keyedEnv(env) {
-  return Object.fromEntries(Object.keys(env).filter(name => (KEYED_ENV.test(name) || KEYED_ENV_EXTRA.has(name)) && !UNKEYED_ENV.test(name)).sort().map(name => [name, env[name]]));
+  return Object.fromEntries(Object.keys(env).filter(name => (KEYED_ENV.test(name) || KEYED_ENV_EXTRA.has(name)) && !UNKEYED_ENV.test(name) && !CACHE_ENV.test(name)).sort().map(name => [name, env[name]]));
 }
 
 /**
@@ -51,15 +54,15 @@ export function keyedEnv(env) {
  * would read when run in rust/: .cargo/config and .cargo/config.toml in every
  * ancestor of rust/, then in CARGO_HOME. [[absolute path, sha256]] in cargo's order.
  */
-export function outerCargoConfigs(root, env = process.env) {
+export function outerCargoConfigs(root, env = process.env, cargoDir = join(resolve(root), RUST_DIR)) {
   const dirs = [];
   for (let dir = resolve(root); ; dir = dirname(dir)) {
     dirs.push(join(dir, '.cargo'));
     if (dirname(dir) === dir) break;
   }
-  // cargo runs in rust/ and lets the OS resolve a relative CARGO_HOME there (symlinks before '..'),
+  // Cargo resolves a relative CARGO_HOME in its working directory (symlinks before '..'),
   // so the path is joined as text and resolved with the native realpath, never lexically.
-  dirs.push(env.CARGO_HOME ? osPath(isAbsolute(env.CARGO_HOME) ? env.CARGO_HOME : `${join(resolve(root), RUST_DIR)}${sep}${env.CARGO_HOME}`) : join(homedir(), '.cargo'));
+  dirs.push(env.CARGO_HOME ? osPath(isAbsolute(env.CARGO_HOME) ? env.CARGO_HOME : `${cargoDir}${sep}${env.CARGO_HOME}`) : join(homedir(), '.cargo'));
   const seen = new Set(), out = [];
   for (const dir of dirs) {
     for (const name of ['config', 'config.toml']) {

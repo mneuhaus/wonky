@@ -17,7 +17,8 @@ export function nativeObservation(model,rust,catalog,zone,variant) {
   const probes=observationPoints(zone).map(p=>({...p,point:mapped(p.point)}));
   for(const m of definitions)if(!['probeDistance','bodyDistance','bboxExtent'].includes(m.definition.kind))
     throw new ObservationCapabilityError('unsupported native measurement kind: '+m.definition.kind);
-  const bodies=model.bodies.map(body=>({body,m:rust.measureRustBody(kernel,body,{map:inverse,probes:probes.map(p=>p.point)})}));
+  const observeSurfaceTypes = zone.closedForm?.topology?.scored?.includes('surfaceTypes') ?? false;
+  const bodies=model.bodies.map(body=>({body,m:rust.measureRustBody(kernel,body,{map:inverse,probes:probes.map(p=>p.point),surfaceTypes:observeSurfaceTypes})}));
   const sum=f=>bodies.reduce((s,b)=>s+f(b.m),0);
   const union=(key)=>bodies.length?{min:[0,1,2].map(k=>Math.min(...bodies.map(b=>b.m[key].min[k]))),max:[0,1,2].map(k=>Math.max(...bodies.map(b=>b.m[key].max[k])))}:null;
   const measurements={}, measurementErrors={}, measurementEvidence={};
@@ -58,6 +59,11 @@ export function nativeObservation(model,rust,catalog,zone,variant) {
   }
   const topology={};
   for(const b of bodies)for(const [k,v] of Object.entries(b.m.topology))topology[k]=(topology[k]??0)+v;
+  const surfaceTypes = {};
+  if (observeSurfaceTypes) for (const {m} of bodies) {
+    if (!m.surfaceTypes) throw new ObservationCapabilityError('native surface types unavailable');
+    for (const [type, count] of Object.entries(m.surfaceTypes)) surfaceTypes[type] = (surfaceTypes[type] ?? 0) + count;
+  }
   const localBbox=union('mappedBboxMm');
   return {
     sourceHash:model.backend.sourceHash, measurementEvidence,
@@ -68,6 +74,7 @@ export function nativeObservation(model,rust,catalog,zone,variant) {
       volume:sum(m=>m.volumeMm3),area:sum(m=>m.areaMm2),
       bodies:bodies.map(({m})=>({volume:m.volumeMm3,area:m.areaMm2,centroid:m.centroidMm,bbox:m.bboxMm,topology:m.topology})),
       bbox:union('bboxMm'),localBbox,topology,measurements,measurementErrors,
+      ...(observeSurfaceTypes ? {surfaceTypes} : {}),
       // measure.py's rule, from the kernel's own bbox in the zone frame.
       cellAttribution:zone.id==='AC46'||bodies.every(({m})=>['min','max'].every(s=>m.mappedBboxMm[s].every(x=>x>=-90&&x<=90))),
       validity:{brep:bodies.every(b=>b.m.validity.brep),closed:bodies.every(b=>b.m.validity.closed),positive:bodies.every(b=>b.m.validity.positive&&b.m.volumeMm3>0)}},

@@ -16,13 +16,14 @@ import { studioWorkspace } from '../src/viewer/workspace/studios.mjs';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 
-const USAGE = `Usage: node bin/wonky-view.mjs <part.fs|part.py|model.brep.json>... [options]
+const USAGE = `Usage: node bin/wonky-view.mjs <part.fs|part.py|reference.step|model.brep.json>... [options]
        node bin/wonky-view.mjs <project.view.json|build/studios/manifest.json> [viewer options]
 
 Opens the wonky review viewer (http://127.0.0.1:<port>/viewer/). Live sources
 are watched and rebuilt on save in warm background workers (one build per
 source, two at a time): .fs with its modules.json and module files, .py with
-every project file the last build imported. The browser keeps the camera, shows
+every project file the last build imported; .step/.stp as approximate reference
+meshes with source uncertainty. The browser keeps the camera, shows
 the last good model with its trust state (building, failed at file:line:col,
 cancelled) and never shows an incomplete model as current. The newest save runs
 at once on a warm worker when one is idle. A superseded build keeps its warm
@@ -200,7 +201,7 @@ function plan(options) {
     const language = languageOf(input);
     if (language === 'brep') modelPaths.push(input);
     else if (language) sources.push({ path: input, language });
-    else throw new Error(`Unsupported input ${input}: pass .fs, .py or .brep.json files`);
+    else throw new Error(`Unsupported input ${input}: pass .fs, .py, .step, .stp or .brep.json files`);
   }
   if (options.port !== undefined && (options.port < 0 || options.port > 65535)) {
     throw new Error('Invalid viewer port');

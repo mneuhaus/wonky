@@ -1,0 +1,7 @@
+# Pinned stable toolchain (docs/rust-migration.md 3.1: stable while no nightly
+# feature is needed). 1.88.0 is the pinned release installed on the build host;
+# scripts/rust/build-key.mjs also hashes `rustc -vV`, so a different compiler
+# makes every build stale.
+[toolchain]
+channel = "1.88.0"
+profile = "minimal"

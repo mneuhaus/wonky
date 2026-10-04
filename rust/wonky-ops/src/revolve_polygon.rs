@@ -43,7 +43,7 @@ impl QuarterPolygon {
 }
 
 pub fn quarter_polygon(frame: Affine, segments: &[[f64; 4]], angle: f64) -> R<QuarterPolygon> {
-    if angle != std::f64::consts::FRAC_PI_2 { return Err(no("partial-angle-not-quarter-turn")); }
+    if !wonky_geom::turn::sentinel(angle, 90) { return Err(no("partial-angle-not-quarter-turn")); }
     let values: Vec<_> = frame.origin.into_iter().chain(frame.x).chain(frame.z).collect();
     wonky_num::check_range(&values, "quarter polygon frame").map_err(|e| { e.into_refusal(); no("numeric-range") })?;
     let det = frame.det_exact().map_err(|_| no("numeric-range"))?;

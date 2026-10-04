@@ -1,0 +1,24 @@
+{
+  "id": "dcfa31627dfa9e33be1bd715",
+  "name": "wonky CAD-Acid ext A",
+  "href": "https://cad.onshape.com/api/v1/documents/dcfa31627dfa9e33be1bd715",
+  "public": true,
+  "publicLinkable": false,
+  "anonymousAccessAllowed": false,
+  "jsonType": "document",
+  "resourceType": "document",
+  "documentType": 0,
+  "createdAt": "2026-09-28T15:57:01.396+00:00",
+  "modifiedAt": "2026-09-28T15:57:01.396+00:00",
+  "defaultElementId": null,
+  "defaultWorkspace": {
+    "id": "bbaf5525228b785c1b3ef97f",
+    "documentId": "dcfa31627dfa9e33be1bd715",
+    "microversion": "e27944d8459cf56c02f15946",
+    "name": "Main",
+    "href": "https://cad.onshape.com/api/v1/documents/d/dcfa31627dfa9e33be1bd715/workspaces/bbaf5525228b785c1b3ef97f",
+    "type": "workspace",
+    "createdAt": "2026-09-28T15:57:02.794+00:00",
+    "modifiedAt": "2026-09-28T15:57:02.674+00:00"
+  }
+}

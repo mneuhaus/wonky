@@ -1,0 +1,53 @@
+[package]
+name = "wonky-curve"
+version = "0.1.0"
+edition = "2021"
+description = "Exact 2D curve pieces of the wonky Rust kernel: carriers, exact points and one operation table (evaluation, predicates, intersection, winding, star order, Green terms)"
+publish = false
+
+[dependencies]
+wonky-alg = { path = "../wonky-alg" }
+wonky-num = { path = "../wonky-num" }
+num-bigint = "0.4"
+num-rational = "0.4"
+num-traits = "0.2"
+
+[features]
+# Planted negative of Seam I (S3): the generic half-open winding rule takes its
+# UPPER endpoint inclusive. `cargo test -p wonky-curve --features plant_inclusive_upper`
+# must fail (4 winding.rs unit tests). The wonky-ops tests do not observe it, and
+# wonky-node does not forward it, so no acid run has shown an observation change.
+# Never in a production build.
+plant_inclusive_upper = []
+# Planted negative of Seam II (S4): the local order of cuts along a Circle piece is
+# reversed (`sorted_cuts`). The unit test of that operation must fail, and the
+# arc-profile arrangement observations of the CAD-Acid run (AC03) must differ.
+# Never in a production build.
+plant_reversed_cut_order = []
+
+# Planted negative of S5: the Green integrals of a BSpline drop the P1*P2 cross
+# term of the cubic Bezier area formula. `cargo test -p wonky-curve --features
+# plant_drop_p1p2_green` must fail (the oracle test). Never in a production build.
+plant_drop_p1p2_green = []
+
+# Planted negative of S6: the spline arm of the arrangement does not divide the
+# shared ends out of the substitution before counting, so a shared end is found
+# by isolation and reported as a contact away from the shared ends.
+# `cargo test -p wonky-curve --features plant_skip_deflation` must fail (the
+# gear-outline tests of tests/spline_arrangement.rs). Never in a production build.
+plant_skip_deflation = []
+
+# Planted negative of S9: the distance from a point to a spline piece looks at the
+# two ends only, not at the feet inside the piece. The AC100 probe_normal closed
+# form of `cargo test -p wonky-ops --features plant_curve_probe_endpoints_only
+# --test curve_profile_prism` must then fail. Never in a production build.
+plant_probe_endpoints_only = []
+
+# S12 planted negative: rounded solve must fail exact replay residual tests.
+plant_fit_f64_solve = []
+
+# S13 planted negative: radical point keys ordered by rounded caches.
+plant_quadratic_cache_order = []
+
+# K1 planted negative: omit the exact circle endpoint identity audit.
+plant_circle_identity_skip = []

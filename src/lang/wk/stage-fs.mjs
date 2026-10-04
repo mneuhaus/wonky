@@ -327,7 +327,7 @@ export class StagingEvaluator extends CoreEvaluator {
       const sketch = { type: 'Sketch', id, plane: d.sketchPlane, entities: [], solved: false };
       this.sketches.set(id.key(), sketch); return sketch;
     }));
-    for (const name of ['skRectangle', 'skPolyline', 'skLineSegment', 'skArc', 'skCircle', 'skText', 'skEllipse', 'skFitSpline', 'skPoint', 'skRegularPolygon', 'skConstraint', 'skEllipticalArc'])
+    for (const name of ['skRectangle', 'skPolyline', 'skLineSegment', 'skArc', 'skCircle', 'skText', 'skEllipse', 'skFitSpline', 'skBezier', 'skPoint', 'skRegularPolygon', 'skConstraint', 'skEllipticalArc'])
       values[name] = b(name, 2, 3, ([sketch, id, d], loc) => this.effect(name, loc, () => {
         if (sketch?.type !== 'Sketch') fail('Expected a sketch', loc);
         sketch.entities.push({ kind: name, id, d, loc });

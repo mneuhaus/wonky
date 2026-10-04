@@ -182,7 +182,7 @@ fn distant_signed_permutation_preserves_shell_and_world_point_basis() {
 }
 
 #[test]
-fn offset_collapse_unrepresentable_offsets_and_invalid_inputs_refuse() {
+fn offset_collapse_and_invalid_inputs_refuse_while_rational_offsets_replay() {
     let a = box_at([0.; 3], [2., 4., 6.], Affine::IDENTITY);
     let face = side(&a, 2, 1);
     for t in [0., -1., f64::NAN, f64::INFINITY] {
@@ -195,10 +195,18 @@ fn offset_collapse_unrepresentable_offsets_and_invalid_inputs_refuse() {
         .unwrap_err()
         .0
         .contains("collapsed-cavity"));
-    assert!(planar_shell::shell(&a, face, 0.1)
-        .unwrap_err()
-        .0
-        .contains("offset-not-binary64"));
+    let body = planar_shell::shell(&a,face,0.1).unwrap();
+    let result = audited(body.clone());
+    close(result.volume_mm3().unwrap(),(2.*4.*6.-1.8*3.8*5.9)*1e9);
+    assert_eq!((result.topology().faces,result.topology().edges,result.topology().vertices),(11,24,16));
+    assert!(step::write(&[("rational shell".into(),&result)],"shell").is_ok());
+    let mut bad = body.clone();
+    let coordinate = bad.vertices.iter_mut().flat_map(|v| &mut v.point).find(|c| c.get() != 0.).unwrap();
+    *coordinate = Binary64::new(coordinate.get().next_up()).unwrap();
+    assert!(audit(&bad.check().unwrap()).is_err());
+    let mut bad = body;
+    bad.constructions.last_mut().unwrap().parameters[0] = Binary64::new(0.1f64.next_up()).unwrap();
+    assert!(audit(&bad.check().unwrap()).is_err());
     assert!(planar_shell::shell(&a, 999, 0.25)
         .unwrap_err()
         .0
@@ -399,4 +407,155 @@ fn face_selection_uses_exact_world_metric_and_finite_affine_trims() {
             .len(),
         2
     );
+}
+
+#[test]
+fn rational_shells_preserve_exact_volume_and_vertices_through_boolean_replay() {
+    use num_rational::BigRational as Q;
+    use wonky_geom::model::VertexDef;
+    let q = |x| Q::from_float(x).unwrap();
+    let hi = [0.04, 0.03, 0.02];
+    let original = box_at([0.; 3], hi, Affine::IDENTITY);
+    let tool = box_at([0.1; 3], [0.2; 3], Affine::IDENTITY);
+    for opening in 0..6 {
+        let shell = audited(
+            planar_shell::shell(&original, side(&original, opening / 2, opening % 2), 0.002)
+                .unwrap(),
+        );
+        let outer = hi.map(q).into_iter().product::<Q>();
+        let inner = (0..3)
+            .map(|k| q(hi[k]) - q(0.002) * q(if k == opening / 2 { 1. } else { 2. }))
+            .product::<Q>();
+        let want = (outer - inner) * q(6.);
+        let exact = shell.model().unwrap();
+        assert_eq!(exact.volume6().unwrap(), vec![want.clone()]);
+        let offset = q(hi[0]) - q(0.002);
+        if opening != 1 {
+            assert!(exact
+                .draft()
+                .vertices
+                .iter()
+                .any(|v| matches!(&v.def, VertexDef::Rational(p) if p[0] == offset)));
+        }
+        let output = orthogonal::boolean(
+            BodyKey {
+                id: [99, 2, 3, 4],
+                revision: 0,
+            },
+            1,
+            &[shell, tool.clone()],
+        )
+        .unwrap();
+        assert_eq!(output.len(), 1);
+        let result = audited(output.into_iter().next().unwrap());
+        assert_eq!(result.model().unwrap().volume6().unwrap(), vec![want]);
+    }
+}
+
+#[test]
+fn rational_boundaries_retain_authority_through_placement_and_boolean() {
+    let original = box_at([0.; 3], [0.04, 0.03, 0.02], Affine::IDENTITY);
+    let shell = audited(planar_shell::shell(&original, side(&original, 2, 1), 0.002).unwrap());
+    let identity = [[1., 0., 0.], [0., 1., 0.], [0., 0., 1.]];
+    let shifted =
+        wonky_ops::pattern::copy(&shell, shell.body.key.clone(), identity, [1., 2., 3.]).unwrap();
+    assert_eq!(
+        shifted.model().unwrap().volume6().unwrap(),
+        shell.model().unwrap().volume6().unwrap()
+    );
+    close(shifted.volume_mm3().unwrap(), shell.volume_mm3().unwrap());
+    assert!(step::write(&[("shifted shell".into(), &shifted)], "shifted").is_ok());
+    let tool = box_at([4.; 3], [5.; 3], Affine::IDENTITY);
+    let result = orthogonal::boolean(
+        BodyKey {
+            id: [101, 2, 3, 4],
+            revision: 0,
+        },
+        1,
+        &[shifted, tool],
+    )
+    .unwrap();
+    let result = audited(result.into_iter().next().unwrap());
+    close(result.volume_mm3().unwrap(), shell.volume_mm3().unwrap());
+    let mut corrupted = result.body;
+    let source = corrupted
+        .constructions
+        .iter_mut()
+        .find(|n| n.operation == Operation::Shell {})
+        .unwrap();
+    source.parameters[0] = Binary64::new(0.002f64.next_up()).unwrap();
+    assert!(audit(&corrupted.check().unwrap()).is_err());
+}
+
+#[test]
+fn rational_shell_mesh_preserves_every_opening_and_rejects_unreplayed_caches() {
+    use wonky_ops::mesh::{binary_stl, tessellate};
+    let broad_shear = Affine {
+        x: [1., 0.125, 0.],
+        ..Affine::IDENTITY
+    };
+    let base = box_at([0.; 3], [0.016, 0.016, 0.008], Affine::IDENTITY);
+    assert_eq!(
+        orthogonal::transform(&base, broad_shear).unwrap_err().0,
+        "orthogonal/non-rigid-placement"
+    );
+    let shell = audited(planar_shell::shell(&base, side(&base, 2, 1), 0.0001).unwrap());
+    assert_eq!(
+        orthogonal::transform(&shell, broad_shear).unwrap_err().0,
+        "pattern/metric-not-near-isometric"
+    );
+    for frame in [
+        Affine::IDENTITY,
+        Affine {
+            origin: [0.023, -0.011, 0.007],
+            x: [1., 2f64.powi(-42), 0.],
+            z: [0., 0., 1.],
+        },
+    ] {
+        let source = box_at([0.; 3], [0.016, 0.016, 0.008], Affine::IDENTITY);
+        for axis in 0..3 {
+            for end in 0..2 {
+                let body = planar_shell::shell(&source, side(&source, axis, end), 0.0001).unwrap();
+                // Retain the exact, admitted near-isometric affine source map.
+                let body = if frame == Affine::IDENTITY {
+                    body
+                } else {
+                    orthogonal::transform(&audited(body), frame).unwrap()
+                };
+                let checked = body.clone().check().unwrap();
+                let mesh = tessellate(&checked, 0.005).unwrap();
+                assert_eq!(mesh.vertices.len(), 16);
+                assert_eq!(mesh.triangles.len(), 28);
+                assert_eq!(mesh.faces.len(), 28);
+                assert_eq!(mesh.edges.len(), 24);
+                let stl = binary_stl(&[mesh.clone()], 0.005).unwrap();
+                assert_eq!(stl.len(), 84 + 50 * 28);
+                let volume: f64 = mesh
+                    .triangles
+                    .iter()
+                    .map(|t| {
+                        let [a, b, c] = t.map(|i| mesh.vertices[i]);
+                        (a[0] * (b[1] * c[2] - b[2] * c[1])
+                            + a[1] * (b[2] * c[0] - b[0] * c[2])
+                            + a[2] * (b[0] * c[1] - b[1] * c[0]))
+                            / 6.
+                    })
+                    .sum();
+                close(volume, audit(&checked).unwrap().volume_mm3().unwrap());
+                assert!(tessellate(&checked, 1e-30)
+                    .unwrap_err()
+                    .0
+                    .contains("precision-budget"));
+                let mut corrupted = body;
+                let coordinate = corrupted
+                    .vertices
+                    .iter_mut()
+                    .flat_map(|v| v.point.iter_mut())
+                    .find(|x| x.get() != 0.)
+                    .unwrap();
+                *coordinate = Binary64::new(coordinate.get().next_up()).unwrap();
+                assert!(tessellate(&corrupted.check().unwrap(), 0.005).is_err());
+            }
+        }
+    }
 }

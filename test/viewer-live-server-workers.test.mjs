@@ -17,12 +17,14 @@ const { createBuildPool } = await import("../src/viewer/live/pool.mjs");
 const { createLiveSession } = await import("../src/viewer/live/session.mjs");
 const { createQueryPool } = await import("../src/viewer/query-pool.mjs");
 const { EVENT_NAMES } = await import("../src/viewer/events.mjs");
+const { observeTimeouts } = await import("./support/observe-timeouts.mjs");
 // Live build server processes (package live-server, docs/viewer/live-server.md):
 // build pool cancellation and recycling with a fake worker, the real build
 // worker's parent watchdog (kill -9 of the parent), the query worker behind
 // ctx.pool.query, the session's supersede/drop logic with a fake pool, the
 // wonky-view CLI (strict --port, --json NDJSON, Ctrl-C cleanup) and the build
 // worker's draw payload against the query worker's.
+
 
 
 
@@ -131,6 +133,7 @@ test('cancel: the spare takes the next job at once, the old group dies after the
     });
     await until(() => first.grandchild && idleWorkers(pool).length === 1,
       { what: 'job running and a warm spare' });
+    const timers = observeTimeouts(t);
     const cancelledAt = Date.now();
     const jobId = pool.status().workers.find(worker => worker.pid === first.pid).jobId;
     pool.cancel(jobId, { graceMs: 120 });
@@ -145,16 +148,19 @@ test('cancel: the spare takes the next job at once, the old group dies after the
         onDone: resolve,
       });
     });
+    assert.ok(secondPid !== null, 'the warm spare starts synchronously during submit');
     assert.ok((await done).ok);
     const waited = startedAt - cancelledAt;
-    assert.ok(waited < 50, `the spare started at once (${waited} ms)`);
+    t.diagnostic(`the spare started after ${waited} ms`);
     assert.notEqual(secondPid, first.pid);
     await until(() => !alive(first.pid) && !alive(first.grandchild),
       { timeoutMs: 3000, what: 'the cancelled group to die' });
     const killed = log.find('job-killed');
     assert.equal(killed.jobId, jobId);
-    assert.ok(killed.at - cancelledAt >= 110, `grace respected (${killed.at - cancelledAt} ms)`);
-    assert.ok(killed.at - cancelledAt < 400, `killed right after the grace`);
+    const grace = timers.find(timer => timer.delay === 120);
+    assert.ok(grace?.fired, 'kill follows the requested 120 ms grace callback');
+    assert.equal(grace.cancelledBeforeFire, false);
+    t.diagnostic(`kill after ${killed.at - cancelledAt} ms`);
   });
 
 // Regression (fix round 2): every supersede killed its worker after the
@@ -174,19 +180,24 @@ test('a burst of saves of fast builds: the last one runs on a drained warm worke
   const burstAt = Date.now();
   let previous = null;
   let last = null;
+  let lastStart = null;
+  let readyBeforeLast;
   for (const delay of [0, 0, 100, 300, 550]) {
     await sleep(Math.max(0, burstAt + delay - Date.now()));
     if (previous) pool.cancel(previous);
     const jobId = pool.allocate();
+    readyBeforeLast = new Set(log.events.filter(event => event.name === 'worker-ready').map(event => event.pid));
     const done = new Promise(resolve => pool.submit({ type: 'build', mode: 'slow', ms: 500 },
-      { onDone: resolve }, { jobId }));
+      { onStart: info => { lastStart = info; }, onDone: resolve }, { jobId }));
     previous = jobId;
     last = done;
   }
   const result = await last;
   const finishedMs = Date.now() - burstAt;
   assert.ok(result.ok);
-  assert.ok(finishedMs < 2000, `the last save finished after ${finishedMs} ms, before any cold start`);
+  assert.ok(readyBeforeLast.has(lastStart.pid), 'the last save uses a worker already warm when queued');
+  assert.equal(lastStart.worker, 'warm');
+  t.diagnostic(`last save finished after ${finishedMs} ms`);
   assert.ok(log.events.some(event => event.name === 'job-draining'), 'a cancelled worker drained');
   // Once warm replacements are idle, no drained stale build keeps running.
   await until(() => pool.status().workers.every(worker => worker.jobId === null),
@@ -227,6 +238,7 @@ test('hanging superseded builds never deadlock the pool: the fix and another sou
     }
     pool.cancel(previous, { graceMs: 50 });
     const fixedAt = Date.now();
+    const startsBeforeFix = log.events.filter(event => event.name === 'worker-starting').length;
     const fixed = new Promise(resolve => pool.submit({ type: 'build', sourceId: 'slowmain',
       mode: 'ok' }, { onDone: resolve }));
     const other = new Promise(resolve => pool.submit({ type: 'build', sourceId: 'other',
@@ -234,7 +246,9 @@ test('hanging superseded builds never deadlock the pool: the fix and another sou
     const [a, b] = await Promise.race([Promise.all([fixed, other]),
       sleep(15000).then(() => assert.fail(`deadlock: ${JSON.stringify(pool.status())}`))]);
     assert.ok(a.ok && b.ok);
-    assert.ok(Date.now() - fixedAt < 10000, 'the fix built within a worker start or two');
+    assert.ok(log.events.filter(event => event.name === 'worker-starting').length - startsBeforeFix <= 2,
+      'the fix needs at most two worker starts');
+    t.diagnostic(`fix built after ${Date.now() - fixedAt} ms`);
     assert.ok(log.events.some(event => event.name === 'job-killed'
       && event.reason === 'slot needed'), 'a drained build gave its slot up');
     assert.ok(maxAlive <= 4, `never more than maxWorkers processes (${maxAlive})`);
@@ -250,6 +264,7 @@ test('a drained build is killed after the drain bound; its deadline still applie
   t.after(() => pool.close());
   pool.setWanted(true);
   await until(() => idleWorkers(pool).length === 1, { timeoutMs: 20000, what: 'a warm worker' });
+  const timers = observeTimeouts(t);
   let startedAt = null;
   const first = pool.submit({ type: 'build', sourceId: 'a', mode: 'hang' }, {
     onStart: () => {
@@ -259,13 +274,19 @@ test('a drained build is killed after the drain bound; its deadline still applie
   });
   await sleep(30);
   pool.cancel(first.jobId, { graceMs: 20 });
+  const graceTimer = timers.find(timer => timer.delay === 20);
   await until(() => log.find('job-draining'), { timeoutMs: 3000, what: 'draining' });
   assert.equal(log.find('job-draining').limitMs >= 300, true);
   const killed = await until(() => log.events.find(event => event.name === 'job-killed'),
     { timeoutMs: 5000, what: 'the drain bound' });
   assert.equal(killed.reason, 'drain limit');
   const after = killed.at - startedAt;
-  assert.ok(after >= 290 && after < 2000, `killed ${after} ms after the build started`);
+  const drainTimer = timers.find(timer => timer.parent === graceTimer);
+  assert.ok(graceTimer?.fired && drainTimer?.fired,
+    'the cancellation callback schedules the drain callback that fires');
+  assert.ok(drainTimer.delay <= 300 && drainTimer.scheduledAt + drainTimer.delay >= startedAt + 290,
+    'the drain is scheduled at the 300 ms build deadline, never prematurely');
+  t.diagnostic(`drain killed after ${after} ms`);
   // After a build of the source took about 400 ms, a stale build of it may
   // drain until 1.5 times that (600 ms from its start), not less.
   await until(() => idleWorkers(pool).length === 1, { timeoutMs: 20000, what: 'a fresh worker' });
@@ -281,11 +302,17 @@ test('a drained build is killed after the drain bound; its deadline still applie
   });
   await sleep(30);
   pool.cancel(slow.jobId, { graceMs: 20 });
+  const learnedGrace = timers.findLast(timer => timer.delay === 20);
   const draining = await until(() => log.find('job-draining'), { timeoutMs: 3000,
     what: 'draining' });
   assert.ok(draining.limitMs >= 600, `drain limit ${draining.limitMs} ms`);
   const second = await until(() => log.find('job-killed'), { timeoutMs: 5000, what: 'kill' });
-  assert.ok(second.at - slowStart >= 590, `kept ${second.at - slowStart} ms`);
+  assert.equal(second.reason, 'drain limit');
+  const learnedDrain = timers.find(timer => timer.parent === learnedGrace);
+  assert.ok(learnedDrain?.fired && learnedDrain.delay <= draining.limitMs
+    && learnedDrain.scheduledAt + learnedDrain.delay >= slowStart + draining.limitMs - 10,
+    'the actual drain callback is scheduled at the learned deadline');
+  t.diagnostic(`learned drain kept ${second.at - slowStart} ms`);
 
   // A deadline outlives the cancel: with an unreachable drain bound, the
   // job's deadline still frees the worker.
@@ -315,10 +342,12 @@ test('an explicit cancel never drains: the runaway build dies after the grace', 
   const job = pool.submit({ type: 'build', sourceId: 'a', mode: 'hang' },
     { onDone: () => assert.fail('cancelled') });
   await sleep(30);
+  const timers = observeTimeouts(t);
   const cancelledAt = Date.now();
   pool.cancel(job.jobId, { graceMs: 50, drain: false });
   const killed = await until(() => log.find('job-killed'), { timeoutMs: 3000, what: 'kill' });
-  assert.ok(killed.at - cancelledAt < 400, 'killed right after the grace');
+  assert.ok(timers.find(timer => timer.delay === 50)?.fired, 'explicit cancellation kills on its 50 ms grace callback');
+  t.diagnostic(`explicit cancel killed after ${killed.at - cancelledAt} ms`);
   assert.equal(log.find('job-draining'), undefined);
 });
 
@@ -470,10 +499,12 @@ test('a timed-out query kills its worker; the next query gets a fresh one', asyn
   t.after(() => pool.close());
   const pid = await pool.query('section', modelId, {});
   assert.deepEqual(pool.pids(), [pid]);
+  const timers = observeTimeouts(t);
   const started = Date.now();
   await assert.rejects(pool.query('draw', modelId, {}, { timeoutMs: 300 }),
     error => error.status === 504 && /timed out after 300 ms/.test(error.message));
-  assert.ok(Date.now() - started < 1000);
+  assert.ok(timers.find(timer => timer.delay === 300)?.fired, 'query expires on the requested deadline');
+  t.diagnostic(`query expired after ${Date.now() - started} ms`);
   await until(() => !alive(pid), { timeoutMs: 3000, what: 'the stuck worker to die' });
   const fresh = await pool.query('section', modelId, {});
   assert.notEqual(fresh, pid, 'a fresh worker answers the next query');
@@ -505,9 +536,13 @@ test('the query timeout excludes the worker start and first-time module loads', 
   const registry = { has: id => id === modelId, bytes: async () => Buffer.from('{}') };
   const pool = createQueryPool({ registry, worker: { workerPath } });
   t.after(() => pool.close());
+  const timers = observeTimeouts(t);
   const started = Date.now();
   assert.equal(await pool.query('thickness', modelId, {}, { timeoutMs: 300 }), 'done');
-  assert.ok(Date.now() - started >= 1100, 'start (600 ms) and module load (600 ms) both ran');
+  assert.ok(timers.filter(timer => timer.delay === 300).length >= 2, 'query deadline is rearmed after preparation');
+  assert.ok(timers.filter(timer => timer.delay === 300).every(timer => timer.cancelled && !timer.fired),
+    'startup and preparation cannot consume the query deadline');
+  t.diagnostic(`startup and preparation completed after ${Date.now() - started} ms`);
   assert.equal(await pool.query('thickness', modelId, {}, { timeoutMs: 300 }), 'done');
 });
 
@@ -535,7 +570,9 @@ test('a slow build of one source never holds back another source; waits say why'
   await until(() => idleWorkers(pool).length === 1, { what: 'a warm spare' });
   const queuedAt = Date.now();
   assert.ok((await submit('spacer', 'ok')).ok);
-  assert.ok(Date.now() - queuedAt < 1000, 'spacer ran while bracket was still building');
+  assert.ok(pool.status().workers.some(worker => worker.jobId !== null && worker.state === 'busy'),
+    'spacer completes while the unrelated hanging bracket is still running');
+  t.diagnostic(`spacer completed after ${Date.now() - queuedAt} ms`);
   assert.equal(started.spacerok.worker, 'warm');
   assert.deepEqual(phases.filter(entry => entry.sourceId === 'spacer'), [],
     'spacer never waited (no "warming worker")');
@@ -641,7 +678,11 @@ test('session: a save supersedes at once, late results are dropped, a missing so
     const cancelled = await until(() => published.find(event => event.name === 'build-cancelled'),
       { timeoutMs: 3000, what: 'build-cancelled' });
     const after = cancelled.at - savedAt;
-    assert.ok(after < 350, `cancelled ${after} ms after the save`);
+    const cancellationIndex = published.indexOf(cancelled);
+    const nextQueueIndex = published.findIndex(event => event.name === 'build-queued' && event.revision === 2);
+    assert.ok(cancellationIndex < nextQueueIndex && nextQueueIndex >= 0,
+      'the save cancels its predecessor before queuing the replacement');
+    t.diagnostic(`save cancelled after ${after} ms`);
     assert.deepEqual([cancelled.jobId, cancelled.revision, cancelled.reason,
       cancelled.supersededBy.revision], [firstId, 1, 'superseded', 2]);
     assert.deepEqual(pool.cancelled, [{ jobId: firstId, graceMs: 250, drain: true }],

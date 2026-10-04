@@ -21,6 +21,7 @@
 import { loadKernel } from '../kernel.mjs';
 import { real, vector, coords } from '../real.mjs';
 import { reviewScene } from '../review-scene.mjs';
+import { isRustRecord } from '../rust-review-scene.mjs';
 import {
   DRAW_MAGIC as SHARED_MAGIC, DRAW_SCHEMA as SHARED_SCHEMA, EDGE_CLASS_NAMES, UNRESOLVED_CLASS,
   buildDrawArrays, encodeDraw, pointKey,
@@ -28,6 +29,7 @@ import {
 import { CapabilityError } from './http.mjs';
 import { classifyEdges } from './edge-classes.mjs';
 import { logicalFaces } from './logical-faces.mjs';
+import { viewerRecord } from './model-record.mjs';
 
 export const DRAW_SCHEMA = SHARED_SCHEMA;
 export const DRAW_MAGIC = SHARED_MAGIC; // 'WKD1' little-endian
@@ -39,9 +41,13 @@ export const drawEtag = modelId => `"${modelId}.wkd1.v${DRAW_VERSION}"`;
 
 let display = null;
 let loading = null;
+const isReferenceDisplay = body => body?.geometryClass === 'reference' && body.referenceDisplay?.mesh?.exact === false;
 
-// Loads the Bend kernel and its display module once (exact normals).
+// Loads the Bend kernel and its display module once (exact normals of Bend
+// bodies). On the Rust backend there is no Bend display module: exact normals
+// of Rust bodies come from the Rust carriers in `rustFaceNormals`.
 export function loadDrawKernel() {
+  if ((process.env.WONKY_BACKEND ?? 'rust') !== 'js') return Promise.resolve(null);
   loading ??= (async () => {
     await loadKernel();
     const module = await import('../../kernel/display.bend');
@@ -69,12 +75,53 @@ const dot = (a, b) => a[0] * b[0] + a[1] * b[1] + a[2] * b[2];
 // Exact outward normals at the display points of one face, or null when the
 // surface has no closed-form normal here or a normal disagrees with the
 // display triangle it belongs to (never silently wrong).
+// Exact outward normals of a Rust body's face from its Rust carrier (float64,
+// world mm): plane normal, cylinder and sphere radial directions. The sign
+// follows the face's `sameSense` and every normal must agree with its display
+// triangle, else the face keeps its triangle normals (flagged `display`).
+// Cones, tori and refused carriers have no closed form here.
+function rustFaceNormals(brepFace, points) {
+  const surface = brepFace?.surface;
+  if (!surface) return null;
+  const sign = brepFace.sameSense === false ? -1 : 1;
+  const normals = new Map();
+  if (surface.type === 'plane') {
+    const normal = unit(surface.normal);
+    if (!normal) return null;
+    for (const point of points) normals.set(pointKey(point), normal.map(value => value * sign));
+  } else if (surface.type === 'cylinder' || surface.type === 'sphere') {
+    const axis = unit(surface.axis);
+    if (!axis) return null;
+    for (const point of points) {
+      const key = pointKey(point);
+      if (normals.has(key)) continue;
+      const offset = point.map((value, i) => value - surface.origin[i]);
+      const along = surface.type === 'cylinder' ? dot(offset, axis) : 0;
+      const normal = unit(offset.map((value, i) => value - along * axis[i]));
+      if (!normal) return null;
+      normals.set(key, normal.map(value => value * sign));
+    }
+  } else return null;
+  return normals;
+}
+
 function faceNormals(model, D) {
   return (bodyIndex, face) => {
     if (!face.triangles?.length) return null;
     const points = face.triangles.flatMap(triangle => triangle.points);
     const body = model.bodies[bodyIndex];
     const brepFace = body?.faces[face.index];
+    if (isReferenceDisplay(body)) return null;
+    if (isRustRecord(body)) {
+      const normals = rustFaceNormals(brepFace, points);
+      if (!normals) return null;
+      for (const triangle of face.triangles) {
+        for (const point of triangle.points) {
+          if (!(dot(normals.get(pointKey(point)), triangle.normal) > 0)) return null;
+        }
+      }
+      return normals;
+    }
     const surface = brepFace?.surface;
     if (!surface) return null;
     const analytic = body.geometry === 'analytic';
@@ -128,6 +175,7 @@ function chordBound(face, body, toleranceMm) {
 // Exact normals of every face, computed in slices that yield to the event
 // loop every ~15 ms (and honor `signal`): Map "body:face" -> Map | null.
 export async function exactNormals(model, scene, { signal } = {}) {
+  model = viewerRecord(model);
   await loadDrawKernel();
   const compute = faceNormals(model, display);
   const result = new Map();
@@ -147,7 +195,8 @@ export async function exactNormals(model, scene, { signal } = {}) {
 
 // `normals` (optional): the result of exactNormals() for this scene.
 export function buildDrawPayload(model, scene, { logical, classes, modelId, normals } = {}) {
-  if (!scene || !display) return null;
+  model = viewerRecord(model);
+  if (!scene || (!display && !model.bodies.every(body => isRustRecord(body) || isReferenceDisplay(body)))) return null;
   const compute = faceNormals(model, display);
   const lookup = normals
     ? (bodyIndex, face) => normals.get(`${bodyIndex}:${face.index}`) ?? null
@@ -171,6 +220,7 @@ export function buildDrawPayload(model, scene, { logical, classes, modelId, norm
     bodies: built.bodies.map((body, index) => ({
       index, alias: `B${index + 1}`, id: body.id, name: body.name,
       appearance: model.bodies[index]?.appearance ?? null,
+      ...(isReferenceDisplay(model.bodies[index]) ? {exact:false,approximation:'tessellated mesh',uncertainty:model.bodies[index].uncertainty} : {}),
       faceRange: body.faceRange, indexRange: body.indexRange, vertexRange: body.vertexRange,
       edgeRange: body.edgeRange, segmentRange: body.segmentRange, pointRange: body.pointRange,
     })),
@@ -195,10 +245,10 @@ export function buildDrawPayload(model, scene, { logical, classes, modelId, norm
     edges: built.edges.map(edge => ({ curveType: edge.curveType })),
     edgeClassNames: EDGE_CLASS_NAMES,
     notes: [
-      `Display approximation (chord tolerance ${toleranceMm} mm); the analytic B-rep remains`
-        + ' authoritative.',
+      `Display approximation (chord tolerance ${toleranceMm} mm); `
+        + (model.bodies.some(isReferenceDisplay) ? 'retained STEP surfaces and source uncertainty remain authoritative.' : 'the analytic B-rep remains authoritative.'),
       `Normals: ${exactFaces} of ${built.faces.length} faces use exact outward normals of their`
-        + ' plane, cylinder or cone evaluated in Bend at each display vertex (oct16, error'
+        + ` ${model.bodies.some(isReferenceDisplay) ? 'available carriers (reference faces use display normals)' : model.bodies.every(isRustRecord) ? 'plane, cylinder or sphere carrier (float64, from the Rust carriers)' : 'plane, cylinder or cone evaluated in Bend'} at each display vertex (oct16, error`
         + ` <= ${OCT16_MAX_ERROR_DEG} deg); the others use display triangle normals.`,
       ...(scene.display?.notes ?? []),
       ...(classes?.note ? [classes.note] : []),
@@ -231,6 +281,7 @@ export async function drawQuery(model, payload = {}, { signal } = {}) {
   if (!model?.bodies?.length) {
     throw new CapabilityError('Draw payload unavailable: the model has no bodies');
   }
+  model = viewerRecord(model);
   await loadDrawKernel();
   signal?.throwIfAborted();
   let scene = payload?.scene;

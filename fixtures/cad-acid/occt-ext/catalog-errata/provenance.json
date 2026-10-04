@@ -1,0 +1,47 @@
+{
+  "schema": "wonky/cad-acid-occt-frozen/1",
+  "zonesSha256": "b742021a3035026efd47da6ff70fb1da29daba22e2052ee85ef0bf05b4ac2062",
+  "sources": {
+    "fixtures/cad-acid/fs/acid-profile.fs": "dcb5f64fa5e5613ef35586e5eb2a111aa4ded451833192e765cc94fb76f16d11",
+    "fixtures/cad-acid/b3d/acid_profile.py": "cd7b1d7debc1cef49bdd5adc7324adadeea26cf5375bb7f0baf1f7d6dcc3f0f1",
+    "fixtures/cad-acid/fs/acid-boolean.fs": "73404f5248cd976d55839eee6e87fe9466a31b9fa79dff5541c2da7a6baa891c",
+    "fixtures/cad-acid/b3d/acid_boolean.py": "79e868898cb825428614457d505aebbb52875a01418a9f5135d10ddc9d75d950",
+    "fixtures/cad-acid/fs/acid-curved.fs": "5216e2e73eaee1f6ad05a62ed58a2d94c2186271a4860d439d32f5c5cb9b4b24",
+    "fixtures/cad-acid/b3d/acid_curved.py": "4d93366aca04f5768e1664d6355a294556d74f5f981195aadbee6b1965ccc24d",
+    "fixtures/cad-acid/fs/acid-blend.fs": "08bc6bde64b2e48dc8fc2c0ebceb0c292dcbe567eb0916df927e61a916adf330",
+    "fixtures/cad-acid/b3d/acid_blend.py": "ea597873142b30e5ccc55dce23d9cfde7c119db3faa73d16666f0da238cc3de3",
+    "fixtures/cad-acid/fs/acid-precision.fs": "0d34afcb67e9c0559e49d457a29aba8ae44badc4facfd6bf40ebab4771fa45a8",
+    "fixtures/cad-acid/b3d/acid_precision.py": "e34690d2d9f1fc7ab4cc86f589ed86822f2b40dc9fe828e3ce1e9870cd32821f",
+    "fixtures/cad-acid/fs/acid-holes-a.fs": "b05d992b97764608de52ace2bb46a2de3f4469b5f2e107c1ff4edf9663371ab5",
+    "fixtures/cad-acid/b3d/acid_holes_a.py": "f0f4192d4183d3044297c04d602aeea48062333c210af960b77b0ef0c422e8eb",
+    "fixtures/cad-acid/fs/acid-regions-a.fs": "a101294cb3cd6fabead781f7cbde3273f26756a56191b0a4548c755c0bde8811",
+    "fixtures/cad-acid/b3d/acid_regions_a.py": "16385688ff562c5ac6326b824159aaef99b7458b96895b928b33e29c2465b67c",
+    "fixtures/cad-acid/fs/acid-shapes-a.fs": "09eb6ee1617626bfa52813ff02cc350596840d5fc82ede4ec427ec0160704729",
+    "fixtures/cad-acid/b3d/acid_shapes_a.py": "e9276bcbbb2dc30e0f04f9b1bc78f5d09e8294776f3ce51a0774a332db595131",
+    "fixtures/cad-acid/fs/acid-splines-a.fs": "2b42ad187e88762b6442aee52379463ef004b96a5c9c9b8710b428819c64130d",
+    "fixtures/cad-acid/b3d/acid_splines_a.py": "14a61e26a3a084d81234f329d933c71510256c1b9c033ab04c095d29ac1dd8e1",
+    "fixtures/cad-acid/b3d/acid_curved_errata.py": "194a84cabcbedf7cc373e49ec629414f6fd8af6cfcd39a219b78f9299f4e4b5b",
+    "fixtures/cad-acid/b3d/acid_blend_errata.py": "320eeded8bade214e09fe31c27f1088281b4f43bbd1b7a742aeb8f189e5e894d",
+    "fixtures/cad-acid/fs/acid-blend-errata.fs": "f4703a584279952f82318d98ac78bfbd9190aa75762dbb894ed2ce14658ab05a",
+    "fixtures/cad-acid/b3d/acid_precision_errata.py": "5af4fa7e307e46e7d1a0b97f04ba57eb3007ceec5a4e7fb809d029752f014849",
+    "fixtures/cad-acid/fs/acid-fit-spline.fs": "fe8eca29e7a17e4bcde32baf3ccae6889423529963c8b9dcffdea2749abae4c1",
+    "fixtures/cad-acid/b3d/acid_fit_spline.py": "1aa5e920000fe22aebfc9c3fe0ef48803585da995cfb068e6d03d70dcfc9ceaf"
+  },
+  "observations": "observations.json",
+  "sourceRun": {
+    "startedAt": "2026-10-02T05:23:35.586Z",
+    "finishedAt": "2026-10-02T05:23:54.918Z",
+    "code": {
+      "head": "dcd4787af7f89063eea8dcff628de246bc503e1f",
+      "treeSha256": "810126abcb92c6a07e6b3dbcf2e24ba3fda94f0ddd7a0915f24fe64f973123e3"
+    },
+    "command": "node scripts/acid/run.mjs --zones AC25,AC26,AC31,AC48 --kernels occt --no-smoke --out out/errata-occt-exact",
+    "host": "local MacBook",
+    "gitIdentity": {
+      "revision": "dcd4787af7f89063eea8dcff628de246bc503e1f",
+      "tree": "3c0a1f80836cbfc5adb36f347f2e8a348ade23a1",
+      "clean": true
+    }
+  },
+  "note": "Fresh live real revolve observations for CE11 and overflow fillet for CE8. Original catalog and freezes retained. Native geometric singularity observation uses exact dyadic predicates on the unplaced meridian and axis; STEP transfer explicitly uses the existing 1e-7 mm observer resolution, never exact E9 provenance."
+}

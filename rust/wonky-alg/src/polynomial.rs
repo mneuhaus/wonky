@@ -1,5 +1,5 @@
-use crate::{checked_rational, AlgebraError, BigInt, Rational};
-use num_traits::{One, Zero};
+use crate::{checked_rational, AlgebraError, BigInt, Rational, Sign};
+use num_traits::{One, Signed, Zero};
 
 /// Canonical rational polynomial. The zero polynomial has no coefficients and no degree.
 #[derive(Clone, Debug, PartialEq, Eq)]
@@ -18,6 +18,14 @@ pub struct SquareFreeDecomposition {
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub struct SquareFreeFactor {
     pub polynomial: Polynomial,
+    pub multiplicity: usize,
+}
+
+/// `original = (x - root)^multiplicity * quotient` with `quotient(root) != 0`.
+/// Multiplicity 0 means `root` is not a root and `quotient` is the original.
+#[derive(Clone, Debug, PartialEq, Eq)]
+pub struct Deflation {
+    pub quotient: Polynomial,
     pub multiplicity: usize,
 }
 
@@ -89,6 +97,31 @@ impl Polynomial {
             .iter()
             .rev()
             .fold(Rational::zero(), |acc, c| acc * x + c)
+    }
+
+    /// Exact sign of the value at `x`, without reducing a single rational: with
+    /// the coefficients cleared to integers `c_i` by the (positive) lcm of their
+    /// denominators and `x = a / b` (`b > 0`), the value has the sign of the
+    /// integer `sum c_i a^i b^(n-i)`. Sign tests (bisection, Sturm counts) need
+    /// nothing else, and the reduced Horner pays a gcd per step that grows with
+    /// the bits of `x`.
+    pub(crate) fn sign_at(&self, x: &Rational) -> Sign {
+        let Some((last, rest)) = self.coefficients.split_last() else {
+            return Sign::Zero;
+        };
+        let lcm = self.coefficients.iter().fold(BigInt::one(), |l, c| {
+            let shared = Rational::new(l.clone(), c.denom().clone());
+            l * shared.denom()
+        });
+        let int = |c: &Rational| c.numer() * (&lcm / c.denom());
+        let (a, b) = if x.denom().is_negative() { (-x.numer(), -x.denom()) } else { (x.numer().clone(), x.denom().clone()) };
+        let mut value = int(last);
+        let mut b_pow = b.clone();
+        for c in rest.iter().rev() {
+            value = value * &a + int(c) * &b_pow;
+            b_pow *= &b;
+        }
+        crate::sign(&Rational::from_integer(value))
     }
 
     pub fn derivative(&self) -> Self {
@@ -181,6 +214,47 @@ impl Polynomial {
         Ok((Self::canonical(quotient), remainder))
     }
 
+    /// `self(inner(x))`, exact (Horner over polynomials); degree `deg self * deg inner`.
+    pub fn compose(&self, inner: &Self) -> Self {
+        self.coefficients.iter().rev().fold(Self::zero(), |acc, c| {
+            acc.mul(inner).add(&Self::canonical(vec![c.clone()]))
+        })
+    }
+
+    /// Divide out the full power of `(x - root)`, e.g. a shared rational vertex of
+    /// two carriers. The zero polynomial is refused: every point is a root of it.
+    pub fn deflate(&self, root: &Rational) -> Result<Deflation, AlgebraError> {
+        let root = checked_rational(root)?;
+        if self.is_zero() {
+            return Err(AlgebraError::ZeroPolynomial);
+        }
+        let mut quotient = self.clone();
+        let mut multiplicity = 0;
+        loop {
+            let (next, remainder) = quotient.divide_by_linear(&root);
+            if !remainder.is_zero() {
+                return Ok(Deflation {
+                    quotient,
+                    multiplicity,
+                });
+            }
+            quotient = next;
+            multiplicity += 1;
+        }
+    }
+
+    /// Synthetic division of a nonzero polynomial by `(x - root)`: (quotient, remainder).
+    fn divide_by_linear(&self, root: &Rational) -> (Self, Rational) {
+        let mut carry = Rational::zero();
+        let mut quotient = vec![Rational::zero(); self.coefficients.len() - 1];
+        for k in (1..self.coefficients.len()).rev() {
+            carry = &self.coefficients[k] + root * &carry;
+            quotient[k - 1] = carry.clone();
+        }
+        let remainder = &self.coefficients[0] + root * &carry;
+        (Self::canonical(quotient), remainder)
+    }
+
     pub fn exact_div(&self, divisor: &Self) -> Result<Self, AlgebraError> {
         let (quotient, remainder) = self.div_rem(divisor)?;
         if !remainder.is_zero() {
@@ -234,5 +308,35 @@ impl Polynomial {
         }
         self.exact_div(&self.gcd(&self.derivative()))
             .map(|p| p.monic())
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    fn r(n: i64, d: i64) -> Rational {
+        Rational::new(BigInt::from(n), BigInt::from(d))
+    }
+
+    #[test]
+    fn integer_sign_matches_the_rational_value() {
+        let polys = [
+            Polynomial::new(vec![]).unwrap(),
+            Polynomial::new(vec![r(-3, 7)]).unwrap(),
+            Polynomial::new(vec![r(1, 3), r(-5, 2), r(0, 1), r(7, 11)]).unwrap(),
+            // (x - 2/3)^2 (x + 5/4): a double root and a simple one.
+            Polynomial::new(vec![r(5, 9), r(-11, 9), r(-1, 12), r(1, 1)]).unwrap(),
+            Polynomial::new(vec![r(1, 1), r(0, 1), r(-2, 1)]).unwrap(),
+        ];
+        let big = Rational::new(BigInt::from(3) << 200u32, (BigInt::from(1) << 201u32) + 1);
+        let points = [r(0, 1), r(2, 3), r(-5, 4), r(-1, 1), r(7, 5), r(-99, 7), big.clone(), -big];
+        for p in &polys {
+            for x in &points {
+                assert_eq!(p.sign_at(x), crate::sign(&p.eval(x)), "{p:?} at {x}");
+            }
+        }
+        assert_eq!(polys[3].sign_at(&r(2, 3)), Sign::Zero);
+        assert_eq!(polys[3].sign_at(&r(-5, 4)), Sign::Zero);
     }
 }

@@ -3,6 +3,9 @@ import { loadKernel } from './kernel.mjs';
 import { real, number, vector, coords } from './real.mjs';
 import { triangulateFace } from './brep.mjs';
 import { loadCylinderDisplay } from './display-cylinder.mjs';
+import { isRustRecord, rustReviewScene } from './rust-review-scene.mjs';
+import { referenceReviewScene } from './reference-review-scene.mjs';
+import { viewerRecord } from './viewer/model-record.mjs';
 
 const encode = geometry => Object.fromEntries(Object.entries(geometry).map(([key,value]) => [key==='type'?'$':key,
   key==='type'?value[0].toUpperCase()+value.slice(1):Array.isArray(value)?vector(value):real(value)]));
@@ -31,7 +34,12 @@ function meshSceneBody(body, notes) {
 
 export async function reviewScene(model, metadata, {toleranceMm=0.02}={}) {
   if (!(toleranceMm>=0.001 && toleranceMm<=1)) throw new Error('Display tolerance must be between 0.001 and 1 mm');
-  const kernel=await loadKernel(), {default:D}=await import('../kernel/display.bend');
+  const kernel=await loadKernel();
+  model=viewerRecord(model);
+  if (model.bodies.some(body=>body.geometry==='imported-reference')) return referenceReviewScene(model,metadata,toleranceMm);
+  // Rust WC0 records are displayed from the Rust mesh path; there is no Bend evaluation for them.
+  if(model.bodies.some(isRustRecord))return rustReviewScene(kernel,model,metadata,toleranceMm);
+  const {default:D}=await import('../kernel/display.bend');
   const cylinderDisplay=model.bodies.some(body=>body.geometry==='analytic'&&body.faces.some(face=>face.surface.type==='cylinder'))?await loadCylinderDisplay():null;
   const A=kernel.analytic, G=kernel.precise;
   const notes=new Set();

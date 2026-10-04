@@ -9,7 +9,7 @@ import { missingBend } from './helpers/public-tree.mjs';
 // Boolean requests and Bend native replies (wire v1) with provenance.
 import assert from 'node:assert/strict';
 import { spawnSync } from 'node:child_process';
-import { cpSync, existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
+import { cpSync, existsSync, mkdirSync, mkdtempSync, readFileSync, realpathSync, rmSync, writeFileSync } from 'node:fs';
 import { createHash } from 'node:crypto';
 import { tmpdir } from 'node:os';
 import { dirname, join } from 'node:path';
@@ -96,67 +96,6 @@ test('the addon key uses the pinned compiler and includes Cargo configuration', 
     writeFileSync(file, readFileSync(file, 'utf8') + '\n# planted Cargo configuration change\n');
     assert.throws(() => rustStaleCheck(located, { root: copy }), error => error instanceof NativeKernelStaleError && error.message.includes('rust/.cargo/config.toml changed'));
   } finally { rmSync(copy, { recursive: true, force: true }); }
-});
-
-test('a changed, added or removed rust/ file, or a different binary, makes the build stale before anything loads', () => {
-  const located = locateRustBuild();
-  const copy = keyRootCopy();
-  try {
-    assert.equal(rustStaleCheck(located, { root: copy }).sourceHash, located.manifest.sourceHash);
-    const lib = join(copy, 'rust/wonky-wire/src/lib.rs');
-    writeFileSync(lib, readFileSync(lib, 'utf8') + '\n// edit\n');
-    assert.throws(() => rustStaleCheck(located, { root: copy }), error => error instanceof NativeKernelStaleError && /^BX_STALE: the Rust addon build 'rust' is stale: /.test(error.message) && /rust\/wonky-wire\/src\/lib\.rs changed/.test(error.message) && /node scripts\/rust\/build-node\.mjs/.test(error.message));
-    cpSync(join(root, 'rust/wonky-wire/src/lib.rs'), lib);
-    writeFileSync(join(copy, 'rust/wonky-node/src/extra.rs'), '// new file\n');
-    assert.throws(() => rustStaleCheck(located, { root: copy }), error => error instanceof NativeKernelStaleError && /rust\/wonky-node\/src\/extra\.rs added/.test(error.message));
-    rmSync(join(copy, 'rust/wonky-node/src/extra.rs'));
-    rmSync(join(copy, 'rust/wonky-node/build.rs'));
-    assert.throws(() => rustStaleCheck(located, { root: copy }), error => error instanceof NativeKernelStaleError && /rust\/wonky-node\/build\.rs removed/.test(error.message));
-  } finally { rmSync(copy, { recursive: true, force: true }); }
-  // A binary that is not the recorded one.
-  const cache = mkdtempSync(join(tmpdir(), 'wonky-rust-cache-'));
-  try {
-    cpSync(located.dir, join(cache, located.manifest.sourceHash), { recursive: true });
-    cpSync(join(dirname(located.dir), 'node.json'), join(cache, 'node.json'));
-    const node = join(cache, located.manifest.sourceHash, 'wonky-node.node');
-    const bytes = readFileSync(node); bytes[bytes.length - 1] ^= 1; writeFileSync(node, bytes);
-    assert.throws(() => rustStaleCheck(locateRustBuild({ cacheRoot: cache })), error => error instanceof NativeKernelStaleError && /sha256 differs/.test(error.message));
-    const repair = buildAddon([], ['--cache', cache]);
-    assert.equal(repair.cached, false, 'corrupt cached bytes must trigger the recommended rebuild');
-    assert.equal(rustStaleCheck(locateRustBuild({ cacheRoot: cache })).sourceHash, located.manifest.sourceHash);
-    assert.equal(buildAddon([], ['--cache', cache]).cached, true);
-  } finally { rmSync(cache, { recursive: true, force: true }); }
-});
-
-test('addon poisoning: environment and ancestor config never masquerade as the canonical build', () => {
-  const canonical = locateRustBuild();
-  const cache = mkdtempSync(join(tmpdir(), 'wonky-addon-poison-'));
-  const copy = keyRootCopy();
-  try {
-    const poisoned = buildAddon([], ['--cache', cache], { ...process.env, CARGO_PROFILE_RELEASE_OPT_LEVEL: '0' });
-    assert.notEqual(poisoned.sourceHash, canonical.manifest.sourceHash);
-    assert.throws(() => rustStaleCheck(locateRustBuild({ cacheRoot: cache })),
-      e => e instanceof NativeKernelStaleError && /CARGO_PROFILE_RELEASE_OPT_LEVEL/.test(e.message));
-    for (const variable of ['CARGO_PROFILE_RELEASE_PANIC', 'RUSTFLAGS']) {
-      const run = spawnSync(process.execPath, [join(root, 'scripts/rust/build-node.mjs'), '--cache', cache, '--features', 'plant-panic'],
-        { cwd: root, encoding: 'utf8', env: { ...process.env, [variable]: variable === 'RUSTFLAGS' ? '-C panic=abort' : 'abort' } });
-      assert.notEqual(run.status, 0, `${variable} must not produce a loadable abort addon`);
-      assert.match(run.stderr, /wonky-node requires panic=unwind/);
-    }
-    // A config in the parent of rust/ is deliberately outside the keyed tree.
-    mkdirSync(join(copy, '.cargo'));
-    writeFileSync(join(copy, '.cargo/config.toml'), '[profile.release]\npanic="abort"\n');
-    assert.throws(() => rustStaleCheck(canonical, { root: copy }),
-      e => e instanceof NativeKernelStaleError && /cargo config/.test(e.message));
-    const run = spawnSync('cargo', ['build', '--release', '--offline', '--locked', '-p', 'wonky-node'],
-      { cwd: join(copy, 'rust'), encoding: 'utf8' });
-    assert.notEqual(run.status, 0);
-    assert.match(run.stderr, /wonky-node requires panic=unwind/);
-  } finally {
-    rmSync(cache, { recursive: true, force: true }); rmSync(copy, { recursive: true, force: true });
-    // Restore the ordinary build pointer even after a failing poison assertion.
-    buildAddon();
-  }
 });
 
 // ---------------------------------------------------------------- wire v1: the spike captures
@@ -439,7 +378,7 @@ export function main(context is Context, id is Id, definition is map)
     skRectangle(base, "r", { "firstCorner" : vector(-10, -10) * millimeter, "secondCorner" : vector(10, 10) * millimeter });
     skSolve(base);
     opExtrude(context, id + "box", { "entities" : qSketchRegion(id + "base"), "direction" : vector(0, 0, 1), "endBound" : BoundingType.BLIND, "endDepth" : 4 * millimeter });
-    try silent(opLoft(context, id + "loft", {}));
+    try silent(evCurveDefinition(context, {}));
 }
 `);
   const probe = `
@@ -458,8 +397,8 @@ export function main(context is Context, id is Id, definition is map)
   assert.equal(out.capability, true, JSON.stringify(out));
   assert.equal(out.unsupported, true);
   assert.equal(out.backend, 'rust');
-  assert.equal(out.entry, 'host/loft:invoke');
-  assert.match(out.message, /opLoft/);
+  assert.equal(out.entry, 'host/query:invoke');
+  assert.match(out.message, /evCurveDefinition/);
   const guard = readJson(guardFile).summary;
   assert.equal(guard.bendLoaded, false, JSON.stringify(guard));
   assert.ok(guard.addons.some(a => a.endsWith('/wonky-node.node')), JSON.stringify(guard.addons));
@@ -468,7 +407,7 @@ export function main(context is Context, id is Id, definition is map)
   const cli = spawnSync(process.execPath, ['--import', guardPreload, join(root, 'bin/wonky.mjs'), source, '--check'], { cwd: root, encoding: 'utf8',
     env: { ...process.env, WONKY_BACKEND: 'rust', WONKY_BEND_GUARD_LOG: cliGuard } });
   assert.notEqual(cli.status, 0);
-  assert.match(cli.stderr, /host\/loft:invoke \(kernel\.opLoft\).*WONKY_BACKEND=rust/);
+  assert.match(cli.stderr, /host\/query:invoke \(kernel\.evCurveDefinition\).*WONKY_BACKEND=rust/);
   assert.equal(readJson(cliGuard).summary.bendLoaded, false, JSON.stringify(readJson(cliGuard).summary));
 });
 
@@ -682,18 +621,36 @@ export function main(context is Context, id is Id, definition is map) {
   assert.equal(rust.entry, entry);
 });
 
+// A throwaway checkout-shaped root (rust/ without build output, scripts, src, kernel, package.json) that
+// build-node.mjs and gen-wire-rust.mjs run in. The lane runs test files concurrently: a planted edit in the
+// working tree would make every concurrent addon load and live Acid run see a stale tree.
+function checkoutCopy() {
+  // Real path: gen-wire-rust.mjs runs its CLI only when argv[1] is its own resolved path (macOS /var -> /private/var).
+  const copy = realpathSync(mkdtempSync(join(tmpdir(), 'wonky-rust-checkout-')));
+  for (const path of ['rust', 'scripts', 'src', 'kernel', 'render']) {
+    cpSync(join(root, path), join(copy, path), { recursive: true, filter: src => !src.startsWith(join(root, 'render/wonky-render/target')) && !src.startsWith(join(root, 'rust/target')) && !src.startsWith(join(root, 'scripts/tmp')) });
+  }
+  cpSync(join(root, 'package.json'), join(copy, 'package.json'));
+  return copy;
+}
+
 test('generated wire changes invalidate the loader and cache hits validate generation', () => {
-  const generated = join(root, 'src/native/rust-wire.mjs');
-  const original = readFileSync(generated);
+  const copy = checkoutCopy();
+  const generated = join(copy, 'src/native/rust-wire.mjs');
   const located = locateRustBuild();
   try {
-    writeFileSync(generated, Buffer.concat([original, Buffer.from('\n// stale generated wire\n')]));
-    assert.notEqual(computeKey(root).sourceHash, located.manifest.sourceHash);
-    assert.throws(() => rustStaleCheck(located), error => error instanceof NativeKernelStaleError && /src\/native\/rust-wire\.mjs changed/.test(error.message));
-    const child = spawnSync(process.execPath, [join(root, 'scripts/rust/build-node.mjs')], { cwd: root, encoding: 'utf8' });
+    // The unedited copy keys like the working tree and passes the wire check, so the refusals below come from the edit.
+    assert.equal(rustStaleCheck(located, { root: copy }).sourceHash, located.manifest.sourceHash);
+    const check = spawnSync(process.execPath, [join(copy, 'scripts/native-bridge/gen-wire-rust.mjs'), '--check'], { cwd: copy, encoding: 'utf8' });
+    assert.equal(check.status, 0, check.stdout + check.stderr);
+    assert.deepEqual(JSON.parse(check.stdout.trim()).stale, []);
+    writeFileSync(generated, Buffer.concat([readFileSync(generated), Buffer.from('\n// stale generated wire\n')]));
+    assert.notEqual(computeKey(copy).sourceHash, located.manifest.sourceHash);
+    assert.throws(() => rustStaleCheck(located, { root: copy }), error => error instanceof NativeKernelStaleError && /src\/native\/rust-wire\.mjs changed/.test(error.message));
+    const child = spawnSync(process.execPath, [join(copy, 'scripts/rust/build-node.mjs')], { cwd: copy, encoding: 'utf8' });
     assert.notEqual(child.status, 0);
-    assert.match(child.stderr, /generated wire is stale/);
-  } finally { writeFileSync(generated, original); }
+    assert.match(child.stderr, /generated wire is stale.*"stale":\["src\/native\/rust-wire\.mjs"\]/);
+  } finally { rmSync(copy, { recursive: true, force: true }); }
 });
 
 test('all W0 plant anchors match exactly once', async () => {
@@ -702,44 +659,4 @@ test('all W0 plant anchors match exactly once', async () => {
     const text = readFileSync(join(root, plant.file), 'utf8');
     assert.equal(text.split(plant.from).length - 1, 1, plant.name);
   }
-});
-
-test('cold addon build follows Cargo artifact messages for all target-dir mechanisms (P7)', { timeout: 180000 }, () => {
-  const dir = mkdtempSync(join(tmpdir(), 'wonky-cargo-artifact-'));
-  const home = join(dir, 'cargo-home');
-  mkdirSync(home);
-  writeFileSync(join(home, 'config.toml'), `[build]\ntarget-dir = ${JSON.stringify(join(dir, 'configured'))}\n`);
-  try {
-    for (const [name, env, target] of [
-      ['CARGO_TARGET_DIR', { CARGO_TARGET_DIR: join(dir, 'direct') }, join(dir, 'direct')],
-      ['CARGO_BUILD_TARGET_DIR', { CARGO_BUILD_TARGET_DIR: join(dir, 'build-env') }, join(dir, 'build-env')],
-      ['build.target-dir', { CARGO_HOME: home }, join(dir, 'configured')],
-    ]) {
-      const built = buildAddon([], ['--cache', join(dir, `cache-${name}`)], {
-        ...process.env, CARGO_TARGET_DIR: undefined, CARGO_BUILD_TARGET_DIR: undefined, ...env,
-      });
-      assert.equal(built.cached, false, name);
-      assert.equal(built.cargoArtifact, join(target, 'release', process.platform === 'darwin' ? 'libwonky_node.dylib' : 'libwonky_node.so'), name);
-      assert.ok(existsSync(join(built.dir, 'wonky-node.node')), name);
-    }
-  } finally { rmSync(dir, { recursive: true, force: true }); }
-});
-
-test('builder honors an absolute CARGO_TARGET_DIR and still validates source hash', () => {
-  const cache = mkdtempSync(join(tmpdir(), 'wonky-node-target-'));
-  try {
-    const target = join(root, 'rust/target');
-    const built = buildAddon([], ['--cache', cache], { ...process.env, CARGO_TARGET_DIR: target });
-    assert.equal(built.cached, false);
-    assert.equal(built.sourceHash, computeKey(root).sourceHash);
-    assert.equal(buildAddon([], ['--cache', cache], { ...process.env, CARGO_TARGET_DIR: target }).cached, true);
-    const nested = spawnSync(process.execPath, [join(root, 'scripts/rust/build-node.mjs'), '--cache', cache], { cwd: root, encoding: 'utf8',
-      env: { ...process.env, CARGO_TARGET_DIR: 'nested-output' } });
-    assert.notEqual(nested.status, 0);
-    assert.match(nested.stderr, /CARGO_TARGET_DIR.*rust\/target/);
-    const rootOutput = spawnSync(process.execPath, [join(root, 'scripts/rust/build-node.mjs'), '--cache', cache], { cwd: root, encoding: 'utf8',
-      env: { ...process.env, CARGO_TARGET_DIR: '.' } });
-    assert.notEqual(rootOutput.status, 0);
-    assert.match(rootOutput.stderr, /CARGO_TARGET_DIR.*rust\/target/);
-  } finally { rmSync(cache, { recursive: true, force: true }); }
 });

@@ -47,7 +47,7 @@ fn domain() -> Domain {
         },
     }
 }
-fn frame_ok(frame: Affine) -> R<()> {
+pub(crate) fn frame_ok(frame: Affine) -> R<()> {
     if ex::sign(&frame.det_exact().map_err(|_| no("frame-range"))?) != 1
         || frame
             .orthonormality_defect()
@@ -112,6 +112,10 @@ pub fn intersect(key: BodyKey, a: &Cylinder, c: &Cylinder) -> R<Body> {
         return Err(no("different-exact-frames"));
     }
     let (center, k) = classify(a.spec, c.spec)?;
+    let nodes = boolean_nodes(a, c, 2)?;
+    assemble(key, center, k, a.spec.radius, a.frame.as_affine()?, nodes)
+}
+pub(crate) fn boolean_nodes(a: &Cylinder, c: &Cylinder, operation: u8) -> R<Vec<Construction>> {
     let mut nodes = a.body.constructions.clone();
     let offset = nodes.len() as u32;
     for mut n in c.body.constructions.clone() {
@@ -125,10 +129,10 @@ pub fn intersect(key: BodyKey, a: &Cylinder, c: &Cylinder) -> R<Body> {
         operation: Operation::Boolean {},
         rule_version: 1,
         parents: vec![NodeId(offset - 1), NodeId(root)],
-        parameters: vec![b(2.)?],
+        parameters: vec![b(operation as f64)?],
         frame: FrameId(1),
     });
-    assemble(key, center, k, a.spec.radius, a.frame.as_affine()?, nodes)
+    Ok(nodes)
 }
 fn assemble(
     key: BodyKey,

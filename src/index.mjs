@@ -10,9 +10,22 @@ import { Id, map } from './values.mjs';
 import { frozenModules } from './modules.mjs';
 import { sourceTracker } from './source-map.mjs';
 import { fsOutput } from './fs-output.mjs';
-import { bindRustModel, isRustBody } from './native/rust-host.mjs';
+import { bindRustModel, isRustBody, importStepReferenceBodies } from './native/rust-host.mjs';
 
-export async function build(source, { feature, parameters = {}, id = 'model', maxSteps, moduleManifest, sourcePath = null, trace = true, modelingPolicy, diagnosticsDirectory } = {}) {
+// onWarning receives non-fatal findings about the source that leave the build
+// unchanged, such as a defineFeature defaults-map value that a dialog default
+// shadows (Interpreter.reportShadowedDefaults).
+export async function build(source, { feature, parameters = {}, id = 'model', maxSteps, moduleManifest, sourcePath = null, trace = true, modelingPolicy, diagnosticsDirectory, onWarning } = {}) {
+  if (/\.(step|stp)$/i.test(sourcePath ?? '')) {
+    if (selectBackend() !== 'rust') fail('STEP reference import requires WONKY_BACKEND=rust');
+    const kernel = await loadKernel();
+    const model = { schema: 'wonky-brep/1', units: 'millimeter',
+      backend: { language: 'Rust', ...backendInfo(kernel) },
+      source: { language: 'STEP', version: null, feature: null, imports: [] },
+      operationEvidence: [], bodies: importStepReferenceBodies(kernel, source) };
+    bindRustModel(model, kernel);
+    return model;
+  }
   const program = parse(source);
   // The modeling services (Bend JS face/solid classifiers and edge-plane for
   // qContainsPoint, qCoincidesWithPlane, qClosestTo and qParallelEdges; the
@@ -25,10 +38,11 @@ export async function build(source, { feature, parameters = {}, id = 'model', ma
   const wantsServices = !withoutBend(selectBackend()) && (moduleManifest !== undefined || /\b(qContainsPoint|qAdjacent|qCoincidesWithPlane|qClosestTo|qParallelEdges|evCurveDefinition|evEdgeTangentLine|evBox3d|opFillet|opChamfer)\b/.test(source));
   const kernel = await loadKernel(), services = wantsServices ? await loadModelingServices(kernel) : null;
   const engine = new ModelingContext(kernel, { modelingPolicy, services, output: fsOutput(sourcePath, diagnosticsDirectory) });
-  const moduleResolver = moduleManifest ? frozenModules(moduleManifest, source,
-    () => new ModelingContext(kernel, { modelingPolicy: engine.modelingPolicy, services })) : undefined;
   const tracker = trace ? sourceTracker(engine, source, program, {sourcePath}) : null;
-  const interpreter = new Interpreter(engine.builtins(), { maxSteps, moduleResolver, callObserver:tracker?.observer });
+  const interpreter = new Interpreter(engine.builtins(), { maxSteps, callObserver:tracker?.observer, onWarning });
+  interpreter.moduleResolver = moduleManifest ? frozenModules(moduleManifest, source,
+    () => new ModelingContext(kernel, { modelingPolicy: engine.modelingPolicy, services }),
+    { executionBudget: interpreter.executionBudget, onWarning }) : undefined;
   const definition = () => {
     const result = map({});
     for (const [name, expression] of Object.entries(parameters)) {
@@ -64,6 +78,13 @@ export async function build(source, { feature, parameters = {}, id = 'model', ma
     ...(tracker ? {sourceMap:tracker.report()} : {}),
     bodies: engine.bodies,
   };
-  if (rust) bindRustModel(model, kernel);
+  if (rust) {
+    bindRustModel(model, kernel);
+    if (engine.modelingPolicy.curvedContacts === 'tolerated-regularized') {
+      const merges = engine.operationEvidence.flatMap(e => e.regularization?.merges ?? []);
+      model.regularization = {mode:'tolerated-regularized', capMm:engine.modelingPolicy.contactCapMm,
+        label:merges.length ? 'regularized' : 'exact', exact:merges.length === 0, merges};
+    }
+  }
   return model;
 }

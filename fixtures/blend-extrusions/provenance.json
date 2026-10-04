@@ -1,0 +1,15 @@
+{
+  "frozenAt": "2026-09-30T06:11:53.012098+00:00",
+  "sources": [
+    {
+      "file": "rr.fs",
+      "origin": "<repo>/tmp/teabox/rr.fs",
+      "sha256": "3c96d4e5973a651be8422fdcceb8cd84d9674f6c1801374ff38158fc4682a7c9"
+    },
+    {
+      "file": "rrc.fs",
+      "origin": "<repo>/tmp/teabox/rrc.fs",
+      "sha256": "333893f7d9a977748aa80a3f0881b7025144e3aa1c711c9970f38a4247bea61a"
+    }
+  ]
+}

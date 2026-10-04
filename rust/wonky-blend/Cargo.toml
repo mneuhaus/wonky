@@ -1,0 +1,27 @@
+[package]
+name = "wonky-blend"
+version = "0.1.0"
+edition = "2021"
+publish = false
+description = "Exact Model blend admission and planar chamfer boundary surgery"
+
+[dependencies]
+wonky-geom = { path = "../wonky-geom" }
+num-traits = "0.2"
+wonky-curve = { path = "../wonky-curve" }
+
+[dev-dependencies]
+num-bigint = "0.4"
+wonky-ops = { path = "../wonky-ops" }
+wonky-contract = { path = "../wonky-contract" }
+wonky-wire = { path = "../wonky-wire" }
+
+[features]
+plant_face_offset = []
+
+# V3 planted negative: round a rational tangent length before incidence.
+plant_profile_tangent_rounding = []
+
+# F2c planted negative: round the chain chamfer offsets to binary64 before
+# incidence; the tea box foot chamfer (0.42 mm) must then refuse.
+plant_chamfer_offset_binary64 = []

@@ -1,0 +1,48 @@
+{
+  "btType": "BTFeatureDefinitionResponse-1617",
+  "rejectMicroversionSkew": false,
+  "microversionSkew": false,
+  "featureState": {
+    "btType": "BTFeatureState-1688",
+    "featureStatus": "OK",
+    "inactive": false
+  },
+  "feature": {
+    "btType": "BTMFeature-134",
+    "namespace": "eceb437728c9aec8343b96cd3::m68b61a695948e52ebf557694",
+    "name": "shapes-a-V2-ALL",
+    "suppressed": false,
+    "parameters": [
+      {
+        "btType": "BTMParameterEnum-145",
+        "namespace": "eceb437728c9aec8343b96cd3::m68b61a695948e52ebf557694",
+        "nodeId": "MoIW0gYb66NWAI/m2",
+        "libraryRelationType": "DEFAULT",
+        "enumName": "AcidVariant",
+        "value": "V2",
+        "parameterId": "variant",
+        "parameterName": ""
+      },
+      {
+        "btType": "BTMParameterEnum-145",
+        "namespace": "eceb437728c9aec8343b96cd3::m68b61a695948e52ebf557694",
+        "nodeId": "MyiXKutfcCXBYIuPn",
+        "libraryRelationType": "DEFAULT",
+        "enumName": "AcidShapesAZone",
+        "value": "ALL",
+        "parameterId": "zone",
+        "parameterName": ""
+      }
+    ],
+    "featureId": "FKR8c8RZI2f4MJs_2",
+    "nodeId": "MRGp9XJ77zyVSCXd7",
+    "featureType": "acidShapesA",
+    "returnAfterSubfeatures": false,
+    "subFeatures": [],
+    "parameterLibraries": [],
+    "suppressionState": null
+  },
+  "libraryVersion": 0,
+  "serializationVersion": "1.2.21",
+  "sourceMicroversion": "5e3d534b429d094f0618aa3e"
+}

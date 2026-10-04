@@ -1,0 +1,14 @@
+{
+  "source": "local-development-evidence",
+  "sourceSha256": "194a84cabcbedf7cc373e49ec629414f6fd8af6cfcd39a219b78f9299f4e4b5b",
+  "zonesSha256": "b742021a3035026efd47da6ff70fb1da29daba22e2052ee85ef0bf05b4ac2062",
+  "feature": "acidCurved",
+  "parameters": {
+    "variant": "AcidVariant.V2",
+    "zone": "AcidCurvedZone.AC26"
+  },
+  "zone": "AC26",
+  "variant": "V2",
+  "out": "local-development-evidence",
+  "catalog": "local-development-evidence"
+}

@@ -96,127 +96,102 @@ fn pcurve(
     Ok(w.entity(format!("PCURVE('',{surface},{rep})")))
 }
 pub fn write(bodies: &[(String, &Bicylinder)], name: &str) -> Result<String, Refused> {
-    let mut w = Writer { lines: vec![] };
-    let app = w.entity("APPLICATION_CONTEXT('automotive_design')".into());
-    w.entity(format!(
-        "APPLICATION_PROTOCOL_DEFINITION('international standard','automotive_design',2000,{app})"
-    ));
-    let pc = w.entity(format!("PRODUCT_CONTEXT('',{app},'mechanical')"));
-    let product = w.entity(format!("PRODUCT('{0}','{0}','',({pc}))", text(name)));
-    let form = w.entity(format!("PRODUCT_DEFINITION_FORMATION('','',{product})"));
-    let dc = w.entity(format!(
-        "PRODUCT_DEFINITION_CONTEXT('part definition',{app},'design')"
-    ));
-    let def = w.entity(format!("PRODUCT_DEFINITION('design','',{form},{dc})"));
-    let shape = w.entity(format!("PRODUCT_DEFINITION_SHAPE('','',{def})"));
-    let mm = w.entity("(LENGTH_UNIT() NAMED_UNIT(*) SI_UNIT(.MILLI.,.METRE.))".into());
-    let rad = w.entity("(NAMED_UNIT(*) PLANE_ANGLE_UNIT() SI_UNIT($,.RADIAN.))".into());
-    let sr = w.entity("(NAMED_UNIT(*) SI_UNIT($,.STERADIAN.) SOLID_ANGLE_UNIT())".into());
-    let mut budget = PCURVE_BUDGET;
-    for (_, p) in bodies {
-        budget = budget.max(p.tolerance_mm()? + PCURVE_BUDGET);
-    }
-    let unc=w.entity(format!("UNCERTAINTY_MEASURE_WITH_UNIT(LENGTH_MEASURE({}),{mm},'distance_accuracy_value','exact vector-conic boundary; bounded export rounding')",real(budget)));
-    let ctx=w.entity(format!("(GEOMETRIC_REPRESENTATION_CONTEXT(3) GLOBAL_UNCERTAINTY_ASSIGNED_CONTEXT(({unc})) GLOBAL_UNIT_ASSIGNED_CONTEXT(({mm},{rad},{sr})) REPRESENTATION_CONTEXT('','3D'))"));
-    let ctx2 = w.entity(
-        "(GEOMETRIC_REPRESENTATION_CONTEXT(2) REPRESENTATION_CONTEXT('','cylinder parameters'))"
-            .into(),
-    );
-    let mut items = vec![w.placement([0.; 3], [0., 0., 1.], [1., 0., 0.])];
-    for (id, p) in bodies {
-        let map = |v, t| {
-            p.frame
-                .apply(v, if t { 1000. } else { 1. }, t)
-                .map_err(|_| no("range"))
+    let solids = bodies.iter().map(|(id, p)| (id.clone(), crate::step::SolidRef::Bicylinder(p))).collect::<Vec<_>>();
+    crate::step::write_solids(&solids, name)
+}
+
+pub(crate) fn tolerance_mm(p: &Bicylinder) -> Result<f64, Refused> {
+    Ok((p.tolerance_mm()? + PCURVE_BUDGET).next_up())
+}
+
+pub(crate) fn append(w: &mut Writer, id: &str, p: &Bicylinder) -> Result<String, Refused> {
+    let ctx2 = w.entity("(GEOMETRIC_REPRESENTATION_CONTEXT(2) REPRESENTATION_CONTEXT('','cylinder parameters'))".into());
+    let map = |v, t| {
+        p.frame
+            .apply(v, if t { 1000. } else { 1. }, t)
+            .map_err(|_| no("range"))
+    };
+    let center = map(p.center, true)?;
+    let placement = crate::placement::Placement::from_frames(&p.body, wonky_contract::FrameId(1))
+        .map_err(|_| no("frame-range"))?;
+    let world = crate::cylinder_chart::vertices_mm(&p.body, &placement)?;
+    let vertices = world
+        .iter()
+        .map(|v| {
+            let point = w.point(v);
+            w.entity(format!("VERTEX_POINT('',{point})"))
+        })
+        .collect::<Vec<_>>();
+    let mut surfaces = vec![];
+    for s in &p.body.surfaces {
+        let SurfaceGeometry::Cylinder { axis, x, .. } = &s.geometry else {
+            return Err(no("surface"));
         };
-        let center = map(p.center, true)?;
-        let placement = crate::placement::Placement::from_frames(&p.body, wonky_contract::FrameId(1))
-            .map_err(|_| no("frame-range"))?;
-        let world = crate::cylinder_chart::vertices_mm(&p.body, &placement)?;
-        let vertices = world
+        let place = w.placement(
+            center,
+            map(axis.each_ref().map(|b| b.get()), false)?,
+            map(x.each_ref().map(|b| b.get()), false)?,
+        );
+        surfaces.push(w.entity(format!(
+            "CYLINDRICAL_SURFACE('',{place},{})",
+            real(p.radius * 1000.)
+        )));
+    }
+    let r = Iv::point(p.radius) * Iv::point(1000.);
+    let major = r * Iv::point(2.).sqrt();
+    if major.is_nan() {
+        return Err(no("ellipse-radius"));
+    }
+    let (a, b) = ((p.k + 1) % 3, (p.k + 2) % 3);
+    let mut edges = vec![];
+    for (sa, sb) in [(1., 1.), (1., -1.), (-1., 1.), (-1., -1.)] {
+        let mut diagonal = [0.; 3];
+        diagonal[a] = sa;
+        diagonal[b] = sb;
+        // STEP parameter starts at -pi/2 (top), through the chosen sign
+        // quadrant at zero, to +pi/2 (bottom), same edge sense as native.
+        let place = w.placement(
+            center,
+            map(cross(axis(p.k), diagonal), false)?,
+            map(diagonal, false)?,
+        );
+        let ellipse = w.entity(format!(
+            "ELLIPSE('',{place},{},{})",
+            real(major.m),
+            real(r.m)
+        ));
+        let ca = pcurve(w, &surfaces[0], &ctx2, r.m, -sb, sa)?;
+        let cb = pcurve(w, &surfaces[1], &ctx2, r.m, sa, sb)?;
+        let geometry = w.entity(format!(
+            "SURFACE_CURVE('',{ellipse},({ca},{cb}),.CURVE_3D.)"
+        ));
+        edges.push(w.entity(format!(
+            "EDGE_CURVE('',{},{},{geometry},.T.)",
+            vertices[0], vertices[1]
+        )));
+    }
+    let mut faces = vec![];
+    for face in &p.body.faces {
+        let lp = &p.body.loops[face.loops[0].0 as usize];
+        let uses = lp
+            .coedges
             .iter()
-            .map(|v| {
-                let point = w.point(v);
-                w.entity(format!("VERTEX_POINT('',{point})"))
+            .map(|u| {
+                let c = &p.body.coedges[u.0 as usize];
+                w.entity(format!(
+                    "ORIENTED_EDGE('',*,*,{},{})",
+                    edges[c.edge.0 as usize],
+                    flag(c.forward)
+                ))
             })
             .collect::<Vec<_>>();
-        let mut surfaces = vec![];
-        for s in &p.body.surfaces {
-            let SurfaceGeometry::Cylinder { axis, x, .. } = &s.geometry else {
-                return Err(no("surface"));
-            };
-            let place = w.placement(
-                center,
-                map(axis.each_ref().map(|b| b.get()), false)?,
-                map(x.each_ref().map(|b| b.get()), false)?,
-            );
-            surfaces.push(w.entity(format!(
-                "CYLINDRICAL_SURFACE('',{place},{})",
-                real(p.radius * 1000.)
-            )));
-        }
-        let r = Iv::point(p.radius) * Iv::point(1000.);
-        let major = r * Iv::point(2.).sqrt();
-        if major.is_nan() {
-            return Err(no("ellipse-radius"));
-        }
-        let (a, b) = ((p.k + 1) % 3, (p.k + 2) % 3);
-        let mut edges = vec![];
-        for (sa, sb) in [(1., 1.), (1., -1.), (-1., 1.), (-1., -1.)] {
-            let mut diagonal = [0.; 3];
-            diagonal[a] = sa;
-            diagonal[b] = sb;
-            // STEP parameter starts at -pi/2 (top), through the chosen sign
-            // quadrant at zero, to +pi/2 (bottom), same edge sense as native.
-            let place = w.placement(
-                center,
-                map(cross(axis(p.k), diagonal), false)?,
-                map(diagonal, false)?,
-            );
-            let ellipse = w.entity(format!(
-                "ELLIPSE('',{place},{},{})",
-                real(major.m),
-                real(r.m)
-            ));
-            let ca = pcurve(&mut w, &surfaces[0], &ctx2, r.m, -sb, sa)?;
-            let cb = pcurve(&mut w, &surfaces[1], &ctx2, r.m, sa, sb)?;
-            let geometry = w.entity(format!(
-                "SURFACE_CURVE('',{ellipse},({ca},{cb}),.CURVE_3D.)"
-            ));
-            edges.push(w.entity(format!(
-                "EDGE_CURVE('',{},{},{geometry},.T.)",
-                vertices[0], vertices[1]
-            )));
-        }
-        let mut faces = vec![];
-        for face in &p.body.faces {
-            let lp = &p.body.loops[face.loops[0].0 as usize];
-            let uses = lp
-                .coedges
-                .iter()
-                .map(|u| {
-                    let c = &p.body.coedges[u.0 as usize];
-                    w.entity(format!(
-                        "ORIENTED_EDGE('',*,*,{},{})",
-                        edges[c.edge.0 as usize],
-                        flag(c.forward)
-                    ))
-                })
-                .collect::<Vec<_>>();
-            let lp = w.entity(format!("EDGE_LOOP('',({}))", uses.join(",")));
-            let bound = w.entity(format!("FACE_OUTER_BOUND('',{lp},.T.)"));
-            faces.push(w.entity(format!(
-                "ADVANCED_FACE('',({bound}),{},.T.)",
-                surfaces[face.surface.0 as usize]
-            )));
-        }
-        let shell = w.entity(format!("CLOSED_SHELL('',({}))", faces.join(",")));
-        items.push(w.entity(format!("MANIFOLD_SOLID_BREP('{}',{shell})", text(id))));
+        let lp = w.entity(format!("EDGE_LOOP('',({}))", uses.join(",")));
+        let bound = w.entity(format!("FACE_OUTER_BOUND('',{lp},.T.)"));
+        faces.push(w.entity(format!(
+            "ADVANCED_FACE('',({bound}),{},.T.)",
+            surfaces[face.surface.0 as usize]
+        )));
     }
-    let rep = w.entity(format!(
-        "ADVANCED_BREP_SHAPE_REPRESENTATION('',({}),{ctx})",
-        items.join(",")
-    ));
-    w.entity(format!("SHAPE_DEFINITION_REPRESENTATION({shape},{rep})"));
-    Ok(format!("ISO-10303-21;\nHEADER;\nFILE_DESCRIPTION(('Rust exact vector conics'),'2;1');\nFILE_NAME('{}.step','',(''),(''),'wonky-kernel','Rust bicylinder','');\nFILE_SCHEMA(('AUTOMOTIVE_DESIGN'));\nENDSEC;\nDATA;\n{}\nENDSEC;\nEND-ISO-10303-21;\n",text(name),w.lines.join("\n")))
+    let shell = w.entity(format!("CLOSED_SHELL('',({}))", faces.join(",")));
+    Ok(w.entity(format!("MANIFOLD_SOLID_BREP('{}',{shell})", text(id))))
 }

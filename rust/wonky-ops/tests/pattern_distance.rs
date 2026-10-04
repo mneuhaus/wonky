@@ -214,7 +214,7 @@ fn exact_gap_reflection_and_diagonal_distances_enclose_closed_forms() {
     }
     assert!(distance::between(&a,&a).unwrap_err().0.contains("not-strictly-separated"));
     let concave=prism(&[[0.,0.],[3.,0.],[3.,1.],[1.,1.],[1.,3.],[0.,3.]],1.,Affine::IDENTITY);
-    assert_eq!(distance::between(&a,&concave).unwrap_err().0,"distance/nonconvex-solid");
+    assert_eq!(distance::between(&a,&concave).unwrap().distance_mm, 0., "contained in concave solid");
 }
 // SAT has three independently necessary classes: either body's face normals
 // and cross products of edges. Closed-form support gaps below exercise axes
@@ -263,7 +263,8 @@ fn distance_resource_limit_is_per_body_and_inclusive() {
         let large = prism(&points, 1., Affine::IDENTITY);
         assert_eq!(large.body.vertices.len(), 2*n);
         for (a,b) in [(&small,&large), (&large,&small)] {
-            assert_eq!(distance::between(a,b).unwrap_err().0, if n == 64 { "distance/nonconvex-solid" } else { "distance/resource-limit" });
+            if n == 64 { assert_eq!(distance::between(a,b).unwrap().distance_mm, 0.); }
+            else { assert_eq!(distance::between(a,b).unwrap_err().0, "distance/resource-limit"); }
         }
     }
 }
@@ -327,5 +328,34 @@ fn host_pattern_and_distance_transport_keeps_float_bits_and_rejects_bad_requests
     for mut bad in [request,distance] {
         bad.push(1);assert_eq!(host::host_op(&bad)[0],host::STATUS_MALFORMED);
         bad.truncate(5);assert_eq!(host::host_op(&bad)[0],host::STATUS_MALFORMED);
+    }
+}
+
+#[test]
+fn rational_host_placement_certifies_post_map_not_interpreter_source_frame() {
+    let frame = Affine { origin: [0.;3], x: [12./13., 5./13., 0.], z: [0.,0.,1.] };
+    let a = prism(&[[0.,0.],[2.,0.],[2.,2.],[0.,2.]],2.,frame);
+    assert_ne!(q(frame.x[0])*q(frame.x[0])+q(frame.x[1])*q(frame.x[1]),q(1.));
+    let words = wonky_wire::v3::encode(&a.body).unwrap();
+    let rows = [[4.,-3.,0.],[3.,4.,0.],[0.,0.,5.]];
+    let request = |rows: [[f64;3];3], denominator: f64| {
+        let mut r=vec![host::MAGIC,host::VERSION,host::OP_RATIONAL_PLACEMENT,words.len() as u32];
+        r.extend(&words);f64s(&mut r,rows.into_iter().flatten());f64s(&mut r,[denominator]);r
+    };
+    let response=host::host_op(&request(rows,5.));
+    assert_eq!(response[0],host::STATUS_OK,"{response:?}");
+    let moved=audit(&wonky_wire::v3::decode(&response[1..]).unwrap()).unwrap();
+    for (i,vertex) in a.body.vertices.iter().enumerate() {
+        let source=source_image(vertex.point.map(|x|x.get()),frame);
+        let expected: [Q;3]=std::array::from_fn(|k|(0..3).map(|j|q(rows[k][j])*&source[j]/q(5.)).sum::<Q>()*q(1000.));
+        assert_eq!(moved.world_vertices_mm().unwrap()[i],expected.each_ref().map(nearest));
+    }
+    assert_eq!(moved.volume_mm3().unwrap(),a.volume_mm3().unwrap());
+    let mut scaled=rows;scaled[0][0]=4.1;
+    for (r,d) in [(scaled,5.),(rows,0.),(rows,-5.),(rows,4.)] {
+        let response=host::host_op(&request(r,d));
+        assert_eq!(response[0],host::STATUS_REFUSED);
+        let reason:String=response[1..].iter().map(|&c|char::from_u32(c).unwrap()).collect();
+        assert_eq!(reason,"placement/rational-not-isometric");
     }
 }

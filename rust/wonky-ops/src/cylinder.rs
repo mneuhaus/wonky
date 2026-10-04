@@ -3,7 +3,7 @@
 //! lengths are interpreter binary64 metres. Periodic parameters are turns.
 //! An affine placement stays symbolic; topology is decided in the common
 //! source frame. Nonparallel SSI and cut circles are explicitly unsupported.
-use crate::{affine::Affine, placement::Placement, polyhedron::Refused};
+use crate::{affine::Affine, placement::{Placement, Post}, polyhedron::Refused};
 use std::result::Result;
 use wonky_contract::*;
 use wonky_num::{
@@ -392,30 +392,18 @@ pub fn audit(checked: &CheckedBody) -> R<Cylinder> {
         return Err(no("missing-construction"));
     }
     let spec = replay(&body.constructions, body.constructions.len() - 1, &mut 1024)?;
-    let [Frame::Source { source }, Frame::Interpreter {
-        parent,
-        origin,
-        x,
-        z,
-    }, ..] = body.frames.as_slice()
-    else {
+    let [Frame::Source { source }, Frame::Interpreter { parent, .. }, ..] = body.frames.as_slice() else {
         return Err(no("frame-shape"));
     };
     if *source != [0; 4] || *parent != FrameId(0) {
         return Err(no("source-frame"));
     }
-    let frame = Affine {
-        origin: get(origin),
-        x: get(x),
-        z: get(z),
-    };
-    let base = frame;
     if body.frames.len() < 3 || body.frames.len() > 256 {
         return Err(no("frame-depth"));
     }
     let map_id = FrameId((body.frames.len() - 2) as u32);
     for (i, image) in body.frames[2..body.frames.len() - 1].iter().enumerate() {
-        if !matches!(image, Frame::AffineImage { base, .. } if base.0 == i as u32 + 1) {
+        if !matches!(image, Frame::AffineImage { base, .. } | Frame::InterpreterImage { base, .. } | Frame::Rigid { parent: base, .. } if base.0 == i as u32 + 1) {
             return Err(no("pattern-frame-chain"));
         }
     }
@@ -444,6 +432,18 @@ pub fn audit(checked: &CheckedBody) -> R<Cylinder> {
         -1 => return Err(no("reflected-placement")),
         _ => return Err(no("degenerate-frame")),
     }
+    // Interpreter frames retain their explicit source-metric semantics. Raw
+    // matrix pattern images, however, need a rigid witness for circular
+    // carriers: a small Gram defect cannot certify a rotation. Check every
+    // image, including serialized bodies and composed placement chains.
+    for image in &body.frames {
+        if let Frame::AffineImage { translation, rows, .. } = image {
+            let post = Post::Rows { translation: get(translation), rows: rows.map(|r| get(&r)) };
+            if !post.is_isometry().map_err(|_| no("frame-range"))? {
+                return Err(no("non-rigid-placement"));
+            }
+        }
+    }
     if frame
         .orthonormality_defect()
         .map_err(|_| no("frame-range"))?
@@ -451,8 +451,7 @@ pub fn audit(checked: &CheckedBody) -> R<Cylinder> {
     {
         return Err(no("non-rigid-placement"));
     }
-    let mut expected = carrier(body.key.clone(), spec, base, body.constructions.clone())?;
-    place_images(&mut expected, &body.frames[2..body.frames.len() - 1])?;
+    let expected = source_body(body.key.clone(), &body.frames, &body.constructions)?;
     if *body != expected {
         return Err(no("construction-carrier-mismatch"));
     }
@@ -471,9 +470,29 @@ pub fn audit(checked: &CheckedBody) -> R<Cylinder> {
         frame,
     })
 }
+/// The cylinder body a construction and frame chain describe: the carrier of the
+/// replayed spec in the interpreter frame, relocated through the image chain.
+pub(crate) fn source_body(key: BodyKey, frames: &[Frame], nodes: &[Construction]) -> R<Body> {
+    let spec = replay(nodes, nodes.len().checked_sub(1).ok_or_else(|| no("missing-construction"))?, &mut 1024)?;
+    let [Frame::Source { .. }, Frame::Interpreter { origin, x, z, .. }, _, ..] = frames else {
+        return Err(no("frame-shape"));
+    };
+    let base = Affine {
+        origin: get(origin),
+        x: get(x),
+        z: get(z),
+    };
+    let mut body = carrier(key, spec, base, nodes.to_vec())?;
+    place_images(&mut body, &frames[2..frames.len() - 1])?;
+    Ok(body)
+}
 pub fn transform(a: &Cylinder, frame: Affine) -> R<Body> {
     if a.frame != Affine::IDENTITY {
-        return Err(no("composed-placement"));
+        // Already placed: append the exact map to the frame chain (`copy`); the
+        // interpreter frame is never overwritten by a rounded product.
+        let mut key = a.body.key.clone();
+        key.revision = key.revision.checked_add(1).ok_or_else(|| no("revision-range"))?;
+        return copy(a, key, &Post::Interpreter(frame));
     }
     assemble(
         a.body.key.clone(),
@@ -515,20 +534,17 @@ fn place_images(body: &mut Body, images: &[Frame]) -> R<()> {
     Ok(())
 }
 
-/// Exact affine copy: never round the composed matrix into a new interpreter
-/// frame. Reflection currently refuses, since its cylindrical STEP orientation
-/// needs a separate chart proof; positive near-isometries retain all coefficients.
-pub fn copy(a: &Cylinder, key: BodyKey, rows: [[f64; 3]; 3], translation: [f64; 3]) -> R<Body> {
+/// Exact placement copy (an affine pattern image or a second interpreter
+/// placement): never round the composed matrix into a new interpreter frame.
+/// Reflection currently refuses, since its cylindrical STEP orientation needs a
+/// separate chart proof; positive near-isometries retain all coefficients.
+pub fn copy(a: &Cylinder, key: BodyKey, post: &Post) -> R<Body> {
     if a.body.frames.len() >= 256 {
         return Err(no("frame-depth"));
     }
     let map = FrameId((a.body.frames.len() - 1) as u32);
     let mut images = a.body.frames[2..a.body.frames.len() - 1].to_vec();
-    images.push(Frame::AffineImage {
-        base: FrameId(map.0 - 1),
-        translation: v(translation)?,
-        rows: [v(rows[0])?, v(rows[1])?, v(rows[2])?],
-    });
+    images.push(post.frame(FrameId(map.0 - 1))?);
     let mut nodes = a.body.constructions.clone();
     nodes.push(Construction {
         operation: Operation::AffineTransform {},
@@ -598,7 +614,7 @@ fn merge(a: Spec, b: Spec) -> R<Option<Spec>> {
 }
 pub fn boolean(key: BodyKey, op: u8, a: &Cylinder, b: &Cylinder) -> R<Vec<Body>> {
     if a.frame != b.frame {
-        return Err(no("different-exact-frames"));
+        return crate::construction_geom::separated_boolean(op, a, b);
     }
     let k = a.spec.axis()?;
     if b.spec.axis()? != k {
@@ -636,7 +652,7 @@ pub fn boolean(key: BodyKey, op: u8, a: &Cylinder, b: &Cylinder) -> R<Vec<Body>>
         return match op {
             0 => Ok(vec![a.body.clone(), b.body.clone()]),
             1 => Ok(vec![a.body.clone()]),
-            2 => Err(no("empty-result")),
+            2 => Err(Refused::geometric_verdict(no("empty-result").0)),
             _ => Err(no("operation")),
         };
     }
@@ -655,7 +671,8 @@ pub fn tangent_box_noop(target: &crate::polyhedron::Audited, tools: &[Cylinder])
         .ok_or_else(|| no("non-orthogonal-target"))?;
     for c in tools {
         if c.frame != target.frame {
-            return Err(no("different-exact-frames"));
+            crate::construction_geom::tangent_box_noop(target, c)?;
+            continue;
         }
         let k = c.spec.axis()?;
         for cell in &cells.boxes {
@@ -713,40 +730,7 @@ impl Cylinder {
         Ok((volume, area))
     }
     pub fn bbox_mm(&self, map: Option<[[f64; 4]; 3]>) -> R<([f64; 3], [f64; 3])> {
-        let m = map.unwrap_or([[1., 0., 0., 0.], [0., 1., 0., 0.], [0., 0., 1., 0.]]);
-        let k = self.spec.axis()?;
-        let cols = self.frame.enclosed_columns();
-        let bottom = self
-            .frame
-            .apply_exact(self.spec.bottom, 1000., true)
-            .map_err(|_| no("frame-range"))?;
-        let top = self
-            .frame
-            .apply_exact(self.spec.top, 1000., true)
-            .map_err(|_| no("frame-range"))?;
-        let mut lo = [0.; 3];
-        let mut hi = [0.; 3];
-        for i in 0..3 {
-            let mut p = Iv::point(m[i][3]);
-            let mut q = p;
-            let mut d = [Iv::point(0.); 3];
-            for j in 0..3 {
-                let a = Iv::point(m[i][j]);
-                p = p + a * enclosed(&bottom[j]);
-                q = q + a * enclosed(&top[j]);
-                for l in 0..3 {
-                    d[l] = d[l] + a * cols[l][j];
-                }
-            }
-            let extent = finite(
-                d[(k + 1) % 3].norm3(d[(k + 2) % 3], Iv::point(0.))
-                    * Iv::point(self.spec.radius)
-                    * Iv::point(1000.),
-            )?;
-            lo[i] = finite(p - extent)?.m.min(finite(q - extent)?.m);
-            hi[i] = finite(p + extent)?.m.max(finite(q + extent)?.m);
-        }
-        Ok((lo, hi))
+        envelope_mm(&self.frame, self.spec, map)
     }
     pub fn tolerance_mm(&self) -> R<f64> {
         let (lo, hi) = self.bbox_mm(None)?;
@@ -810,9 +794,54 @@ impl Cylinder {
     }
 }
 
+/// Axis-aligned box of a finite axial cylinder placed by `frame` (source
+/// metres to world mm), then mapped by `map` (world mm to target mm, identity
+/// when absent). Rim centres are exact images; each coordinate's radial reach
+/// is r * |(d_u, d_v)| from the enclosed mapped chart columns (the support of
+/// the affine image of a rim disk). Reported values are the midpoints of those
+/// interval enclosures, one rounding from the exact extremes.
+pub(crate) fn envelope_mm(
+    frame: &Placement,
+    spec: Spec,
+    map: Option<[[f64; 4]; 3]>,
+) -> R<([f64; 3], [f64; 3])> {
+    let m = map.unwrap_or([[1., 0., 0., 0.], [0., 1., 0., 0.], [0., 0., 1., 0.]]);
+    let k = spec.axis()?;
+    let cols = frame.enclosed_columns();
+    let bottom = frame
+        .apply_exact(spec.bottom, 1000., true)
+        .map_err(|_| no("frame-range"))?;
+    let top = frame
+        .apply_exact(spec.top, 1000., true)
+        .map_err(|_| no("frame-range"))?;
+    let mut lo = [0.; 3];
+    let mut hi = [0.; 3];
+    for i in 0..3 {
+        let mut p = Iv::point(m[i][3]);
+        let mut q = p;
+        let mut d = [Iv::point(0.); 3];
+        for j in 0..3 {
+            let a = Iv::point(m[i][j]);
+            p = p + a * enclosed(&bottom[j]);
+            q = q + a * enclosed(&top[j]);
+            for l in 0..3 {
+                d[l] = d[l] + a * cols[l][j];
+            }
+        }
+        let extent = finite(
+            d[(k + 1) % 3].norm3(d[(k + 2) % 3], Iv::point(0.))
+                * Iv::point(spec.radius)
+                * Iv::point(1000.),
+        )?;
+        lo[i] = finite(p - extent)?.m.min(finite(q - extent)?.m);
+        hi[i] = finite(p + extent)?.m.max(finite(q + extent)?.m);
+    }
+    Ok((lo, hi))
+}
+
 pub fn distance_mm(a: &Cylinder, b: &Cylinder) -> R<(f64, f64)> {
     if a.frame != b.frame {
-        return Err(no("different-exact-frames"));
+        return crate::construction_geom::distance_mm(a, b);
     }
     let k = a.spec.axis()?;
     if b.spec.axis()? != k {

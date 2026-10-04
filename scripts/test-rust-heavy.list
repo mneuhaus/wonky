@@ -1,0 +1,9 @@
+# Scheduling priority only: longest files first. All must be registered.
+test/rust-wire.test.mjs
+test/cad-acid.test.mjs
+test/rust-addon-freshness.test.mjs
+test/cad-acid-tolerance.test.mjs
+test/rust-observation.test.mjs
+test/rust-bicylinder.test.mjs
+test/rust-cli-export.test.mjs
+test/cad-acid-witness.test.mjs

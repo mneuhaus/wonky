@@ -2,6 +2,7 @@
 //! The editable Body carries claims; CheckedBody rechecks the supported incidence
 //! witnesses. Bounds remain explicitly untrusted claims until their producer's
 //! verifier (VA1/N1/SI4/VO1) discharges them. See docs/rust-wire-v3.md.
+pub mod sketch3;
 mod validate;
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum Incidence {
@@ -78,6 +79,9 @@ pub enum Provenance {
 }
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub enum Frame {
+    /// Exact rational linear image: rows / denominator, applied after base.
+    /// Binary64 inputs encode integer Pythagorean coefficients, not cos/sin.
+    RationalImage { base: FrameId, rows: [Vector3; 3], denominator: Binary64 },
     /// The exact affine image of a prior source-to-world map. Unlike Rigid,
     /// coefficients are the interpreter's binary64 matrix, NOT a certificate
     /// of mathematical rigidity. World image = translation + rows * base(p).
@@ -89,6 +93,20 @@ pub enum Frame {
         rows: [Vector3; 3],
     },
 
+    /// The exact image of a prior source-to-world map under an interpreter
+    /// coordinate system, applied AFTER `base`: with q = base(p),
+    /// `world = origin + q.x*x + q.y*(z cross x) + q.z*z`, evaluated in exact real
+    /// arithmetic exactly as `Interpreter` is. This is what a second placement
+    /// (`toWorld(cs)` of an already placed body) composes to: its y column is a
+    /// product of binary64 values, so it is not an `AffineImage`, and the product
+    /// is never rounded into a new frame. Same rules as `AffineImage`: geometry and
+    /// oriented loops stay in source coordinates and no fact crosses the frame.
+    InterpreterImage {
+        base: FrameId,
+        origin: Vector3,
+        x: Vector3,
+        z: Vector3,
+    },
     Source {
         source: [u32; 4],
     },
@@ -127,6 +145,7 @@ pub enum Operation {
     AffineTransform {},
     Sketch {},
     Extrude {},
+    Loft {},
     Revolve {},
     Intersection {},
     Boolean {},
@@ -143,6 +162,22 @@ pub struct Construction {
     pub parameters: Vec<Binary64>,
     pub frame: FrameId,
 }
+impl Construction {
+    /// Planar boundaries whose binary64 entity fields are authenticated caches.
+    /// The operation audit reconstructs their rational geometry from lineage.
+    pub fn replayed_planar_boundary(&self) -> bool {
+        match self.operation {
+            Operation::Boolean {} => self.parameters.len() >= 2
+                && ((self.rule_version == 1 && self.parameters.len() == 2 && self.parameters[1].get() == 2.)
+                    || (self.rule_version == 6 && self.parameters.len() <= 3 && self.parameters[1].get() == -6.)),
+            Operation::Intersection {} => [11,12].contains(&self.rule_version) && self.parents.len()==1,
+            Operation::Shell {} => self.rule_version == 1
+                && self.parameters.len() == 3 && self.parameters[2].get() == 2.,
+            _ => false,
+        }
+    }
+}
+
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub enum Limit {
     NegativeInfinity {},
@@ -242,8 +277,17 @@ pub struct Tube {
 pub enum CurveGeometry {
     /// Exact line through the replayed endpoints of a plane-arrangement edge.
     /// Endpoint observations may coincide in binary64; they are not its inputs.
-    /// Requires Boolean construction kind 2 and the operation's geometric audit.
+    /// Requires a replayed planar-boundary construction and its geometric audit.
     ConstructionLine { edge: EdgeId },
+    /// Replay-owned curve slot. No coordinate cache defines this carrier;
+    /// `closed` is authenticated by the rule-6 geometric auditor.
+    ConstructionCurve { slot: u32, closed: bool },
+    /// Exact perpendicular-cylinder intersection, one of two disjoint rings.
+    /// With orthonormal axes a (large cylinder), b (small cylinder), c=b cross a:
+    /// o + b*sqrt(R^2-r^2*sin(tau*t)^2) + a*r*cos(tau*t) + c*r*sin(tau*t).
+    /// R>r>0 proves a positive radical, no tangency, and a simple closed branch.
+    /// Reversing b selects the other branch. Never a fitted spline or tube.
+    CylinderIntersection { origin: Vector3, large_axis: Vector3, small_axis: Vector3, large_radius: Binary64, small_radius: Binary64 },
     /// o + cosine*cos(2*pi*t) + sine*sin(2*pi*t). Nonzero orthogonal
     /// vectors keep irrational semiaxis lengths out of authoritative inputs.
     VectorEllipse { origin: Vector3, cosine: Vector3, sine: Vector3, arc: ArcKind },
@@ -294,6 +338,21 @@ pub enum CurveGeometry {
         surfaces: [SurfaceId; 2],
         tube: Tube,
     },
+    /// Clamped B-spline curve, degree 1..=7, in the curve frame (metres).
+    /// `weights` is empty for a polynomial spline, else one positive weight per
+    /// control (rational). The parameter is the knot value; `periodic` is
+    /// reserved for closed splines and must be false until a strand admits it.
+    /// For a spline given by exact rational controls (fit splines) the binary64
+    /// controls and weights are an observation cache: replay rebuilds the exact
+    /// controls and refuses a cache outside its declared budget. For an explicit
+    /// control polygon (skBezier) they are the authoritative inputs.
+    BSpline {
+        degree: u32,
+        knots: Vec<Binary64>,
+        controls: Vec<Vector3>,
+        weights: Vec<Binary64>,
+        periodic: bool,
+    },
 }
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub struct Support {
@@ -310,6 +369,10 @@ pub struct Curve {
 }
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub enum SurfaceGeometry {
+    /// Exact conical carrier through two (radius,height) meridian points.
+    /// The radial coordinate interpolates linearly in axial height; no rounded
+    /// atan, slope or apex is authoritative. Chart coordinates are (turns,height).
+    ConeMeridian { origin: Vector3, axis: Vector3, x: Vector3, start: Vector2, end: Vector2 },
     Plane {
         origin: Vector3,
         normal: Vector3,
@@ -320,6 +383,16 @@ pub enum SurfaceGeometry {
         axis: Vector3,
         x: Vector3,
         radius: Binary64,
+    },
+    /// Exact rational-slope cone: radius at axial coordinate v is
+    /// radius + slope*v. Unlike Cone.angle (radians), slope=1 represents
+    /// a 45-degree cone without rounding pi/4 into authoritative geometry.
+    ConeSlope {
+        origin: Vector3,
+        axis: Vector3,
+        x: Vector3,
+        radius: Binary64,
+        slope: Binary64,
     },
     Cone {
         origin: Vector3,
@@ -341,6 +414,12 @@ pub enum SurfaceGeometry {
         major: Binary64,
         minor: Binary64,
     },
+    /// The curve `curve` swept along the nonzero `direction`. Chart: u is the
+    /// curve parameter, v is the signed distance in metres along the unit
+    /// direction; the point is curve(u) + v * direction / |direction|. The
+    /// swept curve lives in the frame of this surface. Pcurves on it are the
+    /// generators (u constant) and the cap curves (v constant).
+    LinearExtrusion { curve: CurveId, direction: Vector3 },
 }
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub struct Surface {
@@ -350,6 +429,9 @@ pub struct Surface {
 }
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub enum PcurveGeometry {
+    /// Exact pullback of CylinderIntersection onto its support cylinder. The
+    /// curve and surface records define the chart; replay proves incidence.
+    CylinderIntersection {},
     /// offset + linear*t + cosine*cos(2*pi*t) + sine*sin(2*pi*t).
     /// In cylinder charts u is in turns and v is in metres.
     Harmonic { offset: Vector2, linear: Vector2, cosine: Vector2, sine: Vector2 },
@@ -364,6 +446,14 @@ pub enum PcurveGeometry {
         b: Vector2,
     },
     RationalBezier {
+        controls: Vec<Vector2>,
+        weights: Vec<Binary64>,
+    },
+    /// Clamped B-spline chart curve, degree 1..=7; `weights` empty (polynomial)
+    /// or one positive weight per control. The parameter is the knot value.
+    BSpline {
+        degree: u32,
+        knots: Vec<Binary64>,
         controls: Vec<Vector2>,
         weights: Vec<Binary64>,
     },

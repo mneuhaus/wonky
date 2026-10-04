@@ -1,0 +1,88 @@
+{
+ "schema": "wonky/cad-acid-occt-frozen/1",
+ "origin": {
+  "file": "tmp/studio/tmp/cat-z1-fix1/occt/results.json",
+  "sha256": "cf0ac1ccc6fc2d63b2fb99e178369db5acde770498c99ccd2631c309a73bcf3a",
+  "code": {
+   "head": null,
+   "treeSha256": "e7955e28e9d4fbe3e3b1641883321eb48ecc08b20afc360dd571b01e4a00e4df"
+  },
+  "startedAt": "2026-10-02T06:44:59.586Z",
+  "finishedAt": "2026-10-02T06:46:00.698Z",
+  "versions": [
+   {
+    "build123d": "0.10.0",
+    "cadquery-ocp": "7.8.1.1.post1"
+   }
+  ]
+ },
+ "batch": "Z1",
+ "zonesSha256": "b30e7e99c28525f434cb443b4c3a4c38864bfe10933f4513067627b534473506",
+ "catalogVersion": "AC1-2026-10-02-extZ1-boolean",
+ "zones": [
+  "AC66",
+  "AC74",
+  "AC111",
+  "AC112",
+  "AC113"
+ ],
+ "cells": 27,
+ "sources": {
+  "fixtures/cad-acid/b3d/acid_boolean_z1.py": "5c0ec5186b81f2d8977180266e1e59dab599735d7226a1638b90e2fae4dba668"
+ },
+ "observations": "observations.json",
+ "note": "Unmodified live OCCT (build123d twin) rows for the zones added by catalog extension batch Z1; only the live-reference marker is dropped. Contracts were declared before this freeze; OCCT checks them and never defines them. Base zones keep fixtures/cad-acid/occt/. A row stays active only while its zone contract binding and b3d twin bytes are unchanged (per-zone binding, docs/cad-acid.md).",
+ "observedVerdicts": {
+  "CORRECT": 26,
+  "WRONG": 1
+ },
+ "namedLimits": [
+  {
+   "zone": "AC111",
+   "variant": "V3",
+   "status": "WRONG",
+   "reason": "geometry: bounding box differs; validity: STEP round trip bounding box differs; validity: STEP round trip bounding box differs",
+   "limit": "occt/AddOptimal-trimmed-sphere-bbox"
+  }
+ ],
+ "contractFreeze": {
+  "initialCommit": "19eeb17",
+  "correction": "corrected after the first OCCT observation (disclosed by the builder); independently re-derived blind on 2026-10-02, agreement to 20 digits",
+  "scripts": [
+   "local-development-evidence",
+   "local-development-evidence"
+  ]
+ },
+ "changelog": [
+  "corrected after the first OCCT observation (disclosed by the builder); independently re-derived blind on 2026-10-02, agreement to 20 digits; scripts: local-development-evidence, local-development-evidence",
+  "AC113 V4 volume 4309.4044057476274534 and area 2083.7494929757582582 confirmed unchanged.",
+  "AC115 deferred with wonky-rust V1 STEP edges 16 vs 14, vertices 10 vs 8; AC117 deferred with exact E9 SI rim residual -29975959119778023 / 5316911983139663491615228241121378304; IDs reserved and drafts archived."
+ ],
+ "errata": [
+  {
+   "fields": [
+    "AC113 area",
+    "AC115 V4 topology"
+   ],
+   "note": "corrected after the first OCCT observation (disclosed by the builder); independently re-derived blind on 2026-10-02, agreement to 20 digits",
+   "scripts": [
+    "local-development-evidence",
+    "local-development-evidence"
+   ]
+  },
+  {
+   "zone": "AC111",
+   "variant": "V3",
+   "status": "WRONG",
+   "reason": "geometry: bounding box differs; validity: STEP round trip bounding box differs; validity: STEP round trip bounding box differs",
+   "limit": "occt/AddOptimal-trimmed-sphere-bbox",
+   "note": "Fresh capture uses BRepBndLib.AddOptimal_s(shape, box, False, False), zero gap and no triangulation, for native and STEP-import observations. Rotated trimmed spherical face still has an overestimated world bound; native volume, area and topology pass. This is an observer limitation, not a contract correction; WRONG remains scored."
+  }
+ ],
+ "observer": {
+  "bounds": "BRepBndLib.AddOptimal_s(shape, box, False, False)",
+  "gap": 0,
+  "triangulation": false,
+  "sourceSha256": "8476b4eda378c8cdf3c7c86eb47cde9aede18e8b054769b1b71d05509ce4be55"
+ }
+}

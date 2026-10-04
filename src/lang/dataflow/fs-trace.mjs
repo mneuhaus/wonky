@@ -23,7 +23,7 @@ import { Interpreter } from '../../interpreter.mjs';
 import { ModelingContext } from '../../library.mjs';
 import { frozenModules, isCompositeRecord, refuseComposite } from '../../modules.mjs';
 import { enumSet, GEOMETRY_TYPES, TopologyQuery } from '../../queries.mjs';
-import { fail, unsupported, UnsupportedFeatureError } from '../../errors.mjs';
+import { fail, failNamed, unsupported, UnsupportedFeatureError } from '../../errors.mjs';
 import { EnumValue, Id, KeyedMap, Matrix, Plane, Quantity, Transform, Vector, binary, isMap, map, vectorNumbers } from '../../values.mjs';
 import { Graph } from './graph.mjs';
 import { canon } from './canon.mjs';
@@ -238,7 +238,7 @@ export function traceFeatureScript(source, { feature, parameters = {}, id = 'mod
   try {
     selected = interpreter.run(program, feature, engine.context, new Id([id]), definition);
   } catch (caught) {
-    error = { name: caught.name, message: caught.message, line: caught.line ?? null, column: caught.column ?? null, site: caught.site ?? null };
+    error = { name: caught.name, message: caught.message, line: caught.line ?? null, column: caught.column ?? null, site: caught.site ?? null, ...(caught.code ? { code: caught.code } : {}), ...(caught.hint ? { hint: caught.hint } : {}) };
     status = caught instanceof GraphBreak ? 'break' : caught instanceof UnsupportedFeatureError ? 'unsupported' : 'error';
     if (caught instanceof GraphBreak) trace.break = error;
   }
@@ -277,6 +277,8 @@ function graphBuiltins(engine, currentStack) {
   // std query.fs GeometryType, the same members the evaluator declares (src/queries.mjs GEOMETRY_TYPES).
   values.GeometryType = enumSet('GeometryType', GEOMETRY_TYPES);
   values.BoundingType = map({ BLIND: 'BoundingType.BLIND', SYMMETRIC: 'BoundingType.SYMMETRIC', THROUGH_ALL: 'BoundingType.THROUGH_ALL', UP_TO_NEXT: 'BoundingType.UP_TO_NEXT' });
+  // Retain the obsolete member only so opDraft can diagnose it by name.
+  values.DraftType = enumSet('DraftType', ['REFERENCE_SURFACE', 'REFERENCE_ENTITY', 'NEUTRAL_PLANE']);
   values.ChamferType = enumSet('ChamferType', ['EQUAL_OFFSETS', 'TWO_OFFSETS', 'OFFSET_ANGLE']);
   values.ToleranceType = enumSet('ToleranceType', ['NONE']);
   values.PropertyType = enumSet('PropertyType', ['NAME', 'APPEARANCE', 'MATERIAL', 'PART_NUMBER', 'DESCRIPTION', 'CUSTOM']);
@@ -325,7 +327,14 @@ function graphBuiltins(engine, currentStack) {
   });
   sk('skRectangle', () => true); sk('skCircle', () => true); sk('skEllipse', () => true); sk('skRegularPolygon', () => true);
   sk('skPolyline', d => Array.isArray(d.points) && d.points.length > 2); sk('skLineSegment', () => false); sk('skArc', () => false);
-  sk('skText', () => true); sk('skFitSpline', () => false);
+  sk('skText', () => true);
+  // std sketch.fs: a fit spline "is closed" when its start and end points are the same; a Bezier
+  // whose first and last control points coincide bounds a region by itself as well.
+  const firstIsLast = d => {
+    const ends = Array.isArray(d?.points) && d.points.length > 1 ? [d.points[0], d.points.at(-1)].map(p => p?.items?.map(q => q?.value)) : null;
+    return !!ends && ends.every(Array.isArray) && ends[0].length === ends[1].length && ends[0].every((x, i) => typeof x === 'number' && x === ends[1][i]);
+  };
+  sk('skFitSpline', firstIsLast); sk('skBezier', firstIsLast);
   g('skSolve', 1, 1, ([s], loc) => {
     if (!(s instanceof SymSketch) || s.solved) fail('skSolve expects an unsolved sketch', loc);
     s.solved = true;
@@ -373,7 +382,7 @@ function graphBuiltins(engine, currentStack) {
     return r.rows.map(row => new SymQuery('reference', { records: [row], level: 'body' }));
   };
   g('evaluateQuery', 2, 2, ([c, q], loc) => evaluate(c, q, loc, 'evaluateQuery'));
-  for (const name of ['evBox3d', 'evVolume', 'evArea', 'evLength', 'evLine', 'evPlane', 'evDistance', 'evSurfaceDefinition', 'evCurveDefinition',
+  for (const name of ['evBox3d', 'evVolume', 'evArea', 'evLength', 'evLine', 'evPlane', 'evDistance', 'evCollision', 'evSurfaceDefinition', 'evCurveDefinition',
     'evApproximateCentroid', 'evEdgeTangentLine', 'evFaceTangentPlane', 'evVertexPoint', 'evFaceNormalAtEdge', 'evMateConnector', 'evAxis', 'evEdgeConvexity', 'evFaceTangentPlanes', 'evEdgeTangentLines'])
     g(name, 1, 3, (args, loc) => { throw new GraphBreak(`${name} returns a measured value to the host`, loc, name); });
 
@@ -467,13 +476,13 @@ function graphBuiltins(engine, currentStack) {
     for (const src of fieldRows.entities.rows.filter(r => r.kind === 'solid')) for (let i = 0; i < n; i++)
       e.record('solid', id, node.name, { uncertain: src.uncertain || !fieldRows.entities.exact, name: src.name, appearance: src.appearance, instance: i });
   });
-  const modify = (opName, fields, uncertain = false) => (args, loc) => {
+  const modify = (opName, fields, uncertain = false, modifiedFields = fields) => (args, loc) => {
     const [c, id, def] = args; const e = ctx(c, loc);
     const { args: text, inputs, fieldRows } = inputsOf(id.toString(), def, loc, fields);
     e.claim(c, id, loc);
     const node = addOp(id, opName, text, inputs, loc);
-    const owners = [...new Set(fields.flatMap(f => fieldRows[f]?.rows ?? []))].filter(r => r.kind === 'solid');
-    bump(owners, node, uncertain || fields.some(f => fieldRows[f] && !fieldRows[f].exact && fieldRows[f].level === 'body'));
+    const owners = [...new Set(modifiedFields.flatMap(f => fieldRows[f]?.rows ?? []))].filter(r => r.kind === 'solid');
+    bump(owners, node, uncertain || modifiedFields.some(f => fieldRows[f] && !fieldRows[f].exact && fieldRows[f].level === 'body'));
   };
   g('opTransform', 3, 3, modify('transform', ['bodies']));
   g('opFillet', 3, 3, modify('fillet', ['entities']));
@@ -482,7 +491,13 @@ function graphBuiltins(engine, currentStack) {
   g('opDeleteFace', 3, 3, modify('deleteFace', ['deleteFaces'], true));
   g('opMoveFace', 3, 3, modify('moveFace', ['moveFaces']));
   g('opShell', 3, 3, modify('shell', ['entities']));
-  g('opDraft', 3, 3, modify('draft', ['draftFaces', 'neutralPlane']));
+  g('opDraft', 3, 3, (args, loc) => {
+    const def = args[2];
+    if (enumIs(def?.draftType, 'DraftType', 'NEUTRAL_PLANE') || (isMap(def) && Object.hasOwn(def, 'neutralPlane')))
+      failNamed('draft/invalid-neutral-plane-alias', 'opDraft does not accept DraftType.NEUTRAL_PLANE or neutralPlane.',
+        'Use DraftType.REFERENCE_SURFACE with referenceSurface, draftFaces and pullVec.', loc);
+    return modify('draft', ['draftFaces', 'referenceSurface'], false, ['draftFaces'])(args, loc);
+  });
   g('opSplitPart', 3, 3, modify('splitPart', ['targets', 'tool'], true));
   g('opDeleteBodies', 3, 3, ([c, id, def], loc) => {
     const e = ctx(c, loc);

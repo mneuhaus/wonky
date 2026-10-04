@@ -56,13 +56,93 @@ pub(crate) fn cavity(bounds: [[f64; 3]; 2], thickness: f64, side: usize) -> R<[[
     Ok(inner)
 }
 
+/// Authoritative offset planes, including sums outside binary64. The existing
+/// dyadic cell path remains a fast representation of this same construction.
+pub(crate) fn exact_cavity(bounds: &[[Q; 3]; 2], thickness: f64, side: usize) -> R<[[Q; 3]; 2]> {
+    if side >= 6 {
+        return Err(no("removed-side"));
+    }
+    if !thickness.is_finite() || thickness <= 0. {
+        return Err(no("nonpositive-thickness"));
+    }
+    let mut inner = bounds.clone();
+    let t = q(thickness);
+    for end in 0..2 {
+        for axis in 0..3 {
+            if side != axis * 2 + end {
+                inner[end][axis] += if end == 0 { t.clone() } else { -&t };
+            }
+        }
+    }
+    if !(0..3).all(|k| inner[0][k] < inner[1][k]) {
+        return Err(no("collapsed-cavity"));
+    }
+    Ok(inner)
+}
+
 /// Admission by audited geometry, not by vertex count alone.
-fn box_bounds(a: &Audited) -> R<[[f64; 3]; 2]> {
-    let cells = a.orthogonal.as_ref().ok_or_else(|| no("non-box-source"))?;
-    if cells.boxes.len() != 1 {
+/// A rectangle is admitted by its exact cyclic source coordinates, not its
+/// count. Both native coordinate leaves and solved sketch extrusions use it.
+pub(crate) fn rectangle_bounds(points: &[[f64; 2]], levels: [f64; 2]) -> R<[[f64; 3]; 2]> {
+    if points.len() != 4 || !(levels[0] < levels[1]) {
         return Err(no("non-box-source"));
     }
-    Ok(cells.boxes[0])
+    let lo = [0, 1].map(|k| points.iter().map(|p| p[k]).fold(f64::INFINITY, f64::min));
+    let hi = [0, 1].map(|k| {
+        points
+            .iter()
+            .map(|p| p[k])
+            .fold(f64::NEG_INFINITY, f64::max)
+    });
+    let corners = [
+        [lo[0], lo[1]],
+        [hi[0], lo[1]],
+        [hi[0], hi[1]],
+        [lo[0], hi[1]],
+    ];
+    if lo[0] >= hi[0]
+        || lo[1] >= hi[1]
+        || corners
+            .iter()
+            .any(|c| points.iter().filter(|p| *p == c).count() != 1)
+        || (0..4).any(|i| {
+            (0..2)
+                .filter(|&k| points[i][k] != points[(i + 1) % 4][k])
+                .count()
+                != 1
+        })
+    {
+        return Err(no("non-box-source"));
+    }
+    Ok([[lo[0], lo[1], levels[0]], [hi[0], hi[1], levels[1]]])
+}
+fn box_bounds(a: &Audited) -> R<[[f64; 3]; 2]> {
+    // Placement may add rational observation data without changing the source
+    // profile. Derive operation bounds from the authenticated unplaced body.
+    if let Some((inner, _)) = crate::pattern::unplace(&a.body) {
+        let checked = inner.check().map_err(|_| no("placed-source-contract"))?;
+        return box_bounds(&crate::polyhedron::audit(&checked)?);
+    }
+    if let Some(cells) = &a.orthogonal {
+        if cells.boxes.len() != 1 {
+            return Err(no("non-box-source"));
+        }
+        return Ok(cells.boxes[0]);
+    }
+    if !a.bound_to_construction
+        || a.axis != 2
+        || a.arcs.is_some()
+        || a.rounded.is_some()
+        || a.corner.is_some()
+        || a.chamfer.is_some()
+        || a.arrangement.is_some()
+    {
+        return Err(no("non-box-source"));
+    }
+    rectangle_bounds(
+        &a.cap.iter().map(|p| [p.x, p.y]).collect::<Vec<_>>(),
+        a.levels,
+    )
 }
 
 fn face_side(a: &Audited, index: usize, bounds: [[f64; 3]; 2]) -> R<usize> {
@@ -99,10 +179,23 @@ fn face_side(a: &Audited, index: usize, bounds: [[f64; 3]; 2]) -> R<usize> {
 
 pub fn shell(a: &Audited, face: usize, thickness: f64) -> R<Body> {
     SourceMetric::new(&a.frame)?;
+    if let Some(result) = crate::pattern::modify(a, |source| shell(source, face, thickness))? {
+        return Ok(result);
+    }
     let frame = a.frame.as_affine()?;
     let bounds = box_bounds(a)?;
     let side = face_side(a, face, bounds)?;
-    cavity(bounds, thickness, side)?;
+    exact_cavity(&bounds.map(|p| p.map(q)), thickness, side)?;
+    if a.orthogonal.is_none() {
+        return crate::planar_boolean::shell(a, thickness, side);
+    }
+    match cavity(bounds, thickness, side) {
+        Ok(_) => {}
+        Err(e) if e.0 == "shell/offset-not-binary64" => {
+            return crate::planar_boolean::shell(a, thickness, side)
+        }
+        Err(e) => return Err(e),
+    }
     let mut nodes = a.body.constructions.clone();
     let root = nodes.len();
     nodes.push(Construction {
@@ -227,4 +320,33 @@ pub fn closest_faces(
             (residual <= Q::zero() || &residual * &residual <= rhs).then_some(id)
         })
         .collect())
+}
+
+#[cfg(test)]
+mod exact_offset_tests {
+    use super::*;
+    #[test]
+    fn offset_planes_are_exact_and_all_openings_keep_the_source_plane() {
+        let bounds = [[0., 0., 0.], [0.04, 0.03, 0.02]].map(|p| p.map(q));
+        for side in 0..6 {
+            let inner = exact_cavity(&bounds, 0.002, side).unwrap();
+            for end in 0..2 {
+                for k in 0..3 {
+                    let expected = if side == k * 2 + end {
+                        bounds[end][k].clone()
+                    } else {
+                        &bounds[end][k] + if end == 0 { q(0.002) } else { -q(0.002) }
+                    };
+                    assert_eq!(inner[end][k], expected);
+                }
+            }
+            if side != 1 {
+                assert_ne!(inner[1][0], q(0.04f64 - 0.002));
+            }
+        }
+        assert!(exact_cavity(&bounds, 0.015, 5)
+            .unwrap_err()
+            .0
+            .contains("collapsed-cavity"));
+    }
 }

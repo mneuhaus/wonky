@@ -19,7 +19,10 @@ export function reportStatus(value) {
 }
 
 // Number of decimals for a tolerance: values print to the decade of their
-// tolerance, so t = 0.0003 mm gives four decimals, t = 0.02 mm two.
+// tolerance, so t = 0.0003 mm gives four decimals, t = 0.02 mm two. Never fewer:
+// the viewer prints "value ±t", and a value rounded coarser than t would make that
+// claim false (19.0526 ±1e-12 for 19.05255888...). A binary64 tolerance of 1e-12 mm
+// therefore prints twelve decimals.
 export function toleranceDecimals(tolerance) {
   if (!(tolerance > 0) || !Number.isFinite(tolerance)) return 4;
   return Math.max(0, Math.ceil(-Math.log10(tolerance) - 1e-9));
@@ -56,7 +59,7 @@ export const radiansToDegrees = radians => radians * 180 / Math.PI;
 export const EXACTNESS = Object.freeze({
   'exact-parameters': {
     chip: 'exact', tone: 'exact', tolerance: true,
-    meaning: 'Closed form over stored analytic parameters (kernel.precise)',
+    meaning: 'Closed form over stored analytic parameters',
   },
   'kernel-resolved': {
     chip: 'kernel', tone: 'kernel', tolerance: false,

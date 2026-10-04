@@ -19,3 +19,5 @@ plant-count = ["wonky-wire/plant-count"]
 wonky-wire = { path = "../wonky-wire" }
 # Host operations of the planar extrusion slice (hostOp).
 wonky-ops = { path = "../wonky-ops" }
+wonky-geom = { path = "../wonky-geom" }
+wonky-alg = { path = "../wonky-alg" }

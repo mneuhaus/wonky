@@ -8,7 +8,8 @@ Legacy::import(path : "<document>/<version>/<element>", version : "<microversion
 ```
 
 wonky never fetches these at build time. It resolves them from frozen inputs:
-captured part lists and B-reps, checked by SHA-256. This page describes the
+captured part lists and B-reps, or checked FeatureScript regeneration sources.
+All input bytes are checked by SHA-256. This page describes the
 manifest a build reads (`--modules`), the shared store the manifests point
 into, and the scripts that fill it. The failure analysis behind the design is
 [corpus/cluster-fs-module-import.md](corpus/cluster-fs-module-import.md).
@@ -41,7 +42,8 @@ into, and the scripts that fill it. The failure analysis behind the design is
   `Unresolved Onshape module`. The same element at a different microversion (or
   document version) raises `Frozen module revision mismatch`. `qCreatedBy` over
   an imported source context is refused, because a B-rep snapshot does not
-  record which source feature created a part.
+  record which source feature created a part. Regenerated source contexts keep
+  their actual creator history.
 - **Composite parts load; using them is refused** (decision 11 of
   [entscheidungen.md](entscheidungen.md)). See
   [Composite parts](#composite-parts). Any other non-solid body type in a part
@@ -52,15 +54,18 @@ into, and the scripts that fill it. The failure analysis behind the design is
 
 ## What the loader implements (`src/modules.mjs`)
 
-- `NS::build({})`: the source Part Studio in its captured default
-  configuration, as a read-only context. Records are created for every part in
-  the part list; B-reps load on first use. A non-empty configuration is refused.
+- `NS::build({})`: the source Part Studio in its frozen default
+  configuration, as a read-only context. Captured part lists create lazy
+  records; regeneration sources execute in their own modeling context.
+  Namespace aliases of one immutable revision share the build and context.
+  A non-empty configuration is refused.
 - `addInstance(instantiator, NS::build, definition)` accepts:
-  - `name`, `partQuery`;
+  - `name` (optional, std `AutoN` default), `partQuery` (optional, all solids);
   - `loadedContext` (optional). Without it, the module's default-configuration
     context is used, the same one `NS::build({})` returns;
-  - `transform` (optional): a proper rigid `Transform`, applied with
-    `transformAnalytic`. Scale, shear and reflection are refused by name;
+  - `transform` (optional): a proper rigid `Transform`. Rust copies use the
+    native pattern transport, preserving the original binary64 SI values.
+    Scale, shear and reflection are refused by name;
   - `configuration` (optional): only an empty map.
 
   Any other field is refused by name.
@@ -71,10 +76,55 @@ into, and the scripts that fill it. The failure analysis behind the design is
 - `manifestInputFiles(manifestPath)`: every file a manifest makes the loader
   read, for watchers and packaging.
 
-Not implemented yet (later stages of the cluster fix): `evVolume` and tight
-`evBox3d` over imported bodies, the selection builtins over source contexts
-(`qEverything`, `qNthElement`, `qContainsPoint`), Feature Studio source imports
-and fsocct `version: "local"` imports.
+On Rust, `evaluateQuery(sourceContext, qAllModifiableSolidBodies())` and NAME
+lookup are metadata-only for captured part lists. Transient queries retain
+that source owner and cannot be evaluated in the destination. Native source
+bodies support read-only volume, bounds, distance and collision evaluation.
+Instantiation copies geometry and properties without moving or consuming the
+source; copies are published only after every selected body has been copied.
+
+**Raw Onshape analytic snapshots still cannot be converted to native WC0.**
+Using that geometry on Rust refuses with
+`import/onshape-brep-conversion-unavailable`, including the namespace, part
+name and part ID. Listing metadata is not proof of importing this geometry.
+Feature Studio source imports, fsocct `version: "local"`, full `derive` /
+`opMergeContexts`, configurations, mate connectors and unsupported query
+forms remain outside this subset.
+
+### Frozen regeneration sources (schema 2)
+
+Instead of `parts` and `bodies`, an entry can supply the complete frozen
+FeatureScript source of a Part Studio's exported build feature:
+
+```json
+{
+  "namespace": "rails",
+  "document": "555555555555555555555555",
+  "documentVersion": null,
+  "element": "111111111111111111111111",
+  "microversion": "222222222222222222222222",
+  "source": {
+    "file": "source.fs",
+    "sha256": "<SHA-256 of source.fs bytes>",
+    "feature": "importedRails"
+  }
+}
+```
+
+`source.file` is store-relative and hash-checked before execution. Its imports
+resolve exclusively through the same frozen manifest. Recursive dependencies
+work; cycles refuse explicitly. This is regeneration, not a substitute for a
+captured B-rep: it uses the named source's real operations on the chosen kernel
+and refuses unsupported operations. No geometry is fabricated from metadata.
+The resulting bodies record the source hash and immutable revision provenance.
+External inputs must retain their real capture origin; synthetic fixtures must
+label their identifiers as synthetic, not claim an Onshape capture.
+
+`fixtures/fs-partstudio-imports` is a repository-authored synthetic two-studio
+example with provenance and an independent closed-form volume. Its source has
+two 8×4×4 mm rails. The second studio derives both, unions one translated rail
+with a local rail (192 mm³), and retains the spare (128 mm³). No live project
+was used to author these inputs.
 
 ### Composite parts
 

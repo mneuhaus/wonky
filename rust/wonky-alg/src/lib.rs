@@ -7,17 +7,21 @@
 //!
 //! All public rational inputs are validated, including `BigRational::new_raw` values
 //! with a zero or negative denominator. A zero denominator is a named error, never
-//! an arithmetic panic. Limits bound bisections, not total time or integer bit sizes.
+//! an arithmetic panic. Limits bound bisections, not total time or integer bit sizes;
+//! every exhausted limit is `AlgebraError::BudgetExceeded`, never a partial result.
+//! Root counts are over distinct real roots; the interval convention is in the
+//! method name (open, half-open `[lower, upper)`, closed).
 //! No-Claim: this crate does not derive surface intersection equations, resolve
 //! geometric degeneracies, approximate coordinates, or establish R20 acceptance.
 #![deny(unused_must_use)]
 
+mod bernstein;
 mod polynomial;
 mod roots;
 
 pub use num_bigint::BigInt;
 pub use num_rational::BigRational as Rational;
-pub use polynomial::{Polynomial, SquareFreeDecomposition, SquareFreeFactor};
+pub use polynomial::{Deflation, Polynomial, SquareFreeDecomposition, SquareFreeFactor};
 pub use roots::{isolate_real_roots, AlgebraicReal, Limits, RationalInterval, SturmSequence};
 pub use wonky_num::Sign;
 
@@ -40,6 +44,13 @@ pub enum AlgebraError {
     BudgetExceeded {
         operation: &'static str,
         limit: usize,
+    },
+    /// A Bernstein coefficient list must have at least one entry (degree 0).
+    EmptyBernstein,
+    /// A degree-`degree` basis cannot represent a polynomial of degree `required`.
+    DegreeTooLow {
+        degree: usize,
+        required: usize,
     },
 }
 

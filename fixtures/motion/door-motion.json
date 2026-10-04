@@ -1,0 +1,44 @@
+{
+  "schema": "wonky-motion/v1",
+  "model": {
+    "source": "door.fs",
+    "feature": "f",
+    "parameters": {}
+  },
+  "units": {
+    "length": "mm"
+  },
+  "joints": [
+    {
+      "id": "hinge",
+      "type": "revolute",
+      "body": "door",
+      "parent": "world",
+      "axis": {
+        "point": [
+          50,
+          0,
+          0
+        ],
+        "direction": [
+          0,
+          0,
+          1
+        ]
+      },
+      "range": [
+        0,
+        270
+      ],
+      "driver": {
+        "count": 19
+      }
+    }
+  ],
+  "pairs": [
+    [
+      "door",
+      "stop"
+    ]
+  ]
+}

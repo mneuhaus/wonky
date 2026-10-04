@@ -17,7 +17,7 @@ import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 
 export const RUST_DIR = 'rust';
-export const KEY_SCRIPTS = ['src/native/rust-build-key.mjs', 'src/native/rust-wire.mjs', 'src/native/rust-wire-provenance.json', 'scripts/rust/build-node.mjs', 'scripts/rust/build-key.mjs'];
+export const KEY_SCRIPTS = ['src/native/rust-build-key.mjs', 'src/native/rust-wire.mjs', 'src/native/rust-wire-provenance.json', 'scripts/rust/build-node.mjs', 'scripts/rust/build-key.mjs', 'scripts/rust/shared-sources.mjs'];
 export const PROFILE = 'release';
 export const NODE_FILE = 'wonky-node.node';
 export const SCHEMA = 'wonky-rust-node-build/2';

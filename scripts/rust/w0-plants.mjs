@@ -33,7 +33,7 @@ export const PLANTS = [
     to: '  // plant: bypass the P0 rust-diff gate',
     tests: 'rust-diff and rust-mixed fail', rust: false },
   { name: 'exporters-load-bend', file: 'src/exporters.mjs', why: 'the exporters load the Bend STEP pcurve modules on WONKY_BACKEND=rust',
-    from: "['native', 'diff', 'rust', 'rust-diff', 'rust-mixed'].includes(backend)", to: "['native', 'diff'].includes(backend)", tests: 'try silent', rust: false },
+    from: 'await exportKernels();', to: "await exportKernels('js');", tests: 'try silent', rust: false },
   { name: 'services-load-bend', file: 'src/library.mjs', why: 'loadModelingServices loads the Bend modeling services for the strict rust kernel',
     from: "  if (isStrictRustKernel(kernel)) return Promise.resolve({ faceClassifier: kernel.faceClassifier });\n", to: '',
     tests: 'modeling services select the strict rust kernel classifier', rust: false },

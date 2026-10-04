@@ -1,0 +1,24 @@
+{
+  "id": "4fd030e6f6d0829de88fa3d3",
+  "name": "wonky CAD-Acid ext CE9-CE10",
+  "href": "https://cad.onshape.com/api/v1/documents/4fd030e6f6d0829de88fa3d3",
+  "public": true,
+  "publicLinkable": false,
+  "anonymousAccessAllowed": false,
+  "jsonType": "document",
+  "resourceType": "document",
+  "documentType": 0,
+  "createdAt": "2026-10-02T22:28:45.189+00:00",
+  "modifiedAt": "2026-10-02T22:28:45.189+00:00",
+  "defaultElementId": null,
+  "defaultWorkspace": {
+    "id": "057457e625e977740887d284",
+    "documentId": "4fd030e6f6d0829de88fa3d3",
+    "microversion": "9ebc4a9a24b98153a5ec9b50",
+    "name": "Main",
+    "href": "https://cad.onshape.com/api/v1/documents/d/4fd030e6f6d0829de88fa3d3/workspaces/057457e625e977740887d284",
+    "type": "workspace",
+    "createdAt": "2026-10-02T22:28:46.978+00:00",
+    "modifiedAt": "2026-10-02T22:28:46.860+00:00"
+  }
+}

@@ -1,5 +1,17 @@
 # Python Algebra frontend
 
+> **Parked (2026-09-28).** This frontend was built on the Bend kernel and was
+> never moved to the Rust kernel. `src/python.mjs` still calls the legacy
+> kernel op table (`extrudeInBend`, `transformInBend`), which the Rust kernel
+> does not serve, so on the default `WONKY_BACKEND=rust` every model stops with
+> a named `kernel entry … is not ported to the Rust kernel` capability error
+> (`NativeCapabilityError`, code `BX_UNAVAILABLE`). It is not being ported: the
+> FeatureScript path is the product, and the ten build123d probes it served
+> (box/cylinder Booleans, split, fillet) are covered by CAD-Acid zones.
+> `test/cadbench-build123d.test.mjs` pins this fail-closed state; porting the
+> frontend onto the Rust host boundary (`src/native/rust-host.mjs`) replaces
+> that test. The rest of this page describes the Bend-era behaviour.
+
 The Python frontend executes real Python with a small `build123d` compatibility
 module. Every `Shape` refers to B-reps already constructed by the existing Bend
 kernel. The existing FeatureScript frontend remains a separate entrypoint.

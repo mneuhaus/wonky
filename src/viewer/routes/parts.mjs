@@ -11,17 +11,18 @@
 // milliseconds even for r10b-retained), so it runs inline and is cached per
 // revision object. An unknown revision answers 404.
 import { HttpError, sendJson } from '../http.mjs';
+import { loadKernel } from '../../kernel.mjs';
 import { partsDocument } from '../parts.mjs';
 
 const PATH = /^\/api\/models\/([a-f0-9]{64})\/parts$/;
 
 export function register(router, ctx) {
   const cache = new WeakMap();
-  router.add('GET', PATH, (_req, res, { match }) => {
+  router.add('GET', PATH, async (_req, res, { match }) => {
     const [, modelId] = match;
     const model = ctx.registry.model(modelId);
     if (!model) throw new HttpError(404, 'Unknown model revision');
-    if (!cache.has(model)) cache.set(model, partsDocument(model, modelId));
+    if (!cache.has(model)) cache.set(model, partsDocument(model, modelId, { kernel: await loadKernel() }));
     sendJson(res, 200, cache.get(model));
   });
 }

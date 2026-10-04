@@ -31,6 +31,7 @@ import { printMesh, meshDefects } from './print-mesh.mjs';
 import { integrateVolume } from './volume.mjs';
 import { isMeshBody } from './hybrid-mesh.mjs';
 import { fallbackRecord } from './diagnostics.mjs';
+import { isRustBody, rustStl } from './native/rust-host.mjs';
 
 export const R20_MANIFEST_SCHEMA = 'r20/tessellate-manifest/v1';
 export const R20_MANIFEST_NAME = 'tessellate-manifest.json';
@@ -87,11 +88,33 @@ function components(triangles) {
   return new Set(faces.map((_, i) => find(i))).size;
 }
 
+// Rust writes a certified binary STL directly from its audited WC0 body.
+// The Rust mesher and float32 writer each hold at most half the requested
+// deviation (mesh.rs). Validate the actual stored triangles before publishing.
+function rustPartStl(kernel, body, where, deviationMm) {
+  const buffer = rustStl(kernel, [body], deviationMm);
+  const count = buffer.readUInt32LE(80);
+  if (!count || count > 2_000_000 || buffer.length !== 84 + 50 * count)
+    refuse(where + ': invalid Rust binary STL triangle count');
+  const triangles = Array.from({ length: count }, (_, i) => {
+    const offset = 84 + 50 * i;
+    return Array.from({ length: 3 }, (_, j) =>
+      Array.from({ length: 3 }, (_, k) => buffer.readFloatLE(offset + 12 + j * 12 + k * 4)));
+  });
+  const checked = packStl(triangles, where);
+  // Certified upper bounds: Rust proves both before and after quantization.
+  const half = deviationMm / 2;
+  return { ...checked, buffer, deviationMm, achievedDeviationMm: deviationMm,
+    meshDeviationMm: half, float32RoundingMm: half,
+    meshSource: 'Rust WC0 certified mesh and float32 storage (each <= half requested deviation)' };
+}
+
 // One part: the print mesh, quantised to float32 and checked as the reader
 // will see it, then packed as a binary STL (80-byte zero header like
 // tools/tessellate.py, uint32 count, 12 float32 + uint16 per triangle).
 export function partStl(kernel, body, key, deviationMm) {
   const where = `part ${key} (body ${body.id})`;
+  if (isRustBody(body)) return rustPartStl(kernel, body, where, deviationMm);
   let mesh;
   // The mesher's own refusal keeps its class; it only learns which part it was.
   try { mesh = printMesh(kernel, body, deviationMm); }
@@ -211,7 +234,7 @@ function wonkyRow(kernel, body, part) {
     catch (error) { if (!(error instanceof UnsupportedFeatureError)) throw error; volumeRefusal = error.message; }
   }
   const approximation = body.approximation
-    ?? (body.exactness ? { label: body.exactness, ...(body.regularizedSources?.length ? { sources: body.regularizedSources } : {}) } : null);
+    ?? (body.exactness ? { label: body.exactness, ...(body.regularization ? {regularization:body.regularization} : {}), ...(body.regularizedSources?.length ? { sources: body.regularizedSources } : {}) } : null);
   return { volumeMm3, exact: volumeMm3 !== null && approximation === null && (integrated?.label ?? 'exact') === 'exact', approximation,
     ...(integrated ? { volumeBoundMm3: integrated.boundMm3, volumeLabel: integrated.label, volumeMethod: integrated.method,
       ...(integrated.carrierRefusal ? { carrierRefusal: integrated.carrierRefusal } : {}) } : {}),
@@ -239,7 +262,8 @@ export function r20Export(kernel, model, { deviationMm, sourcePath, source, feat
   const keys = partKeys(model.bodies);
   const selected = model.source?.feature ?? feature ?? null;
   const manifest = { schema: R20_MANIFEST_SCHEMA, part_studio: `wonky:${sourcePath}#${selected}`,
-    fingerprint: r20Fingerprint({ source, feature: selected, parameters, moduleManifest }), parts: {} };
+    fingerprint: r20Fingerprint({ source, feature: selected, parameters, moduleManifest }),
+    ...(model.regularization ? {regularization:model.regularization} : {}), parts: {} };
   const files = [];
   model.bodies.forEach((body, i) => {
     const key = keys[i], part = partStl(kernel, body, key, deviationMm);
@@ -292,7 +316,8 @@ export function r20ErrorRecord(error, sourcePath) {
   return { class: located ? error.name : error?.name ?? 'Error', message: String(error?.message ?? error),
     file: sourcePath ? resolve(sourcePath) : null, line: located ? error.line ?? null : null, column: located ? error.column ?? null : null,
     ...(error?.operation?.id ? { operation: error.operation } : {}),
-    ...(error?.diagnosticDump ? { dump: error.diagnosticDump } : {}) };
+    ...(error?.diagnosticDump ? { dump: error.diagnosticDump } : {}),
+    ...(error?.regularization ? {regularization:error.regularization} : {}) };
 }
 
 // Any failure: the previous export is retired and error.json says why.

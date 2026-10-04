@@ -1,4 +1,5 @@
 import { loadBend, registerBendImports } from './bend-loader.mjs';
+import { selectBackend } from './native/backend.mjs';
 import { cross, validateSolid } from './brep.mjs';
 import { unsupported } from './errors.mjs';
 import { binary64Host, number, real, vector as preciseVector, coords as preciseCoords } from './real.mjs';
@@ -8,12 +9,12 @@ import { addExactnessLabel, copyExactness, recordExtrudedProfile, settleExactnes
 
 let loaded;
 const selected = new Map();
-// WONKY_BACKEND selects the kernel explicitly (docs/native-bridge.md section 7):
-// unset or 'js' is the Bend JS target below; 'native' and 'diff' come from
-// src/native/backend.mjs, which rejects every other value.
+// The shared selector defaults to Rust. Missing Rust builds refuse explicitly;
+// the historical Bend JS path is reachable only with WONKY_BACKEND=js.
 export function loadKernel() {
-  const backend = process.env.WONKY_BACKEND;
-  if (backend === undefined || backend === 'js') return loadJsKernel();
+  // Preserve the Promise rejection contract for explicit unsupported modes.
+  const backend = process.env.WONKY_BACKEND ?? selectBackend();
+  if (backend === 'js') return loadJsKernel();
   if (!selected.has(backend)) selected.set(backend, import('./native/backend.mjs').then(native => native.openKernel(backend)));
   return selected.get(backend);
 }

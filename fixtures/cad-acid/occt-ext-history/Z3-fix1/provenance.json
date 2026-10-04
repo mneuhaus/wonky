@@ -1,0 +1,37 @@
+{
+ "schema": "wonky/cad-acid-occt-frozen/1",
+ "origin": {
+  "sourceGit": {
+   "head": "d18dbc9d64dd123b9226977c2a8c4cb1c9406664",
+   "tree": "22fdc91aefd469ccd871a22d23cfc55699580d20"
+  },
+  "file": "tmp/mini/tmp/cat-z3-fix1/targeted-final/results.json",
+  "sha256": "3fb3d4b0b2a001a87d13968aa98c50d3686dc7d7d67501f94d952abaecbf08fc",
+  "code": {
+   "head": null,
+   "treeSha256": "9336c1dde1a33836107a64d2a91b24a16b28a8ecfae4aeb70cda3eb7f227552b"
+  },
+  "startedAt": "2026-10-02T12:38:32.398Z",
+  "finishedAt": "2026-10-02T12:39:10.031Z",
+  "versions": [
+   {
+    "build123d": "0.10.0",
+    "cadquery-ocp": "7.8.1.1.post1"
+   }
+  ]
+ },
+ "batch": "Z3-fix1",
+ "zonesSha256": "932fc072f17bbcc04ec7de70df0f48bec9a4c5ab8621243a024268c4f222109f",
+ "catalogVersion": "AC1-2026-10-02-extZ3-curved-booleans",
+ "zones": [
+  "AC106",
+  "AC107",
+  "AC108"
+ ],
+ "cells": 15,
+ "sources": {
+  "fixtures/cad-acid/b3d/acid_boolean_z3.py": "9874de278d925a06abdc4ad959c4221c7cf091704f3ebf8957204374eac67b4a"
+ },
+ "observations": "observations.json",
+ "note": "Unmodified live OCCT (build123d twin) rows for the zones added by catalog extension batch Z3-fix1; only the live-reference marker is dropped. Contracts were committed before the first geometry run (c36b403ac6b7c193dca92a2b66ce93c8ca2dd343). Fresh fix1 capture after general cylinder-construction, analytic seam-normalization and periodic STEP representation repairs. All 15 observations meet the unchanged numerical, topology and two-transfer validity contracts. No closed form or tolerance band was changed. The original failed Z3 freeze stays untouched. Independent review remains required. Base zones keep fixtures/cad-acid/occt/. A row stays active only while its zone contract binding and b3d twin bytes are unchanged (per-zone binding, docs/cad-acid.md)."
+}

@@ -15,6 +15,7 @@
 // lines"). A pair without a closed form gets an unsupported row with its
 // reason; entities of another revision are never measured against this one.
 import { HttpError } from './http.mjs';
+import { viewerRecord } from './model-record.mjs';
 import { bodyExtent } from './edge-classes.mjs';
 import {
   ANGULAR_TOLERANCE_RAD, EXACT, PAIR_ANGULAR_RULE, aliasOf, cachedLogicalFaces, edgeEntry,
@@ -259,7 +260,8 @@ function createRows(context, a, b, evaluated, spanMm = evaluated.extentMm) {
       exactness: EXACT,
       toleranceMm: options.decision ? decisionMm : length ? toleranceMm : null,
       angularToleranceRad: options.angularToleranceRad ?? angular,
-      method: options.method ?? null,
+      method: options.method?.replaceAll('kernel.precise', context.math.label ?? 'kernel.precise')
+        .replaceAll('kernel.real', context.math.label ?? 'kernel.real') ?? null,
       inputs,
       note: options.note ?? null,
       pair: [a.index, b.index],
@@ -1115,9 +1117,10 @@ function primaryRow(measurements) {
   return null;
 }
 
-export function measureEntities(model, entities, {
-  kernel, modelId = null, logical = cachedLogicalFaces(model), resolveLogical = true,
+export function measureEntities(rawModel, entities, {
+  kernel, modelId = null, logical = cachedLogicalFaces(rawModel), resolveLogical = true,
 } = {}) {
+  const model = viewerRecord(rawModel);
   if (!Array.isArray(entities) || entities.length < 2) {
     throw new HttpError(400, 'Measuring needs at least two entities');
   }
@@ -1162,7 +1165,7 @@ export function measureEntities(model, entities, {
       ...measurements.map(row => row.angularToleranceRad)),
     angularToleranceFloorRad: ANGULAR_TOLERANCE_RAD,
     angularToleranceRule: PAIR_ANGULAR_RULE,
-    method: 'closed forms over stored analytic parameters with kernel.precise and kernel.real,'
+    method: `closed forms over stored analytic parameters with ${context.math.label ?? 'kernel.precise and kernel.real'},`
       + ' evaluated at points of the selected entities; decisions use the pair angular'
       + ' tolerance and the larger entity tolerance t',
     entities: resolved.map(describe),

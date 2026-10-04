@@ -1,6 +1,8 @@
 # CAD acid test (AC1)
 
-One frozen model made of 48 small zones. Each zone tests one theme and is
+One catalog of small zones: the 48 frozen base zones of AC1, extended in place
+(76 zones since `AC1-2026-09-28-extA-chunk4`, see "Catalog extension and
+variants per zone" below). Each zone tests one theme and is
 described twice: as Onshape FeatureScript and as a build123d/OCCT twin. Zones
 are checked per zone without image comparison:
 
@@ -10,15 +12,17 @@ are checked per zone without image comparison:
    exists;
 3. validity (the kernel's own B-rep check and a STEP round trip that re-checks
    the zone's topology and measurements);
-4. four metamorphic variants of every zone (V0 to V3).
+4. metamorphic variants of every zone: V0 to V3 for all zones; new zones also
+   declare V4 (radius +0.025 mm) and V5 (another FeatureScript idiom).
 
 The result has two scores per kernel, **strict** and **practical**, with one
-verdict per zone/kernel. Both use the same 48-zone denominator. A practical
+verdict per zone/kernel. Both use the same denominator N, the number of zones
+in the catalog (48 until the first extension, 76 after Batch A). A practical
 point is not a strict-v1 pass and is never an exact-construction claim.
 
 The catalog is `fixtures/cad-acid/zones.json`. It was written before any kernel,
 twin or Onshape result existed, and its tolerances and accepted outcomes are
-predeclared. `scripts/acid/closed-forms.py` recomputes every closed form from
+predeclared. `scripts/acid/closed-forms-errata.py` recomputes every closed form from
 the construction parameters and must pass after any edit of the catalog.
 
 ## Three-tier verdicts and two scores
@@ -38,9 +42,15 @@ bands, accepted branches, observations or the six disputed zones.
   their meanings and receive no points under either score.
 
 `strict = CORRECT`; `practical = CORRECT + TOLERANT`. JSON schema
-`wonky/cad-acid-scoreboard/2` exposes both kernel totals, new-tier `counts`,
+`wonky/cad-acid-scoreboard/3` exposes both kernel totals, new-tier `counts`,
 legacy `strictCounts`, per-cell `strictStatus`, `strictPoints` and
-`practicalPoints`. `score` and `points` remain aliases for the **strict**
+`practicalPoints`. Schema /3 adds `catalog {version, zones, cells, zonesSha256}`
+(N zones and the number of declared variant cells), `declaredVariants` and
+`family` on every zone row, and per kernel `byFamily` (zones, strict, practical,
+WRONG per family) and `byAxis` (per variant: zones declaring it and how many of
+those have the variant cell CORRECT or CORRECT/TOLERANT). Schema /2 is the same
+without these fields and always means the frozen 48-zone catalog; consumers
+read N from `catalog.zones`, never a hard-coded 48. `score` and `points` remain aliases for the **strict**
 values, never the practical values. Rules and their digest are included in the
 report; tolerant cells cite `toleranceRuleIds` and their STEP witness hashes.
 The exact class, including **wonky-rust**, cannot receive TOLERANT. A serialized
@@ -135,31 +145,164 @@ Three cells remain WRONG with an **evidence pending** modal note:
   under a declared transport-error bound. The archived STEP alone has not
   supplied that certificate.
 
-The script-free public page consumes schema /2 with
-`scripts/acid/build-status-page.py`. Its badge tiles and CSS-only chip filters
+The script-free public page consumes schema /2 or /3 with
+`scripts/acid/build-status-page.py`; for /3 it adds a preview-free tile, modal
+and matrix row for every catalog zone the tracked page does not carry yet. Its badge tiles and CSS-only chip filters
 use the new tiers; the headline compares both scores and modals cite fired
 rules. “Evidence pending” is a note, never a badge or a practical point.
+
+## Catalog extension and variants per zone
+
+Marc, 2026-09-28: CAD-Acid is one catalog, extended in place; there is no
+separate v2 catalog and no second score. New zones (AC50-AC99, distilled
+everyday problems) are appended to `fixtures/cad-acid/zones.json`; the plan is
+`tmp/acid/v2/catalog-v2-proposal.md`. The first extension
+`AC1-2026-09-28-extA-holes` (schema `wonky/cad-acid-zones/2`) adds group
+`holes-a` with AC61 (pipe), AC63 (blind hole), AC64 (bores on two axes) and
+AC65 (drill after union), family "Booleans and holes".
+`AC1-2026-09-28-extA-regions-a` adds group `regions-a` (family "Sketch
+regions", row 7) with AC52 (overlapping circles, three bodies), AC53 (circle
+split by a line, region picked by a point), AC56 (nested line loops), AC57
+(three bore circles in one sketch), AC91 (obround with a round hole) and AC92
+(overlapping rectangles, three bodies).
+`AC1-2026-09-28-extA-shapes-a` adds AC93 (a line splits a rectangle, two
+bodies), AC95 (bore in a hexagon) and AC99 (region picked by a point) to
+`regions-a`, AC51 (24-corner trig star with a coaxial bore) to `holes-a`, and
+starts group `shapes-a` (row 9) with AC60 (four-hole plate, the planned STL
+cell) and AC96 (24-corner trig star). `shapes-a` is filled within Batch A; until
+then the group names its planned members in `plannedZoneIds`, which the
+closed-form checker holds to the 4-12 bound and which goes once the group is
+complete.
+`AC1-2026-09-28-extA-chunk3` adds AC62 (bar with a through-bore and a hex
+pocket, one cut), AC67 (cylinder boss on a plate), AC68 (side-open slot with a
+through-bore, one cut), AC71 (pattern copies as drilling tools) and AC75
+(counterbore) to `holes-a`, and AC72 (full stepped revolve) to `shapes-a`.
+`AC1-2026-09-28-extA-chunk4` completes Batch A (76 zones, 349 declared cells):
+AC79 (cut into a concave extrusion profile) and AC98 (a body moved with
+`transform(vector)` stays a Boolean target) join `holes-a`; AC77 (concave
+fillet on a union seam), AC81 (box fillet), AC84 (open-top box shell) and AC89
+(corner radii concentric to the bores of a holed plate), family "Finish", join
+`shapes-a`, which is complete and drops `plannedZoneIds`. In V4 only circle,
+cylinder and revolve radii grow; fillet radii, chamfers and wall thicknesses
+stay (AC89: bores 2.025, corner rounds 5).
+The OCCT references of Batch A are frozen in `fixtures/cad-acid/occt-ext/A/`:
+the 157 unmodified live build123d twin rows of the 28 new zones (all built,
+STEP round trip ok), with the catalog bytes they were built against
+(`inputs/zones.json`), the b3d twin hashes and a manifest. They were taken
+after the contracts were committed and only check them. Every row is active
+under the per-zone binding; OCCT scores the 28 new zones CORRECT, and the 48
+base zones keep their `fixtures/cad-acid/occt/` rows and verdicts.
+The Onshape references of Batch A are frozen in `fixtures/cad-acid/onshape-ext/A/`
+(2026-09-28, public document `dcfa31627dfa9e33be1bd715` "wonky CAD-Acid ext A",
+`onshape-push.mjs --groups regions-a,holes-a,shapes-a`): one Part Studio per
+variant V0-V5 with one `zone = ALL` feature per group, 18 feature states, all
+OK, one STEP per variant, 0 FeatureScript evaluations, 0 feature-tree reads,
+unchanged account counters before and after. The capture hashes only the
+three Batch A twins, so it binds exactly the 157 Batch A cells. Onshape scores
+the 28 new zones CORRECT and the Onshape/OCCT twin agreement is AGREE on all 157
+cells; the 48 base zones keep their v1 rows and verdicts. The first upload
+found that Onshape does not compile a Feature Studio with a body variable named
+`box` (empty featureSpecs); `acid-holes-a.fs` and `acid-shapes-a.fs` renamed it
+to `boxBody` before the freeze (identifier only, no geometry change).
+wonky's parser now refuses that class of names itself with the stable frontend
+code `fs/reserved-identifier` and a rename hint (src/fs-reserved.mjs,
+test/fs-reserved-identifiers.test.mjs). The list is the FsDoc keywords, the
+words reserved for future use, `if`/`else`/`silent`, and the builtin type names
+(`box`, `builtin`, `boolean`, `number`, `string`, `array`, `map`); near misses
+such as `boxBody` stay accepted. Only `box` was observed refused by Onshape, the
+rest is doc-based or inferred.
+`AC1-2026-09-28-extS-splines-a` (strand S1 of `tmp/cadbench/gears/plan.md`, one
+exact curve layer with gears first) starts group `splines-a` (family "Spline
+curves and gears", row 14, columns by its planned members AC100-AC104; ids from
+AC100 on because AC50-AC99 are reserved) with AC100 (PH-cubic arch prism: one
+`skBezier` with control points (0,0), (8,6), (18,6), (26,0) and its chord,
+extruded 4; V = 1584/5 and A = 1872/5 exactly; V5 is the exact degree-4
+elevation of the same curve) and AC102 (16-tooth spur gear, module 1.5, 20 deg,
+in one sketch: cubic `skBezier` Hermite flanks with handles 1/16 and 5/8 of the
+chord, three-point tip and root arcs, radial root-to-base lines; extruded 6, hub
+r 6 from z 6 to 12 united, bore r 2.5 subtracted; V5 `fCylinder` hub and a bore
+with 1 mm overshoot, V4 hub and bore +0.025). AC102's controls are computed in
+FeatureScript with cos/sin/tan/atan/sqrt, so its closed form is the nominal
+value and the checker's payload route bounds the binary64 payload against it.
+The hub is 6 high, not 5, so that the flush bore contact is E9-exact: the V0
+extrusions put the hub top at fl(0.006) + fl(0.006) = fl(0.012) m, the bore top
+exactly; fl(0.006) + fl(0.005) exceeds fl(0.011) by 8.7e-19 m, which would leave
+an exact kernel a membrane over the bore. Both zones score `surfaceTypes`
+(below). The OCCT references are frozen in `fixtures/cad-acid/occt-ext/S/` (the
+11 unmodified live twin rows, all built with a STEP round trip, CORRECT against
+the contracts committed before them); Onshape stays NOT_RUN for the group
+(plan section 4, OM2/OM3). Since strand S10 (`skBezier` admission, control
+points, degree = points - 1 <= 7) wonky-rust builds AC100 from its FeatureScript:
+CORRECT in V0-V3 and V5 in the live run at `b5dd01c`. AC102 builds its one-sketch
+gear outline and refuses at the hub union (`opBoolean`:
+`curve2/spline-arrangement-unsupported`, capability, 0 points) until strand S11.
+
+- **Variants per zone.** A zone without `variants` means V0-V3, so every base
+  zone object stays byte-identical. New zones list their variants: V0-V3 are
+  mandatory, V4 (`kind: parameters`, radius +0.025 mm, literals in
+  `construction.paramsByVariant.V4`, own closed form
+  `closedFormByVariant.V4`) and V5 (`kind: idiom`, same geometry as V0 in
+  another FeatureScript idiom) are optional with a `variantNotes` reason when
+  omitted. Both use V0's frame (`baseFrame`). An undeclared variant is no cell:
+  it is shown as "–", never NOT_RUN, never in a count.
+- **Zone verdict.** Precedence and points are unchanged. A zone is CORRECT only
+  if every declared cell is PASS or REFUSED_EXPECTED on the same branch.
+  V1-V3 and V5 must reproduce V0's volume, area, topology and measurements; V4
+  is checked against its own closed form and must take V0's branch.
+- **Per-zone reference binding.** The whole-file hash of `zones.json` no longer
+  binds frozen references, errata, tolerance rules, results or wonky request
+  stamps. Each names the catalog it was made for; its bytes must be
+  recoverable (current file, `fixtures/cad-acid/catalog-history/<sha>.json`,
+  or a capture's `inputs/zones.json`). A frozen row (zone, variant) from
+  `fixtures/cad-acid/onshape/`, `onshape-ext/*/`, `occt/` or `occt-ext/*/` is
+  active when the capture's manifest verifies, the twin file the zone uses
+  today is the frozen file with the same hash, and the zone binding is equal:
+  construction, cell, frame and group for Onshape (re-observed from the frozen
+  STEP at every run), plus expected outcomes, closed forms and tolerance for
+  stored OCCT rows. A superseded row is inactive, two active rows for one
+  cell are `REFERENCE_AMBIGUOUS`, a tampered manifest is a hard error. Errata,
+  tolerance evidence, results and request stamps stay valid for every zone
+  they cover that is unchanged (the whole zone object and its frames); a
+  changed covered zone needs a new version. A zone without an active frozen
+  reference is **NOT_RUN** for Onshape and OCCT, never agreement.
+- **Gate for the extension.** Re-scoring main's landed results with the old
+  and the new scorer is identical for all 48 base zones; the four new zones
+  are NOT_RUN there. Contracts of new zones are declared from first
+  principles before any reference exists; OCCT and Onshape only check them,
+  and a disagreement becomes an erratum, never a rewritten contract.
 
 ## Declared errata and evidence admission (AC01 audit fix)
 
 The versioned scoring overlay is `fixtures/cad-acid/errata.json`, version
-`AC1-errata-2026-09-27-2` (CE8–CE11 unchanged; informational CE12 added).
-It is disclosed in both scoreboard formats. The
-frozen catalog remains byte-for-byte unchanged, SHA-256
-`c83552ff482d2805b298686d0f0a4b1e973007b5ea9f92f0dbc7341d32b2b547`.
-No strict-v1 tolerance or accepted geometry branch is widened. Until a v2 catalog or
-corrected, re-frozen twins are independently verified, all six listed zones
-are **DISPUTED for every admitted kernel observation**, including unexecuted
-cells: zero points, never PASS or WRONG, still in the 48-zone denominator.
+`AC1-errata-2026-10-02` (CE8/CE11 resolved; CE9/CE10 remain open; CE12 informational).
+It is disclosed in both scoreboard formats. Production scoring requires canonical
+JSON equality with that versioned file, just as for tolerance rules. `--errata`
+accepts a relocated equivalent copy, not a replacement policy: changed entries
+(including an empty list) refuse with `ERRATA_RULES_MISMATCH`. There is no CLI
+overlay mode that can write a production scoreboard. A new run invalidates its
+previous scores and results before preflights, so a failed attempt cannot leave
+old green output in the run directory.
+
+The original 48-zone catalog remains frozen at
+`620a125d939d24956a122b23234cd34b754597cd6256dca6ba58630f5a6d8c51`.
+The immediately previous catalog's exact bytes are also preserved at
+`fixtures/cad-acid/catalog-history/52771c0fae55085ad80858ee3ea4446b3b7117fa1929e1020b91b531d5f420cf.json`.
+Only AC25, AC26, AC31, AC36, AC38 and AC48 are amended in the dated history;
+all other zone contracts and every tolerance profile remain unchanged.
+CE9/CE10 (AC36/AC38) remain **DISPUTED for every admitted kernel observation**,
+including unexecuted cells: zero points, still in the denominator. CE8/CE11
+have no active dispute overlay. Frozen sources remain unchanged; corrected
+per-zone twins use the existing override mechanism, preserving every unaffected
+reference binding.
 Unverified wonky input rows are rejected before even this catalog verdict.
 Historical raw v1 scoreboards below are not the current verdicts.
 
 | Erratum | Zones | Evidence and reason | Required resolution |
 |---|---|---|---|
-| CE8 | AC31 | FS `opFillet` defaults to `allowEdgeOverflow=true`. Exact overflow volume is `512 - 16*(8 + sqrt(12) - 8*pi/3) = 462.61566071096047` mm³; frozen Onshape gives 462.61566071096163 mm³, OCCT BRepCheck valid, closed shell. The refusal-only contract is wrong. | Specify overflow geometry in v2. No exact-class infeasibility claim; a refusal must name the actual unsupported operation/edge-overflow capability. |
-| CE9 | AC36 | `acid-blend.fs` lines 175–183 select empty `qCreatedBy(union, BODY)`. The frozen feature error is `FILLET_SELECT_EDGES`; the union preserves an input body. | Correct selection using surviving inputs and re-freeze. |
-| CE10 | AC38 | `acid-blend.fs` lines 198–200 use `DraftType.NEUTRAL_PLANE/neutralPlane`. The documented std call uses `DraftType.REFERENCE_SURFACE`, `referenceSurface`, `pullVec`; frozen result is `REGEN_ERROR`. `src/lang/dataflow/fs-trace.mjs` accepts the incorrect alias. | Correct/re-freeze the FS twin. Frontend alias divergence remains a separate follow-up, not a Parasolid defect. |
-| CE11 | AC25, AC26, AC48 | `acid_curved.py` and `acid_precision.py` substitute Cone/Torus primitives for revolves. The independent audit's actual AC48 revolve yields a SurfaceOfRevolution with observed `singularPoints=0`, changing the v1 verdict. | Use real revolve twins, re-freeze, settle the representation-independent singular-point check. |
+| CE8 (resolved) | AC31 | Overflow volume `512 - 16*(8 + sqrt(12) - 8*pi/3) = 462.61566071096047` mm³. The independent SymPy Green-theorem meridian integral in `scripts/acid/closed-forms-errata.py` reproduces volume and area; 23/23 AC31 checks pass. Frozen Onshape volume is 462.61566071096163 mm³. | Catalog `AC1-2026-10-02-catalog-errata` specifies the overflow geometry, area, topology and all four bboxes. Existing standard bands unchanged (volume/area exact 1e-9 relative, tolerance 1e-6). Refusals must name actual unsupported capability. |
+| CE9 (open, prepared) | AC36 | Corrected `acid-blend-errata.fs` queries the surviving union inputs. The original empty `qCreatedBy(union,BODY)` error remains frozen history. | awaiting live Onshape re-capture of the corrected twin; [eight-call capture brief](cad-acid-errata-capture.md), maintainer only. |
+| CE10 (open, prepared) | AC38 | Corrected `acid-blend-errata.fs` uses `DraftType.REFERENCE_SURFACE`, `referenceSurface`, `pullVec` per Onshape std. | awaiting live Onshape re-capture of the corrected twin; [capture brief](cad-acid-errata-capture.md). Separate `CE10-FRONTEND-ALIAS` follows the fs-trace NEUTRAL_PLANE alias divergence; frontend unchanged. |
+| CE11 (resolved) | AC25, AC26, AC48 | Per-zone `acid_curved_errata.py` and `acid_precision_errata.py` use `Solid.revolve` on the specified meridians. The observer identifies cone apex / axis-touching circular meridian geometry, regardless of Cone/Torus/SurfaceOfRevolution representation; native observation uses exact dyadic circle/axis contact on the unplaced surface. STEP observation explicitly declares its existing 1e-7 mm transfer resolution; the observed rotated transfer drift is 4.709446166373255e-10 mm. Native positive-hole counterexamples at 1e-12 mm remain ring tori. | Fresh local observations and checksums in `fixtures/cad-acid/occt-ext/catalog-errata`; original primitive freezes retained against their original catalog. |
 
 Evidence is recorded per entry in the errata JSON: frozen artifacts under
 `fixtures/cad-acid/onshape/` (checksummed), exact formula above, twin source
@@ -270,12 +413,23 @@ claims; no geometry was implemented by this harness fix.
 
 ### Bend-free verification lane
 
-`pnpm test:rust` runs `scripts/test-rust.mjs`: the explicit 13-file list from
-AC01's independent gate, sequentially, fail-fast, with
+`pnpm test:rust` runs `scripts/test-rust.mjs`: registration lives in
+`scripts/test-rust.list`, one exact path per line, with `#` comments and Git union
+merging. Add new Rust/JS tests there; keep paths sorted. Scheduling priority lives
+in `scripts/test-rust-heavy.list`. The explicit file list began as
+the 13 files of AC01's independent gate; one process per file in a bounded pool
+(`WONKY_LANE_JOBS`, default min(6, cores/3); `1` runs them one after another),
+fail-fast (no new file starts after a failure), with
 `WONKY_BACKEND=rust` and `NODE_OPTIONS=--max-old-space-size=8192`. The list is
-checked nonempty and all files must exist. No glob and no fallback to Node's
+checked nonempty and all files must exist. Every `test/*.test.mjs` must be
+registered or explicitly named in `scripts/test-rust-excluded.list`; duplicate
+paths and registration/exclusion overlap fail. No glob and no fallback to Node's
 whole-repository test discovery are used. Each file runs under the import/addon
-guard and must report `bendLoaded=false` in `out/test-rust/`.
+guard and must report `bendLoaded=false` in `out/test-rust/`. Each file's output
+is printed as one block in list order. Files run concurrently, so they share no
+mutable state: scratch output goes to per-test temporary directories or per-file
+paths, and planted source edits happen in throwaway copies of the tree, never in
+the working tree.
 
 The files cover the benchmark observer, CAD-Acid scorer/runner regressions,
 frozen R20 references, publication rendering, Rust host, and eight viewer
@@ -283,18 +437,18 @@ modules. The lane requires an existing matching Rust addon; it does not compile
 one. Cargo builds/tests run only through the bounded runner, for example
 local development evidence.
 Do not run the historical `test`/`test:fast` lanes: they can load the retired
-kernel. These 13 files are not a claim that every JS test is migrated.
+kernel. These files are not a claim that every JS test is migrated.
 
 ## Status (historical AC1, 2026-09-26)
 
 | Piece | Path | State |
 |---|---|---|
 | Catalog, 48 zones in 5 groups | `fixtures/cad-acid/zones.json` | version `AC1-2026-09-26-a1`, frozen; checker passes 1561/1561 |
-| Closed-form checker | `scripts/acid/closed-forms.py` | runs with `uv run`, 17 planted mutants caught (below) |
+| Closed-form checker | `scripts/acid/closed-forms-errata.py` | runs with `uv run`, 17 planted mutants caught (below) |
 | FeatureScript twins, one Feature Studio per group | `fixtures/cad-acid/fs/acid-<group>.fs` | written; boolean and precision still lack the per-zone `acidACxx` functions (authoring grain only, no geometry effect) |
 | build123d twins, one module per group | `fixtures/cad-acid/b3d/acid_<group>.py` | written |
 | Runner, measurer, scorer, Onshape push script | `scripts/acid/` | written; the push ran live once (below) |
-| Frozen Onshape reference | `fixtures/cad-acid/onshape/` | frozen 2026-09-26: document `a4463fc362ce4f30055696a6` (public, "wonky CAD-Acid v1"), one Part Studio per variant, 100 feature states, `provenance.json` + `SHA256SUMS` |
+| Frozen Onshape reference | `fixtures/cad-acid/onshape/` | frozen 2026-09-26: document `a4463fc362ce4f30055696a6` (public, "wonky CAD-Acid v1"), one Part Studio per variant, 100 feature states, `provenance.json` + `SHA256SUMS`; Batch A in `onshape-ext/A/` (2026-09-28, document `dcfa31627dfa9e33be1bd715`, 18 feature states) |
 | Test | `test/cad-acid.test.mjs` | 15/15: synthetic scorer contracts (not kernel evidence) plus four live OCCT checks (observer primitives, observer edge-merge rule, curved twin vs build123d's named Booleans, a planted AC31 body through `build-occt.py`) |
 
 The Onshape references were frozen once over the session bridge; the account's API usage counters were unchanged before and after every push run.
@@ -323,7 +477,7 @@ reference.
   Onshape's Boolean merges this gap.
 - AC31: v1 incorrectly counted the feasible overflow fillet (volume 462.62
   of the 512 plate) as WRONG because it required a refusal. CE8 supersedes
-  that verdict with DISPUTED; this is a catalog error, not silent-wrong.
+  that verdict with the overflow geometry contract; this is a catalog error, not silent-wrong.
 - AC20: STEP-measured area 1821.04783 vs 1821.04336 (+2.45e-6 relative, band
   1e-6); volume within 4.1e-7. The quartic edge is a B-spline in the STEP file.
 - AC27: volume -3.14e-5, area +1.1e-5, V2 bounding box. This is an observer
@@ -664,10 +818,21 @@ normaliser. Raw counts are recorded but not scored.
 
 **Singular points.** Points where a surface degenerates (a cone apex, a
 horn-torus pinch, a profile point on the revolve axis) are `singularPoints`,
-never vertices. A toroidal face whose major radius equals its minor radius
+never vertices. A planar disc swept by a profile edge perpendicular to the axis
+(AC72) has none: the plane does not degenerate at its centre. A toroidal face whose major radius equals its minor radius
 (bit-equal for the exact class, within the linear resolution for the tolerance
 class) contributes one singular point at its centre, which is also a
 `pinchPoint`: the solid is locally two cones touching at a point.
+
+**Surface classes.** A zone may add `surfaceTypes` to its scored fields: the
+histogram of face surface classes as the OCCT observer names them
+(`scripts/acid/measure.py` `surface_class`: Plane, Cylinder, SurfaceOfExtrusion,
+BSplineSurface, ...), compared exactly. It is scored on every OCCT observation
+and on every STEP round trip; a native exact observation carries no classes, so
+for the exact class it is the round trip of the kernel's own STEP that must
+carry them (an extruded Bezier is a SurfaceOfExtrusion face, never a Plane and
+never a B-spline surface re-fit). The physical witness files SurfaceOfExtrusion
+and BSplineSurface faces in their own buckets.
 
 **Scored fields.** `topology.scored` lists them per zone. By default these are
 bodies, shells, faces, edges, vertices, genus and singularPoints, plus
@@ -739,7 +904,7 @@ the local x axis lies in (0, 2e-5] mm.
 | AC28 | curved | Napkin ring: sphere minus coaxial cylinder | closed | any: 1 bod. |
 | AC29 | blend | Single vertical edge fillet | closed | any: 1 bod. |
 | AC30 | blend | Critical paired fillets consume a face | closed | any: 1 bod. |
-| AC31 | blend | Overflow fillet (v1 title incorrectly says infeasible) | CE8 | DISPUTED for all kernels |
+| AC31 | blend | Overflow fillet on a thin plate | closed; CE8 resolved | any: 1 bod.; named capability refusal |
 | AC32 | blend | Fillet along a tangent chain | closed | any: 1 bod. |
 | AC33 | blend | Chamfer of a circular rim | closed | any: 1 bod. |
 | AC34 | blend | Trihedral corner: three equal fillets | closed | any: 1 bod. |
@@ -757,6 +922,36 @@ the local x axis lies in (0, 2e-5] mm.
 | AC46 | precision | Large coordinates: thin resolved slot at 131 m | closed (E9) | any: 1 bod. |
 | AC47 | precision | Micro hole in a large plate | closed | any: 1 bod. |
 | AC48 | precision | Horn torus: exact axis tangency | closed; genus and pinch scored | any: 1 bod.; any: refusal singular-geometry |
+| AC61 | holes-a | Pipe (coaxial through-tube, genus 1) | closed; V0-V5 | any: 1 bod. |
+| AC63 | holes-a | Blind hole (pocket, genus 0) | closed; V0-V5 | any: 1 bod. |
+| AC64 | holes-a | Cross-axis holes (two independent through-bores, genus 2) | closed; V0-V5 | any: 1 bod. |
+| AC65 | holes-a | Drill after union (fused L-block, genus 1) | closed; V0-V5 | any: 1 bod. |
+| AC52 | regions-a | Overlapping circles: three regions, three bodies | closed; V0-V5 | any: 3 bod. |
+| AC53 | regions-a | Circle split by a line: one region picked by a point | closed; V0-V4 | any: 1 bod. |
+| AC56 | regions-a | Nested line loops: frame with a rectangular hole | closed; V0-V3, V5 | any: 1 bod. |
+| AC57 | regions-a | Three bore circles in one sketch | closed; V0-V5 | any: 1 bod. |
+| AC91 | regions-a | Obround with a round hole | closed; V0-V3, V5 | any: 1 bod. |
+| AC92 | regions-a | Overlapping rectangles: three regions, three bodies | closed; V0-V3, V5 | any: 3 bod. |
+| AC93 | regions-a | Line splits a rectangle: two regions, two bodies | closed; V0-V3, V5 | any: 2 bod. |
+| AC95 | regions-a | Bore in a hexagon | closed; V0-V5 | any: 1 bod. |
+| AC99 | regions-a | Region picked by a point | closed; V0-V3, V5 | any: 1 bod. |
+| AC51 | holes-a | Star with a coaxial bore | closed; V0-V5 | any: 1 bod. |
+| AC60 | shapes-a | Four-hole plate (print-ready part) | closed; V0-V5 | any: 1 bod. |
+| AC96 | shapes-a | Star with 24 trig corners | closed; V0-V3, V5 | any: 1 bod. |
+| AC62 | holes-a | Round bar with a through-bore and a hex pocket, one cut | closed; V0-V5 | any: 1 bod. |
+| AC67 | holes-a | Cylinder boss on a plate | closed; V0-V5 | any: 1 bod. |
+| AC68 | holes-a | Side-open slot with a through-bore, one cut | closed; V0-V5 | any: 1 bod. |
+| AC71 | holes-a | Pattern copies as drilling tools | closed; V0-V5 | any: 1 bod. |
+| AC75 | holes-a | Counterbore | closed; V0-V5 | any: 1 bod. |
+| AC72 | shapes-a | Full stepped revolve | closed; V0-V5 | any: 1 bod. |
+| AC79 | holes-a | Cut into a concave extrusion profile | closed; V0-V3, V5 | any: 1 bod. |
+| AC98 | holes-a | Moved body stays editable | closed; V0-V5 | any: 1 bod. |
+| AC77 | shapes-a | Concave fillet on a union seam | closed; V0-V3, V5 | any: 1 bod. |
+| AC81 | shapes-a | Box fillet | closed; V0-V3, V5 | any: 1 bod. |
+| AC84 | shapes-a | Box shell, open top | closed; V0-V3, V5 | any: 1 bod. |
+| AC89 | shapes-a | Corner radii on a holed plate | closed; V0-V5 | any: 1 bod. |
+| AC100 | splines-a | PH-cubic arch prism (explicit skBezier) | closed (bezier-green, exact); V0-V3, V5 | any: 1 bod. |
+| AC102 | splines-a | Spur gear with hub and bore, one sketch (skBezier flanks) | closed (nominal) + payload route; V0-V5 | any: 1 bod. |
 
 Retired: AC06 (circular section swept along a quarter arc). Its geometry is a
 torus patch that the revolve zones AC04 and AC26 already cover exactly, and
@@ -772,9 +967,13 @@ Groups (one Feature Studio and one build123d module each; custom feature
 | curved | AC19-AC28 | cylinder, sphere, cone and torus surfaces, curved Booleans, tangency |
 | blend | AC29-AC38 | fillet, chamfer, vertex blend, variable blend, blend on a quartic edge, shell, draft |
 | precision | AC39-AC48 | E4/E9: sub-resolution gaps and slivers, decimal arithmetic, large and small scale, singular revolve |
+| holes-a | AC61, AC63-AC65, AC51, AC62, AC67, AC68, AC71, AC75, AC79, AC98 | extension (Batch A, family Booleans and holes): pipe, blind pocket, cross-axis bores, drill after union, bore in a trig star, bore plus hex pocket, boss on a plate, side-open slot, patterned bores, counterbore, cut into a concave profile, drilling a moved body; V4 where circles exist (not AC79), V5 declared |
+| regions-a | AC52, AC53, AC56, AC57, AC91-AC93, AC95, AC99 | extension (Batch A, family Sketch regions): circle, line and rectangle crossings, point-picked regions, nested loops, holed profiles; V4 where circles exist, V5 except AC53 |
+| shapes-a | AC60, AC96, AC72, AC77, AC81, AC84, AC89 | extension (Batch A, families Output, Contours and Finish): four-hole plate, trig star, stepped revolve, seam fillet, box fillet, open-top shell, rounded holed plate; V4 where circles exist (AC60, AC72, AC89) |
+| splines-a | AC100, AC102 (planned AC100-AC104) | extension (family Spline curves and gears): explicit Bezier arch prism, one-sketch spur gear with hub and bore; surfaceTypes scored; V4 where circles exist (AC102) |
 
 Oracles:
-- closed forms: 44 zones;
+- closed forms: 74 zones (44 base zones and all 30 extension zones);
 - cross-comparison with closed-form bounds: 2 zones (AC35 variable fillet,
   which also has closed-form setbacks; AC36 blend on the quartic T-junction
   edge);
@@ -784,8 +983,8 @@ Oracles:
 ## Closed-form checker
 
 ```sh
-uv run scripts/acid/closed-forms.py                 # all zones, exit 1 on any failure
-uv run scripts/acid/closed-forms.py --only AC20 --verbose
+uv run scripts/acid/closed-forms-errata.py                 # all zones, exit 1 on any failure
+uv run scripts/acid/closed-forms-errata.py --only AC20 --verbose
 ```
 
 For every zone, the checker recomputes the closed forms from
@@ -794,6 +993,56 @@ expression:
 
 - **Prisms and revolves:** Green's theorem over line and arc profiles, in sympy
   exact arithmetic.
+- **Sketch regions (regions-a):** the region arrangement is rebuilt from the
+  parameters (circle crossings, the side of a split line, nested loops,
+  rectangle crossings by 2-D coordinate compression), each region point is
+  classified exactly, and every region is integrated as its own prism.
+- **Trig and sqrt corners (AC51, AC62, AC95, AC96):** the polygon corners are
+  evaluated exactly in sympy from the construction's own expressions
+  (h = 5/sqrt(3) or 6/sqrt(3), cos/sin of k*pitch) and integrated by Green's theorem; the
+  binary64 corner payload the interpreter builds is integrated separately by
+  the shoelace formula in Fractions and must agree to 1e-12.
+- **Stacked tool cuts (AC62, AC67, AC68, AC75):** the solid is cut into
+  z-slabs whose sections are rebuilt from the parameters (bore circles, the
+  hexagon, the slot notch, the boss disc) and integrated by Green's theorem;
+  at each slab interface the smaller section must lie inside the larger and
+  counts twice in the prism areas. Pattern copies (AC71) are the seed moved by
+  the catalog's translations, checked disjoint and inside the box.
+- **Full revolve topology (AC72):** the declared faces, ring edges, loops,
+  vertices and singular points are derived from the profile (one face per
+  off-axis profile edge, one ring edge per off-axis profile point, no vertex,
+  a singular point only where a profile edge meets the axis obliquely), since
+  Euler-Poincare alone would also accept a raw count such as F5 E4 V4 without
+  ring edges.
+- **Blended and cut prisms (AC77, AC79, AC81, AC89, AC98):** each result is a
+  right prism over profile loops rebuilt from the parameters (the L outline
+  with the cutter square as a hole, the moved block with its bore, the L with
+  the concave fillet arc, the box outline with its rounded corner, the rounded
+  plate with four bore circles) and integrated by Green's theorem. The declared
+  topology is derived from the same loops (one side face per profile segment, a
+  full circle giving a closed face with two ring edges), so an Euler-consistent
+  count that drops the spring lines or a bore fails. The open-top shell (AC84)
+  is the exact box Boolean of AC37 with its topology derived from the
+  construction.
+- **Bezier profiles (splines-a), bezier-green:** a Bezier piece enters Green's
+  theorem as its exact coordinate polynomials; a Pythagorean-hodograph arc
+  length is exact (|C'| is a polynomial, AC100: 28, also checked against
+  tanh-sinh quadrature), otherwise Gauss-Legendre quadrature. Probe distances
+  to rational Beziers use the exact real roots of (C - p).C'; the bbox takes the
+  derivative roots (route B) and a golden-section search (route A). V5 must be
+  the exact degree elevation of V0.
+- **Payload controls (AC102):** the gear is rebuilt tooth by tooth from the
+  parameters at 50 digits (not by symmetry, unlike the catalog's sector-form
+  expression). Separately, the FeatureScript payload (cos, sin, tan, atan and
+  sqrt in binary64, in the FS operation order) is replicated in Python, taken
+  as exact dyadics and integrated exactly (three-point arcs through the payload
+  points by their exact circumcentre, angles in mpmath); it must agree with the
+  nominal cap area to 1e-12. The cap area must also lie within 1e-3 of the true
+  involute gear (first-principles sanity check, not a scored band), and the
+  flush levels must be equal as exact E9 payload sums.
+- **Named definitions:** a closed-form item may carry `where`, a list of
+  [name, expression] pairs evaluated in order to 60 digits (AC102 names its
+  base radius, flank controls and arc length).
 - **Axis-aligned box Booleans:** coordinate compression with Fractions, exact.
   The same cells give the body count (cells joined through shared faces) and
   the body distances.
@@ -832,13 +1081,24 @@ It also checks:
 - the Euler-Poincare invariant (with pinch points) of every declared topology;
 - that every topology scores the required fields (genus and singular points
   included);
-- catalog structure: 36-48 zones, 8-12 per group, unique ids, retired ids never
-  reused, zone selector values, unique cells, the variant definitions, the
-  measurement kinds and the scoring table.
+- catalog structure: 36-48 zones and 8-12 per group for a schema /1 catalog;
+  for an extended catalog every base zone present and unchanged unless a
+  history entry amends it, new ids AC50 and up listed in the history, base groups
+  unchanged (8-12), new groups 4-12 (an incomplete group: its plannedZoneIds)
+  with a variant enum covering their zones;
+  unique ids, retired ids never reused, zone selector values, unique cells, the
+  variant definitions (V4 parameters with +0.025 mm, V5 idiom, both on V0's
+  frame), declared variants and variantNotes of new zones, the measurement
+  kinds and the scoring table;
+- V4 recomputed from `construction.paramsByVariant.V4` by the same zone model
+  (volume, area, measurements, bounding box), which may differ from V0 only in
+  radii by exactly +0.025 mm; V5 has no closed form of its own and its bounding
+  box equals V0's.
 
-Current result: 1561 checks, 0 failed, 4 single-route V3 checks. Evidence that
-the checker is not vacuous: 17 planted mutants on temporary copies were all
-caught (exit 1):
+Current result (78 zones, `AC1-2026-09-28-extS-splines-a`): 3607 checks, 0
+failed, 4 single-route V3 checks. Evidence that the checker is not vacuous,
+from the 48-zone base catalog (1561 checks): 17 planted mutants on temporary
+copies were all caught (exit 1):
 
 - the critic's AC29 mutant (radius 4 to 3, expectations kept);
 - AC35 end radius 4 to 3.99, and a consistent but wrong setback;
@@ -851,6 +1111,12 @@ caught (exit 1):
 - AC07 a single-route V3 coordinate +1e-6 mm;
 - AC39 an E9 symbol;
 - AC20 an internally consistent but wrong elliptic area.
+
+For splines-a, two planted catalog copies fail as well: AC100's control
+(18,6) changed to (18,7) in `params` only (18 checks, among them the V5
+elevation, the PH arc length, volume, area, both probes and every bbox), and
+AC102 with the 5 mm hub and 11 mm bore (the E9 level check, volume, area and
+bbox).
 
 The critic's independent oracle (`tmp/acid/critic_math_independent.py`, run on
 a scratch copy that only skips the zones this amendment changed) agrees on 1026
@@ -868,7 +1134,7 @@ What the checker does not prove:
 
 ## How to run
 
-1. `uv run scripts/acid/closed-forms.py` must pass (the runner also runs it
+1. `uv run scripts/acid/closed-forms-errata.py` must pass (the runner also runs it
    first and stops on failure).
 2. `NODE_OPTIONS=--max-old-space-size=8192 node scripts/acid/run.mjs
    [--out <dir>] --kernels wonky-rust [--zones AC01,...]
@@ -904,7 +1170,11 @@ document or an explicit decision to replace this one.
 `node scripts/acid/onshape-push.mjs --dry-run` prints the call plan. Live:
 `--live --meter-start <ISO date> [--variants V0,...] [--resume]`. A run stops
 between variants with a saved `state.json`; `--resume` continues only when no
-write is pending and every started variant is complete.
+write is pending and every started variant is complete. A catalog extension is
+captured with `--groups <id,...> --out fixtures/cad-acid/onshape-ext/<batch>`
+into its own document ("wonky CAD-Acid ext <batch>"): only those groups are
+uploaded and hashed, the variants default to the ones their zones declare, and
+`zone = ALL` and the per-zone fallback build only declaring zones.
 
 0. **Pre-flight (one evaluation).** AC35 uses `opFillet` with `isVariable`,
    whose std parameters are sparsely documented. Upload a scratch Feature
@@ -972,3 +1242,161 @@ write is pending and every started variant is complete.
       conditions: none of them occurs in the R20 studios; AC12 now covers edge
       and vertex contact with three operands in one Boolean.
 - `docs/rust-migration.md` 3.2 (E4, E9) and "Entscheidungen Marc" (26.09.2026).
+
+Boolean Z3 (2026-10-02) adds AC106–AC108, with V0–V4 and no plan-specified
+V5 idiom. Both operands are `fCylinder` / directed cylinders and receive the
+shared frame before the specified subtraction or union. V4 adds 1/40 mm to
+both radii. The previous catalog's exact bytes are in `catalog-history/`.
+Onshape remains awaiting capture through Marc's bridge.
+
+The first-principles implementation is `scripts/acid/z3_forms.py`:
+
+- A cross-bore at y=d removes `4 ∫ sqrt(R²-y²) sqrt(r²-(y-d)²) dy`,
+  over d-r to d+r. Its exposed area is the original shaft area minus
+  `4R ∫ sqrt(r²-(y-d)²)/sqrt(R²-y²) dy`, plus
+  `4r ∫ sqrt(R²-y²)/sqrt(r²-(y-d)²) dy`. The independent route substitutes
+  y=d+r sin(theta) for the removed volume and parametrizes each wall by
+  its own circumference angle. AC106 also uses complete elliptic K/E.
+- The equal-radius tee removes half a Steinmetz intersection:
+  `V = πr²(H+L)-8r³/3`, `A = 2πr(H+L)+3πr²-8r²`.
+  Independent disk-chord and exposed-angle strip integrals reproduce both.
+- The bore has F4 E4 V0, four ring edges, eight loops and solid genus 1.
+  The tee has F5 E5 V2, three ring edges, eight loops and solid genus 0.
+  Its two algebraic curve nodes are B-rep vertices, not collapsed-surface
+  singularities. AC108's algebraic intersection rings have genus 1; their
+  chart branch events do not introduce B-rep vertices.
+- On the shaft chart x=R(1-t²)/(1+t²), y=2Rt/(1+t²), z=v, AC108 V0's
+  exact v-discriminant is `80t(t-2)(2t-1)(t²+1)²`. Its real branch events
+  are exactly 0, 1/2 and 2; the checker and a planted-negative test bind
+  this to the operands. V4 recomputes its own discriminant and measures.
+
+All six volume/area pairs are reproduced by two routes to <=1e-12 absolute
+before any geometry observation. The contracts and twins are committed as
+one pre-observation freeze; later observations must not repair these values.
+
+Complete extension capture groups accept 3–12 zones (the approved Z2/Z3
+plan has three each). This is an execution-group size bound; every zone
+still passes all geometry, topology, construction and variant checks.
+The base catalog’s 8–12 bound and incomplete-group planned bounds remain.
+
+Z3 validation was OPEN at the initial OCCT observation. The frozen values are
+unchanged. Local build123d 0.10.0 / cadquery-ocp 7.8.1.1.post1 produced 15
+observations: 13 bodies with completed STEP round trips and two wrapper
+errors (`ShapeList` has no `clean`, AC107 V1/V3). Authenticated frozen scoring
+reports 7 CORRECT, 6 WRONG and 2 ERROR cells:
+
+| Zone/variant | Frozen F/E/V/rings | OCCT native F/E/V/rings | STEP F/E/V/rings |
+|---|---|---|---|
+| AC106 V3 | 4/4/0/4 | 4/4/1/3 | 4/6/3/3 |
+| AC108 V0 | 4/4/0/4 | 4/4/1/3 | 4/4/1/3 |
+| AC108 V1 | 4/4/0/4 | 4/4/1/3 | 4/4/0/4 |
+| AC108 V2 | 4/4/0/4 | 4/4/0/4 | 4/4/1/3 |
+| AC108 V3 | 4/4/0/4 | 4/5/2/3 | 4/5/2/3 |
+| AC108 V4 | 4/4/0/4 | 4/4/1/3 | 4/5/2/3 |
+
+The observations, exact inputs and hashes are frozen in `occt-ext/Z3/`;
+scored V0 STEP files and the full failed-run evidence are retained locally
+under local development evidence in the main checkout.
+The original failed capture stays unchanged. The fix1 investigation resolves
+two different mechanisms without editing the contracts or tolerance bands:
+
+- OCCT's primitive-cylinder union retained both overlapping solids in V1/V3,
+  even without cleaning, in serial mode and with baked placement. The twin
+  now follows `primitives.fs::fCylinder`: a circular planar face extruded
+  along the directed axis. Both resulting operands still receive the common
+  frame before the Boolean. Boolean shape lists preserve every returned body.
+- Fitted intersection-edge endpoint tangents can differ at a smooth join;
+  AC108 V0's measured cross-product ratio was `1.8628036315591153e-08`.
+  `measure.py::transverse_analytic_join` uses the implicit function theorem
+  for degree-two joins on the same two analytic supports. Plane, cylinder
+  and sphere normals are evaluated as exact dyadics; a conservative rational
+  bound includes the existing OCCT vertex/face tolerances and declared STEP
+  resolution. Only certified transverse joins are removed. Tangencies and
+  uncertain joins retain the existing edge-tangent check; its cutoff is
+  unchanged. No faces or raw topology are merged by this observer repair.
+- Re-exporting imported periodic pcurves caused
+  `BRepCheck_InvalidImbricationOfWires` on AC108 V0–V3's second STEP
+  import. The observer/reference writer preserves the caller's normal
+  pcurve representation when its transfer is valid. Only an invalid transfer
+  of a valid source tries STEP's 3D-authoritative representation; validity,
+  volume/area drift within the declared reader resolution, and tolerance
+  growth are checked before accepting it. The caller's writer setting is
+  restored. Unconditionally discarding pcurves regressed AC20's volume and
+  area in the first fix1 full run; a frozen Rust-export regression input now
+  checks metric preservation over two transfers. Score bands are unchanged.
+  All 15 cells pass native and two-transfer validity/topology tests; each
+  import also stays within the preceding B-rep tolerance plus the existing
+  `1e-7 mm` transfer resolution. Disabling B-spline concatenation alone did
+  not resolve the defect and was not retained.
+
+The bore curves independently admit the periodic parametrization
+`(±sqrt(R²-(d+r*cos(t))²), d+r*cos(t), r*sin(t))`. Strict clearance
+`R > abs(d)+r` separates the two signs and makes x nonzero. Their y/z
+speed squared is r²; their support-normal cross-product squared is
+`r²*(R²*sin(t)²+x²*cos(t)²) > 0`. Thus chart branch events are regular
+curve points, not B-rep vertices. The real-geometry regression checks all
+15 cells before and after two STEP transfers, including the tee's two retained nodes;
+separate tests cover tangencies, uncertainty balls and symbolic regularity.
+The Z3 test file passes 10/10 tests with zero skipped, including a frozen
+Rust-export regression for metric preservation across two transfers. Live
+Onshape capture and independent verification of fix1 remain outstanding.
+
+The fresh capture in `occt-ext/Z3-fix1b/` records 15 CORRECT, 0 WRONG and
+0 ERROR cells against the unchanged contracts. It was produced on clean
+revision `928b7b5211d41b262c3cc52e3e2105f3f1704991`; all 3,987 tracked
+files matched the remote tree. The other six observer suites pass 70/70,
+zero skipped, for 80 passing checks. AC20's four live Rust variants are
+CORRECT again; Z3 remains 15 named Rust refusals. The targeted command
+exits 1 because unchanged frozen OCCT rows for AC20, AC27 and AC111
+remain WRONG; live diagnostics do not overwrite frozen columns. A prior
+attempt was family-paused for hours and one test/subtest timed out on
+resume; that interrupted log remains preserved separately from the
+completed green run. The original failed Z3 batch and the earlier
+`Z3-fix1` capture remain byte-for-byte unchanged, with their inputs and
+checksums. The earlier successful capture lives in
+`occt-ext-history/Z3-fix1/`: two active captures with identical contracts
+and twin hashes correctly raised `REFERENCE_AMBIGUOUS`. An archive-integrity
+and actual reference-admission test verifies the preserved bytes and the
+sole active fresh capture; the ambiguity gate is unchanged. No
+contract, scorer or site gate was modified. This repair supplies reference
+construction and observation, not new Rust geometry capability.
+
+### Live performance sidecar
+
+Each live run writes `perf.json` alongside `results.json` and `scoreboard.json`.
+Individual cell files retain diagnostics as cells finish; `perf.json` is
+published every 32 cells and on completion to keep collection overhead small.
+Timing never enters the scored rows. Wonky cells record wall and process CPU
+milliseconds for frontend, native construction, observation, STEP, diagnostic
+STL (explicit deviation 0.02 mm), STEP roundtrip, and total. Unexecuted phases
+are null with `not_run`; diagnostic STL failures do not change STEP verdicts.
+The STEP observer CPU scope excludes the uv launcher. Addon warmth means
+loaded by the existing admission preflight, not warmed operation caches.
+
+The existing `bench-occt.py` worker also builds each cell's build123d twin once,
+with no warmup, on the same host and within the same cell-pool budget. Only its
+own build, in-memory observation and STEP export are timed; OCCT never constructs
+wonky geometry. Comparisons use that common pipeline, excluding wonky's STL,
+roundtrip checks, process startup and twin module imports. The earlier
+`bench.mjs` repeated warm benchmark remains available for that separate scope.
+
+Run `node scripts/acid/perf-report.mjs <run>/perf.json [<previous>/perf.json]`
+(or add `--json` for all phase wall/CPU summaries). It reports per-family and
+per-zone medians, nearest-rank p95, slowest cells, refusals/failures, coverage
+and wonky/build123d ratios. Ratios retain same-host matched pairs and disclose
+how many also had comparable load. Zone coverage means at least one variant
+builds on each side; the matched-cell count is a separate denominator.
+
+Run-to-run slowdown flags require the same host, CPU count, slot count, cell
+concurrency and addon warmth; 1-minute load must differ by at most
+`max(1, 0.1 * logicalCpus)`. Missing slot counts prevent comparisons. Slot count
+comes from `WONKY_HOST_SLOTS` or the known runner profile (mini 3, Studio 1);
+local runner callers should set `WONKY_HOST_SLOTS=3`. The report flags only
+built cells exceeding both 2x and +200 ms, and records median absolute relative
+difference across all paired built cells, plus the similar-load subset, using
+the previous run's total wall time as denominator. It is a
+report, not a gate. Keep the host/load context with all exported tables.
+
+Landers must copy `perf.json` alongside the scoreboard and results into
+local development evidence. The maintainer's local development evidence
+is outside this worktree and needs that copy instruction added there.

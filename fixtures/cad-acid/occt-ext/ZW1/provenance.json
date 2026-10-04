@@ -1,0 +1,71 @@
+{
+  "schema": "wonky/cad-acid-occt-frozen/1",
+  "batch": "ZW1",
+  "zonesSha256": "0990e05067b4f3ecdf4d71a9159ff56b45448d5ceddfcfee59720d7736a1f75a",
+  "catalogVersion": "AC1-2026-10-02-extZW1-sweeps",
+  "zones": [
+    "AC126",
+    "AC127",
+    "AC128",
+    "AC129",
+    "AC130",
+    "AC131"
+  ],
+  "cells": 34,
+  "sources": {
+    "fixtures/cad-acid/b3d/acid_sweep_zw1.py": "303cb8d69a50c95c55597418fd932fb47c9173a8989a0a824cbcc2d7691252bc"
+  },
+  "observations": "observations.json",
+  "origin": {
+    "file": "tmp/zw1-occt/results.json",
+    "sha256": "5fc7b901cd484b641b4eb5ea5e577df53a7e6be2f38073505f35578827b4861e",
+    "code": {
+      "head": "14f129a489b231c97743f6def4dd576aa2689101",
+      "treeSha256": "6348405de8f65bb96fc496b377f07ee025137dfbd64fdcd870a2ee273beb5f65"
+    },
+    "gitRevision": "14f129a489b231c97743f6def4dd576aa2689101",
+    "gitTree": "e4a57ea9340e4624f82361fbbcdd29a5f25ffe0a",
+    "machine": "local MacBook through run.mjs --host local",
+    "startedAt": "2026-10-02T21:37:11.455Z",
+    "finishedAt": "2026-10-02T21:38:12.026Z",
+    "versions": {
+      "build123d": "0.10.0",
+      "cadquery-ocp": "7.8.1.1.post1"
+    }
+  },
+  "contractFreeze": {
+    "initialCommit": "201ab95f0f8a7cb855b12f6e0c7ee452d3039a94",
+    "bindingCorrection": "1c0ffdf8: radius-key names and mandatory retired-backend metadata only; closed forms, measures and topology unchanged before first OCCT observation"
+  },
+  "observedVerdicts": {
+    "CORRECT": 34
+  },
+  "namedLimits": [],
+  "scoredV0Steps": {
+    "AC126": {
+      "path": "local-development-evidence",
+      "sha256": "3ac38530067412c86969fef6c66ceb9aa2902863ee00331af55fa22f870c1cb8"
+    },
+    "AC127": {
+      "path": "local-development-evidence",
+      "sha256": "064bc7ff25773cd905d0ff12bb1f1c3476870edcee77e3d6b098e95e7c8f8f8c"
+    },
+    "AC128": {
+      "path": "local-development-evidence",
+      "sha256": "c839122eaa4ea5140ac4fc982b2f85e894b594edcf80e8a0242fcc99899611e2"
+    },
+    "AC129": {
+      "path": "local-development-evidence",
+      "sha256": "e701bed77d8be16c5727f641d97d8e695461a16bb73ec069d3e4eb3cdeb52a3d"
+    },
+    "AC130": {
+      "path": "local-development-evidence",
+      "sha256": "26bcf727c045a9349b6a0e5139b5bcf870490bf1c01f0135beb45639256d8c61"
+    },
+    "AC131": {
+      "path": "local-development-evidence",
+      "sha256": "686b8dbdae31b01579770be648f1a66f79078fb22ddb399416069a9f20ea7bbd"
+    }
+  },
+  "note": "Unmodified live-reference observations from faithful specified operations; catalog and twin input bytes frozen. Existing scorer scoreVariant evaluates 34/34 CORRECT under the unchanged OCCT class bands. No Onshape calls. Stored rows bind to this exact catalog and twin; they are not new execution evidence."
+}

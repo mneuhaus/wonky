@@ -1,0 +1,702 @@
+[
+  {
+    "name": "AC115_0_V4",
+    "state": "IN_PROGRESS",
+    "description": "acid=AC115@V4",
+    "revision": null,
+    "partNumber": null,
+    "elementId": "a59fa5d543b2e08d324bdcd6",
+    "partId": "JHD",
+    "bodyType": "solid",
+    "microversionId": "60e7801562d469e0ddbde95b",
+    "isFlattenedBody": false,
+    "partQuery": "query=qCompressed(1.0,\"&1cb$eJx9UEtzgjAQ/jPbIxmjgHLkkWK0gk2YcTwxgaSaqRIKcVr/fUFmeumMt939HrvfvkQevN9Ud995HM9B6l5cK326CatNkwgrQryb/0eKe6s4XkDOaEqz8K1MyJ5kCcniIw/AdPqkG3HpQzeeDcYCVGO1vY+qSAD5a7gLJEkJr+Cse2u6abiCmJGwoHk2AKZV3WMlldEcqAwxxxh5yEU+8uFVb2bRIb1umyBd2005C2OMvUr0qv9Utj5/607l7XDS15jx4S6Bb0kRr0uSFbQ4cgUTdbqKSh4gFzpVW9GcLuqiPuyYgbnMYz5bshUTrGI1k9zBHvJgiHp+xliANe0T3IfKWGuuzI394R1RnhwnVlwNUZ0aORI5Ci1RAOrHdjepTEumglXDZ/mB7ItylP0CmuGT+w==\",id);",
+    "partIdentity": null,
+    "meshState": "NO_MESH",
+    "isHidden": false,
+    "configurationId": "",
+    "thumbnailConfigurationId": "",
+    "propertySourceTypes": {
+      "57f3fb8efa3416c06701d60d": 2,
+      "57f3fb8efa3416c06701d60e": 2
+    },
+    "metadataMicroversion": "19e19bc88ad7a99d524d429a",
+    "defaultColorHash": "FiJ0BWGmKn9GHtJ_0_0",
+    "ordinal": 0,
+    "isMesh": false,
+    "appearance": {
+      "color": {
+        "red": 157,
+        "green": 207,
+        "blue": 237
+      },
+      "isGenerated": true,
+      "opacity": 255
+    }
+  },
+  {
+    "name": "AC66_0_V4",
+    "state": "IN_PROGRESS",
+    "description": "acid=AC66@V4",
+    "revision": null,
+    "partNumber": null,
+    "elementId": "a59fa5d543b2e08d324bdcd6",
+    "partId": "JRD",
+    "bodyType": "solid",
+    "microversionId": "60e7801562d469e0ddbde95b",
+    "isFlattenedBody": false,
+    "partQuery": "query=qCompressed(1.0,\"&1ca$eJx9UE1vgzAM/TPekWhpgbZHPtIu2gpdgjR1FxRI1kajhEHQxr9fWqRdJlW+2H7Pz35+iAN4HVU/7QOOFyD1IC6VPo3CatOmwooI7xf/kWLqFMdLyBnd0Sx6KVNyIFlKsuTIN2B6fdKtaIbITx6dsADVWm2n61QsgPwV3AeS7giv4KwHa/q5uYaEkaigeeYA06n+tpLKeAFURphjjHwXIQphO3K6fVWksGR6z5sSR0kYVmJQw6ey9flb9yrv3EVfV4s3cQn8mRTJU0myghZHrmCmzkdRyTfIh17VVrSnRjXqw14tMJ8FLGQrtmaCVaxmkns4QAE4p+d7jCVY093BQ6iMtebC/CR034jz9Dizkso59WrkSeQptEIbUD+2H6UyHZkTVrnH8jdyKMrr2C+r35RO\",id);",
+    "partIdentity": null,
+    "meshState": "NO_MESH",
+    "isHidden": false,
+    "configurationId": "",
+    "thumbnailConfigurationId": "",
+    "propertySourceTypes": {
+      "57f3fb8efa3416c06701d60d": 2,
+      "57f3fb8efa3416c06701d60e": 2
+    },
+    "metadataMicroversion": "19e19bc88ad7a99d524d429a",
+    "defaultColorHash": "FuSIFQeETtEyZOl_1_0",
+    "ordinal": 1,
+    "isMesh": false,
+    "appearance": {
+      "color": {
+        "red": 165,
+        "green": 165,
+        "blue": 165
+      },
+      "isGenerated": true,
+      "opacity": 255
+    }
+  },
+  {
+    "name": "AC74_0_V4",
+    "state": "IN_PROGRESS",
+    "description": "acid=AC74@V4",
+    "revision": null,
+    "partNumber": null,
+    "elementId": "a59fa5d543b2e08d324bdcd6",
+    "partId": "JgD",
+    "bodyType": "solid",
+    "microversionId": "60e7801562d469e0ddbde95b",
+    "isFlattenedBody": false,
+    "partQuery": "query=qCompressed(1.0,\"&1ca$eJx9UE1vwjAM/TPesdFa0gLHfgRWMdotqTRxqtImQLTSdGlg498vUGmXScgX2+/52c9PSQjvZ2mu25D5AQg18lOjDmdule4zbnnsb4P/SHUdJPNnUNJ8nRfxa52RN1JkpEh3bAnaqIPqeTfGOH12whxkb5W93qYSDuSvYBhItiasgaMarTZTcwEpJXGVl4UD9CDNfWUukgByEfvM9xF2EaEIVnx1wRdDk3bTmX1SB3E6xw0f5fgpbXv8VkaWg7vo62bxLi6AbUiVvtSkqPJqxyRM1OmoXLAlwmBka3l/6GQn9/ZmgWIa0ojO6YJy2tCWCub5IQrBOT0+YszA6uEBHkGjrdUnitPIfSMps93EShvn1GuRJ5An0RwtQf5YcxZSD2RKaOMeyz7IW1Xfxn4BwMqUYg==\",id);",
+    "partIdentity": null,
+    "meshState": "NO_MESH",
+    "isHidden": false,
+    "configurationId": "",
+    "thumbnailConfigurationId": "",
+    "propertySourceTypes": {
+      "57f3fb8efa3416c06701d60d": 2,
+      "57f3fb8efa3416c06701d60e": 2
+    },
+    "metadataMicroversion": "19e19bc88ad7a99d524d429a",
+    "defaultColorHash": "FaFv4vrRBcKlrfB_2_0",
+    "ordinal": 2,
+    "isMesh": false,
+    "appearance": {
+      "color": {
+        "red": 59,
+        "green": 97,
+        "blue": 180
+      },
+      "isGenerated": true,
+      "opacity": 255
+    }
+  },
+  {
+    "name": "AC112_0_V4",
+    "state": "IN_PROGRESS",
+    "description": "acid=AC112@V4",
+    "revision": null,
+    "partNumber": null,
+    "elementId": "a59fa5d543b2e08d324bdcd6",
+    "partId": "JpD",
+    "bodyType": "solid",
+    "microversionId": "60e7801562d469e0ddbde95b",
+    "isFlattenedBody": false,
+    "partQuery": "query=qCompressed(1.0,\"%B5$QueryM5S12$disambiguationDataA1M2S12$disambiguationTypeS13$ORIGINAL_DEPENDENCYS9$originalsA1C0M5Sa$entityTypeBa$EntityTypeS4$EDGESb$historyTypeS8$CREATIONSb$operationIdB2$IdA1S11.5.1.6.6$Fkl99rD3dgQjfjs_3AC112asketchwireOpS9$queryTypeSd$SKETCH_ENTITYSe$sketchEntityIdS7$circle1R4C6S4$BODYR6R7R8CbA1S-c.-d.-e.7.9$extrudeopExtrudeRbSa$SWEPT_BODY\",id);",
+    "partIdentity": null,
+    "meshState": "NO_MESH",
+    "isHidden": false,
+    "configurationId": "",
+    "thumbnailConfigurationId": "",
+    "propertySourceTypes": {
+      "57f3fb8efa3416c06701d60d": 2,
+      "57f3fb8efa3416c06701d60e": 2
+    },
+    "metadataMicroversion": "19e19bc88ad7a99d524d429a",
+    "defaultColorHash": "Fkl99rD3dgQjfjs_3_0",
+    "ordinal": 3,
+    "isMesh": false,
+    "appearance": {
+      "color": {
+        "red": 234,
+        "green": 234,
+        "blue": 234
+      },
+      "isGenerated": true,
+      "opacity": 255
+    }
+  },
+  {
+    "name": "AC113_0_V4",
+    "state": "IN_PROGRESS",
+    "description": "acid=AC113@V4",
+    "revision": null,
+    "partNumber": null,
+    "elementId": "a59fa5d543b2e08d324bdcd6",
+    "partId": "JzD",
+    "bodyType": "solid",
+    "microversionId": "60e7801562d469e0ddbde95b",
+    "isFlattenedBody": false,
+    "partQuery": "query=qCompressed(1.0,\"&1a5$eJx1kE9zgjAQxb/M9ijTKFA98ie12Ap2w4z1xAQSJRUJDXFav31BZ3rpeNvd3+zb9/Yh9OD9LM1l7TEyBaF6firV4cyt0m3MLQ/Ievqf5JdOMjKDDJNlkgZvRUw3NI1pGu3YArRRB9Xypg/c6HEQ5iBbq+xl3Ao50L+GuUDjJWUl1Kq32tyGc4iQBnmSpQPQnTTXk4kIp5CIgDBCHM+ZOj48f65abMRefWxX2MwKN4gImfXHb2Vk1g1GvsZkV00B7JXm0UtB0zzJd0xCf5S2qm9eEsF8KLW1+jQaRhc99PEJ58ixxAoF82DIVNs71AWj9f4ubOTeohv5Qxlm8e7Go3KIMqmciXBcZwHcVLXu6I81ZyGxHH7GtnSTF+PCL9juiMU=\",id);",
+    "partIdentity": null,
+    "meshState": "NO_MESH",
+    "isHidden": false,
+    "configurationId": "",
+    "thumbnailConfigurationId": "",
+    "propertySourceTypes": {
+      "57f3fb8efa3416c06701d60d": 2,
+      "57f3fb8efa3416c06701d60e": 2
+    },
+    "metadataMicroversion": "19e19bc88ad7a99d524d429a",
+    "defaultColorHash": "FjJnRldfiXWJRl3_4_0",
+    "ordinal": 4,
+    "isMesh": false,
+    "appearance": {
+      "color": {
+        "red": 196,
+        "green": 226,
+        "blue": 243
+      },
+      "isGenerated": true,
+      "opacity": 255
+    }
+  },
+  {
+    "name": "AC106_0_V4",
+    "state": "IN_PROGRESS",
+    "description": "acid=AC106@V4",
+    "revision": null,
+    "partNumber": null,
+    "elementId": "a59fa5d543b2e08d324bdcd6",
+    "partId": "J7D",
+    "bodyType": "solid",
+    "microversionId": "60e7801562d469e0ddbde95b",
+    "isFlattenedBody": false,
+    "partQuery": "query=qCompressed(1.0,\"%B5$QueryM5S12$disambiguationDataA1M2S12$disambiguationTypeS13$ORIGINAL_DEPENDENCYS9$originalsA1C0M5Sa$entityTypeBa$EntityTypeS4$EDGESb$historyTypeS8$CREATIONSb$operationIdB2$IdA1S11.5.5.6.6$FaYEfYJvcODMhds_5AC106shaftsketchwireOpS9$queryTypeSd$SKETCH_ENTITYSe$sketchEntityIdS7$circle1R4C6S4$BODYR6R7R8CbA1S-c.-d.-e.7.9$extrudeopExtrudeRbSa$SWEPT_BODY\",id);",
+    "partIdentity": null,
+    "meshState": "NO_MESH",
+    "isHidden": false,
+    "configurationId": "",
+    "thumbnailConfigurationId": "",
+    "propertySourceTypes": {
+      "57f3fb8efa3416c06701d60d": 2,
+      "57f3fb8efa3416c06701d60e": 2
+    },
+    "metadataMicroversion": "19e19bc88ad7a99d524d429a",
+    "defaultColorHash": "FaYEfYJvcODMhds_5_0",
+    "ordinal": 5,
+    "isMesh": false,
+    "appearance": {
+      "color": {
+        "red": 248,
+        "green": 135,
+        "blue": 1
+      },
+      "isGenerated": true,
+      "opacity": 255
+    }
+  },
+  {
+    "name": "AC107_0_V4",
+    "state": "IN_PROGRESS",
+    "description": "acid=AC107@V4",
+    "revision": null,
+    "partNumber": null,
+    "elementId": "a59fa5d543b2e08d324bdcd6",
+    "partId": "RFBD",
+    "bodyType": "solid",
+    "microversionId": "60e7801562d469e0ddbde95b",
+    "isFlattenedBody": false,
+    "partQuery": "query=qCompressed(1.0,\"%B5$QueryM5S12$disambiguationDataA1M2S12$disambiguationTypeS13$ORIGINAL_DEPENDENCYS9$originalsA1C0M5Sa$entityTypeBa$EntityTypeS4$EDGESb$historyTypeS8$CREATIONSb$operationIdB2$IdA1S11.5.4.6.6$FexH9n6RWO7ndvq_6AC107postsketchwireOpS9$queryTypeSd$SKETCH_ENTITYSe$sketchEntityIdS7$circle1R4C6S4$BODYR6R7R8CbA1S-c.-d.-e.7.9$extrudeopExtrudeRbSa$SWEPT_BODY\",id);",
+    "partIdentity": null,
+    "meshState": "NO_MESH",
+    "isHidden": false,
+    "configurationId": "",
+    "thumbnailConfigurationId": "",
+    "propertySourceTypes": {
+      "57f3fb8efa3416c06701d60d": 2,
+      "57f3fb8efa3416c06701d60e": 2
+    },
+    "metadataMicroversion": "19e19bc88ad7a99d524d429a",
+    "defaultColorHash": "FexH9n6RWO7ndvq_6_0",
+    "ordinal": 6,
+    "isMesh": false,
+    "appearance": {
+      "color": {
+        "red": 127,
+        "green": 127,
+        "blue": 127
+      },
+      "isGenerated": true,
+      "opacity": 255
+    }
+  },
+  {
+    "name": "AC108_0_V4",
+    "state": "IN_PROGRESS",
+    "description": "acid=AC108@V4",
+    "revision": null,
+    "partNumber": null,
+    "elementId": "a59fa5d543b2e08d324bdcd6",
+    "partId": "RPBD",
+    "bodyType": "solid",
+    "microversionId": "60e7801562d469e0ddbde95b",
+    "isFlattenedBody": false,
+    "partQuery": "query=qCompressed(1.0,\"%B5$QueryM5S12$disambiguationDataA1M2S12$disambiguationTypeS13$ORIGINAL_DEPENDENCYS9$originalsA1C0M5Sa$entityTypeBa$EntityTypeS4$EDGESb$historyTypeS8$CREATIONSb$operationIdB2$IdA1S11.5.5.6.6$F850butHdYPV96n_7AC108shaftsketchwireOpS9$queryTypeSd$SKETCH_ENTITYSe$sketchEntityIdS7$circle1R4C6S4$BODYR6R7R8CbA1S-c.-d.-e.7.9$extrudeopExtrudeRbSa$SWEPT_BODY\",id);",
+    "partIdentity": null,
+    "meshState": "NO_MESH",
+    "isHidden": false,
+    "configurationId": "",
+    "thumbnailConfigurationId": "",
+    "propertySourceTypes": {
+      "57f3fb8efa3416c06701d60d": 2,
+      "57f3fb8efa3416c06701d60e": 2
+    },
+    "metadataMicroversion": "19e19bc88ad7a99d524d429a",
+    "defaultColorHash": "F850butHdYPV96n_7_0",
+    "ordinal": 7,
+    "isMesh": false,
+    "appearance": {
+      "color": {
+        "red": 250,
+        "green": 182,
+        "blue": 1
+      },
+      "isGenerated": true,
+      "opacity": 255
+    }
+  },
+  {
+    "name": "AC118_0_V4",
+    "state": "IN_PROGRESS",
+    "description": "acid=AC118@V4",
+    "revision": null,
+    "partNumber": null,
+    "elementId": "a59fa5d543b2e08d324bdcd6",
+    "partId": "RZBD",
+    "bodyType": "solid",
+    "microversionId": "60e7801562d469e0ddbde95b",
+    "isFlattenedBody": false,
+    "partQuery": "query=qCompressed(1.0,\"%B5$QueryM5S12$disambiguationDataA1M2S12$disambiguationTypeS13$ORIGINAL_DEPENDENCYS9$originalsA3C0M5Sa$entityTypeBa$EntityTypeS4$EDGESb$historyTypeS8$CREATIONSb$operationIdB2$IdA1S11.5.4.2.6$FbdjAhDD6IxikrO_8AC118baseskwireOpS9$queryTypeSd$SKETCH_ENTITYSe$sketchEntityIdS2$e0C0M5R4R5R6R7R8RaRbRcRdS2$e1C0M5R4R5R6R7R8RaRbRcRdS2$e2R4C6S4$BODYR6R7R8CbA1S-c.-d.-e.3.9$extopExtrudeRbSa$SWEPT_BODY\",id);",
+    "partIdentity": null,
+    "meshState": "NO_MESH",
+    "isHidden": false,
+    "configurationId": "",
+    "thumbnailConfigurationId": "",
+    "propertySourceTypes": {
+      "57f3fb8efa3416c06701d60d": 2,
+      "57f3fb8efa3416c06701d60e": 2
+    },
+    "metadataMicroversion": "19e19bc88ad7a99d524d429a",
+    "defaultColorHash": "FbdjAhDD6IxikrO_8_0",
+    "ordinal": 8,
+    "isMesh": false,
+    "appearance": {
+      "color": {
+        "red": 157,
+        "green": 207,
+        "blue": 237
+      },
+      "isGenerated": true,
+      "opacity": 255
+    }
+  },
+  {
+    "name": "AC119_0_V4",
+    "state": "IN_PROGRESS",
+    "description": "acid=AC119@V4",
+    "revision": null,
+    "partNumber": null,
+    "elementId": "a59fa5d543b2e08d324bdcd6",
+    "partId": "RfBD",
+    "bodyType": "solid",
+    "microversionId": "60e7801562d469e0ddbde95b",
+    "isFlattenedBody": false,
+    "partQuery": "query=qCompressed(1.0,\"%B5$QueryM5S12$disambiguationDataA1M2S12$disambiguationTypeS13$ORIGINAL_DEPENDENCYS9$originalsA1C0M5Sa$entityTypeBa$EntityTypeS4$EDGESb$historyTypeS8$CREATIONSb$operationIdB2$IdA1S11.5.5.6.6$FfjLAGrGxkgDy6K_9AC119stocksketchwireOpS9$queryTypeSd$SKETCH_ENTITYSe$sketchEntityIdS7$circle1R4C6S4$BODYR6R7R8CbA1S-c.-d.-e.7.9$extrudeopExtrudeRbSa$SWEPT_BODY\",id);",
+    "partIdentity": null,
+    "meshState": "NO_MESH",
+    "isHidden": false,
+    "configurationId": "",
+    "thumbnailConfigurationId": "",
+    "propertySourceTypes": {
+      "57f3fb8efa3416c06701d60d": 2,
+      "57f3fb8efa3416c06701d60e": 2
+    },
+    "metadataMicroversion": "19e19bc88ad7a99d524d429a",
+    "defaultColorHash": "FfjLAGrGxkgDy6K_9_0",
+    "ordinal": 9,
+    "isMesh": false,
+    "appearance": {
+      "color": {
+        "red": 165,
+        "green": 165,
+        "blue": 165
+      },
+      "isGenerated": true,
+      "opacity": 255
+    }
+  },
+  {
+    "name": "AC120_0_V4",
+    "state": "IN_PROGRESS",
+    "description": "acid=AC120@V4",
+    "revision": null,
+    "partNumber": null,
+    "elementId": "a59fa5d543b2e08d324bdcd6",
+    "partId": "RpBD",
+    "bodyType": "solid",
+    "microversionId": "60e7801562d469e0ddbde95b",
+    "isFlattenedBody": false,
+    "partQuery": "query=qCompressed(1.0,\"%B5$QueryM5S12$disambiguationDataA1M2S12$disambiguationTypeS13$ORIGINAL_DEPENDENCYS9$originalsA2C0M5Sa$entityTypeBa$EntityTypeS4$EDGESb$historyTypeS8$CREATIONSb$operationIdB2$IdA1S12.5.2.6$F8EiugjJt7bOorv_10AC120skwireOpS9$queryTypeSd$SKETCH_ENTITYSe$sketchEntityIdS5$chordC0M5R4R5R6R7R8RaRbRcRdS3$arcR4C6S4$BODYR6R7R8CbA1S-c.-d.5.9$plateopExtrudeRbSa$SWEPT_BODY\",id);",
+    "partIdentity": null,
+    "meshState": "NO_MESH",
+    "isHidden": false,
+    "configurationId": "",
+    "thumbnailConfigurationId": "",
+    "propertySourceTypes": {
+      "57f3fb8efa3416c06701d60d": 2,
+      "57f3fb8efa3416c06701d60e": 2
+    },
+    "metadataMicroversion": "19e19bc88ad7a99d524d429a",
+    "defaultColorHash": "F8EiugjJt7bOorv_10_0",
+    "ordinal": 10,
+    "isMesh": false,
+    "appearance": {
+      "color": {
+        "red": 59,
+        "green": 97,
+        "blue": 180
+      },
+      "isGenerated": true,
+      "opacity": 255
+    }
+  },
+  {
+    "name": "AC121_0_V4",
+    "state": "IN_PROGRESS",
+    "description": "acid=AC121@V4",
+    "revision": null,
+    "partNumber": null,
+    "elementId": "a59fa5d543b2e08d324bdcd6",
+    "partId": "RvBD",
+    "bodyType": "solid",
+    "microversionId": "60e7801562d469e0ddbde95b",
+    "isFlattenedBody": false,
+    "partQuery": "query=qCompressed(1.0,\"&1cd$eJx9UMFugzAM/RnvCFoo0PYIIevQVtgSqqknFEhWslHCINXG3y8UaZdJlS+237P9nu/iAF4vcpj2AUMeCDXyc6VOF26U7hJueIT23n+kmHrJ0Apymu7SLHouE/JCsoRk+Mi2oAd1Uh1vx8jH93YxB9kZZaZ5KuZA/grmA0l2hFXQqNHoYWluAFMSFWmeWUD3crieTEXsQSoiZNW4gY3QDeHBqCaePiq0Pxh8aEuEIow81LfcyPFTmrr5VoPMeyvqa3Z53S+APZECP5YkK9LiyCQs1EVXKtjW9WGQteHdqZWtfDezC+rTgIZ0TTeU04rWVDAHWR1gzTa3GCswur+Bh1BpY/SZ+ji0D4nz5LiwcGXNOrXrCNeR7trdgvwxw0VI3ZMloZX9LXsjL0U5j/0CeX+VTw==\",id);",
+    "partIdentity": null,
+    "meshState": "NO_MESH",
+    "isHidden": false,
+    "configurationId": "",
+    "thumbnailConfigurationId": "",
+    "propertySourceTypes": {
+      "57f3fb8efa3416c06701d60d": 2,
+      "57f3fb8efa3416c06701d60e": 2
+    },
+    "metadataMicroversion": "19e19bc88ad7a99d524d429a",
+    "defaultColorHash": "FtihByjb1MUtCUl_11_0",
+    "ordinal": 11,
+    "isMesh": false,
+    "appearance": {
+      "color": {
+        "red": 234,
+        "green": 234,
+        "blue": 234
+      },
+      "isGenerated": true,
+      "opacity": 255
+    }
+  },
+  {
+    "name": "AC122_0_V4",
+    "state": "IN_PROGRESS",
+    "description": "acid=AC122@V4",
+    "revision": null,
+    "partNumber": null,
+    "elementId": "a59fa5d543b2e08d324bdcd6",
+    "partId": "R6BD",
+    "bodyType": "solid",
+    "microversionId": "60e7801562d469e0ddbde95b",
+    "isFlattenedBody": false,
+    "partQuery": "query=qCompressed(1.0,\"%B5$QueryM5S12$disambiguationDataA1M2S12$disambiguationTypeS13$ORIGINAL_DEPENDENCYS9$originalsA3C0M5Sa$entityTypeBa$EntityTypeS4$EDGESb$historyTypeS8$CREATIONSb$operationIdB2$IdA1S12.5.4.2.6$FjIAR4yrOI3y9tT_12AC122baseskwireOpS9$queryTypeSd$SKETCH_ENTITYSe$sketchEntityIdS2$e0C0M5R4R5R6R7R8RaRbRcRdS2$e1C0M5R4R5R6R7R8RaRbRcRdS2$e2R4C6S4$BODYR6R7R8CbA1S-c.-d.-e.3.9$extopExtrudeRbSa$SWEPT_BODY\",id);",
+    "partIdentity": null,
+    "meshState": "NO_MESH",
+    "isHidden": false,
+    "configurationId": "",
+    "thumbnailConfigurationId": "",
+    "propertySourceTypes": {
+      "57f3fb8efa3416c06701d60d": 2,
+      "57f3fb8efa3416c06701d60e": 2
+    },
+    "metadataMicroversion": "19e19bc88ad7a99d524d429a",
+    "defaultColorHash": "FjIAR4yrOI3y9tT_12_0",
+    "ordinal": 12,
+    "isMesh": false,
+    "appearance": {
+      "color": {
+        "red": 196,
+        "green": 226,
+        "blue": 243
+      },
+      "isGenerated": true,
+      "opacity": 255
+    }
+  },
+  {
+    "name": "AC123_0_V4",
+    "state": "IN_PROGRESS",
+    "description": "acid=AC123@V4",
+    "revision": null,
+    "partNumber": null,
+    "elementId": "a59fa5d543b2e08d324bdcd6",
+    "partId": "R/BD",
+    "bodyType": "solid",
+    "microversionId": "60e7801562d469e0ddbde95b",
+    "isFlattenedBody": false,
+    "partQuery": "query=qCompressed(1.0,\"&1cc$eJx9UMtugzAQ/JntEas8kxx5uKnVBlIbqeKEDHYTKwkmYJTm72uK1Eul3HZ3Zndn5ikJ4WOSw30XMtcDoUZ+adRh4kbpLuOGx+7O+4+U914y14eCki3J4/c6w3ucZzhPK7YBPaiD6vh5jIP02R7mIDujzH3eSjjgv4YFgLMtZg0c1Wj0sAzXkFIcl6TILaB7Ofy+JCLxgIjYtWpQiAIUoQhegqvAichPNzntK1K7fpy6nt/wUY4nadrjTQ2y6K2m62zy97wA9obL9LXGeUnKiklYqIssItgGBTDI1vDucJZn+WVmEzSgIY3oiq4ppw1tqWCOG6IQrNfjI4YPRvcP8AgabYy+0CCNbB5JkVULK22sV6dFjkCORCu0AflthklI3eOloI2Nln3ifVnPaz+VvJSw\",id);",
+    "partIdentity": null,
+    "meshState": "NO_MESH",
+    "isHidden": false,
+    "configurationId": "",
+    "thumbnailConfigurationId": "",
+    "propertySourceTypes": {
+      "57f3fb8efa3416c06701d60d": 2,
+      "57f3fb8efa3416c06701d60e": 2
+    },
+    "metadataMicroversion": "19e19bc88ad7a99d524d429a",
+    "defaultColorHash": "F4qdEBdNkweuPYI_13_0",
+    "ordinal": 13,
+    "isMesh": false,
+    "appearance": {
+      "color": {
+        "red": 248,
+        "green": 135,
+        "blue": 1
+      },
+      "isGenerated": true,
+      "opacity": 255
+    }
+  },
+  {
+    "name": "AC102_0_V4",
+    "state": "IN_PROGRESS",
+    "description": "acid=AC102@V4",
+    "revision": null,
+    "partNumber": null,
+    "elementId": "a59fa5d543b2e08d324bdcd6",
+    "partId": "RGCD",
+    "bodyType": "solid",
+    "microversionId": "60e7801562d469e0ddbde95b",
+    "isFlattenedBody": false,
+    "partQuery": "query=qCompressed(1.0,\"&203$eJx9kU9zgjAQxb/M9igjFFI98ie1jAo2odPxxASSYkZLaIhj+fYN0umlo8fd9/btb5OHKIDXs9DDNqCuB1z27LOSzZkZqdqEGRa6W++/UgydoO4j5CRdpVm4KRO8w1mCs3hPl6C0bGTLTn2I4rkNZiBaI80wTkUM8F9BfcDJCtMKDrI3Sk/NBcQEh0WaZ1ZQndDXlSmPPEh56FoaJ3CQg+CZN7raDGsklmiBV6Xrh7E79/qjMPXhIrXIO0vzNZ53DeZA17iIX0qcFWmxpwIm6wSUclqDZlyy00ZdhJ6P7MQnAUHkiSwIIxWpCbdMHyfWHu96fDCyuyXWU8BbZ09zgxsm/oty34VAK2VcK8XILo3yZD854so+1Kx2ZtzxnSU0gmnV4W+jz1yQyv4Ifce7ohwHfgAzO6bq\",id);",
+    "partIdentity": null,
+    "meshState": "NO_MESH",
+    "isHidden": false,
+    "configurationId": "",
+    "thumbnailConfigurationId": "",
+    "propertySourceTypes": {
+      "57f3fb8efa3416c06701d60d": 2,
+      "57f3fb8efa3416c06701d60e": 2
+    },
+    "metadataMicroversion": "19e19bc88ad7a99d524d429a",
+    "defaultColorHash": "FdgrbLyK6e968EG_14_0",
+    "ordinal": 14,
+    "isMesh": false,
+    "appearance": {
+      "color": {
+        "red": 127,
+        "green": 127,
+        "blue": 127
+      },
+      "isGenerated": true,
+      "opacity": 255
+    }
+  },
+  {
+    "name": "AC126_0_V4",
+    "state": "IN_PROGRESS",
+    "description": "acid=AC126@V4",
+    "revision": null,
+    "partNumber": null,
+    "elementId": "a59fa5d543b2e08d324bdcd6",
+    "partId": "RSCD",
+    "bodyType": "solid",
+    "microversionId": "60e7801562d469e0ddbde95b",
+    "isFlattenedBody": false,
+    "partQuery": "query=qCompressed(1.0,\"&19a$eJx1kE1vgzAMhv+MdyxqKDB6hJB10VboHLSpu6AAURu1KyyknfrvF4q0y9SLJfvxx/v6IQ3h7azMdR0K4kOrB/lV691ZWt2dMmllQtb+f1JeeyXIAgrkK54nr1XGNizPWE63Ygmd0Tt9kschCejcLZagTlbb6ziVSmB/iQiAZSsmatjrwXZmKsZAkSUlL3IHul6Z20nepj7wNiFOjRd6vhfBk415bNh83X8K+m4qEsqG+NFw+NFGFb1T8j1auy1tQbywkj5XLC95uRUKhoOyzX4Sw1vhg5qPajHAECN8xBgl1tjgDZH7yL+PFhjQyJlMi2w7UVo7A7PGm7XewluCUZeuRxeOF4W1e5T4YJuyGvt/AcK0grM=\",id);",
+    "partIdentity": null,
+    "meshState": "NO_MESH",
+    "isHidden": false,
+    "configurationId": "",
+    "thumbnailConfigurationId": "",
+    "propertySourceTypes": {
+      "57f3fb8efa3416c06701d60d": 2,
+      "57f3fb8efa3416c06701d60e": 2
+    },
+    "metadataMicroversion": "19e19bc88ad7a99d524d429a",
+    "defaultColorHash": "Ft8I8rE0MpZSCVr_15_0",
+    "ordinal": 15,
+    "isMesh": false,
+    "appearance": {
+      "color": {
+        "red": 250,
+        "green": 182,
+        "blue": 1
+      },
+      "isGenerated": true,
+      "opacity": 255
+    }
+  },
+  {
+    "name": "AC127_0_V4",
+    "state": "IN_PROGRESS",
+    "description": "acid=AC127@V4",
+    "revision": null,
+    "partNumber": null,
+    "elementId": "a59fa5d543b2e08d324bdcd6",
+    "partId": "RVCD",
+    "bodyType": "solid",
+    "microversionId": "60e7801562d469e0ddbde95b",
+    "isFlattenedBody": false,
+    "partQuery": "query=qCompressed(1.0,\"&19a$eJx1kNtugkAQhl9meilhl4N6yWFrN61gZ0mMV2SBjW6kgIC2vH0XTXrTeDPJzDeH/5+X0IPPq+qnrScIhUoP8qvQx6scddvEcpQB2dL/JJs6JYgDKfINT4KPPGY7lsQsiQ5iDW2vj7qR9RC4kW0WS1DNqMdpngolsL9EuMDiDRMFnPQwtv2juIIIWZDxNDGg7VR/P8mrkAKvAmLUWJ5FLR9eyc++8PglPQ613W5y4suS0OVw/ta9Sjuj5DJbuy+tQLyzLHrLWZLx7CAUDGc1lqeHGF4JCsqe1aKLHvq4xBVKLLDEOyLPEX2OHHQj35gM0/jwoFFhDCxKa1FZjrWGXt3aDk2obwoL8yixZ7ssn/t/AfyOgvg=\",id);",
+    "partIdentity": null,
+    "meshState": "NO_MESH",
+    "isHidden": false,
+    "configurationId": "",
+    "thumbnailConfigurationId": "",
+    "propertySourceTypes": {
+      "57f3fb8efa3416c06701d60d": 2,
+      "57f3fb8efa3416c06701d60e": 2
+    },
+    "metadataMicroversion": "19e19bc88ad7a99d524d429a",
+    "defaultColorHash": "F1xWb5IqOgsl0oG_16_0",
+    "ordinal": 16,
+    "isMesh": false,
+    "appearance": {
+      "color": {
+        "red": 157,
+        "green": 207,
+        "blue": 237
+      },
+      "isGenerated": true,
+      "opacity": 255
+    }
+  },
+  {
+    "name": "AC128_0_V4",
+    "state": "IN_PROGRESS",
+    "description": "acid=AC128@V4",
+    "revision": null,
+    "partNumber": null,
+    "elementId": "a59fa5d543b2e08d324bdcd6",
+    "partId": "RYCD",
+    "bodyType": "solid",
+    "microversionId": "60e7801562d469e0ddbde95b",
+    "isFlattenedBody": false,
+    "partQuery": "query=qCompressed(1.0,\"&1c9$eJx1kE1zgjAQhv/M9ihTEBCPfKSWqYBN6HQ8MYFkNFUJJtGWf9+gM710vOzs7rMf7+5TEsD7hauxCIjrAROanlqxu1AjZJ9RQ2O38P6Tehw4cedQ4XyVl/G6ydAGlRkq0y1ZglRiJ3p61HGQPtvBFHhvhBmnroQC+guIDyhbIdLCXmgj1T0ZQYpRXOdVaYEcuLqtzFniQc5i16pxAsdzQnjhX+vzB2FXXRdFJRt3QTvXi/ThWyheDVbJeTrtNpQBeUN1+tqgss7rLeGgD9x0+7uYnJEQWmmMPE2KsY8DHOIFjjDFLe7whDupeq4e4Ai68Sh69rAgBD3sueIPsA/0R2jsp6F1kyrb3nna2ntnnTNjztxZguJXOWBrjleOW/tX8ok2dTPV/wKTFpTi\",id);",
+    "partIdentity": null,
+    "meshState": "NO_MESH",
+    "isHidden": false,
+    "configurationId": "",
+    "thumbnailConfigurationId": "",
+    "propertySourceTypes": {
+      "57f3fb8efa3416c06701d60d": 2,
+      "57f3fb8efa3416c06701d60e": 2
+    },
+    "metadataMicroversion": "19e19bc88ad7a99d524d429a",
+    "defaultColorHash": "FejLqUSdvsTMMOo_17_0",
+    "ordinal": 17,
+    "isMesh": false,
+    "appearance": {
+      "color": {
+        "red": 165,
+        "green": 165,
+        "blue": 165
+      },
+      "isGenerated": true,
+      "opacity": 255
+    }
+  },
+  {
+    "name": "AC130_0_V4",
+    "state": "IN_PROGRESS",
+    "description": "acid=AC130@V4",
+    "revision": null,
+    "partNumber": null,
+    "elementId": "a59fa5d543b2e08d324bdcd6",
+    "partId": "RcCD",
+    "bodyType": "solid",
+    "microversionId": "60e7801562d469e0ddbde95b",
+    "isFlattenedBody": false,
+    "partQuery": "query=qCompressed(1.0,\"%B5$QueryM5S12$disambiguationDataA1M2S12$disambiguationTypeS13$ORIGINAL_DEPENDENCYS9$originalsA3C0M5Sa$entityTypeBa$EntityTypeS4$EDGESb$historyTypeS8$CREATIONSb$operationIdB2$IdA1S12.5.4.6$F4hxkoqqV59eplx_18ac130pathwireOpS9$queryTypeSd$SKETCH_ENTITYSe$sketchEntityIdS4$lineC0M5R4R5R6R7R8RaRbRcRdS4$bendC0M5R4R5R6R7R8CbA1S-c.-d.7.-f$profileRbRcRdS6$circleR4C6S4$BODYR6R7R8CbA1S-c.-d.5.7$sweepopSweepRbSa$SWEPT_BODY\",id);",
+    "partIdentity": null,
+    "meshState": "NO_MESH",
+    "isHidden": false,
+    "configurationId": "",
+    "thumbnailConfigurationId": "",
+    "propertySourceTypes": {
+      "57f3fb8efa3416c06701d60d": 2,
+      "57f3fb8efa3416c06701d60e": 2
+    },
+    "metadataMicroversion": "19e19bc88ad7a99d524d429a",
+    "defaultColorHash": "F4hxkoqqV59eplx_18_0",
+    "ordinal": 18,
+    "isMesh": false,
+    "appearance": {
+      "color": {
+        "red": 59,
+        "green": 97,
+        "blue": 180
+      },
+      "isGenerated": true,
+      "opacity": 255
+    }
+  },
+  {
+    "name": "AC131_0_V4",
+    "state": "IN_PROGRESS",
+    "description": "acid=AC131@V4",
+    "revision": null,
+    "partNumber": null,
+    "elementId": "a59fa5d543b2e08d324bdcd6",
+    "partId": "RfCD",
+    "bodyType": "solid",
+    "microversionId": "60e7801562d469e0ddbde95b",
+    "isFlattenedBody": false,
+    "partQuery": "query=qCompressed(1.0,\"&19a$eJx1kMtuwjAQRX9muiTCefBY5uESq5DQcaSKVeTEFlikSZoYAX9fB6RuKpYzZ+bOvfMWBfB5UcN9F3DigtSj+K708SKM7tpEGBGSnfufFPdeceJBjmzDsnBbJnRPs4Rm8YGvoRv0UbeiGUM/nlthAao12tynrUgA/Su4DzTZUF7BSY+mG57NFcRIw4LlmQVdr4bHSSYjF5gMiXXjBI7rLOA9TZetbK7nbbNbzquSrEVNPDKer3pQeW+d/EzRHqIS+Act4rSkWcGKA1cwnpWpT08zTHIX1Hxyiz4GuMAlrlBghTU+EHmN3NfIQz9e2JBRnhyeNK5sgFntzKTjOWtQN9P19GaGi1RY2UfxL7ovymn+F+kpguE=\",id);",
+    "partIdentity": null,
+    "meshState": "NO_MESH",
+    "isHidden": false,
+    "configurationId": "",
+    "thumbnailConfigurationId": "",
+    "propertySourceTypes": {
+      "57f3fb8efa3416c06701d60d": 2,
+      "57f3fb8efa3416c06701d60e": 2
+    },
+    "metadataMicroversion": "19e19bc88ad7a99d524d429a",
+    "defaultColorHash": "FHH7ndlwkLlM70b_19_0",
+    "ordinal": 19,
+    "isMesh": false,
+    "appearance": {
+      "color": {
+        "red": 234,
+        "green": 234,
+        "blue": 234
+      },
+      "isGenerated": true,
+      "opacity": 255
+    }
+  }
+]

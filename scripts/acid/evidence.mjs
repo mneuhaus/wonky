@@ -2,10 +2,9 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import {spawnSync, execFileSync} from 'node:child_process';
-import {ROOT, CATALOG, sha256, readJSON} from './common.mjs';
+import {ROOT, CATALOG, sha256, readJSON, canonical, zoneBoundTo} from './common.mjs';
+export {canonical};
 const hash = value => typeof value === 'string' && /^[a-f0-9]{64}$/.test(value);
-export const canonical = value => JSON.stringify(value, (_, v) => v && typeof v === 'object' && !Array.isArray(v)
-  ? Object.fromEntries(Object.keys(v).sort().map(k => [k, v[k]])) : v);
 
 export function codeIdentity(root = ROOT) {
   // Hash actual tracked + untracked source bytes, including dirty/deleted files.
@@ -72,7 +71,10 @@ export function verifyExactObservation(zone, row, {artifactRoot = ROOT, code = n
     const brep = readJSON(path.join(dir, 'model.brep.json')), build = readJSON(path.join(dir, 'build.json'));
     const request = readJSON(path.join(dir, 'request.json')), measured = readJSON(path.join(dir, 'measure.json'));
     if (code && (!hash(code.treeSha256) || row.code?.treeSha256 !== code.treeSha256)) return fail('row/run code identity mismatch');
-    if (request.zone !== zone.id || request.variant !== row.variant || request.sourceSha256 !== build.stamp?.sourceSha256 || request.zonesSha256 !== build.stamp?.zonesSha256 || request.zonesSha256 !== sha256(fs.readFileSync(CATALOG)))
+    // The request stamp names the catalog the build ran against: the current one,
+    // or an earlier one in which this zone is identical (per-zone binding).
+    if (request.zone !== zone.id || request.variant !== row.variant || request.sourceSha256 !== build.stamp?.sourceSha256 || request.zonesSha256 !== build.stamp?.zonesSha256 ||
+        request.zonesSha256 !== sha256(fs.readFileSync(CATALOG)) && !zoneBoundTo(readJSON(CATALOG), zone.id, request.zonesSha256))
       return fail('request/build provenance mismatch');
     const source = path.resolve(ROOT, build.stamp?.source ?? '');
     if (!hash(request.sourceSha256) || sha256(fs.readFileSync(source)) !== request.sourceSha256) return fail('twin source hash mismatch');

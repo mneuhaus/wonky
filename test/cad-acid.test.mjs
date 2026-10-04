@@ -4,11 +4,14 @@ import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 import {spawnSync} from 'node:child_process';
-import {ROOT,loadCatalog,VARIANTS,validateCatalog,verifyFrozenReference,sha256,readJSON} from '../scripts/acid/common.mjs';
+import {cpuMeasured} from './support/cpu-budget.mjs';
+import {ROOT,loadCatalog,VARIANTS,validateCatalog,verifyFrozenReference,sha256,readJSON,sourceHashes,catalogBySha,loadErrata,activeReferenceKeys} from '../scripts/acid/common.mjs';
 import {score,scoreVariant} from '../scripts/acid/score.mjs';
 import {artifactHashes,codeIdentity,observationProbes,verifyExactObservation} from '../scripts/acid/evidence.mjs';
-import {callPlan,assertBridge} from '../scripts/acid/onshape-push.mjs';
+import {callPlan,assertBridge,selectGroups} from '../scripts/acid/onshape-push.mjs';
 const {catalog,zonesSha256}=loadCatalog();
+const historicalCatalog=catalogBySha(catalog.history.find(h=>h.version==='AC1-2026-10-02-catalog-errata').previousSha256);
+const historicalErrata={...loadErrata(),entries:[...loadErrata().entries,...loadErrata().annotations.filter(e=>e.status==='resolved')]};
 const noErrata={schema:'wonky/cad-acid-errata/1',zonesSha256,entries:[]};
 // Independent elementary L-prism observations, not values copied by the scorer.
 // Deliberately synthetic: exercise score decisions, not claim a live kernel pass.
@@ -24,6 +27,26 @@ function observations() {
 }
 const REFERENCE_PYTHON=path.join(ROOT,'out/build123d-performance/reference-venv/bin/python');
 const verdict=r=>score(catalog,r,{zonesSha256}).zones.find(z=>z.kernel==='occt'&&z.zone==='AC01');
+test('independent Bezier support finds interior and endpoint extrema at both precisions',()=>{
+  const code=`import importlib.util, sys
+spec = importlib.util.spec_from_file_location("closed_forms", sys.argv[1])
+cf = importlib.util.module_from_spec(spec)
+spec.loader.exec_module(cf)
+for precision in (35, 70):
+    cf.mp.mp.dps = precision
+    # Cubic arch: y=12t(1-t), x monotone from 0 to 4.
+    arch = ("bez", [(0,0,0),(0,4,0),(4,4,0),(4,0,0)])
+    for direction, expected in (((0,1,0),3),((1,0,0),4),((0,-1,0),0),((-1,0,0),0)):
+        actual = cf.support(arch, direction)
+        assert abs(actual-expected) < cf.mp.mpf("1e-30"), (precision,direction,actual)
+    # Degree two, an independent interior maximum at t=1/2.
+    assert abs(cf.support(("bez",[(0,0,0),(1,2,0),(2,0,0)]),(0,1,0))-1) < cf.mp.mpf("1e-30")
+print("support extrema verified")
+`;
+  const run=spawnSync('uv',['run','--with','sympy==1.13.3','--with','mpmath==1.3.0','--no-project','python','-B','-c',code,path.join(ROOT,'scripts/acid/closed-forms.py')],{encoding:'utf8',timeout:60000,maxBuffer:1<<20});
+  assert.equal(run.status,0,run.stderr);
+  assert.match(run.stdout,/support extrema verified/);
+});
 test('frozen catalog schema and grid exclude unintended inter-zone contact in every variant',()=>{
   assert.doesNotThrow(()=>validateCatalog(catalog));
   const overlap=structuredClone(catalog);overlap.zones[1].cell=structuredClone(overlap.zones[0].cell);
@@ -57,16 +80,20 @@ test('geometry baseline passes and planted semantic/validity defects cannot earn
 test('v1 refusal classification needs actual under-test category, not a crash or unrelated failure',()=>{
   const make=refusal=>({zonesSha256,rows:VARIANTS.map(variant=>({kernel:'occt',zone:'AC31',variant,outcome:'refused',refusal}))});
   const good={name:'BlendInfeasible',category:'infeasible-blend',capability:false,operationUnderTest:true};
-  const v=r=>score(catalog,r,{zonesSha256,errata:noErrata}).zones.find(z=>z.kernel==='occt'&&z.zone==='AC31');
-  const zone=catalog.zones.find(z=>z.id==='AC31');
-  const acceptedRefusal=scoreVariant(catalog,zone,'occt',make(good).rows[0],null,{errata:noErrata});
+  const zone=historicalCatalog.zones.find(z=>z.id==='AC31');
+  // Numerical v1 classification only; production score() always applies errata.
+  const v=refusal=>scoreVariant(historicalCatalog,zone,'occt',make(refusal).rows[0],null,{errata:noErrata});
+  const acceptedRefusal=v(good);
   assert.equal(acceptedRefusal.status,'CORRECT');
   assert.equal(acceptedRefusal.strictStatus,'REFUSED_EXPECTED');
   assert.equal(acceptedRefusal.expectedRefusal,true);
-  assert.equal(v(make(good)).status,'UNVERIFIED');assert.equal(v(make(good)).points,0);
-  assert.equal(v(make({...good,operationUnderTest:false})).points,0);
-  assert.equal(v(make({...good,category:'empty-result'})).points,0);
-  assert.equal(v(make({...good,name:null})).status,'ERROR');
+  assert.equal(v({...good,operationUnderTest:false}).status,'REFUSED');
+  assert.equal(v({...good,category:'empty-result'}).status,'REFUSED');
+  assert.equal(v({...good,name:null}).status,'ERROR');
+  for(const refusal of [good,{...good,operationUnderTest:false},{...good,category:'empty-result'},{...good,name:null}]) {
+    const production=score(catalog,make(refusal)).zones.find(z=>z.kernel==='occt'&&z.zone==='AC31');
+    assert.equal(production.status,refusal.name?'REFUSED':'ERROR');assert.equal(production.points,0);
+  }
 });
 test('unavailable Rust and absent variants stay in denominator; stale references refuse by name',()=>{
   const s=score(catalog,{zonesSha256,rows:[]},{zonesSha256});
@@ -74,7 +101,7 @@ test('unavailable Rust and absent variants stay in denominator; stale references
   assert.equal(s.kernels['wonky-rust'].counts.NOT_RUN+s.kernels['wonky-rust'].counts.DISPUTED,catalog.zones.length);
   assert.throws(()=>score(catalog,{zonesSha256:'0'.repeat(64),rows:[]},{zonesSha256}),{name:'REFERENCE_ZONES_SHA_MISMATCH'});
   const dir=fs.mkdtempSync(path.join(os.tmpdir(),'acid-reference-'));
-  try{fs.writeFileSync(path.join(dir,'provenance.json'),JSON.stringify({zonesSha256:'0'.repeat(64)}));assert.throws(()=>verifyFrozenReference(dir,zonesSha256),{name:'REFERENCE_ZONES_SHA_MISMATCH'});}finally{fs.rmSync(dir,{recursive:true,force:true});}
+  try{fs.writeFileSync(path.join(dir,'provenance.json'),JSON.stringify({zonesSha256:'0'.repeat(64)}));assert.throws(()=>verifyFrozenReference(dir,catalog),{name:'REFERENCE_ZONES_SHA_MISMATCH'});}finally{fs.rmSync(dir,{recursive:true,force:true});}
 });
 test('dry-run CLI performs no network requests and reserves scarce endpoint pots',()=>{
   const plan=callPlan(catalog);assert.equal(plan.constraints.features_get,0);assert.equal(plan.constraints.fs_eval,0);
@@ -87,6 +114,22 @@ test('dry-run CLI performs no network requests and reserves scarce endpoint pots
     const run=spawnSync(process.execPath,['--import',preload,path.join(ROOT,'scripts/acid/onshape-push.mjs')],{encoding:'utf8',env:{...process.env,NODE_OPTIONS:'--max-old-space-size=8192'}});
     assert.equal(run.status,0,run.stderr);assert.equal(JSON.parse(run.stdout).networkRequests,0);
   } finally {fs.rmSync(dir,{recursive:true,force:true});}
+});
+test('an extension push covers only its groups; its frozen capture admits exactly their declared cells',()=>{
+  const batchA=['regions-a','holes-a','shapes-a'],selected=selectGroups(catalog,batchA);
+  const cells=selected.zones.flatMap(z=>(z.variants??VARIANTS).map(v=>`${z.id}/${v}`));
+  const plan=callPlan(selected);
+  assert.deepEqual(plan.variants,['V0','V1','V2','V3','V4','V5']);
+  // One ALL feature per group and declared variant; the per-zone fallback is bounded by the declared cells.
+  const features=plan.calls.find(c=>c.path.endsWith('/features'));
+  assert.equal(features.count,18);assert.equal(features.fallbackMax,18+cells.length);
+  assert.throws(()=>selectGroups(catalog,['holes-a','no-such-group']),/UNKNOWN_GROUPS: no-such-group/);
+  const cli=spawnSync(process.execPath,[path.join(ROOT,'scripts/acid/onshape-push.mjs'),'--groups','holes-a','--out',path.join(ROOT,'fixtures/cad-acid/onshape')],{encoding:'utf8'});
+  assert.notEqual(cli.status,0);assert.match(cli.stderr,/GROUPS_OUT_REFUSED/);
+  const {provenance,active}=verifyFrozenReference(path.join(ROOT,'fixtures/cad-acid/onshape-ext/A'),catalog,sourceHashes(catalog));
+  assert.deepEqual(provenance.groups,batchA);
+  assert.deepEqual([...active].sort(),[...cells].sort(),'the Batch A capture binds exactly the 157 Batch A cells, no base-zone cell');
+  assert.equal(cells.length,157);
 });
 test('second STEP re-import is scored, not just the first export/import',()=>{
   const r=observations();
@@ -245,7 +288,7 @@ build = twin.build
     assert.equal(run.status,0,run.stderr);
     const row={kernel:'occt',zone:'AC31',variant:'V0',...readJSON(path.join(out,'build.json'))};
     assert.equal(row.outcome,'built',JSON.stringify(row.error));
-    const v=scoreVariant(catalog,catalog.zones.find(z=>z.id==='AC31'),'occt',row,null,{errata:noErrata});
+    const v=scoreVariant(historicalCatalog,historicalCatalog.zones.find(z=>z.id==='AC31'),'occt',row,null,{errata:noErrata});
     assert.equal(v.status,'WRONG');assert.match(v.reason,/only a named refusal/);
   } finally {fs.rmSync(dir,{recursive:true,force:true});}
 });
@@ -262,8 +305,13 @@ test('F1: bare exact-basis forged empty AC13 rows cannot earn a point',()=>{
 test('F2: native construction binding is required; requested-kernel exit ignores frozen neighbours',{skip: !fs.existsSync(REFERENCE_PYTHON) && 'REFERENCE_VENV_UNAVAILABLE: frozen STEP observer integration'},async t=>{
   const dir=fs.mkdtempSync(path.join(os.tmpdir(),'acid-binding-'));
   try {
-    const run=spawnSync(process.execPath,[path.join(ROOT,'scripts/acid/run.mjs'),'--out',dir,'--kernels','wonky-rust','--zones','AC01','--variants','V0','--no-smoke','--json-only'],
-      {cwd:ROOT,encoding:'utf8',timeout:120000,maxBuffer:1<<22,env:{...process.env,WONKY_BACKEND:'rust',NODE_OPTIONS:'--max-old-space-size=8192'}});
+    // The observer has a separate 180 s startup deadline. An outer 120 s
+    // wall watchdog could kill a valid positive control under unrelated load.
+    const run=cpuMeasured(process.execPath,[path.join(ROOT,'scripts/acid/run.mjs'),'--out',dir,'--kernels','wonky-rust','--zones','AC01','--variants','V0','--no-smoke','--json-only'],
+      {cwd:ROOT,env:{...process.env,WONKY_BACKEND:'rust',NODE_OPTIONS:'--max-old-space-size=8192'}});
+    assert.equal(run.status,0,'live positive-control CLI failed');
+    assert.ok(run.cpuSeconds<120,`positive control used ${run.cpuSeconds} CPU seconds`);
+    t.diagnostic(`positive control: ${run.cpuSeconds} CPU s, ${run.wallSeconds} wall s`);
     const results=readJSON(path.join(dir,'results.json')),row=results.rows.find(r=>r.kernel==='wonky-rust');
     const zone=catalog.zones.find(z=>z.id==='AC01');
     assert.equal(row.outcome,'built',row.reason??row.error?.message);
@@ -294,7 +342,7 @@ test('F2: native construction binding is required; requested-kernel exit ignores
       const report=readJSON(path.join(dir,'rescored/scoreboard.json'));
       assert.equal(report.verification.status,'UNVERIFIED');assert.equal(report.kernels['wonky-rust'].score,0);assert.notEqual(cli.status,0);
     });
-    await t.test('requested-kernel CLI exit',()=>assert.equal(run.status,0,run.stderr));
+    await t.test('requested-kernel CLI exit',()=>assert.equal(run.status,0));
   } finally {fs.rmSync(dir,{recursive:true,force:true});}
 });
 test('F3: merge refuses distinct dirty code identities even at the same HEAD',()=>{
@@ -332,23 +380,78 @@ test('F4: a real export failure stays built and is WRONG only after live executi
     assert.equal(scoreVariant(catalog,catalog.zones.find(z=>z.id==='AC01'),'wonky-rust',row).status,'UNVERIFIED','serialized failure is not execution evidence');
   } finally {fs.rmSync(dir,{recursive:true,force:true});}
 });
+test('production scoring rejects unversioned empty-entry errata overlays without replacing its scoreboard',async()=>{
+  const dir=fs.mkdtempSync(path.join(os.tmpdir(),'acid-errata-binding-'));
+  try {
+    const {verifyStoredReferences}=await import('../scripts/acid/execution.mjs');
+    const {loadErrata}=await import('../scripts/acid/common.mjs');
+    const frozen=readJSON(path.join(ROOT,'fixtures/cad-acid/occt/observations.json'));
+    await assert.rejects(verifyStoredReferences(frozen,{out:dir}),/REFERENCE_ZONES_SHA_MISMATCH/);
+    frozen.rows=frozen.rows.filter(r=>!['AC25','AC26','AC31','AC36','AC38','AC48'].includes(r.zone));
+    await verifyStoredReferences(frozen,{out:dir});
+    const errata=loadErrata(),overlay={...errata,version:`${errata.version}-unversioned-empty-overlay`,entries:[]};
+    const baseline=score(catalog,frozen);
+    assert.equal(baseline.zones.find(z=>z.kernel==='occt'&&z.zone==='AC36').status,'NOT_RUN');
+    // Canonical equality, not path or key-order equality: relocated versioned data works.
+    const copy=Object.fromEntries(Object.entries(errata).reverse());
+    assert.equal(score(catalog,frozen,{errata:copy}).kernels.occt.score,baseline.kernels.occt.score);
+    assert.throws(()=>score(catalog,frozen,{errata:overlay}),/ERRATA_RULES_MISMATCH/);
+    const input=path.join(dir,'unchanged-observations.json');fs.writeFileSync(input,JSON.stringify(frozen));
+    const file=path.join(dir,'errata.json'),out=path.join(dir,'score');
+    fs.mkdirSync(out);fs.writeFileSync(file,JSON.stringify(copy));
+    const invoke=()=>spawnSync(process.execPath,[path.join(ROOT,'scripts/acid/score.mjs'),input,out,'--errata',file],{encoding:'utf8',timeout:30000});
+    invoke(); // Frozen WRONG neighbours may make exit 1; output is still authoritative.
+    const before=['scoreboard.json','scoreboard.md'].map(name=>fs.readFileSync(path.join(out,name),'utf8'));
+    assert.equal(JSON.parse(before[0]).kernels.occt.score,baseline.kernels.occt.score);
+    fs.writeFileSync(file,JSON.stringify(overlay));
+    const rejected=invoke();
+    assert.equal(rejected.status,1);assert.match(rejected.stderr,/ERRATA_RULES_MISMATCH/);
+    for(const [i,name] of ['scoreboard.json','scoreboard.md'].entries())assert.equal(fs.readFileSync(path.join(out,name),'utf8'),before[i],name);
+  } finally {fs.rmSync(dir,{recursive:true,force:true});}
+});
+test('failed run preflights invalidate previous scores and results before any execution',async t=>{
+  const dir=fs.mkdtempSync(path.join(os.tmpdir(),'acid-preflight-'));
+  try {
+    const files=['scoreboard.json','scoreboard.md','results.json'];
+    const cases=[
+      ['closed forms',['--out',dir,'--kernels','wonky-rust'],/CLOSED_FORMS_FAILED/],
+      ['unknown kernel',['--out',dir,'--kernels','unknown-kernel'],/RETIRED_OR_UNKNOWN_KERNEL/],
+      ['invalid timeout',['--out',dir,'--timeout','0'],/INVALID_RUN_OPTIONS/],
+      ['unknown option after output',['--out',dir,'--bogus'],/Unknown argument --bogus/],
+      ['unknown option before output',['--bogus','--out',dir],/Unknown argument --bogus/],
+      ['missing value',['--out',dir,'--timeout'],/--timeout needs a value/],
+    ];
+    for(const [name,args,error] of cases)await t.test(name,()=>{
+      for(const file of files)fs.writeFileSync(path.join(dir,file),'old green evidence');
+      // An unavailable executable makes the closed-form preflight fail without running Python or a kernel.
+      const run=spawnSync(process.execPath,[path.join(ROOT,'scripts/acid/run.mjs'),...args],
+        {cwd:ROOT,encoding:'utf8',timeout:30000,env:{...process.env,PATH:dir}});
+      assert.equal(run.status,1);assert.match(run.stderr,error);
+      for(const file of files)assert.equal(fs.existsSync(path.join(dir,file)),false,`${name}: stale ${file}`);
+    });
+  } finally {fs.rmSync(dir,{recursive:true,force:true});}
+});
 test('F5: declared errata override PASS and WRONG uniformly; removing an entry restores v1',()=>{
-  const zone=catalog.zones.find(z=>z.id==='AC31');
+  const zone=historicalCatalog.zones.find(z=>z.id==='AC31');
   const row={variant:'V0',outcome:'built',nativeValidity:true,metrics:{}};
-  assert.equal(scoreVariant(catalog,zone,'onshape',row).status,'DISPUTED');
-  assert.equal(scoreVariant(catalog,zone,'onshape',row,null,{errata:noErrata}).status,'WRONG');
+  assert.equal(scoreVariant(historicalCatalog,zone,'onshape',row,null,{errata:historicalErrata}).status,'DISPUTED');
+  assert.equal(scoreVariant(historicalCatalog,zone,'onshape',row,null,{errata:noErrata}).status,'WRONG');
   // CE11 AC26's frozen primitive measurements pass v1, but cannot prove a revolve.
-  const torus=catalog.zones.find(z=>z.id==='AC26'),b=torus.closedForm.bbox.variants.V0;
+  const torus=historicalCatalog.zones.find(z=>z.id==='AC26'),b=torus.closedForm.bbox.variants.V0;
   const metrics={volume:64*Math.PI*Math.PI,area:64*Math.PI*Math.PI,bodies:[{volume:64*Math.PI*Math.PI}],
     topology:{bodies:1,shells:1,faces:1,edges:0,vertices:0,genus:1,singularPoints:0},
     bbox:{min:b.min.map((v,i)=>v+torus.cell.originMm[i]),max:b.max.map((v,i)=>v+torus.cell.originMm[i])},
     measurements:{probe_hole:6,probe_above:Math.sqrt(89)-2},validity:{brep:true,closed:true,positive:true}};
   const primitive={variant:'V0',outcome:'built',nativeValidity:true,metrics,stepRoundTrip:{ok:true,metrics}};
-  assert.equal(scoreVariant(catalog,torus,'occt',primitive,null,{errata:noErrata}).status,'CORRECT');
-  assert.equal(scoreVariant(catalog,torus,'occt',primitive).status,'DISPUTED');
-  const affected=['AC25','AC26','AC31','AC36','AC38','AC48'];
+  assert.equal(scoreVariant(historicalCatalog,torus,'occt',primitive,null,{errata:noErrata}).status,'CORRECT');
+  assert.equal(scoreVariant(historicalCatalog,torus,'occt',primitive,null,{errata:historicalErrata}).status,'DISPUTED');
+  const affected=['AC36','AC38'];
   const report=score(catalog,{zonesSha256,rows:[]},{zonesSha256});
-  for(const z of report.zones.filter(z=>affected.includes(z.zone))){assert.equal(z.status,'DISPUTED');assert.equal(z.points,0);}
+  // Historical overlays still override every kernel; resolved current entries do not.
+  for(const id of affected) for(const kernel of ['onshape','occt','wonky-bend','wonky-rust'])
+    assert.equal(scoreVariant(historicalCatalog,historicalCatalog.zones.find(z=>z.id===id),kernel,null,null,{errata:historicalErrata}).status,'DISPUTED');
+  for(const z of report.zones.filter(z=>affected.includes(z.zone))){assert.equal(z.status,'NOT_RUN');assert.equal(z.points,0);}
+  for(const z of report.zones.filter(z=>['AC25','AC26','AC31','AC48'].includes(z.zone))){assert.equal(z.status,'NOT_RUN');assert.equal(z.points,0);}
 });
 
 // Execution admission belongs at the public CLI boundary. These deliberately
@@ -424,7 +527,7 @@ test('execution admission: live AC01/AC45 scores 2/48; serialized claims require
       {cwd:ROOT,encoding:'utf8',timeout:180000,maxBuffer:1<<22,env:{...process.env,NODE_OPTIONS:'--max-old-space-size=8192',WONKY_BACKEND:'rust'}});
     assert.equal(live.status,0,live.stderr);
     const result=readJSON(path.join(dir,'results.json')),report=readJSON(path.join(dir,'scoreboard.json'));
-    assert.equal(report.kernels['wonky-rust'].score,2);assert.equal(report.kernels['wonky-rust'].total,48);
+    assert.equal(report.kernels['wonky-rust'].score,2);assert.equal(report.kernels['wonky-rust'].total,catalog.zones.length);
     const saved={...result,rows:result.rows.filter(r=>r.kernel==='wonky-rust')};
     assert.equal(scoreCLI(path.join(dir,'offline'),saved).report.kernels['wonky-rust'].score,0);
     const replay=scoreCLI(path.join(dir,'replay'),saved,true);
@@ -514,11 +617,21 @@ test('live OCCT without a frozen fixture earns zero; live observations never rep
     fs.mkdirSync(path.join(dir,'out'));
     fs.symlinkSync(path.join(ROOT,'out/build123d-performance'),path.join(dir,'out/build123d-performance'));
     assert.equal(spawnSync('git',['init','--quiet',dir],{encoding:'utf8'}).status,0);
+    // No Onshape capture at all (v1 or onshape-ext/<batch>/): the merged rows are exactly the frozen OCCT rows.
     fs.rmSync(path.join(dir,'fixtures/cad-acid/onshape'),{recursive:true});
-    const fixture=path.join(dir,'fixtures/cad-acid/occt');
-    fs.renameSync(fixture,`${fixture}-held`);
+    fs.rmSync(path.join(dir,'fixtures/cad-acid/onshape-ext'),{recursive:true,force:true});
+    // Every OCCT capture: the v1 freeze plus the catalog-extension freezes (occt-ext/<batch>/).
+    const fixture=path.join(dir,'fixtures/cad-acid/occt'),extensions=path.join(dir,'fixtures/cad-acid/occt-ext');
+    const captures=[fixture,...(fs.existsSync(extensions)?fs.readdirSync(extensions).sort().map(d=>path.join(extensions,d)):[])];
+    const frozenRows=captures.flatMap(capture=>{
+      const provenance=readJSON(path.join(capture,'provenance.json'));
+      const {active}=activeReferenceKeys(catalog,catalogBySha(provenance.zonesSha256,[path.join(capture,'inputs/zones.json')]),sourceHashes(catalog),provenance.sources,'occt','contract');
+      return readJSON(path.join(capture,'observations.json')).rows.filter(r=>active.has(`${r.zone}/${r.variant}`));
+    });
+    const held=[fixture,extensions].filter(d=>fs.existsSync(d));
+    for(const d of held)fs.renameSync(d,`${d}-held`);
     for(const present of [false,true])await t.test(present?'frozen and live remain separate':'P1: missing frozen fixture',()=>{
-      if(present)fs.renameSync(`${fixture}-held`,fixture);
+      if(present)for(const d of held)fs.renameSync(`${d}-held`,d);
       const out=path.join(dir,present?'present':'missing');
       const cli=spawnSync(process.execPath,[path.join(dir,'scripts/acid/run.mjs'),'--out',out,'--kernels','occt','--zones','AC01','--no-smoke'],
         {cwd:dir,encoding:'utf8',timeout:180000,maxBuffer:1<<22,env:{...process.env,NODE_OPTIONS:'--max-old-space-size=8192'}});
@@ -531,11 +644,10 @@ test('live OCCT without a frozen fixture earns zero; live observations never rep
         assert.equal(scored.length,0,'live observations stay outside the scored rows');
         assert.equal(Object.keys(report.verification.referenceFixtures.occt).length,0,'no fixture identity is invented');
       } else {
-        assert.equal(scored.length,192,'all frozen rows survive a selected live run');
+        assert.equal(scored.length,frozenRows.length,'all frozen rows survive a selected live run');
         assert.equal(report.verification.kernels.occt.status,'frozen');
-        assert.equal(report.verification.kernels.occt.counts.frozen,192);
-        const frozen=readJSON(path.join(fixture,'observations.json'));
-        for(const row of scored)assert.equal(sha256(JSON.stringify(row)),sha256(JSON.stringify(frozen.rows.find(r=>r.zone===row.zone&&r.variant===row.variant))));
+        assert.equal(report.verification.kernels.occt.counts.frozen,frozenRows.length);
+        for(const row of scored)assert.equal(sha256(JSON.stringify(row)),sha256(JSON.stringify(frozenRows.find(r=>r.zone===row.zone&&r.variant===row.variant))));
       }
       assert.equal(result.liveReferences.length,4);
       for(const row of result.liveReferences) {
@@ -556,7 +668,7 @@ test('live OCCT without a frozen fixture earns zero; live observations never rep
         const merge=spawnSync(process.execPath,[path.join(dir,'scripts/acid/merge-results.mjs'),merged,out],{cwd:dir,encoding:'utf8',timeout:180000,maxBuffer:1<<22});
         assert.equal(merge.status,0,merge.stderr);
         const saved=readJSON(path.join(merged,'results.json'));
-        assert.equal(saved.rows.length,192);assert.equal(saved.liveReferences.length,4,'merge retains live diagnostics separately');
+        assert.equal(saved.rows.length,frozenRows.length);assert.equal(saved.liveReferences.length,4,'merge retains live diagnostics separately');
       }
     });
   } finally {fs.rmSync(dir,{recursive:true,force:true});}

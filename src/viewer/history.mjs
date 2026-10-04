@@ -30,6 +30,7 @@
 // Call sites are located in the calling operation's source document: the
 // recorded frames carry lines only, and a build evaluates one document.
 import { inputIdentity } from '../construction-history.mjs';
+import { viewerRecord } from './model-record.mjs';
 
 export const HISTORY_SCHEMA = 'wonky.viewer-history/1';
 
@@ -434,7 +435,12 @@ function lineIndex(model, modelId, bodies, context) {
   return [...files.values()];
 }
 
+// Rust WC0 bodies carry no recorded topology identity, so no per-face or
+// per-edge sketch-entity link exists; the body-level operation still links.
+const RUST_NO_IDENTITY = 'unsupported on Rust: per-face and per-edge sketch-entity links need recorded topology identity, which Rust bodies do not carry; only the body-level operation is linked';
+
 export function operationHistory(model, { modelId = null } = {}) {
+  model = viewerRecord(model);
   const operations = model?.sourceMap?.operations ?? [];
   const bodies = model?.bodies ?? [];
   const byOperationId = new Map();
@@ -464,6 +470,7 @@ export function operationHistory(model, { modelId = null } = {}) {
       id: body.id,
       ...(body.name ? { name: body.name } : {}),
       operation: bodyOperation.get(body.id)?.sequence ?? null,
+      ...(String(body.geometry).startsWith('rust-wc0') && !body.identity ? { unsupported: RUST_NO_IDENTITY } : {}),
       ...bodyLinks[index],
     })),
     files: lineIndex(model ?? { bodies: [] }, modelId, bodyLinks, context),

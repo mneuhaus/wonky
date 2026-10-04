@@ -1,0 +1,19 @@
+{
+  "schema": "wonky-onshape-inputs/2",
+  "hostDocument": "555555555555555555555555",
+  "sourceSha256": "9bd305f6a9d42696705d15e8553271e528ccb0042c5a5695e12a94009d975d00",
+  "modules": [
+    {
+      "namespace": "rails",
+      "document": "555555555555555555555555",
+      "documentVersion": null,
+      "element": "111111111111111111111111",
+      "microversion": "222222222222222222222222",
+      "source": {
+        "file": "source.fs",
+        "sha256": "30f926d5013666c1ffc3992d4153abff1454ea00467d205b3588440fc53ad835",
+        "feature": "importedRails"
+      }
+    }
+  ]
+}

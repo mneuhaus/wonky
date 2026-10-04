@@ -1,7 +1,11 @@
 # CADBench and public CAD regression probes
 
-This integration runs **real Bend geometry** from explicitly adapted public
-specifications and test sequences. It does not run an AI agent, construct
+This integration runs **real Rust-kernel geometry** from explicitly adapted public
+specifications and test sequences. The harness accepts only exact, closed,
+validated Rust WC0 bodies that the kernel itself re-measures
+(`exactRustBodies` in `scripts/cadbench.mjs`): a model without such geometry
+fails whatever backend it names. Results from the retired Bend kernel below are
+frozen history. It does not run an AI agent, construct
 geometry with FreeCAD/build123d/OCCT, or claim an official CADBench score.
 OpenCascade only reads and independently checks already exported STEP files
 through the project's existing `scripts/validate-step.py`.
@@ -15,8 +19,9 @@ node scripts/cadbench-sources.mjs
 # Five public-spec FeatureScript cases, including unsupported operations.
 node scripts/cadbench.mjs
 
-# Ten geometry/API probes adapted from real build123d tests.
-node scripts/cadbench-build123d.mjs
+# Ten geometry/API probes adapted from real build123d tests (parked: the Python
+# frontend is not ported to the Rust kernel, so all ten fail closed by name).
+node scripts/cadbench-build123d.mjs --out out/cadbench/build123d
 
 # Focused harness checks. The root integration also runs npm test.
 node --test test/cadbench.test.mjs test/cadbench-build123d.test.mjs
@@ -91,13 +96,23 @@ All input programs are ordinary FeatureScript. The five source specifications
 are geometrically complete within their stated nominal dimensions; material
 properties and washer manufacturing grade are outside this test's scope.
 
-| Local case | Public source ID | Geometry exercised | Current local result |
-|---|---|---|---|
-| `washer` | `21d1517841` | Analytic annulus, coaxial subtraction | Passed |
-| `cup` | `1b9f95801c` | Open cavity, coincident nominal upper plane | Passed after kernel fix |
-| `frustum` | `f3e10795e7` | Analytic conical loft | Passed |
-| `stairs` | `0f27beedee` | Full nonconvex five-tier profile extrusion | Passed |
-| `square-washer` | `3582a53285` | Square plate minus circular bore | Unsupported general subtraction |
+| Local case | Public source ID | Geometry exercised | Rust kernel (2026-09-28) | Bend era (frozen, 2026-09-22) |
+|---|---|---|---|---|
+| `washer` | `21d1517841` | Analytic annulus, coaxial subtraction | Passed | Passed |
+| `cup` | `1b9f95801c` | Open cavity, coincident nominal upper plane | Passed | Passed after kernel fix |
+| `frustum` | `f3e10795e7` | Analytic conical loft | Unsupported: `loft/planar-line-profiles-required` (circle-to-circle `opLoft`) | Passed |
+| `stairs` | `0f27beedee` | Full nonconvex five-tier profile extrusion | Passed | Passed |
+| `square-washer` | `3582a53285` | Square plate minus circular bore | Passed | Unsupported general subtraction |
+
+The Rust run (`node scripts/cadbench.mjs`, M4 mini runner, Rust addon
+`sourceHash` `c5d53a0763dd`) reports **4 passed, 1 unsupported**, with
+independent STEP validation passed for all four exports (OCCT validity, kernel
+topology preserved, volume, and all 14 occupancy probes of those cases). It
+exits 1 because of the frustum. The frustum is a named capability refusal of
+the Rust `opLoft`, which lofts planar line profiles only; it is the first
+kernel-gap candidate from this pilot, never a pass or an approximation. From
+`main` onward, `test/cadbench.test.mjs` pins these statuses in the Rust test
+lane (`scripts/test-rust.mjs`).
 
 These deliberately small cases do not establish broad coverage of the source
 dataset's gears, splines, flanges, rounds, joints, or complex assemblies. The
@@ -119,7 +134,7 @@ counts; oracle revision 2 corrected that assumption while retaining analytic
 types, native/STEP topology checks, volume, bounds, and probes. The initial
 post-fix false-failure report is preserved separately.
 
-## Preserved baseline and the cup regression
+## Preserved Bend-era baseline and the cup regression (frozen history)
 
 The original run is frozen in
 `out/cadbench/baseline-2026-09-22/`, with all file hashes in
@@ -150,14 +165,19 @@ are preserved alongside unchanged
 
 `fixtures/cadbench/build123d/manifest.json` identifies ten selected methods out
 of the 95 test methods in that file. It lists every adaptation and omitted
-assertion. The runner sends the adapted programs through **Wonky's own Python
-compatibility shim and Bend kernel**. It does not install or import the real
+assertion. **Parked since 2026-09-28** (docs/python-frontend.md): the Python frontend
+still calls the legacy Bend-era kernel op table, which the Rust kernel does not
+serve, and it is not being ported. On Rust every probe fails closed as
+`not-ported` (`kernel entry … is not ported to the Rust kernel`); none passes,
+and `test/cadbench-build123d.test.mjs` pins that. The table below is the frozen
+Bend-era result. In that era the runner sent the adapted programs through
+**Wonky's own Python compatibility shim and Bend kernel**. It does not install or import the real
 build123d implementation. Original unittest/class-identity assertions,
 edge-lineage queries, and vectorized-versus-sequential branches are not silently
 treated as tested. Some exact modeling sequences currently fail before geometry
 is reached, which is reported as `unsupported-api`.
 
-| Selected sequence | Reused expectation / remaining gap | Observed status |
+| Selected sequence | Reused expectation / remaining gap | Bend-era observed status (frozen) |
 |---|---|---|
 | `ObjectTests.test_box_min` | Exact dimensions/alignment and upstream bounds; analytic volume added | Adapted geometry passed |
 | `ObjectTests.test_cylinder_` | Original centered cylinder/bounds; analytic volume added | Adapted geometry passed |
@@ -170,7 +190,7 @@ is reached, which is reported as `unsupported-api`.
 | `AlgebraTests.test_empty_plus_mixed_curved_parts` | Original mixed box/cylinder sequence; vectorized/mass/area equivalence still required | Unsupported geometry |
 | `AlgebraTests.test_empty_plus_rotated_parts` | Original rotations/placements of five boxes | Unsupported API (`Rot`) |
 
-The current run is `out/cadbench/build123d-after-difference-arcs/report.json`: **3 adapted geometry
+The last Bend-era run is `out/cadbench/build123d-after-difference-arcs/report.json`: **3 adapted geometry
 passes, 4 geometry capabilities missing, 2 API capabilities missing, 1 incomplete
 oracle**. All four constructed exports pass the existing independent STEP
 validator. `wrong-geometry`, `execution-error`, and `validation-error` are

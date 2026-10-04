@@ -1,4 +1,5 @@
 use num_traits::{One, Zero};
+use std::cmp::Ordering;
 use wonky_alg::{
     isolate_real_roots, AlgebraError, AlgebraicReal, BigInt, Limits, Polynomial, Rational,
     RationalInterval, Sign, SturmSequence,
@@ -157,6 +158,168 @@ fn sturm_counts_and_endpoints() {
                 .unwrap()
                 .real_root_count(),
             expected
+        );
+    }
+}
+
+#[test]
+fn half_open_counts_own_the_lower_endpoint_only() {
+    // Distinct roots 0, 1 (double) and 2, each on the end of adjacent unit intervals.
+    let p = from_roots(&[q(0, 1), q(1, 1), q(1, 1), q(2, 1)]);
+    let s = SturmSequence::new(&p).unwrap();
+    for (a, b, open, half_open, closed) in [
+        (0, 1, 0, 1, 2),
+        (1, 2, 0, 1, 2),
+        (0, 2, 1, 2, 3),
+        (-1, 0, 0, 0, 1),
+        (2, 3, 0, 1, 1),
+        (1, 1, 0, 0, 1),
+        (3, 3, 0, 0, 0),
+    ] {
+        let i = interval(a, b);
+        assert_eq!(s.count_open(&i), open, "({a}, {b})");
+        assert_eq!(s.count_half_open(&i), half_open, "[{a}, {b})");
+        assert_eq!(s.count_closed(&i), closed, "[{a}, {b}]");
+    }
+    // [0, 1) + [1, 2) + [2, 3) partition [0, 3): every root is owned exactly once.
+    let parts: usize = [(0, 1), (1, 2), (2, 3)]
+        .map(|(a, b)| s.count_half_open(&interval(a, b)))
+        .iter()
+        .sum();
+    assert_eq!(parts, 3);
+    assert_eq!(s.count_half_open(&interval(0, 3)), parts);
+}
+
+#[test]
+fn bernstein_basis_reproduces_the_ac100_arch_and_its_elevation() {
+    // AC100 (tmp/cadbench/gears/plan.md section 3): controls (0,0),(8,6),(18,6),(26,0);
+    // the exact degree-4 elevation is (0,0),(6,9/2),(13,6),(20,9/2),(26,0).
+    let x = Polynomial::from_bernstein(&[0, 8, 18, 26].map(|n| q(n, 1))).unwrap();
+    let y = Polynomial::from_bernstein(&[0, 6, 6, 0].map(|n| q(n, 1))).unwrap();
+    assert_eq!(x, Polynomial::from_integers(&[0, 24, 6, -4]));
+    assert_eq!(y, Polynomial::from_integers(&[0, 18, -18]));
+    assert_eq!(
+        x.to_bernstein(4).unwrap(),
+        [0, 6, 13, 20, 26].map(|n| q(n, 1))
+    );
+    assert_eq!(
+        y.to_bernstein(4).unwrap(),
+        [q(0, 1), q(9, 2), q(6, 1), q(9, 2), q(0, 1)]
+    );
+    assert_eq!(y.to_bernstein(3).unwrap(), [0, 6, 6, 0].map(|n| q(n, 1)));
+    assert_eq!(
+        x.to_bernstein(2),
+        Err(AlgebraError::DegreeTooLow {
+            degree: 2,
+            required: 3
+        })
+    );
+    assert_eq!(
+        Polynomial::zero().to_bernstein(2).unwrap(),
+        vec![Rational::zero(); 3]
+    );
+    assert_eq!(
+        Polynomial::from_bernstein(&[]),
+        Err(AlgebraError::EmptyBernstein)
+    );
+}
+
+#[test]
+fn algebraic_order_is_exact_across_defining_polynomials() {
+    let limits = Limits::default();
+    let sqrt2 = Polynomial::from_integers(&[-2, 0, 1]);
+    let both = sqrt2.mul(&Polynomial::from_integers(&[-3, 0, 1]));
+    let certificate = |p: &Polynomial, lower: Rational, upper: Rational| {
+        AlgebraicReal::from_interval(p, RationalInterval::new(lower, upper).unwrap()).unwrap()
+    };
+    let point = |r: Rational| certificate(&from_roots(std::slice::from_ref(&r)), r.clone(), r);
+    let alpha = certificate(&sqrt2, q(0, 1), q(2, 1));
+    let same = certificate(&both, q(7, 5), q(3, 2));
+    let sqrt3 = certificate(&both, q(3, 2), q(2, 1));
+    assert_eq!(alpha.cmp(&same, limits), Ok(Ordering::Equal));
+    assert_eq!(same.cmp(&alpha, limits), Ok(Ordering::Equal));
+    // Overlapping certificates with a common factor that has no root in the overlap.
+    assert_eq!(alpha.cmp(&sqrt3, limits), Ok(Ordering::Less));
+    assert_eq!(sqrt3.cmp(&alpha, limits), Ok(Ordering::Greater));
+    // Pell approximants straddle sqrt(2) far closer than the certificate.
+    let below = q(2_140_758_220_993, 1_513_744_654_945);
+    let above = q(886_731_088_897, 627_013_566_048);
+    assert_eq!(
+        alpha.cmp(&point(below.clone()), limits),
+        Ok(Ordering::Greater)
+    );
+    assert_eq!(point(above).cmp(&alpha, limits), Ok(Ordering::Greater));
+    // A rational root equals its point certificate under another defining polynomial.
+    let one = certificate(&Polynomial::from_integers(&[-1, 0, 1]), q(1, 2), q(2, 1));
+    assert_eq!(one.cmp(&point(q(1, 1)), limits), Ok(Ordering::Equal));
+    // Two roots of one polynomial with overlapping certificates stay different.
+    let p = from_roots(&[q(1, 2), q(5, 2)]);
+    let (left, right) = (
+        certificate(&p, q(0, 1), q(2, 1)),
+        certificate(&p, q(1, 1), q(3, 1)),
+    );
+    assert_eq!(left.cmp(&right, limits), Ok(Ordering::Less));
+    // Separating sqrt(2) from `below` needs about 80 bisections: typed refusal, no change.
+    let tight = Limits { max_bisections: 8 };
+    assert_eq!(
+        alpha.cmp(&point(below), tight),
+        Err(AlgebraError::BudgetExceeded {
+            operation: "cmp",
+            limit: 8
+        })
+    );
+    assert_eq!(alpha.interval(), &interval(0, 2));
+}
+
+/// design-robustness.md section 1: span 0 of an exact natural-cubic gear flank
+/// (m 1, z 45) against the 3-point root-arc carrier (degree 6) and the radial root
+/// line (degree 3). Their only contact in [0, 1] is the shared endpoint t = 0.
+#[test]
+fn robustness_flank_contacts_deflate_to_no_root() {
+    let mut controls = Vec::new();
+    let (mut arc, mut sympy) = (Vec::new(), std::collections::HashMap::new());
+    let parse = |w: &str| w.parse::<Rational>().unwrap();
+    for line in include_str!("data/flank-contacts.txt").lines() {
+        let words: Vec<&str> = line.split_whitespace().collect();
+        match words[0] {
+            "control" => controls.push((parse(words[2]), parse(words[3]))),
+            "arc" => arc = words[1..].iter().map(|w| parse(w)).collect(),
+            name if name.ends_with("-poly") => {
+                let coefficients = words[1..].iter().map(|w| parse(w)).collect();
+                sympy.insert(name, Polynomial::new(coefficients).unwrap());
+            }
+            _ => assert!(line.starts_with('#'), "unexpected fixture line {line}"),
+        }
+    }
+    let constant = |c: &Rational| Polynomial::new(vec![c.clone()]).unwrap();
+    let x = Polynomial::from_bernstein(&controls.iter().map(|c| c.0.clone()).collect::<Vec<_>>())
+        .unwrap();
+    let y = Polynomial::from_bernstein(&controls.iter().map(|c| c.1.clone()).collect::<Vec<_>>())
+        .unwrap();
+    let (dx, dy) = (x.sub(&constant(&arc[0])), y.sub(&constant(&arc[1])));
+    let on_arc = dx.mul(&dx).add(&dy.mul(&dy)).sub(&constant(&arc[2]));
+    let on_line = y
+        .scale(&controls[0].0)
+        .unwrap()
+        .sub(&x.scale(&controls[0].1).unwrap());
+    let unit = interval(0, 1);
+    for (name, contact, degree) in [("arc-poly", on_arc, 6), ("line-poly", on_line, 3)] {
+        // Independent route: sympy's expansion of the same substitution.
+        assert_eq!(&contact, &sympy[name], "{name}");
+        assert_eq!(contact.degree(), Some(degree), "{name}");
+        // Undeflated, the shared endpoint is the one root of [0, 1).
+        assert_eq!(
+            SturmSequence::new(&contact).unwrap().count_half_open(&unit),
+            1
+        );
+        let deflated = contact.deflate(&Rational::zero()).unwrap();
+        assert_eq!(deflated.multiplicity, 1, "{name}: transversal joint");
+        assert_eq!(deflated.quotient.degree(), Some(degree - 1), "{name}");
+        let sturm = SturmSequence::new(&deflated.quotient).unwrap();
+        assert_eq!(
+            sturm.count_closed(&unit),
+            0,
+            "{name}: no contact left in [0, 1]"
         );
     }
 }
@@ -477,6 +640,12 @@ fn invalid_inputs_and_transactional_budget_refusals() {
         SturmSequence::new(&p).unwrap().variations_at(&invalid),
         Err(AlgebraError::ZeroDenominator)
     );
+    assert_eq!(p.deflate(&invalid), Err(AlgebraError::ZeroDenominator));
+    assert_eq!(zero.deflate(&q(1, 1)), Err(AlgebraError::ZeroPolynomial));
+    assert_eq!(
+        Polynomial::from_bernstein(&[q(1, 1), invalid]),
+        Err(AlgebraError::ZeroDenominator)
+    );
 }
 
 #[test]
@@ -504,4 +673,51 @@ fn arbitrary_precision_and_repeated_irrational_roots() {
         assert!(root.interval().lower() <= &exact && &exact <= root.interval().upper());
     }
     assert_certificates(&p, &roots);
+}
+
+#[test]
+fn nonlinear_signs_preserve_coincidence_and_ambiguous_budget_refusals() {
+    let cubic = Polynomial::from_integers(&[-1, -1, 0, 1]);
+    let alpha =
+        AlgebraicReal::from_interval(&cubic, RationalInterval::new(q(13, 10), q(14, 10)).unwrap())
+            .unwrap();
+    let no_steps = Limits { max_bisections: 0 };
+    // x^2-1 >0 and (x-1)(x-2)<0 throughout this independently chosen bracket.
+    assert_eq!(
+        alpha
+            .sign_at(&Polynomial::from_integers(&[-1, 0, 1]), no_steps)
+            .unwrap(),
+        Sign::Positive
+    );
+    assert_eq!(
+        alpha
+            .sign_at(&Polynomial::from_integers(&[2, -3, 1]), no_steps)
+            .unwrap(),
+        Sign::Negative
+    );
+    let broad = AlgebraicReal::from_interval(&cubic, interval(1, 2)).unwrap();
+    assert_eq!(
+        broad.sign_at(&Polynomial::new(vec![q(-4, 3), q(1, 1)]).unwrap(), no_steps),
+        Err(AlgebraError::BudgetExceeded {
+            operation: "sign_at",
+            limit: 0
+        })
+    );
+    assert_eq!(broad.interval(), &interval(1, 2));
+    let sqrt2 = Polynomial::from_integers(&[-2, 0, 1]);
+    let reducible = sqrt2.mul(&Polynomial::from_integers(&[-3, 1]));
+    let beta = AlgebraicReal::from_interval(&reducible, interval(1, 2)).unwrap();
+    assert_eq!(beta.sign_at(&sqrt2, no_steps).unwrap(), Sign::Zero);
+}
+
+#[test]
+fn interval_product_signed_extrema() {
+    // Independently enumerate all endpoint extrema, including zero endpoints.
+    for (a,b) in [(-5,-2),(-5,0),(-5,3),(0,0),(0,3),(2,5)] {
+        for (c,d) in [(-7,-1),(-7,0),(-7,4),(0,0),(0,4),(1,7)] {
+            let actual=interval(a,b).product(&interval(c,d));
+            let endpoints=[a*c,a*d,b*c,b*d];
+            assert_eq!(actual,interval(*endpoints.iter().min().unwrap(),*endpoints.iter().max().unwrap()));
+        }
+    }
 }

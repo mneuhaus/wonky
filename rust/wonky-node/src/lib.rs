@@ -47,6 +47,8 @@ const NAPI_UINT32_ARRAY: i32 = 6; // napi_typedarray_type
 const NAPI_VERSION: i32 = 8;
 
 extern "C" {
+    fn napi_get_global(env: napi_env, result: *mut napi_value) -> napi_status;
+    fn napi_call_function(env: napi_env, recv: napi_value, func: napi_value, argc: usize, argv: *const napi_value, result: *mut napi_value) -> napi_status;
     fn napi_create_function(env: napi_env, name: *const c_char, len: usize, cb: napi_callback, data: *mut c_void, result: *mut napi_value) -> napi_status;
     fn napi_set_named_property(env: napi_env, object: napi_value, name: *const c_char, value: napi_value) -> napi_status;
     fn napi_get_named_property(env: napi_env, object: napi_value, name: *const c_char, result: *mut napi_value) -> napi_status;
@@ -157,12 +159,17 @@ unsafe fn string_arg(env: napi_env, v: napi_value) -> Option<String> {
     if type_of(env, v) != NAPI_STRING {
         return None;
     }
-    let mut buf = [0u8; 64];
-    let mut n = 0usize;
-    if napi_get_value_string_utf8(env, v, buf.as_mut_ptr() as *mut c_char, buf.len(), &mut n) != NAPI_OK {
+    let mut length = 0usize;
+    if napi_get_value_string_utf8(env, v, ptr::null_mut(), 0, &mut length) != NAPI_OK {
         return None;
     }
-    String::from_utf8(buf[..n].to_vec()).ok()
+    let mut buf = vec![0u8; length.checked_add(1)?];
+    let mut copied = 0usize;
+    if napi_get_value_string_utf8(env, v, buf.as_mut_ptr() as *mut c_char, buf.len(), &mut copied) != NAPI_OK || copied != length {
+        return None;
+    }
+    buf.truncate(length);
+    String::from_utf8(buf).ok()
 }
 
 // ---------------------------------------------------------------- state
@@ -344,6 +351,86 @@ unsafe extern "C" fn js_wire_v3(env: napi_env, info: napi_callback_info) -> napi
 }
 
 /// The WC0 JSON reading (docs/rust-wire-v3.md) of a checked canonical v3 body.
+unsafe extern "C" fn js_reference_step_json(env: napi_env, info: napi_callback_info) -> napi_value {
+    let (argc, argv) = args::<1>(env, info);
+    if argc != 1 { return throw(env, "BX_ARGS", "referenceStepJson expects STEP text"); }
+    if type_of(env, argv[0]) != NAPI_STRING { return throw(env, "BX_ARGS", "STEP text must be a string"); }
+    let mut length = 0usize;
+    if napi_get_value_string_utf8(env, argv[0], ptr::null_mut(), 0, &mut length) != NAPI_OK { return throw(env, "BX_ARGS", "cannot read STEP text length"); }
+    if length > 16 * 1024 * 1024 { return throw(env, "BX_CAPABILITY", "import/source-byte-limit"); }
+    let mut bytes = vec![0u8; length + 1];
+    let mut copied = 0usize;
+    if napi_get_value_string_utf8(env, argv[0], bytes.as_mut_ptr() as *mut c_char, bytes.len(), &mut copied) != NAPI_OK || copied != length { return throw(env, "BX_ARGS", "cannot read complete STEP text"); }
+    bytes.truncate(copied);
+    if !initialised(env) { return ptr::null_mut(); }
+    match catch_unwind(AssertUnwindSafe(|| wonky_ops::reference::import_json(&bytes))) {
+        Ok(Ok(json)) => string(env, &json),
+        Ok(Err(reason)) => throw(env, "BX_CAPABILITY", &reason),
+        Err(payload) => throw(env, "BX_FAULT", &format!("panic in referenceStepJson: {}", panic_message(payload))),
+    }
+}
+
+unsafe extern "C" fn js_reference_display_json(env: napi_env, info: napi_callback_info) -> napi_value {
+    let (argc, argv) = args::<2>(env, info);
+    if argc != 2 { return throw(env, "BX_ARGS", "referenceDisplayJson expects STEP text"); }
+    if type_of(env, argv[0]) != NAPI_STRING { return throw(env, "BX_ARGS", "STEP text must be a string"); }
+    let mut length = 0usize;
+    if napi_get_value_string_utf8(env, argv[0], ptr::null_mut(), 0, &mut length) != NAPI_OK { return throw(env, "BX_ARGS", "cannot read STEP text length"); }
+    if length > 16 * 1024 * 1024 { return throw(env, "BX_CAPABILITY", "import/source-byte-limit"); }
+    let mut bytes = vec![0u8; length + 1];
+    let mut copied = 0usize;
+    if napi_get_value_string_utf8(env, argv[0], bytes.as_mut_ptr() as *mut c_char, bytes.len(), &mut copied) != NAPI_OK || copied != length { return throw(env, "BX_ARGS", "cannot read complete STEP text"); }
+    bytes.truncate(copied);
+    let mut deviation = 0.0;
+    if napi_get_value_double(env, argv[1], &mut deviation) != NAPI_OK { return throw(env, "BX_ARGS", "deviation must be a number"); }
+    if !initialised(env) { return ptr::null_mut(); }
+    match catch_unwind(AssertUnwindSafe(|| wonky_ops::reference::display_source_json(&bytes, deviation))) {
+        Ok(Ok(json)) => string(env, &json),
+        Ok(Err(reason)) => throw(env, "BX_CAPABILITY", &reason),
+        Err(payload) => throw(env, "BX_FAULT", &format!("panic in referenceDisplayJson: {}", panic_message(payload))),
+    }
+}
+
+unsafe extern "C" fn js_reference_check_points(env: napi_env, info: napi_callback_info) -> napi_value {
+    let (argc, argv) = args::<3>(env, info);
+    if argc != 3 { return throw(env, "BX_ARGS", "referenceCheckPoints expects STEP text"); }
+    if type_of(env, argv[0]) != NAPI_STRING { return throw(env, "BX_ARGS", "STEP text must be a string"); }
+    let mut length = 0usize;
+    if napi_get_value_string_utf8(env, argv[0], ptr::null_mut(), 0, &mut length) != NAPI_OK { return throw(env, "BX_ARGS", "cannot read STEP text length"); }
+    if length > 16 * 1024 * 1024 { return throw(env, "BX_CAPABILITY", "import/source-byte-limit"); }
+    let mut bytes = vec![0u8; length + 1];
+    let mut copied = 0usize;
+    if napi_get_value_string_utf8(env, argv[0], bytes.as_mut_ptr() as *mut c_char, bytes.len(), &mut copied) != NAPI_OK || copied != length { return throw(env, "BX_ARGS", "cannot read complete STEP text"); }
+    bytes.truncate(copied);
+    let mut deviation = 0.0;
+    if napi_get_value_double(env, argv[2], &mut deviation) != NAPI_OK { return throw(env, "BX_ARGS", "deviation must be a number"); }
+    let mut row_length = 0usize;
+    if type_of(env, argv[1]) != NAPI_STRING || napi_get_value_string_utf8(env, argv[1], ptr::null_mut(), 0, &mut row_length) != NAPI_OK || row_length > 64*1024*1024 { return throw(env, "BX_ARGS", "invalid mesh observations"); }
+    let mut row_bytes = vec![0u8; row_length + 1];
+    let mut row_copied = 0usize;
+    if napi_get_value_string_utf8(env, argv[1], row_bytes.as_mut_ptr() as *mut c_char, row_bytes.len(), &mut row_copied) != NAPI_OK || row_copied != row_length { return throw(env, "BX_ARGS", "incomplete mesh observations"); }
+    let rows = match std::str::from_utf8(&row_bytes[..row_length]) { Ok(s) => s, Err(_) => return throw(env, "BX_ARGS", "mesh observation encoding") };
+    if !initialised(env) { return ptr::null_mut(); }
+    match catch_unwind(AssertUnwindSafe(|| wonky_ops::reference::check_display_points(&bytes, &rows, deviation))) {
+        Ok(Ok(json)) => string(env, &json),
+        Ok(Err(reason)) => throw(env, "BX_CAPABILITY", &reason),
+        Err(payload) => throw(env, "BX_FAULT", &format!("panic in referenceCheckPoints: {}", panic_message(payload))),
+    }
+}
+
+unsafe extern "C" fn js_reference_legalize_rows(env: napi_env, info: napi_callback_info) -> napi_value {
+    let (argc,argv)=args::<1>(env,info);let mut length=0usize;
+    if argc!=1||type_of(env,argv[0])!=NAPI_STRING||napi_get_value_string_utf8(env,argv[0],ptr::null_mut(),0,&mut length)!=NAPI_OK||length>16*1024*1024 {return throw(env,"BX_ARGS","invalid reference chart rows");}
+    let mut bytes=vec![0u8;length+1];let mut copied=0usize;
+    if napi_get_value_string_utf8(env,argv[0],bytes.as_mut_ptr() as *mut c_char,bytes.len(),&mut copied)!=NAPI_OK||copied!=length {return throw(env,"BX_ARGS","incomplete reference chart rows");}
+    let rows=match std::str::from_utf8(&bytes[..length]) {Ok(s)=>s,Err(_)=>return throw(env,"BX_ARGS","reference chart encoding")};
+    if !initialised(env) {return ptr::null_mut();}
+    match catch_unwind(AssertUnwindSafe(||wonky_ops::reference::legalize_display_rows(rows))) {
+        Ok(Ok(json))=>string(env,&json),Ok(Err(reason))=>throw(env,"BX_CAPABILITY",&reason),
+        Err(payload)=>throw(env,"BX_FAULT",&format!("panic in referenceLegalizeRows: {}",panic_message(payload))),
+    }
+}
+
 unsafe extern "C" fn js_wire_v3_json(env: napi_env, info: napi_callback_info) -> napi_value {
     let (argc, argv) = args::<1>(env, info);
     if argc != 1 {
@@ -378,6 +465,41 @@ unsafe extern "C" fn js_host_op(env: napi_env, info: napi_callback_info) -> napi
     };
     CALLS.fetch_add(1, Ordering::Relaxed);
     words_value(env, &reply)
+}
+
+// Ask the same interpreter that constructed the angle to reconstruct atan.
+// The input is rounded from the exact rational by Rust, not supplied by JS.
+unsafe fn interpreter_atan(env: napi_env, input: f64) -> Result<f64, wonky_geom::Refused> {
+    let (mut global, mut math, mut atan, mut argument, mut result) =
+        (ptr::null_mut(), ptr::null_mut(), ptr::null_mut(), ptr::null_mut(), ptr::null_mut());
+    let mut word = 0.;
+    if napi_get_global(env, &mut global) != NAPI_OK
+        || napi_get_named_property(env, global, b"Math\0".as_ptr().cast(), &mut math) != NAPI_OK
+        || napi_get_named_property(env, math, b"atan\0".as_ptr().cast(), &mut atan) != NAPI_OK
+        || napi_create_double(env, input, &mut argument) != NAPI_OK
+        || napi_call_function(env, math, atan, 1, &argument, &mut result) != NAPI_OK
+        || napi_get_value_double(env, result, &mut word) != NAPI_OK
+    {
+        return Err(wonky_geom::Refused("angle/witness-construction-unavailable"));
+    }
+    Ok(word)
+}
+
+unsafe extern "C" fn js_angle_witness(env: napi_env, info: napi_callback_info) -> napi_value {
+    let (argc,argv)=args::<4>(env,info);
+    if argc!=4 {return throw(env,"BX_ARGS","angleWitness(word, kind, numerator, denominator)")}
+    let mut word=0.;
+    if napi_get_value_double(env,argv[0],&mut word)!=NAPI_OK {return throw(env,"BX_ARGS","angle word")}
+    let result=catch_unwind(AssertUnwindSafe(|| -> Result<(),wonky_geom::Refused> {
+        let kind=string_arg(env,argv[1]).ok_or(wonky_geom::Refused("angle/witness-mismatch"))?;
+        let n=string_arg(env,argv[2]).and_then(|s|s.parse::<wonky_alg::BigInt>().ok()).ok_or(wonky_geom::Refused("angle/witness-mismatch"))?;
+        let d=string_arg(env,argv[3]).and_then(|s|s.parse::<wonky_alg::BigInt>().ok()).ok_or(wonky_geom::Refused("angle/witness-mismatch"))?;
+        if d<=wonky_alg::BigInt::from(0) {return Err(wonky_geom::Refused("angle/witness-mismatch"))}
+        let q=wonky_geom::Q::new(n,d);
+        let witness=match kind.as_str() {"Turns"=>wonky_geom::AngleWitness::Turns(q),"Tan"=>wonky_geom::AngleWitness::Tan(q),_=>return Err(wonky_geom::Refused("angle/witness-mismatch"))};
+        wonky_geom::Turn::verify_witness_with_atan(word,Some(&witness), |input| interpreter_atan(env, input))
+    }));
+    match result {Ok(Ok(()))=>string(env,""),Ok(Err(e))=>string(env,e.0),Err(_)=>string(env,"angle/witness-fault")}
 }
 
 unsafe extern "C" fn js_info(env: napi_env, _info: napi_callback_info) -> napi_value {
@@ -422,12 +544,17 @@ unsafe extern "C" fn js_stats(env: napi_env, _info: napi_callback_info) -> napi_
 
 #[no_mangle]
 pub unsafe extern "C" fn napi_register_module_v1(env: napi_env, exports: napi_value) -> napi_value {
-    let functions: [(&str, napi_callback); 9] = [
+    let functions: [(&str, napi_callback); 14] = [
+        ("angleWitness", js_angle_witness),
         ("init", js_init),
         ("call", js_call),
         ("wire", js_wire),
         ("wireV3", js_wire_v3),
         ("wireV3Json", js_wire_v3_json),
+        ("referenceStepJson", js_reference_step_json),
+        ("referenceDisplayJson", js_reference_display_json),
+        ("referenceCheckPoints", js_reference_check_points),
+        ("referenceLegalizeRows", js_reference_legalize_rows),
         ("hostOp", js_host_op),
         ("info", js_info),
         ("reset", js_reset),

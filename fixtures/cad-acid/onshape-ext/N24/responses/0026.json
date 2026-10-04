@@ -1,0 +1,155 @@
+{
+  "btType": "BTFeatureSpecsResponse-664",
+  "rejectMicroversionSkew": false,
+  "microversionSkew": false,
+  "featureSpecs": [
+    {
+      "btType": "BTFeatureSpec-129",
+      "parameters": [
+        {
+          "btType": "BTParameterSpecEnum-171",
+          "enumName": "AcidVariant",
+          "enumValueToVisibilityCondition": {},
+          "enumOptionVisibilityConditions": null,
+          "optionIconUris": [
+            "",
+            "",
+            "",
+            "",
+            "",
+            ""
+          ],
+          "namespace": "e3ea84acc68fc1160cc473836::mc3c6ac175442bb3adf9518f7",
+          "options": [
+            "V0",
+            "V1",
+            "V2",
+            "V3",
+            "V4",
+            "V5"
+          ],
+          "defaultValue": {
+            "btType": "BTMParameterEnum-145",
+            "namespace": "e3ea84acc68fc1160cc473836::mc3c6ac175442bb3adf9518f7",
+            "nodeId": "MLpZX4Q99jI7koJDd",
+            "value": "V0",
+            "enumName": "AcidVariant",
+            "libraryRelationType": "DEFAULT",
+            "parameterId": "variant",
+            "parameterName": ""
+          },
+          "parameterId": "variant",
+          "parameterName": "Variant",
+          "uiHints": [],
+          "visibilityCondition": null,
+          "uiHint": "",
+          "optionNames": [
+            "V0",
+            "V1",
+            "V2",
+            "V3",
+            "V4",
+            "V5"
+          ],
+          "parameterDescription": "",
+          "columnName": "",
+          "iconUri": ""
+        },
+        {
+          "btType": "BTParameterSpecEnum-171",
+          "enumName": "AcidSweepZW1Zone",
+          "enumValueToVisibilityCondition": {},
+          "enumOptionVisibilityConditions": null,
+          "optionIconUris": [
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            ""
+          ],
+          "namespace": "e3ea84acc68fc1160cc473836::mc3c6ac175442bb3adf9518f7",
+          "options": [
+            "ALL",
+            "AC126",
+            "AC127",
+            "AC128",
+            "AC129",
+            "AC130",
+            "AC131"
+          ],
+          "defaultValue": {
+            "btType": "BTMParameterEnum-145",
+            "namespace": "e3ea84acc68fc1160cc473836::mc3c6ac175442bb3adf9518f7",
+            "nodeId": "Mr83VfQ6c+04hmHbS",
+            "value": "ALL",
+            "enumName": "AcidSweepZW1Zone",
+            "libraryRelationType": "DEFAULT",
+            "parameterId": "zone",
+            "parameterName": ""
+          },
+          "parameterId": "zone",
+          "parameterName": "Zone",
+          "uiHints": [],
+          "visibilityCondition": null,
+          "uiHint": "",
+          "optionNames": [
+            "ALL",
+            "AC126",
+            "AC127",
+            "AC128",
+            "AC129",
+            "AC130",
+            "AC131"
+          ],
+          "parameterDescription": "",
+          "columnName": "",
+          "iconUri": ""
+        }
+      ],
+      "featureNameTemplate": "",
+      "tooltipTemplate": "",
+      "descriptionImageUri": "",
+      "featureTypeDescription": "",
+      "languageVersion": 3083,
+      "editingLogic": null,
+      "manipulatorChangeFunction": "",
+      "filterSelectors": [],
+      "parameterLibraryDefinitionIds": [],
+      "sourceMicroversionId": "c3c6ac175442bb3adf9518f7",
+      "linkedLocationName": "",
+      "namespace": "e3ea84acc68fc1160cc473836::mc3c6ac175442bb3adf9518f7",
+      "groups": [],
+      "featureType": "acidSweepZW1",
+      "featureTypeName": "CAD Acid sweep ZW1",
+      "uiHints": [],
+      "sourceLocation": {
+        "btType": "BTLocationInfo-226",
+        "version": "c3c6ac175442bb3adf9518f7",
+        "endLine": 157,
+        "character": 8263,
+        "line": 143,
+        "endColumn": 7,
+        "languageVersion": 3083,
+        "column": 27,
+        "endCharacter": 9305,
+        "moduleIds": {
+          "btType": "BTDocumentVersionElementIds-1897",
+          "versionId": "",
+          "elementId": "3ea84acc68fc1160cc473836",
+          "documentId": ""
+        },
+        "parseNodeId": "PTQbdTv7BQL46foMx",
+        "document": "3ea84acc68fc1160cc473836",
+        "elementMicroversion": "c3c6ac175442bb3adf9518f7",
+        "nodeId": "xEQvcFsTTaZ7t+FM",
+        "topLevel": ""
+      },
+      "iconUri": ""
+    }
+  ],
+  "libraryVersion": 0,
+  "sourceMicroversion": "f5ca7a6e1425ce1797f67b21",
+  "serializationVersion": "1.2.21"
+}

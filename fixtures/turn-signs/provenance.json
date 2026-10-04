@@ -1,0 +1,9 @@
+{
+  "origin": "SymPy exact sign(a*cos(degree*pi/180)+b*sin(degree*pi/180)+c/12)",
+  "sympyVersion": "1.14.0",
+  "seed": 20261003,
+  "count": 10000,
+  "dataSha256": "3cf5abcaed8e76275c6c1343d363923d6db59a226015b0b84385b2e8f8748ef1",
+  "generatorSha256": "3474b5dec06d333974bb32333cce3268a5561a5b66a070ba3ea1ea374251b769",
+  "denominator": 12
+}

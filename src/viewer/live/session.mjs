@@ -27,7 +27,7 @@ import { internalFailure, missingSourceFailure, unreadableSourceFailure } from '
 
 const sha256 = value => createHash('sha256').update(value).digest('hex');
 
-export const LANGUAGES = Object.freeze({ '.fs': 'featurescript', '.py': 'python' });
+export const LANGUAGES = Object.freeze({ '.fs': 'featurescript', '.py': 'python', '.step': 'step', '.stp': 'step' });
 
 export function languageOf(path) {
   if (/\.brep\.json$/i.test(path)) return 'brep';
@@ -124,8 +124,8 @@ export function createLiveSession({
 }) {
   const path = resolve(source.path);
   const language = source.language ?? languageOf(path);
-  if (!['featurescript', 'python'].includes(language)) {
-    throw new Error(`Unsupported live source ${path}: pass a .fs or .py file`);
+  if (!['featurescript', 'python', 'step'].includes(language)) {
+    throw new Error(`Unsupported live source ${path}: pass a .fs, .py, .step or .stp file`);
   }
   const label = basename(path, extname(path));
   let realPath = path;

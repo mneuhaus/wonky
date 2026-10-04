@@ -1,0 +1,23 @@
+$ uv run --no-project local-development-evidence -B local-development-evidence local-development-evidence
+status=0 signal=null error=
+--- stdout
+[32;1m
+*******************************************************************
+******        Statistics on Transfer (Write)                 ******[0m
+[32;1m
+*******************************************************************
+******        Transfer Mode = 0  I.E.  As Is       ******[0m
+[32;1m******        Transferring Shape, ShapeType = 0                      ******[0m
+[32;1m** WorkSession : Sending all data[0m
+[32;1m Step File Name : local-development-evidence ents)  Write  Done[0m
+[32;1m
+*******************************************************************
+******        Statistics on Transfer (Write)                 ******[0m
+[32;1m
+*******************************************************************
+******        Transfer Mode = 0  I.E.  As Is       ******[0m
+[32;1m******        Transferring Shape, ShapeType = 2                      ******[0m
+[32;1m** WorkSession : Sending all data[0m
+[32;1m Step File Name : /var/folders/t1/wfpxpfyn59j8998kfm8p0j4h0000gn/T/acid-step-x4d2mpga/roundtrip.step(87 ents)  Write  Done[0m
+
+--- stderr

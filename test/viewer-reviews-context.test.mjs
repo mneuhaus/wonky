@@ -16,6 +16,7 @@ const { build } = await import("../src/index.mjs");
 const { loadKernel } = await import("../src/kernel.mjs");
 const { createReviewServer } = await import("../src/review-server.mjs");
 const { createGeometryInspector } = await import("../src/geometry-summary.mjs");
+const { viewerRecord } = await import("../src/viewer/model-record.mjs");
 const { INSPECT_SCRIPT, contextText, inspectCommand, readReferences, referenceRecord, reviewScope, shellQuote, summaryLine, targetAlias } = await import("../src/viewer/context.mjs");
 const { createPrintExporter, printFileName, readDeviation, selectBody } = await import("../src/viewer/export.mjs");
 const { createReviewStore, listReviews } = await import("../src/viewer/reviews.mjs");
@@ -35,6 +36,7 @@ const { createFakeEnvironment } = await import("../scripts/viewer/test-support/f
 // per-review error isolation. Client parts run the real feature code in the
 // fake browser environment of the VS harness; server parts run a real review
 // server on port 0 with models built by the kernel.
+
 
 
 
@@ -355,7 +357,7 @@ test('per-review isolation: a corrupt file is an error row, valid reviews still 
 
 const models = {};
 const modelOf = async name => {
-  models[name] ??= await build(await source(name));
+  models[name] ??= viewerRecord(await build(await source(name)));
   return models[name];
 };
 const bytesOf = model => Buffer.from(JSON.stringify(model, null, 2) + '\n');

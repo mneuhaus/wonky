@@ -1,0 +1,8 @@
+{
+  "origin": "Repository-owned synthetic unit box with a biquadratic rational cap; no external geometry.",
+  "license": "CC0-1.0",
+  "file": "curved-patch.step",
+  "sha256": "26f5403f4882453b8e2f9eae85ef720a1848be34feae84f627a3276d26ef6755",
+  "carrier": "S(u,v)=(u,v,u*(1-u)*v*(1-v)); maximum cap height1/16mm",
+  "units": "mm"
+}

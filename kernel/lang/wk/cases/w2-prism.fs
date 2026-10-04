@@ -10,7 +10,7 @@ function prism(context is Context,id is Id,o is Vector,n is Vector,x is Vector,p
  opExtrude(context,id+"ex",{"entities":qSketchRegion(id+"s",true),"direction":d,"endBound":BoundingType.BLIND,"endDepth":h*millimeter});
  opDeleteBodies(context,id+"ds",{"entities":qCreatedBy(id+"s",EntityType.BODY)});return qCreatedBy(id+"ex",EntityType.BODY);
 }
-function box(context is Context,id is Id,p0 is Vector,p1 is Vector) returns Query
+function boxBody(context is Context,id is Id,p0 is Vector,p1 is Vector) returns Query
 {return prism(context,id,vector(0,0,p0[2]),vector(0,0,1),vector(1,0,0),[vector(p0[0],p0[1]),vector(p1[0],p0[1]),vector(p1[0],p1[1]),vector(p0[0],p1[1])],vector(0,0,1),p1[2]-p0[2]);}
 function subtract(context is Context,id is Id,b is Query,tool is Query)
 {opBoolean(context,id,{"targets":b,"tools":tool,"operationType":BooleanOperationType.SUBTRACTION});}
@@ -27,7 +27,7 @@ precondition {}
 {
  var p=prism(context,id+"p",vector(0,0,0),vector(0,0,1),vector(1,0,0),[vector(0,0),vector(10,0.000001),vector(20,0),vector(20,10),vector(0,10)],vector(0,0,1),5);
  opPattern(context,id+"c",{"entities":p,"transforms":[transform(rotz(30*degree),vector(40,0,0)*millimeter)],"instanceNames":["r"]});
- var b=box(context,id+"b",vector(5,5,0),vector(15,30,5));
+ var b=boxBody(context,id+"b",vector(5,5,0),vector(15,30,5));
  unite(context,id+"u",p,b);
 });
 // A sketch plane whose x axis is 1e-7 off perpendicular: the host admits it (1e-5),
@@ -53,8 +53,8 @@ annotation {"Feature Type Name":"coplanarTray"}
 export const coplanarTray=defineFeature(function(context is Context,id is Id,definition is map)
 precondition {}
 {
- var a=box(context,id+"a",vector(-28,-14.72,0),vector(28,14.72,11.78));
- var b=box(context,id+"b",vector(-26.32,-12.2,1.68),vector(26.32,12.2,11.78));
+ var a=boxBody(context,id+"a",vector(-28,-14.72,0),vector(28,14.72,11.78));
+ var b=boxBody(context,id+"b",vector(-26.32,-12.2,1.68),vector(26.32,12.2,11.78));
  subtract(context,id+"s",a,b);
 });
 // A tilted, rotated copy cut by a box: prism transform words through the round trip into a planar Boolean.
@@ -64,7 +64,7 @@ precondition {}
 {
  var p=prism(context,id+"p",vector(3,-2,1),vector(0,0.6,0.8),vector(1,0,0),[vector(0,0),vector(30,0),vector(30,20),vector(15,20),vector(0,20)],vector(0,0.6,0.8),12);
  opPattern(context,id+"c",{"entities":p,"transforms":[transform(rotz(37*degree),vector(0,0,0)*millimeter)],"instanceNames":["r"]});
- var b=box(context,id+"b",vector(-5,-5,-5),vector(12,40,40));
+ var b=boxBody(context,id+"b",vector(-5,-5,-5),vector(12,40,40));
  subtract(context,id+"s",qCreatedBy(id+"c",EntityType.BODY),b);
 });
 // W2 integrate fix 1: a regularized plate (a vertex 5e-6 mm off the line) cut by a box and
@@ -75,7 +75,7 @@ export const regularizedCut=defineFeature(function(context is Context,id is Id,d
 precondition {}
 {
  var p=prism(context,id+"p",vector(0,0,0),vector(0,0,1),vector(1,0,0),[vector(0,0),vector(20,0),vector(20.000005,8),vector(20,16),vector(0,16)],vector(0,0,1),5);
- var b=box(context,id+"b",vector(5,4,-1),vector(10,12,6));
+ var b=boxBody(context,id+"b",vector(5,4,-1),vector(10,12,6));
  subtract(context,id+"s",p,b);
 });
 annotation {"Feature Type Name":"regularizedPierce"}
@@ -97,8 +97,8 @@ annotation {"Feature Type Name":"patternFlush"}
 export const patternFlush=defineFeature(function(context is Context,id is Id,definition is map)
 precondition {}
 {
- var a=box(context,id+"a",vector(0,0,0),vector(30,30,11.78));
- var t=box(context,id+"t",vector(5,5,-5.05),vector(25,25,5.05));
+ var a=boxBody(context,id+"a",vector(0,0,0),vector(30,30,11.78));
+ var t=boxBody(context,id+"t",vector(5,5,-5.05),vector(25,25,5.05));
  opPattern(context,id+"m1",{"entities":t,"transforms":[transform(vector(0,0,3)*millimeter)],"instanceNames":["a"]});
  opPattern(context,id+"m2",{"entities":qCreatedBy(id+"m1",EntityType.BODY),"transforms":[transform(vector(0,0,3.73)*millimeter)],"instanceNames":["b"]});
  subtract(context,id+"s",a,qCreatedBy(id+"m2",EntityType.BODY));

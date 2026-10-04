@@ -164,7 +164,7 @@ Orakel und was sie beweisen:
 - **Exakte Zertifikate** (EX1, Python; W0-ORACLE als Rust-Testorakel): jede protokollierte Entscheidung stimmt mit Rationalzahlen überein.
 - **Geschlossene Formen**: Volumen und Kurven einfacher Körper (z. B. P01 = 5170,306470775328 mm³).
 - **R20-Module**: das Ziel selbst.
-- **Bend** (XD1): billiger Gegencheck; ein Unterschied ist ein Hinweis, das Urteil fällt einer der Richter oben.
+- **Bend** (XD1): billiger Gegencheck; ein Unterschied ist ein Hinweis, das Urteil fällt einer der project-component-95f8a74b oben.
 
 | Familie | Primär | Sekundär | Metamorph | Zertifikat | Bend-Gegencheck, erwartete Unterschiede |
 |---|---|---|---|---|---|
@@ -248,7 +248,7 @@ Feature-Fehler, wird das festgehalten; für dessen Teile gibt es dann keine Blen
 Eintrag nur mit Repro in `fixtures/rust/bend-differences/` und Urteil eines unabhängigen Richters (XD1 lehnt Einträge ohne
 Urteil ab). Kopiert Rust eine falsche Bend-Antwort, fällt das Paket.
 
-| Fall | Bend | Richter | Rust-Soll | Paket |
+| Fall | Bend | project-component-95f8a74b | Rust-Soll | Paket |
 |---|---|---|---|---|
 | r50-Stadion-Unions | behauptet Kontakt über echte Lücken 1e-10 bis 1e-8 mm | Rationalzahlen, OCCT | echte Lücke (E4) | BO2, BO4 |
 | cores, Vertex bei ~1e19 | F32x2-Überlauf zu NaN | Onshape cores | f64 korrekt oder benannt; der Vertex selbst wird erklärt | MG5 |
@@ -319,7 +319,7 @@ bei laufenden Paketen die Reststunden.
 | G2S | W1 | G2-Sicherung: erzeugte Payloads, Drift-Abbruch, Sperre, Wiederherstellung | – | sol | Sonnet | S | 4 |
 | BL0 | W1 | Blend-Zensus R20 auf Bend JS (Teil 1) | – | sol | Sonnet | L | 6 |
 | IN1 | W1 | Interpreter: sqrt mit Einheiten, opTransform | – | sol | Sonnet | M | 5 |
-| EX1 | W1 | Exakt-Richter (fractions) | – | deepseek-or | Sonnet | S | 4 |
+| EX1 | W1 | Exakt-project-component-95f8a74b (fractions) | – | deepseek-or | Sonnet | S | 4 |
 | VA1 | W1 | Validierte Transzendentale und Quadraturreste | P0 | astra | Opus | S | 5 |
 | LN1 | W1 | Band-Lint: keine Bend-Bänder im Rust-Produktionspfad | P0 | luna | Opus | S | 4 |
 | N2 | W1 | Prädikate Grad 2 (ein und zwei Radikanden) plus Ausdrucksklassen-Zensus | P0 | astra | Opus | S | 5 |
@@ -403,7 +403,7 @@ RAM-Klassen (Spitze der Werkzeugprozesse eines Pakets, ohne die Agentensitzung s
 
 | Klasse | Spitze | typisch |
 |---|---|---|
-| S | ≤ 2 GB | `cargo test` einer Crate, Python-Richter |
+| S | ≤ 2 GB | `cargo test` einer Crate, Python-project-component-95f8a74b |
 | M | ≤ 6 GB | Release-Build des Workspace, Node-Tests `--jobs 2`, OCCT auf Einzelteilen |
 | L | ≤ 12 GB | Modulläufe (Node-Kappe 8 GB über `NODE_OPTIONS`), `rust-diff` über ein Modul, Korpus-Erfassung |
 | XL | ≤ 20 GB | OCCT-Batches, Voll-Gate (8 Module + Abnahme + metamorph) |
@@ -419,7 +419,7 @@ misst `/usr/bin/time -l`; ein Paket, das seine Klasse überschreitet, wird neu e
 - BL0 und G2S klären die beiden größten Unbekannten (Blend-Umfang, sichere Blend-Referenzen); G2S ist Voraussetzung für
   jedes Schreiben in G2B.
 - IN1 räumt Interpreter-Stopps ab, damit BL0 und G1H weiter kommen (return mit Blends, feed).
-- EX1 ist der sprachfremde Richter für Zertifikate; O1 folgt in W2 auf dem Werkzeug von W0-OCCT.
+- EX1 ist der sprachfremde project-component-95f8a74b für Zertifikate; O1 folgt in W2 auf dem Werkzeug von W0-OCCT.
 
 **Direkt nach P0:** VA1 und N2 zuerst (VA1 trägt GE1, N2 den gleich langen Pfad über AL2), dann N3 und LN1. **WC0**
 startet, sobald W0-BREP landet, und liegt auf dem kritischen Pfad; der maintainer zieht es allem anderen vor. Konflikt: alle legen neue Crates oder Module an; `rust/Cargo.toml` führt der maintainer zusammen. N2

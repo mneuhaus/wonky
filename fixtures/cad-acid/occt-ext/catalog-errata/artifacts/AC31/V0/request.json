@@ -1,0 +1,14 @@
+{
+  "source": "local-development-evidence",
+  "sourceSha256": "320eeded8bade214e09fe31c27f1088281b4f43bbd1b7a742aeb8f189e5e894d",
+  "zonesSha256": "b742021a3035026efd47da6ff70fb1da29daba22e2052ee85ef0bf05b4ac2062",
+  "feature": "acidBlend",
+  "parameters": {
+    "variant": "AcidVariant.V0",
+    "zone": "AcidBlendZone.AC31"
+  },
+  "zone": "AC31",
+  "variant": "V0",
+  "out": "local-development-evidence",
+  "catalog": "local-development-evidence"
+}

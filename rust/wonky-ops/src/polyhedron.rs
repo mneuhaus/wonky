@@ -28,9 +28,32 @@ use wonky_num::expansion::{mul, neg, sign, sum, Exp, Guard};
 use wonky_num::{plane_side, p2, v3, Sign, P2};
 use wonky_sketch::region::{self, Location};
 
-/// A named audit or measurement refusal: `audit/<reason>` or `observe/<reason>`.
+/// A proved geometric verdict is terminal; a capability gap may be evaluated
+/// by another exact mechanism. Classification is supplied at the proof site,
+/// never inferred from diagnostic spelling.
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum RefusalKind { Capability, GeometricVerdict }
 #[derive(Clone, Debug, PartialEq)]
-pub struct Refused(pub String);
+pub struct Refusal(pub String, pub RefusalKind);
+/// Preserve the existing diagnostic field and constructor calls.
+pub type Refused = Refusal;
+pub use capability_refusal as Refused;
+pub fn capability_refusal(reason: String) -> Refused {
+    Refusal(reason, RefusalKind::Capability)
+}
+impl Refusal {
+    pub fn geometric_verdict(reason: String) -> Self {
+        Self(reason, RefusalKind::GeometricVerdict)
+    }
+    pub fn is_capability(&self) -> bool { self.1 == RefusalKind::Capability }
+}
+/// The curve crate's refusals keep their frozen historical spellings; every
+/// consumer of its operation table converts through this one impl.
+impl From<wonky_curve::Refusal> for Refused {
+    fn from(r: wonky_curve::Refusal) -> Self {
+        Refused(r.name().to_string())
+    }
+}
 fn refuse<T>(what: impl Into<String>) -> Result<T, Refused> {
     Err(Refused(what.into()))
 }
@@ -68,7 +91,8 @@ pub struct Audited {
     pub levels: [f64; 2],
     /// Cap polygon (u, v) of the prism, counterclockwise.
     pub cap: Vec<P2>,
-    /// Face loops as vertex ids, counterclockwise about the outward normal.
+    /// Vertex cycles indexed by body LoopId, not FaceId. Outer loops wind
+    /// counterclockwise about the outward normal; hole loops wind clockwise.
     pub face_loops: Vec<Vec<usize>>,
     /// Vertices were checked against Sketch/Extrude construction parameters.
     pub bound_to_construction: bool,
@@ -83,7 +107,10 @@ pub struct Audited {
 }
 
 fn frame_of(body: &Body, id: FrameId) -> R<Placement> {
-    if matches!(body.frames.get(id.0 as usize), Some(Frame::Rigid { .. })) { return refuse("audit/rigid-frame-unsupported"); }
+    if matches!(body.frames.get(id.0 as usize), Some(Frame::Rigid { .. }))
+        && !body.constructions.iter().any(|n| n.frame == id && n.operation == (Operation::AffineTransform {})) {
+        return refuse("audit/rigid-frame-unsupported");
+    }
     Placement::from_frames(body, id).map_err(|_| Refused("audit/frame-unsupported-or-range".into()))
 }
 
@@ -123,13 +150,102 @@ fn newell(points: &[[f64; 3]], g: &mut Guard) -> [Exp; 3] {
     out
 }
 
+/// A source-profile body placed by `pattern::place`: its unplaced body audits as
+/// its own family, and replaying the recorded placement must reproduce this body
+/// exactly. The geometry stays in source coordinates; only the frame is composed.
+pub(crate) fn source_profile_candidate(body: &Body) -> bool {
+    crate::fillet_general::candidate(body)
+        || crate::arc_profile::candidate(body)
+        || crate::curve_profile::candidate(body)
+        || (body.constructions.len() == 5
+            && body.constructions[3].operation == Operation::Sketch {}
+            && body.constructions[4].operation == Operation::Extrude {})
+}
+
+pub(crate) fn placed_source(checked: &CheckedBody) -> R<Option<Audited>> {
+    let body = checked.body();
+    let Some((inner, post)) = crate::pattern::unplace(body) else { return Ok(None) };
+    // Through any number of placements down to the constructed body.
+    let mut root = inner.clone();
+    while let Some((next, _)) = crate::pattern::unplace(&root) { root = next; }
+    if !crate::orthogonal::is_candidate(&root) && !source_profile_candidate(&root) { return Ok(None); }
+    let inner = inner.check().map_err(|_| Refused("audit/placed-source-contract".into()))?;
+    let source = audit(&inner)?;
+    if crate::pattern::place_body(&source.body, body.key.clone(), &post)? != *body {
+        return refuse("audit/placement-not-replayed");
+    }
+
+    let frame = frame_of(body, body.vertices[0].frame)?;
+    // Straight planar source bodies need the same rational observation
+    // authority as placed Boolean arrangements. Curved carriers retain their
+    // analytic payload; their vertices do not define a planar boundary.
+    let arrangement = if source.arrangement.is_some()
+        || (source.body.curves.iter().all(|c| matches!(c.geometry, CurveGeometry::Line { .. }))
+            && source.body.surfaces.iter().all(|s| matches!(s.geometry, SurfaceGeometry::Plane { .. })))
+    {
+        let vertices = match &source.arrangement { Some(g) => g.source()?.to_vec(),None => source.body.vertices.iter().map(|v| v.point.map(|x| crate::planar_geometry::q(x.get()))).collect() };
+        Some(crate::planar_geometry::Arrangement::new(vertices, &frame)?)
+    } else { None };
+    Ok(Some(Audited { body: body.clone(), frame, arrangement, ..source }))
+}
+
+/// A planar body placed by `pattern::place`: the unplaced body audits as
+/// its own family, and replaying the recorded placement must reproduce this body
+/// exactly. Geometry stays in source coordinates; its placement is composed.
+fn placed_constructed(checked: &CheckedBody) -> R<Option<Audited>> {
+    let body = checked.body();
+    let Some((inner, post)) = crate::pattern::unplace(body) else {
+        return Ok(None);
+    };
+    let inner = inner
+        .check()
+        .map_err(|_| Refused("audit/placed-source-contract".into()))?;
+    let source = audit(&inner)?;
+    if !source.bound_to_construction
+        && (source.chamfer.is_some() || source.arcs.is_some()
+            || source.rounded.is_some() || source.corner.is_some()) {
+        return Ok(None);
+    }
+    if crate::pattern::place_body(&source.body, body.key.clone(), &post)? != *body {
+        return refuse("audit/placement-not-replayed");
+    }
+    let frame = frame_of(body, body.vertices[0].frame)?;
+    let arrangement = if let Some(g) = &source.arrangement {
+        Some(crate::planar_geometry::Arrangement::new(g.source()?.to_vec(), &frame)?)
+    } else if source.chamfer.is_none() && source.arcs.is_none()
+        && source.rounded.is_none() && source.corner.is_none() {
+        let vertices = source.body.vertices.iter()
+            .map(|v| v.point.map(|x| crate::planar_geometry::q(x.get()))).collect();
+        Some(crate::planar_geometry::Arrangement::new(vertices, &frame)?)
+    } else {
+        None
+    };
+    Ok(Some(Audited {
+        body: body.clone(),
+        frame,
+        arrangement,
+        ..source
+    }))
+}
+
 pub fn audit(checked: &CheckedBody) -> R<Audited> {
+    if crate::fillet_general::candidate(checked.body()) {return crate::fillet_general::audit(checked);}
+    if crate::model_boolean::candidate(checked.body()) {
+        return crate::model_boolean::audit(checked).map(|(a, _)| a);
+    }
+    if let Some(placed) = placed_source(checked)? { return Ok(placed); }
     let body = checked.body().clone();
+    if crate::profile_blend::candidate(&body) { return crate::profile_blend::audit(checked); }
     if crate::chamfer::candidate(&body) { return crate::chamfer::audit(checked); }
     if crate::arc_profile::candidate(&body) { return crate::arc_profile::audit(checked); }
     if crate::fillet_corner::candidate(&body) { return crate::fillet_corner::audit(checked); }
     if crate::fillet_prism::candidate(&body) { return crate::fillet_prism::audit(checked); }
+    // A wrapper preserves the source boundary and its vertex order. Replay it
+    // before the Boolean candidate walk, which also traverses affine wrappers.
+    if let Some(placed) = placed_constructed(checked)? { return Ok(placed); }
     if crate::planar_boolean::candidate(&body) { return crate::planar_boolean::audit(&body); }
+    let ruled_loft = crate::loft::candidate(&body);
+    if ruled_loft { crate::loft::audit(&body)?; }
     if crate::orthogonal::is_candidate(&body) {
         let fid = body.vertices[0].frame;
         let frame = frame_of(&body, fid)?;
@@ -276,13 +392,13 @@ pub fn audit(checked: &CheckedBody) -> R<Audited> {
             break;
         }
     }
-    let Some((axis, (levels, cap))) = certificate else { return refuse("audit/embedding-uncertified") };
+    let (axis, (levels, cap)) = match certificate { Some(c) => c, None if ruled_loft => (2, ([0.; 2], vec![])), None => return refuse("audit/embedding-uncertified") };
     let mut audited = Audited { body, frame, axis, levels, cap, face_loops, bound_to_construction: false, orthogonal: None, rounded: None, corner: None, chamfer: None, arcs: None, arrangement: None };
     // Positive exact signed volume.
     if sign(&audited.volume6_source()?) <= 0 {
         return refuse("audit/inward-or-empty-shell");
     }
-    audited.bound_to_construction = binding(&audited)?;
+    audited.bound_to_construction = if ruled_loft { true } else { binding(&audited)? };
     Ok(audited)
 }
 
@@ -389,6 +505,51 @@ pub enum Probe {
 }
 
 impl Audited {
+    /// The exact `wonky_geom::model::Model` of this body, for the planar
+    /// families P1 (orthogonal cells) and P2 (replayed plane arrangement).
+    /// boolean3d strand G1: dark, no host path calls it.
+    pub fn model(&self) -> R<wonky_geom::model::Model> {
+        if crate::fillet_general::candidate(&self.body) {return crate::fillet_general::model_result(self);}
+        if crate::model_boolean::candidate(&self.body) {
+            return crate::model_boolean::operand_model(self);
+        }
+        if self.arcs.is_some() {
+            // The replayed source (a placed prism's exact image, a
+            // sketch-extrude cycle) where it applies; any other line/arc
+            // prism takes the exact profile extrusion below.
+            match crate::model_curved::arc_prism(self) {
+                Err(e) if e.0 == "model/family-unsupported" => {}
+                result => return result,
+            }
+        }
+        let placement = self.frame.exact_frame()?;
+        if let Some(s) = &self.arcs {
+            // Line/arc profile prism (AC32's obround): the exact extrusion of
+            // its profile pieces. A family rim on it has no Model yet.
+            if s.rim.is_some() {
+                return refuse("model/arc-prism-family-rim-unsupported");
+            }
+            let label = if s.regularization.is_some() {
+                wonky_geom::model::Label::Regularized
+            } else {
+                wonky_geom::model::Label::Exact
+            };
+            return wonky_geom::model::extrusion::profile(
+                placement,
+                label,
+                self.body.constructions.len().saturating_sub(1) as u32,
+                s.profile.segments(),
+                s.levels.map(wonky_curve::numeric::q),
+            )
+            .and_then(wonky_geom::model::Draft::check)
+            .map_err(|e| Refused(e.0.into()));
+        }
+        match (&self.orthogonal, &self.arrangement) {
+            (Some(cells), _) => crate::orthogonal::model(cells, &self.body, placement),
+            (None, Some(_)) if crate::planar_boolean::candidate(&self.body) => crate::planar_boolean::model(&self.body, placement),
+            (None, _) => refuse("model/family-unsupported"),
+        }
+    }
     fn points(&self) -> Vec<[f64; 3]> {
         self.body.vertices.iter().map(|v| p(&v.point)).collect()
     }
@@ -408,6 +569,18 @@ impl Audited {
         }
         exact_sign(&total, &g)?;
         Ok(total)
+    }
+
+    /// Exact rational volume of the authoritative planar boundary, in mm^3.
+    /// Non-polynomial or radical boundaries retain their certified enclosure.
+    pub fn volume_exact_mm3(&self) -> R<Option<num_rational::BigRational>> {
+        if self.arcs.is_some() || self.rounded.is_some() || self.corner.is_some()
+            || self.arrangement.as_ref().is_some_and(|a| !a.is_rational()) {
+            return Ok(None);
+        }
+        let points = crate::planar_geometry::world_points(self, 1000.)?;
+        Ok(Some(num_traits::Signed::abs(&crate::planar_geometry::volume6(&points, &self.face_loops))
+            / crate::planar_geometry::q(6.)))
     }
 
     /// World volume in mm^3: det(frame) * source volume * 1e9, evaluated exactly
@@ -472,7 +645,7 @@ impl Audited {
         if let Some(s)=&self.chamfer { return s.areas().map(|v|v.into_iter().map(|x|x.m).collect()); }
         if let Some(s)=&self.arcs { return s.areas(self).map(|v|v.into_iter().map(|x|x.mid()).collect()); }
         if let Some(s)=&self.corner { return s.areas(self).map(|v|v.into_iter().map(|x|x.mid()).collect()); }
-        if let Some(a) = &self.arrangement { return a.areas_mm2(&self.face_loops); }
+        if let Some(a) = &self.arrangement { return a.areas_mm2(&self.face_loops, &self.body.faces); }
         if let Some(s)=&self.rounded { return s.areas(self).map(|v|v.into_iter().map(|x|x.mid()).collect()); }
         let points = self.points();
         let [x, y, z] = self.frame.enclosed_columns();
@@ -506,7 +679,7 @@ impl Audited {
     pub fn face_perimeters_mm(&self) -> R<Vec<f64>> {
         if let Some(s)=&self.arcs { return s.perimeters(self); }
         if let Some(s)=&self.corner { return s.perimeters(self); }
-        if let Some(a) = &self.arrangement { return a.perimeters_mm(&self.face_loops); }
+        if let Some(a) = &self.arrangement { return a.perimeters_mm(&self.face_loops, &self.body.faces); }
         if let Some(s)=&self.rounded { return s.perimeters(self); }
         let w = self.world_vertices_mm()?;
         self.body.faces.iter().map(|f| {
@@ -612,7 +785,7 @@ impl Audited {
         let loops = self.face_loops.len() as i64;
         let euler = v - e + 2 * f - loops;
         Topology {
-            bodies: 1,
+            bodies: self.body.solids.len(),
             shells: self.body.shells.len(),
             faces: f as usize,
             edges: e as usize,
@@ -632,17 +805,17 @@ impl Audited {
     /// decision is exact on that mapped point, and a point closer to the
     /// boundary than the mapping bound is refused by name.
     pub fn distance_mm(&self, point_mm: [f64; 3]) -> Probe {
-        if self.chamfer.is_some() { return Probe::Refused("chamfer/probe-unimplemented".into()); }
+        if crate::loft::candidate(&self.body) { return crate::distance::point_to_convex(self,point_mm); }
+        if let Some(c)=&self.chamfer { return c.probe(self,point_mm); }
         if let Some(s)=&self.arcs { return s.probe(self,point_mm); }
-        if crate::planar_boolean::candidate(&self.body) { return Probe::Refused("planar-boolean/point-distance-unsupported".into()); }
+        if crate::planar_boolean::candidate(&self.body) { return crate::distance::point_to_arrangement(self,point_mm); }
         if let Some(s)=&self.corner { return s.probe(self,point_mm); }
         if let Some(s)=&self.rounded { return s.probe(self,point_mm); }
         let defect = match self.frame.orthonormality_defect() {
             Ok(d) if d <= 1e-9 => d,
             _ => return Probe::Refused("observe/frame-not-near-orthonormal".into()),
         };
-        let q = [point_mm[0] / MM, point_mm[1] / MM, point_mm[2] / MM];
-        let Ok((s, bound)) = self.frame.inverse_approx(q) else { return Probe::Refused("observe/probe-mapping".into()) };
+        let Ok((s, bound)) = self.frame.inverse_scaled_approx(point_mm, MM) else { return Probe::Refused("observe/probe-mapping".into()) };
         if let Some(cells) = &self.orthogonal {
             let Ok((source, inside)) = cells.probe(s) else { return Probe::Refused("observe/probe-range".into()); };
             // Membership near an exterior boundary is not certified by an

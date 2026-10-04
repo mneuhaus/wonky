@@ -17,6 +17,8 @@
 //! policies remain in force. No general algebraic numbers, division or trig.
 #![deny(unused_must_use)]
 
+pub mod rational;
+
 use wonky_num::expansion::{self as ex, Exp, Guard};
 use wonky_num::{check_range, Decision, Iv, Scalar, Sign, Undecided, UndecidedKind};
 

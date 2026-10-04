@@ -30,6 +30,9 @@
 // complete one.
 import { CapabilityError, HttpError } from './http.mjs';
 import { aliasOf } from './geometry.mjs';
+import { isRustRecord } from '../rust-review-scene.mjs';
+
+export const RUST_SECTION = 'unsupported on Rust: an exact section needs a plane-body section host query, which the Rust kernel does not provide yet (the Bend section kernel is retired)';
 
 export const SECTION_SCHEMA = 'wonky.viewer-section/1';
 // Chord tolerance of the contour polylines (the viewer's display tolerance).
@@ -252,6 +255,7 @@ async function sectionBody(section, body, bodyIndex, plane) {
 
 // Query-worker handler (kind `section`).
 export async function sectionQuery(model, payload, { signal } = {}) {
+  if (Array.isArray(model?.bodies) && model.bodies.some(isRustRecord)) throw new CapabilityError(RUST_SECTION);
   const bodies = Array.isArray(model?.bodies) ? model.bodies : [];
   if (!bodies.length) {
     throw new CapabilityError('Exact section needs at least one body; this model has none');

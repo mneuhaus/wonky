@@ -19,12 +19,6 @@ impl Axial {
     }
 }
 pub(crate) fn append(w: &mut Writer, id: &str, a: &Axial) -> R<String> {
-    append_ordered(w, id, a, false)
-}
-pub(crate) fn append_cylinder(w: &mut Writer, id: &str, c: &crate::cylinder::Cylinder) -> R<String> {
-    append_ordered(w, id, &crate::axial::from_cylinder(c)?, true)
-}
-fn append_ordered(w: &mut Writer, id: &str, a: &Axial, caps_first: bool) -> R<String> {
     a.metric().tolerance_mm()?;
     let normalize = |v: [f64; 3]| {
         let n = v[0].norm3(v[1], v[2]);
@@ -170,9 +164,6 @@ fn append_ordered(w: &mut Writer, id: &str, a: &Axial, caps_first: bool) -> R<St
                 if i == 1 { ".T." } else { ".F." }
             )));
         }
-    }
-    if caps_first {
-        faces.rotate_left(1);
     }
     let shell = w.entity(format!("CLOSED_SHELL('',({}))", faces.join(",")));
     let name = id

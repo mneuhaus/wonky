@@ -19,15 +19,21 @@ const { fileURLToPath } = await import("node:url");
 
 
 const root = fileURLToPath(new URL('../', import.meta.url));
-test('CLI exports all four formats with parameter overrides', () => {
+test('CLI exports every format the Rust kernel can render with parameter overrides, HTML from the Rust mesh', () => {
   const dir = mkdtempSync(join(tmpdir(), 'wonky-cli-'));
   try {
     const prefix = join(dir, 'bracket');
-    execFileSync(process.execPath, ['bin/wonky.mjs', 'examples/bracket.fs', '--out', prefix, '--param', 'thickness=12*millimeter'], { cwd: root });
+    // The HTML preview is drawn from the Rust mesh path and states its deviation; the volume on
+    // the page is the kernel measurement. (A body the mesh path refuses has no HTML:
+    // test/rust-cli-export.test.mjs.)
+    const run = spawnSync(process.execPath, ['bin/wonky.mjs', 'examples/bracket.fs', '--out', prefix, '--param', 'thickness=12*millimeter'], { cwd: root, encoding: 'utf8' });
+    assert.equal(run.status, 0, run.stderr);
     assert.deepEqual(readdirSync(dir).sort(), ['bracket.brep.json', 'bracket.html', 'bracket.step', 'bracket.stl']);
     const model = JSON.parse(readFileSync(`${prefix}.brep.json`, 'utf8'));
     assert.ok(Math.abs(model.bodies[0].validation.volumeMm3 - 13248) < 1e-5);
-    assert.match(readFileSync(`${prefix}.html`, 'utf8'), /Model preview/);
+    const html = readFileSync(`${prefix}.html`, 'utf8');
+    assert.match(html, /chordal deviation at most 0\.02 mm; volume from the Rust kernel measurement<br>13,248 mm³/);
+    assert.doesNotMatch(run.stderr, /EXPORT_UNAVAILABLE/);
   } finally { rmSync(dir, { recursive: true, force: true }); }
 });
 
@@ -44,33 +50,13 @@ test('CLI check writes nothing and errors exit nonzero without partial exports',
   } finally { rmSync(dir, { recursive: true, force: true }); }
 });
 
-test('CLI exports a curved Bend loft as STEP and B-rep without requesting a mesh', () => {
-  const dir=mkdtempSync(join(tmpdir(),'wonky-curved-'));
+test('CLI exports a curved revolved cone as STEP and B-rep without requesting a mesh', () => {
+  const dir = mkdtempSync(join(tmpdir(), 'wonky-curved-'));
   try {
-    const prefix=join(dir,'spacer');
-    execFileSync(process.execPath,['bin/wonky.mjs','examples/conical-spacer.fs','--format','step','--out',prefix],{cwd:root});
-    assert.deepEqual(readdirSync(dir).sort(),['spacer.brep.json','spacer.step']);
-    assert.match(readFileSync(prefix+'.step','utf8'),/CONICAL_SURFACE/);
-  } finally { rmSync(dir,{recursive:true,force:true}); }
-});
-
-test('a refused mesh format no longer discards the exports that did render', () => {
-  const dir = mkdtempSync(join(tmpdir(), 'wonky-refused-'));
-  try {
-    // Default format, so STL and HTML are both requested and both refused for
-    // a curved body. The STEP the refusal message points the reader at has to
-    // survive; it used to be thrown away with them.
     const prefix = join(dir, 'spacer');
-    const result = spawnSync(process.execPath, ['bin/wonky.mjs', 'examples/conical-spacer.fs', '--out', prefix],
-      { cwd: root, encoding: 'utf8' });
+    execFileSync(process.execPath, ['bin/wonky.mjs', 'fixtures/cli-export/conical-spacer.fs', '--format', 'step', '--out', prefix], { cwd: root });
     assert.deepEqual(readdirSync(dir).sort(), ['spacer.brep.json', 'spacer.step']);
     assert.match(readFileSync(prefix + '.step', 'utf8'), /CONICAL_SURFACE/);
-    // Refusing part of what was asked for still fails the run, and says so per
-    // format rather than crashing out of the triangulator.
-    assert.equal(result.status, 1);
-    assert.match(result.stderr, /no \.stl written: STL tessellation of curved B-reps is not implemented/);
-    assert.match(result.stderr, /no \.html written: HTML preview of curved B-reps is not implemented/);
-    assert.doesNotMatch(result.stderr, /TypeError|Cannot read properties/);
   } finally { rmSync(dir, { recursive: true, force: true }); }
 });
 

@@ -222,6 +222,12 @@ fn acos_point(x: f64) -> Result<I, Error> {
     let y = finite(radicand.sqrt())?;
     atan2_interval(y, I::point(x))
 }
+pub(super) fn asin_interval(x: I) -> Result<I, Error> {
+    if !x.valid() || x.lo < -1.0 || x.hi > 1.0 {
+        return Err(Error::Domain("asin [-1,1]"));
+    }
+    finite(constant(&PIO2) - acos_point(x.lo)?.hull(acos_point(x.hi)?))
+}
 pub fn acos(x: Iv, max_width: f64) -> Result<Enclosure, Error> {
     width_budget(max_width)?;
     let x = input(x)?;

@@ -353,7 +353,7 @@ export const flushLines = defineFeature(function(context is Context, id is Id, d
 // with the measured deviation, through a Boolean and a rigid copy.
 const lineSketchSource = (x1, withCopy) => `FeatureScript 2909;
 import(path : "onshape/std/geometry.fs", version : "2909.0");
-function box(context is Context, id is Id, x0 is number, x1 is number, y0 is number, y1 is number, z0 is number, h is number, lines is boolean)
+function boxBody(context is Context, id is Id, x0 is number, x1 is number, y0 is number, y1 is number, z0 is number, h is number, lines is boolean)
 {
     var s = newSketchOnPlane(context, id + "s", { "sketchPlane" : plane(vector(0, 0, z0) * millimeter, vector(0, 0, 1), vector(1, 0, 0)) });
     var p = [[x0, y0], [x1, y0], [x1, y1], [x0, y1]];
@@ -372,14 +372,14 @@ annotation { "Feature Type Name" : "Line box" }
 export const lineBox = defineFeature(function(context is Context, id is Id, definition is map)
     precondition {}
     {
-        var b = box(context, id + "b", 0, ${x1}, 0, 20, 0, 10, true);
+        var b = boxBody(context, id + "b", 0, ${x1}, 0, 20, 0, 10, true);
         ${withCopy ? 'opPattern(context, id + "copy", { "entities" : b, "transforms" : [transform(vector(0, 0, 30) * millimeter)], "instanceNames" : ["a"] });' : ''}
     });
 annotation { "Feature Type Name" : "Flush" }
 export const flushLines = defineFeature(function(context is Context, id is Id, definition is map)
     precondition {}
     {
-        var b = box(context, id + "b", 0, ${x1}, 0, 20, 0, 10, false);
+        var b = boxBody(context, id + "b", 0, ${x1}, 0, 20, 0, 10, false);
         var t = box(context, id + "t", 20, ${x1}, 5, 15, 2, 20, true);
         opBoolean(context, id + "cut", { "tools" : t, "targets" : b, "operationType" : BooleanOperationType.SUBTRACTION });
     });`;

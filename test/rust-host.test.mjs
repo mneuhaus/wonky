@@ -19,7 +19,6 @@ const { build } = await import('../src/index.mjs');
 const { toStep } = await import('../src/exporters.mjs');
 const { serializeModel } = await import('../src/construction-history.mjs');
 const { FeatureScriptException, UnsupportedFeatureError } = await import('../src/errors.mjs');
-const { NativeCapabilityError } = await import('../src/native/errors.mjs');
 const { GeometryRefusal, RustCapabilityError, describeRustBody, measureRustBody, rustModelKernel } = await import('../src/native/rust-host.mjs');
 const { HOST_OPERATIONS, guardHostBuiltins } = await import('../src/native/host-ops.mjs');
 
@@ -31,6 +30,34 @@ const bits = x => { const b = Buffer.alloc(8); b.writeDoubleLE(x); return b.read
 const onRust = fn => fn();
 const ac01 = variant => onRust(() => build(profile, { feature: 'acidProfile', parameters: { variant: `AcidVariant.${variant}`, zone: 'AcidProfileZone.AC01' }, trace: false }));
 const control = name => onRust(() => build(controls, { feature: 'segmentControl', parameters: { control: `SegmentControl.${name}` }, trace: false }));
+
+for (const silent of [false, true]) test(`AC38 reports a named Rust draft capability refusal, try silent=${silent}`, async () => {
+  const { buildWonky } = await import('../scripts/acid/build-wonky.mjs');
+  const { CATALOG, loadCatalog, sha256 } = await import('../scripts/acid/common.mjs');
+  const { zonesSha256 } = loadCatalog();
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'rust-draft-refusal-'));
+  try {
+    let text = fs.readFileSync(path.join(root, 'fixtures/cad-acid/fs/acid-blend-errata.fs'), 'utf8');
+    if (silent) text = text.replace(/    opDraft\([\s\S]*?atan\(0\.125\) \}\);/, call => `    try silent {\n${call}\n    }`);
+    if (silent) assert.match(text, /try silent \{\s+opDraft/);
+    const source = path.join(dir, 'draft.fs');
+    fs.writeFileSync(source, text);
+    for (const variant of ['V0', 'V1', 'V2', 'V3']) {
+      const out = path.join(dir, variant);
+      const result = await buildWonky({ source, sourceSha256: sha256(text), zonesSha256,
+        catalog: CATALOG, zone: 'AC38', variant, feature: 'acidBlend', out,
+        parameters: { zone: 'AcidBlendZone.AC38', variant: `AcidVariant.${variant}` } });
+      assert.equal(result.outcome, 'refused', JSON.stringify(result));
+      assert.equal(result.error.name, 'NativeCapabilityError');
+      assert.equal(result.error.code, 'host/draft/not-ported');
+      assert.equal(result.refusal.code, 'host/draft/not-ported');
+      assert.equal(result.refusal.builtin, 'opDraft');
+      assert.equal(result.refusal.capability, true);
+      assert.equal(result.refusal.operationUnderTest, true);
+      assert.equal(fs.existsSync(path.join(out, 'model.step')), false);
+    }
+  } finally { fs.rmSync(dir, { recursive: true, force: true }); }
+});
 
 test('AC01 builds on strict rust in V0..V3 with the interpreter values bit for bit (E9)', async () => {
   // fl(k * 0.001) in metres, never mm-rounded (src/values.mjs length()).
@@ -105,13 +132,90 @@ test('line-segment controls through the port: closed in any order or direction b
   assert.match(touching.message, /skSolve: sketch\/branching/);
 });
 
-test('unported geometry operations refuse at their host operation by name', async () => {
-  // skArc is now ported and exercised by rust-arcs.test.mjs. Loft remains a
-  // named host capability refusal, including before any legacy body access.
+test('caught subfeature failures restore Rust sketch geometry before the next solve and extrude', async () => {
+  for (const abandoned of [
+    'skRectangle(s,"aborted",{"firstCorner":vector(20,20)*millimeter,"secondCorner":vector(24,24)*millimeter});',
+    'skCircle(s,"aborted",{"center":vector(20,20)*millimeter,"radius":2*millimeter});',
+    `skArc(s,"aborted",{"start":vector(1,2)*meter,"mid":vector(0,1)*meter,"end":vector(1,0)*meter});
+      skLineSegment(s,"bottom",{"start":vector(1,0)*meter,"end":vector(9,0)*meter});
+      skArc(s,"right",{"start":vector(9,0)*meter,"mid":vector(10,1)*meter,"end":vector(9,2)*meter});
+      skLineSegment(s,"top",{"start":vector(9,2)*meter,"end":vector(1,2)*meter});`,
+  ]) {
+    const source = `FeatureScript 3044;
+      import(path : "onshape/std/geometry.fs", version : "3044.0");
+      const abort = defineFeature(function(context is Context, id is Id, definition is map) precondition {} {
+        const s = definition.sketch;
+        ${abandoned}
+        skSolve(s);
+        throw "abort this sketch edit";
+      });
+      export const f = defineFeature(function(context is Context, id is Id, definition is map) precondition {} {
+        const s = newSketchOnPlane(context,id+"sketch",{"sketchPlane":plane(vector(0,0,0)*millimeter,vector(0,0,1))});
+        try silent { abort(context,id+"abort",{"sketch":s}); }
+        skRectangle(s,"aborted",{"firstCorner":vector(0,0)*millimeter,"secondCorner":vector(4,4)*millimeter});
+        skSolve(s);
+        opExtrude(context,id+"e",{"entities":qSketchRegion(id+"sketch"),"direction":vector(0,0,1),"endBound":BoundingType.BLIND,"endDepth":2*millimeter});
+      });`;
+    const model = await build(source, { feature: 'f' });
+    assert.equal(model.bodies.length, 1, abandoned);
+    assert.ok(Math.abs(measureRustBody(rustModelKernel(model), model.bodies[0]).volumeMm3 - 32) < 1e-10);
+  }
+});
+
+// CAD-Acid AC99: two disjoint squares (0,0)-(10,10) and (20,0)-(30,10) in one
+// sketch; a point picks regions for opExtrude. V5's qClosestTo over
+// qSketchRegion used to fail with an unnamed "expects a topology Query".
+test('sketch regions picked by qContainsPoint or qClosestTo extrude exactly the selected regions', async () => {
+  const frames = {
+    identity: 'coordSystem(vector(0, 0, 0) * millimeter, vector(1, 0, 0), vector(0, 0, 1))',
+    // AC99 V3's skew frame: toWorld rounds the point off the rotated plane.
+    rotated: 'coordSystem(r * (vector(0, 0, 0) * millimeter), r.linear * vector(1, 0, 0), r.linear * vector(0, 0, 1))',
+  };
+  const pick = ({ query, point, frame = 'identity', consume = 'opExtrude(context, id + "e", { "entities" : region, "direction" : cs.zAxis, "endBound" : BoundingType.BLIND, "endDepth" : 4 * millimeter });' }) => build(`FeatureScript 3044;
+    import(path : "onshape/std/geometry.fs", version : "3044.0");
+    export const f = defineFeature(function(context is Context, id is Id, definition is map) precondition {} {
+      const r = rotationAround(line(vector(3, -2, 5) * millimeter, vector(1, 2, 3)), 0.1 * radian);
+      const cs = ${frames[frame]};
+      var s = newSketchOnPlane(context, id + "sketch", { "sketchPlane" : plane(cs.origin, cs.zAxis, cs.xAxis) });
+      skRectangle(s, "left", { "firstCorner" : vector(0, 0) * millimeter, "secondCorner" : vector(10, 10) * millimeter });
+      skRectangle(s, "right", { "firstCorner" : vector(20, 0) * millimeter, "secondCorner" : vector(30, 10) * millimeter });
+      skSolve(s);
+      const region = ${query}(qSketchRegion(id + "sketch"), toWorld(cs, vector(${point}) * millimeter));
+      ${consume}
+    });`, { feature: 'f', trace: false });
+  // Each selected square extrudes to its own 400 mm^3 body; identity bodies
+  // are named by their minimum x (0 left, 20 right).
+  for (const [c, left] of [
+    [{ query: 'qClosestTo', point: '25, 5, 0' }, [20]],
+    [{ query: 'qContainsPoint', point: '25, 5, 0' }, [20]],
+    [{ query: 'qContainsPoint', point: '20, 5, 0' }, [20]], // a region is closed
+    [{ query: 'qClosestTo', point: '15, 5, 0' }, [0, 20]], // equally far: both
+    [{ query: 'qClosestTo', point: '25, 5, 1' }, [20]], // off the plane: still closest
+  ]) {
+    const model = await pick(c);
+    assert.deepEqual(model.bodies.map(b => Math.round(b.validation.boundsMm.min[0])).sort((a, b) => a - b), left, JSON.stringify(c));
+    for (const body of model.bodies) assert.ok(Math.abs(body.validation.volumeMm3 - 400) <= 400e-9, JSON.stringify(c));
+  }
+  const rotated = await pick({ query: 'qContainsPoint', point: '25, 5, 0', frame: 'rotated' });
+  assert.equal(rotated.bodies.length, 1);
+  assert.ok(Math.abs(rotated.bodies[0].validation.volumeMm3 - 400) <= 400e-9);
+  // 1 mm above the plane no region contains the point: opExtrude has nothing to extrude.
+  const none = await pick({ query: 'qContainsPoint', point: '25, 5, 1' }).then(() => null, e => e);
+  assert.ok(none instanceof GeometryRefusal, String(none));
+  assert.equal(none.refusalCategory, 'empty-region');
+  assert.match(none.message, /selects no region/);
+  // Another consumer refuses the selection by name instead of using every region.
+  const revolve = await pick({ query: 'qClosestTo', point: '25, 5, 0',
+    consume: 'opRevolve(context, id + "r", { "entities" : region, "axis" : line(vector(0, -5, 0) * millimeter, vector(1, 0, 0)), "angleForward" : 90 * degree });' }).then(() => null, e => e);
+  assert.ok(revolve instanceof RustCapabilityError, String(revolve));
+  assert.equal(revolve.reason, 'sketch-region/point-selection-outside-extrude');
+});
+
+test('ported loft refuses absent profiles by name before publishing a body', async () => {
   const source = `FeatureScript 3044;\nimport(path : "onshape/std/geometry.fs", version : "3044.0");\nexport const f = defineFeature(function(context is Context, id is Id, definition is map) precondition {} {\n opLoft(context, id + "loft", { "profileSubqueries" : [] });\n});`;
   const error = await onRust(() => build(source, { feature: 'f', trace: false })).then(() => null, e => e);
-  assert.ok(error instanceof NativeCapabilityError, String(error));
-  assert.match(error.message, /host\/loft:invoke \(kernel\.opLoft\)/);
+  assert.ok(error instanceof RustCapabilityError, String(error));
+  assert.equal(error.reason, 'loft/two-profiles-required');
   for (const name of ['instantiate', 'opTransform', 'opDeleteBodies', 'fCuboid', 'opBoolean', 'evVolume']) assert.ok(HOST_OPERATIONS[name], name);
 });
 

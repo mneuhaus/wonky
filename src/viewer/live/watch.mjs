@@ -18,7 +18,8 @@
 // goes through FSEvents, which delivers late and coalesced under load, while
 // a file watch (kqueue) fires at once. A file watch ends with its inode on a
 // rename and is re-armed after the next scan. A directory watcher that errors
-// falls back to fs.watchFile polling (500 ms).
+// falls back to fs.watchFile polling (500 ms). Missing files also poll until
+// a direct watch can be armed: directory events alone can be lost/coalesced.
 // While the first path (the source) is missing or empty, a scan retries
 // briefly (10 × 100 ms) instead of reporting a change: atomic saves leave it
 // absent for a moment, and truncate-then-write saves leave it empty (fix
@@ -155,21 +156,27 @@ export function watchSources(paths, {
       files.delete(path);
     }
     for (const path of current) {
-      if (files.has(path) || polled.has(path)) continue;
+      if (files.has(path)) continue;
       try {
         const handle = watchImpl(path, { persistent: true }, event => {
           onEvent();
           if (event !== 'rename') return;
           handle.close();
           if (files.get(path) === handle) files.delete(path);
+          poll(path);
         });
         handle.on('error', () => {
           handle.close();
           if (files.get(path) === handle) files.delete(path);
+          poll(path);
         });
         files.set(path, handle);
+        if (polled.delete(path)) unwatchFile(path, onEvent);
       } catch {
-        // Missing or unwatchable: the directory watcher still covers it.
+        // An absent path has no inode watch. Directory notifications are only
+        // hints; polling keeps creation observable even when a hint is lost.
+        // The content hash prevents duplicate events from rebuilding.
+        poll(path);
       }
     }
   }
@@ -183,7 +190,7 @@ export function watchSources(paths, {
     }
     for (const path of [...polled]) {
       if (current.includes(path)) continue;
-      unwatchFile(path);
+      unwatchFile(path, onEvent);
       polled.delete(path);
     }
     for (const directory of wanted) {
@@ -237,7 +244,7 @@ export function watchSources(paths, {
       directories.clear();
       for (const handle of files.values()) handle.close();
       files.clear();
-      for (const path of polled) unwatchFile(path);
+      for (const path of polled) unwatchFile(path, onEvent);
       polled.clear();
     },
   };

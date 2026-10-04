@@ -4,7 +4,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 process.env.WONKY_BACKEND = 'rust';
 const { build } = await import('../src/index.mjs');
-const { toStep } = await import('../src/exporters.mjs');
+const { toStep, toStl } = await import('../src/exporters.mjs');
 const { serializeModel } = await import('../src/construction-history.mjs');
 const { measureRustBody, rustModelKernel, distanceRustBodies } = await import('../src/native/rust-host.mjs');
 const source = statements => `FeatureScript 3044;
@@ -17,7 +17,8 @@ test('cylinder construction, shared cap union, placement and serialization use n
   const model = await build(source(`${cylinder('a',0,0,8)}${cylinder('b',0,8,16)}
     opTransform(context,id+"move",{"bodies":qUnion([${q('a')},${q('b')}]),"transform":toWorld(coordSystem(vector(65536,-32768,16384)*millimeter,vector(0,0,1),vector(0,-1,0)))});
     opBoolean(context,id+"u",{"tools":qUnion([${q('a')},${q('b')}]),"operationType":BooleanOperationType.UNION});
-    const parts=evaluateQuery(context,${q('u')});
+    if(size(evaluateQuery(context,${q('u')}))!=0)throw "union incorrectly created a body";
+    const parts=evaluateQuery(context,qUnion([${q('a')},${q('b')}]));
     if(size(parts)!=1)throw "lost union result";
     setProperty(context,{"entities":${q('a')},"propertyType":PropertyType.NAME,"value":"inherited"});`),{feature:'f'});
   assert.equal(model.bodies.length,1);
@@ -31,10 +32,12 @@ test('cylinder construction, shared cap union, placement and serialization use n
   assert.ok(toStep(model,'cylinder').includes('CYLINDRICAL_SURFACE('));
 });
 
-test('tangent cylinder union retains two addressable bodies with native contact distance', async () => {
-  const model=await build(source(`${cylinder('a',0,0,16)}${cylinder('b',8,0,16)}
+test('tangent cylinders in independent frames retain two addressable bodies with native contact distance', async () => {
+  const model=await build(source(`${cylinder('a',0,0,16)}${cylinder('b',0,0,16)}
+    opTransform(context,id+"move",{"bodies":${q('b')},"transform":toWorld(coordSystem(vector(8,0,0)*millimeter,vector(0,1,0),vector(0,0,1)))});
     opBoolean(context,id+"u",{"tools":qUnion([${q('a')},${q('b')}]),"operationType":BooleanOperationType.UNION});
-    const parts=evaluateQuery(context,${q('u')});
+    if(size(evaluateQuery(context,${q('u')}))!=0)throw "union incorrectly created a body";
+    const parts=evaluateQuery(context,qUnion([${q('a')},${q('b')}]));
     if(size(parts)!=2)throw "lost tangent part";
     const gap=evDistance(context,{"side0":parts[0],"side1":parts[1]});
     if(gap.distance!=0*millimeter)throw "lost contact";`),{feature:'f'});
@@ -42,10 +45,24 @@ test('tangent cylinder union retains two addressable bodies with native contact 
   assert.equal(distanceRustBodies(rustModelKernel(model),...model.bodies).distanceMm,0);
 });
 
+test('resolved cylinder overlap keeps the exact lens volume through try silent', async () => {
+  const model = await build(source(`${cylinder('a',0,0,16)}${cylinder('b',7,0,16)}
+    try silent {opBoolean(context,id+"u",{"tools":qUnion([${q('a')},${q('b')}]),"operationType":BooleanOperationType.UNION});}`),{feature:'f'});
+  assert.equal(model.bodies.length,1);
+  const m=measureRustBody(rustModelKernel(model),model.bodies[0]);
+  const lens=32*Math.acos(7/8)-3.5*Math.sqrt(15);
+  const expected=(32*Math.PI-lens)*16;
+  assert.ok(Math.abs(m.volumeMm3-expected)<=expected*1e-12);
+  assert.equal(m.validity.closed,true);
+  assert.equal(m.topology.genus,0);
+  assert.equal(m.boundToConstruction,true);
+  assert.ok(toStep(model,'overlapping-cylinders').includes('CYLINDRICAL_SURFACE('));
+});
+
 test('unsupported cylinder overlap escapes try silent instead of returning an incomplete model', async () => {
-  await assert.rejects(build(source(`${cylinder('a',0,0,16)}${cylinder('b',7,0,16)}
+  await assert.rejects(build(source(`${cylinder('a',0,0,16)}${cylinder('b',8-1e-12,0,16)}
     try silent {opBoolean(context,id+"u",{"tools":qUnion([${q('a')},${q('b')}]),"operationType":BooleanOperationType.UNION});}`),{feature:'f'}),
-    e=>e.name==='RustCapabilityError'&&e.reason==='cylinder/parallel-overlap-arrangement');
+    e=>e.name==='RustCapabilityError'&&e.builtin==='opBoolean'&&e.reason==='curve2/sub-resolution-feature');
 });
 
 
@@ -54,8 +71,9 @@ test('through-hole Boolean consumes tools and remains serializable after a later
     fCuboid(context,id+"plate",{"corner1":vector(0,0,0)*millimeter,"corner2":vector(64,64,8)*millimeter});
     fCylinder(context,id+"hole",{"bottomCenter":vector(32,32,-1)*millimeter,"topCenter":vector(32,32,9)*millimeter,"radius":0.00390625*millimeter});
     opBoolean(context,id+"cut",{"targets":${q('plate')},"tools":${q('hole')},"operationType":BooleanOperationType.SUBTRACTION});
-    if(size(evaluateQuery(context,${q('cut')}))!=1)throw "missing cut result";
-    opTransform(context,id+"move",{"bodies":${q('cut')},"transform":toWorld(coordSystem(vector(65536,-32768,16384)*millimeter,vector(0,0,1),vector(0,-1,0)))});
+    if(size(evaluateQuery(context,${q('cut')}))!=0)throw "cut incorrectly created a body";
+    if(size(evaluateQuery(context,${q('plate')}))!=1)throw "missing cut result";
+    opTransform(context,id+"move",{"bodies":${q('plate')},"transform":toWorld(coordSystem(vector(65536,-32768,16384)*millimeter,vector(0,0,1),vector(0,-1,0)))});
     setProperty(context,{"entities":${q('plate')},"propertyType":PropertyType.NAME,"value":"perforated"});`), { feature: 'f' });
   assert.equal(model.bodies.length, 1);
   assert.equal(model.bodies[0].name, 'perforated');
@@ -103,8 +121,7 @@ test('mixed rectangular and circle regions honor filterInnerLoops and reject con
     assert.equal(hole.bboxMm.min[2],-7);
     assert.equal(hole.bboxMm.max[2],0);
     assert.equal(JSON.parse(serializeModel(model)).bodies[0].faces.filter(f=>f.loops.length===2).length,2);
-    if (filter) assert.equal(toStep(model,'regions').match(/MANIFOLD_SOLID_BREP\(/g).length,1);
-    else assert.throws(()=>toStep(model,'regions'), /mixed.*(families|carriers)/);
+    assert.equal(toStep(model,'regions').match(/MANIFOLD_SOLID_BREP\(/g).length,filter?1:2);
   }
   await assert.rejects(build(source(sketch(true,6)),{feature:'f'}),e=>e.name==='RustCapabilityError'&&/contact|crossing/.test(e.reason));
 });
@@ -137,8 +154,12 @@ test('circle clearance uses binary64 signs and newly admitted holes cannot be di
     opExtrude(context,id+"solid",{"entities":qSketchRegion(id+"s",true),"direction":vector(0,0,1),"endBound":BoundingType.BLIND,"endDepth":0.125*meter});`),{feature:'f'});
   assert.equal(model.bodies.length,1);
   assert.equal(measureRustBody(rustModelKernel(model),model.bodies[0]).topology.genus,1);
-  for (const radius of [1,1+Number.EPSILON])
-    await assert.rejects(build(source(sketch(radius)),{feature:'f'}),e=>e.name==='RustCapabilityError'&&e.reason==='circle-profile/circle-contact-or-crossing');
+  await assert.rejects(build(source(sketch(1)),{feature:'f'}),e=>e.name==='RustCapabilityError'&&e.reason==='circle-profile/circle-contact-or-crossing');
+  // Algebraic crossings are now admitted at skSolve. Selecting all adjacent
+  // regions must still refuse instead of silently dropping or fusing one.
+  await assert.rejects(build(source(sketch(1+Number.EPSILON)+`
+    opExtrude(context,id+"solid",{"entities":qSketchRegion(id+"s",true),"direction":vector(0,0,1),"endBound":BoundingType.BLIND,"endDepth":0.125*meter});`),{feature:'f'}),
+    e=>e.name==='NamedRefusal'&&e.reason==='sketch-region/adjacent-regions-fuse');
   await assert.rejects(build(source(sketch(0.5)+`
     try silent { opRevolve(context,id+"r",{"entities":qSketchRegion(id+"s",true),"axis":line(vector(3,0,0)*meter,vector(0,1,0)),"angleForward":360*degree}); }`),{feature:'f'}),
     e=>e.name==='RustCapabilityError'&&e.reason==='revolve/mixed-circle-profile');
@@ -146,11 +167,69 @@ test('circle clearance uses binary64 signs and newly admitted holes cannot be di
 
 test('unsupported cylindrical reflections and non-isometric copies are named refusals', async () => {
   for (const [transform,reason] of [
+    ['transform(rotationMatrix3d(vector(0,0,1),15*degree),vector(0,0,0)*meter)','rotation/non-exact-matrix'],
     ['mirrorAcross(plane(vector(0,0,0)*meter,vector(1,0,0)))','cylinder/reflected-placement'],
     ['transform(matrix([[2,0,0],[0,1,0],[0,0,1]]),vector(0,0,0)*meter)','cylinder/non-rigid-placement'],
   ]) {
     await assert.rejects(build(source(`${cylinder('a',0,0,8)}
       try silent { opPattern(context,id+"p",{"entities":${q('a')},"transforms":[${transform}],"instanceNames":["copy"]}); }`),{feature:'f'}),
-      e=>e.name==='RustCapabilityError'&&e.reason===reason);
+      e=>e.name===(reason==='rotation/non-exact-matrix'?'NamedRefusal':'RustCapabilityError')&&e.reason===reason);
   }
+});
+
+// FeatureScript transport of the axial column arrangement (native geometry in
+// wonky-ops/tests/prism_columns.rs): a sketched plate, pins sketched on
+// plane(bottom, direction) and united one at a time with a volume check, then a
+// bore through one pin; STEP, STL and a named refusal for a cross-axis pin.
+test('plate pins united one at a time and a bored pin stay one exact column body', async () => {
+  const pin = (i, x, y) => `{
+    const bottom=vector(${x},${y},2)*millimeter; const top=bottom+7*millimeter*vector(0,0,1);
+    const height=norm(top-bottom); const direction=(top-bottom)/height;
+    var s=newSketchOnPlane(context,id+"s${i}",{"sketchPlane":plane(bottom,direction)});
+    skCircle(s,"c",{"center":vector(0,0)*millimeter,"radius":2*millimeter}); skSolve(s);
+    opExtrude(context,id+"pin${i}",{"entities":qSketchRegion(id+"s${i}",false),"direction":direction,"endBound":BoundingType.BLIND,"endDepth":height});
+    opDeleteBodies(context,id+"d${i}",{"entities":qCreatedBy(id+"s${i}",EntityType.BODY)}); }`;
+  const plate = `
+    var p=newSketchOnPlane(context,id+"ps",{"sketchPlane":plane(vector(0,0,0)*millimeter,vector(0,0,1),vector(1,0,0))});
+    skLineSegment(p,"a",{"start":vector(-21,-21)*millimeter,"end":vector(21,-21)*millimeter});
+    skLineSegment(p,"b",{"start":vector(21,-21)*millimeter,"end":vector(21,21)*millimeter});
+    skLineSegment(p,"c",{"start":vector(21,21)*millimeter,"end":vector(-21,21)*millimeter});
+    skLineSegment(p,"d",{"start":vector(-21,21)*millimeter,"end":vector(-21,-21)*millimeter});
+    skSolve(p);
+    opExtrude(context,id+"plate",{"entities":qSketchRegion(id+"ps",false),"direction":vector(0,0,1),"endBound":BoundingType.BLIND,"endDepth":3*millimeter});
+    opDeleteBodies(context,id+"pd",{"entities":qCreatedBy(id+"ps",EntityType.BODY)});`;
+  const unite = `
+    var part=${q('plate')};
+    for (var i = 0; i < 4; i += 1) {
+      const tool=qCreatedBy(id+("pin"~i),EntityType.BODY);
+      const before=evVolume(context,{"entities":part})+evVolume(context,{"entities":tool});
+      opBoolean(context,id+("u"~i),{"tools":qUnion([part,tool]),"operationType":BooleanOperationType.UNION});
+      part=qUnion([part,tool,qCreatedBy(id+("u"~i),EntityType.BODY)]);
+      if(size(evaluateQuery(context,part))!=1) throw "union lost its one body";
+      if(before-evVolume(context,{"entities":part})<1e-3*(millimeter^3)) throw "pin only touches";
+    }`;
+  const model = await build(source(`${plate}${pin(0,-15.5,10.5)}${pin(1,0,10.5)}${pin(2,15.5,10.5)}${pin(3,0,-10.5)}${unite}
+    fCylinder(context,id+"bore",{"bottomCenter":vector(0,10.5,-1)*millimeter,"topCenter":vector(0,10.5,10)*millimeter,"radius":1*millimeter});
+    opBoolean(context,id+"cut",{"targets":part,"tools":${q('bore')},"operationType":BooleanOperationType.SUBTRACTION});`), { feature: 'f' });
+  assert.equal(model.bodies.length, 1);
+  const m = measureRustBody(rustModelKernel(model), model.bodies[0]);
+  assert.equal(m.certificate, 'AxialProfileColumns');
+  assert.equal(m.topology.genus, 1);
+  // 42 x 42 x 3 plate, four r=2 pins 6 mm above it, one r=1 bore through 9 mm.
+  const volume = 42 * 42 * 3 + 4 * Math.PI * 4 * 6 - Math.PI * 9;
+  assert.ok(Math.abs(m.volumeMm3 - volume) < volume * 1e-12, `${m.volumeMm3} vs ${volume}`);
+  assert.equal(JSON.parse(serializeModel(model)).bodies[0].faces.length, 6 + 4 * 2 + 1);
+  assert.equal(toStep(model, 'pins').match(/CYLINDRICAL_SURFACE\(/g).length, 5);
+  const stl = toStl(model, { deviationMm: 0.02 });
+  assert.ok((stl.byteLength ?? stl.length) > 84);
+  // boolean3d G12: the family refused this cross-axis union; the general
+  // Boolean proves the x pin (r 1 about z = 1.5) lies inside the 3 mm plate,
+  // so the union is exactly the plate.
+  const swallowed = await build(source(`${plate}
+    fCylinder(context,id+"x",{"bottomCenter":vector(-10,0,1.5)*millimeter,"topCenter":vector(10,0,1.5)*millimeter,"radius":1*millimeter});
+    opBoolean(context,id+"u",{"tools":qUnion([${q('plate')},${q('x')}]),"operationType":BooleanOperationType.UNION});`), { feature: 'f' });
+  assert.equal(swallowed.bodies.length, 1);
+  const ms = measureRustBody(rustModelKernel(swallowed), swallowed.bodies[0]);
+  assert.ok(Math.abs(ms.volumeMm3 - 42 * 42 * 3) <= 42 * 42 * 3 * 1e-12, `${ms.volumeMm3}`);
+  assert.equal(ms.topology.faces, 6);
 });

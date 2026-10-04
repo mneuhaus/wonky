@@ -1,0 +1,16 @@
+{
+  "origin": "Unmodified fixtures/cad-acid FeatureScript through the production Rust frontend; operand WC0 words captured BEFORE opBoolean, no result geometry/volume stored",
+  "nativeSourceHash": "1abe811226c668f0ec51d93018e116b0e782ea32600b1459c4875618cc102b45",
+  "catalogSha256": "b742021a3035026efd47da6ff70fb1da29daba22e2052ee85ef0bf05b4ac2062",
+  "sources": {
+    "fixtures/cad-acid/fs/acid-boolean.fs": "73404f5248cd976d55839eee6e87fe9466a31b9fa79dff5541c2da7a6baa891c",
+    "fixtures/cad-acid/fs/acid-curved.fs": "5216e2e73eaee1f6ad05a62ed58a2d94c2186271a4860d439d32f5c5cb9b4b24",
+    "fixtures/cad-acid/fs/acid-blend-errata.fs": "f4703a584279952f82318d98ac78bfbd9190aa75762dbb894ed2ce14658ab05a",
+    "fixtures/cad-acid/fs/acid-precision.fs": "0d34afcb67e9c0559e49d457a29aba8ae44badc4facfd6bf40ebab4771fa45a8",
+    "fixtures/cad-acid/fs/acid-holes-a.fs": "b05d992b97764608de52ace2bb46a2de3f4469b5f2e107c1ff4edf9663371ab5",
+    "fixtures/cad-acid/fs/acid-shapes-a.fs": "09eb6ee1617626bfa52813ff02cc350596840d5fc82ede4ec427ec0160704729",
+    "fixtures/cad-acid/fs/acid-splines-a.fs": "2b42ad187e88762b6442aee52379463ef004b96a5c9c9b8710b428819c64130d"
+  },
+  "sha256": "f54af34552d1f0c38bffcbbcb9596c9514e69b9bd7794e15eb0cfdf78f089b03",
+  "bytes": 3114374
+}

@@ -11,10 +11,10 @@ pub fn point_mm(
     id: FrameId,
 ) -> Result<[f64; 3], Refused> {
     let p = point.each_ref().map(|x| x.get());
-    if matches!(
-        body.frames.get(id.0 as usize),
-        Some(Frame::Interpreter { .. } | Frame::AffineImage { .. })
-    ) {
+    // The last construction identifies the body map, including exact local
+    // Rigid images. The separate zero-angle seam chart remains local to it.
+    let map = body.constructions.last().ok_or_else(|| no("chart-frame"))?.frame;
+    if id == map {
         return frame.apply(p, 1000., true).map_err(|_| no("export-range"));
     }
     let Some(Frame::Rigid {
@@ -26,10 +26,7 @@ pub fn point_mm(
     else {
         return Err(no("chart-frame"));
     };
-    if !matches!(
-        body.frames.get(parent.0 as usize),
-        Some(Frame::Interpreter { .. } | Frame::AffineImage { .. })
-    ) || angle.get() != 0.
+    if *parent != map || angle.get() != 0.
     {
         return Err(no("chart-frame"));
     }

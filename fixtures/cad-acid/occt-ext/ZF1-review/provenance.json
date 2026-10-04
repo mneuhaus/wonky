@@ -1,0 +1,43 @@
+{
+  "schema": "wonky/cad-acid-occt-frozen/1",
+  "batch": "ZF1-review",
+  "zonesSha256": "4dde1c353807721b9af0280c2fbecfafa3e2a04d9e066ca307019b2a4103dbd0",
+  "catalogVersion": "AC1-2026-10-02-extZF1-fillet",
+  "zones": [
+    "AC118",
+    "AC119",
+    "AC120",
+    "AC121",
+    "AC122",
+    "AC123"
+  ],
+  "cells": 30,
+  "sources": {
+    "fixtures/cad-acid/b3d/acid_fillet_zf1.py": "75fe74c3ad13ef926b8cf2a25d02e749697adcddc41438435df1692b6c8b4d0c"
+  },
+  "observations": "observations.json",
+  "origin": {
+    "file": "tmp/zf1-review/occt/results.json",
+    "sha256": "f664480d5115e31aae638357d7eb8cdcdf5cd547721e873c4c6378e2c90e8f62",
+    "code": {
+      "head": "6eab6da809cb227668b6a077d65d855ee75b4ab8",
+      "treeSha256": "699e21db7c3ca1b52f86da5a68bd43728f4848bbbc847db1201977367496c098"
+    },
+    "host": "local MacBook via studio/run.mjs",
+    "startedAt": "2026-10-02T21:45:14.203Z",
+    "finishedAt": "2026-10-02T21:46:05.375Z",
+    "cleanThroughoutRun": false,
+    "note": "The test was strengthened and committed during this targeted diagnostic. This is not reusable full-tree gate evidence; twin and catalog hashes are checked against the actual inputs."
+  },
+  "contractFreeze": {
+    "initialCommit": "069ae3e2",
+    "noPostObservationCorrections": true
+  },
+  "observedVerdicts": {
+    "WRONG": 5,
+    "CORRECT": 20,
+    "ERROR": 5
+  },
+  "note": "Preserves original ZF1 capture unchanged. Solid wrapper fixes the Box constructor error; AC123 now reaches OCCT chamfer and fails at width=radius. AC118 still disagrees with the contract. No contract or operation substitution. Acceptance remains open.",
+  "v0StepEvidence": "local-development-evidence"
+}

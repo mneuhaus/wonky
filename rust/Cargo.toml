@@ -4,10 +4,23 @@
 # keys every build by a sourceHash over these files (scripts/rust/build-key.mjs).
 [workspace]
 resolver = "2"
-members = ["wonky-num", "wonky-ops", "wonky-replay", "wonky-wire", "wonky-node", "wonky-alg", "wonky-oracle", "wonky-validated", "wonky-n2", "wonky-radical3", "wonky-brep", "wonky-sketch", "wonky-contract"]
+members = ["wonky-geom", "wonky-num", "wonky-ops", "wonky-replay", "wonky-wire", "wonky-node", "wonky-alg", "wonky-oracle", "wonky-validated", "wonky-n2", "wonky-radical3", "wonky-brep", "wonky-sketch", "wonky-contract", "wonky-curve", "wonky-bool", "wonky-blend"]
 
 [profile.release]
 opt-level = 3
 debug = 1
 codegen-units = 1
 lto = "thin"
+
+# Landing-gate-only profile: same opt-level as release (arithmetic stays
+# identical -- Rust does not reorder float ops based on codegen-units/LTO
+# absent -ffast-math, which this profile never sets), but codegen-units=16
+# and lto=false parallelize codegen and skip the whole-program LTO pass, and
+# debug=0 skips DWARF emission. This cuts `cargo test` compile time without
+# touching the addon's [profile.release] (unchanged, used by acid/live runs
+# and the N-API build). Use only via `cargo test --profile gate`.
+[profile.gate]
+inherits = "release"
+codegen-units = 16
+lto = false
+debug = 0

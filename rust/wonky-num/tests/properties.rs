@@ -15,6 +15,7 @@
 //!
 //! Run: cargo test --release -p wonky-num --test properties -- --nocapture
 
+use num_bigint::BigInt;
 use num_rational::BigRational;
 use num_traits::{Signed, Zero};
 use wonky_num::*;
@@ -42,30 +43,90 @@ fn qv(p: P3) -> [BigRational; 3] {
 fn qdot(a: &[BigRational; 3], b: &[BigRational; 3]) -> BigRational {
     &a[0] * &b[0] + &a[1] * &b[1] + &a[2] * &b[2]
 }
-fn qsub(a: &[BigRational; 3], b: &[BigRational; 3]) -> [BigRational; 3] {
-    [&a[0] - &b[0], &a[1] - &b[1], &a[2] - &b[2]]
+// The sign oracles below run millions of times on operands spanning 2^-1074..2^1023,
+// where BigRational reduces (gcd) after every operation and that gcd dominated the
+// whole suite (num_bigint gcd/shift/sub, over 99 % of the samples). Every f64 is
+// m * 2^e with integer m, so products and differences stay exact as dyadic integers
+// (BigInt mantissa, binary exponent) without any reduction, and the sign of the
+// mantissa is the sign of the value. Same exact arithmetic, same answers.
+#[derive(Clone)]
+struct Dy {
+    m: BigInt,
+    e: i32,
+}
+impl Dy {
+    fn from_f64(x: f64) -> Dy {
+        assert!(x.is_finite(), "finite");
+        let bits = x.to_bits();
+        let (biased, frac) = (((bits >> 52) & 0x7ff) as i32, bits & ((1u64 << 52) - 1));
+        let (mantissa, e) = if biased == 0 { (frac, -1074) } else { (frac | (1u64 << 52), biased - 1075) };
+        let m = BigInt::from(mantissa);
+        Dy { m: if bits >> 63 == 1 { -m } else { m }, e }
+    }
+    fn is_zero(&self) -> bool {
+        self.m.is_zero()
+    }
+    fn sign(&self) -> Sign {
+        if self.m.is_zero() {
+            Sign::Zero
+        } else if self.m.is_positive() {
+            Sign::Positive
+        } else {
+            Sign::Negative
+        }
+    }
+    fn mul(&self, o: &Dy) -> Dy {
+        Dy { m: &self.m * &o.m, e: self.e + o.e }
+    }
+    fn add(&self, o: &Dy) -> Dy {
+        let e = self.e.min(o.e);
+        Dy { m: (&self.m << (self.e - e) as usize) + (&o.m << (o.e - e) as usize), e }
+    }
+    fn sub(&self, o: &Dy) -> Dy {
+        let e = self.e.min(o.e);
+        Dy { m: (&self.m << (self.e - e) as usize) - (&o.m << (o.e - e) as usize), e }
+    }
+}
+fn dv(p: P3) -> [Dy; 3] {
+    [Dy::from_f64(p.x), Dy::from_f64(p.y), Dy::from_f64(p.z)]
+}
+fn ddot(a: &[Dy; 3], b: &[Dy; 3]) -> Dy {
+    a[0].mul(&b[0]).add(&a[1].mul(&b[1])).add(&a[2].mul(&b[2]))
+}
+fn dsub(a: &[Dy; 3], b: &[Dy; 3]) -> [Dy; 3] {
+    [a[0].sub(&b[0]), a[1].sub(&b[1]), a[2].sub(&b[2])]
+}
+/// x*y - z*w
+fn dcross(x: &Dy, y: &Dy, z: &Dy, w: &Dy) -> Dy {
+    x.mul(y).sub(&z.mul(w))
 }
 fn ref_plane(n: P3, p: P3, o: P3) -> Sign {
-    rsign(&qdot(&qv(n), &qsub(&qv(p), &qv(o))))
+    ddot(&dv(n), &dsub(&dv(p), &dv(o))).sign()
 }
 fn ref_orient2d(a: P2, b: P2, c: P2) -> Sign {
-    let (ax, ay, bx, by, cx, cy) = (q(a.x), q(a.y), q(b.x), q(b.y), q(c.x), q(c.y));
-    rsign(&((&bx - &ax) * (&cy - &ay) - (&by - &ay) * (&cx - &ax)))
+    let (ax, ay, bx, by, cx, cy) = (Dy::from_f64(a.x), Dy::from_f64(a.y), Dy::from_f64(b.x), Dy::from_f64(b.y), Dy::from_f64(c.x), Dy::from_f64(c.y));
+    dcross(&bx.sub(&ax), &cy.sub(&ay), &by.sub(&ay), &cx.sub(&ax)).sign()
 }
 fn ref_orient3d(a: P3, b: P3, c: P3, d: P3) -> Sign {
-    let qa = qv(a);
-    let [bx, by, bz] = qsub(&qv(b), &qa);
-    let [cx, cy, cz] = qsub(&qv(c), &qa);
-    let [dx, dy, dz] = qsub(&qv(d), &qa);
-    rsign(&(&bx * (&cy * &dz - &cz * &dy) + &by * (&cz * &dx - &cx * &dz) + &bz * (&cx * &dy - &cy * &dx)))
+    let da = dv(a);
+    let [bx, by, bz] = dsub(&dv(b), &da);
+    let [cx, cy, cz] = dsub(&dv(c), &da);
+    let [dx, dy, dz] = dsub(&dv(d), &da);
+    bx.mul(&dcross(&cy, &dz, &cz, &dy)).add(&by.mul(&dcross(&cz, &dx, &cx, &dz))).add(&bz.mul(&dcross(&cx, &dy, &cy, &dx))).sign()
+}
+fn ref_dot_sign(a: P3, b: P3) -> Sign {
+    ddot(&dv(a), &dv(b)).sign()
+}
+fn ref_perpendicular(a: P3, b: P3) -> bool {
+    ddot(&dv(a), &dv(b)).is_zero()
 }
 fn ref_parallel(a: P3, b: P3) -> bool {
-    let (qa, qb) = (qv(a), qv(b));
-    (&qa[1] * &qb[2] - &qa[2] * &qb[1]).is_zero() && (&qa[2] * &qb[0] - &qa[0] * &qb[2]).is_zero() && (&qa[0] * &qb[1] - &qa[1] * &qb[0]).is_zero()
+    let (qa, qb) = (dv(a), dv(b));
+    dcross(&qa[1], &qb[2], &qa[2], &qb[1]).is_zero() && dcross(&qa[2], &qb[0], &qa[0], &qb[2]).is_zero() && dcross(&qa[0], &qb[1], &qa[1], &qb[0]).is_zero()
 }
 fn ref_line_point(n: P3, dir: P3, origin: P3, point: P3, t: f64) -> Sign {
-    let qn = qv(n);
-    rsign(&(qdot(&qn, &qsub(&qv(origin), &qv(point))) + q(t) * qdot(&qn, &qv(dir))))
+    let qn = dv(n);
+    ddot(&qn, &dsub(&dv(origin), &dv(point))).add(&Dy::from_f64(t).mul(&ddot(&qn, &dv(dir)))).sign()
 }
 fn ref_segment(n: P3, o: P3, a: P3, b: P3) -> SegmentPlane {
     match (ref_plane(n, a, o), ref_plane(n, b, o)) {
@@ -443,7 +504,7 @@ fn dot_sign_and_perpendicular_random_and_near_degenerate() {
     let mut random = Stats::default();
     while random.decided < N_RANDOM {
         let (a, b) = (r.vec_any(), r.vec_any());
-        let reference = || rsign(&qdot(&qv(a), &qv(b)));
+        let reference = || ref_dot_sign(a, b);
         random.record(&flat(&[a, b]), dot_sign(a, b, "test"), reference, || format!("a={a:?} b={b:?}"));
     }
     random.report("dot_sign random");
@@ -455,8 +516,8 @@ fn dot_sign_and_perpendicular_random_and_near_degenerate() {
         let b0 = a.cross(w);
         let b = if i % 4 < 2 { b0 } else { r.wiggle(b0) };
         let (a, b) = if i % 3 == 0 { (sc(a, r.pow2()), sc(b, r.pow2())) } else { (a, b) };
-        near.record(&flat(&[a, b]), dot_sign(a, b, "test"), || rsign(&qdot(&qv(a), &qv(b))), || format!("a={a:?} b={b:?}"));
-        perp.record(&flat(&[a, b]), perpendicular(a, b, "test"), || qdot(&qv(a), &qv(b)).is_zero(), || format!("a={a:?} b={b:?}"));
+        near.record(&flat(&[a, b]), dot_sign(a, b, "test"), || ref_dot_sign(a, b), || format!("a={a:?} b={b:?}"));
+        perp.record(&flat(&[a, b]), perpendicular(a, b, "test"), || ref_perpendicular(a, b), || format!("a={a:?} b={b:?}"));
     }
     near.report("dot_sign near-degenerate");
     perp.report("perpendicular near-degenerate");
@@ -735,11 +796,11 @@ fn all_predicates_full_range_adversarial() {
         stats[3].record(&input, orient2d(a2, b2, c2, "wide"), || expected, desc);
         let expected = ref_orient3d(a, b, c, d);
         stats[4].record(&input, orient3d(a, b, c, d, "wide"), || expected, desc);
-        let expected = rsign(&qdot(&qv(a), &qv(b)));
+        let expected = ref_dot_sign(a, b);
         stats[5].record(&input, dot_sign(a, b, "wide"), || expected, desc);
         let expected = ref_parallel(a, b);
         stats[6].record(&input, parallel(a, b, "wide"), || expected, desc);
-        let expected = qdot(&qv(a), &qv(b)).is_zero();
+        let expected = ref_perpendicular(a, b);
         stats[7].record(&input, perpendicular(a, b, "wide"), || expected, desc);
     }
     for (name, s) in ["plane", "segment", "line", "orient2d", "orient3d", "dot", "parallel", "perpendicular"].iter().zip(&stats) {

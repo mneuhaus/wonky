@@ -64,9 +64,9 @@ test('the frozen fixture verifies: 8 modules, 33 parts, every file as frozen, ev
   assert.deepEqual(v.problems, []);
   for (const [m, entry] of Object.entries(v.modules)) assert.deepEqual(entry.problems, [], m);
   assert.ok(v.ok);
-  assert.equal(v.provenance.onshape.reference.microversion, 'onshape-id-2cd631ae');
-  assert.equal(v.provenance.onshape.patch.name, 'm3-shared-points');
-  assert.equal(v.provenance.onshape.patch.arcs_changed, 11);
+  assert.equal(v.provenance.onshape.reference.microversion, 'onshape-id-8d240508');
+  assert.equal(v.provenance.onshape.patch.name, 'topplate-mouth-corner-fix');
+  assert.deepEqual(v.provenance.onshape.patch.modules_changed, ['context']);
   assert.equal(v.provenance.onshape.reference.configuration, 'withBlends=false (default)');
   assert.deepEqual(Object.fromEntries(Object.entries(v.refs).map(([m, r]) => [m, r.length])),
     { datums: 4, context: 12, probe: 2, tray: 3, edge: 1, return: 4, cores: 5, feed: 2 });
@@ -84,7 +84,7 @@ test('planted: one flipped byte in a studio is rejected at provenance, before an
   bytes[1000] ^= 0x01;
   fs.writeFileSync(file, bytes);
   const v = verifyFixture(dir);
-  assert.match(problemsOf(v, 'datums'), /studios\/datums\.fs: sha256 [0-9a-f]{12} \(40594 bytes\) differs from provenance 71a71c5b6831/);
+  assert.match(problemsOf(v, 'datums'), /studios\/datums\.fs: sha256 [0-9a-f]{12} \(40594 bytes\) differs from provenance 5f879596b05e/);
   assert.match(problemsOf(v, 'datums'), /studios\/datums\.fs: differs from the snapshot's SHA256SUMS/);
   for (const m of Object.keys(v.modules).filter(x => x !== 'datums')) assert.deepEqual(v.modules[m].problems, [], m);
   const out = path.join(work, 'out-byte');
@@ -174,7 +174,12 @@ test('the recorded Bend JS baseline: 7 of 8 modules, 31 of 33 parts pass every c
   assert.equal(b.summary.parts.allChecks, 31);
   assert.equal(b.modules.feed.status, 'REFUSED');
   assert.deepEqual([b.modules.feed.error.class, b.modules.feed.error.line, b.modules.feed.error.column], ['UnsupportedFeatureError', 344, 5]);
-  assert.equal(b.fixture.provenanceSha256, sha256(fs.readFileSync(path.join(FIXTURE_DIR, 'provenance.json'))), 'the baseline was measured on this fixture');
+  // Bend is retired (no re-runs, ever): this baseline is frozen history, measured
+  // against the pre-G4 fixture (microversion onshape-id-2cd631ae), not the
+  // current one (microversion onshape-id-8d240508). The hash below is that
+  // old provenance.json's sha256, kept as a historical binding, not a live check.
+  assert.equal(b.fixture.provenanceSha256, 'bc0c7e92893a3b9ad85230d67afd6b790f19a84524a6f7a56de0485f4c2f34fa',
+    'the baseline is bound to the pre-G4 fixture it was actually measured on (Bend is retired; never re-run)');
 });
 
 }

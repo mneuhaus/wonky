@@ -221,3 +221,28 @@ fn replay_rejects_planted_vertex_mutation_and_does_not_promote_display_geometry(
     );
     close(placed.volume_mm3().unwrap(), good.volume_mm3().unwrap());
 }
+
+/// Exact probes on the chamfered bottom ring: a point below the chamfered
+/// edge is nearest to the chamfer face, not to the removed box corner edge.
+#[test]
+fn chamfer_probes_measure_the_chamfer_face() {
+    use wonky_ops::polyhedron::Probe;
+    let a = box_at([0.; 3], [1., 1., 1.]);
+    let ring = checked(chamfer::equal_offsets(&a, &bottom(&a), 0.125).unwrap());
+    for (point, expected) in [
+        ([500., -100., -100.], Some(325. / 2f64.sqrt())),
+        ([500., 500., 1500.], Some(500.)),
+        ([500., 500., -250.], Some(250.)),
+        ([500., 500., 500.], None),
+        ([500., 0., 500.], None),
+    ] {
+        match (ring.distance_mm(point), expected) {
+            (Probe::Measured { distance_mm, inside, bound_mm }, Some(d)) => {
+                assert!(!inside, "{point:?}");
+                assert!((distance_mm - d).abs() <= bound_mm + d * 4. * f64::EPSILON, "{point:?}: {distance_mm} != {d}");
+            }
+            (Probe::Measured { distance_mm, inside, .. }, None) => assert!(inside && distance_mm == 0., "{point:?}"),
+            (Probe::Refused(r), _) => panic!("{point:?}: {r}"),
+        }
+    }
+}

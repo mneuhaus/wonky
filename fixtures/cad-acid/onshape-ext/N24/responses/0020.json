@@ -1,0 +1,140 @@
+{
+  "btType": "BTFeatureSpecsResponse-664",
+  "rejectMicroversionSkew": false,
+  "microversionSkew": false,
+  "featureSpecs": [
+    {
+      "btType": "BTFeatureSpec-129",
+      "parameters": [
+        {
+          "btType": "BTParameterSpecEnum-171",
+          "enumName": "AcidVariant",
+          "enumValueToVisibilityCondition": {},
+          "enumOptionVisibilityConditions": null,
+          "optionIconUris": [
+            "",
+            "",
+            "",
+            "",
+            "",
+            ""
+          ],
+          "defaultValue": {
+            "btType": "BTMParameterEnum-145",
+            "namespace": "ec58b2c2e20e73b1ed0dae01c::m40dbc83702b3351d091a95ef",
+            "nodeId": "MMBP5V1naetxJm1d8",
+            "value": "V0",
+            "enumName": "AcidVariant",
+            "libraryRelationType": "DEFAULT",
+            "parameterId": "variant",
+            "parameterName": ""
+          },
+          "options": [
+            "V0",
+            "V1",
+            "V2",
+            "V3",
+            "V4",
+            "V5"
+          ],
+          "namespace": "ec58b2c2e20e73b1ed0dae01c::m40dbc83702b3351d091a95ef",
+          "parameterId": "variant",
+          "parameterName": "Variant",
+          "uiHints": [],
+          "visibilityCondition": null,
+          "uiHint": "",
+          "optionNames": [
+            "V0 identity",
+            "V1 translated",
+            "V2 axis permutation",
+            "V3 skew",
+            "V4 radius bump",
+            "V5 alternate idiom"
+          ],
+          "parameterDescription": "",
+          "columnName": "",
+          "iconUri": ""
+        },
+        {
+          "btType": "BTParameterSpecEnum-171",
+          "enumName": "AcidSplinesAZone",
+          "enumValueToVisibilityCondition": {},
+          "enumOptionVisibilityConditions": null,
+          "optionIconUris": [
+            "",
+            ""
+          ],
+          "defaultValue": {
+            "btType": "BTMParameterEnum-145",
+            "namespace": "ec58b2c2e20e73b1ed0dae01c::m40dbc83702b3351d091a95ef",
+            "nodeId": "MnypsDz10fVFF2Xr1",
+            "value": "ALL",
+            "enumName": "AcidSplinesAZone",
+            "libraryRelationType": "DEFAULT",
+            "parameterId": "zone",
+            "parameterName": ""
+          },
+          "options": [
+            "ALL",
+            "AC101"
+          ],
+          "namespace": "ec58b2c2e20e73b1ed0dae01c::m40dbc83702b3351d091a95ef",
+          "parameterId": "zone",
+          "parameterName": "Zone",
+          "uiHints": [],
+          "visibilityCondition": null,
+          "uiHint": "",
+          "optionNames": [
+            "All zones",
+            "AC101"
+          ],
+          "parameterDescription": "",
+          "columnName": "",
+          "iconUri": ""
+        }
+      ],
+      "featureNameTemplate": "",
+      "parameterLibraryDefinitionIds": [],
+      "tooltipTemplate": "",
+      "descriptionImageUri": "",
+      "featureTypeDescription": "",
+      "languageVersion": 3044,
+      "editingLogic": null,
+      "manipulatorChangeFunction": "",
+      "filterSelectors": [],
+      "sourceMicroversionId": "40dbc83702b3351d091a95ef",
+      "linkedLocationName": "",
+      "namespace": "ec58b2c2e20e73b1ed0dae01c::m40dbc83702b3351d091a95ef",
+      "groups": [],
+      "featureType": "acidSplinesA",
+      "featureTypeName": "CAD Acid: Splines A",
+      "uiHints": [],
+      "sourceLocation": {
+        "btType": "BTLocationInfo-226",
+        "version": "40dbc83702b3351d091a95ef",
+        "line": 118,
+        "endLine": 131,
+        "endColumn": 7,
+        "languageVersion": 3044,
+        "character": 4997,
+        "column": 29,
+        "endCharacter": 5540,
+        "moduleIds": {
+          "btType": "BTDocumentVersionElementIds-1897",
+          "versionId": "",
+          "elementId": "c58b2c2e20e73b1ed0dae01c",
+          "documentId": ""
+        },
+        "parseNodeId": "PFJFWSGIRLBIcbGjH",
+        "document": "c58b2c2e20e73b1ed0dae01c",
+        "elementMicroversion": "40dbc83702b3351d091a95ef",
+        "nodeId": "2D+GwqRzWstatWMB",
+        "topLevel": ""
+      },
+      "iconUri": ""
+    }
+  ],
+  "libraryVersion": 0,
+  "sourceMicroversion": "7cee5408416766ad6deeb086",
+  "serializationVersion": "1.2.21"
+}

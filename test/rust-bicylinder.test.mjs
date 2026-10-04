@@ -9,7 +9,7 @@ const { build } = await import('../src/index.mjs');
 const { toStep } = await import('../src/exporters.mjs');
 const { serializeModel } = await import('../src/construction-history.mjs');
 const { measureRustBody, rustModelKernel } = await import('../src/native/rust-host.mjs');
-const source = `FeatureScript 3044;
+const source = (extra = '') => `FeatureScript 3044;
 import(path : "onshape/std/geometry.fs", version : "3044.0");
 export const f = defineFeature(function(context is Context, id is Id, definition is map) precondition {} {
     fCylinder(context,id+"a",{"bottomCenter":vector(-20,0,0)*millimeter,"topCenter":vector(20,0,0)*millimeter,"radius":5*millimeter});
@@ -18,10 +18,11 @@ export const f = defineFeature(function(context is Context, id is Id, definition
     if(size(evaluateQuery(context,qCreatedBy(id+"cut",EntityType.BODY)))!=1)throw "missing intersection";
     opTransform(context,id+"move",{"bodies":qCreatedBy(id+"a",EntityType.BODY),"transform":toWorld(coordSystem(vector(65536.25,-32768.5,16384.125)*millimeter,vector(1,0,0),vector(0,0,1)))});
     setProperty(context,{"entities":qCreatedBy(id+"b",EntityType.BODY),"propertyType":PropertyType.NAME,"value":"lens"});
+    ${extra}
 });`;
 
 test('bicylinder intersection preserves aliases, conic transport and later placement', async () => {
-  const model = await build(source, { feature: 'f' });
+  const model = await build(source(), { feature: 'f' });
   assert.equal(model.bodies.length, 1);
   assert.equal(model.bodies[0].name, 'lens');
   const m = measureRustBody(rustModelKernel(model), model.bodies[0], {
@@ -45,4 +46,30 @@ test('bicylinder intersection preserves aliases, conic transport and later place
     fs.writeFileSync(`${prefix}.step`, step);
     fs.writeFileSync(`${prefix}.brep.json`, serializeModel(model));
   }
+});
+
+// Export packaging owns the shared entity namespace and per-carrier budgets.
+// Single-carrier tests cannot catch dropping a solid or rebinding its references
+// when a drilled plate and a conic solid enter the same AP214 representation.
+test('mixed conic, perforated and planar solids share a valid STEP namespace', async () => {
+  const {spawnSync} = await import('node:child_process');
+  const os = await import('node:os');
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'wonky-mixed-step-'));
+  try {
+    const model = await build(source(`
+      fCuboid(context,id+"plate",{"corner1":vector(-8,-8,0)*millimeter,"corner2":vector(8,8,4)*millimeter});
+      fCylinder(context,id+"hole",{"bottomCenter":vector(0,0,-1)*millimeter,"topCenter":vector(0,0,5)*millimeter,"radius":2*millimeter});
+      opBoolean(context,id+"drill",{"targets":qCreatedBy(id+"plate",EntityType.BODY),"tools":qCreatedBy(id+"hole",EntityType.BODY),"operationType":BooleanOperationType.SUBTRACTION});
+      fCuboid(context,id+"block",{"corner1":vector(30,0,0)*millimeter,"corner2":vector(34,6,8)*millimeter});
+    `), {feature:'f'});
+    assert.equal(model.bodies.length, 3);
+    const prefix = path.join(dir, 'mixed');
+    const step = toStep(model, 'mixed');
+    assert.equal([...step.matchAll(/MANIFOLD_SOLID_BREP\(/g)].length, 3);
+    fs.writeFileSync(prefix+'.step', step);
+    fs.writeFileSync(prefix+'.brep.json', serializeModel(model));
+    const run = spawnSync('uv', ['run','scripts/validate-step.py',prefix], {encoding:'utf8',timeout:120000,maxBuffer:8<<20});
+    assert.equal(run.status, 0, run.stderr || String(run.error));
+    assert.equal(JSON.parse(run.stdout).length, 1);
+  } finally { fs.rmSync(dir, {recursive:true,force:true}); }
 });

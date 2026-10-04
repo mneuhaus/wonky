@@ -364,6 +364,34 @@ pub fn intersect_box(key: BodyKey, a: &Spherical, b: &Audited) -> R<Body> {
     )
 }
 
+/// Rebuild a sphere operand from its own frames and nodes alone (a rule-7
+/// source leaf of the general Boolean), then audit it.
+pub(crate) fn replay(key: BodyKey, frames: &[Frame], nodes: &[Construction]) -> R<Spherical> {
+    let bad = || no("construction-body-mismatch");
+    let ([Frame::Source { source }, Frame::Interpreter { parent: FrameId(0), origin, x, z }], Some(root)) =
+        (frames, nodes.first())
+    else {
+        return Err(bad());
+    };
+    if root.parameters.len() != 4 || (nodes.len() != 2 && nodes.len() != 4) {
+        return Err(bad());
+    }
+    let c = [root.parameters[0].get(), root.parameters[1].get(), root.parameters[2].get()];
+    let frame = Affine { origin: origin.map(Binary64::get), x: x.map(Binary64::get), z: z.map(Binary64::get) };
+    let cut = match nodes.get(2) {
+        None => None,
+        Some(n) if n.parameters.len() == 6 => {
+            let p: Vec<_> = n.parameters.iter().map(|v| v.get()).collect();
+            Some([[p[0], p[1], p[2]], [p[3], p[4], p[5]]])
+        }
+        Some(_) => return Err(bad()),
+    };
+    let body = assemble(key, *source, c, root.parameters[3].get(), frame, cut)?;
+    if body.constructions != nodes {
+        return Err(bad());
+    }
+    audit(&body.check().map_err(|_| bad())?)
+}
 /// Independent boundary audit. Checks carrier identities, full-circle supports,
 /// incidence, shell orientation and the construction grammar. Does not replay
 /// the builder: changing a stored surface, vertex, pcurve or face must fail.

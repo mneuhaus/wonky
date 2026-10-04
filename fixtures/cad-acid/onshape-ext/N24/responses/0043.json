@@ -1,0 +1,48 @@
+{
+  "btType": "BTFeatureDefinitionResponse-1617",
+  "rejectMicroversionSkew": false,
+  "microversionSkew": false,
+  "featureState": {
+    "btType": "BTFeatureState-1688",
+    "featureStatus": "OK",
+    "inactive": false
+  },
+  "feature": {
+    "btType": "BTMFeature-134",
+    "namespace": "ec58b2c2e20e73b1ed0dae01c::m40dbc83702b3351d091a95ef",
+    "name": "splines-a-V0-AC101",
+    "suppressed": false,
+    "parameters": [
+      {
+        "btType": "BTMParameterEnum-145",
+        "namespace": "ec58b2c2e20e73b1ed0dae01c::m40dbc83702b3351d091a95ef",
+        "nodeId": "Mhvl3SKgwXfay0bIF",
+        "libraryRelationType": "DEFAULT",
+        "enumName": "AcidVariant",
+        "value": "V0",
+        "parameterId": "variant",
+        "parameterName": ""
+      },
+      {
+        "btType": "BTMParameterEnum-145",
+        "namespace": "ec58b2c2e20e73b1ed0dae01c::m40dbc83702b3351d091a95ef",
+        "nodeId": "MEgWf5WTGEp6eAEL1",
+        "libraryRelationType": "DEFAULT",
+        "enumName": "AcidSplinesAZone",
+        "value": "AC101",
+        "parameterId": "zone",
+        "parameterName": ""
+      }
+    ],
+    "featureId": "F1OPLgoFxxcfRio_13",
+    "nodeId": "MomKEvF/L2UTmM8S8",
+    "featureType": "acidSplinesA",
+    "returnAfterSubfeatures": false,
+    "subFeatures": [],
+    "parameterLibraries": [],
+    "suppressionState": null
+  },
+  "libraryVersion": 0,
+  "serializationVersion": "1.2.21",
+  "sourceMicroversion": "4f1a663e81ce26f63e9ab56b"
+}

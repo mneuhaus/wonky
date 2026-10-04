@@ -19,14 +19,16 @@ record!(BodyKey {
 });
 choice!(Provenance { 0 => None {}, 1 => Construction { node: NodeId } });
 choice!(Frame {
+    5 => RationalImage { base: FrameId, rows: [Vector3; 3], denominator: Binary64 },
     0 => Source { source: [u32; 4] },
     1 => Rigid { parent: FrameId, translation: Vector3, axis: Vector3, angle: Binary64 },
     2 => Interpreter { parent: FrameId, origin: Vector3, x: Vector3, z: Vector3 },
     3 => AffineImage { base: FrameId, translation: Vector3, rows: [Vector3; 3] },
+    4 => InterpreterImage { base: FrameId, origin: Vector3, x: Vector3, z: Vector3 },
 });
 choice!(Operation {
     0 => Interpreter {}, 1 => LineThrough {}, 2 => Plane {}, 3 => RigidTransform {},
-    4 => Sketch {}, 5 => Extrude {}, 6 => Revolve {}, 7 => Intersection {}, 8 => Boolean {}, 9 => Point {}, 10 => Sphere {}, 11 => AffineTransform {}, 12 => Fillet {}, 13 => Shell {},
+    4 => Sketch {}, 5 => Extrude {}, 6 => Revolve {}, 7 => Intersection {}, 8 => Boolean {}, 9 => Point {}, 10 => Sphere {}, 11 => AffineTransform {}, 12 => Fillet {}, 13 => Shell {}, 14 => Loft {},
 });
 record!(Construction { operation: Operation, rule_version: u32, parents: Vec<NodeId>, parameters: Vec<Binary64>, frame: FrameId });
 choice!(Limit { 0 => NegativeInfinity {}, 1 => Finite { value: Binary64, closed: bool }, 2 => PositiveInfinity {} });
@@ -67,6 +69,8 @@ record!(TubeSegment {
 record!(Tube { segments: Vec<TubeSegment>, budget: u32 });
 choice!(CurveGeometry {
     8 => ConstructionLine { edge: EdgeId },
+    11 => ConstructionCurve { slot: u32, closed: bool },
+    9 => CylinderIntersection { origin: Vector3, large_axis: Vector3, small_axis: Vector3, large_radius: Binary64, small_radius: Binary64 },
     7 => VectorEllipse { origin: Vector3, cosine: Vector3, sine: Vector3, arc: ArcKind },
     0 => Line { a: Vector3, b: Vector3 },
     1 => Circle { origin: Vector3, normal: Vector3, x: Vector3, radius: Binary64, arc: ArcKind },
@@ -75,6 +79,7 @@ choice!(CurveGeometry {
     4 => Hyperbola { origin: Vector3, axis: Vector3, x: Vector3, major: Binary64, minor: Binary64, branch: HyperbolaBranch },
     5 => Trace { surfaces: [SurfaceId; 2], tube: Tube },
     6 => SphereCircle { origin: Vector3, normal: Vector3, x: Vector3, sphere_radius: Binary64, height: Binary64 },
+    10 => BSpline { degree: u32, knots: Vec<Binary64>, controls: Vec<Vector3>, weights: Vec<Binary64>, periodic: bool },
 });
 record!(Support {
     surface: SurfaceId,
@@ -82,11 +87,14 @@ record!(Support {
 });
 record!(Curve { frame: FrameId, provenance: Provenance, geometry: CurveGeometry, domain: Domain, supports: Vec<Support> });
 choice!(SurfaceGeometry {
+    6 => ConeMeridian { origin: Vector3, axis: Vector3, x: Vector3, start: Vector2, end: Vector2 },
     0 => Plane { origin: Vector3, normal: Vector3, x: Vector3 },
     1 => Cylinder { origin: Vector3, axis: Vector3, x: Vector3, radius: Binary64 },
     2 => Cone { origin: Vector3, axis: Vector3, x: Vector3, radius: Binary64, angle: Binary64 },
     3 => Sphere { origin: Vector3, axis: Vector3, x: Vector3, radius: Binary64 },
     4 => Torus { origin: Vector3, axis: Vector3, x: Vector3, major: Binary64, minor: Binary64 },
+    5 => ConeSlope { origin: Vector3, axis: Vector3, x: Vector3, radius: Binary64, slope: Binary64 },
+    7 => LinearExtrusion { curve: CurveId, direction: Vector3 },
 });
 record!(Surface {
     frame: FrameId,
@@ -94,6 +102,7 @@ record!(Surface {
     geometry: SurfaceGeometry
 });
 choice!(PcurveGeometry {
+    7 => CylinderIntersection {},
     6 => Harmonic { offset: Vector2, linear: Vector2, cosine: Vector2, sine: Vector2 },
     5 => SphereLatitude { height: Binary64 },
     4 => CircularArc { center: Vector2, x: Vector2, radius: Binary64, clockwise: bool },
@@ -101,6 +110,7 @@ choice!(PcurveGeometry {
     0 => Line { a: Vector2, b: Vector2 },
     1 => RationalBezier { controls: Vec<Vector2>, weights: Vec<Binary64> },
     2 => Samples { parameters: Vec<Binary64>, points: Vec<Vector2>, error: Bound },
+    8 => BSpline { degree: u32, knots: Vec<Binary64>, controls: Vec<Vector2>, weights: Vec<Binary64> },
 });
 record!(Pcurve {
     curve: CurveId,

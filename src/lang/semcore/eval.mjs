@@ -12,7 +12,7 @@
 //   rethrown.
 // With `transactions: false` the evaluator reproduces the interpreter's
 // non-transactional store behavior.
-import { fail, unsupported, FeatureScriptError, UnsupportedFeatureError } from '../../errors.mjs';
+import { fail, failNamed, unsupported, FeatureScriptError, UnsupportedFeatureError } from '../../errors.mjs';
 import { binary, cast, checkType, equal, EnumValue, isMap, KeyedMap, map, matchesType, truth, Vector, Plane } from '../../values.mjs';
 import { lengthBoundRows } from '../../scalars.mjs';
 
@@ -280,7 +280,8 @@ export class CoreEvaluator {
       }
       case 'fail': return fail(a, loc);
       case 'unsupported': return unsupported(a, loc);
-      case 'precondition': if (a !== true) fail('Feature precondition failed', loc); return a;
+      case 'precondition': if (a !== true) failNamed('fs/precondition-failed', 'Feature precondition failed',
+          'Supply parameter values that satisfy the predicate at this location, including its type and bounds.', loc); return a;
       case 'check-type': return checkType(a, b, loc);
       case 'loop-control-outside-loop': return fail(`'${a}' outside a loop`, loc);
       case 'assign-global': return this.global(a, -1) && undefined;

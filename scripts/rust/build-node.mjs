@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// Cached build of the Rust kernel addon (rust/wonky-node, docs/rust-migration.md W0).
+// Cached build of the Rust kernel addon and required PNG renderer (rust/wonky-node, docs/rust-migration.md W0).
 //
 //   1. build key (src/native/rust-build-key.mjs): rust/ sources, Cargo.lock, the
 //      key scripts, rustc/cargo, profile, features -> sourceHash
@@ -16,10 +16,17 @@
 // No npm package or network: external Rust crates are vendored under rust/vendor.
 //
 //   node scripts/rust/build-node.mjs [--features plant-panic] [--cache DIR]
+//      [--shared-sources DIR]
+// With a compiler cache, --shared-sources uses an immutable content-addressed
+// Rust input snapshot at a common path across checkouts. Keep DIR outside rust/
+// and share it only between trusted builds. Target outputs remain per checkout.
+// Ancestor Cargo configs are refused in this opt-in mode; normal builds retain
+// their original config/flag behavior. Remove unused snapshots when not building.
 // Prints one JSON line: { sourceHash, cached, dir, features, buildMs }.
 import { spawnSync } from 'node:child_process';
 import { copyFileSync, existsSync, mkdirSync, readFileSync, readdirSync, renameSync, rmSync, statSync, writeFileSync } from 'node:fs';
 import { join, resolve, sep } from 'node:path';
+import { sharedSources } from './shared-sources.mjs';
 import { fileURLToPath } from 'node:url';
 import { performance } from 'node:perf_hooks';
 import { NODE_FILE, computeKey, pointerName, sha256 } from '../../src/native/rust-build-key.mjs';
@@ -30,10 +37,14 @@ const KEEP = 3;
 const KNOWN_FEATURES = new Set(['plant-panic', 'plant-count']);
 
 const args = process.argv.slice(2);
-let features = [], cacheRoot = process.env.WONKY_RUST_CACHE ?? join(root, 'tmp/rust/cache');
+let features = [], sharedSourceRoot, cacheRoot = process.env.WONKY_RUST_CACHE ?? join(root, 'tmp/rust/cache');
 for (let i = 0; i < args.length; i++) {
   if (args[i] === '--features') features = args[++i].split(',').filter(Boolean);
   else if (args[i] === '--cache') cacheRoot = args[++i];
+  else if (args[i] === '--shared-sources') {
+    sharedSourceRoot = args[++i];
+    if (!sharedSourceRoot) throw new Error('--shared-sources requires a directory');
+  }
   else throw new Error(`build-node.mjs: unknown argument ${args[i]}`);
 }
 for (const f of features) if (!KNOWN_FEATURES.has(f)) throw new Error(`build-node.mjs: unknown feature ${f}`);
@@ -42,6 +53,12 @@ features.sort();
 // elsewhere under rust/ would invalidate the key during its own build.
 const targetDir = resolve(root, 'rust', process.env.CARGO_TARGET_DIR ?? 'target');
 const rustDir = join(root, 'rust');
+if (sharedSourceRoot) {
+  sharedSourceRoot = resolve(sharedSourceRoot);
+  if (sharedSourceRoot === rustDir || sharedSourceRoot.startsWith(`${rustDir}${sep}`)) {
+    throw new Error('--shared-sources must point outside rust/');
+  }
+}
 if ((targetDir === rustDir || targetDir.startsWith(`${rustDir}${sep}`)) && targetDir !== join(rustDir, 'target')) {
   throw new Error(`CARGO_TARGET_DIR ${targetDir} must point outside rust/ or to rust/target`);
 }
@@ -53,6 +70,11 @@ if (check.status !== 0) {
   process.stderr.write(check.stderr);
   throw new Error(`the generated wire is stale (${check.stdout.trim()}); run node scripts/native-bridge/gen-wire-rust.mjs`);
 }
+const hostCheck = spawnSync(process.execPath, [join(root, 'scripts/native-bridge/gen-host-ops.mjs'), '--check'], { cwd: root, encoding: 'utf8' });
+if (hostCheck.error) throw hostCheck.error;
+if (hostCheck.stdout) process.stdout.write(hostCheck.stdout);
+if (hostCheck.stderr) process.stderr.write(hostCheck.stderr);
+if (hostCheck.status !== 0) throw new Error('HOST_OPERATIONS_STALE: run node scripts/native-bridge/gen-host-ops.mjs');
 const key = computeKey(root, { features });
 const dir = join(cacheRoot, key.sourceHash);
 const pointer = join(cacheRoot, pointerName(features));
@@ -65,9 +87,18 @@ try {
   validCache = manifest.sourceHash === key.sourceHash && manifest.node?.sha256 === sha256(bytes)
     && manifest.node?.bytes === bytes.length && bytes.includes(key.sourceHash, 0, 'latin1');
 } catch { /* Missing, malformed or corrupted entries are rebuilt below. */ }
+function buildRenderer() {
+  const start = performance.now();
+  const result = spawnSync(process.execPath, [join(root, 'scripts/rust/build-render.mjs')], { cwd: root, encoding: 'utf8', maxBuffer: 64 * 1024 * 1024 });
+  if (result.stderr) process.stderr.write(result.stderr);
+  if (result.error) throw result.error;
+  if (result.status !== 0) throw new Error(`native renderer build exited ${result.status}: ${result.stdout}`);
+  return { ...JSON.parse(result.stdout.trim().split('\n').at(-1)), addedBuildMs: Math.round(performance.now() - start) };
+}
 if (validCache) {
+  const renderer = buildRenderer();
   writeAtomic(pointer, JSON.stringify({ sourceHash: key.sourceHash, features }) + '\n');
-  console.log(JSON.stringify({ sourceHash: key.sourceHash, cached: true, dir, features, buildMs: Math.round(performance.now() - t0) }));
+  console.log(JSON.stringify({ sourceHash: key.sourceHash, cached: true, dir, features, renderer, buildMs: Math.round(performance.now() - t0) }));
   process.exit(0);
 }
 
@@ -84,6 +115,17 @@ const metadata = spawnSync('cargo', metadataArgs, { cwd: rustDir, encoding: 'utf
 if (metadata.error) throw metadata.error;
 if (metadata.status !== 0) throw new Error(`cargo ${metadataArgs.join(' ')} exited ${metadata.status}: ${metadata.stderr}`);
 const workspace = JSON.parse(metadata.stdout);
+// Opt-in compilation context: identical checkouts use identical source paths.
+// Do not reinterpret ancestor Cargo configuration in a different directory.
+if (sharedSourceRoot && key.cargoConfigs.length) throw new Error('SHARED_SOURCES_OUTER_CONFIG: use the normal build with ancestor Cargo configuration');
+const compileDir = sharedSourceRoot ? sharedSources(root, sharedSourceRoot, key) : rustDir;
+const compileEnv = { ...process.env, WONKY_SOURCE_HASH: key.sourceHash };
+if (sharedSourceRoot) {
+  // Preserve Cargo's resolved output directory, but pass it as an argument:
+  // sccache hashes CARGO_* environment values, including target locations.
+  delete compileEnv.CARGO_TARGET_DIR;
+  delete compileEnv.CARGO_BUILD_TARGET_DIR;
+}
 const members = workspace.packages.filter(pkg => workspace.workspace_members.includes(pkg.id)).map(pkg => pkg.name);
 if (!members.length || members.length !== workspace.workspace_members.length) throw new Error('could not resolve every Cargo workspace member');
 const cleanArgs = ['clean', '--release', '--offline', '--locked', ...members.flatMap(name => ['-p', name])];
@@ -93,8 +135,8 @@ if (clean.status !== 0) throw new Error(`cargo ${cleanArgs.join(' ')} exited ${c
 
 const cargoArgs = ['build', '--release', '--offline', '--locked', '--message-format=json', '-p', 'wonky-node', ...(features.length ? ['--features', features.join(',')] : [])];
 const t1 = performance.now();
-const cargo = spawnSync('cargo', cargoArgs, { cwd: join(root, 'rust'), encoding: 'utf8', maxBuffer: 64 * 1024 * 1024,
-  env: { ...process.env, WONKY_SOURCE_HASH: key.sourceHash } });
+const cargo = spawnSync('cargo', [...cargoArgs, ...(sharedSourceRoot ? ['--target-dir', workspace.target_directory] : [])], { cwd: compileDir, encoding: 'utf8', maxBuffer: 64 * 1024 * 1024,
+  env: compileEnv });
 if (cargo.stderr) process.stderr.write(cargo.stderr);
 // In JSON mode Cargo sends rustc diagnostics on stdout, not stderr. Keep
 // failure reasons readable for the operator and for panic=unwind regression.
@@ -143,4 +185,5 @@ const mine = readdirSync(cacheRoot).filter(name => /^[0-9a-f]{64}$/.test(name)).
 }).filter(e => e && JSON.stringify(e.m.features) === JSON.stringify(features)).sort((a, b) => b.t - a.t);
 for (const old of mine.slice(KEEP)) rmSync(join(cacheRoot, old.name), { recursive: true, force: true });
 
-console.log(JSON.stringify({ sourceHash: key.sourceHash, cached: false, dir, features, buildMs: Math.round(performance.now() - t0), cargoMs: Math.round(cargoMs), cargoArtifact: lib }));
+const renderer = buildRenderer();
+console.log(JSON.stringify({ sourceHash: key.sourceHash, renderer, cached: false, dir, features, buildMs: Math.round(performance.now() - t0), cargoMs: Math.round(cargoMs), cargoArtifact: lib }));

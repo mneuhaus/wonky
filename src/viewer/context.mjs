@@ -29,6 +29,7 @@ import { classifyEdges } from './edge-classes.mjs';
 import { aliasOf, cachedLogicalFaces, geometryEntities, logicalGroup } from './geometry.mjs';
 import { HttpError } from './http.mjs';
 import { measureEntities } from './measure.mjs';
+import { viewerRecord } from './model-record.mjs';
 
 export const INSPECT_SCRIPT = fileURLToPath(new URL('../../bin/wonky-inspect.mjs',
   import.meta.url));
@@ -108,6 +109,7 @@ export function readModelIds(value, { has, label = 'visible' } = {}) {
 // The body, entity and alias of a reference in its model (404 when the
 // reference does not exist in that frozen revision).
 export function locateReference(model, reference) {
+  model = viewerRecord(model);
   const bodyIndex = model.bodies.findIndex(body => body.id === reference.bodyId);
   const body = model.bodies[bodyIndex];
   if (!body) throw new HttpError(404, `Unknown body ${reference.bodyId}`);
@@ -146,6 +148,7 @@ export const bodySource = body => body.identity?.operation?.source ?? body.debug
 
 // Reference with alias, logical face, compact identity and source.
 export function referenceRecord(model, reference, { logical = cachedLogicalFaces(model) } = {}) {
+  model = viewerRecord(model);
   const { body, bodyIndex, key, alias } = locateReference(model, reference);
   const identity = reference.entityType === 'body'
     ? body.identity : body.identity?.topology?.[key]?.[reference.entityIndex];

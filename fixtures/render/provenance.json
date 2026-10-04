@@ -1,0 +1,10 @@
+{
+  "schema": "wonky-render-fixture/1",
+  "origin": "<repo>/tmp/servo-bracket/servo-slide.fs",
+  "revision": "Bones jawSlideMount v5 (2026-09-30), frozen 2026-10-02",
+  "files": {
+    "servo-slide-v5.fs": {
+      "sha256": "a0e72d0b1e4a6d334f6cef6e7a2fa93effaa87dd99131b5acf32cc64e369dd4f"
+    }
+  }
+}

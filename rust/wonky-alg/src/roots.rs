@@ -1,5 +1,6 @@
 use crate::{checked_rational, sign, AlgebraError, BigInt, Polynomial, Rational, Sign};
 use num_traits::{Signed, Zero};
+use std::cmp::Ordering;
 use std::sync::Arc;
 
 /// A closed rational interval, possibly a single point. Endpoints are canonical.
@@ -30,6 +31,25 @@ impl RationalInterval {
     }
     pub fn is_point(&self) -> bool {
         self.lower == self.upper
+    }
+
+    /// Exact interval product; known signs select extrema without comparing
+    /// large, closely spaced rational products.
+    pub fn product(&self, rhs: &Self) -> Self {
+        let (a,b,c,d)=(&self.lower,&self.upper,&rhs.lower,&rhs.upper);
+        let zero=Rational::zero();
+        let (lower,upper)=if a >= &zero {
+            if c >= &zero {(a*c,b*d)}
+            else if d <= &zero {(b*c,a*d)}
+            else {(b*c,b*d)}
+        } else if b <= &zero {
+            if c >= &zero {(a*d,b*c)}
+            else if d <= &zero {(b*d,a*c)}
+            else {(a*d,a*c)}
+        } else if c >= &zero {(a*d,b*d)}
+        else if d <= &zero {(b*c,a*c)}
+        else {((a*d).min(b*c),(a*c).max(b*d))};
+        Self {lower,upper}
     }
 
     fn midpoint(&self) -> Rational {
@@ -119,7 +139,7 @@ impl SturmSequence {
     }
 
     fn variations(&self, x: &Rational) -> usize {
-        variations(self.terms.iter().map(|p| sign(&p.eval(x))))
+        variations(self.terms.iter().map(|p| p.sign_at(x)))
     }
 
     /// Number of distinct real roots, not the sum of multiplicities.
@@ -145,7 +165,33 @@ impl SturmSequence {
         }
         self.variations(&interval.lower)
             - self.variations(&interval.upper)
-            - usize::from(self.polynomial().eval(&interval.upper).is_zero())
+            - usize::from(self.is_root(&interval.upper))
+    }
+
+    /// Distinct roots in the HALF-OPEN interval [lower, upper): a root at `lower`
+    /// counts, a root at `upper` does not, so the counts of [a, b) and [b, c) add up
+    /// to the count of [a, c) and a shared endpoint is owned by exactly one side.
+    /// A point interval [a, a) is empty.
+    pub fn count_half_open(&self, interval: &RationalInterval) -> usize {
+        if cfg!(feature = "plant_closed_count") {
+            // Planted negative (Cargo feature): the endpoint-root tests must fail.
+            return self.count_closed(interval);
+        }
+        if interval.is_point() {
+            0
+        } else {
+            self.count_open(interval) + usize::from(self.is_root(&interval.lower))
+        }
+    }
+
+    /// Distinct roots in the CLOSED interval [lower, upper]; [a, a] counts a root at a.
+    pub fn count_closed(&self, interval: &RationalInterval) -> usize {
+        self.variations(&interval.lower) - self.variations(&interval.upper)
+            + usize::from(self.is_root(&interval.lower))
+    }
+
+    fn is_root(&self, x: &Rational) -> bool {
+        self.polynomial().sign_at(x) == Sign::Zero
     }
 
     fn root_bound(&self) -> Rational {
@@ -194,10 +240,10 @@ impl AlgebraicReal {
     ) -> Result<Self, AlgebraError> {
         let sturm = Arc::new(SturmSequence::new(polynomial)?);
         let roots = if interval.is_point() {
-            usize::from(sturm.polynomial().eval(&interval.lower).is_zero())
+            usize::from(sturm.polynomial().sign_at(&interval.lower) == Sign::Zero)
         } else {
-            if sturm.polynomial().eval(&interval.lower).is_zero()
-                || sturm.polynomial().eval(&interval.upper).is_zero()
+            if sturm.polynomial().sign_at(&interval.lower) == Sign::Zero
+                || sturm.polynomial().sign_at(&interval.upper) == Sign::Zero
             {
                 return Err(AlgebraError::EndpointIsRoot);
             }
@@ -233,8 +279,10 @@ impl AlgebraicReal {
         }
         let mut interval = self.interval.clone();
         let mut budget = Budget::new(limits, "refine");
+        let mut lower = None;
         while interval.width() > max_width {
-            bisect(self.polynomial(), &mut interval, &mut budget)?;
+            let known = lower.get_or_insert_with(|| self.polynomial().sign_at(&interval.lower));
+            bisect_from(self.polynomial(), &mut interval, &mut budget, known)?;
         }
         self.interval = interval;
         Ok(())
@@ -249,8 +297,17 @@ impl AlgebraicReal {
             return Ok(Sign::Zero);
         }
         if self.interval.is_point() {
-            return Ok(sign(&q.eval(&self.interval.lower)));
+            return Ok(q.sign_at(&self.interval.lower));
         }
+        // Exact rational Horner enclosure is a sign filter, never a floating
+        // estimate. A range containing zero still reaches the gcd/Sturm proof.
+        let range=q.coefficients().iter().rev().fold(
+            RationalInterval {lower:Rational::zero(),upper:Rational::zero()},
+            |range,c| {let product=range.product(&self.interval);
+                RationalInterval {lower:product.lower+c,upper:product.upper+c}}
+        );
+        if range.lower>Rational::zero(){return Ok(Sign::Positive);}
+        if range.upper<Rational::zero(){return Ok(Sign::Negative);}
         let common = self.polynomial().gcd(&q);
         if common.degree().is_some_and(|d| d > 0)
             && SturmSequence::new(&common)?.count_open(&self.interval) == 1
@@ -261,18 +318,69 @@ impl AlgebraicReal {
         let mut interval = self.interval.clone();
         let mut budget = Budget::new(limits, "sign_at");
         loop {
-            let lower = q.eval(&interval.lower);
+            let lower = q.sign_at(&interval.lower);
             if interval.is_point() {
-                return Ok(sign(&lower));
+                return Ok(lower);
             }
-            if !lower.is_zero()
-                && !q.eval(&interval.upper).is_zero()
+            if lower != Sign::Zero
+                && q.sign_at(&interval.upper) != Sign::Zero
                 && q_sturm.count_open(&interval) == 0
             {
-                return Ok(sign(&lower));
+                return Ok(lower);
             }
             bisect(self.polynomial(), &mut interval, &mut budget)?;
         }
+    }
+
+    /// Exact order of two algebraic reals, with no separation-bound guess. A root lies
+    /// strictly inside a non-point certificate, so certificates whose interiors are
+    /// disjoint decide at once. Otherwise the two are equal iff the gcd of their
+    /// defining polynomials has a root in the intersection (each certificate isolates
+    /// one root of its own polynomial); if not, the wider certificate is bisected
+    /// until the two separate. Bisections are charged to `limits`
+    /// (`BudgetExceeded { operation: "cmp" }`); neither value is modified.
+    pub fn cmp(&self, other: &Self, limits: Limits) -> Result<Ordering, AlgebraError> {
+        let (mut a, mut b) = (self.interval.clone(), other.interval.clone());
+        if let Some(order) = certified_order(&a, &b) {
+            return Ok(order);
+        }
+        let common = self.polynomial().gcd(other.polynomial());
+        if common.degree().is_some_and(|d| d > 0) {
+            let overlap = RationalInterval {
+                lower: std::cmp::max(&a.lower, &b.lower).clone(),
+                upper: std::cmp::min(&a.upper, &b.upper).clone(),
+            };
+            if SturmSequence::new(&common)?.count_closed(&overlap) > 0 {
+                return Ok(Ordering::Equal);
+            }
+        }
+        let mut budget = Budget::new(limits, "cmp");
+        loop {
+            if b.is_point() || (!a.is_point() && a.width() >= b.width()) {
+                bisect(self.polynomial(), &mut a, &mut budget)?;
+            } else {
+                bisect(other.polynomial(), &mut b, &mut budget)?;
+            }
+            if let Some(order) = certified_order(&a, &b) {
+                return Ok(order);
+            }
+        }
+    }
+}
+
+/// Order of two roots from their certificates alone, if the certificates decide it.
+/// A non-point certificate never has its root on an endpoint, so touching at one
+/// endpoint already separates unless both are the same point.
+fn certified_order(a: &RationalInterval, b: &RationalInterval) -> Option<Ordering> {
+    if a.is_point() && b.is_point() {
+        return Some(a.lower.cmp(&b.lower));
+    }
+    if a.upper <= b.lower {
+        Some(Ordering::Less)
+    } else if b.upper <= a.lower {
+        Some(Ordering::Greater)
+    } else {
+        None
     }
 }
 
@@ -290,7 +398,7 @@ fn multiplicity_in(factors: &[(SturmSequence, usize)], interval: &RationalInterv
         .iter()
         .find(|(sturm, _)| {
             if interval.is_point() {
-                sturm.polynomial().eval(&interval.lower).is_zero()
+                sturm.polynomial().sign_at(&interval.lower) == Sign::Zero
             } else {
                 sturm.count_open(interval) == 1
             }
@@ -348,7 +456,7 @@ pub fn isolate_real_roots(
             budget.step()?;
             let trial =
                 &interval.lower + interval.width() / Rational::from_integer(denominator.clone());
-            if !sturm.polynomial().eval(&trial).is_zero() {
+            if sturm.polynomial().sign_at(&trial) != Sign::Zero {
                 break trial;
             }
             denominator += 1;
@@ -374,13 +482,26 @@ fn bisect(
     interval: &mut RationalInterval,
     budget: &mut Budget,
 ) -> Result<(), AlgebraError> {
+    let mut lower = p.sign_at(&interval.lower);
+    bisect_from(p, interval, budget, &mut lower)
+}
+
+/// One bisection step given the sign of `p` at the lower end, which it keeps
+/// current (a refinement loop then evaluates only the midpoints).
+fn bisect_from(
+    p: &Polynomial,
+    interval: &mut RationalInterval,
+    budget: &mut Budget,
+    lower: &mut Sign,
+) -> Result<(), AlgebraError> {
     budget.step()?;
     let midpoint = interval.midpoint();
-    let at_midpoint = sign(&p.eval(&midpoint));
+    let at_midpoint = p.sign_at(&midpoint);
     if at_midpoint == Sign::Zero {
         interval.lower = midpoint.clone();
         interval.upper = midpoint;
-    } else if at_midpoint == sign(&p.eval(&interval.lower)) {
+        *lower = Sign::Zero;
+    } else if at_midpoint == *lower {
         interval.lower = midpoint;
     } else {
         interval.upper = midpoint;

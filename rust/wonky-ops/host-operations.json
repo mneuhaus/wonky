@@ -1,0 +1,310 @@
+{
+  "rule": "New host operations take max(number) + 1 at merge time. Recheck after merging current main; never reuse a gap or renumber an existing operation. Edit only this registry, then run node scripts/native-bridge/gen-host-ops.mjs.",
+  "protocol": {
+    "magic": 826821463,
+    "version": 1
+  },
+  "operations": [
+    {
+      "name": "REGION",
+      "number": 1
+    },
+    {
+      "name": "PRISM",
+      "number": 2
+    },
+    {
+      "name": "LOFT",
+      "number": 6
+    },
+    {
+      "name": "MEASURE",
+      "number": 3
+    },
+    {
+      "name": "STEP",
+      "number": 4
+    },
+    {
+      "name": "STL",
+      "number": 5
+    },
+    {
+      "name": "PATTERN",
+      "number": 8
+    },
+    {
+      "name": "CUBOID",
+      "number": 10
+    },
+    {
+      "name": "PLACEMENT",
+      "number": 11
+    },
+    {
+      "name": "BOOLEAN",
+      "number": 12
+    },
+    {
+      "name": "DISTANCE",
+      "number": 13
+    },
+    {
+      "name": "EXTENTS",
+      "number": 14
+    },
+    {
+      "name": "CYLINDER",
+      "number": 15
+    },
+    {
+      "name": "QUERY",
+      "number": 16
+    },
+    {
+      "name": "SHELL",
+      "number": 17
+    },
+    {
+      "name": "CLOSEST_BOX_FACES",
+      "number": 18
+    },
+    {
+      "name": "SPHERE",
+      "number": 30
+    },
+    {
+      "name": "CLOSEST_EDGES",
+      "number": 32
+    },
+    {
+      "name": "FILLET",
+      "number": 31
+    },
+    {
+      "name": "CHAMFER",
+      "number": 33
+    },
+    {
+      "name": "REGION_PICK",
+      "number": 34,
+      "documentation": [
+        "mode (0 contains, 1 closest), frame origin x z, point, tie, segments,",
+        "candidate count and region indices -> the indices of the selected regions",
+        "among the candidates (region_query.rs)."
+      ]
+    },
+    {
+      "name": "SKETCH_REGION",
+      "number": 38,
+      "documentation": [
+        "lines, arcs, circle count and circles (x y r) -> the arrangement regions of",
+        "the closed chains and circles (sketch_regions.rs)."
+      ]
+    },
+    {
+      "name": "SKETCH_EXTRUDE",
+      "number": 39,
+      "documentation": [
+        "key, frame, depth, reverse, lines, arcs, circles, region index -> the prism",
+        "of one arrangement region."
+      ]
+    },
+    {
+      "name": "MESH",
+      "number": 36,
+      "documentation": [
+        "deviation (f64), body count and WC0 words per body -> JSON `wonky-mesh/1`:",
+        "the tessellation the STL is written from, before f32 quantisation, with the",
+        "WC0 face id of every triangle and the sampled polyline of every WC0 edge",
+        "(mesh.rs). An unattributable producer reports `faces: []`."
+      ]
+    },
+    {
+      "name": "CARRIERS",
+      "number": 37,
+      "documentation": [
+        "World-space analytic surface and curve carriers of every WC0 face and edge",
+        "(millimetres, one rounding after the exact frame composition; see carriers.rs)."
+      ]
+    },
+    {
+      "name": "SKETCH_PICK",
+      "number": 40,
+      "documentation": [
+        "mode (0 contains, 1 closest), frame origin x z, point, tie, lines, arcs,",
+        "circles, candidate count and region indices -> the indices of the selected",
+        "arrangement regions among the candidates (sketch_pick.rs)."
+      ]
+    },
+    {
+      "name": "CIRCLE_REGION",
+      "number": 20
+    },
+    {
+      "name": "PROFILE_REGION",
+      "number": 24
+    },
+    {
+      "name": "PROFILE_EXTRUDE",
+      "number": 25
+    },
+    {
+      "name": "ARC_REGION",
+      "number": 26
+    },
+    {
+      "name": "ARC_EXTRUDE",
+      "number": 27
+    },
+    {
+      "name": "CURVE_EXTRUDE",
+      "number": 35,
+      "documentation": [
+        "key[4] rev, frame origin x z, depth, reverse, n, n binary64 sketch rule 3",
+        "parameters (`wonky_contract::sketch3`: region 0 and one closed chain with a",
+        "spline) -> WC0 v3 words of the curve-profile prism (`curve_profile`).",
+        "Strand S9; FeatureScript reaches it through `skBezier` (strand S10) and",
+        "`opExtrude` of the sketch."
+      ]
+    },
+    {
+      "name": "CURVE_REGION",
+      "number": 41,
+      "documentation": [
+        "n, n binary64 sketch rule 3 parameters (region 0) -> `{\"loops\":[{}],",
+        "\"openWires\":0}` when the entities form one simple closed chain with a spline",
+        "(`curve_profile::profile`, the admission `OP_CURVE_EXTRUDE` runs), or that",
+        "admission's refusal. Strand S10: `skSolve` of a sketch that holds a `skBezier`."
+      ]
+    },
+    {
+      "name": "CIRCLE_REVOLVE",
+      "number": 21
+    },
+    {
+      "name": "FRAME_CIRCLE_REVOLVE",
+      "number": 22
+    },
+    {
+      "name": "FRAME_POLYGON_REVOLVE",
+      "number": 23
+    },
+    {
+      "name": "SKETCH_POLYGON_REVOLVE",
+      "number": 28
+    },
+    {
+      "name": "CERTIFIED_BOUNDS",
+      "number": 42,
+      "documentation": [
+        "Audited outward-rounded world enclosure for interference enumeration."
+      ]
+    },
+    {
+      "name": "PAIR_PROOF",
+      "number": 43,
+      "documentation": [
+        "Sufficient no-volume/contact or positive-clearance proof; null is inconclusive."
+      ]
+    },
+    {
+      "name": "PAIR_PREPARE",
+      "number": 44,
+      "documentation": [
+        "Assembly setup: audit and memoize an immutable source predicate once."
+      ]
+    },
+    {
+      "name": "RATIONAL_PLACEMENT",
+      "number": 45
+    },
+    {
+      "name": "RIGID_PLACEMENT",
+      "number": 46
+    }
+  ],
+  "hostOperations": {
+    "opDraft": "draft",
+    "newSketchOnPlane": "sketch",
+    "skRectangle": "sketch",
+    "skPolyline": "sketch",
+    "skLineSegment": "sketch",
+    "skArc": "sketch",
+    "skCircle": "sketch",
+    "skBezier": "sketch",
+    "skFitSpline": "sketch",
+    "skSolve": "sketch",
+    "qSketchRegion": "sketch",
+    "evOwnerSketchPlane": "sketch",
+    "opExtrude": "extrude",
+    "opLoft": "loft",
+    "opRevolve": "revolve",
+    "opBoolean": "boolean",
+    "fCuboid": "extrude",
+    "fCylinder": "extrude",
+    "fSphere": "sphere",
+    "opSphere": "sphere",
+    "opFillet": "fillet",
+    "opChamfer": "chamfer",
+    "opShell": "shell",
+    "opPattern": "transform",
+    "opDeleteBodies": "transform",
+    "opTransform": "transform",
+    "instantiate": "transform",
+    "evVolume": "volume",
+    "evDistance": "query",
+    "evCollision": "query",
+    "evBox3d": "query",
+    "evCurveDefinition": "query",
+    "evEdgeTangentLine": "query",
+    "evLine": "query",
+    "evaluateQuery": "query",
+    "makeRobustQuery": "query",
+    "qAdjacent": "query",
+    "qContainsPoint": "query",
+    "qCoincidesWithPlane": "query",
+    "qClosestTo": "query",
+    "qParallelEdges": "query"
+  },
+  "unimplementedBuiltins": {
+    "opDraft": { "min": 3, "max": 3 }
+  },
+  "rustPorted": [
+    "newSketchOnPlane",
+    "skArc",
+    "skBezier",
+    "skFitSpline",
+    "skLineSegment",
+    "skPolyline",
+    "skRectangle",
+    "skSolve",
+    "qSketchRegion",
+    "opExtrude",
+    "opLoft",
+    "fCuboid",
+    "fCylinder",
+    "fSphere",
+    "opSphere",
+    "opTransform",
+    "opBoolean",
+    "evaluateQuery",
+    "evVolume",
+    "evBox3d",
+    "evDistance",
+    "evCollision",
+    "skCircle",
+    "opRevolve",
+    "opDeleteBodies",
+    "opPattern",
+    "instantiate",
+    "qClosestTo",
+    "qContainsPoint",
+    "opFillet",
+    "opChamfer",
+    "opShell",
+    "qAdjacent",
+    "qCoincidesWithPlane",
+    "qParallelEdges"
+  ]
+}

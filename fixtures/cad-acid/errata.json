@@ -1,62 +1,51 @@
 {
   "schema": "wonky/cad-acid-errata/1",
-  "version": "AC1-errata-2026-09-27-2",
-  "zonesSha256": "620a125d939d24956a122b23234cd34b754597cd6256dca6ba58630f5a6d8c51",
+  "version": "AC1-errata-2026-10-05-N24-followup",
+  "zonesSha256": "a07ea7b779c20a66bbbcfca268ae862c085aaa99ae92a67871620e08203780d1",
   "policy": "Every listed zone is DISPUTED for every kernel (zero points, neither PASS nor WRONG), including unexecuted cells. The denominator and frozen v1 bands remain unchanged. Remove only with a v2 catalog or corrected, re-frozen twins and independent verification.",
   "entries": [
     {
-      "id": "CE8",
-      "zones": ["AC31"],
-      "kernels": ["*"],
-      "reason": "The v1 refusal-only contract is incorrect. FeatureScript opFillet defaults to allowEdgeOverflow=true, making the fillet feasible. An exact-class refusal must name unsupported edge overflow or the actual capability gap, never assert geometric infeasibility.",
-      "evidence": [
-        "FeatureScript opFillet allowEdgeOverflow default: https://cad.onshape.com/FsDoc/library.html#opFillet-Context-Id-map",
-        "Exact overflow volume: 512 - 16*(8 + sqrt(12) - 8*pi/3) = 462.61566071096047 mm^3.",
-        "Frozen Onshape AC31 volume = 462.61566071096163 mm^3; independent OCCT BRepCheck reports valid and the shell is closed (independent twin audit, 2026-09-26).",
-        "Frozen input: fixtures/cad-acid/fs/acid-blend.fs, acidAC31; frozen output and checksums: fixtures/cad-acid/onshape/."
+      "id": "CE13",
+      "zones": [
+        "AC111"
       ],
-      "resolution": "v2 contract must describe the overflow geometry; re-freeze any changed twins."
+      "kernels": [
+        "*"
+      ],
+      "reason": "awaiting live Onshape re-capture of the corrected twin",
+      "evidence": [
+        "fixtures/cad-acid/fs/acid-boolean-z1.fs: acidAC111 (line 206) calls fSphere with a Vector center. Onshape std 3083 primitives.fs:61-70 (tmp/research/onshape-std-3083/repo) declares the fSphere precondition \"if (definition.center != undefined) definition.center is Query\" (a vertex query); the Vector form belongs to opSphere (geomOperations.fs:1390-1402, center {Vector}).",
+        "fixtures/cad-acid/onshape-ext/N24/: AC111 V0-V4 feature error REGEN_ERROR with 0 bodies in every variant (e.g. responses/0052.json: {\"bodies\":0,\"error\":\"REGEN_ERROR\"}). REGEN_ERROR is the std fallback for an exception whose message is not an ErrorStringEnum, such as a failed precondition (feature.fs:75-78, error.fs:170-193); Parasolid operation failures carry their own enum (AC115 BOOLEAN_NON_MANIFOLD_RESULT, AC48 REVOLVE_FAILED).",
+        "Independent OCCT twin fixtures/cad-acid/b3d/acid_boolean_z1.py builds AC111 V0-V4 (occt-ext/Z1 rows built). The contract (box [0,20]x[0,20]x[0,10] minus sphere r=4 at (10,2,10), V = 4000 - 36*pi, B1 S1 F7 E15 V10) is an elementary Boolean with no resolution limit involved."
+      ],
+      "resolution": "Corrected twin fixtures/cad-acid/fs/acid-boolean-z1-errata.fs (only change: opSphere with the same center and radius) is prepared; Claude captures AC111 V0-V4 through Marc\u2019s Onshape bridge per docs/cad-acid-errata-capture.md. No Onshape calls by this builder."
     },
     {
-      "id": "CE9",
-      "zones": ["AC36"],
-      "kernels": ["*"],
-      "reason": "The FS twin selects qCreatedBy(union, BODY), which is empty because the union keeps an input body. FILLET_SELECT_EDGES is a twin failure, not a Parasolid geometry verdict.",
-      "evidence": [
-        "fixtures/cad-acid/fs/acid-blend.fs: acidAC36 (lines 175-183), unlike the acidResult(inputs, created) pattern used by other twins.",
-        "fixtures/cad-acid/onshape/: frozen AC36 feature error FILLET_SELECT_EDGES; no result body."
+      "id": "CE14",
+      "zones": [
+        "AC129"
       ],
-      "resolution": "Correct body selection and re-freeze the FS twin before v2 scoring."
-    },
-    {
-      "id": "CE10",
-      "zones": ["AC38"],
-      "kernels": ["*"],
-      "reason": "The FS twin calls opDraft with DraftType.NEUTRAL_PLANE / neutralPlane. The documented signature requires DraftType.REFERENCE_SURFACE, referenceSurface and pullVec. The frozen REGEN_ERROR is a twin failure.",
-      "evidence": [
-        "fixtures/cad-acid/fs/acid-blend.fs: acidAC38 (lines 198-200); https://cad.onshape.com/FsDoc/library.html#opDraft-Context-Id-map",
-        "src/lang/dataflow/fs-trace.mjs accepts neutralPlane, diverging from real FS; this audit does not change that frontend behavior.",
-        "fixtures/cad-acid/onshape/: frozen AC38 feature error REGEN_ERROR."
+      "kernels": [
+        "*"
       ],
-      "resolution": "Correct the std call and re-freeze the twin; track the frontend signature divergence separately."
-    },
-    {
-      "id": "CE11",
-      "zones": ["AC25", "AC26", "AC48"],
-      "kernels": ["*"],
-      "reason": "The OCCT twins substitute Cone/Torus primitives for the specified revolve operation. Primitive agreement is not evidence that the revolve construction works. Suspend these zones uniformly, not only for OCCT.",
+      "reason": "awaiting live Onshape re-capture of the corrected twin",
       "evidence": [
-        "fixtures/cad-acid/b3d/acid_curved.py: ac25/ac26 use Cone/Torus; fixtures/cad-acid/b3d/acid_precision.py: AC48 uses Torus instead of revolve.",
-        "Independent twin audit (2026-09-26): genuine AC48 revolve produces a SurfaceOfRevolution with observed singularPoints=0, changing the frozen v1 OCCT verdict."
+        "fixtures/cad-acid/fs/acid-sweep-zw1.fs: zwLoft (lines 105-109) selects each connection vertex with qClosestTo(qCreatedBy(sketchId, EntityType.VERTEX), corner). A sketch creates region sheet-body vertices distinct from its wire vertices (std 3083 loft.fs:862-895 maps region edges to their qDependency wire edges), and qClosestTo resolves ties to every entity within TOLERANCE.zeroLength (query.fs:1976-1982), so each connection holds several coincident vertices per profile. opLoft requires connectionEntities with one vertex or edge per profile (geomOperations.fs:1099-1101).",
+        "fixtures/cad-acid/onshape-ext/N24/: AC129 V0-V5 feature error REGEN_ERROR with 0 bodies in every variant, including V5 (skPolyline idiom), so the failure is independent of sketch idiom and frame. The frozen responses carry only the enum (featureStatus ERROR, notices []); the exact throw site is not recorded. REGEN_ERROR is the std fallback for an exception whose message is not an ErrorStringEnum (error.fs:170-193), unlike the specific LOFT_* enums of a loft operation failure.",
+        "Independent OCCT twin fixtures/cad-acid/b3d/acid_sweep_zw1.py builds AC129 V0-V5 (ruled loft, four corresponding strips; occt CORRECT on main e924b5a6). The contract embedding proof (section determinant g(t) > 0) excludes a genuine geometric failure."
       ],
-      "resolution": "Replace primitive shortcuts by actual revolve operations, re-freeze twins, and settle representation-independent singular-point measurement in v2."
+      "resolution": "Corrected twin fixtures/cad-acid/fs/acid-sweep-zw1-errata.fs (only change: connection vertices taken from qAdjacent(qSketchRegion(sketch), VERTEX, VERTEX), one per corner per profile) is prepared; Claude captures AC129 V0-V5 per docs/cad-acid-errata-capture.md. If the corrected twin still fails, that capture is the Onshape outcome and this erratum resolves to it. No Onshape calls by this builder."
     }
   ],
   "annotations": [
     {
       "id": "CE12",
-      "zones": ["AC44"],
-      "kernels": ["occt"],
+      "zones": [
+        "AC44"
+      ],
+      "kernels": [
+        "occt"
+      ],
       "reason": "zones.json declares Boolean fuzzy value 0, but the frozen OCCT 7.8.1 twin does not call SetFuzzyValue and inherits Precision::Confusion() = 1e-7 mm.",
       "evidence": [
         "OCCT V7_8_1 src/BOPAlgo/BOPAlgo_Options.cxx:54,70: myFuzzyValue(Precision::Confusion()); https://raw.githubusercontent.com/Open-Cascade-SAS/OCCT/V7_8_1/src/BOPAlgo/BOPAlgo_Options.cxx",
@@ -65,6 +54,132 @@
       ],
       "scoreEffect": "Informational only. No DISPUTED overlay and no strict-v1 point change. Practical tolerance requires OCCT-FUZZY-CONTACT-1 and a verified geometric witness.",
       "resolution": "Correct the descriptive kernel-class statement in a future catalog version; do not modify frozen v1 inputs."
+    },
+    {
+      "id": "CE8",
+      "zones": [
+        "AC31"
+      ],
+      "kernels": [
+        "*"
+      ],
+      "reason": "The v1 refusal-only contract is incorrect. FeatureScript opFillet defaults to allowEdgeOverflow=true, making the fillet feasible. An exact-class refusal must name unsupported edge overflow or the actual capability gap, never assert geometric infeasibility.",
+      "evidence": [
+        "FeatureScript opFillet allowEdgeOverflow default: https://cad.onshape.com/FsDoc/library.html#opFillet-Context-Id-map",
+        "Exact overflow volume: 512 - 16*(8 + sqrt(12) - 8*pi/3) = 462.61566071096047 mm^3.",
+        "Frozen Onshape AC31 volume = 462.61566071096163 mm^3; independent OCCT BRepCheck reports valid and the shell is closed (independent twin audit, 2026-09-26).",
+        "Frozen input: fixtures/cad-acid/fs/acid-blend.fs, acidAC31; frozen output and checksums: fixtures/cad-acid/onshape/.",
+        "Independent SymPy Green-theorem volume and area agree symbolically; AC31 closed-form checker 23/23 checks, 2026-10-02. Existing standard tolerance bands unchanged.",
+        "Fresh local OCCT AC31 names unsupported opFillet edge overflow (NotImplementedError), not geometric infeasibility; frozen Onshape volume scores CORRECT in V0\u2013V3."
+      ],
+      "resolution": "CE8: overflow geometry and independent Green-theorem sympy route in scripts/acid/closed-forms-errata.py.",
+      "status": "resolved",
+      "scoreEffect": "Resolved: no DISPUTED overlay. Geometry and named capability refusals are scored against the amended catalog."
+    },
+    {
+      "id": "CE11",
+      "zones": [
+        "AC25",
+        "AC26",
+        "AC48"
+      ],
+      "kernels": [
+        "*"
+      ],
+      "reason": "The OCCT twins substitute Cone/Torus primitives for the specified revolve operation. Primitive agreement is not evidence that the revolve construction works. Suspend these zones uniformly, not only for OCCT.",
+      "evidence": [
+        "fixtures/cad-acid/b3d/acid_curved.py: ac25/ac26 use Cone/Torus; fixtures/cad-acid/b3d/acid_precision.py: AC48 uses Torus instead of revolve.",
+        "Independent twin audit (2026-09-26): genuine AC48 revolve produces a SurfaceOfRevolution with observed singularPoints=0, changing the frozen v1 OCCT verdict.",
+        "Fresh local profile-revolve capture: fixtures/cad-acid/occt-ext/catalog-errata/{provenance.json,observations.json,SHA256SUMS}, AC25/AC26/AC48 V0\u2013V3, twelve actual B-reps and STEP files.",
+        "test/cad-acid-catalog-errata.test.mjs: all twelve native and STEP representations have the required geometric singularities; positive-hole Torus and SurfaceOfRevolution counterexamples at 1 mm, 1e-6 mm, 1e-10 mm and 1e-12 mm remain genus 1 with no pinch. STEP observation explicitly names its existing 1e-7 mm transfer resolution; native observation uses exact dyadic circle/axis contact on the unplaced surface."
+      ],
+      "resolution": "CE11: actual profile revolves in *_errata.py; geometric axis contact observer in scripts/acid/measure.py; fresh local OCCT capture in occt-ext/catalog-errata.",
+      "status": "resolved",
+      "scoreEffect": "Resolved: no DISPUTED overlay. Geometry and named capability refusals are scored against the amended catalog."
+    },
+    {
+      "id": "CE10",
+      "zones": [
+        "AC38"
+      ],
+      "kernels": [
+        "*"
+      ],
+      "reason": "Corrected live Onshape reference-surface draft and the unchanged OCCT twin both satisfy the frozen AC38 contract.",
+      "evidence": [
+        "Corrected live Onshape capture: commit 9627e61ecc56b1a27c19a5771aaf89cbc2fa5fac, fixtures/cad-acid/onshape-ext/CE9-CE10/{provenance.json,SHA256SUMS,studios/}; AC38 V0-V3 volume 1984 mm^3, local wall 8x+z=128, top x=15, bottom x=16.",
+        "Independent reviewer at clean 7804d5eaa600ec91118fdeb81c1919cae7224a06 verified all 111 corrected Onshape manifest hashes and OCCT provenance/observations manifest, source and catalog bindings; AC38 V0-V3 native and stored STEP/second-import topology B1 S1 F6 E12 V8, six planes, valid closed positive solids, correct volume/area/probe within unchanged bands.",
+        "src/lang/dataflow/fs-trace.mjs rejects both obsolete aliases with draft/invalid-neutral-plane-alias and a REFERENCE_SURFACE / referenceSurface hint; test/cad-acid-draft-signature.test.mjs covers both aliases inside/outside try silent. Removing the guard in an isolated copy triggers four failures."
+      ],
+      "resolution": "CE10 resolved using the corrected Onshape re-freeze and independently verified unchanged OCCT twin. Existing freezes and AC38 closed forms/bands are unchanged.",
+      "followUp": {
+        "id": "CE10-FRONTEND-ALIAS",
+        "path": "src/lang/dataflow/fs-trace.mjs",
+        "reason": "Named frontend rejection implemented and independently reviewed at 7804d5eaa600ec91118fdeb81c1919cae7224a06.",
+        "status": "resolved"
+      },
+      "status": "resolved",
+      "scoreEffect": "No CE10 DISPUTED overlay. Every kernel is scored normally against unchanged AC38; a missing run remains NOT_RUN and an unsupported operation remains a named REFUSED."
+    },
+    {
+      "id": "CE9",
+      "zones": [
+        "AC36"
+      ],
+      "kernels": [
+        "*"
+      ],
+      "reason": "Corrected live Onshape union-survivor query and corrected independent OCCT periodic blend satisfy the unchanged AC36 contract.",
+      "evidence": [
+        "Corrected live Onshape capture: commit 9627e61ecc56b1a27c19a5771aaf89cbc2fa5fac, fixtures/cad-acid/onshape-ext/CE9-CE10/. Original and extension-A Onshape twins remain frozen and inactive for AC36/AC38.",
+        "Corrected OCCT twin fixtures/cad-acid/b3d/acid_blend_ce9.py uses a general analytic cylinder seam-direction mechanism, with unchanged radius/axes/spans/native fuse and fillet. Real completed mini capture from clean bb8213a793480f722ee2fa7dea82726b47269341; frozen in fixtures/cad-acid/occt-ext/CE9/{provenance.json,observations.json,SHA256SUMS,cells/}. Native/STEP/second-import AC36 V0-V3: B1 S1 F6 E5 V0, Cylinder2 Plane3 BSpline1, closed positive valid solids; volume strictly inside unchanged bounds.",
+        "Independent reviewer at clean 3e231e81d1164f56fe109896d355c1b1587b471b verified all 24 manifest hashes, per-zone catalog/source stamps, active corrected rows and inactive historical twins. Against corrected raw Onshape mass: maximum relative volume difference 1.0889180120282708e-6 and area difference 1.2801982558593045e-6, inside the unchanged 1e-4 agreement band.",
+        "test/cad-acid-ce9-occt.test.mjs passed 1/1 without skips during the real mini job: all four native and STEP blends satisfy strict topology and surface-class checks; primitive seam helper tested on each coordinate axis."
+      ],
+      "resolution": "CE9 resolved by corrected, re-frozen twins and independent verification at 3e231e81d1164f56fe109896d355c1b1587b471b. Existing OCCT/Onshape freezes and AC36 closed forms, strict bounds, topology and tolerances are unchanged.",
+      "status": "resolved",
+      "scoreEffect": "No CE9 DISPUTED overlay. Each kernel is scored normally against unchanged AC36; missing execution remains NOT_RUN, and crossed-cylinder exact-class capability gaps remain named REFUSED."
+    },
+    {
+      "id": "CE15",
+      "zones": [
+        "AC100",
+        "AC101",
+        "AC102"
+      ],
+      "kernels": [
+        "onshape"
+      ],
+      "status": "resolved",
+      "reason": "SurfaceOfExtrusion is a geometric support requirement for the Onshape reference, not a required STEP entity spelling. N24 uses non-rational degree-one tensor B-spline surfaces with translated directrix pole rows.",
+      "evidence": [
+        "Frozen input: fixtures/cad-acid/onshape-ext/N24/studios/acid-V{0,1,2,3,4,5}/model.step, bound by N24/SHA256SUMS; no live Onshape calls or changed freeze.",
+        "Local OCCT inspection: AC100 V0 volume 316.7999999999996 mm3; AC101 V0 4321.196931407067 mm3; AC102 V0 3071.01545342276 mm3. Each spline has degree one and two clamped poles in the extrusion direction; non-rational tensor basis. V0 translated-row component residuals 0 (AC100/101) or 8.881784197001252e-16 mm (AC102); V3 maximum component residual 1.0459189070388675e-11 mm.",
+        "scripts/acid/extrusion_support.py proves S(u,t)=C(u)+t D plus a bounded residual for EVERY isoparametric curve via exact-rational pole differences and the nonnegative B-spline partition of unity. L1 bound <= existing STEP transfer resolution 1e-7 mm; witness explicitly distinguishes exact transferred poles from bounded reference equivalence. This is not exact construction proof.",
+        "test/cad-acid-n24-followup.test.mjs exercises the frozen pole nets and planted 0.1 mm pole warps; unsupported/rational/nonlinear tensor representations fail closed."
+      ],
+      "resolution": "The offline Onshape observer canonicalizes only proved extrusion supports, retains rawTypes and per-face proof bounds, and repeats the proof on both STEP imports. The general mechanism is independent of zone IDs. Wonky and OCCT observation defaults retain literal writer surface requirements. No catalog, topology counts, closed forms, bands or protected score.mjs edits.",
+      "scoreEffect": "Onshape AC100/AC101/AC102 can pass unchanged geometry/topology checks using the proved support class; Wonky and OCCT rows remain unchanged."
+    },
+    {
+      "id": "CE16",
+      "zones": [
+        "AC106",
+        "AC108"
+      ],
+      "kernels": [
+        "onshape"
+      ],
+      "status": "diagnosed",
+      "reason": "N24 cross-bore STEP boundaries are tolerant approximations of the intended exact cylinder intersections, outside the existing standard acceptance bands. No twin or closed-form defect was found.",
+      "evidence": [
+        "Frozen FS acid-boolean-z3.fs: AC106 shaft endpoints (0,0,-20)..(0,0,20), R=5; bore (-10,0,0)..(10,0,0), r=2; AC108 bore offset y=2. OCCT twin acid_boolean_z3.py and independent chord/angle/elliptic routes in scripts/acid/z3_forms.py bind the same parameters and V4 radius bump.",
+        "Frozen V0 STEP cylinder supports R=5 and r=2 for both zones. AC106 volume 3018.557856127527 vs closed form 3018.495192585974; AC108 3029.886095828502 vs 3029.8619970103186 mm3. Tightening OCCT integration Eps from 1e-10 to 1e-12 gives AC106 3018.5578561275374 and AC108 3029.8860958286123; the discrepancy is not integration convergence.",
+        "1001 parameter samples per nonlinear B-spline edge: AC106 V0 radial support residual up to 0.0043500280211574704 mm; edge tolerance up to 0.004348653562054187 mm. AC108 V0 radial residual up to 0.0045332959507775605 mm; edge tolerance up to 0.004497774461892597 mm. Samples diagnose approximation, not an all-parameter upper bound.",
+        "AC108 V0 local STEP bbox x=[-5.001274610709457,5.002995017221825] vs exact [-5,5]; V4 x=[-5.02951867939283,5.028327887287974] vs exact [-5.025,5.025]. Existing bbox tolerance is 1e-4 mm; volume/area relative band 1e-6, measurement band 2e-5 mm. Observed errors exceed them."
+      ],
+      "resolution": "Retain closed forms, twins, frozen results and all existing tolerance rules/bands. An approximate result is TOLERANT only if a predeclared witnessed rule and every measurable acceptance check pass. Existing rules cover parallel capped-cylinder imprints, not transverse cross-bores; these rows remain WRONG. Capture brief: coordination should export higher-accuracy STEP from the identical N24 geometry/revision with explicit requested intersection accuracy and freeze raw STEP, native mass bounds and provenance before reevaluation. No call to Onshape was made.",
+      "scoreEffect": "No scoring override or DISPUTED overlay. Onshape AC106/AC108 remain WRONG, occt remains CORRECT, wonky-rust remains named REFUSED."
     }
   ]
 }

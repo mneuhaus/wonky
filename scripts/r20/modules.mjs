@@ -48,6 +48,7 @@ import { spawn, execFileSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import { readR20Export } from './mesh.mjs';
 import { compare } from './acceptance.mjs';
+import { normalizeModelingPolicy } from '../../src/modeling-policy.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
 const CLI = path.join(ROOT, 'bin/wonky.mjs');
@@ -335,11 +336,15 @@ function spawnCli(args, env, timeoutS) {
 
 const relative = p => (p.startsWith(ROOT + path.sep) ? path.relative(ROOT, p) : p);
 
+export const isNamedCapabilityRefusal = error =>
+  ['UnsupportedFeatureError', 'NativeCapabilityError', 'RustCapabilityError'].includes(error?.class);
+
 export async function runModule(m, fixture, opts) {
   const entry = fixture.provenance.modules[m], moduleDir = path.join(opts.out, m);
   const exportDir = path.join(moduleDir, 'r20'), guardLog = path.join(moduleDir, 'bend-guard.json'), buildFile = path.join(moduleDir, 'build.json');
   const args = [path.join(fixture.dir, entry.source), '--feature', entry.feature,
     ...(entry.liveParams.includes('withBlends') ? ['--param', `withBlends=${opts.blends ? 'true' : 'false'}`] : []),
+    ...(opts.modelingPolicy?.curvedContacts === 'tolerated-regularized' ? ['--curved-contacts','tolerated-regularized','--contact-cap-mm',String(opts.modelingPolicy.contactCapMm)] : []),
     '--format', 'r20-check', '--deviation-mm', String(opts.deviation), '--out', exportDir,
     ...(entry.importManifest ? ['--modules', path.join(fixture.dir, entry.importManifest)] : [])];
   const row = { module: m, feature: entry.feature, backend: opts.backend, command: `node --import ${relative(GUARD)} bin/wonky.mjs ${args.map(relative).join(' ')}`,
@@ -373,11 +378,13 @@ export async function runModule(m, fixture, opts) {
     const errorJson = path.join(exportDir, 'error.json');
     const error = fs.existsSync(errorJson) ? JSON.parse(fs.readFileSync(errorJson, 'utf8')) : { message: build.timedOut ? `timeout after ${opts.timeout} s` : `exit ${build.exitCode}${build.signal ? ` (${build.signal})` : ''}: ${build.stderrTail.join(' / ')}` };
     row.error = { class: error.class ?? null, file: error.file ? relative(error.file) : null, line: error.line ?? null, column: error.column ?? null,
-      operation: error.operation?.id ?? null, message: error.message };
-    // NativeCapabilityError is the Rust backend's named refusal of an unported kernel entry.
-    const named = error.class === 'UnsupportedFeatureError' || error.class === 'NativeCapabilityError';
+      operation: error.operation?.id ?? null, message: error.message,
+      ...(error.regularization ? {regularization:error.regularization} : {}) };
+    // Only typed capability refusals are named; runtime failures must stay FAIL.
+    const named = isNamedCapabilityRefusal(error);
     row.status = named && row.guard.ok ? 'REFUSED' : 'FAIL';
-    row.reason = !row.guard.ok ? `Bend was loaded: ${JSON.stringify(guard.markers ?? guard)}` : named ? `refused by name at ${path.basename(row.error.file ?? '?')}:${row.error.line}:${row.error.column}` : `stopped without a named capability error: ${row.error.class ?? 'no error.json'}`;
+    const location = row.error.line != null ? ` at ${path.basename(row.error.file ?? '?')}:${row.error.line}:${row.error.column}` : '';
+    row.reason = !row.guard.ok ? `${build.timedOut ? `build timed out after ${opts.timeout}s; ` : ''}${guard.error ? 'Bend-free guard evidence unavailable' : 'Bend was loaded'}: ${JSON.stringify(guard.markers ?? guard)}` : named ? `refused by name${location}: ${row.error.message}` : `stopped without a named capability error: ${row.error.class ?? 'no error.json'}`;
     return row;
   }
 
@@ -402,7 +409,7 @@ export async function runModule(m, fixture, opts) {
   const ok = !failed.length && !row.extraParts.length && read.ok && row.guard.ok;
   row.status = ok ? 'PASS' : 'FAIL';
   row.reason = ok ? 'built; every part passes every check' : [...failed, ...row.extraParts.map(k => `extra part ${k}`),
-    ...read.problems.map(p => `reader: ${p}`), ...(row.guard.ok ? [] : [`Bend was loaded: ${JSON.stringify(guard.markers ?? guard)}`])].join('; ');
+    ...read.problems.map(p => `reader: ${p}`), ...(row.guard.ok ? [] : [`${build.timedOut ? `build timed out after ${opts.timeout}s; ` : ''}${guard.error ? 'Bend-free guard evidence unavailable' : 'Bend was loaded'}: ${JSON.stringify(guard.markers ?? guard)}`])].join('; ');
   return row;
 }
 
@@ -485,6 +492,8 @@ function parseArgs(argv) {
     else if (arg === '--timeout') opts.timeout = Number(next());
     else if (arg === '--reuse-builds') opts.reuseBuilds = true;
     else if (arg === '--require-no-bend') opts.requireNoBend = true;
+    else if (arg === '--curved-contacts') opts.curvedContacts = next();
+    else if (arg === '--contact-cap-mm') opts.contactCapMm = Number(next());
     else if (arg === '--baseline') opts.baseline = path.resolve(next());
     else if (arg === '--write-baseline') opts.writeBaseline = path.resolve(next());
     else if (arg === '--help' || arg === '-h') { console.log(fs.readFileSync(fileURLToPath(import.meta.url), 'utf8').split('\nimport ')[0]); process.exit(0); }
@@ -492,6 +501,8 @@ function parseArgs(argv) {
   }
   if (!(opts.deviation > 0) || !(opts.samples >= 0) || !(opts.timeout > 0)) throw new Error('--deviation, --samples and --timeout expect positive numbers');
   if (opts.blends && !argv.includes('--out')) opts.out = path.join(ROOT, 'out/r20-modules-blends');
+  opts.modelingPolicy = normalizeModelingPolicy({curvedContacts:opts.curvedContacts ?? 'strict',
+    ...(opts.contactCapMm === undefined ? {} : {contactCapMm:opts.contactCapMm})});
   return opts;
 }
 
@@ -521,7 +532,7 @@ async function main() {
     process.stderr.write(`  ${m}: ${row.status}${row.reused ? ' (reused build)' : ''} ${row.seconds ?? '-'} s: ${row.reason}\n`);
     rows.push(row);
   }
-  const report = { schema: 'wonky/r20-modules-report/1', generatedAt: new Date().toISOString(), backend: opts.backend, blends: opts.blends, requireNoBend: opts.requireNoBend,
+  const report = { schema: 'wonky/r20-modules-report/1', generatedAt: new Date().toISOString(), backend: opts.backend, blends: opts.blends, requireNoBend: opts.requireNoBend, modelingPolicy:opts.modelingPolicy,
     code: opts.code, fixture: { dir: relative(opts.fixtures), provenanceSha256: sha256(fs.readFileSync(path.join(opts.fixtures, 'provenance.json'))), blendsProvenanceSha256: fixture.blendsProvenanceSha256 ?? null, problems: fixture.problems },
     deviationMm: opts.deviation, samples: opts.samples, selected, summary: summarize(rows), modules: rows };
   if (opts.baseline) {

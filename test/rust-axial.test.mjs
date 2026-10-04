@@ -28,8 +28,9 @@ test('cylinder transport and Boolean body lifecycle retain exact spherical STEP 
     ['band', cylinder + `fSphere(context,id+"s",{"center":vector(0,0,250)*millimeter,"radius":625*millimeter});
       opTransform(context,id+"p",{"bodies":qUnion([${query('s')},${query('c')}]),"transform":toWorld(coordSystem(vector(262144,-131072,65536)*millimeter,vector(0,0,1),vector(0,-1,0)))});
       opBoolean(context,id+"cut",{"targets":${query('s')},"tools":${query('c')},"keepTools":true,"operationType":BooleanOperationType.SUBTRACTION});
-      if(size(evaluateQuery(context,${query('cut')}))!=1)throw "lost axial result";
-      setProperty(context,{"entities":${query('cut')},"propertyType":PropertyType.NAME,"value":"spherical-band"});`, 2],
+      if(size(evaluateQuery(context,${query('s')}))!=1)throw "lost axial result";
+      if(size(evaluateQuery(context,${query('cut')}))!=0)throw "cut incorrectly created a body";
+      setProperty(context,{"entities":${query('s')},"propertyType":PropertyType.NAME,"value":"spherical-band"});`, 2],
   ]) {
     const model = await build(source(statements), { feature: 'f' });
     assert.equal(model.bodies.length, count);

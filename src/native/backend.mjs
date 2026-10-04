@@ -1,9 +1,9 @@
 // Kernel backend selection (docs/native-bridge.md section 5.2). The backend is
 // chosen explicitly by WONKY_BACKEND and never switched silently:
-//   unset | js  the Bend JS target (loadJsKernel(), today's path)
+//   js          historical Bend JS target (explicit opt-in only)
 //   native      the ARM64 addon; the Bend JS kernel is never loaded
 //   diff        both, every native call compared word for word with the JS target
-//   rust        the Rust kernel addon, wire v2 (binary64); nothing Bend is loaded
+//   unset | rust the Rust kernel addon, wire v2 (binary64); nothing Bend is loaded
 //   rust-diff   unavailable until B1 ports entries (implementation retained)
 //   rust-mixed  unavailable until B1 provides per-build provenance
 //               (the rust* backends: src/native/rust-kernel.mjs)
@@ -22,7 +22,7 @@ const strictRustKernels = new WeakSet();
 export const isStrictRustKernel = kernel => strictRustKernels.has(kernel);
 
 export function selectBackend(value = process.env.WONKY_BACKEND) {
-  if (value === undefined) return 'js';
+  if (value === undefined) return 'rust';
   if (!BACKENDS.includes(value)) throw new NativeKernelError('BX_BACKEND', `WONKY_BACKEND must be one of ${BACKENDS.join(', ')} (got '${value}')`);
   // B1: these modes cannot claim Rust execution until the first entries are ported.
   if (value === 'rust-diff' || value === 'rust-mixed') throw new NativeKernelError('BX_BACKEND', `WONKY_BACKEND=${value} is not available until package B1 ports the first entries`);

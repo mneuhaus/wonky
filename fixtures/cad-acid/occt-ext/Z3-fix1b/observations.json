@@ -1,0 +1,7026 @@
+{
+ "schema": "wonky/cad-acid-results/1",
+ "zonesSha256": "932fc072f17bbcc04ec7de70df0f48bec9a4c5ab8621243a024268c4f222109f",
+ "rows": [
+  {
+   "kernel": "occt",
+   "zone": "AC106",
+   "variant": "V0",
+   "group": "boolean-z3",
+   "code": {
+    "head": null,
+    "treeSha256": "53f5f6a9b468322000b47b39c1203b14b8c1683963bdf341fee628fb78d1b5fc"
+   },
+   "outcome": "built",
+   "versions": {
+    "build123d": "0.10.0",
+    "cadquery-ocp": "7.8.1.1.post1"
+   },
+   "nativeValidity": true,
+   "labels": [
+    "AC106_0_V0"
+   ],
+   "entrypoint": "build_zone",
+   "stamp": {
+    "zonesSha256": "932fc072f17bbcc04ec7de70df0f48bec9a4c5ab8621243a024268c4f222109f",
+    "sourceSha256": "9874de278d925a06abdc4ad959c4221c7cf091704f3ebf8957204374eac67b4a",
+    "variant": "V0",
+    "zone": "AC106"
+   },
+   "metrics": {
+    "volume": 3018.4951925840405,
+    "area": 1508.5236780903738,
+    "bodies": [
+     {
+      "volume": 3018.4951925840405,
+      "area": 1508.5236780903738,
+      "centroid": [
+       -1.478931207882748e-11,
+       4000,
+       3.796472252297562e-14
+      ],
+      "bbox": {
+       "min": [
+        -5.000000100065626,
+        3994.9999999,
+        -20.0000001
+       ],
+       "max": [
+        5.0000001,
+        4005.0000001,
+        20.0000001
+       ]
+      },
+      "topology": {
+       "bodies": 1,
+       "shells": 1,
+       "faces": 4,
+       "edges": 4,
+       "vertices": 0,
+       "loops": 8,
+       "ringEdges": 4,
+       "closedToroidalFaces": 0,
+       "singularPoints": 0,
+       "pinchPoints": 0,
+       "genus": 1
+      },
+      "rawTopology": {
+       "bodies": 1,
+       "shells": 1,
+       "faces": 4,
+       "edges": 9,
+       "vertices": 6,
+       "loops": 5
+      },
+      "valid": true
+     }
+    ],
+    "bbox": {
+     "min": [
+      -5.000000100065626,
+      3994.9999999,
+      -20.0000001
+     ],
+     "max": [
+      5.0000001,
+      4005.0000001,
+      20.0000001
+     ]
+    },
+    "localBbox": {
+     "min": [
+      -5.000000100065626,
+      -5.0000001,
+      -20.0000001
+     ],
+     "max": [
+      5.0000001,
+      5.0000001,
+      20.0000001
+     ]
+    },
+    "topology": {
+     "bodies": 1,
+     "shells": 1,
+     "faces": 4,
+     "edges": 4,
+     "vertices": 0,
+     "loops": 8,
+     "ringEdges": 4,
+     "closedToroidalFaces": 0,
+     "singularPoints": 0,
+     "pinchPoints": 0,
+     "genus": 1
+    },
+    "rawTopology": {
+     "bodies": 1,
+     "shells": 1,
+     "faces": 4,
+     "edges": 9,
+     "vertices": 6,
+     "loops": 5
+    },
+    "surfaceTypes": {
+     "Cylinder": 2,
+     "Plane": 2
+    },
+    "measurements": {},
+    "cellAttribution": true,
+    "validity": {
+     "brep": true,
+     "closed": true,
+     "positive": true
+    }
+   },
+   "stepImport": {
+    "volume": 3018.495192584023,
+    "area": 1508.5236780903988,
+    "bodies": [
+     {
+      "volume": 3018.495192584023,
+      "area": 1508.5236780903988,
+      "centroid": [
+       -1.4527758491961687e-11,
+       4000.0000000000014,
+       7.472421575950801e-14
+      ],
+      "bbox": {
+       "min": [
+        -5.0000001000656615,
+        3994.9999999,
+        -20.0000001
+       ],
+       "max": [
+        5.0000001,
+        4005.0000001,
+        20.0000001
+       ]
+      },
+      "topology": {
+       "bodies": 1,
+       "shells": 1,
+       "faces": 4,
+       "edges": 4,
+       "vertices": 0,
+       "loops": 8,
+       "ringEdges": 4,
+       "closedToroidalFaces": 0,
+       "singularPoints": 0,
+       "pinchPoints": 0,
+       "genus": 1
+      },
+      "rawTopology": {
+       "bodies": 1,
+       "shells": 1,
+       "faces": 4,
+       "edges": 9,
+       "vertices": 6,
+       "loops": 5
+      },
+      "valid": true
+     }
+    ],
+    "bbox": {
+     "min": [
+      -5.0000001000656615,
+      3994.9999999,
+      -20.0000001
+     ],
+     "max": [
+      5.0000001,
+      4005.0000001,
+      20.0000001
+     ]
+    },
+    "localBbox": {
+     "min": [
+      -5.0000001000656615,
+      -5.0000001,
+      -20.0000001
+     ],
+     "max": [
+      5.0000001,
+      5.0000001,
+      20.0000001
+     ]
+    },
+    "topology": {
+     "bodies": 1,
+     "shells": 1,
+     "faces": 4,
+     "edges": 4,
+     "vertices": 0,
+     "loops": 8,
+     "ringEdges": 4,
+     "closedToroidalFaces": 0,
+     "singularPoints": 0,
+     "pinchPoints": 0,
+     "genus": 1
+    },
+    "rawTopology": {
+     "bodies": 1,
+     "shells": 1,
+     "faces": 4,
+     "edges": 9,
+     "vertices": 6,
+     "loops": 5
+    },
+    "surfaceTypes": {
+     "Cylinder": 2,
+     "Plane": 2
+    },
+    "measurements": {},
+    "cellAttribution": true,
+    "validity": {
+     "brep": true,
+     "closed": true,
+     "positive": true
+    }
+   },
+   "stepRoundTrip": {
+    "ok": true,
+    "metrics": {
+     "volume": 3018.495192584023,
+     "area": 1508.5236780903988,
+     "bodies": [
+      {
+       "volume": 3018.495192584023,
+       "area": 1508.5236780903988,
+       "centroid": [
+        -1.4527758491961687e-11,
+        4000.0000000000014,
+        7.472421575950801e-14
+       ],
+       "bbox": {
+        "min": [
+         -5.0000001000656615,
+         3994.9999999,
+         -20.0000001
+        ],
+        "max": [
+         5.0000001,
+         4005.0000001,
+         20.0000001
+        ]
+       },
+       "topology": {
+        "bodies": 1,
+        "shells": 1,
+        "faces": 4,
+        "edges": 4,
+        "vertices": 0,
+        "loops": 8,
+        "ringEdges": 4,
+        "closedToroidalFaces": 0,
+        "singularPoints": 0,
+        "pinchPoints": 0,
+        "genus": 1
+       },
+       "rawTopology": {
+        "bodies": 1,
+        "shells": 1,
+        "faces": 4,
+        "edges": 9,
+        "vertices": 6,
+        "loops": 5
+       },
+       "valid": true
+      }
+     ],
+     "bbox": {
+      "min": [
+       -5.0000001000656615,
+       3994.9999999,
+       -20.0000001
+      ],
+      "max": [
+       5.0000001,
+       4005.0000001,
+       20.0000001
+      ]
+     },
+     "localBbox": {
+      "min": [
+       -5.0000001000656615,
+       -5.0000001,
+       -20.0000001
+      ],
+      "max": [
+       5.0000001,
+       5.0000001,
+       20.0000001
+      ]
+     },
+     "topology": {
+      "bodies": 1,
+      "shells": 1,
+      "faces": 4,
+      "edges": 4,
+      "vertices": 0,
+      "loops": 8,
+      "ringEdges": 4,
+      "closedToroidalFaces": 0,
+      "singularPoints": 0,
+      "pinchPoints": 0,
+      "genus": 1
+     },
+     "rawTopology": {
+      "bodies": 1,
+      "shells": 1,
+      "faces": 4,
+      "edges": 9,
+      "vertices": 6,
+      "loops": 5
+     },
+     "surfaceTypes": {
+      "Cylinder": 2,
+      "Plane": 2
+     },
+     "measurements": {},
+     "cellAttribution": true,
+     "validity": {
+      "brep": true,
+      "closed": true,
+      "positive": true
+     }
+    },
+    "secondImport": {
+     "ok": true,
+     "metrics": {
+      "volume": 3018.495192583988,
+      "area": 1508.523678090317,
+      "bodies": [
+       {
+        "volume": 3018.495192583988,
+        "area": 1508.523678090317,
+        "centroid": [
+         -1.458832126360565e-11,
+         4000.0000000000014,
+         7.562813772434164e-14
+        ],
+        "bbox": {
+         "min": [
+          -5.0000001000656615,
+          3994.9999999,
+          -20.0000001
+         ],
+         "max": [
+          5.0000001,
+          4005.0000001,
+          20.0000001
+         ]
+        },
+        "topology": {
+         "bodies": 1,
+         "shells": 1,
+         "faces": 4,
+         "edges": 4,
+         "vertices": 0,
+         "loops": 8,
+         "ringEdges": 4,
+         "closedToroidalFaces": 0,
+         "singularPoints": 0,
+         "pinchPoints": 0,
+         "genus": 1
+        },
+        "rawTopology": {
+         "bodies": 1,
+         "shells": 1,
+         "faces": 4,
+         "edges": 9,
+         "vertices": 6,
+         "loops": 5
+        },
+        "valid": true
+       }
+      ],
+      "bbox": {
+       "min": [
+        -5.0000001000656615,
+        3994.9999999,
+        -20.0000001
+       ],
+       "max": [
+        5.0000001,
+        4005.0000001,
+        20.0000001
+       ]
+      },
+      "localBbox": {
+       "min": [
+        -5.0000001000656615,
+        -5.0000001,
+        -20.0000001
+       ],
+       "max": [
+        5.0000001,
+        5.0000001,
+        20.0000001
+       ]
+      },
+      "topology": {
+       "bodies": 1,
+       "shells": 1,
+       "faces": 4,
+       "edges": 4,
+       "vertices": 0,
+       "loops": 8,
+       "ringEdges": 4,
+       "closedToroidalFaces": 0,
+       "singularPoints": 0,
+       "pinchPoints": 0,
+       "genus": 1
+      },
+      "rawTopology": {
+       "bodies": 1,
+       "shells": 1,
+       "faces": 4,
+       "edges": 9,
+       "vertices": 6,
+       "loops": 5
+      },
+      "surfaceTypes": {
+       "Cylinder": 2,
+       "Plane": 2
+      },
+      "measurements": {},
+      "cellAttribution": true,
+      "validity": {
+       "brep": true,
+       "closed": true,
+       "positive": true
+      }
+     },
+     "unhealedSliver": null
+    }
+   },
+   "seconds": 1.761879334,
+   "execution": {
+    "ok": true,
+    "status": 0,
+    "signal": null,
+    "stderrTail": [
+     ""
+    ]
+   },
+   "artifacts": "tmp/cat-z3-fix1/targeted-pcurves/occt/boolean-z3/V0/AC106",
+   "artifactHashes": {
+    "request.json": "cf69dd6533c26cefa39625afc75193e349d1693586c537415b957e9b22eee447",
+    "build.json": "b7afe7199770e754ea056db2f820b5aaf3600d5feb0ece9f1fa2fe65d81c18a6",
+    "model.step": "584a5838adee4b671ba7c7def908ed68965bfec3a370acc780af87004010855a"
+   }
+  },
+  {
+   "kernel": "occt",
+   "zone": "AC106",
+   "variant": "V1",
+   "group": "boolean-z3",
+   "code": {
+    "head": null,
+    "treeSha256": "53f5f6a9b468322000b47b39c1203b14b8c1683963bdf341fee628fb78d1b5fc"
+   },
+   "outcome": "built",
+   "versions": {
+    "build123d": "0.10.0",
+    "cadquery-ocp": "7.8.1.1.post1"
+   },
+   "nativeValidity": true,
+   "labels": [
+    "AC106_0_V1"
+   ],
+   "entrypoint": "build_zone",
+   "stamp": {
+    "zonesSha256": "932fc072f17bbcc04ec7de70df0f48bec9a4c5ab8621243a024268c4f222109f",
+    "sourceSha256": "9874de278d925a06abdc4ad959c4221c7cf091704f3ebf8957204374eac67b4a",
+    "variant": "V1",
+    "zone": "AC106"
+   },
+   "metrics": {
+    "volume": 3018.495192584221,
+    "area": 1508.523678090291,
+    "bodies": [
+     {
+      "volume": 3018.495192584221,
+      "area": 1508.523678090291,
+      "centroid": [
+       65536.24999999997,
+       -28768.499999999993,
+       16384.125
+      ],
+      "bbox": {
+       "min": [
+        65531.249999899934,
+        -28773.5000001,
+        16364.1249999
+       ],
+       "max": [
+        65541.2500001,
+        -28763.4999999,
+        16404.1250001
+       ]
+      },
+      "topology": {
+       "bodies": 1,
+       "shells": 1,
+       "faces": 4,
+       "edges": 4,
+       "vertices": 0,
+       "loops": 8,
+       "ringEdges": 4,
+       "closedToroidalFaces": 0,
+       "singularPoints": 0,
+       "pinchPoints": 0,
+       "genus": 1
+      },
+      "rawTopology": {
+       "bodies": 1,
+       "shells": 1,
+       "faces": 4,
+       "edges": 9,
+       "vertices": 6,
+       "loops": 5
+      },
+      "valid": true
+     }
+    ],
+    "bbox": {
+     "min": [
+      65531.249999899934,
+      -28773.5000001,
+      16364.1249999
+     ],
+     "max": [
+      65541.2500001,
+      -28763.4999999,
+      16404.1250001
+     ]
+    },
+    "localBbox": {
+     "min": [
+      -5.000000100067883,
+      -5.0000001,
+      -20.0000001
+     ],
+     "max": [
+      5.0000001,
+      5.0000001,
+      20.0000001
+     ]
+    },
+    "topology": {
+     "bodies": 1,
+     "shells": 1,
+     "faces": 4,
+     "edges": 4,
+     "vertices": 0,
+     "loops": 8,
+     "ringEdges": 4,
+     "closedToroidalFaces": 0,
+     "singularPoints": 0,
+     "pinchPoints": 0,
+     "genus": 1
+    },
+    "rawTopology": {
+     "bodies": 1,
+     "shells": 1,
+     "faces": 4,
+     "edges": 9,
+     "vertices": 6,
+     "loops": 5
+    },
+    "surfaceTypes": {
+     "Cylinder": 2,
+     "Plane": 2
+    },
+    "measurements": {},
+    "cellAttribution": true,
+    "validity": {
+     "brep": true,
+     "closed": true,
+     "positive": true
+    }
+   },
+   "stepImport": {
+    "volume": 3018.495192667187,
+    "area": 1508.5236779658771,
+    "bodies": [
+     {
+      "volume": 3018.495192667187,
+      "area": 1508.5236779658771,
+      "centroid": [
+       65536.24999999999,
+       -28768.499999999993,
+       16384.125
+      ],
+      "bbox": {
+       "min": [
+        65531.249999899526,
+        -28773.5000001,
+        16364.1249999
+       ],
+       "max": [
+        65541.2500001,
+        -28763.4999999,
+        16404.1250001
+       ]
+      },
+      "topology": {
+       "bodies": 1,
+       "shells": 1,
+       "faces": 4,
+       "edges": 4,
+       "vertices": 0,
+       "loops": 8,
+       "ringEdges": 4,
+       "closedToroidalFaces": 0,
+       "singularPoints": 0,
+       "pinchPoints": 0,
+       "genus": 1
+      },
+      "rawTopology": {
+       "bodies": 1,
+       "shells": 1,
+       "faces": 4,
+       "edges": 9,
+       "vertices": 6,
+       "loops": 5
+      },
+      "valid": true
+     }
+    ],
+    "bbox": {
+     "min": [
+      65531.249999899526,
+      -28773.5000001,
+      16364.1249999
+     ],
+     "max": [
+      65541.2500001,
+      -28763.4999999,
+      16404.1250001
+     ]
+    },
+    "localBbox": {
+     "min": [
+      -5.0000001004721595,
+      -5.0000001,
+      -20.0000001
+     ],
+     "max": [
+      5.0000001,
+      5.0000001,
+      20.0000001
+     ]
+    },
+    "topology": {
+     "bodies": 1,
+     "shells": 1,
+     "faces": 4,
+     "edges": 4,
+     "vertices": 0,
+     "loops": 8,
+     "ringEdges": 4,
+     "closedToroidalFaces": 0,
+     "singularPoints": 0,
+     "pinchPoints": 0,
+     "genus": 1
+    },
+    "rawTopology": {
+     "bodies": 1,
+     "shells": 1,
+     "faces": 4,
+     "edges": 9,
+     "vertices": 6,
+     "loops": 5
+    },
+    "surfaceTypes": {
+     "Cylinder": 2,
+     "Plane": 2
+    },
+    "measurements": {},
+    "cellAttribution": true,
+    "validity": {
+     "brep": true,
+     "closed": true,
+     "positive": true
+    }
+   },
+   "stepRoundTrip": {
+    "ok": true,
+    "metrics": {
+     "volume": 3018.495192667187,
+     "area": 1508.5236779658771,
+     "bodies": [
+      {
+       "volume": 3018.495192667187,
+       "area": 1508.5236779658771,
+       "centroid": [
+        65536.24999999999,
+        -28768.499999999993,
+        16384.125
+       ],
+       "bbox": {
+        "min": [
+         65531.249999899526,
+         -28773.5000001,
+         16364.1249999
+        ],
+        "max": [
+         65541.2500001,
+         -28763.4999999,
+         16404.1250001
+        ]
+       },
+       "topology": {
+        "bodies": 1,
+        "shells": 1,
+        "faces": 4,
+        "edges": 4,
+        "vertices": 0,
+        "loops": 8,
+        "ringEdges": 4,
+        "closedToroidalFaces": 0,
+        "singularPoints": 0,
+        "pinchPoints": 0,
+        "genus": 1
+       },
+       "rawTopology": {
+        "bodies": 1,
+        "shells": 1,
+        "faces": 4,
+        "edges": 9,
+        "vertices": 6,
+        "loops": 5
+       },
+       "valid": true
+      }
+     ],
+     "bbox": {
+      "min": [
+       65531.249999899526,
+       -28773.5000001,
+       16364.1249999
+      ],
+      "max": [
+       65541.2500001,
+       -28763.4999999,
+       16404.1250001
+      ]
+     },
+     "localBbox": {
+      "min": [
+       -5.0000001004721595,
+       -5.0000001,
+       -20.0000001
+      ],
+      "max": [
+       5.0000001,
+       5.0000001,
+       20.0000001
+      ]
+     },
+     "topology": {
+      "bodies": 1,
+      "shells": 1,
+      "faces": 4,
+      "edges": 4,
+      "vertices": 0,
+      "loops": 8,
+      "ringEdges": 4,
+      "closedToroidalFaces": 0,
+      "singularPoints": 0,
+      "pinchPoints": 0,
+      "genus": 1
+     },
+     "rawTopology": {
+      "bodies": 1,
+      "shells": 1,
+      "faces": 4,
+      "edges": 9,
+      "vertices": 6,
+      "loops": 5
+     },
+     "surfaceTypes": {
+      "Cylinder": 2,
+      "Plane": 2
+     },
+     "measurements": {},
+     "cellAttribution": true,
+     "validity": {
+      "brep": true,
+      "closed": true,
+      "positive": true
+     }
+    },
+    "secondImport": {
+     "ok": true,
+     "metrics": {
+      "volume": 3018.4951926669187,
+      "area": 1508.5236779657944,
+      "bodies": [
+       {
+        "volume": 3018.4951926669187,
+        "area": 1508.5236779657944,
+        "centroid": [
+         65536.24999999999,
+         -28768.500000000004,
+         16384.125
+        ],
+        "bbox": {
+         "min": [
+          65531.249999899526,
+          -28773.5000001,
+          16364.1249999
+         ],
+         "max": [
+          65541.2500001,
+          -28763.4999999,
+          16404.1250001
+         ]
+        },
+        "topology": {
+         "bodies": 1,
+         "shells": 1,
+         "faces": 4,
+         "edges": 4,
+         "vertices": 0,
+         "loops": 8,
+         "ringEdges": 4,
+         "closedToroidalFaces": 0,
+         "singularPoints": 0,
+         "pinchPoints": 0,
+         "genus": 1
+        },
+        "rawTopology": {
+         "bodies": 1,
+         "shells": 1,
+         "faces": 4,
+         "edges": 9,
+         "vertices": 6,
+         "loops": 5
+        },
+        "valid": true
+       }
+      ],
+      "bbox": {
+       "min": [
+        65531.249999899526,
+        -28773.5000001,
+        16364.1249999
+       ],
+       "max": [
+        65541.2500001,
+        -28763.4999999,
+        16404.1250001
+       ]
+      },
+      "localBbox": {
+       "min": [
+        -5.0000001004721595,
+        -5.0000001,
+        -20.0000001
+       ],
+       "max": [
+        5.0000001,
+        5.0000001,
+        20.0000001
+       ]
+      },
+      "topology": {
+       "bodies": 1,
+       "shells": 1,
+       "faces": 4,
+       "edges": 4,
+       "vertices": 0,
+       "loops": 8,
+       "ringEdges": 4,
+       "closedToroidalFaces": 0,
+       "singularPoints": 0,
+       "pinchPoints": 0,
+       "genus": 1
+      },
+      "rawTopology": {
+       "bodies": 1,
+       "shells": 1,
+       "faces": 4,
+       "edges": 9,
+       "vertices": 6,
+       "loops": 5
+      },
+      "surfaceTypes": {
+       "Cylinder": 2,
+       "Plane": 2
+      },
+      "measurements": {},
+      "cellAttribution": true,
+      "validity": {
+       "brep": true,
+       "closed": true,
+       "positive": true
+      }
+     },
+     "unhealedSliver": null
+    }
+   },
+   "seconds": 1.844557459,
+   "execution": {
+    "ok": true,
+    "status": 0,
+    "signal": null,
+    "stderrTail": [
+     ""
+    ]
+   },
+   "artifacts": "tmp/cat-z3-fix1/targeted-pcurves/occt/boolean-z3/V1/AC106",
+   "artifactHashes": {
+    "request.json": "21d12c10c32d34359178ee685309b76ceb74051a286827c0053351bbd55af1c2",
+    "build.json": "97ab215aa113af54433190cc996bd612748b0308c3cc9742e60c9b807d3b8120",
+    "model.step": "dad88de14522002fd0de0e7ec69d0f90a0f768ac5cb4d8b7d3a64baf6340c7c0"
+   }
+  },
+  {
+   "kernel": "occt",
+   "zone": "AC106",
+   "variant": "V2",
+   "group": "boolean-z3",
+   "code": {
+    "head": null,
+    "treeSha256": "53f5f6a9b468322000b47b39c1203b14b8c1683963bdf341fee628fb78d1b5fc"
+   },
+   "outcome": "built",
+   "versions": {
+    "build123d": "0.10.0",
+    "cadquery-ocp": "7.8.1.1.post1"
+   },
+   "nativeValidity": true,
+   "labels": [
+    "AC106_0_V2"
+   ],
+   "entrypoint": "build_zone",
+   "stamp": {
+    "zonesSha256": "932fc072f17bbcc04ec7de70df0f48bec9a4c5ab8621243a024268c4f222109f",
+    "sourceSha256": "9874de278d925a06abdc4ad959c4221c7cf091704f3ebf8957204374eac67b4a",
+    "variant": "V2",
+    "zone": "AC106"
+   },
+   "metrics": {
+    "volume": 3018.4951925840383,
+    "area": 1508.5236780903738,
+    "bodies": [
+     {
+      "volume": 3018.4951925840383,
+      "area": 1508.5236780903738,
+      "centroid": [
+       -3.409480661103542e-14,
+       4000,
+       -1.4784509993389317e-11
+      ],
+      "bbox": {
+       "min": [
+        -5.0000001,
+        3979.9999999,
+        -5.000000100065627
+       ],
+       "max": [
+        5.0000001,
+        4020.0000001,
+        5.0000001
+       ]
+      },
+      "topology": {
+       "bodies": 1,
+       "shells": 1,
+       "faces": 4,
+       "edges": 4,
+       "vertices": 0,
+       "loops": 8,
+       "ringEdges": 4,
+       "closedToroidalFaces": 0,
+       "singularPoints": 0,
+       "pinchPoints": 0,
+       "genus": 1
+      },
+      "rawTopology": {
+       "bodies": 1,
+       "shells": 1,
+       "faces": 4,
+       "edges": 9,
+       "vertices": 6,
+       "loops": 5
+      },
+      "valid": true
+     }
+    ],
+    "bbox": {
+     "min": [
+      -5.0000001,
+      3979.9999999,
+      -5.000000100065627
+     ],
+     "max": [
+      5.0000001,
+      4020.0000001,
+      5.0000001
+     ]
+    },
+    "localBbox": {
+     "min": [
+      -5.000000100065627,
+      -5.0000001,
+      -20.0000001
+     ],
+     "max": [
+      5.0000001,
+      5.0000001,
+      20.0000001
+     ]
+    },
+    "topology": {
+     "bodies": 1,
+     "shells": 1,
+     "faces": 4,
+     "edges": 4,
+     "vertices": 0,
+     "loops": 8,
+     "ringEdges": 4,
+     "closedToroidalFaces": 0,
+     "singularPoints": 0,
+     "pinchPoints": 0,
+     "genus": 1
+    },
+    "rawTopology": {
+     "bodies": 1,
+     "shells": 1,
+     "faces": 4,
+     "edges": 9,
+     "vertices": 6,
+     "loops": 5
+    },
+    "surfaceTypes": {
+     "Cylinder": 2,
+     "Plane": 2
+    },
+    "measurements": {},
+    "cellAttribution": true,
+    "validity": {
+     "brep": true,
+     "closed": true,
+     "positive": true
+    }
+   },
+   "stepImport": {
+    "volume": 3018.49519258403,
+    "area": 1508.5236780904033,
+    "bodies": [
+     {
+      "volume": 3018.49519258403,
+      "area": 1508.5236780904033,
+      "centroid": [
+       -1.4352491789322101e-12,
+       3999.9999999999995,
+       -1.4530564416394154e-11
+      ],
+      "bbox": {
+       "min": [
+        -5.0000001,
+        3979.9999999,
+        -5.000000100065887
+       ],
+       "max": [
+        5.0000001,
+        4020.0000001,
+        5.0000001
+       ]
+      },
+      "topology": {
+       "bodies": 1,
+       "shells": 1,
+       "faces": 4,
+       "edges": 4,
+       "vertices": 0,
+       "loops": 8,
+       "ringEdges": 4,
+       "closedToroidalFaces": 0,
+       "singularPoints": 0,
+       "pinchPoints": 0,
+       "genus": 1
+      },
+      "rawTopology": {
+       "bodies": 1,
+       "shells": 1,
+       "faces": 4,
+       "edges": 9,
+       "vertices": 6,
+       "loops": 5
+      },
+      "valid": true
+     }
+    ],
+    "bbox": {
+     "min": [
+      -5.0000001,
+      3979.9999999,
+      -5.000000100065887
+     ],
+     "max": [
+      5.0000001,
+      4020.0000001,
+      5.0000001
+     ]
+    },
+    "localBbox": {
+     "min": [
+      -5.000000100065887,
+      -5.0000001,
+      -20.0000001
+     ],
+     "max": [
+      5.0000001,
+      5.0000001,
+      20.0000001
+     ]
+    },
+    "topology": {
+     "bodies": 1,
+     "shells": 1,
+     "faces": 4,
+     "edges": 4,
+     "vertices": 0,
+     "loops": 8,
+     "ringEdges": 4,
+     "closedToroidalFaces": 0,
+     "singularPoints": 0,
+     "pinchPoints": 0,
+     "genus": 1
+    },
+    "rawTopology": {
+     "bodies": 1,
+     "shells": 1,
+     "faces": 4,
+     "edges": 9,
+     "vertices": 6,
+     "loops": 5
+    },
+    "surfaceTypes": {
+     "Cylinder": 2,
+     "Plane": 2
+    },
+    "measurements": {},
+    "cellAttribution": true,
+    "validity": {
+     "brep": true,
+     "closed": true,
+     "positive": true
+    }
+   },
+   "stepRoundTrip": {
+    "ok": true,
+    "metrics": {
+     "volume": 3018.49519258403,
+     "area": 1508.5236780904033,
+     "bodies": [
+      {
+       "volume": 3018.49519258403,
+       "area": 1508.5236780904033,
+       "centroid": [
+        -1.4352491789322101e-12,
+        3999.9999999999995,
+        -1.4530564416394154e-11
+       ],
+       "bbox": {
+        "min": [
+         -5.0000001,
+         3979.9999999,
+         -5.000000100065887
+        ],
+        "max": [
+         5.0000001,
+         4020.0000001,
+         5.0000001
+        ]
+       },
+       "topology": {
+        "bodies": 1,
+        "shells": 1,
+        "faces": 4,
+        "edges": 4,
+        "vertices": 0,
+        "loops": 8,
+        "ringEdges": 4,
+        "closedToroidalFaces": 0,
+        "singularPoints": 0,
+        "pinchPoints": 0,
+        "genus": 1
+       },
+       "rawTopology": {
+        "bodies": 1,
+        "shells": 1,
+        "faces": 4,
+        "edges": 9,
+        "vertices": 6,
+        "loops": 5
+       },
+       "valid": true
+      }
+     ],
+     "bbox": {
+      "min": [
+       -5.0000001,
+       3979.9999999,
+       -5.000000100065887
+      ],
+      "max": [
+       5.0000001,
+       4020.0000001,
+       5.0000001
+      ]
+     },
+     "localBbox": {
+      "min": [
+       -5.000000100065887,
+       -5.0000001,
+       -20.0000001
+      ],
+      "max": [
+       5.0000001,
+       5.0000001,
+       20.0000001
+      ]
+     },
+     "topology": {
+      "bodies": 1,
+      "shells": 1,
+      "faces": 4,
+      "edges": 4,
+      "vertices": 0,
+      "loops": 8,
+      "ringEdges": 4,
+      "closedToroidalFaces": 0,
+      "singularPoints": 0,
+      "pinchPoints": 0,
+      "genus": 1
+     },
+     "rawTopology": {
+      "bodies": 1,
+      "shells": 1,
+      "faces": 4,
+      "edges": 9,
+      "vertices": 6,
+      "loops": 5
+     },
+     "surfaceTypes": {
+      "Cylinder": 2,
+      "Plane": 2
+     },
+     "measurements": {},
+     "cellAttribution": true,
+     "validity": {
+      "brep": true,
+      "closed": true,
+      "positive": true
+     }
+    },
+    "secondImport": {
+     "ok": true,
+     "metrics": {
+      "volume": 3018.4951925839932,
+      "area": 1508.5236780903215,
+      "bodies": [
+       {
+        "volume": 3018.4951925839932,
+        "area": 1508.5236780903215,
+        "centroid": [
+         -1.420720516518301e-12,
+         4000,
+         -1.4595778619815496e-11
+        ],
+        "bbox": {
+         "min": [
+          -5.0000001,
+          3979.9999999,
+          -5.000000100065887
+         ],
+         "max": [
+          5.0000001,
+          4020.0000001,
+          5.0000001
+         ]
+        },
+        "topology": {
+         "bodies": 1,
+         "shells": 1,
+         "faces": 4,
+         "edges": 4,
+         "vertices": 0,
+         "loops": 8,
+         "ringEdges": 4,
+         "closedToroidalFaces": 0,
+         "singularPoints": 0,
+         "pinchPoints": 0,
+         "genus": 1
+        },
+        "rawTopology": {
+         "bodies": 1,
+         "shells": 1,
+         "faces": 4,
+         "edges": 9,
+         "vertices": 6,
+         "loops": 5
+        },
+        "valid": true
+       }
+      ],
+      "bbox": {
+       "min": [
+        -5.0000001,
+        3979.9999999,
+        -5.000000100065887
+       ],
+       "max": [
+        5.0000001,
+        4020.0000001,
+        5.0000001
+       ]
+      },
+      "localBbox": {
+       "min": [
+        -5.000000100065887,
+        -5.0000001,
+        -20.0000001
+       ],
+       "max": [
+        5.0000001,
+        5.0000001,
+        20.0000001
+       ]
+      },
+      "topology": {
+       "bodies": 1,
+       "shells": 1,
+       "faces": 4,
+       "edges": 4,
+       "vertices": 0,
+       "loops": 8,
+       "ringEdges": 4,
+       "closedToroidalFaces": 0,
+       "singularPoints": 0,
+       "pinchPoints": 0,
+       "genus": 1
+      },
+      "rawTopology": {
+       "bodies": 1,
+       "shells": 1,
+       "faces": 4,
+       "edges": 9,
+       "vertices": 6,
+       "loops": 5
+      },
+      "surfaceTypes": {
+       "Cylinder": 2,
+       "Plane": 2
+      },
+      "measurements": {},
+      "cellAttribution": true,
+      "validity": {
+       "brep": true,
+       "closed": true,
+       "positive": true
+      }
+     },
+     "unhealedSliver": null
+    }
+   },
+   "seconds": 1.717875458,
+   "execution": {
+    "ok": true,
+    "status": 0,
+    "signal": null,
+    "stderrTail": [
+     ""
+    ]
+   },
+   "artifacts": "tmp/cat-z3-fix1/targeted-pcurves/occt/boolean-z3/V2/AC106",
+   "artifactHashes": {
+    "request.json": "89b8f0d11e8dd5312afe99581aa0c161ad88af6a901e88fcff88a1e34127ec80",
+    "build.json": "1f0d52e8a7260e40517f34413eadd8f6f90007da8b332b766f7cec4833649c6d",
+    "model.step": "74f2d0824d813552a4826141f4215b7faed0f2ac238c7fddc9396db7a891b74b"
+   }
+  },
+  {
+   "kernel": "occt",
+   "zone": "AC106",
+   "variant": "V3",
+   "group": "boolean-z3",
+   "code": {
+    "head": null,
+    "treeSha256": "53f5f6a9b468322000b47b39c1203b14b8c1683963bdf341fee628fb78d1b5fc"
+   },
+   "outcome": "built",
+   "versions": {
+    "build123d": "0.10.0",
+    "cadquery-ocp": "7.8.1.1.post1"
+   },
+   "nativeValidity": true,
+   "labels": [
+    "AC106_0_V3"
+   ],
+   "entrypoint": "build_zone",
+   "stamp": {
+    "zonesSha256": "932fc072f17bbcc04ec7de70df0f48bec9a4c5ab8621243a024268c4f222109f",
+    "sourceSha256": "9874de278d925a06abdc4ad959c4221c7cf091704f3ebf8957204374eac67b4a",
+    "variant": "V3",
+    "zone": "AC106"
+   },
+   "metrics": {
+    "volume": 3018.4951924796887,
+    "area": 1508.5236780420619,
+    "bodies": [
+     {
+      "volume": 3018.4951924796887,
+      "area": 1508.5236780420619,
+      "centroid": [
+       -0.41691397723759643,
+       3999.873290249445,
+       0.22344449278334882
+      ],
+      "bbox": {
+       "min": [
+        -6.498175838168748,
+        3994.38398535246,
+        -20.039420479281397
+       ],
+       "max": [
+        5.66434788370038,
+        4005.3625951464255,
+        20.486309464847505
+       ]
+      },
+      "topology": {
+       "bodies": 1,
+       "shells": 1,
+       "faces": 4,
+       "edges": 4,
+       "vertices": 0,
+       "loops": 8,
+       "ringEdges": 4,
+       "closedToroidalFaces": 0,
+       "singularPoints": 0,
+       "pinchPoints": 0,
+       "genus": 1
+      },
+      "rawTopology": {
+       "bodies": 1,
+       "shells": 1,
+       "faces": 4,
+       "edges": 9,
+       "vertices": 6,
+       "loops": 5
+      },
+      "valid": true
+     }
+    ],
+    "bbox": {
+     "min": [
+      -6.498175838168748,
+      3994.38398535246,
+      -20.039420479281397
+     ],
+     "max": [
+      5.66434788370038,
+      4005.3625951464255,
+      20.486309464847505
+     ]
+    },
+    "localBbox": {
+     "min": [
+      -5.000000100065444,
+      -5.000000100000455,
+      -20.00000010000005
+     ],
+     "max": [
+      5.000000100000234,
+      5.0000000999995455,
+      20.00000009999998
+     ]
+    },
+    "topology": {
+     "bodies": 1,
+     "shells": 1,
+     "faces": 4,
+     "edges": 4,
+     "vertices": 0,
+     "loops": 8,
+     "ringEdges": 4,
+     "closedToroidalFaces": 0,
+     "singularPoints": 0,
+     "pinchPoints": 0,
+     "genus": 1
+    },
+    "rawTopology": {
+     "bodies": 1,
+     "shells": 1,
+     "faces": 4,
+     "edges": 9,
+     "vertices": 6,
+     "loops": 5
+    },
+    "surfaceTypes": {
+     "Cylinder": 2,
+     "Plane": 2
+    },
+    "measurements": {},
+    "cellAttribution": true,
+    "validity": {
+     "brep": true,
+     "closed": true,
+     "positive": true
+    }
+   },
+   "stepImport": {
+    "volume": 3018.495192478868,
+    "area": 1508.5236780415432,
+    "bodies": [
+     {
+      "volume": 3018.495192478868,
+      "area": 1508.5236780415432,
+      "centroid": [
+       -0.4169139772386379,
+       3999.8732902492243,
+       0.22344449278282716
+      ],
+      "bbox": {
+       "min": [
+        -6.498175838168865,
+        3994.383985352891,
+        -20.039420479272735
+       ],
+       "max": [
+        5.664347883700865,
+        4005.362595146109,
+        20.486309464847736
+       ]
+      },
+      "topology": {
+       "bodies": 1,
+       "shells": 1,
+       "faces": 4,
+       "edges": 4,
+       "vertices": 0,
+       "loops": 8,
+       "ringEdges": 4,
+       "closedToroidalFaces": 0,
+       "singularPoints": 0,
+       "pinchPoints": 0,
+       "genus": 1
+      },
+      "rawTopology": {
+       "bodies": 1,
+       "shells": 1,
+       "faces": 4,
+       "edges": 9,
+       "vertices": 6,
+       "loops": 5
+      },
+      "valid": true
+     }
+    ],
+    "bbox": {
+     "min": [
+      -6.498175838168865,
+      3994.383985352891,
+      -20.039420479272735
+     ],
+     "max": [
+      5.664347883700865,
+      4005.362595146109,
+      20.486309464847736
+     ]
+    },
+    "localBbox": {
+     "min": [
+      -5.00000010008191,
+      -5.000000100314231,
+      -20.000000099985762
+     ],
+     "max": [
+      5.000000100035414,
+      5.0000001004297365,
+      20.00000009999266
+     ]
+    },
+    "topology": {
+     "bodies": 1,
+     "shells": 1,
+     "faces": 4,
+     "edges": 4,
+     "vertices": 0,
+     "loops": 8,
+     "ringEdges": 4,
+     "closedToroidalFaces": 0,
+     "singularPoints": 0,
+     "pinchPoints": 0,
+     "genus": 1
+    },
+    "rawTopology": {
+     "bodies": 1,
+     "shells": 1,
+     "faces": 4,
+     "edges": 9,
+     "vertices": 6,
+     "loops": 5
+    },
+    "surfaceTypes": {
+     "Cylinder": 2,
+     "Plane": 2
+    },
+    "measurements": {},
+    "cellAttribution": true,
+    "validity": {
+     "brep": true,
+     "closed": true,
+     "positive": true
+    }
+   },
+   "stepRoundTrip": {
+    "ok": true,
+    "metrics": {
+     "volume": 3018.495192478868,
+     "area": 1508.5236780415432,
+     "bodies": [
+      {
+       "volume": 3018.495192478868,
+       "area": 1508.5236780415432,
+       "centroid": [
+        -0.4169139772386379,
+        3999.8732902492243,
+        0.22344449278282716
+       ],
+       "bbox": {
+        "min": [
+         -6.498175838168865,
+         3994.383985352891,
+         -20.039420479272735
+        ],
+        "max": [
+         5.664347883700865,
+         4005.362595146109,
+         20.486309464847736
+        ]
+       },
+       "topology": {
+        "bodies": 1,
+        "shells": 1,
+        "faces": 4,
+        "edges": 4,
+        "vertices": 0,
+        "loops": 8,
+        "ringEdges": 4,
+        "closedToroidalFaces": 0,
+        "singularPoints": 0,
+        "pinchPoints": 0,
+        "genus": 1
+       },
+       "rawTopology": {
+        "bodies": 1,
+        "shells": 1,
+        "faces": 4,
+        "edges": 9,
+        "vertices": 6,
+        "loops": 5
+       },
+       "valid": true
+      }
+     ],
+     "bbox": {
+      "min": [
+       -6.498175838168865,
+       3994.383985352891,
+       -20.039420479272735
+      ],
+      "max": [
+       5.664347883700865,
+       4005.362595146109,
+       20.486309464847736
+      ]
+     },
+     "localBbox": {
+      "min": [
+       -5.00000010008191,
+       -5.000000100314231,
+       -20.000000099985762
+      ],
+      "max": [
+       5.000000100035414,
+       5.0000001004297365,
+       20.00000009999266
+      ]
+     },
+     "topology": {
+      "bodies": 1,
+      "shells": 1,
+      "faces": 4,
+      "edges": 4,
+      "vertices": 0,
+      "loops": 8,
+      "ringEdges": 4,
+      "closedToroidalFaces": 0,
+      "singularPoints": 0,
+      "pinchPoints": 0,
+      "genus": 1
+     },
+     "rawTopology": {
+      "bodies": 1,
+      "shells": 1,
+      "faces": 4,
+      "edges": 9,
+      "vertices": 6,
+      "loops": 5
+     },
+     "surfaceTypes": {
+      "Cylinder": 2,
+      "Plane": 2
+     },
+     "measurements": {},
+     "cellAttribution": true,
+     "validity": {
+      "brep": true,
+      "closed": true,
+      "positive": true
+     }
+    },
+    "secondImport": {
+     "ok": true,
+     "metrics": {
+      "volume": 3018.4951924788297,
+      "area": 1508.5236780414607,
+      "bodies": [
+       {
+        "volume": 3018.4951924788297,
+        "area": 1508.5236780414607,
+        "centroid": [
+         -0.4169139772390038,
+         3999.873290249223,
+         0.22344449278285108
+        ],
+        "bbox": {
+         "min": [
+          -6.49817583816887,
+          3994.383985352891,
+          -20.039420479272625
+         ],
+         "max": [
+          5.66434788370087,
+          4005.362595146109,
+          20.486309464847626
+         ]
+        },
+        "topology": {
+         "bodies": 1,
+         "shells": 1,
+         "faces": 4,
+         "edges": 4,
+         "vertices": 0,
+         "loops": 8,
+         "ringEdges": 4,
+         "closedToroidalFaces": 0,
+         "singularPoints": 0,
+         "pinchPoints": 0,
+         "genus": 1
+        },
+        "rawTopology": {
+         "bodies": 1,
+         "shells": 1,
+         "faces": 4,
+         "edges": 9,
+         "vertices": 6,
+         "loops": 5
+        },
+        "valid": true
+       }
+      ],
+      "bbox": {
+       "min": [
+        -6.49817583816887,
+        3994.383985352891,
+        -20.039420479272625
+       ],
+       "max": [
+        5.66434788370087,
+        4005.362595146109,
+        20.486309464847626
+       ]
+      },
+      "localBbox": {
+       "min": [
+        -5.00000010008191,
+        -5.000000100314231,
+        -20.000000099985762
+       ],
+       "max": [
+        5.000000100035414,
+        5.0000001004297365,
+        20.00000009999266
+       ]
+      },
+      "topology": {
+       "bodies": 1,
+       "shells": 1,
+       "faces": 4,
+       "edges": 4,
+       "vertices": 0,
+       "loops": 8,
+       "ringEdges": 4,
+       "closedToroidalFaces": 0,
+       "singularPoints": 0,
+       "pinchPoints": 0,
+       "genus": 1
+      },
+      "rawTopology": {
+       "bodies": 1,
+       "shells": 1,
+       "faces": 4,
+       "edges": 9,
+       "vertices": 6,
+       "loops": 5
+      },
+      "surfaceTypes": {
+       "Cylinder": 2,
+       "Plane": 2
+      },
+      "measurements": {},
+      "cellAttribution": true,
+      "validity": {
+       "brep": true,
+       "closed": true,
+       "positive": true
+      }
+     },
+     "unhealedSliver": null
+    }
+   },
+   "seconds": 1.420380292,
+   "execution": {
+    "ok": true,
+    "status": 0,
+    "signal": null,
+    "stderrTail": [
+     ""
+    ]
+   },
+   "artifacts": "tmp/cat-z3-fix1/targeted-pcurves/occt/boolean-z3/V3/AC106",
+   "artifactHashes": {
+    "request.json": "944324eeb7856ba45411936224828498964523f26e7e6dfeaa72ef2c2b120efa",
+    "build.json": "a3bed49dfe516e3ff047201254841b228a38e8ebb2312203bfbeb701f88be8b1",
+    "model.step": "6f5d3b313922df2e9db8ac8f31f2f89c2ad513bc8a4bb6e10e9564f8ad556438"
+   }
+  },
+  {
+   "kernel": "occt",
+   "zone": "AC106",
+   "variant": "V4",
+   "group": "boolean-z3",
+   "code": {
+    "head": null,
+    "treeSha256": "53f5f6a9b468322000b47b39c1203b14b8c1683963bdf341fee628fb78d1b5fc"
+   },
+   "outcome": "built",
+   "versions": {
+    "build123d": "0.10.0",
+    "cadquery-ocp": "7.8.1.1.post1"
+   },
+   "nativeValidity": true,
+   "labels": [
+    "AC106_0_V4"
+   ],
+   "entrypoint": "build_zone",
+   "stamp": {
+    "zonesSha256": "932fc072f17bbcc04ec7de70df0f48bec9a4c5ab8621243a024268c4f222109f",
+    "sourceSha256": "9874de278d925a06abdc4ad959c4221c7cf091704f3ebf8957204374eac67b4a",
+    "variant": "V4",
+    "zone": "AC106"
+   },
+   "metrics": {
+    "volume": 3046.3025033019685,
+    "area": 1517.7611397612643,
+    "bodies": [
+     {
+      "volume": 3046.3025033019685,
+      "area": 1517.7611397612643,
+      "centroid": [
+       -7.93806878711654e-12,
+       4000.0000000000005,
+       -8.956707688620246e-16
+      ],
+      "bbox": {
+       "min": [
+        -5.025000100058247,
+        3994.9749999,
+        -20.0000001
+       ],
+       "max": [
+        5.025000100000001,
+        4005.0250001,
+        20.0000001
+       ]
+      },
+      "topology": {
+       "bodies": 1,
+       "shells": 1,
+       "faces": 4,
+       "edges": 4,
+       "vertices": 0,
+       "loops": 8,
+       "ringEdges": 4,
+       "closedToroidalFaces": 0,
+       "singularPoints": 0,
+       "pinchPoints": 0,
+       "genus": 1
+      },
+      "rawTopology": {
+       "bodies": 1,
+       "shells": 1,
+       "faces": 4,
+       "edges": 9,
+       "vertices": 6,
+       "loops": 5
+      },
+      "valid": true
+     }
+    ],
+    "bbox": {
+     "min": [
+      -5.025000100058247,
+      3994.9749999,
+      -20.0000001
+     ],
+     "max": [
+      5.025000100000001,
+      4005.0250001,
+      20.0000001
+     ]
+    },
+    "localBbox": {
+     "min": [
+      -5.025000100058247,
+      -5.025000100000001,
+      -20.0000001
+     ],
+     "max": [
+      5.025000100000001,
+      5.025000100000001,
+      20.0000001
+     ]
+    },
+    "topology": {
+     "bodies": 1,
+     "shells": 1,
+     "faces": 4,
+     "edges": 4,
+     "vertices": 0,
+     "loops": 8,
+     "ringEdges": 4,
+     "closedToroidalFaces": 0,
+     "singularPoints": 0,
+     "pinchPoints": 0,
+     "genus": 1
+    },
+    "rawTopology": {
+     "bodies": 1,
+     "shells": 1,
+     "faces": 4,
+     "edges": 9,
+     "vertices": 6,
+     "loops": 5
+    },
+    "surfaceTypes": {
+     "Cylinder": 2,
+     "Plane": 2
+    },
+    "measurements": {},
+    "cellAttribution": true,
+    "validity": {
+     "brep": true,
+     "closed": true,
+     "positive": true
+    }
+   },
+   "stepImport": {
+    "volume": 3046.3025033019153,
+    "area": 1517.7611397612864,
+    "bodies": [
+     {
+      "volume": 3046.3025033019153,
+      "area": 1517.7611397612864,
+      "centroid": [
+       -7.682877257221736e-12,
+       4000.000000000002,
+       4.239508305946991e-14
+      ],
+      "bbox": {
+       "min": [
+        -5.025000100057988,
+        3994.9749999,
+        -20.0000001
+       ],
+       "max": [
+        5.025000100000001,
+        4005.0250001,
+        20.0000001
+       ]
+      },
+      "topology": {
+       "bodies": 1,
+       "shells": 1,
+       "faces": 4,
+       "edges": 4,
+       "vertices": 0,
+       "loops": 8,
+       "ringEdges": 4,
+       "closedToroidalFaces": 0,
+       "singularPoints": 0,
+       "pinchPoints": 0,
+       "genus": 1
+      },
+      "rawTopology": {
+       "bodies": 1,
+       "shells": 1,
+       "faces": 4,
+       "edges": 9,
+       "vertices": 6,
+       "loops": 5
+      },
+      "valid": true
+     }
+    ],
+    "bbox": {
+     "min": [
+      -5.025000100057988,
+      3994.9749999,
+      -20.0000001
+     ],
+     "max": [
+      5.025000100000001,
+      4005.0250001,
+      20.0000001
+     ]
+    },
+    "localBbox": {
+     "min": [
+      -5.025000100057988,
+      -5.025000100000001,
+      -20.0000001
+     ],
+     "max": [
+      5.025000100000001,
+      5.025000100000001,
+      20.0000001
+     ]
+    },
+    "topology": {
+     "bodies": 1,
+     "shells": 1,
+     "faces": 4,
+     "edges": 4,
+     "vertices": 0,
+     "loops": 8,
+     "ringEdges": 4,
+     "closedToroidalFaces": 0,
+     "singularPoints": 0,
+     "pinchPoints": 0,
+     "genus": 1
+    },
+    "rawTopology": {
+     "bodies": 1,
+     "shells": 1,
+     "faces": 4,
+     "edges": 9,
+     "vertices": 6,
+     "loops": 5
+    },
+    "surfaceTypes": {
+     "Cylinder": 2,
+     "Plane": 2
+    },
+    "measurements": {},
+    "cellAttribution": true,
+    "validity": {
+     "brep": true,
+     "closed": true,
+     "positive": true
+    }
+   },
+   "stepRoundTrip": {
+    "ok": true,
+    "metrics": {
+     "volume": 3046.3025033019153,
+     "area": 1517.7611397612864,
+     "bodies": [
+      {
+       "volume": 3046.3025033019153,
+       "area": 1517.7611397612864,
+       "centroid": [
+        -7.682877257221736e-12,
+        4000.000000000002,
+        4.239508305946991e-14
+       ],
+       "bbox": {
+        "min": [
+         -5.025000100057988,
+         3994.9749999,
+         -20.0000001
+        ],
+        "max": [
+         5.025000100000001,
+         4005.0250001,
+         20.0000001
+        ]
+       },
+       "topology": {
+        "bodies": 1,
+        "shells": 1,
+        "faces": 4,
+        "edges": 4,
+        "vertices": 0,
+        "loops": 8,
+        "ringEdges": 4,
+        "closedToroidalFaces": 0,
+        "singularPoints": 0,
+        "pinchPoints": 0,
+        "genus": 1
+       },
+       "rawTopology": {
+        "bodies": 1,
+        "shells": 1,
+        "faces": 4,
+        "edges": 9,
+        "vertices": 6,
+        "loops": 5
+       },
+       "valid": true
+      }
+     ],
+     "bbox": {
+      "min": [
+       -5.025000100057988,
+       3994.9749999,
+       -20.0000001
+      ],
+      "max": [
+       5.025000100000001,
+       4005.0250001,
+       20.0000001
+      ]
+     },
+     "localBbox": {
+      "min": [
+       -5.025000100057988,
+       -5.025000100000001,
+       -20.0000001
+      ],
+      "max": [
+       5.025000100000001,
+       5.025000100000001,
+       20.0000001
+      ]
+     },
+     "topology": {
+      "bodies": 1,
+      "shells": 1,
+      "faces": 4,
+      "edges": 4,
+      "vertices": 0,
+      "loops": 8,
+      "ringEdges": 4,
+      "closedToroidalFaces": 0,
+      "singularPoints": 0,
+      "pinchPoints": 0,
+      "genus": 1
+     },
+     "rawTopology": {
+      "bodies": 1,
+      "shells": 1,
+      "faces": 4,
+      "edges": 9,
+      "vertices": 6,
+      "loops": 5
+     },
+     "surfaceTypes": {
+      "Cylinder": 2,
+      "Plane": 2
+     },
+     "measurements": {},
+     "cellAttribution": true,
+     "validity": {
+      "brep": true,
+      "closed": true,
+      "positive": true
+     }
+    },
+    "secondImport": {
+     "ok": true,
+     "metrics": {
+      "volume": 3046.3025033018816,
+      "area": 1517.761139761204,
+      "bodies": [
+       {
+        "volume": 3046.3025033018816,
+        "area": 1517.761139761204,
+        "centroid": [
+         -7.74357761161991e-12,
+         4000.000000000002,
+         4.209652613651636e-14
+        ],
+        "bbox": {
+         "min": [
+          -5.025000100057988,
+          3994.9749999,
+          -20.0000001
+         ],
+         "max": [
+          5.025000100000001,
+          4005.0250001,
+          20.0000001
+         ]
+        },
+        "topology": {
+         "bodies": 1,
+         "shells": 1,
+         "faces": 4,
+         "edges": 4,
+         "vertices": 0,
+         "loops": 8,
+         "ringEdges": 4,
+         "closedToroidalFaces": 0,
+         "singularPoints": 0,
+         "pinchPoints": 0,
+         "genus": 1
+        },
+        "rawTopology": {
+         "bodies": 1,
+         "shells": 1,
+         "faces": 4,
+         "edges": 9,
+         "vertices": 6,
+         "loops": 5
+        },
+        "valid": true
+       }
+      ],
+      "bbox": {
+       "min": [
+        -5.025000100057988,
+        3994.9749999,
+        -20.0000001
+       ],
+       "max": [
+        5.025000100000001,
+        4005.0250001,
+        20.0000001
+       ]
+      },
+      "localBbox": {
+       "min": [
+        -5.025000100057988,
+        -5.025000100000001,
+        -20.0000001
+       ],
+       "max": [
+        5.025000100000001,
+        5.025000100000001,
+        20.0000001
+       ]
+      },
+      "topology": {
+       "bodies": 1,
+       "shells": 1,
+       "faces": 4,
+       "edges": 4,
+       "vertices": 0,
+       "loops": 8,
+       "ringEdges": 4,
+       "closedToroidalFaces": 0,
+       "singularPoints": 0,
+       "pinchPoints": 0,
+       "genus": 1
+      },
+      "rawTopology": {
+       "bodies": 1,
+       "shells": 1,
+       "faces": 4,
+       "edges": 9,
+       "vertices": 6,
+       "loops": 5
+      },
+      "surfaceTypes": {
+       "Cylinder": 2,
+       "Plane": 2
+      },
+      "measurements": {},
+      "cellAttribution": true,
+      "validity": {
+       "brep": true,
+       "closed": true,
+       "positive": true
+      }
+     },
+     "unhealedSliver": null
+    }
+   },
+   "seconds": 1.708825,
+   "execution": {
+    "ok": true,
+    "status": 0,
+    "signal": null,
+    "stderrTail": [
+     ""
+    ]
+   },
+   "artifacts": "tmp/cat-z3-fix1/targeted-pcurves/occt/boolean-z3/V4/AC106",
+   "artifactHashes": {
+    "request.json": "b1341ac19b30fd815f0e77eb7d0a1d255eacc36b3b423def835a673247745574",
+    "build.json": "250f2f1977d3d1da9890ea45d41bd0c94ce86f130d3510b00a6b7c765a80e3e0",
+    "model.step": "59204bb1888243db480c1f9a190d6bf7e20ca3d9bee840111116731f32191e31"
+   }
+  },
+  {
+   "kernel": "occt",
+   "zone": "AC107",
+   "variant": "V0",
+   "group": "boolean-z3",
+   "code": {
+    "head": null,
+    "treeSha256": "53f5f6a9b468322000b47b39c1203b14b8c1683963bdf341fee628fb78d1b5fc"
+   },
+   "outcome": "built",
+   "versions": {
+    "build123d": "0.10.0",
+    "cadquery-ocp": "7.8.1.1.post1"
+   },
+   "nativeValidity": true,
+   "labels": [
+    "AC107_0_V0"
+   ],
+   "entrypoint": "build_zone",
+   "stamp": {
+    "zonesSha256": "932fc072f17bbcc04ec7de70df0f48bec9a4c5ab8621243a024268c4f222109f",
+    "sourceSha256": "9874de278d925a06abdc4ad959c4221c7cf091704f3ebf8957204374eac67b4a",
+    "variant": "V0",
+    "zone": "AC107"
+   },
+   "metrics": {
+    "volume": 1839.9526316298648,
+    "area": 1028.106096521153,
+    "bodies": [
+     {
+      "volume": 1839.9526316298648,
+      "area": 1028.106096521153,
+      "centroid": [
+       253.33290583376308,
+       3999.9999999999995,
+       3.0659549844079797e-13
+      ],
+      "bbox": {
+       "min": [
+        246,
+        3996,
+        -12
+       ],
+       "max": [
+        266,
+        4004,
+        12
+       ]
+      },
+      "topology": {
+       "bodies": 1,
+       "shells": 1,
+       "faces": 5,
+       "edges": 5,
+       "vertices": 2,
+       "loops": 8,
+       "ringEdges": 3,
+       "closedToroidalFaces": 0,
+       "singularPoints": 0,
+       "pinchPoints": 0,
+       "genus": 0
+      },
+      "rawTopology": {
+       "bodies": 1,
+       "shells": 1,
+       "faces": 5,
+       "edges": 12,
+       "vertices": 9,
+       "loops": 5
+      },
+      "valid": true
+     }
+    ],
+    "bbox": {
+     "min": [
+      246,
+      3996,
+      -12
+     ],
+     "max": [
+      266,
+      4004,
+      12
+     ]
+    },
+    "localBbox": {
+     "min": [
+      -4,
+      -4,
+      -12
+     ],
+     "max": [
+      16,
+      4,
+      12
+     ]
+    },
+    "topology": {
+     "bodies": 1,
+     "shells": 1,
+     "faces": 5,
+     "edges": 5,
+     "vertices": 2,
+     "loops": 8,
+     "ringEdges": 3,
+     "closedToroidalFaces": 0,
+     "singularPoints": 0,
+     "pinchPoints": 0,
+     "genus": 0
+    },
+    "rawTopology": {
+     "bodies": 1,
+     "shells": 1,
+     "faces": 5,
+     "edges": 12,
+     "vertices": 9,
+     "loops": 5
+    },
+    "surfaceTypes": {
+     "Cylinder": 2,
+     "Plane": 3
+    },
+    "measurements": {},
+    "cellAttribution": true,
+    "validity": {
+     "brep": true,
+     "closed": true,
+     "positive": true
+    }
+   },
+   "stepImport": {
+    "volume": 1839.9526316297902,
+    "area": 1028.1060965211586,
+    "bodies": [
+     {
+      "volume": 1839.9526316297902,
+      "area": 1028.1060965211586,
+      "centroid": [
+       253.3329058337646,
+       4000.000000000003,
+       -1.8227048897141827e-13
+      ],
+      "bbox": {
+       "min": [
+        246,
+        3996,
+        -12
+       ],
+       "max": [
+        266,
+        4004,
+        12
+       ]
+      },
+      "topology": {
+       "bodies": 1,
+       "shells": 1,
+       "faces": 5,
+       "edges": 5,
+       "vertices": 2,
+       "loops": 8,
+       "ringEdges": 3,
+       "closedToroidalFaces": 0,
+       "singularPoints": 0,
+       "pinchPoints": 0,
+       "genus": 0
+      },
+      "rawTopology": {
+       "bodies": 1,
+       "shells": 1,
+       "faces": 5,
+       "edges": 12,
+       "vertices": 9,
+       "loops": 5
+      },
+      "valid": true
+     }
+    ],
+    "bbox": {
+     "min": [
+      246,
+      3996,
+      -12
+     ],
+     "max": [
+      266,
+      4004,
+      12
+     ]
+    },
+    "localBbox": {
+     "min": [
+      -4,
+      -4,
+      -12
+     ],
+     "max": [
+      16,
+      4,
+      12
+     ]
+    },
+    "topology": {
+     "bodies": 1,
+     "shells": 1,
+     "faces": 5,
+     "edges": 5,
+     "vertices": 2,
+     "loops": 8,
+     "ringEdges": 3,
+     "closedToroidalFaces": 0,
+     "singularPoints": 0,
+     "pinchPoints": 0,
+     "genus": 0
+    },
+    "rawTopology": {
+     "bodies": 1,
+     "shells": 1,
+     "faces": 5,
+     "edges": 12,
+     "vertices": 9,
+     "loops": 5
+    },
+    "surfaceTypes": {
+     "Cylinder": 2,
+     "Plane": 3
+    },
+    "measurements": {},
+    "cellAttribution": true,
+    "validity": {
+     "brep": true,
+     "closed": true,
+     "positive": true
+    }
+   },
+   "stepRoundTrip": {
+    "ok": true,
+    "metrics": {
+     "volume": 1839.9526316297902,
+     "area": 1028.1060965211586,
+     "bodies": [
+      {
+       "volume": 1839.9526316297902,
+       "area": 1028.1060965211586,
+       "centroid": [
+        253.3329058337646,
+        4000.000000000003,
+        -1.8227048897141827e-13
+       ],
+       "bbox": {
+        "min": [
+         246,
+         3996,
+         -12
+        ],
+        "max": [
+         266,
+         4004,
+         12
+        ]
+       },
+       "topology": {
+        "bodies": 1,
+        "shells": 1,
+        "faces": 5,
+        "edges": 5,
+        "vertices": 2,
+        "loops": 8,
+        "ringEdges": 3,
+        "closedToroidalFaces": 0,
+        "singularPoints": 0,
+        "pinchPoints": 0,
+        "genus": 0
+       },
+       "rawTopology": {
+        "bodies": 1,
+        "shells": 1,
+        "faces": 5,
+        "edges": 12,
+        "vertices": 9,
+        "loops": 5
+       },
+       "valid": true
+      }
+     ],
+     "bbox": {
+      "min": [
+       246,
+       3996,
+       -12
+      ],
+      "max": [
+       266,
+       4004,
+       12
+      ]
+     },
+     "localBbox": {
+      "min": [
+       -4,
+       -4,
+       -12
+      ],
+      "max": [
+       16,
+       4,
+       12
+      ]
+     },
+     "topology": {
+      "bodies": 1,
+      "shells": 1,
+      "faces": 5,
+      "edges": 5,
+      "vertices": 2,
+      "loops": 8,
+      "ringEdges": 3,
+      "closedToroidalFaces": 0,
+      "singularPoints": 0,
+      "pinchPoints": 0,
+      "genus": 0
+     },
+     "rawTopology": {
+      "bodies": 1,
+      "shells": 1,
+      "faces": 5,
+      "edges": 12,
+      "vertices": 9,
+      "loops": 5
+     },
+     "surfaceTypes": {
+      "Cylinder": 2,
+      "Plane": 3
+     },
+     "measurements": {},
+     "cellAttribution": true,
+     "validity": {
+      "brep": true,
+      "closed": true,
+      "positive": true
+     }
+    },
+    "secondImport": {
+     "ok": true,
+     "metrics": {
+      "volume": 1839.9526316297574,
+      "area": 1028.1060965211059,
+      "bodies": [
+       {
+        "volume": 1839.9526316297574,
+        "area": 1028.1060965211059,
+        "centroid": [
+         253.3329058337646,
+         4000.0000000000027,
+         -1.7572096992873986e-13
+        ],
+        "bbox": {
+         "min": [
+          246,
+          3996,
+          -12
+         ],
+         "max": [
+          266,
+          4004,
+          12
+         ]
+        },
+        "topology": {
+         "bodies": 1,
+         "shells": 1,
+         "faces": 5,
+         "edges": 5,
+         "vertices": 2,
+         "loops": 8,
+         "ringEdges": 3,
+         "closedToroidalFaces": 0,
+         "singularPoints": 0,
+         "pinchPoints": 0,
+         "genus": 0
+        },
+        "rawTopology": {
+         "bodies": 1,
+         "shells": 1,
+         "faces": 5,
+         "edges": 12,
+         "vertices": 9,
+         "loops": 5
+        },
+        "valid": true
+       }
+      ],
+      "bbox": {
+       "min": [
+        246,
+        3996,
+        -12
+       ],
+       "max": [
+        266,
+        4004,
+        12
+       ]
+      },
+      "localBbox": {
+       "min": [
+        -4,
+        -4,
+        -12
+       ],
+       "max": [
+        16,
+        4,
+        12
+       ]
+      },
+      "topology": {
+       "bodies": 1,
+       "shells": 1,
+       "faces": 5,
+       "edges": 5,
+       "vertices": 2,
+       "loops": 8,
+       "ringEdges": 3,
+       "closedToroidalFaces": 0,
+       "singularPoints": 0,
+       "pinchPoints": 0,
+       "genus": 0
+      },
+      "rawTopology": {
+       "bodies": 1,
+       "shells": 1,
+       "faces": 5,
+       "edges": 12,
+       "vertices": 9,
+       "loops": 5
+      },
+      "surfaceTypes": {
+       "Cylinder": 2,
+       "Plane": 3
+      },
+      "measurements": {},
+      "cellAttribution": true,
+      "validity": {
+       "brep": true,
+       "closed": true,
+       "positive": true
+      }
+     },
+     "unhealedSliver": null
+    }
+   },
+   "seconds": 1.6741683330000001,
+   "execution": {
+    "ok": true,
+    "status": 0,
+    "signal": null,
+    "stderrTail": [
+     ""
+    ]
+   },
+   "artifacts": "tmp/cat-z3-fix1/targeted-pcurves/occt/boolean-z3/V0/AC107",
+   "artifactHashes": {
+    "request.json": "6998e834c829c5a45a057321caaec72c8c442645d6b4b4eae1ebf40ab2985fbf",
+    "build.json": "1d0cb36b4c7a2d22a7b4d5e40d0c0932a7588182da94e0611684901affced400",
+    "model.step": "ccbccd41bbf058f00bc0c196a77f33e54e882a689e7ff45fb13750a5a8483b70"
+   }
+  },
+  {
+   "kernel": "occt",
+   "zone": "AC107",
+   "variant": "V1",
+   "group": "boolean-z3",
+   "code": {
+    "head": null,
+    "treeSha256": "53f5f6a9b468322000b47b39c1203b14b8c1683963bdf341fee628fb78d1b5fc"
+   },
+   "outcome": "built",
+   "versions": {
+    "build123d": "0.10.0",
+    "cadquery-ocp": "7.8.1.1.post1"
+   },
+   "nativeValidity": true,
+   "labels": [
+    "AC107_0_V1"
+   ],
+   "entrypoint": "build_zone",
+   "stamp": {
+    "zonesSha256": "932fc072f17bbcc04ec7de70df0f48bec9a4c5ab8621243a024268c4f222109f",
+    "sourceSha256": "9874de278d925a06abdc4ad959c4221c7cf091704f3ebf8957204374eac67b4a",
+    "variant": "V1",
+    "zone": "AC107"
+   },
+   "metrics": {
+    "volume": 1839.9525557442487,
+    "area": 1028.1060460351582,
+    "bodies": [
+     {
+      "volume": 1839.9525557442487,
+      "area": 1028.1060460351582,
+      "centroid": [
+       65789.58290597663,
+       -28768.500000002867,
+       16384.124999972053
+      ],
+      "bbox": {
+       "min": [
+        65782.25,
+        -28772.5,
+        16372.125
+       ],
+       "max": [
+        65802.25,
+        -28764.5,
+        16396.125
+       ]
+      },
+      "topology": {
+       "bodies": 1,
+       "shells": 1,
+       "faces": 5,
+       "edges": 5,
+       "vertices": 2,
+       "loops": 8,
+       "ringEdges": 3,
+       "closedToroidalFaces": 0,
+       "singularPoints": 0,
+       "pinchPoints": 0,
+       "genus": 0
+      },
+      "rawTopology": {
+       "bodies": 1,
+       "shells": 1,
+       "faces": 5,
+       "edges": 10,
+       "vertices": 7,
+       "loops": 5
+      },
+      "valid": true
+     }
+    ],
+    "bbox": {
+     "min": [
+      65782.25,
+      -28772.5,
+      16372.125
+     ],
+     "max": [
+      65802.25,
+      -28764.5,
+      16396.125
+     ]
+    },
+    "localBbox": {
+     "min": [
+      -4,
+      -4,
+      -12
+     ],
+     "max": [
+      16,
+      4,
+      12
+     ]
+    },
+    "topology": {
+     "bodies": 1,
+     "shells": 1,
+     "faces": 5,
+     "edges": 5,
+     "vertices": 2,
+     "loops": 8,
+     "ringEdges": 3,
+     "closedToroidalFaces": 0,
+     "singularPoints": 0,
+     "pinchPoints": 0,
+     "genus": 0
+    },
+    "rawTopology": {
+     "bodies": 1,
+     "shells": 1,
+     "faces": 5,
+     "edges": 10,
+     "vertices": 7,
+     "loops": 5
+    },
+    "surfaceTypes": {
+     "Cylinder": 2,
+     "Plane": 3
+    },
+    "measurements": {},
+    "cellAttribution": true,
+    "validity": {
+     "brep": true,
+     "closed": true,
+     "positive": true
+    }
+   },
+   "stepImport": {
+    "volume": 1839.9526327572353,
+    "area": 1028.1060972811558,
+    "bodies": [
+     {
+      "volume": 1839.9526327572353,
+      "area": 1028.1060972811558,
+      "centroid": [
+       65789.58290583256,
+       -28768.500000000877,
+       16384.124999999076
+      ],
+      "bbox": {
+       "min": [
+        65782.25,
+        -28772.5,
+        16372.125
+       ],
+       "max": [
+        65802.25,
+        -28764.5,
+        16396.125
+       ]
+      },
+      "topology": {
+       "bodies": 1,
+       "shells": 1,
+       "faces": 5,
+       "edges": 5,
+       "vertices": 2,
+       "loops": 8,
+       "ringEdges": 3,
+       "closedToroidalFaces": 0,
+       "singularPoints": 0,
+       "pinchPoints": 0,
+       "genus": 0
+      },
+      "rawTopology": {
+       "bodies": 1,
+       "shells": 1,
+       "faces": 5,
+       "edges": 10,
+       "vertices": 7,
+       "loops": 5
+      },
+      "valid": true
+     }
+    ],
+    "bbox": {
+     "min": [
+      65782.25,
+      -28772.5,
+      16372.125
+     ],
+     "max": [
+      65802.25,
+      -28764.5,
+      16396.125
+     ]
+    },
+    "localBbox": {
+     "min": [
+      -4,
+      -4,
+      -12
+     ],
+     "max": [
+      16,
+      4,
+      12
+     ]
+    },
+    "topology": {
+     "bodies": 1,
+     "shells": 1,
+     "faces": 5,
+     "edges": 5,
+     "vertices": 2,
+     "loops": 8,
+     "ringEdges": 3,
+     "closedToroidalFaces": 0,
+     "singularPoints": 0,
+     "pinchPoints": 0,
+     "genus": 0
+    },
+    "rawTopology": {
+     "bodies": 1,
+     "shells": 1,
+     "faces": 5,
+     "edges": 10,
+     "vertices": 7,
+     "loops": 5
+    },
+    "surfaceTypes": {
+     "Cylinder": 2,
+     "Plane": 3
+    },
+    "measurements": {},
+    "cellAttribution": true,
+    "validity": {
+     "brep": true,
+     "closed": true,
+     "positive": true
+    }
+   },
+   "stepRoundTrip": {
+    "ok": true,
+    "metrics": {
+     "volume": 1839.9526327572353,
+     "area": 1028.1060972811558,
+     "bodies": [
+      {
+       "volume": 1839.9526327572353,
+       "area": 1028.1060972811558,
+       "centroid": [
+        65789.58290583256,
+        -28768.500000000877,
+        16384.124999999076
+       ],
+       "bbox": {
+        "min": [
+         65782.25,
+         -28772.5,
+         16372.125
+        ],
+        "max": [
+         65802.25,
+         -28764.5,
+         16396.125
+        ]
+       },
+       "topology": {
+        "bodies": 1,
+        "shells": 1,
+        "faces": 5,
+        "edges": 5,
+        "vertices": 2,
+        "loops": 8,
+        "ringEdges": 3,
+        "closedToroidalFaces": 0,
+        "singularPoints": 0,
+        "pinchPoints": 0,
+        "genus": 0
+       },
+       "rawTopology": {
+        "bodies": 1,
+        "shells": 1,
+        "faces": 5,
+        "edges": 10,
+        "vertices": 7,
+        "loops": 5
+       },
+       "valid": true
+      }
+     ],
+     "bbox": {
+      "min": [
+       65782.25,
+       -28772.5,
+       16372.125
+      ],
+      "max": [
+       65802.25,
+       -28764.5,
+       16396.125
+      ]
+     },
+     "localBbox": {
+      "min": [
+       -4,
+       -4,
+       -12
+      ],
+      "max": [
+       16,
+       4,
+       12
+      ]
+     },
+     "topology": {
+      "bodies": 1,
+      "shells": 1,
+      "faces": 5,
+      "edges": 5,
+      "vertices": 2,
+      "loops": 8,
+      "ringEdges": 3,
+      "closedToroidalFaces": 0,
+      "singularPoints": 0,
+      "pinchPoints": 0,
+      "genus": 0
+     },
+     "rawTopology": {
+      "bodies": 1,
+      "shells": 1,
+      "faces": 5,
+      "edges": 10,
+      "vertices": 7,
+      "loops": 5
+     },
+     "surfaceTypes": {
+      "Cylinder": 2,
+      "Plane": 3
+     },
+     "measurements": {},
+     "cellAttribution": true,
+     "validity": {
+      "brep": true,
+      "closed": true,
+      "positive": true
+     }
+    },
+    "secondImport": {
+     "ok": true,
+     "metrics": {
+      "volume": 1839.9526327572894,
+      "area": 1028.1060972811024,
+      "bodies": [
+       {
+        "volume": 1839.9526327572894,
+        "area": 1028.1060972811024,
+        "centroid": [
+         65789.58290583258,
+         -28768.500000000877,
+         16384.124999999076
+        ],
+        "bbox": {
+         "min": [
+          65782.25,
+          -28772.5,
+          16372.125
+         ],
+         "max": [
+          65802.25,
+          -28764.5,
+          16396.125
+         ]
+        },
+        "topology": {
+         "bodies": 1,
+         "shells": 1,
+         "faces": 5,
+         "edges": 5,
+         "vertices": 2,
+         "loops": 8,
+         "ringEdges": 3,
+         "closedToroidalFaces": 0,
+         "singularPoints": 0,
+         "pinchPoints": 0,
+         "genus": 0
+        },
+        "rawTopology": {
+         "bodies": 1,
+         "shells": 1,
+         "faces": 5,
+         "edges": 10,
+         "vertices": 7,
+         "loops": 5
+        },
+        "valid": true
+       }
+      ],
+      "bbox": {
+       "min": [
+        65782.25,
+        -28772.5,
+        16372.125
+       ],
+       "max": [
+        65802.25,
+        -28764.5,
+        16396.125
+       ]
+      },
+      "localBbox": {
+       "min": [
+        -4,
+        -4,
+        -12
+       ],
+       "max": [
+        16,
+        4,
+        12
+       ]
+      },
+      "topology": {
+       "bodies": 1,
+       "shells": 1,
+       "faces": 5,
+       "edges": 5,
+       "vertices": 2,
+       "loops": 8,
+       "ringEdges": 3,
+       "closedToroidalFaces": 0,
+       "singularPoints": 0,
+       "pinchPoints": 0,
+       "genus": 0
+      },
+      "rawTopology": {
+       "bodies": 1,
+       "shells": 1,
+       "faces": 5,
+       "edges": 10,
+       "vertices": 7,
+       "loops": 5
+      },
+      "surfaceTypes": {
+       "Cylinder": 2,
+       "Plane": 3
+      },
+      "measurements": {},
+      "cellAttribution": true,
+      "validity": {
+       "brep": true,
+       "closed": true,
+       "positive": true
+      }
+     },
+     "unhealedSliver": null
+    }
+   },
+   "seconds": 1.6840227499999998,
+   "execution": {
+    "ok": true,
+    "status": 0,
+    "signal": null,
+    "stderrTail": [
+     ""
+    ]
+   },
+   "artifacts": "tmp/cat-z3-fix1/targeted-pcurves/occt/boolean-z3/V1/AC107",
+   "artifactHashes": {
+    "request.json": "6423eaa07e2cb1031463d7f43581fe517138b4b94705b048addaa9aceb98393c",
+    "build.json": "894ad6a4d40d4e5e4c24443485e23a2b7bad1fb718fa61e6cb2fa0990b02bf44",
+    "model.step": "adabd27da520ae184ffc35af19897ccfcb212dbc78b4b5e163e519490fadf64b"
+   }
+  },
+  {
+   "kernel": "occt",
+   "zone": "AC107",
+   "variant": "V2",
+   "group": "boolean-z3",
+   "code": {
+    "head": null,
+    "treeSha256": "53f5f6a9b468322000b47b39c1203b14b8c1683963bdf341fee628fb78d1b5fc"
+   },
+   "outcome": "built",
+   "versions": {
+    "build123d": "0.10.0",
+    "cadquery-ocp": "7.8.1.1.post1"
+   },
+   "nativeValidity": true,
+   "labels": [
+    "AC107_0_V2"
+   ],
+   "entrypoint": "build_zone",
+   "stamp": {
+    "zonesSha256": "932fc072f17bbcc04ec7de70df0f48bec9a4c5ab8621243a024268c4f222109f",
+    "sourceSha256": "9874de278d925a06abdc4ad959c4221c7cf091704f3ebf8957204374eac67b4a",
+    "variant": "V2",
+    "zone": "AC107"
+   },
+   "metrics": {
+    "volume": 1839.9526316295949,
+    "area": 1028.106096521079,
+    "bodies": [
+     {
+      "volume": 1839.9526316295949,
+      "area": 1028.106096521079,
+      "centroid": [
+       250.00000000000162,
+       3999.9999999999995,
+       3.332905833762974
+      ],
+      "bbox": {
+       "min": [
+        246,
+        3988,
+        -4
+       ],
+       "max": [
+        254,
+        4012,
+        16
+       ]
+      },
+      "topology": {
+       "bodies": 1,
+       "shells": 1,
+       "faces": 5,
+       "edges": 5,
+       "vertices": 2,
+       "loops": 8,
+       "ringEdges": 3,
+       "closedToroidalFaces": 0,
+       "singularPoints": 0,
+       "pinchPoints": 0,
+       "genus": 0
+      },
+      "rawTopology": {
+       "bodies": 1,
+       "shells": 1,
+       "faces": 5,
+       "edges": 10,
+       "vertices": 7,
+       "loops": 5
+      },
+      "valid": true
+     }
+    ],
+    "bbox": {
+     "min": [
+      246,
+      3988,
+      -4
+     ],
+     "max": [
+      254,
+      4012,
+      16
+     ]
+    },
+    "localBbox": {
+     "min": [
+      -4,
+      -4,
+      -12
+     ],
+     "max": [
+      16,
+      4,
+      12
+     ]
+    },
+    "topology": {
+     "bodies": 1,
+     "shells": 1,
+     "faces": 5,
+     "edges": 5,
+     "vertices": 2,
+     "loops": 8,
+     "ringEdges": 3,
+     "closedToroidalFaces": 0,
+     "singularPoints": 0,
+     "pinchPoints": 0,
+     "genus": 0
+    },
+    "rawTopology": {
+     "bodies": 1,
+     "shells": 1,
+     "faces": 5,
+     "edges": 10,
+     "vertices": 7,
+     "loops": 5
+    },
+    "surfaceTypes": {
+     "Cylinder": 2,
+     "Plane": 3
+    },
+    "measurements": {},
+    "cellAttribution": true,
+    "validity": {
+     "brep": true,
+     "closed": true,
+     "positive": true
+    }
+   },
+   "stepImport": {
+    "volume": 1839.9526316295978,
+    "area": 1028.1060965211134,
+    "bodies": [
+     {
+      "volume": 1839.9526316295978,
+      "area": 1028.1060965211134,
+      "centroid": [
+       249.99999999999696,
+       3999.9999999999995,
+       3.3329058337637516
+      ],
+      "bbox": {
+       "min": [
+        246,
+        3988,
+        -4
+       ],
+       "max": [
+        254,
+        4012,
+        16
+       ]
+      },
+      "topology": {
+       "bodies": 1,
+       "shells": 1,
+       "faces": 5,
+       "edges": 5,
+       "vertices": 2,
+       "loops": 8,
+       "ringEdges": 3,
+       "closedToroidalFaces": 0,
+       "singularPoints": 0,
+       "pinchPoints": 0,
+       "genus": 0
+      },
+      "rawTopology": {
+       "bodies": 1,
+       "shells": 1,
+       "faces": 5,
+       "edges": 10,
+       "vertices": 7,
+       "loops": 5
+      },
+      "valid": true
+     }
+    ],
+    "bbox": {
+     "min": [
+      246,
+      3988,
+      -4
+     ],
+     "max": [
+      254,
+      4012,
+      16
+     ]
+    },
+    "localBbox": {
+     "min": [
+      -4,
+      -4,
+      -12
+     ],
+     "max": [
+      16,
+      4,
+      12
+     ]
+    },
+    "topology": {
+     "bodies": 1,
+     "shells": 1,
+     "faces": 5,
+     "edges": 5,
+     "vertices": 2,
+     "loops": 8,
+     "ringEdges": 3,
+     "closedToroidalFaces": 0,
+     "singularPoints": 0,
+     "pinchPoints": 0,
+     "genus": 0
+    },
+    "rawTopology": {
+     "bodies": 1,
+     "shells": 1,
+     "faces": 5,
+     "edges": 10,
+     "vertices": 7,
+     "loops": 5
+    },
+    "surfaceTypes": {
+     "Cylinder": 2,
+     "Plane": 3
+    },
+    "measurements": {},
+    "cellAttribution": true,
+    "validity": {
+     "brep": true,
+     "closed": true,
+     "positive": true
+    }
+   },
+   "stepRoundTrip": {
+    "ok": true,
+    "metrics": {
+     "volume": 1839.9526316295978,
+     "area": 1028.1060965211134,
+     "bodies": [
+      {
+       "volume": 1839.9526316295978,
+       "area": 1028.1060965211134,
+       "centroid": [
+        249.99999999999696,
+        3999.9999999999995,
+        3.3329058337637516
+       ],
+       "bbox": {
+        "min": [
+         246,
+         3988,
+         -4
+        ],
+        "max": [
+         254,
+         4012,
+         16
+        ]
+       },
+       "topology": {
+        "bodies": 1,
+        "shells": 1,
+        "faces": 5,
+        "edges": 5,
+        "vertices": 2,
+        "loops": 8,
+        "ringEdges": 3,
+        "closedToroidalFaces": 0,
+        "singularPoints": 0,
+        "pinchPoints": 0,
+        "genus": 0
+       },
+       "rawTopology": {
+        "bodies": 1,
+        "shells": 1,
+        "faces": 5,
+        "edges": 10,
+        "vertices": 7,
+        "loops": 5
+       },
+       "valid": true
+      }
+     ],
+     "bbox": {
+      "min": [
+       246,
+       3988,
+       -4
+      ],
+      "max": [
+       254,
+       4012,
+       16
+      ]
+     },
+     "localBbox": {
+      "min": [
+       -4,
+       -4,
+       -12
+      ],
+      "max": [
+       16,
+       4,
+       12
+      ]
+     },
+     "topology": {
+      "bodies": 1,
+      "shells": 1,
+      "faces": 5,
+      "edges": 5,
+      "vertices": 2,
+      "loops": 8,
+      "ringEdges": 3,
+      "closedToroidalFaces": 0,
+      "singularPoints": 0,
+      "pinchPoints": 0,
+      "genus": 0
+     },
+     "rawTopology": {
+      "bodies": 1,
+      "shells": 1,
+      "faces": 5,
+      "edges": 10,
+      "vertices": 7,
+      "loops": 5
+     },
+     "surfaceTypes": {
+      "Cylinder": 2,
+      "Plane": 3
+     },
+     "measurements": {},
+     "cellAttribution": true,
+     "validity": {
+      "brep": true,
+      "closed": true,
+      "positive": true
+     }
+    },
+    "secondImport": {
+     "ok": true,
+     "metrics": {
+      "volume": 1839.95263162957,
+      "area": 1028.1060965210597,
+      "bodies": [
+       {
+        "volume": 1839.95263162957,
+        "area": 1028.1060965210597,
+        "centroid": [
+         249.99999999999707,
+         4000,
+         3.3329058337636996
+        ],
+        "bbox": {
+         "min": [
+          246,
+          3988,
+          -4
+         ],
+         "max": [
+          254,
+          4012,
+          16
+         ]
+        },
+        "topology": {
+         "bodies": 1,
+         "shells": 1,
+         "faces": 5,
+         "edges": 5,
+         "vertices": 2,
+         "loops": 8,
+         "ringEdges": 3,
+         "closedToroidalFaces": 0,
+         "singularPoints": 0,
+         "pinchPoints": 0,
+         "genus": 0
+        },
+        "rawTopology": {
+         "bodies": 1,
+         "shells": 1,
+         "faces": 5,
+         "edges": 10,
+         "vertices": 7,
+         "loops": 5
+        },
+        "valid": true
+       }
+      ],
+      "bbox": {
+       "min": [
+        246,
+        3988,
+        -4
+       ],
+       "max": [
+        254,
+        4012,
+        16
+       ]
+      },
+      "localBbox": {
+       "min": [
+        -4,
+        -4,
+        -12
+       ],
+       "max": [
+        16,
+        4,
+        12
+       ]
+      },
+      "topology": {
+       "bodies": 1,
+       "shells": 1,
+       "faces": 5,
+       "edges": 5,
+       "vertices": 2,
+       "loops": 8,
+       "ringEdges": 3,
+       "closedToroidalFaces": 0,
+       "singularPoints": 0,
+       "pinchPoints": 0,
+       "genus": 0
+      },
+      "rawTopology": {
+       "bodies": 1,
+       "shells": 1,
+       "faces": 5,
+       "edges": 10,
+       "vertices": 7,
+       "loops": 5
+      },
+      "surfaceTypes": {
+       "Cylinder": 2,
+       "Plane": 3
+      },
+      "measurements": {},
+      "cellAttribution": true,
+      "validity": {
+       "brep": true,
+       "closed": true,
+       "positive": true
+      }
+     },
+     "unhealedSliver": null
+    }
+   },
+   "seconds": 2.9864702910000003,
+   "execution": {
+    "ok": true,
+    "status": 0,
+    "signal": null,
+    "stderrTail": [
+     ""
+    ]
+   },
+   "artifacts": "tmp/cat-z3-fix1/targeted-pcurves/occt/boolean-z3/V2/AC107",
+   "artifactHashes": {
+    "request.json": "de4fc8da05f4a7bf48a1cf847183dbc7d96f368a97d1429daa746f3592c97b8b",
+    "build.json": "367534964e402327faac37500fd1044b76034cf14faa54d2e6d2c8cd9fa8f04d",
+    "model.step": "f42326dc0acb5dc772ec2ce4c0665ce5172cc4a77338d638d4d78cbeea59bfa5"
+   }
+  },
+  {
+   "kernel": "occt",
+   "zone": "AC107",
+   "variant": "V3",
+   "group": "boolean-z3",
+   "code": {
+    "head": null,
+    "treeSha256": "53f5f6a9b468322000b47b39c1203b14b8c1683963bdf341fee628fb78d1b5fc"
+   },
+   "outcome": "built",
+   "versions": {
+    "build123d": "0.10.0",
+    "cadquery-ocp": "7.8.1.1.post1"
+   },
+   "nativeValidity": true,
+   "labels": [
+    "AC107_0_V3"
+   ],
+   "entrypoint": "build_zone",
+   "stamp": {
+    "zonesSha256": "932fc072f17bbcc04ec7de70df0f48bec9a4c5ab8621243a024268c4f222109f",
+    "sourceSha256": "9874de278d925a06abdc4ad959c4221c7cf091704f3ebf8957204374eac67b4a",
+    "variant": "V3",
+    "zone": "AC107"
+   },
+   "metrics": {
+    "volume": 1839.952631598609,
+    "area": 1028.1060964977028,
+    "bodies": [
+     {
+      "volume": 1839.952631598609,
+      "area": 1028.1060964977028,
+      "centroid": [
+       252.90053054181055,
+       4000.1424507233146,
+       0.049157948464188216
+      ],
+      "bbox": {
+       "min": [
+        244.9358115814048,
+        3995.5800085354304,
+        -11.993984311614197
+       ],
+       "max": [
+        265.89370415595414,
+        4005.1523610323534,
+        12.440873297180278
+       ]
+      },
+      "topology": {
+       "bodies": 1,
+       "shells": 1,
+       "faces": 5,
+       "edges": 5,
+       "vertices": 2,
+       "loops": 8,
+       "ringEdges": 3,
+       "closedToroidalFaces": 0,
+       "singularPoints": 0,
+       "pinchPoints": 0,
+       "genus": 0
+      },
+      "rawTopology": {
+       "bodies": 1,
+       "shells": 1,
+       "faces": 5,
+       "edges": 12,
+       "vertices": 9,
+       "loops": 5
+      },
+      "valid": true
+     }
+    ],
+    "bbox": {
+     "min": [
+      244.9358115814048,
+      3995.5800085354304,
+      -11.993984311614197
+     ],
+     "max": [
+      265.89370415595414,
+      4005.1523610323534,
+      12.440873297180278
+     ]
+    },
+    "localBbox": {
+     "min": [
+      -4.0000000000001705,
+      -4.000000000000455,
+      -12
+     ],
+     "max": [
+      15.999999999999915,
+      4.000000000000455,
+      12.000000000000009
+     ]
+    },
+    "topology": {
+     "bodies": 1,
+     "shells": 1,
+     "faces": 5,
+     "edges": 5,
+     "vertices": 2,
+     "loops": 8,
+     "ringEdges": 3,
+     "closedToroidalFaces": 0,
+     "singularPoints": 0,
+     "pinchPoints": 0,
+     "genus": 0
+    },
+    "rawTopology": {
+     "bodies": 1,
+     "shells": 1,
+     "faces": 5,
+     "edges": 12,
+     "vertices": 9,
+     "loops": 5
+    },
+    "surfaceTypes": {
+     "Cylinder": 2,
+     "Plane": 3
+    },
+    "measurements": {},
+    "cellAttribution": true,
+    "validity": {
+     "brep": true,
+     "closed": true,
+     "positive": true
+    }
+   },
+   "stepImport": {
+    "volume": 1839.9526315992116,
+    "area": 1028.1060964986711,
+    "bodies": [
+     {
+      "volume": 1839.9526315992116,
+      "area": 1028.1060964986711,
+      "centroid": [
+       252.90053054181175,
+       4000.142450723103,
+       0.04915794846487428
+      ],
+      "bbox": {
+       "min": [
+        244.9358115813985,
+        3995.5800085357128,
+        -11.99398431161419
+       ],
+       "max": [
+        265.8937041559534,
+        4005.1523610320837,
+        12.44087329718019
+       ]
+      },
+      "topology": {
+       "bodies": 1,
+       "shells": 1,
+       "faces": 5,
+       "edges": 5,
+       "vertices": 2,
+       "loops": 8,
+       "ringEdges": 3,
+       "closedToroidalFaces": 0,
+       "singularPoints": 0,
+       "pinchPoints": 0,
+       "genus": 0
+      },
+      "rawTopology": {
+       "bodies": 1,
+       "shells": 1,
+       "faces": 5,
+       "edges": 12,
+       "vertices": 9,
+       "loops": 5
+      },
+      "valid": true
+     }
+    ],
+    "bbox": {
+     "min": [
+      244.9358115813985,
+      3995.5800085357128,
+      -11.99398431161419
+     ],
+     "max": [
+      265.8937041559534,
+      4005.1523610320837,
+      12.44087329718019
+     ]
+    },
+    "localBbox": {
+     "min": [
+      -4.0000000000194404,
+      -4.00000000044065,
+      -12.00000000000189
+     ],
+     "max": [
+      16.000000000017742,
+      4.000000000281034,
+      12.000000000009752
+     ]
+    },
+    "topology": {
+     "bodies": 1,
+     "shells": 1,
+     "faces": 5,
+     "edges": 5,
+     "vertices": 2,
+     "loops": 8,
+     "ringEdges": 3,
+     "closedToroidalFaces": 0,
+     "singularPoints": 0,
+     "pinchPoints": 0,
+     "genus": 0
+    },
+    "rawTopology": {
+     "bodies": 1,
+     "shells": 1,
+     "faces": 5,
+     "edges": 12,
+     "vertices": 9,
+     "loops": 5
+    },
+    "surfaceTypes": {
+     "Cylinder": 2,
+     "Plane": 3
+    },
+    "measurements": {},
+    "cellAttribution": true,
+    "validity": {
+     "brep": true,
+     "closed": true,
+     "positive": true
+    }
+   },
+   "stepRoundTrip": {
+    "ok": true,
+    "metrics": {
+     "volume": 1839.9526315992116,
+     "area": 1028.1060964986711,
+     "bodies": [
+      {
+       "volume": 1839.9526315992116,
+       "area": 1028.1060964986711,
+       "centroid": [
+        252.90053054181175,
+        4000.142450723103,
+        0.04915794846487428
+       ],
+       "bbox": {
+        "min": [
+         244.9358115813985,
+         3995.5800085357128,
+         -11.99398431161419
+        ],
+        "max": [
+         265.8937041559534,
+         4005.1523610320837,
+         12.44087329718019
+        ]
+       },
+       "topology": {
+        "bodies": 1,
+        "shells": 1,
+        "faces": 5,
+        "edges": 5,
+        "vertices": 2,
+        "loops": 8,
+        "ringEdges": 3,
+        "closedToroidalFaces": 0,
+        "singularPoints": 0,
+        "pinchPoints": 0,
+        "genus": 0
+       },
+       "rawTopology": {
+        "bodies": 1,
+        "shells": 1,
+        "faces": 5,
+        "edges": 12,
+        "vertices": 9,
+        "loops": 5
+       },
+       "valid": true
+      }
+     ],
+     "bbox": {
+      "min": [
+       244.9358115813985,
+       3995.5800085357128,
+       -11.99398431161419
+      ],
+      "max": [
+       265.8937041559534,
+       4005.1523610320837,
+       12.44087329718019
+      ]
+     },
+     "localBbox": {
+      "min": [
+       -4.0000000000194404,
+       -4.00000000044065,
+       -12.00000000000189
+      ],
+      "max": [
+       16.000000000017742,
+       4.000000000281034,
+       12.000000000009752
+      ]
+     },
+     "topology": {
+      "bodies": 1,
+      "shells": 1,
+      "faces": 5,
+      "edges": 5,
+      "vertices": 2,
+      "loops": 8,
+      "ringEdges": 3,
+      "closedToroidalFaces": 0,
+      "singularPoints": 0,
+      "pinchPoints": 0,
+      "genus": 0
+     },
+     "rawTopology": {
+      "bodies": 1,
+      "shells": 1,
+      "faces": 5,
+      "edges": 12,
+      "vertices": 9,
+      "loops": 5
+     },
+     "surfaceTypes": {
+      "Cylinder": 2,
+      "Plane": 3
+     },
+     "measurements": {},
+     "cellAttribution": true,
+     "validity": {
+      "brep": true,
+      "closed": true,
+      "positive": true
+     }
+    },
+    "secondImport": {
+     "ok": true,
+     "metrics": {
+      "volume": 1839.9526315991725,
+      "area": 1028.1060964986136,
+      "bodies": [
+       {
+        "volume": 1839.9526315991725,
+        "area": 1028.1060964986136,
+        "centroid": [
+         252.90053054181158,
+         4000.1424507231027,
+         0.049157948464850956
+        ],
+        "bbox": {
+         "min": [
+          244.9358115813985,
+          3995.5800085357128,
+          -11.9939843116141
+         ],
+         "max": [
+          265.8937041559535,
+          4005.1523610320837,
+          12.440873297180099
+         ]
+        },
+        "topology": {
+         "bodies": 1,
+         "shells": 1,
+         "faces": 5,
+         "edges": 5,
+         "vertices": 2,
+         "loops": 8,
+         "ringEdges": 3,
+         "closedToroidalFaces": 0,
+         "singularPoints": 0,
+         "pinchPoints": 0,
+         "genus": 0
+        },
+        "rawTopology": {
+         "bodies": 1,
+         "shells": 1,
+         "faces": 5,
+         "edges": 12,
+         "vertices": 9,
+         "loops": 5
+        },
+        "valid": true
+       }
+      ],
+      "bbox": {
+       "min": [
+        244.9358115813985,
+        3995.5800085357128,
+        -11.9939843116141
+       ],
+       "max": [
+        265.8937041559535,
+        4005.1523610320837,
+        12.440873297180099
+       ]
+      },
+      "localBbox": {
+       "min": [
+        -4.0000000000194404,
+        -4.00000000044065,
+        -12.00000000000189
+       ],
+       "max": [
+        16.000000000017746,
+        4.000000000281034,
+        12.000000000009752
+       ]
+      },
+      "topology": {
+       "bodies": 1,
+       "shells": 1,
+       "faces": 5,
+       "edges": 5,
+       "vertices": 2,
+       "loops": 8,
+       "ringEdges": 3,
+       "closedToroidalFaces": 0,
+       "singularPoints": 0,
+       "pinchPoints": 0,
+       "genus": 0
+      },
+      "rawTopology": {
+       "bodies": 1,
+       "shells": 1,
+       "faces": 5,
+       "edges": 12,
+       "vertices": 9,
+       "loops": 5
+      },
+      "surfaceTypes": {
+       "Cylinder": 2,
+       "Plane": 3
+      },
+      "measurements": {},
+      "cellAttribution": true,
+      "validity": {
+       "brep": true,
+       "closed": true,
+       "positive": true
+      }
+     },
+     "unhealedSliver": null
+    }
+   },
+   "seconds": 1.3151927500000002,
+   "execution": {
+    "ok": true,
+    "status": 0,
+    "signal": null,
+    "stderrTail": [
+     ""
+    ]
+   },
+   "artifacts": "tmp/cat-z3-fix1/targeted-pcurves/occt/boolean-z3/V3/AC107",
+   "artifactHashes": {
+    "request.json": "d2094f43f96a8d59a7450950132219ddbf3132b67f80b5053ea5b36b9f72edfb",
+    "build.json": "bed9266f29fe1629683ec8220c9c1d3d456d31373aac11a3d54a04c7168f6da4",
+    "model.step": "ed2e0e879caeeebcb84c36208654fffa53c9a19a16b6df267d430ff7aee4da02"
+   }
+  },
+  {
+   "kernel": "occt",
+   "zone": "AC107",
+   "variant": "V4",
+   "group": "boolean-z3",
+   "code": {
+    "head": null,
+    "treeSha256": "53f5f6a9b468322000b47b39c1203b14b8c1683963bdf341fee628fb78d1b5fc"
+   },
+   "outcome": "built",
+   "versions": {
+    "build123d": "0.10.0",
+    "cadquery-ocp": "7.8.1.1.post1"
+   },
+   "nativeValidity": true,
+   "labels": [
+    "AC107_0_V4"
+   ],
+   "entrypoint": "build_zone",
+   "stamp": {
+    "zonesSha256": "932fc072f17bbcc04ec7de70df0f48bec9a4c5ab8621243a024268c4f222109f",
+    "sourceSha256": "9874de278d925a06abdc4ad959c4221c7cf091704f3ebf8957204374eac67b4a",
+    "variant": "V4",
+    "zone": "AC107"
+   },
+   "metrics": {
+    "volume": 1861.9438709881676,
+    "area": 1034.6751278917613,
+    "bodies": [
+     {
+      "volume": 1861.9438709881676,
+      "area": 1034.6751278917613,
+      "centroid": [
+       253.3327826110462,
+       4000.0000000000014,
+       3.2851189749047454e-13
+      ],
+      "bbox": {
+       "min": [
+        245.975,
+        3995.975,
+        -12
+       ],
+       "max": [
+        266,
+        4004.025,
+        12
+       ]
+      },
+      "topology": {
+       "bodies": 1,
+       "shells": 1,
+       "faces": 5,
+       "edges": 5,
+       "vertices": 2,
+       "loops": 8,
+       "ringEdges": 3,
+       "closedToroidalFaces": 0,
+       "singularPoints": 0,
+       "pinchPoints": 0,
+       "genus": 0
+      },
+      "rawTopology": {
+       "bodies": 1,
+       "shells": 1,
+       "faces": 5,
+       "edges": 12,
+       "vertices": 9,
+       "loops": 5
+      },
+      "valid": true
+     }
+    ],
+    "bbox": {
+     "min": [
+      245.975,
+      3995.975,
+      -12
+     ],
+     "max": [
+      266,
+      4004.025,
+      12
+     ]
+    },
+    "localBbox": {
+     "min": [
+      -4.025,
+      -4.025,
+      -12
+     ],
+     "max": [
+      16,
+      4.025000000000091,
+      12
+     ]
+    },
+    "topology": {
+     "bodies": 1,
+     "shells": 1,
+     "faces": 5,
+     "edges": 5,
+     "vertices": 2,
+     "loops": 8,
+     "ringEdges": 3,
+     "closedToroidalFaces": 0,
+     "singularPoints": 0,
+     "pinchPoints": 0,
+     "genus": 0
+    },
+    "rawTopology": {
+     "bodies": 1,
+     "shells": 1,
+     "faces": 5,
+     "edges": 12,
+     "vertices": 9,
+     "loops": 5
+    },
+    "surfaceTypes": {
+     "Cylinder": 2,
+     "Plane": 3
+    },
+    "measurements": {},
+    "cellAttribution": true,
+    "validity": {
+     "brep": true,
+     "closed": true,
+     "positive": true
+    }
+   },
+   "stepImport": {
+    "volume": 1861.9438709881044,
+    "area": 1034.6751278917545,
+    "bodies": [
+     {
+      "volume": 1861.9438709881044,
+      "area": 1034.6751278917545,
+      "centroid": [
+       253.33278261104778,
+       4000.000000000005,
+       -1.6495957346195223e-13
+      ],
+      "bbox": {
+       "min": [
+        245.975,
+        3995.975,
+        -12
+       ],
+       "max": [
+        266,
+        4004.025,
+        12
+       ]
+      },
+      "topology": {
+       "bodies": 1,
+       "shells": 1,
+       "faces": 5,
+       "edges": 5,
+       "vertices": 2,
+       "loops": 8,
+       "ringEdges": 3,
+       "closedToroidalFaces": 0,
+       "singularPoints": 0,
+       "pinchPoints": 0,
+       "genus": 0
+      },
+      "rawTopology": {
+       "bodies": 1,
+       "shells": 1,
+       "faces": 5,
+       "edges": 12,
+       "vertices": 9,
+       "loops": 5
+      },
+      "valid": true
+     }
+    ],
+    "bbox": {
+     "min": [
+      245.975,
+      3995.975,
+      -12
+     ],
+     "max": [
+      266,
+      4004.025,
+      12
+     ]
+    },
+    "localBbox": {
+     "min": [
+      -4.025,
+      -4.025,
+      -12
+     ],
+     "max": [
+      16,
+      4.025000000000091,
+      12
+     ]
+    },
+    "topology": {
+     "bodies": 1,
+     "shells": 1,
+     "faces": 5,
+     "edges": 5,
+     "vertices": 2,
+     "loops": 8,
+     "ringEdges": 3,
+     "closedToroidalFaces": 0,
+     "singularPoints": 0,
+     "pinchPoints": 0,
+     "genus": 0
+    },
+    "rawTopology": {
+     "bodies": 1,
+     "shells": 1,
+     "faces": 5,
+     "edges": 12,
+     "vertices": 9,
+     "loops": 5
+    },
+    "surfaceTypes": {
+     "Cylinder": 2,
+     "Plane": 3
+    },
+    "measurements": {},
+    "cellAttribution": true,
+    "validity": {
+     "brep": true,
+     "closed": true,
+     "positive": true
+    }
+   },
+   "stepRoundTrip": {
+    "ok": true,
+    "metrics": {
+     "volume": 1861.9438709881044,
+     "area": 1034.6751278917545,
+     "bodies": [
+      {
+       "volume": 1861.9438709881044,
+       "area": 1034.6751278917545,
+       "centroid": [
+        253.33278261104778,
+        4000.000000000005,
+        -1.6495957346195223e-13
+       ],
+       "bbox": {
+        "min": [
+         245.975,
+         3995.975,
+         -12
+        ],
+        "max": [
+         266,
+         4004.025,
+         12
+        ]
+       },
+       "topology": {
+        "bodies": 1,
+        "shells": 1,
+        "faces": 5,
+        "edges": 5,
+        "vertices": 2,
+        "loops": 8,
+        "ringEdges": 3,
+        "closedToroidalFaces": 0,
+        "singularPoints": 0,
+        "pinchPoints": 0,
+        "genus": 0
+       },
+       "rawTopology": {
+        "bodies": 1,
+        "shells": 1,
+        "faces": 5,
+        "edges": 12,
+        "vertices": 9,
+        "loops": 5
+       },
+       "valid": true
+      }
+     ],
+     "bbox": {
+      "min": [
+       245.975,
+       3995.975,
+       -12
+      ],
+      "max": [
+       266,
+       4004.025,
+       12
+      ]
+     },
+     "localBbox": {
+      "min": [
+       -4.025,
+       -4.025,
+       -12
+      ],
+      "max": [
+       16,
+       4.025000000000091,
+       12
+      ]
+     },
+     "topology": {
+      "bodies": 1,
+      "shells": 1,
+      "faces": 5,
+      "edges": 5,
+      "vertices": 2,
+      "loops": 8,
+      "ringEdges": 3,
+      "closedToroidalFaces": 0,
+      "singularPoints": 0,
+      "pinchPoints": 0,
+      "genus": 0
+     },
+     "rawTopology": {
+      "bodies": 1,
+      "shells": 1,
+      "faces": 5,
+      "edges": 12,
+      "vertices": 9,
+      "loops": 5
+     },
+     "surfaceTypes": {
+      "Cylinder": 2,
+      "Plane": 3
+     },
+     "measurements": {},
+     "cellAttribution": true,
+     "validity": {
+      "brep": true,
+      "closed": true,
+      "positive": true
+     }
+    },
+    "secondImport": {
+     "ok": true,
+     "metrics": {
+      "volume": 1861.9438709880726,
+      "area": 1034.6751278917009,
+      "bodies": [
+       {
+        "volume": 1861.9438709880726,
+        "area": 1034.6751278917009,
+        "centroid": [
+         253.33278261104772,
+         4000.000000000005,
+         -1.5567873551461376e-13
+        ],
+        "bbox": {
+         "min": [
+          245.975,
+          3995.975,
+          -12
+         ],
+         "max": [
+          266,
+          4004.025,
+          12
+         ]
+        },
+        "topology": {
+         "bodies": 1,
+         "shells": 1,
+         "faces": 5,
+         "edges": 5,
+         "vertices": 2,
+         "loops": 8,
+         "ringEdges": 3,
+         "closedToroidalFaces": 0,
+         "singularPoints": 0,
+         "pinchPoints": 0,
+         "genus": 0
+        },
+        "rawTopology": {
+         "bodies": 1,
+         "shells": 1,
+         "faces": 5,
+         "edges": 12,
+         "vertices": 9,
+         "loops": 5
+        },
+        "valid": true
+       }
+      ],
+      "bbox": {
+       "min": [
+        245.975,
+        3995.975,
+        -12
+       ],
+       "max": [
+        266,
+        4004.025,
+        12
+       ]
+      },
+      "localBbox": {
+       "min": [
+        -4.025,
+        -4.025,
+        -12
+       ],
+       "max": [
+        16,
+        4.025000000000091,
+        12
+       ]
+      },
+      "topology": {
+       "bodies": 1,
+       "shells": 1,
+       "faces": 5,
+       "edges": 5,
+       "vertices": 2,
+       "loops": 8,
+       "ringEdges": 3,
+       "closedToroidalFaces": 0,
+       "singularPoints": 0,
+       "pinchPoints": 0,
+       "genus": 0
+      },
+      "rawTopology": {
+       "bodies": 1,
+       "shells": 1,
+       "faces": 5,
+       "edges": 12,
+       "vertices": 9,
+       "loops": 5
+      },
+      "surfaceTypes": {
+       "Cylinder": 2,
+       "Plane": 3
+      },
+      "measurements": {},
+      "cellAttribution": true,
+      "validity": {
+       "brep": true,
+       "closed": true,
+       "positive": true
+      }
+     },
+     "unhealedSliver": null
+    }
+   },
+   "seconds": 1.4631137920000001,
+   "execution": {
+    "ok": true,
+    "status": 0,
+    "signal": null,
+    "stderrTail": [
+     ""
+    ]
+   },
+   "artifacts": "tmp/cat-z3-fix1/targeted-pcurves/occt/boolean-z3/V4/AC107",
+   "artifactHashes": {
+    "request.json": "4170a787206ead4ccad394be850a199dd4fcfde9a96dbf9d96029d558be85a69",
+    "build.json": "50f21a751a85ae1335840e45194855e296ef0e594f855cf193e5700a6a9ef5eb",
+    "model.step": "f15f35f2477c2c9ce3bb5a53160c11b67e6dbff7940db1250ce50c320bcc5e98"
+   }
+  },
+  {
+   "kernel": "occt",
+   "zone": "AC108",
+   "variant": "V0",
+   "group": "boolean-z3",
+   "code": {
+    "head": null,
+    "treeSha256": "53f5f6a9b468322000b47b39c1203b14b8c1683963bdf341fee628fb78d1b5fc"
+   },
+   "outcome": "built",
+   "versions": {
+    "build123d": "0.10.0",
+    "cadquery-ocp": "7.8.1.1.post1"
+   },
+   "nativeValidity": true,
+   "labels": [
+    "AC108_0_V0"
+   ],
+   "entrypoint": "build_zone",
+   "stamp": {
+    "zonesSha256": "932fc072f17bbcc04ec7de70df0f48bec9a4c5ab8621243a024268c4f222109f",
+    "sourceSha256": "9874de278d925a06abdc4ad959c4221c7cf091704f3ebf8957204374eac67b4a",
+    "variant": "V0",
+    "zone": "AC108"
+   },
+   "metrics": {
+    "volume": 3029.861996992553,
+    "area": 1493.1428181764427,
+    "bodies": [
+     {
+      "volume": 3029.861996992553,
+      "area": 1493.1428181764427,
+      "centroid": [
+       500.00000000001563,
+       3999.930105295936,
+       2.1881371586134621e-13
+      ],
+      "bbox": {
+       "min": [
+        494.99999989998986,
+        3994.9999999,
+        -20.0000001
+       ],
+       "max": [
+        505.00000010004,
+        4005.0000001,
+        20.0000001
+       ]
+      },
+      "topology": {
+       "bodies": 1,
+       "shells": 1,
+       "faces": 4,
+       "edges": 4,
+       "vertices": 0,
+       "loops": 8,
+       "ringEdges": 4,
+       "closedToroidalFaces": 0,
+       "singularPoints": 0,
+       "pinchPoints": 0,
+       "genus": 1
+      },
+      "rawTopology": {
+       "bodies": 1,
+       "shells": 1,
+       "faces": 4,
+       "edges": 8,
+       "vertices": 5,
+       "loops": 6
+      },
+      "valid": true
+     }
+    ],
+    "bbox": {
+     "min": [
+      494.99999989998986,
+      3994.9999999,
+      -20.0000001
+     ],
+     "max": [
+      505.00000010004,
+      4005.0000001,
+      20.0000001
+     ]
+    },
+    "localBbox": {
+     "min": [
+      -5.000000100010083,
+      -5.0000001,
+      -20.0000001
+     ],
+     "max": [
+      5.000000100039948,
+      5.0000001,
+      20.0000001
+     ]
+    },
+    "topology": {
+     "bodies": 1,
+     "shells": 1,
+     "faces": 4,
+     "edges": 4,
+     "vertices": 0,
+     "loops": 8,
+     "ringEdges": 4,
+     "closedToroidalFaces": 0,
+     "singularPoints": 0,
+     "pinchPoints": 0,
+     "genus": 1
+    },
+    "rawTopology": {
+     "bodies": 1,
+     "shells": 1,
+     "faces": 4,
+     "edges": 8,
+     "vertices": 5,
+     "loops": 6
+    },
+    "surfaceTypes": {
+     "Cylinder": 2,
+     "Plane": 2
+    },
+    "measurements": {},
+    "cellAttribution": true,
+    "validity": {
+     "brep": true,
+     "closed": true,
+     "positive": true
+    }
+   },
+   "stepImport": {
+    "volume": 3029.861998943509,
+    "area": 1493.1428193469458,
+    "bodies": [
+     {
+      "volume": 3029.861998943509,
+      "area": 1493.1428193469458,
+      "centroid": [
+       499.99999999976427,
+       3999.93010529586,
+       2.977499061033492e-13
+      ],
+      "bbox": {
+       "min": [
+        494.999999899988,
+        3994.9999999,
+        -20.0000001
+       ],
+       "max": [
+        505.00000010004,
+        4005.0000001,
+        20.0000001
+       ]
+      },
+      "topology": {
+       "bodies": 1,
+       "shells": 1,
+       "faces": 4,
+       "edges": 4,
+       "vertices": 0,
+       "loops": 8,
+       "ringEdges": 4,
+       "closedToroidalFaces": 0,
+       "singularPoints": 0,
+       "pinchPoints": 0,
+       "genus": 1
+      },
+      "rawTopology": {
+       "bodies": 1,
+       "shells": 1,
+       "faces": 4,
+       "edges": 8,
+       "vertices": 5,
+       "loops": 6
+      },
+      "valid": true
+     }
+    ],
+    "bbox": {
+     "min": [
+      494.999999899988,
+      3994.9999999,
+      -20.0000001
+     ],
+     "max": [
+      505.00000010004,
+      4005.0000001,
+      20.0000001
+     ]
+    },
+    "localBbox": {
+     "min": [
+      -5.000000100012008,
+      -5.0000001,
+      -20.0000001
+     ],
+     "max": [
+      5.000000100039943,
+      5.0000001,
+      20.0000001
+     ]
+    },
+    "topology": {
+     "bodies": 1,
+     "shells": 1,
+     "faces": 4,
+     "edges": 4,
+     "vertices": 0,
+     "loops": 8,
+     "ringEdges": 4,
+     "closedToroidalFaces": 0,
+     "singularPoints": 0,
+     "pinchPoints": 0,
+     "genus": 1
+    },
+    "rawTopology": {
+     "bodies": 1,
+     "shells": 1,
+     "faces": 4,
+     "edges": 8,
+     "vertices": 5,
+     "loops": 6
+    },
+    "surfaceTypes": {
+     "Cylinder": 2,
+     "Plane": 2
+    },
+    "measurements": {},
+    "cellAttribution": true,
+    "validity": {
+     "brep": true,
+     "closed": true,
+     "positive": true
+    }
+   },
+   "stepRoundTrip": {
+    "ok": true,
+    "metrics": {
+     "volume": 3029.861998943509,
+     "area": 1493.1428193469458,
+     "bodies": [
+      {
+       "volume": 3029.861998943509,
+       "area": 1493.1428193469458,
+       "centroid": [
+        499.99999999976427,
+        3999.93010529586,
+        2.977499061033492e-13
+       ],
+       "bbox": {
+        "min": [
+         494.999999899988,
+         3994.9999999,
+         -20.0000001
+        ],
+        "max": [
+         505.00000010004,
+         4005.0000001,
+         20.0000001
+        ]
+       },
+       "topology": {
+        "bodies": 1,
+        "shells": 1,
+        "faces": 4,
+        "edges": 4,
+        "vertices": 0,
+        "loops": 8,
+        "ringEdges": 4,
+        "closedToroidalFaces": 0,
+        "singularPoints": 0,
+        "pinchPoints": 0,
+        "genus": 1
+       },
+       "rawTopology": {
+        "bodies": 1,
+        "shells": 1,
+        "faces": 4,
+        "edges": 8,
+        "vertices": 5,
+        "loops": 6
+       },
+       "valid": true
+      }
+     ],
+     "bbox": {
+      "min": [
+       494.999999899988,
+       3994.9999999,
+       -20.0000001
+      ],
+      "max": [
+       505.00000010004,
+       4005.0000001,
+       20.0000001
+      ]
+     },
+     "localBbox": {
+      "min": [
+       -5.000000100012008,
+       -5.0000001,
+       -20.0000001
+      ],
+      "max": [
+       5.000000100039943,
+       5.0000001,
+       20.0000001
+      ]
+     },
+     "topology": {
+      "bodies": 1,
+      "shells": 1,
+      "faces": 4,
+      "edges": 4,
+      "vertices": 0,
+      "loops": 8,
+      "ringEdges": 4,
+      "closedToroidalFaces": 0,
+      "singularPoints": 0,
+      "pinchPoints": 0,
+      "genus": 1
+     },
+     "rawTopology": {
+      "bodies": 1,
+      "shells": 1,
+      "faces": 4,
+      "edges": 8,
+      "vertices": 5,
+      "loops": 6
+     },
+     "surfaceTypes": {
+      "Cylinder": 2,
+      "Plane": 2
+     },
+     "measurements": {},
+     "cellAttribution": true,
+     "validity": {
+      "brep": true,
+      "closed": true,
+      "positive": true
+     }
+    },
+    "secondImport": {
+     "ok": true,
+     "metrics": {
+      "volume": 3029.8619995843014,
+      "area": 1493.1428187838658,
+      "bodies": [
+       {
+        "volume": 3029.8619995843014,
+        "area": 1493.1428187838658,
+        "centroid": [
+         499.99999999964064,
+         3999.930105296073,
+         -3.2781049785517516e-12
+        ],
+        "bbox": {
+         "min": [
+          494.999999899988,
+          3994.9999999,
+          -20.0000001
+         ],
+         "max": [
+          505.00000010004,
+          4005.0000001,
+          20.0000001
+         ]
+        },
+        "topology": {
+         "bodies": 1,
+         "shells": 1,
+         "faces": 4,
+         "edges": 4,
+         "vertices": 0,
+         "loops": 8,
+         "ringEdges": 4,
+         "closedToroidalFaces": 0,
+         "singularPoints": 0,
+         "pinchPoints": 0,
+         "genus": 1
+        },
+        "rawTopology": {
+         "bodies": 1,
+         "shells": 1,
+         "faces": 4,
+         "edges": 8,
+         "vertices": 5,
+         "loops": 6
+        },
+        "valid": true
+       }
+      ],
+      "bbox": {
+       "min": [
+        494.999999899988,
+        3994.9999999,
+        -20.0000001
+       ],
+       "max": [
+        505.00000010004,
+        4005.0000001,
+        20.0000001
+       ]
+      },
+      "localBbox": {
+       "min": [
+        -5.000000100012008,
+        -5.0000001,
+        -20.0000001
+       ],
+       "max": [
+        5.000000100039943,
+        5.0000001,
+        20.0000001
+       ]
+      },
+      "topology": {
+       "bodies": 1,
+       "shells": 1,
+       "faces": 4,
+       "edges": 4,
+       "vertices": 0,
+       "loops": 8,
+       "ringEdges": 4,
+       "closedToroidalFaces": 0,
+       "singularPoints": 0,
+       "pinchPoints": 0,
+       "genus": 1
+      },
+      "rawTopology": {
+       "bodies": 1,
+       "shells": 1,
+       "faces": 4,
+       "edges": 8,
+       "vertices": 5,
+       "loops": 6
+      },
+      "surfaceTypes": {
+       "Cylinder": 2,
+       "Plane": 2
+      },
+      "measurements": {},
+      "cellAttribution": true,
+      "validity": {
+       "brep": true,
+       "closed": true,
+       "positive": true
+      }
+     },
+     "unhealedSliver": null
+    }
+   },
+   "seconds": 1.79859475,
+   "execution": {
+    "ok": true,
+    "status": 0,
+    "signal": null,
+    "stderrTail": [
+     ""
+    ]
+   },
+   "artifacts": "tmp/cat-z3-fix1/targeted-pcurves/occt/boolean-z3/V0/AC108",
+   "artifactHashes": {
+    "request.json": "69631d036ee0f45f49e7466f9dddcfa79523d11f6ebb7c6bfa6d5bb20e561e37",
+    "build.json": "f286ef5d178f35868e402a12d94db144d3ad3fb45bc38746e2bc17c0a000611a",
+    "model.step": "de35ca9d0a17c2386623b0cb79746bf2f61c2672fd37004d4fad301fb8f677d1"
+   }
+  },
+  {
+   "kernel": "occt",
+   "zone": "AC108",
+   "variant": "V1",
+   "group": "boolean-z3",
+   "code": {
+    "head": null,
+    "treeSha256": "53f5f6a9b468322000b47b39c1203b14b8c1683963bdf341fee628fb78d1b5fc"
+   },
+   "outcome": "built",
+   "versions": {
+    "build123d": "0.10.0",
+    "cadquery-ocp": "7.8.1.1.post1"
+   },
+   "nativeValidity": true,
+   "labels": [
+    "AC108_0_V1"
+   ],
+   "entrypoint": "build_zone",
+   "stamp": {
+    "zonesSha256": "932fc072f17bbcc04ec7de70df0f48bec9a4c5ab8621243a024268c4f222109f",
+    "sourceSha256": "9874de278d925a06abdc4ad959c4221c7cf091704f3ebf8957204374eac67b4a",
+    "variant": "V1",
+    "zone": "AC108"
+   },
+   "metrics": {
+    "volume": 3029.8619969922756,
+    "area": 1493.1428181764059,
+    "bodies": [
+     {
+      "volume": 3029.8619969922756,
+      "area": 1493.1428181764059,
+      "centroid": [
+       66036.25000000001,
+       -28768.569894704062,
+       16384.124999999996
+      ],
+      "bbox": {
+       "min": [
+        66031.24999989998,
+        -28773.5000001,
+        16364.1249999
+       ],
+       "max": [
+        66041.25000010003,
+        -28763.4999999,
+        16404.1250001
+       ]
+      },
+      "topology": {
+       "bodies": 1,
+       "shells": 1,
+       "faces": 4,
+       "edges": 4,
+       "vertices": 0,
+       "loops": 8,
+       "ringEdges": 4,
+       "closedToroidalFaces": 0,
+       "singularPoints": 0,
+       "pinchPoints": 0,
+       "genus": 1
+      },
+      "rawTopology": {
+       "bodies": 1,
+       "shells": 1,
+       "faces": 4,
+       "edges": 8,
+       "vertices": 5,
+       "loops": 6
+      },
+      "valid": true
+     }
+    ],
+    "bbox": {
+     "min": [
+      66031.24999989998,
+      -28773.5000001,
+      16364.1249999
+     ],
+     "max": [
+      66041.25000010003,
+      -28763.4999999,
+      16404.1250001
+     ]
+    },
+    "localBbox": {
+     "min": [
+      -5.00000010000667,
+      -5.0000001,
+      -20.0000001
+     ],
+     "max": [
+      5.000000100039936,
+      5.0000001,
+      20.0000001
+     ]
+    },
+    "topology": {
+     "bodies": 1,
+     "shells": 1,
+     "faces": 4,
+     "edges": 4,
+     "vertices": 0,
+     "loops": 8,
+     "ringEdges": 4,
+     "closedToroidalFaces": 0,
+     "singularPoints": 0,
+     "pinchPoints": 0,
+     "genus": 1
+    },
+    "rawTopology": {
+     "bodies": 1,
+     "shells": 1,
+     "faces": 4,
+     "edges": 8,
+     "vertices": 5,
+     "loops": 6
+    },
+    "surfaceTypes": {
+     "Cylinder": 2,
+     "Plane": 2
+    },
+    "measurements": {},
+    "cellAttribution": true,
+    "validity": {
+     "brep": true,
+     "closed": true,
+     "positive": true
+    }
+   },
+   "stepImport": {
+    "volume": 3029.8619989432323,
+    "area": 1493.142819346911,
+    "bodies": [
+     {
+      "volume": 3029.8619989432323,
+      "area": 1493.142819346911,
+      "centroid": [
+       66036.24999999978,
+       -28768.56989470414,
+       16384.125
+      ],
+      "bbox": {
+       "min": [
+        66031.2499999,
+        -28773.5000001,
+        16364.1249999
+       ],
+       "max": [
+        66041.25000010004,
+        -28763.4999999,
+        16404.1250001
+       ]
+      },
+      "topology": {
+       "bodies": 1,
+       "shells": 1,
+       "faces": 4,
+       "edges": 4,
+       "vertices": 0,
+       "loops": 8,
+       "ringEdges": 4,
+       "closedToroidalFaces": 0,
+       "singularPoints": 0,
+       "pinchPoints": 0,
+       "genus": 1
+      },
+      "rawTopology": {
+       "bodies": 1,
+       "shells": 1,
+       "faces": 4,
+       "edges": 8,
+       "vertices": 5,
+       "loops": 6
+      },
+      "valid": true
+     }
+    ],
+    "bbox": {
+     "min": [
+      66031.2499999,
+      -28773.5000001,
+      16364.1249999
+     ],
+     "max": [
+      66041.25000010004,
+      -28763.4999999,
+      16404.1250001
+     ]
+    },
+    "localBbox": {
+     "min": [
+      -5.000000100000804,
+      -5.0000001,
+      -20.0000001
+     ],
+     "max": [
+      5.0000001000380125,
+      5.0000001,
+      20.0000001
+     ]
+    },
+    "topology": {
+     "bodies": 1,
+     "shells": 1,
+     "faces": 4,
+     "edges": 4,
+     "vertices": 0,
+     "loops": 8,
+     "ringEdges": 4,
+     "closedToroidalFaces": 0,
+     "singularPoints": 0,
+     "pinchPoints": 0,
+     "genus": 1
+    },
+    "rawTopology": {
+     "bodies": 1,
+     "shells": 1,
+     "faces": 4,
+     "edges": 8,
+     "vertices": 5,
+     "loops": 6
+    },
+    "surfaceTypes": {
+     "Cylinder": 2,
+     "Plane": 2
+    },
+    "measurements": {},
+    "cellAttribution": true,
+    "validity": {
+     "brep": true,
+     "closed": true,
+     "positive": true
+    }
+   },
+   "stepRoundTrip": {
+    "ok": true,
+    "metrics": {
+     "volume": 3029.8619989432323,
+     "area": 1493.142819346911,
+     "bodies": [
+      {
+       "volume": 3029.8619989432323,
+       "area": 1493.142819346911,
+       "centroid": [
+        66036.24999999978,
+        -28768.56989470414,
+        16384.125
+       ],
+       "bbox": {
+        "min": [
+         66031.2499999,
+         -28773.5000001,
+         16364.1249999
+        ],
+        "max": [
+         66041.25000010004,
+         -28763.4999999,
+         16404.1250001
+        ]
+       },
+       "topology": {
+        "bodies": 1,
+        "shells": 1,
+        "faces": 4,
+        "edges": 4,
+        "vertices": 0,
+        "loops": 8,
+        "ringEdges": 4,
+        "closedToroidalFaces": 0,
+        "singularPoints": 0,
+        "pinchPoints": 0,
+        "genus": 1
+       },
+       "rawTopology": {
+        "bodies": 1,
+        "shells": 1,
+        "faces": 4,
+        "edges": 8,
+        "vertices": 5,
+        "loops": 6
+       },
+       "valid": true
+      }
+     ],
+     "bbox": {
+      "min": [
+       66031.2499999,
+       -28773.5000001,
+       16364.1249999
+      ],
+      "max": [
+       66041.25000010004,
+       -28763.4999999,
+       16404.1250001
+      ]
+     },
+     "localBbox": {
+      "min": [
+       -5.000000100000804,
+       -5.0000001,
+       -20.0000001
+      ],
+      "max": [
+       5.0000001000380125,
+       5.0000001,
+       20.0000001
+      ]
+     },
+     "topology": {
+      "bodies": 1,
+      "shells": 1,
+      "faces": 4,
+      "edges": 4,
+      "vertices": 0,
+      "loops": 8,
+      "ringEdges": 4,
+      "closedToroidalFaces": 0,
+      "singularPoints": 0,
+      "pinchPoints": 0,
+      "genus": 1
+     },
+     "rawTopology": {
+      "bodies": 1,
+      "shells": 1,
+      "faces": 4,
+      "edges": 8,
+      "vertices": 5,
+      "loops": 6
+     },
+     "surfaceTypes": {
+      "Cylinder": 2,
+      "Plane": 2
+     },
+     "measurements": {},
+     "cellAttribution": true,
+     "validity": {
+      "brep": true,
+      "closed": true,
+      "positive": true
+     }
+    },
+    "secondImport": {
+     "ok": true,
+     "metrics": {
+      "volume": 3029.861999727579,
+      "area": 1493.1428188655755,
+      "bodies": [
+       {
+        "volume": 3029.861999727579,
+        "area": 1493.1428188655755,
+        "centroid": [
+         66036.2499999996,
+         -28768.569894703935,
+         16384.124999999993
+        ],
+        "bbox": {
+         "min": [
+          66031.2499999,
+          -28773.5000001,
+          16364.1249999
+         ],
+         "max": [
+          66041.25000010004,
+          -28763.4999999,
+          16404.1250001
+         ]
+        },
+        "topology": {
+         "bodies": 1,
+         "shells": 1,
+         "faces": 4,
+         "edges": 4,
+         "vertices": 0,
+         "loops": 8,
+         "ringEdges": 4,
+         "closedToroidalFaces": 0,
+         "singularPoints": 0,
+         "pinchPoints": 0,
+         "genus": 1
+        },
+        "rawTopology": {
+         "bodies": 1,
+         "shells": 1,
+         "faces": 4,
+         "edges": 8,
+         "vertices": 5,
+         "loops": 6
+        },
+        "valid": true
+       }
+      ],
+      "bbox": {
+       "min": [
+        66031.2499999,
+        -28773.5000001,
+        16364.1249999
+       ],
+       "max": [
+        66041.25000010004,
+        -28763.4999999,
+        16404.1250001
+       ]
+      },
+      "localBbox": {
+       "min": [
+        -5.000000100000804,
+        -5.0000001,
+        -20.0000001
+       ],
+       "max": [
+        5.0000001000380125,
+        5.0000001,
+        20.0000001
+       ]
+      },
+      "topology": {
+       "bodies": 1,
+       "shells": 1,
+       "faces": 4,
+       "edges": 4,
+       "vertices": 0,
+       "loops": 8,
+       "ringEdges": 4,
+       "closedToroidalFaces": 0,
+       "singularPoints": 0,
+       "pinchPoints": 0,
+       "genus": 1
+      },
+      "rawTopology": {
+       "bodies": 1,
+       "shells": 1,
+       "faces": 4,
+       "edges": 8,
+       "vertices": 5,
+       "loops": 6
+      },
+      "surfaceTypes": {
+       "Cylinder": 2,
+       "Plane": 2
+      },
+      "measurements": {},
+      "cellAttribution": true,
+      "validity": {
+       "brep": true,
+       "closed": true,
+       "positive": true
+      }
+     },
+     "unhealedSliver": null
+    }
+   },
+   "seconds": 1.783039,
+   "execution": {
+    "ok": true,
+    "status": 0,
+    "signal": null,
+    "stderrTail": [
+     ""
+    ]
+   },
+   "artifacts": "tmp/cat-z3-fix1/targeted-pcurves/occt/boolean-z3/V1/AC108",
+   "artifactHashes": {
+    "request.json": "bf337e8c4d4f78fa92696a73fdd15833c6c523e301d0775fd633fd5d614cf133",
+    "build.json": "9a4ffee427850561f24c9c2ac572d2462e6333a877817b6052eb0cac300248bb",
+    "model.step": "134d2cc68212bce9d544a6eb933eb39109c91d2d1165d59e722599b8fc386808"
+   }
+  },
+  {
+   "kernel": "occt",
+   "zone": "AC108",
+   "variant": "V2",
+   "group": "boolean-z3",
+   "code": {
+    "head": null,
+    "treeSha256": "53f5f6a9b468322000b47b39c1203b14b8c1683963bdf341fee628fb78d1b5fc"
+   },
+   "outcome": "built",
+   "versions": {
+    "build123d": "0.10.0",
+    "cadquery-ocp": "7.8.1.1.post1"
+   },
+   "nativeValidity": true,
+   "labels": [
+    "AC108_0_V2"
+   ],
+   "entrypoint": "build_zone",
+   "stamp": {
+    "zonesSha256": "932fc072f17bbcc04ec7de70df0f48bec9a4c5ab8621243a024268c4f222109f",
+    "sourceSha256": "9874de278d925a06abdc4ad959c4221c7cf091704f3ebf8957204374eac67b4a",
+    "variant": "V2",
+    "zone": "AC108"
+   },
+   "metrics": {
+    "volume": 3029.8619969924507,
+    "area": 1493.1428181764163,
+    "bodies": [
+     {
+      "volume": 3029.8619969924507,
+      "area": 1493.1428181764163,
+      "centroid": [
+       500.06989470406427,
+       4000,
+       1.5815427108802533e-11
+      ],
+      "bbox": {
+       "min": [
+        494.9999999,
+        3979.9999999,
+        -5.00000010001013
+       ],
+       "max": [
+        505.0000001,
+        4020.0000001,
+        5.000000100039949
+       ]
+      },
+      "topology": {
+       "bodies": 1,
+       "shells": 1,
+       "faces": 4,
+       "edges": 4,
+       "vertices": 0,
+       "loops": 8,
+       "ringEdges": 4,
+       "closedToroidalFaces": 0,
+       "singularPoints": 0,
+       "pinchPoints": 0,
+       "genus": 1
+      },
+      "rawTopology": {
+       "bodies": 1,
+       "shells": 1,
+       "faces": 4,
+       "edges": 8,
+       "vertices": 5,
+       "loops": 6
+      },
+      "valid": true
+     }
+    ],
+    "bbox": {
+     "min": [
+      494.9999999,
+      3979.9999999,
+      -5.00000010001013
+     ],
+     "max": [
+      505.0000001,
+      4020.0000001,
+      5.000000100039949
+     ]
+    },
+    "localBbox": {
+     "min": [
+      -5.00000010001013,
+      -5.0000001,
+      -20.0000001
+     ],
+     "max": [
+      5.000000100039949,
+      5.0000001,
+      20.0000001
+     ]
+    },
+    "topology": {
+     "bodies": 1,
+     "shells": 1,
+     "faces": 4,
+     "edges": 4,
+     "vertices": 0,
+     "loops": 8,
+     "ringEdges": 4,
+     "closedToroidalFaces": 0,
+     "singularPoints": 0,
+     "pinchPoints": 0,
+     "genus": 1
+    },
+    "rawTopology": {
+     "bodies": 1,
+     "shells": 1,
+     "faces": 4,
+     "edges": 8,
+     "vertices": 5,
+     "loops": 6
+    },
+    "surfaceTypes": {
+     "Cylinder": 2,
+     "Plane": 2
+    },
+    "measurements": {},
+    "cellAttribution": true,
+    "validity": {
+     "brep": true,
+     "closed": true,
+     "positive": true
+    }
+   },
+   "stepImport": {
+    "volume": 3029.8619969924644,
+    "area": 1493.1428181763517,
+    "bodies": [
+     {
+      "volume": 3029.8619969924644,
+      "area": 1493.1428181763517,
+      "centroid": [
+       500.0698947040637,
+       3999.9999999999995,
+       1.5996541679489918e-11
+      ],
+      "bbox": {
+       "min": [
+        494.9999999,
+        3979.9999999,
+        -5.000000100010009
+       ],
+       "max": [
+        505.0000001,
+        4020.0000001,
+        5.000000100039948
+       ]
+      },
+      "topology": {
+       "bodies": 1,
+       "shells": 1,
+       "faces": 4,
+       "edges": 4,
+       "vertices": 0,
+       "loops": 8,
+       "ringEdges": 4,
+       "closedToroidalFaces": 0,
+       "singularPoints": 0,
+       "pinchPoints": 0,
+       "genus": 1
+      },
+      "rawTopology": {
+       "bodies": 1,
+       "shells": 1,
+       "faces": 4,
+       "edges": 8,
+       "vertices": 5,
+       "loops": 6
+      },
+      "valid": true
+     }
+    ],
+    "bbox": {
+     "min": [
+      494.9999999,
+      3979.9999999,
+      -5.000000100010009
+     ],
+     "max": [
+      505.0000001,
+      4020.0000001,
+      5.000000100039948
+     ]
+    },
+    "localBbox": {
+     "min": [
+      -5.000000100010009,
+      -5.0000001,
+      -20.0000001
+     ],
+     "max": [
+      5.000000100039948,
+      5.0000001,
+      20.0000001
+     ]
+    },
+    "topology": {
+     "bodies": 1,
+     "shells": 1,
+     "faces": 4,
+     "edges": 4,
+     "vertices": 0,
+     "loops": 8,
+     "ringEdges": 4,
+     "closedToroidalFaces": 0,
+     "singularPoints": 0,
+     "pinchPoints": 0,
+     "genus": 1
+    },
+    "rawTopology": {
+     "bodies": 1,
+     "shells": 1,
+     "faces": 4,
+     "edges": 8,
+     "vertices": 5,
+     "loops": 6
+    },
+    "surfaceTypes": {
+     "Cylinder": 2,
+     "Plane": 2
+    },
+    "measurements": {},
+    "cellAttribution": true,
+    "validity": {
+     "brep": true,
+     "closed": true,
+     "positive": true
+    }
+   },
+   "stepRoundTrip": {
+    "ok": true,
+    "metrics": {
+     "volume": 3029.8619969924644,
+     "area": 1493.1428181763517,
+     "bodies": [
+      {
+       "volume": 3029.8619969924644,
+       "area": 1493.1428181763517,
+       "centroid": [
+        500.0698947040637,
+        3999.9999999999995,
+        1.5996541679489918e-11
+       ],
+       "bbox": {
+        "min": [
+         494.9999999,
+         3979.9999999,
+         -5.000000100010009
+        ],
+        "max": [
+         505.0000001,
+         4020.0000001,
+         5.000000100039948
+        ]
+       },
+       "topology": {
+        "bodies": 1,
+        "shells": 1,
+        "faces": 4,
+        "edges": 4,
+        "vertices": 0,
+        "loops": 8,
+        "ringEdges": 4,
+        "closedToroidalFaces": 0,
+        "singularPoints": 0,
+        "pinchPoints": 0,
+        "genus": 1
+       },
+       "rawTopology": {
+        "bodies": 1,
+        "shells": 1,
+        "faces": 4,
+        "edges": 8,
+        "vertices": 5,
+        "loops": 6
+       },
+       "valid": true
+      }
+     ],
+     "bbox": {
+      "min": [
+       494.9999999,
+       3979.9999999,
+       -5.000000100010009
+      ],
+      "max": [
+       505.0000001,
+       4020.0000001,
+       5.000000100039948
+      ]
+     },
+     "localBbox": {
+      "min": [
+       -5.000000100010009,
+       -5.0000001,
+       -20.0000001
+      ],
+      "max": [
+       5.000000100039948,
+       5.0000001,
+       20.0000001
+      ]
+     },
+     "topology": {
+      "bodies": 1,
+      "shells": 1,
+      "faces": 4,
+      "edges": 4,
+      "vertices": 0,
+      "loops": 8,
+      "ringEdges": 4,
+      "closedToroidalFaces": 0,
+      "singularPoints": 0,
+      "pinchPoints": 0,
+      "genus": 1
+     },
+     "rawTopology": {
+      "bodies": 1,
+      "shells": 1,
+      "faces": 4,
+      "edges": 8,
+      "vertices": 5,
+      "loops": 6
+     },
+     "surfaceTypes": {
+      "Cylinder": 2,
+      "Plane": 2
+     },
+     "measurements": {},
+     "cellAttribution": true,
+     "validity": {
+      "brep": true,
+      "closed": true,
+      "positive": true
+     }
+    },
+    "secondImport": {
+     "ok": true,
+     "metrics": {
+      "volume": 3029.861997633118,
+      "area": 1493.142817612848,
+      "bodies": [
+       {
+        "volume": 3029.861997633118,
+        "area": 1493.142817612848,
+        "centroid": [
+         500.0698947038508,
+         4000.0000000000027,
+         -1.077412331683375e-10
+        ],
+        "bbox": {
+         "min": [
+          494.9999999,
+          3979.9999999,
+          -5.000000100010009
+         ],
+         "max": [
+          505.0000001,
+          4020.0000001,
+          5.000000100039948
+         ]
+        },
+        "topology": {
+         "bodies": 1,
+         "shells": 1,
+         "faces": 4,
+         "edges": 4,
+         "vertices": 0,
+         "loops": 8,
+         "ringEdges": 4,
+         "closedToroidalFaces": 0,
+         "singularPoints": 0,
+         "pinchPoints": 0,
+         "genus": 1
+        },
+        "rawTopology": {
+         "bodies": 1,
+         "shells": 1,
+         "faces": 4,
+         "edges": 8,
+         "vertices": 5,
+         "loops": 6
+        },
+        "valid": true
+       }
+      ],
+      "bbox": {
+       "min": [
+        494.9999999,
+        3979.9999999,
+        -5.000000100010009
+       ],
+       "max": [
+        505.0000001,
+        4020.0000001,
+        5.000000100039948
+       ]
+      },
+      "localBbox": {
+       "min": [
+        -5.000000100010009,
+        -5.0000001,
+        -20.0000001
+       ],
+       "max": [
+        5.000000100039948,
+        5.0000001,
+        20.0000001
+       ]
+      },
+      "topology": {
+       "bodies": 1,
+       "shells": 1,
+       "faces": 4,
+       "edges": 4,
+       "vertices": 0,
+       "loops": 8,
+       "ringEdges": 4,
+       "closedToroidalFaces": 0,
+       "singularPoints": 0,
+       "pinchPoints": 0,
+       "genus": 1
+      },
+      "rawTopology": {
+       "bodies": 1,
+       "shells": 1,
+       "faces": 4,
+       "edges": 8,
+       "vertices": 5,
+       "loops": 6
+      },
+      "surfaceTypes": {
+       "Cylinder": 2,
+       "Plane": 2
+      },
+      "measurements": {},
+      "cellAttribution": true,
+      "validity": {
+       "brep": true,
+       "closed": true,
+       "positive": true
+      }
+     },
+     "unhealedSliver": null
+    }
+   },
+   "seconds": 3.043571292,
+   "execution": {
+    "ok": true,
+    "status": 0,
+    "signal": null,
+    "stderrTail": [
+     ""
+    ]
+   },
+   "artifacts": "tmp/cat-z3-fix1/targeted-pcurves/occt/boolean-z3/V2/AC108",
+   "artifactHashes": {
+    "request.json": "f14213a84416f31ae8d956826ad646bc1d6acad509a2e2ad4bc7aaa24387e8fa",
+    "build.json": "966b6c055f3f6d223070e5376f6b4143b4eeabf2aab016aca9e954228b408c98",
+    "model.step": "b0bd3815b313099ae02d0a7f021b3edc8aca83ccd60b7906a28af4809a31a64b"
+   }
+  },
+  {
+   "kernel": "occt",
+   "zone": "AC108",
+   "variant": "V3",
+   "group": "boolean-z3",
+   "code": {
+    "head": null,
+    "treeSha256": "53f5f6a9b468322000b47b39c1203b14b8c1683963bdf341fee628fb78d1b5fc"
+   },
+   "outcome": "built",
+   "versions": {
+    "build123d": "0.10.0",
+    "cadquery-ocp": "7.8.1.1.post1"
+   },
+   "nativeValidity": true,
+   "labels": [
+    "AC108_0_V3"
+   ],
+   "entrypoint": "build_zone",
+   "stamp": {
+    "zonesSha256": "932fc072f17bbcc04ec7de70df0f48bec9a4c5ab8621243a024268c4f222109f",
+    "sourceSha256": "9874de278d925a06abdc4ad959c4221c7cf091704f3ebf8957204374eac67b4a",
+    "variant": "V3",
+    "zone": "AC108"
+   },
+   "metrics": {
+    "volume": 3029.861996992431,
+    "area": 1493.1428181764181,
+    "bodies": [
+     {
+      "volume": 3029.861996992431,
+      "area": 1493.1428181764181,
+      "centroid": [
+       499.5886308478029,
+       3999.8036449613714,
+       0.2214299404471251
+      ],
+      "bbox": {
+       "min": [
+        493.50182416183145,
+        3994.3839853524596,
+        -20.03942047928141
+       ],
+       "max": [
+        505.6643478837006,
+        4005.362595146425,
+        20.48630946484749
+       ]
+      },
+      "topology": {
+       "bodies": 1,
+       "shells": 1,
+       "faces": 4,
+       "edges": 4,
+       "vertices": 0,
+       "loops": 8,
+       "ringEdges": 4,
+       "closedToroidalFaces": 0,
+       "singularPoints": 0,
+       "pinchPoints": 0,
+       "genus": 1
+      },
+      "rawTopology": {
+       "bodies": 1,
+       "shells": 1,
+       "faces": 4,
+       "edges": 8,
+       "vertices": 5,
+       "loops": 6
+      },
+      "valid": true
+     }
+    ],
+    "bbox": {
+     "min": [
+      493.50182416183145,
+      3994.3839853524596,
+      -20.03942047928141
+     ],
+     "max": [
+      505.6643478837006,
+      4005.362595146425,
+      20.48630946484749
+     ]
+    },
+    "localBbox": {
+     "min": [
+      -5.000000100009628,
+      -5.0000001,
+      -20.000000099999983
+     ],
+     "max": [
+      5.000000100040403,
+      5.000000100000455,
+      20.000000100000022
+     ]
+    },
+    "topology": {
+     "bodies": 1,
+     "shells": 1,
+     "faces": 4,
+     "edges": 4,
+     "vertices": 0,
+     "loops": 8,
+     "ringEdges": 4,
+     "closedToroidalFaces": 0,
+     "singularPoints": 0,
+     "pinchPoints": 0,
+     "genus": 1
+    },
+    "rawTopology": {
+     "bodies": 1,
+     "shells": 1,
+     "faces": 4,
+     "edges": 8,
+     "vertices": 5,
+     "loops": 6
+    },
+    "surfaceTypes": {
+     "Cylinder": 2,
+     "Plane": 2
+    },
+    "measurements": {},
+    "cellAttribution": true,
+    "validity": {
+     "brep": true,
+     "closed": true,
+     "positive": true
+    }
+   },
+   "stepImport": {
+    "volume": 3029.8619969905653,
+    "area": 1493.142818175069,
+    "bodies": [
+     {
+      "volume": 3029.8619969905653,
+      "area": 1493.142818175069,
+      "centroid": [
+       499.5886308477984,
+       3999.8036449611564,
+       0.22142994044582773
+      ],
+      "bbox": {
+       "min": [
+        493.50182416182815,
+        3994.383985352891,
+        -20.039420479272735
+       ],
+       "max": [
+        505.66434788369185,
+        4005.362595146109,
+        20.486309464847736
+       ]
+      },
+      "topology": {
+       "bodies": 1,
+       "shells": 1,
+       "faces": 4,
+       "edges": 4,
+       "vertices": 0,
+       "loops": 8,
+       "ringEdges": 4,
+       "closedToroidalFaces": 0,
+       "singularPoints": 0,
+       "pinchPoints": 0,
+       "genus": 1
+      },
+      "rawTopology": {
+       "bodies": 1,
+       "shells": 1,
+       "faces": 4,
+       "edges": 8,
+       "vertices": 5,
+       "loops": 6
+      },
+      "valid": true
+     }
+    ],
+    "bbox": {
+     "min": [
+      493.50182416182815,
+      3994.383985352891,
+      -20.039420479272735
+     ],
+     "max": [
+      505.66434788369185,
+      4005.362595146109,
+      20.486309464847736
+     ]
+    },
+    "localBbox": {
+     "min": [
+      -5.000000100036336,
+      -5.000000100313776,
+      -20.000000099985762
+     ],
+     "max": [
+      5.000000100071643,
+      5.000000100430646,
+      20.00000009999239
+     ]
+    },
+    "topology": {
+     "bodies": 1,
+     "shells": 1,
+     "faces": 4,
+     "edges": 4,
+     "vertices": 0,
+     "loops": 8,
+     "ringEdges": 4,
+     "closedToroidalFaces": 0,
+     "singularPoints": 0,
+     "pinchPoints": 0,
+     "genus": 1
+    },
+    "rawTopology": {
+     "bodies": 1,
+     "shells": 1,
+     "faces": 4,
+     "edges": 8,
+     "vertices": 5,
+     "loops": 6
+    },
+    "surfaceTypes": {
+     "Cylinder": 2,
+     "Plane": 2
+    },
+    "measurements": {},
+    "cellAttribution": true,
+    "validity": {
+     "brep": true,
+     "closed": true,
+     "positive": true
+    }
+   },
+   "stepRoundTrip": {
+    "ok": true,
+    "metrics": {
+     "volume": 3029.8619969905653,
+     "area": 1493.142818175069,
+     "bodies": [
+      {
+       "volume": 3029.8619969905653,
+       "area": 1493.142818175069,
+       "centroid": [
+        499.5886308477984,
+        3999.8036449611564,
+        0.22142994044582773
+       ],
+       "bbox": {
+        "min": [
+         493.50182416182815,
+         3994.383985352891,
+         -20.039420479272735
+        ],
+        "max": [
+         505.66434788369185,
+         4005.362595146109,
+         20.486309464847736
+        ]
+       },
+       "topology": {
+        "bodies": 1,
+        "shells": 1,
+        "faces": 4,
+        "edges": 4,
+        "vertices": 0,
+        "loops": 8,
+        "ringEdges": 4,
+        "closedToroidalFaces": 0,
+        "singularPoints": 0,
+        "pinchPoints": 0,
+        "genus": 1
+       },
+       "rawTopology": {
+        "bodies": 1,
+        "shells": 1,
+        "faces": 4,
+        "edges": 8,
+        "vertices": 5,
+        "loops": 6
+       },
+       "valid": true
+      }
+     ],
+     "bbox": {
+      "min": [
+       493.50182416182815,
+       3994.383985352891,
+       -20.039420479272735
+      ],
+      "max": [
+       505.66434788369185,
+       4005.362595146109,
+       20.486309464847736
+      ]
+     },
+     "localBbox": {
+      "min": [
+       -5.000000100036336,
+       -5.000000100313776,
+       -20.000000099985762
+      ],
+      "max": [
+       5.000000100071643,
+       5.000000100430646,
+       20.00000009999239
+      ]
+     },
+     "topology": {
+      "bodies": 1,
+      "shells": 1,
+      "faces": 4,
+      "edges": 4,
+      "vertices": 0,
+      "loops": 8,
+      "ringEdges": 4,
+      "closedToroidalFaces": 0,
+      "singularPoints": 0,
+      "pinchPoints": 0,
+      "genus": 1
+     },
+     "rawTopology": {
+      "bodies": 1,
+      "shells": 1,
+      "faces": 4,
+      "edges": 8,
+      "vertices": 5,
+      "loops": 6
+     },
+     "surfaceTypes": {
+      "Cylinder": 2,
+      "Plane": 2
+     },
+     "measurements": {},
+     "cellAttribution": true,
+     "validity": {
+      "brep": true,
+      "closed": true,
+      "positive": true
+     }
+    },
+    "secondImport": {
+     "ok": true,
+     "metrics": {
+      "volume": 3029.8619976309683,
+      "area": 1493.1428176163886,
+      "bodies": [
+       {
+        "volume": 3029.8619976309683,
+        "area": 1493.1428176163886,
+        "centroid": [
+         499.58863084765574,
+         3999.803644961357,
+         0.2214299404539665
+        ],
+        "bbox": {
+         "min": [
+          493.5018241618281,
+          3994.383985352891,
+          -20.039420479272625
+         ],
+         "max": [
+          505.66434788369185,
+          4005.362595146109,
+          20.486309464847626
+         ]
+        },
+        "topology": {
+         "bodies": 1,
+         "shells": 1,
+         "faces": 4,
+         "edges": 4,
+         "vertices": 0,
+         "loops": 8,
+         "ringEdges": 4,
+         "closedToroidalFaces": 0,
+         "singularPoints": 0,
+         "pinchPoints": 0,
+         "genus": 1
+        },
+        "rawTopology": {
+         "bodies": 1,
+         "shells": 1,
+         "faces": 4,
+         "edges": 8,
+         "vertices": 5,
+         "loops": 6
+        },
+        "valid": true
+       }
+      ],
+      "bbox": {
+       "min": [
+        493.5018241618281,
+        3994.383985352891,
+        -20.039420479272625
+       ],
+       "max": [
+        505.66434788369185,
+        4005.362595146109,
+        20.486309464847626
+       ]
+      },
+      "localBbox": {
+       "min": [
+        -5.000000100036336,
+        -5.000000100313776,
+        -20.000000099985762
+       ],
+       "max": [
+        5.000000100071643,
+        5.000000100430646,
+        20.00000009999239
+       ]
+      },
+      "topology": {
+       "bodies": 1,
+       "shells": 1,
+       "faces": 4,
+       "edges": 4,
+       "vertices": 0,
+       "loops": 8,
+       "ringEdges": 4,
+       "closedToroidalFaces": 0,
+       "singularPoints": 0,
+       "pinchPoints": 0,
+       "genus": 1
+      },
+      "rawTopology": {
+       "bodies": 1,
+       "shells": 1,
+       "faces": 4,
+       "edges": 8,
+       "vertices": 5,
+       "loops": 6
+      },
+      "surfaceTypes": {
+       "Cylinder": 2,
+       "Plane": 2
+      },
+      "measurements": {},
+      "cellAttribution": true,
+      "validity": {
+       "brep": true,
+       "closed": true,
+       "positive": true
+      }
+     },
+     "unhealedSliver": null
+    }
+   },
+   "seconds": 1.516555417,
+   "execution": {
+    "ok": true,
+    "status": 0,
+    "signal": null,
+    "stderrTail": [
+     ""
+    ]
+   },
+   "artifacts": "tmp/cat-z3-fix1/targeted-pcurves/occt/boolean-z3/V3/AC108",
+   "artifactHashes": {
+    "request.json": "32307bbac6d637847f29f6a59cce85faafd4b1a1269ec2147fa5f61954ff08ea",
+    "build.json": "a38db4e6819652a9a1120522b453a87d4ec8a5afa6d61fe9a5ec982a7949cb45",
+    "model.step": "7d481fdfbbe4b66f5a1e07a8fa213899d012c576b4aafe7a3703090ef4ed8706"
+   }
+  },
+  {
+   "kernel": "occt",
+   "zone": "AC108",
+   "variant": "V4",
+   "group": "boolean-z3",
+   "code": {
+    "head": null,
+    "treeSha256": "53f5f6a9b468322000b47b39c1203b14b8c1683963bdf341fee628fb78d1b5fc"
+   },
+   "outcome": "built",
+   "versions": {
+    "build123d": "0.10.0",
+    "cadquery-ocp": "7.8.1.1.post1"
+   },
+   "nativeValidity": true,
+   "labels": [
+    "AC108_0_V4"
+   ],
+   "entrypoint": "build_zone",
+   "stamp": {
+    "zonesSha256": "932fc072f17bbcc04ec7de70df0f48bec9a4c5ab8621243a024268c4f222109f",
+    "sourceSha256": "9874de278d925a06abdc4ad959c4221c7cf091704f3ebf8957204374eac67b4a",
+    "variant": "V4",
+    "zone": "AC108"
+   },
+   "metrics": {
+    "volume": 3057.9054655448285,
+    "area": 1502.2105349980213,
+    "bodies": [
+     {
+      "volume": 3057.9054655448285,
+      "area": 1502.2105349980213,
+      "centroid": [
+       500.00000000000097,
+       3999.928663330196,
+       -2.482896170581144e-12
+      ],
+      "bbox": {
+       "min": [
+        494.9749999,
+        3994.9749999,
+        -20.0000001
+       ],
+       "max": [
+        505.0250001,
+        4005.0250001,
+        20.0000001
+       ]
+      },
+      "topology": {
+       "bodies": 1,
+       "shells": 1,
+       "faces": 4,
+       "edges": 4,
+       "vertices": 0,
+       "loops": 8,
+       "ringEdges": 4,
+       "closedToroidalFaces": 0,
+       "singularPoints": 0,
+       "pinchPoints": 0,
+       "genus": 1
+      },
+      "rawTopology": {
+       "bodies": 1,
+       "shells": 1,
+       "faces": 4,
+       "edges": 9,
+       "vertices": 6,
+       "loops": 5
+      },
+      "valid": true
+     }
+    ],
+    "bbox": {
+     "min": [
+      494.9749999,
+      3994.9749999,
+      -20.0000001
+     ],
+     "max": [
+      505.0250001,
+      4005.0250001,
+      20.0000001
+     ]
+    },
+    "localBbox": {
+     "min": [
+      -5.025000100000001,
+      -5.025000100000001,
+      -20.0000001
+     ],
+     "max": [
+      5.025000100000001,
+      5.025000100000001,
+      20.0000001
+     ]
+    },
+    "topology": {
+     "bodies": 1,
+     "shells": 1,
+     "faces": 4,
+     "edges": 4,
+     "vertices": 0,
+     "loops": 8,
+     "ringEdges": 4,
+     "closedToroidalFaces": 0,
+     "singularPoints": 0,
+     "pinchPoints": 0,
+     "genus": 1
+    },
+    "rawTopology": {
+     "bodies": 1,
+     "shells": 1,
+     "faces": 4,
+     "edges": 9,
+     "vertices": 6,
+     "loops": 5
+    },
+    "surfaceTypes": {
+     "Cylinder": 2,
+     "Plane": 2
+    },
+    "measurements": {},
+    "cellAttribution": true,
+    "validity": {
+     "brep": true,
+     "closed": true,
+     "positive": true
+    }
+   },
+   "stepImport": {
+    "volume": 3057.9054655452073,
+    "area": 1502.2105349983906,
+    "bodies": [
+     {
+      "volume": 3057.9054655452073,
+      "area": 1502.2105349983906,
+      "centroid": [
+       500.0000000000009,
+       3999.9286633301954,
+       -2.4308469576134614e-12
+      ],
+      "bbox": {
+       "min": [
+        494.9749999,
+        3994.9749999,
+        -20.0000001
+       ],
+       "max": [
+        505.0250001,
+        4005.0250001,
+        20.0000001
+       ]
+      },
+      "topology": {
+       "bodies": 1,
+       "shells": 1,
+       "faces": 4,
+       "edges": 4,
+       "vertices": 0,
+       "loops": 8,
+       "ringEdges": 4,
+       "closedToroidalFaces": 0,
+       "singularPoints": 0,
+       "pinchPoints": 0,
+       "genus": 1
+      },
+      "rawTopology": {
+       "bodies": 1,
+       "shells": 1,
+       "faces": 4,
+       "edges": 9,
+       "vertices": 6,
+       "loops": 5
+      },
+      "valid": true
+     }
+    ],
+    "bbox": {
+     "min": [
+      494.9749999,
+      3994.9749999,
+      -20.0000001
+     ],
+     "max": [
+      505.0250001,
+      4005.0250001,
+      20.0000001
+     ]
+    },
+    "localBbox": {
+     "min": [
+      -5.025000100000001,
+      -5.025000100000001,
+      -20.0000001
+     ],
+     "max": [
+      5.025000100000001,
+      5.025000100000001,
+      20.0000001
+     ]
+    },
+    "topology": {
+     "bodies": 1,
+     "shells": 1,
+     "faces": 4,
+     "edges": 4,
+     "vertices": 0,
+     "loops": 8,
+     "ringEdges": 4,
+     "closedToroidalFaces": 0,
+     "singularPoints": 0,
+     "pinchPoints": 0,
+     "genus": 1
+    },
+    "rawTopology": {
+     "bodies": 1,
+     "shells": 1,
+     "faces": 4,
+     "edges": 9,
+     "vertices": 6,
+     "loops": 5
+    },
+    "surfaceTypes": {
+     "Cylinder": 2,
+     "Plane": 2
+    },
+    "measurements": {},
+    "cellAttribution": true,
+    "validity": {
+     "brep": true,
+     "closed": true,
+     "positive": true
+    }
+   },
+   "stepRoundTrip": {
+    "ok": true,
+    "metrics": {
+     "volume": 3057.9054655452073,
+     "area": 1502.2105349983906,
+     "bodies": [
+      {
+       "volume": 3057.9054655452073,
+       "area": 1502.2105349983906,
+       "centroid": [
+        500.0000000000009,
+        3999.9286633301954,
+        -2.4308469576134614e-12
+       ],
+       "bbox": {
+        "min": [
+         494.9749999,
+         3994.9749999,
+         -20.0000001
+        ],
+        "max": [
+         505.0250001,
+         4005.0250001,
+         20.0000001
+        ]
+       },
+       "topology": {
+        "bodies": 1,
+        "shells": 1,
+        "faces": 4,
+        "edges": 4,
+        "vertices": 0,
+        "loops": 8,
+        "ringEdges": 4,
+        "closedToroidalFaces": 0,
+        "singularPoints": 0,
+        "pinchPoints": 0,
+        "genus": 1
+       },
+       "rawTopology": {
+        "bodies": 1,
+        "shells": 1,
+        "faces": 4,
+        "edges": 9,
+        "vertices": 6,
+        "loops": 5
+       },
+       "valid": true
+      }
+     ],
+     "bbox": {
+      "min": [
+       494.9749999,
+       3994.9749999,
+       -20.0000001
+      ],
+      "max": [
+       505.0250001,
+       4005.0250001,
+       20.0000001
+      ]
+     },
+     "localBbox": {
+      "min": [
+       -5.025000100000001,
+       -5.025000100000001,
+       -20.0000001
+      ],
+      "max": [
+       5.025000100000001,
+       5.025000100000001,
+       20.0000001
+      ]
+     },
+     "topology": {
+      "bodies": 1,
+      "shells": 1,
+      "faces": 4,
+      "edges": 4,
+      "vertices": 0,
+      "loops": 8,
+      "ringEdges": 4,
+      "closedToroidalFaces": 0,
+      "singularPoints": 0,
+      "pinchPoints": 0,
+      "genus": 1
+     },
+     "rawTopology": {
+      "bodies": 1,
+      "shells": 1,
+      "faces": 4,
+      "edges": 9,
+      "vertices": 6,
+      "loops": 5
+     },
+     "surfaceTypes": {
+      "Cylinder": 2,
+      "Plane": 2
+     },
+     "measurements": {},
+     "cellAttribution": true,
+     "validity": {
+      "brep": true,
+      "closed": true,
+      "positive": true
+     }
+    },
+    "secondImport": {
+     "ok": true,
+     "metrics": {
+      "volume": 3057.90546554518,
+      "area": 1502.2105349983096,
+      "bodies": [
+       {
+        "volume": 3057.90546554518,
+        "area": 1502.2105349983096,
+        "centroid": [
+         500.00000000000097,
+         3999.928663330196,
+         -2.4335237742803768e-12
+        ],
+        "bbox": {
+         "min": [
+          494.9749999,
+          3994.9749999,
+          -20.0000001
+         ],
+         "max": [
+          505.0250001,
+          4005.0250001,
+          20.0000001
+         ]
+        },
+        "topology": {
+         "bodies": 1,
+         "shells": 1,
+         "faces": 4,
+         "edges": 4,
+         "vertices": 0,
+         "loops": 8,
+         "ringEdges": 4,
+         "closedToroidalFaces": 0,
+         "singularPoints": 0,
+         "pinchPoints": 0,
+         "genus": 1
+        },
+        "rawTopology": {
+         "bodies": 1,
+         "shells": 1,
+         "faces": 4,
+         "edges": 9,
+         "vertices": 6,
+         "loops": 5
+        },
+        "valid": true
+       }
+      ],
+      "bbox": {
+       "min": [
+        494.9749999,
+        3994.9749999,
+        -20.0000001
+       ],
+       "max": [
+        505.0250001,
+        4005.0250001,
+        20.0000001
+       ]
+      },
+      "localBbox": {
+       "min": [
+        -5.025000100000001,
+        -5.025000100000001,
+        -20.0000001
+       ],
+       "max": [
+        5.025000100000001,
+        5.025000100000001,
+        20.0000001
+       ]
+      },
+      "topology": {
+       "bodies": 1,
+       "shells": 1,
+       "faces": 4,
+       "edges": 4,
+       "vertices": 0,
+       "loops": 8,
+       "ringEdges": 4,
+       "closedToroidalFaces": 0,
+       "singularPoints": 0,
+       "pinchPoints": 0,
+       "genus": 1
+      },
+      "rawTopology": {
+       "bodies": 1,
+       "shells": 1,
+       "faces": 4,
+       "edges": 9,
+       "vertices": 6,
+       "loops": 5
+      },
+      "surfaceTypes": {
+       "Cylinder": 2,
+       "Plane": 2
+      },
+      "measurements": {},
+      "cellAttribution": true,
+      "validity": {
+       "brep": true,
+       "closed": true,
+       "positive": true
+      }
+     },
+     "unhealedSliver": null
+    }
+   },
+   "seconds": 1.5200039159999998,
+   "execution": {
+    "ok": true,
+    "status": 0,
+    "signal": null,
+    "stderrTail": [
+     ""
+    ]
+   },
+   "artifacts": "tmp/cat-z3-fix1/targeted-pcurves/occt/boolean-z3/V4/AC108",
+   "artifactHashes": {
+    "request.json": "803c2ef6e8ee880cb8e6a16cdb3ae87a0a8d28a22dfcd58aef966198d2754f81",
+    "build.json": "ba8e77634aca3695fd2332c86db288afecdaa67e5f08e9fde7c06add7b39f936",
+    "model.step": "57ddd85ee85f916578c6c3c613f2e2ef802aa22d2d723447ae4a76808672b0bf"
+   }
+  }
+ ]
+}

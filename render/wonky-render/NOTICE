@@ -1,0 +1,8 @@
+Camera projected-bounds framing adapted from stefangolas/look
+src/camera.rs, commit dc6687c5a579cee5cdfe91411d30bb71d19a5ac6
+https://github.com/stefangolas/look
+Copyright (c) 2026 look contributors; MIT OR Apache-2.0.
+The accompanying LICENSE.look-MIT and LICENSE.look-APACHE preserve upstream notices.
+No upstream geometry construction/import code is included.
+Rendering dependencies: crates.io registry, versions/checksums frozen in Cargo.lock.
+Wonky geometry dependencies: local maintained rust/ sources, no external CAD kernel.

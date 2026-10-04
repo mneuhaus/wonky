@@ -20,6 +20,8 @@
 //                record, or null (the viewer then uses its palette and says
 //                "viewer color"; that color is not model data)
 import { logicalFaces as defaultLogicalFaces } from './logical-faces.mjs';
+import { viewerRecord } from './model-record.mjs';
+import { rustBodyFacts } from './rust-facts.mjs';
 
 export const PARTS_SCHEMA = 'wonky.viewer-parts/1';
 
@@ -117,7 +119,8 @@ function operationOf(model, body) {
   };
 }
 
-function partOf(model, body, index, { logicalFaces, settingsKey }) {
+function partOf(model, body, index, { logicalFaces, settingsKey, kernel }) {
+  const facts = kernel ? rustBodyFacts(kernel, body) : null;
   const rgb = appearanceRgb(body.appearance);
   const volume = body.validation?.volumeMm3;
   const name = nameOf(body);
@@ -150,17 +153,19 @@ function partOf(model, body, index, { logicalFaces, settingsKey }) {
       role: body.identity.role ?? null, stability: body.identity.stability ?? null,
     } : null,
     provenance: copy(body.provenance ?? null),
+    ...(facts ? { kernelFacts: facts } : {}),
   };
 }
 
-export function partsOf(model, { logical = defaultLogicalFaces } = {}) {
+export function partsOf(model, { logical = defaultLogicalFaces, kernel = null } = {}) {
+  model = viewerRecord(model);
   if (model?.schema !== 'wonky-brep/1' || !Array.isArray(model.bodies)) {
     throw new TypeError('partsOf needs a wonky-brep/1 model');
   }
   const logicalResult = logicalCounts(model, logical);
   const keys = settingsKeys(model.bodies);
   const bodies = model.bodies.map((body, index) => partOf(model, body, index, {
-    logicalFaces: logicalResult.counts[index], settingsKey: keys[index],
+    logicalFaces: logicalResult.counts[index], settingsKey: keys[index], kernel,
   }));
   const sum = key => bodies.reduce((total, body) => (total === null
     || body.counts[key] === null ? null : total + body.counts[key]), 0);

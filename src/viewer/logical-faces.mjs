@@ -16,6 +16,7 @@
 // that no subdivision edge connects stay separate logical faces. An optional
 // second argument `{ classes }` reuses a classifyEdges(model) result.
 import { EDGE_CLASS, classifyEdges, faceSign, joinFragments } from './edge-classes.mjs';
+import { viewerRecord } from './model-record.mjs';
 
 export const LOGICAL_FACES_SCHEMA = 'wonky.logical-faces/1';
 
@@ -55,6 +56,7 @@ function groupBody(body, bodyIndex, classified) {
 }
 
 export function logicalFaces(model, { classes = classifyEdges(model) } = {}) {
+  model = viewerRecord(model);
   return {
     schema: LOGICAL_FACES_SCHEMA,
     bodies: model.bodies.map((body, bodyIndex) => groupBody(body, bodyIndex,

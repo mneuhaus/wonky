@@ -23,6 +23,7 @@
 // (src/identity.mjs: "never replace a missing identity with the closest
 // geometry"). `fromAlias` names the entity in `fromModel` for messages.
 import { matchTopologyReference, topologyReference } from '../identity.mjs';
+import { viewerRecord } from './model-record.mjs';
 
 export const ENTITY_TYPES = Object.freeze(['body', 'face', 'edge', 'vertex']);
 const GROUPS = { face: 'faces', edge: 'edges', vertex: 'vertices' };
@@ -62,7 +63,10 @@ function resolveOne(fromModel, toModel, reference) {
     return lost(fromAlias, `${fromAlias} is not in the source revision`);
   }
   if (!body.identity) {
-    return lost(fromAlias, 'The body has no recorded topology identity', { stability: null });
+    const rust = String(body.geometry).startsWith('rust-wc0');
+    return lost(fromAlias, rust
+      ? 'unsupported on Rust: Rust bodies carry no recorded topology identity, so a selection cannot carry across revisions'
+      : 'The body has no recorded topology identity', { stability: null });
   }
   let identity;
   try {
@@ -103,6 +107,8 @@ function resolveOne(fromModel, toModel, reference) {
 
 export function resolveReferences(fromModel, toModel, references) {
   if (!Array.isArray(references)) throw new TypeError('references must be an array');
+  fromModel = viewerRecord(fromModel);
+  toModel = viewerRecord(toModel);
   return references.map(reference => {
     const problem = referenceProblem(reference);
     if (problem) throw new TypeError(`Invalid reference: ${problem}`);

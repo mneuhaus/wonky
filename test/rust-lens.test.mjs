@@ -29,7 +29,7 @@ test('radical lens survives unrelated bodies, placement and unhealed spherical S
   const body = model.bodies.find(b => b.name === 'lens'); assert.ok(body);
   const kernel = rustModelKernel(model);
   const wire = describeRustBody(kernel, body);
-  assert.equal(wire.schemaVersion, 4);
+  assert.equal(wire.schemaVersion, 8);
   assert.equal(wire.body.curves[0].geometry.kind, 'SphereCircle');
   assert.equal(wire.body.vertices.length, 0);
   assert.equal(wire.body.edges[0].vertices.length, 0);

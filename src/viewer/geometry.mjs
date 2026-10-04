@@ -17,6 +17,11 @@ import { coords, number, real } from '../real.mjs';
 import { EDGE_CLASSES, bodyExtent } from './edge-classes.mjs';
 import { HttpError } from './http.mjs';
 import { logicalFaces } from './logical-faces.mjs';
+import { rustBodyFacts } from './rust-facts.mjs';
+import { viewerRecord } from './model-record.mjs';
+import { rustHostOf } from '../native/rust-host.mjs';
+import { isRustRecord } from '../rust-review-scene.mjs';
+import { binary64Math, circleParameter } from './binary64-math.mjs';
 
 export const GEOMETRY_SCHEMA = 'wonky.viewer-geometry/1';
 export const EXACT = 'exact-parameters';
@@ -29,7 +34,9 @@ export const PAGE_SIZE = 500;
 const FULL_TURN = 2 * Math.PI;
 // Relative arithmetic guard per stored precision: one unit in the last place
 // of the stored coordinates (F32) or of the Real arithmetic (F32x2).
-const RELATIVE_GUARD = { F32: 2 ** -23, F32x2: 2 ** -44 };
+const RELATIVE_GUARD = { F32: 2 ** -23, F32x2: 2 ** -44, binary64: 2 ** -50 };
+// Stored precision of a body: Rust WC0 records are binary64 carriers.
+const precisionOf = body => body?.precision ?? (isRustRecord(body) ? 'binary64' : undefined);
 const LETTERS = { face: 'F', edge: 'E', vertex: 'V', logical: 'L' };
 const KINDS = { F: 'face', E: 'edge', V: 'vertex', L: 'logical' };
 const ALIAS = /^B([1-9][0-9]*)(?:\.([FEVL])([1-9][0-9]*))?$/;
@@ -55,6 +62,8 @@ const toReal = value => real(Math.abs(value) < TINY ? 0 : value);
 const toVector = ([x, y, z]) => ({ $: 'V3', x: toReal(x), y: toReal(y), z: toReal(z) });
 
 export function exactMath(kernel) {
+  // The Rust kernel states its carriers in binary64 millimetres; no Bend Real.
+  if (rustHostOf(kernel)) return binary64Math();
   if (!kernel?.precise || !kernel?.real) {
     throw new Error('Exact geometry needs the loaded Bend kernel (kernel.precise, kernel.real)');
   }
@@ -99,7 +108,7 @@ function bodyScale(body) {
 // place of the stored precision, never below ANGULAR_TOLERANCE_RAD. Shared
 // with printability (bed faces).
 export const precisionAngularGuard = body => Math.max(ANGULAR_TOLERANCE_RAD,
-  RELATIVE_GUARD[body?.precision] ?? RELATIVE_GUARD.F32);
+  RELATIVE_GUARD[precisionOf(body)] ?? RELATIVE_GUARD.F32);
 
 const extents = new WeakMap();
 // Angular tolerance (rad) of a parallel or coaxial decision on a body with
@@ -130,7 +139,7 @@ export function pairAngularTolerance(bodies, toleranceMm, extentMm) {
 }
 
 export function arithmeticGuard(body) {
-  return (RELATIVE_GUARD[body.precision] ?? RELATIVE_GUARD.F32) * bodyScale(body);
+  return (RELATIVE_GUARD[precisionOf(body)] ?? RELATIVE_GUARD.F32) * bodyScale(body);
 }
 
 export function bodyTolerance(body) {
@@ -259,7 +268,10 @@ export function faceEntry(context, bodyIndex, index) {
   const face = body.faces[index];
   const described = describeSurface(math, body, face);
   const group = logicalGroup(logical, bodyIndex, index);
+  const measured = rustBodyFacts(context.kernel, body)?.faces[index];
   return {
+    ...(measured ? { areaMm2: measured.areaMm2, perimeterMm: measured.perimeterMm,
+      measure: 'rust-kernel-measure' } : {}),
     alias: aliasOf(bodyIndex, 'face', index),
     bodyId: body.id,
     index,
@@ -287,9 +299,10 @@ const encode = geometry => Object.fromEntries(Object.entries(geometry).map(([key
 // parameters from kernel.analytic.curve_parameter.
 export function curveRange(kernel, body, edge) {
   if (edge.curveRange) return [...edge.curveRange];
-  const curve = encode(edge.curve);
-  const parameter = vertex => number(kernel.analytic.curve_parameter(curve,
-    toVector(body.vertices[vertex])));
+  const rust = rustHostOf(kernel);
+  const curve = rust ? edge.curve : encode(edge.curve);
+  const parameter = vertex => (rust ? circleParameter(curve, body.vertices[vertex])
+    : number(kernel.analytic.curve_parameter(curve, toVector(body.vertices[vertex]))));
   if (edge.start === edge.end) {
     const first = parameter(edge.start);
     return [first, first + FULL_TURN];
@@ -411,7 +424,7 @@ function bodyRows(model) {
     alias: aliasOf(bodyIndex),
     id: body.id,
     name: body.name ?? null,
-    precision: body.precision ?? null,
+    precision: precisionOf(body) ?? null,
     toleranceMm: bodyTolerance(body),
     recordedToleranceMm: body.validation?.toleranceMm ?? null,
     boundsMm: body.validation?.boundsMm ?? null,
@@ -465,10 +478,11 @@ function logicalEntry(context, bodyIndex, groupIndex) {
   };
 }
 
-export function geometryEntities(model, {
+export function geometryEntities(rawModel, {
   aliases = null, page = 0, pageSize = PAGE_SIZE, kernel, modelId = null,
-  logical = cachedLogicalFaces(model), classes = null,
+  logical = cachedLogicalFaces(rawModel), classes = null,
 } = {}) {
+  const model = viewerRecord(rawModel);
   const context = { model, kernel, math: exactMath(kernel), logical, classes };
   const faces = [];
   const edges = [];
@@ -505,8 +519,10 @@ export function geometryEntities(model, {
     units: 'mm',
     exactness: EXACT,
     angularToleranceRad: ANGULAR_TOLERANCE_RAD,
-    method: 'closed forms over stored analytic parameters, kernel.precise and kernel.real'
-      + ' (double-F32 Real) in Bend; display meshes are not used',
+    method: context.math.label
+      ? `closed forms over the carrier parameters the Rust kernel states, ${context.math.label}; display meshes are not used`
+      : 'closed forms over stored analytic parameters, kernel.precise and kernel.real'
+        + ' (double-F32 Real) in Bend; display meshes are not used',
     page: current,
     pages,
     pageSize: aliases?.length ? null : pageSize,

@@ -12,6 +12,7 @@ const { mkdtemp, readFile, rm, stat, writeFile } = await import("node:fs/promise
 const { existsSync } = await import("node:fs");
 const { tmpdir } = await import("node:os");
 const { join } = await import("node:path");
+const { pathToFileURL } = await import("node:url");
 const { build } = await import("../src/index.mjs");
 const { createReviewServer, validateReview } = await import("../src/review-server.mjs");
 const { createRouter, errorStatus } = await import("../src/viewer/router.mjs");
@@ -28,6 +29,7 @@ const { buildDrawPayload } = await import("../src/viewer/draw.mjs");
 // Viewer server foundation: router, static serving, Host allowlist, error
 // mapping, bind-before-register, settings, archive, dynamic route loading and
 // the frozen server-side stubs.
+
 
 
 
@@ -316,11 +318,19 @@ test('route modules load in isolation; a broken module answers 500 and the serve
   async t => {
     const { path, reviews } = await workspace(t);
     const logs = [];
-    const hello = 'data:text/javascript,' + encodeURIComponent(
+    // The route modules are files: the Rust lane's Bend guard reads every data: module
+    // as compiled Bend (src/bend-loader.mjs evaluates Bend that way).
+    const plugins = await mkdtemp(join(tmpdir(), 'wonky-route-modules-'));
+    t.after(() => rm(plugins, { recursive: true, force: true }));
+    const moduleFile = async (name, text) => {
+      await writeFile(join(plugins, `${name}.mjs`), text);
+      return pathToFileURL(join(plugins, `${name}.mjs`)).href;
+    };
+    const hello = await moduleFile('hello',
       'export function register(router) { router.add("GET", "/api/hello", (req, res) => {'
       + ' res.writeHead(200, {"Content-Type": "text/plain"}); res.end("hello"); }); }');
-    const syntax = 'data:text/javascript,' + encodeURIComponent('export function register( {');
-    const throwing = 'data:text/javascript,' + encodeURIComponent(
+    const syntax = await moduleFile('syntax', 'export function register( {');
+    const throwing = await moduleFile('throwing',
       'export function register(router) { router.add("GET", "/api/half", () => {});'
       + ' throw new Error("register exploded"); }');
     const { base } = await start(t, {

@@ -1,0 +1,48 @@
+{
+  "btType": "BTFeatureDefinitionResponse-1617",
+  "rejectMicroversionSkew": false,
+  "microversionSkew": false,
+  "featureState": {
+    "btType": "BTFeatureState-1688",
+    "featureStatus": "OK",
+    "inactive": false
+  },
+  "feature": {
+    "btType": "BTMFeature-134",
+    "namespace": "edcd3233e700af57734521e4c::m48ed671e2a677d7a3d90f981",
+    "name": "holes-a-V3-ALL",
+    "suppressed": false,
+    "parameters": [
+      {
+        "btType": "BTMParameterEnum-145",
+        "namespace": "edcd3233e700af57734521e4c::m48ed671e2a677d7a3d90f981",
+        "nodeId": "MRupX9W1do4zsKDaH",
+        "libraryRelationType": "DEFAULT",
+        "enumName": "AcidVariant",
+        "value": "V3",
+        "parameterId": "variant",
+        "parameterName": ""
+      },
+      {
+        "btType": "BTMParameterEnum-145",
+        "namespace": "edcd3233e700af57734521e4c::m48ed671e2a677d7a3d90f981",
+        "nodeId": "Mx+rYaaepR8VBBYTG",
+        "libraryRelationType": "DEFAULT",
+        "enumName": "AcidHolesAZone",
+        "value": "ALL",
+        "parameterId": "zone",
+        "parameterName": ""
+      }
+    ],
+    "featureId": "FmsynNwiIRLWNfX_0",
+    "nodeId": "MtYjyGBIiJMdQQfJP",
+    "featureType": "acidHolesA",
+    "returnAfterSubfeatures": false,
+    "subFeatures": [],
+    "parameterLibraries": [],
+    "suppressionState": null
+  },
+  "libraryVersion": 0,
+  "serializationVersion": "1.2.21",
+  "sourceMicroversion": "48628cd29444b8a63af58bb7"
+}

@@ -1,0 +1,60 @@
+{
+ "schema": "wonky/cad-acid-occt-frozen/1",
+ "origin": {
+  "file": "tmp/studio/out/occt-freeze-A/results.json",
+  "sha256": "d2aa4034ca82419b6d53e72d4fcb8011a07e51a95fcf1869c0649cdbe5579cfa",
+  "code": {
+   "head": null,
+   "treeSha256": "05ab0ba6fd04d10557d97ac7ad04103fe57daf5ed3d8e7d14546a36d93d40e90"
+  },
+  "startedAt": "2026-09-28T13:33:33.988Z",
+  "finishedAt": "2026-09-28T13:37:22.725Z",
+  "versions": [
+   {
+    "build123d": "0.10.0",
+    "cadquery-ocp": "7.8.1.1.post1"
+   }
+  ]
+ },
+ "batch": "A",
+ "zonesSha256": "c87d6e7e782d08e991fa9b2167b018bf18d88361080416e568ae9847673ec530",
+ "catalogVersion": "AC1-2026-09-28-extA-chunk4",
+ "zones": [
+  "AC61",
+  "AC63",
+  "AC64",
+  "AC65",
+  "AC52",
+  "AC53",
+  "AC56",
+  "AC57",
+  "AC91",
+  "AC92",
+  "AC93",
+  "AC95",
+  "AC99",
+  "AC51",
+  "AC60",
+  "AC96",
+  "AC62",
+  "AC67",
+  "AC68",
+  "AC71",
+  "AC75",
+  "AC72",
+  "AC79",
+  "AC98",
+  "AC77",
+  "AC81",
+  "AC84",
+  "AC89"
+ ],
+ "cells": 157,
+ "sources": {
+  "fixtures/cad-acid/b3d/acid_holes_a.py": "f0f4192d4183d3044297c04d602aeea48062333c210af960b77b0ef0c422e8eb",
+  "fixtures/cad-acid/b3d/acid_regions_a.py": "16385688ff562c5ac6326b824159aaef99b7458b96895b928b33e29c2465b67c",
+  "fixtures/cad-acid/b3d/acid_shapes_a.py": "e9276bcbbb2dc30e0f04f9b1bc78f5d09e8294776f3ce51a0774a332db595131"
+ },
+ "observations": "observations.json",
+ "note": "Unmodified live OCCT (build123d twin) rows for the zones added by catalog extension batch A; only the live-reference marker is dropped. Contracts were declared before this freeze; OCCT checks them and never defines them. Base zones keep fixtures/cad-acid/occt/. A row stays active only while its zone contract binding and b3d twin bytes are unchanged (per-zone binding, docs/cad-acid.md)."
+}

@@ -1,0 +1,48 @@
+{
+  "btType": "BTFeatureDefinitionResponse-1617",
+  "rejectMicroversionSkew": false,
+  "microversionSkew": false,
+  "featureState": {
+    "btType": "BTFeatureState-1688",
+    "featureStatus": "OK",
+    "inactive": false
+  },
+  "feature": {
+    "btType": "BTMFeature-134",
+    "namespace": "eb0f311766233560ea35f4727::m156d27b19fa9221326b74937",
+    "name": "blend-V1-AC38",
+    "suppressed": false,
+    "parameters": [
+      {
+        "btType": "BTMParameterEnum-145",
+        "namespace": "eb0f311766233560ea35f4727::m156d27b19fa9221326b74937",
+        "nodeId": "Mfu/QH0z6fW7ViBqm",
+        "libraryRelationType": "DEFAULT",
+        "enumName": "AcidVariant",
+        "value": "V1",
+        "parameterId": "variant",
+        "parameterName": ""
+      },
+      {
+        "btType": "BTMParameterEnum-145",
+        "namespace": "eb0f311766233560ea35f4727::m156d27b19fa9221326b74937",
+        "nodeId": "MFoRLmZZ95S/AqW7v",
+        "libraryRelationType": "DEFAULT",
+        "enumName": "AcidBlendZone",
+        "value": "AC38",
+        "parameterId": "zone",
+        "parameterName": ""
+      }
+    ],
+    "featureId": "FuCYg8j3XjX1Cbs_1",
+    "nodeId": "MtdDxjtxgGtWEOxR2",
+    "featureType": "acidBlend",
+    "returnAfterSubfeatures": false,
+    "subFeatures": [],
+    "parameterLibraries": [],
+    "suppressionState": null
+  },
+  "libraryVersion": 0,
+  "serializationVersion": "1.2.21",
+  "sourceMicroversion": "8689582bf98f3c14346ad6dd"
+}

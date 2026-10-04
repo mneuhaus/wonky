@@ -67,7 +67,7 @@ export function main(context is Context, id is Id, definition is map) {
 
 test('acceptance tracing keeps real successful geometry and records completed operations', async () => {
   const text = readFileSync(new URL('../examples/box.fs', import.meta.url), 'utf8');
-  const result = await traceBuild(text, { feature: 'box' });
+  const result = await traceBuild(text, { feature: 'boxBody' });
   assert.equal(result.error, null);
   assert.equal(result.firstFailure, null);
   assert.equal(result.model.bodies.length, 1);

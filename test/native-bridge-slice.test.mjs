@@ -601,7 +601,7 @@ test('(i) only the validated planar slice is ever opened: WONKY_NATIVE_SET=full 
 test('(f) an invalid WONKY_BACKEND throws', () => {
   assert.throws(() => selectBackend('arm64'), error => error instanceof NativeKernelError && error.code === 'BX_BACKEND');
   assert.throws(() => selectBackend(''), { code: 'BX_BACKEND' });
-  assert.equal(selectBackend(undefined), 'js');
+  assert.equal(selectBackend('js'), 'js'); // Historical backend requires explicit selection.
   const run = runCli({ argv: ['bin/wonky.mjs', 'examples/bracket.fs', '--check'], backend: 'fast' });
   assert.equal(run.exitCode, 1);
   assert.match(run.stderr, /WONKY_BACKEND must be one of js, native, diff, rust, rust-diff, rust-mixed \(got 'fast'\)/);

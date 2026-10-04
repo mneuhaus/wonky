@@ -12,6 +12,7 @@ const { parse } = await import("../src/parser.mjs");
 const { loadKernel } = await import("../src/kernel.mjs");
 const { ModelingContext } = await import("../src/library.mjs");
 const { geometryRevision } = await import("../src/identity.mjs");
+const { isRustBody, rustBodySha256, measureRustBody } = await import("../src/native/rust-host.mjs");
 const { buildCore } = await import("../src/lang/semcore/build.mjs");
 const { desugarProgram } = await import("../src/lang/semcore/desugar-fs.mjs");
 const { CoreEvaluator } = await import("../src/lang/semcore/eval.mjs");
@@ -37,6 +38,7 @@ const { irStats } = await import("../src/lang/semcore/ir.mjs");
 
 
 
+
 const root = new URL('../', import.meta.url);
 const header = 'FeatureScript 3044; import(path:"onshape/std/common.fs",version:"3044.0");';
 const feature = body => `${header} export function main(context is Context,id is Id,definition is map){${body}}`;
@@ -45,10 +47,12 @@ const cube = (name, x = 0) => `fCuboid(context,id+"${name}",{"corner1":vector(${
 const main = body => `${header} export const main=defineFeature(function(context is Context,id is Id,definition is map){${body}});`;
 const count = 'size(evaluateQuery(context,qAllModifiableSolidBodies()))';
 
+// A Rust body has no legacy B-rep view (vertices/edges/faces), so its revision is the digest of its WC0 words.
+const revisionOf = body => isRustBody(body) ? rustBodySha256(body) : geometryRevision(body);
 const outcome = async (run) => {
   try {
     const model = await run();
-    return { ok: model.bodies.map(b => `${b.id}|${geometryRevision(b)}|${b.identity?.originId}|${b.name ?? ''}`) };
+    return { ok: model.bodies.map(b => `${b.id}|${revisionOf(b)}|${b.identity?.originId}|${b.name ?? ''}`) };
   } catch (error) { return { error: `${error.name}: ${error.message}`, at: error.line ? `${error.line}:${error.column}` : null }; }
 };
 const same = async (source, options = {}) => {
@@ -58,10 +62,41 @@ const same = async (source, options = {}) => {
   return core;
 };
 
+// The examples the Rust kernel does not build yet: each is refused by name, and the core IR
+// must refuse it identically (same() compares the exact error). A new entry here is a gap; a
+// listed example that starts to build fails this test until it is removed.
+const refusedOnRust = {
+  'conical-spacer.fs': /opLoft: loft\/planar-line-profiles-required is not implemented on the Rust kernel/,
+  'tilted-plate.fs': /opExtrude: startBound\/startDepth is not implemented on the Rust kernel/,
+};
 test('every example builds identical bodies through the core IR', async () => {
-  for (const file of readdirSync(new URL('examples/', root)).filter(f => f.endsWith('.fs'))) {
+  const files = readdirSync(new URL('examples/', root)).filter(f => f.endsWith('.fs'));
+  assert.deepEqual(Object.keys(refusedOnRust).filter(f => !files.includes(f)), []);
+  for (const file of files) {
     const result = await same(readFileSync(new URL(`examples/${file}`, root), 'utf8'));
-    assert.ok(result.ok?.length, `${file}: ${result.error}`);
+    if (refusedOnRust[file]) assert.match(result.error ?? '', refusedOnRust[file], file);
+    else assert.ok(result.ok?.length, `${file}: ${result.error}`);
+  }
+});
+
+test('concave intersection builds the independently calculated solid through both frontends', async () => {
+  const input = readFileSync(new URL('examples/concave-intersection.fs', root), 'utf8');
+  for (const run of [build, buildCore]) {
+    const model = await run(input, {trace:false});
+    assert.equal(model.bodies.length, 1);
+    const measured = measureRustBody(await loadKernel(), model.bodies[0]);
+    // After x clipping, the L is 6*2 + 2*4 = 20 mm²; z clipping leaves 2 mm.
+    assert.ok(Math.abs(measured.volumeMm3 - 40) <= 40e-12);
+    assert.equal(measured.boundToConstruction, true);
+    assert.equal(measured.validity.closed, true);
+    assert.equal(measured.topology.genus, 0);
+    assert.equal(measured.topology.faces, 8);
+    assert.equal(measured.topology.edges, 18);
+    assert.equal(measured.topology.vertices, 12);
+    for (let axis = 0; axis < 3; axis++) {
+      assert.ok(Math.abs(measured.bboxMm.min[axis] - [1,0,1][axis]) <= 1e-12);
+      assert.ok(Math.abs(measured.bboxMm.max[axis] - [7,6,3][axis]) <= 1e-12);
+    }
   }
 });
 
@@ -128,7 +163,10 @@ test('budgets, defaults, parameters, units, transforms and queries match', async
     if(norm(inverse(t)*(t*p)-p)>1e-10*millimeter)throw regenError("Transform roundtrip");
     ${box}`));
   assert.match((await same(feature('const a=degree+millimeter;' + box))).error, /Incompatible units/);
-  await same(feature(`${box}
+  const queried = await same(feature(`
+    var base=newSketchOnPlane(context,id+"base",{"sketchPlane":plane(vector(0,0,0)*millimeter,vector(0,0,1))});
+    skRectangle(base,"rect",{"firstCorner":vector(0,0)*millimeter,"secondCorner":vector(10,20)*millimeter});skSolve(base);
+    opExtrude(context,id+"b",{"entities":qSketchRegion(id+"base"),"direction":vector(0,0,1),"endBound":BoundingType.BLIND,"endDepth":30*millimeter});
     var original=qCreatedBy(id+"b",EntityType.BODY);
     setProperty(context,{"entities":original,"propertyType":PropertyType.NAME,"value":"source box"});
     opPattern(context,id+"copy",{"entities":original,"transforms":[transform(matrix([[0,-1,0],[1,0,0],[0,0,1]]),vector(40,0,0)*millimeter)],"instanceNames":["one"]});
@@ -140,6 +178,7 @@ test('budgets, defaults, parameters, units, transforms and queries match', async
     if(bounds.minCorner[0]!=20*millimeter)throw regenError("Bounds");
     if(getProperty(context,{"entity":copied,"propertyType":PropertyType.NAME})!="source box")throw regenError("Property");
     opDeleteBodies(context,id+"cleanup",{"entities":original});`));
+  assert.equal(queried.ok?.length, 1, queried.error); // Identical refusals are not successful query/deletion semantics.
   await same(feature(`const a = 1; a = 2; ${box}`)).then(r => assert.match(r.error, /Cannot assign to constant 'a'/));
   await same(feature(`var q = 1; var q = 2; ${box}`)).then(r => assert.match(r.error, /Duplicate declaration 'q'/));
   await same(feature(`notDefinedAnywhere(1); ${box}`)).then(r => assert.match(r.error, /UnsupportedFeatureError/));
@@ -166,8 +205,14 @@ test('intended core semantics: value capture and transactional ops/features', as
 
   const nested = `${header} const sub = defineFeature(function(context is Context, id is Id, definition is map) { ${cube('a')} throw regenError("sub fails"); });
     export const main = defineFeature(function(context is Context, id is Id, definition is map) { try { sub(context, id + "sub", {}); } catch (e) { } ${cube('b', 2)} throw regenError("bodies " ~ ${count}); });`;
-  const pattern = main(`${cube('a')} try { opPattern(context, id + "p", {"entities": qCreatedBy(id + "a", EntityType.BODY), "transforms": [transform(vector(5, 0, 0) * millimeter), 5], "instanceNames": ["i1", "i2"]}); } catch (e) { } throw regenError("bodies " ~ ${count});`);
-  const reuse = main(`${cube('a')} try { opDeleteBodies(context, id + "d", {"entities": 5}); } catch (e) { } opDeleteBodies(context, id + "d", {"entities": qCreatedBy(id + "a", EntityType.BODY)}); ${cube('c', 3)} throw regenError("bodies " ~ ${count});`);
+  // Pattern an extruded source with supported construction lineage. Deletion
+  // exercises both a sketch and a solid owner; operation-id rollback is the
+  // intentional difference between the interpreter and transactional core.
+  const unitSketch = name => `var ${name} = newSketchOnPlane(context, id + "${name}", {"sketchPlane": plane(vector(0, 0, 0) * millimeter, vector(0, 0, 1), vector(1, 0, 0))}); skRectangle(${name}, "r", {"firstCorner": vector(0, 0) * millimeter, "secondCorner": vector(1, 1) * millimeter}); skSolve(${name});`;
+  const extruded = name => `${unitSketch(name + 'Sketch')} opExtrude(context, id + "${name}", {"entities": qSketchRegion(id + "${name}Sketch"), "direction": vector(0, 0, 1), "endBound": BoundingType.BLIND, "endDepth": 1 * millimeter});`;
+  const pattern = main(`${extruded('a')} try { opPattern(context, id + "p", {"entities": qCreatedBy(id + "a", EntityType.BODY), "transforms": [transform(vector(5, 0, 0) * millimeter), 5], "instanceNames": ["i1", "i2"]}); } catch (e) { } throw regenError("bodies " ~ ${count});`);
+  // Independent body/sketch counts keep both owner deletions observable.
+  const reuse = main(`${cube('source')}${unitSketch('a')} try { opDeleteBodies(context, id + "d", {"entities": 5}); } catch (e) { } opDeleteBodies(context, id + "d", {"entities": qUnion([qCreatedBy(id + "a", EntityType.BODY), qCreatedBy(id + "source", EntityType.BODY)])}); ${cube('c', 3)} throw regenError("bodies " ~ ${count} ~ " sketches " ~ size(evaluateQuery(context, qCreatedBy(id + "a", EntityType.BODY))));`);
   // W1: the interpreter aborts a failed sub-feature like std defineFeature
   // (feature.fs @abortFeature), and opPattern checks every transform before it
   // adds an instance, so both agree with the transactional core. Without
@@ -176,7 +221,7 @@ test('intended core semantics: value capture and transactional ops/features', as
   for (const [source, interpreter, core, coreWithoutTransactions] of [
     [nested, /bodies 1/, /bodies 1/, /bodies 2/],
     [pattern, /bodies 1/, /bodies 1/, /bodies 1/],
-    [reuse, /Duplicate operation ID 'model\/d'/, /bodies 1/, /Duplicate operation ID 'model\/d'/]]) {
+    [reuse, /Duplicate operation ID 'model\/d'/, /bodies 1 sketches 0/, /Duplicate operation ID 'model\/d'/]]) {
     assert.match((await outcome(() => build(source, { trace: false }))).error, interpreter);
     assert.match((await outcome(() => buildCore(source, { trace: false }))).error, core);
     assert.match((await outcome(() => buildCore(source, { trace: false, transactions: false }))).error, coreWithoutTransactions);

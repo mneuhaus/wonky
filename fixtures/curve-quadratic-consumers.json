@@ -1,0 +1,41 @@
+{
+  "origin": "gnucleus-ai/cad-gen-freecad",
+  "revision": "a0e2f69b",
+  "observation": "tmp/cadbench/gears/ref-features.json",
+  "sha256": "4d55b136ec99e15a3c9ee8699c52a87d7fa99a6c7b4bd2095f87456c214fb6fb",
+  "volumeDecimalPlaces": 4,
+  "references": {
+    "740b422c57": {
+      "volumeMm3": 3.0313,
+      "containsChamfers": true
+    },
+    "b0baf87576": {
+      "volumeMm3": 156487.9786,
+      "containsChamfers": false
+    },
+    "c4bad6c5af": {
+      "volumeMm3": 1.8383,
+      "containsChamfers": true
+    },
+    "e74ef5c001": {
+      "volumeMm3": 34802.1316,
+      "containsChamfers": false
+    },
+    "e74ef5c002": {
+      "volumeMm3": 156087.9786,
+      "containsChamfers": false
+    },
+    "e74ef5c003": {
+      "volumeMm3": 41367.72,
+      "containsChamfers": false
+    },
+    "e74ef5c004": {
+      "volumeMm3": 155522.4647,
+      "containsChamfers": false
+    },
+    "e74ef5c005": {
+      "volumeMm3": 154765.2967,
+      "containsChamfers": false
+    }
+  }
+}

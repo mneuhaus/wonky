@@ -354,3 +354,5 @@ pub fn plane_plane_intersection(
     let point = three_plane_intersection([(n0, p0), (n1, p1), (&axis_normal, &origin)])?;
     Ok((point, direction))
 }
+
+pub mod volume;

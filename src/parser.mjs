@@ -1,4 +1,5 @@
-import { fail } from './errors.mjs';
+import { fail, failNamed } from './errors.mjs';
+import { RESERVED_IDENTIFIER_CODE, reservedBindingReason, reservedIdentifierHint, reservedMemberReason } from './fs-reserved.mjs';
 
 // This is a parser for a deliberately bounded subset of FeatureScript. No
 // JavaScript eval or regex-to-JavaScript rewriting is used.
@@ -96,6 +97,26 @@ class Parser {
     if (this.token.kind !== 'name') fail('Expected an identifier', this.token);
     return this.take().value;
   }
+  // An identifier that introduces a name (variable, parameter, function, loop
+  // or catch variable, enum and its members, namespace). Onshape refuses the
+  // reserved words of src/fs-reserved.mjs here; wonky refuses the same names.
+  binding(what) {
+    const token = this.token, name = this.name();
+    const why = reservedBindingReason(name);
+    if (why) failNamed(RESERVED_IDENTIFIER_CODE, `'${name}' is a reserved FeatureScript word (${why}) and cannot name ${what}`, reservedIdentifierHint(name, false), token);
+    return name;
+  }
+  // An unquoted dot operand or map key: only non-reserved words may be written
+  // unquoted (FsDoc "Types and type tags", Maps).
+  member(what) {
+    const token = this.token, name = this.name();
+    this.refuseReservedMember(token, what);
+    return name;
+  }
+  refuseReservedMember(token, what) {
+    const why = reservedMemberReason(token.value);
+    if (why) failNamed(RESERVED_IDENTIFIER_CODE, `'${token.value}' is a reserved FeatureScript word (${why}) and cannot be written unquoted as ${what}`, reservedIdentifierHint(token.value, true), token);
+  }
   annotations() {
     const values = [];
     while (this.accept('annotation')) values.push(this.object());
@@ -112,7 +133,7 @@ class Parser {
       const exported = !!this.accept('export');
       let namespace = null;
       if (this.token.kind === 'name' && this.peekIs('::')) {
-        namespace = this.name(); this.expect('::');
+        namespace = this.binding('an import namespace'); this.expect('::');
         if (!this.at('import')) fail('Expected a namespace import', this.token);
       }
       if (this.accept('import')) {
@@ -131,15 +152,15 @@ class Parser {
         declarations.push({ ...this.declaration(), exported, annotations });
       } else if (this.accept('function')) {
         const loc = this.token;
-        const name = this.name();
+        const name = this.binding('a function');
         declarations.push({ kind: 'declaration', name, constant: true, value: this.functionTail(loc), exported, annotations, loc });
       } else if (this.accept('enum')) {
-        const loc = this.token, name = this.name(), members = [];
+        const loc = this.token, name = this.binding('an enum'), members = [];
         this.expect('{');
         if (!this.at('}')) do {
           if (this.at('}')) break;
           const annotations = this.annotations();
-          members.push({ name: this.name(), annotations });
+          members.push({ name: this.binding('an enum member'), annotations });
         } while (this.accept(','));
         this.expect('}');
         declarations.push({ kind: 'enum', name, members, exported, annotations, loc });
@@ -150,7 +171,7 @@ class Parser {
     return { version: version.value, imports, declarations };
   }
   declaration(terminate = true) {
-    const loc = this.take(); const name = this.name();
+    const loc = this.take(); const name = this.binding(loc.value === 'const' ? 'a constant' : 'a variable');
     const type = this.accept('is') ? this.name() : null;
     let value = null;
     if (this.accept('=')) value = this.expression();
@@ -192,7 +213,7 @@ class Parser {
       this.take(); const silent = !!this.accept('silent'); const body = this.block();
       let name = null, handler;
       if (this.accept('catch')) {
-        if (this.accept('(')) { name = this.name(); this.expect(')'); }
+        if (this.accept('(')) { name = this.binding('a catch variable'); this.expect(')'); }
         handler = this.block();
       } else handler = { kind: 'block', statements: [], loc: this.token };
       return { kind: 'try', body, name, handler, silent, loc };
@@ -213,8 +234,8 @@ class Parser {
       // or index to a and the value to b. `name` is always the value binding;
       // `key` is null for the one-variable form.
       if (this.at('var') && (this.peekIs('in', 2) || (this.peekIs(',', 2) && this.peekIs('in', 4)))) {
-        this.take(); let key = null, name = this.name();
-        if (this.accept(',')) { key = name; name = this.name(); }
+        this.take(); let key = null, name = this.binding('a loop variable');
+        if (this.accept(',')) { key = name; name = this.binding('a loop variable'); }
         this.expect('in');
         const values = this.expression(); this.expect(')');
         return { kind: 'for', key, name, values, body: this.statement(), loc };
@@ -245,7 +266,7 @@ class Parser {
   functionTail(loc) {
     this.expect('('); const params = [];
     if (!this.at(')')) do {
-      const name = this.name(); const type = this.accept('is') ? this.name() : null;
+      const name = this.binding('a parameter'); const type = this.accept('is') ? this.name() : null;
       params.push({ name, type });
     } while (this.accept(','));
     this.expect(')');
@@ -263,6 +284,7 @@ class Parser {
       else {
         const token = this.take();
         if (!['string', 'name'].includes(token.kind)) fail('Expected map key', token);
+        if (token.kind === 'name') this.refuseReservedMember(token, 'a map key');
         key = { kind: 'literal', value: token.value, loc: token };
       }
       this.expect(':'); fields.push([key, this.expression()]);
@@ -300,7 +322,7 @@ class Parser {
         this.expect(')'); value = { kind: 'call', callee: value, args, loc }; continue;
       }
       if (this.accept('.')) {
-        value = { kind: 'access', value, key: { kind: 'literal', value: this.name(), loc }, loc }; continue;
+        value = { kind: 'access', value, key: { kind: 'literal', value: this.member('a member name'), loc }, loc }; continue;
       }
       if (this.accept('[')) {
         const key = this.expression(); this.expect(']'); value = { kind: 'access', value, key, loc }; continue;

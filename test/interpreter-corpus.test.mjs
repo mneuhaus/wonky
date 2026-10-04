@@ -310,40 +310,49 @@ test('try and try silent catch FeatureScript exceptions only, never wonky gaps o
     error => error instanceof FeatureScriptError && !(error instanceof FeatureScriptException) && /failed validation/.test(error.message));
 });
 
-test('std values carry their std types: evLine is a Line, evBox3d a Box3d, Id + Id and Id + integer', async () => {
+test('std values carry their std types: a Line, evBox3d a Box3d, Id + Id and Id + integer; evLine is refused by name', async () => {
+  // evLine has no Rust port (host/query:invoke kernel.evLine), so the Line assertions run on a std line(...)
+  // value, which is the same tagged map evLine would return; evLine itself is asserted to refuse by name.
   const model = await build(featureSource('', `
     ${box(10, 10, 10)}
-    const edges = evaluateQuery(context, qOwnedByBody(qCreatedBy(id + "c", EntityType.BODY), EntityType.EDGE));
-    const l = evLine(context, { "edge" : edges[0] });
-    if (!(l is Line)) throw regenError("evLine is a Line");
+    const l = line(vector(0, 0, 0) * millimeter, vector(0, 0, 1));
+    if (!(l is Line)) throw regenError("line is a Line");
     const t = try silent(rotationAround(l, 90 * degree));
-    if (!(t is Transform)) throw regenError("rotationAround(evLine(...))");
+    if (!(t is Transform)) throw regenError("rotationAround(line(...))");
     const b = evBox3d(context, { "topology" : qCreatedBy(id + "c", EntityType.BODY) });
     if (!(b is Box3d) || !((b as Box3d) is Box3d)) throw regenError("evBox3d is a Box3d");
     if (id + makeId("x") != id + "x" || id + 3 != id + "3") throw regenError("Id overloads");`));
   assert.equal(model.bodies.length, 1);
+  await assert.rejects(build(featureSource('', `
+    ${box(10, 10, 10)}
+    const edges = evaluateQuery(context, qOwnedByBody(qCreatedBy(id + "c", EntityType.BODY), EntityType.EDGE));
+    evLine(context, { "edge" : edges[0] });`)), error => error.name === 'NativeCapabilityError' && /kernel\.evLine\) is not ported to the Rust kernel/.test(error.message));
 });
 
 // A sweep of zero height (up to std math.fs TOLERANCE.zeroLength, 1e-8 m) fails
 // in Onshape too, and FsDoc exceptions.html lists "a failing operation" among
 // the exceptions a try catches, so the decorate and fallback idioms work. A
-// wonky limit on the same path (the ±10,000 mm F32 envelope) still escapes.
-test('a zero-height extrusion or loft is a catchable operation failure; the F32 envelope is not', async () => {
+// wonky gap on the same path (an unported loft) still escapes. The Bend-only
+// ±10,000 mm F32 coordinate envelope check is gone: Rust is exact binary64.
+test('a zero-height extrusion or cuboid is a catchable operation failure; an unported loft is not', async () => {
   const circle = (sid, z, r) => `newSketchOnPlane(context, id + "${sid}", { "sketchPlane" : plane(vector(0, 0, ${z}) * millimeter, vector(0, 0, 1), vector(1, 0, 0)) });` +
     `skCircle(sk${sid}, "c", { "center" : vector(0, 0) * millimeter, "radius" : ${r} * millimeter }); skSolve(sk${sid});`;
   const sketch = (sid, z, r) => `var sk${sid} = ${circle(sid, z, r)}`;
+  const extrude0 = `newSketchOnPlane(context, id + "e0", { "sketchPlane" : plane(vector(0, 0, 0) * millimeter, vector(0, 0, 1), vector(1, 0, 0)) });` +
+    `skRectangle(sk0, "r", { "firstCorner" : vector(0, 0) * millimeter, "secondCorner" : vector(10, 10) * millimeter }); skSolve(sk0);` +
+    'opExtrude(context, id + "extrude", { "entities" : qSketchRegion(id + "e0", true), "direction" : vector(0, 0, 1), "endBound" : BoundingType.BLIND, "endDepth" : 0 * millimeter });';
   const loft = sketch('s0', 0, 5) + sketch('s1', 0, 4) +
     'opLoft(context, id + "loft", { "profileSubqueries" : [qSketchRegion(id + "s0", true), qSketchRegion(id + "s1", true)] });';
   const fallback = 'fCuboid(context, id + "fb", { "corner1" : vector(0, 0, 0) * millimeter, "corner2" : vector(10, 10, 10) * millimeter });';
   const flat = 'fCuboid(context, id + "flat", { "corner1" : vector(0, 0, 0) * millimeter, "corner2" : vector(10, 10, 0) * millimeter });';
-  for (const failing of [loft, flat]) {
+  for (const failing of ['var sk0 = ' + extrude0, flat]) {
     const model = await build(featureSource('', `try { ${failing} } catch (e) { ${fallback} }`));
     assert.deepEqual(model.bodies.map(body => Math.round(body.validation.volumeMm3)), [1000]);
     await assert.rejects(build(featureSource('', `try { ${failing} } catch (e) { throw regenError("R4 build: " ~ e); }`)), /R4 build: .*zero or unresolved/);
   }
-  const huge = 'fCuboid(context, id + "huge", { "corner1" : vector(0, 0, 0) * millimeter, "corner2" : vector(10, 10, 20000) * millimeter });';
-  await assert.rejects(build(featureSource('', `try silent { ${huge} } ${fallback}`)),
-    error => error instanceof FeatureScriptError && !catchable(error) && /coordinate envelope/.test(error.message));
+  // The loft of two circles is not ported: refused by name, and try never swallows it.
+  await assert.rejects(build(featureSource('', `try silent { ${loft} } ${fallback}`)),
+    error => error instanceof UnsupportedFeatureError && !catchable(error) && /opLoft: loft\/planar-line-profiles-required/.test(error.message));
 });
 
 // W1 fix round 3 (verifier tmp/w1-verify/semantic2/try-gaps*.fs). Pattern: s
@@ -449,7 +458,11 @@ test('a failed sub-feature is rolled back when a try catches its exception; an u
   const mentions = (records, text) => records.filter(record => JSON.stringify(record).includes(text)).length;
   const error = await build(source(unites, 'unites(context, id + "sub", {});')).then(() => null, e => e);
   assert.match(error.message, /sub failed/);
-  assert.ok(mentions(error.completedOperationEvidence, 'model/sub/u') > 0);
+  // Rust operations write no JS operation evidence (completedOperationEvidence is filled only by the retired
+  // JS boolean/fillet pipelines; Rust lineage lives in the WC0 words). On Rust the failure report's source
+  // trace (error.modelTrace, written to failure.json as sourceTrace) keeps the sub-feature's completed operations.
+  assert.deepEqual(error.modelTrace.operations.filter(op => op.operationId?.startsWith('model/sub/')).map(op => [op.operationId, op.name, op.status]),
+    [['model/sub/a', 'fCuboid', 'completed'], ['model/sub/b', 'fCuboid', 'completed'], ['model/sub/u', 'opBoolean', 'completed']]);
   const caughtUnion = await build(source(unites, `try silent { unites(context, id + "sub", {}); } ${cube('keep', 1)}`));
   assert.deepEqual([names(caughtUnion), mentions(caughtUnion.operationEvidence, 'model/sub/u')], [['model/keep'], 0]);
 });

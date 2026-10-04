@@ -1,0 +1,33 @@
+{
+ "schema": "wonky/cad-acid-occt-frozen/1",
+ "origin": {
+  "file": "tmp/z3/occt/results.json",
+  "sha256": "92382ac5de9050aacd6cbebf4f91ecd0fcbf49f75240e534bb44993da1a22eb1",
+  "code": {
+   "head": "276799f8adfbfa5a188e46f336bf6cb49d2a053c",
+   "treeSha256": "3f0c1b079e2e909de7d438308aa549ced10c80518cf93d518fa043ed39ce84ef"
+  },
+  "startedAt": "2026-10-02T09:21:50.019Z",
+  "finishedAt": "2026-10-02T09:22:12.844Z",
+  "versions": [
+   {
+    "build123d": "0.10.0",
+    "cadquery-ocp": "7.8.1.1.post1"
+   }
+  ]
+ },
+ "batch": "Z3",
+ "zonesSha256": "932fc072f17bbcc04ec7de70df0f48bec9a4c5ab8621243a024268c4f222109f",
+ "catalogVersion": "AC1-2026-10-02-extZ3-curved-booleans",
+ "zones": [
+  "AC106",
+  "AC107",
+  "AC108"
+ ],
+ "cells": 15,
+ "sources": {
+  "fixtures/cad-acid/b3d/acid_boolean_z3.py": "2ef963ee2cc8dc84a53354ecd67c246a503264418bb1bbd5047f26526b0a3a9e"
+ },
+ "observations": "observations.json",
+ "note": "Unmodified live OCCT (build123d twin) rows for the zones added by catalog extension batch Z3; only the live-reference marker is dropped. Contracts were committed before the first geometry run (c36b403ac6b7c193dca92a2b66ce93c8ca2dd343). This is a failed validation capture: topology conflicts and wrapper errors are preserved unmodified. No closed form was corrected; independent blind review is required. Base zones keep fixtures/cad-acid/occt/. A row stays active only while its zone contract binding and b3d twin bytes are unchanged (per-zone binding, docs/cad-acid.md)."
+}

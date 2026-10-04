@@ -1,9 +1,32 @@
-import { catchable, fail, raise, unsupported, FeatureScriptException } from './errors.mjs';
+import { catchable, fail, raise, raiseNamed, unsupported, FeatureScriptException } from './errors.mjs';
 import { binary, cast, checkType, display, equal, EnumValue, Id, isFunctionValue, isMap, KeyedMap, map, matchesType, Matrix, memberless, Quantity, retag, STD_ENUM_UNIMPLEMENTED, stdMapView, truth, Vector } from './values.mjs';
 import { boundSpecDefault, resolveBoundSpec } from './scalars.mjs';
 import { TopologyQuery } from './queries.mjs';
 
 const BOUND_PREDICATES = ['isLength', 'isAngle', 'isInteger', 'isReal'];
+// Is a defineFeature defaults-map value the dialog default itself? Only decides
+// whether reportShadowedDefaults() warns, so 5 * millimeter and 0.5 * centimeter
+// (one rounding apart) count as the same value; it never touches the build.
+function sameDialogValue(used, ignored) {
+  const close = (a, b) => Math.abs(a - b) <= 1e-12 * Math.max(Math.abs(a), Math.abs(b));
+  if (typeof used === 'number' && typeof ignored === 'number') return close(used, ignored);
+  if (used instanceof Quantity && ignored instanceof Quantity)
+    return used.dimension === ignored.dimension && used.angle === ignored.angle && close(used.value, ignored.value);
+  return equal(used, ignored);
+}
+// A dialog or defaults-map value as FeatureScript source in the document units
+// (millimeter, degree), ready for --param; null when it has no literal form.
+function fsText(value) {
+  const tidy = x => String(Number(x.toPrecision(15)));
+  if (typeof value === 'number') return tidy(value);
+  if (typeof value === 'boolean') return String(value);
+  if (typeof value === 'string') return JSON.stringify(value);
+  if (value instanceof EnumValue) return `${value.enumType}.${value.name}`;
+  if (value instanceof Quantity && value.angle === 0)
+    return value.dimension === 0 ? tidy(value.value) : `${tidy(value.value / 0.001 ** value.dimension)} * millimeter${value.dimension === 1 ? '' : `^${value.dimension}`}`;
+  if (value instanceof Quantity && value.dimension === 0 && value.angle === 1) return `${tidy(value.value * 180 / Math.PI)} * degree`;
+  return null;
+}
 // Map iteration order. FsDoc (variables.html): "maps are ordered
 // deterministically", by key, not by insertion; relational.html orders strings
 // by "Unicode character values". wonky orders string keys by code point and
@@ -111,14 +134,19 @@ class FunctionValue {
 }
 
 export class Interpreter {
-  constructor(builtins, { maxSteps = 20000000, moduleResolver, callObserver } = {}) {
+  constructor(builtins, { maxSteps = 20000000, executionBudget, moduleResolver, callObserver, onWarning } = {}) {
     if (!Number.isSafeInteger(maxSteps) || maxSteps < 1) fail('maxSteps must be a positive safe integer');
-    this.global = new Environment(); this.steps = 0; this.maxSteps = maxSteps; this.depth = 0;
-    this.moduleResolver = moduleResolver;
+    // Regeneration is part of the importing build, not a fresh resource budget.
+    this.executionBudget = executionBudget ?? { steps: 0, maxSteps };
+    this.global = new Environment(); this.steps = 0; this.maxSteps = this.executionBudget.maxSteps; this.depth = 0;
+    this.moduleResolver = moduleResolver; this.onWarning = onWarning;
     this.callObserver = callObserver; this.callStack = [];
     for (const [name, value] of Object.entries(builtins)) this.global.declare(name, value);
   }
-  tick(loc) { if (++this.steps > this.maxSteps) fail(`Execution limit exceeded (${this.maxSteps} expression/statement steps)`, loc); }
+  tick(loc) {
+    this.steps++;
+    if (++this.executionBudget.steps > this.maxSteps) fail(`Execution limit exceeded (${this.maxSteps} expression/statement steps)`, loc);
+  }
   run(program, name, context, id, definition) {
     const supportedImports = new Set(['geometry', 'common', 'primitives', 'sketch', 'query', 'units', 'valueBounds', 'vector', 'plane', 'feature', 'instantiator']);
     for (const item of program.imports) {
@@ -138,8 +166,9 @@ export class Interpreter {
     const selected = name ?? (exports.length === 1 ? exports[0] : exports.includes('main') ? 'main' : null);
     if (!selected || !exports.includes(selected)) fail(`Choose an exported feature with --feature. Available: ${exports.join(', ') || '(none)'}`);
     const entry = this.global.get(selected);
-    const { declared, implied } = this.featureDefaults(entry);
+    const { declared, implied, origins } = this.featureDefaults(entry);
     const supplied = typeof definition === 'function' ? definition() : definition;
+    this.reportShadowedDefaults(entry, selected, { ...implied, ...declared }, origins, supplied);
     // The definition of a feature created in the Part Studio: every dialog
     // parameter has its dialog default, weakest first type-implied < declared
     // ("Default" annotation, bound spec) < supplied parameters. The
@@ -174,9 +203,15 @@ export class Interpreter {
   // "Default" entry is evaluated; "Filter" (query-filter notation such as
   // EntityType.BODY && BodyType.SOLID, as in std extrude.fs), "UIHint" and the
   // rest stay unevaluated.
+  // Each map is paired with where its values come from (origins: source,
+  // bound spec name and type, source location), which reportShadowedDefaults()
+  // names in its warning.
   featureDefaults(entry) {
-    const declared = map({}), implied = map({});
-    if (entry?.type !== 'feature' || !entry.fn.ast.precondition) return { declared, implied };
+    const declared = map({}), implied = map({}), declaredOrigins = map({}), impliedOrigins = map({});
+    const result = () => ({ declared, implied, origins: map({ ...impliedOrigins, ...declaredOrigins }) });
+    // Builtins and already wrapped features are function values too, but have
+    // no source precondition declaring a dialog on this outer wrapper.
+    if (entry?.type !== 'feature' || entry.fn?.type !== 'function' || !entry.fn.ast.precondition) return result();
     const env = entry.fn.env, param = entry.fn.ast.params[2]?.name;
     const visit = statement => {
       if (!statement) return;
@@ -189,18 +224,42 @@ export class Interpreter {
       const key = target.key.value;
       for (const annotation of statement.annotations ?? []) {
         const field = annotation.kind === 'map' && annotation.fields.find(([k]) => k.kind === 'literal' && k.value === 'Default');
-        if (field) declared[key] = this.expression(field[1], env);
+        if (field) {
+          declared[key] = this.expression(field[1], env);
+          declaredOrigins[key] = { source: 'annotation-default', bound: null, boundType: null, loc: field[1].loc ?? expression.loc };
+        }
       }
       if (expression.kind === 'call' && expression.callee.kind === 'name' && BOUND_PREDICATES.includes(expression.callee.name) && expression.args.length === 2) {
         const bounds = resolveBoundSpec(this.expression(expression.args[1], env));
-        if (bounds) declared[key] = boundSpecDefault(bounds, expression.loc);
+        if (bounds) {
+          declared[key] = boundSpecDefault(bounds, expression.loc);
+          declaredOrigins[key] = { source: 'bound-default', bound: expression.args[1].kind === 'name' ? expression.args[1].name : null,
+            boundType: bounds.tag, loc: expression.args[1].loc ?? expression.loc };
+        }
       } else if (expression.kind === 'type' && expression.operator === 'is') {
         const value = this.dialogDefault(expression.type, key, env);
-        if (value !== undefined) implied[key] = value;
+        if (value !== undefined) {
+          implied[key] = value;
+          impliedOrigins[key] = { source: 'type-default', bound: null, boundType: null, loc: expression.loc };
+        }
       }
     };
     visit(entry.fn.ast.precondition);
-    return { declared, implied };
+    return result();
+  }
+  // The top-level feature's defineFeature defaults map loses to every dialog
+  // default (see run()), exactly as when the feature is inserted in an Onshape
+  // Part Studio. A map value that differs from the dialog default the build
+  // really uses is dead there, and almost never what the author meant: it is
+  // reported through onWarning, never applied, so the build stays unchanged.
+  // An unsupplied Query has no value to compare (it raises when read).
+  reportShadowedDefaults(entry, feature, dialog, origins, supplied) {
+    if (!this.onWarning || entry?.type !== 'feature') return;
+    for (const [parameter, ignored] of Object.entries(entry.defaults)) {
+      const used = dialog[parameter], origin = origins[parameter];
+      if (!origin || Object.hasOwn(supplied ?? {}, parameter) || used instanceof TopologyQuery || sameDialogValue(used, ignored)) continue;
+      this.onWarning({ code: 'params/defaults-map-shadowed', feature, parameter, used: fsText(used), ignored: fsText(ignored), ...origin });
+    }
   }
   dialogDefault(type, key, env) {
     if (type === 'boolean') return false;
@@ -282,10 +341,10 @@ export class Interpreter {
     }
     if (fn?.type !== 'function') raise('Value is not a callable function', loc);
     if (args.length !== fn.ast.params.length) raise(`Function expects ${fn.ast.params.length} arguments`, loc);
-    if (++this.depth > 64) fail('Function call depth exceeded (64)', loc);
+    if (++this.depth > 64) { this.depth--; fail('Function call depth exceeded (64)', loc); }
     const env = new Environment(fn.env);
-    fn.ast.params.forEach((p, i) => env.declare(p.name, args[i], false, p.type, loc));
     try {
+      fn.ast.params.forEach((p, i) => env.declare(p.name, args[i], false, p.type, loc));
       if (fn.ast.precondition) this.statement(fn.ast.precondition, env, true);
       this.statement(fn.ast.body, env);
       return checkType(undefined, fn.ast.returnType, loc);
@@ -314,7 +373,8 @@ export class Interpreter {
       case 'declaration': env.declare(node.name, node.value ? this.expression(node.value, env) : undefined, node.constant, node.type, node.loc); break;
       case 'expression': {
         const value = this.expression(node.value, env);
-        if (precondition && value !== true) raise('Feature precondition failed', node.loc);
+        if (precondition && value !== true) raiseNamed('fs/precondition-failed', 'Feature precondition failed',
+          'Supply parameter values that satisfy the predicate at this location, including its type and bounds.', node.loc);
         break;
       }
       case 'return': throw new ReturnValue(node.value ? this.expression(node.value, env) : undefined);

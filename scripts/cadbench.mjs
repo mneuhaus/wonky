@@ -4,29 +4,57 @@ import { join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { build } from '../src/index.mjs';
 import { toStep } from '../src/exporters.mjs';
+import { serializeModel } from '../src/construction-history.mjs';
 import { UnsupportedFeatureError } from '../src/errors.mjs';
+import { describeRustBody, isRustBody, measureRustBody, rustModelKernel } from '../src/native/rust-host.mjs';
 import { cadbenchRoot as root, cadbenchFixtures, fixturePath, sha256, verifyCadbenchFixtures } from './cadbench-sources.mjs';
 
 const json = (path, value) => writeFileSync(path, JSON.stringify(value, null, 2) + '\n');
 const counts = values => Object.fromEntries([...new Set(values)].sort().map(key => [key, values.filter(value => value === key).length]));
-const errorRecord = error => ({ name: error.name, message: error.message, line: error.line ?? null, column: error.column ?? null });
+// code: the named refusal (for example loft/planar-line-profiles-required), as wonky-cli/v1 reports it.
+const errorRecord = error => ({ name: error.name, code: typeof error.reason === 'string' ? error.reason : error.code ?? null,
+  message: error.message, line: error.line ?? null, column: error.column ?? null });
 function near(actual, expected, relativeTolerance, absoluteTolerance, name) {
   if (!Number.isFinite(actual) || Math.abs(actual - expected) > Math.max(absoluteTolerance, relativeTolerance * Math.abs(expected)))
     throw new Error(`${name}: measured ${actual}, expected ${expected}`);
 }
 
+// WC0 surface kinds (rust/wonky-contract SurfaceGeometry) by analytic family.
+const SURFACE_FAMILIES = { Plane: 'plane', Cylinder: 'cylinder', Cone: 'cone', ConeSlope: 'cone', ConeMeridian: 'cone', Sphere: 'sphere', Torus: 'torus' };
+const surfaceFamily = kind => {
+  if (!Object.hasOwn(SURFACE_FAMILIES, kind)) throw new Error(`Unknown WC0 surface kind: ${kind}`);
+  return SURFACE_FAMILIES[kind];
+};
+
+// The real-geometry gate: a model passes only with Rust WC0 bodies that the
+// kernel itself re-measures as closed, valid B-reps of positive volume with
+// exact (not regularized) geometry. It rejects missing geometry, not a backend
+// name: a model from another backend or with legacy bodies has none of this.
+export function exactRustBodies(model, expectedSolids) {
+  if (model?.backend?.language !== 'Rust' || !model.bodies?.length || !model.bodies.every(isRustBody))
+    throw new Error('CADBench requires exact, closed, validated Rust kernel bodies; this model has none');
+  if (expectedSolids !== undefined && model.bodies.length !== expectedSolids)
+    throw new Error(`Solid count differs: ${model.bodies.length} != ${expectedSolids}`);
+  const kernel = rustModelKernel(model);
+  return model.bodies.map(body => {
+    const measured = measureRustBody(kernel, body), validity = measured.validity ?? {};
+    if (validity.brep !== true || validity.closed !== true || validity.positive !== true || body.validation?.closed !== true || body.validation?.brep !== true)
+      throw new Error(`Body ${body.id} is not a closed, validated B-rep of positive volume`);
+    if (body.exactness) throw new Error(`Body ${body.id} has ${body.exactness}, not exact, geometry`);
+    if (!Number.isFinite(measured.volumeMm3) || !measured.bboxMm) throw new Error(`Body ${body.id} has no native volume or bounds`);
+    return { body, measured, wc0: describeRustBody(kernel, body).body };
+  });
+}
+
 export function checkCadbenchModel(model, expected) {
-  if (model.backend?.language !== 'Bend') throw new Error('CADBench pilot requires the real Bend backend');
-  if (model.bodies.length !== expected.solids) throw new Error(`Solid count differs: ${model.bodies.length} != ${expected.solids}`);
-  if (model.bodies.some(body => !body.validation.closed || !Number.isFinite(body.validation.volumeMm3) || !body.validation.boundsMm))
-    throw new Error('Closed topology, native volume and native bounds are required');
-  const actual = { solids: model.bodies.length,
-    volumeMm3: model.bodies.reduce((sum, body) => sum + body.validation.volumeMm3, 0),
-    boundsMm: { min: [0, 1, 2].map(axis => Math.min(...model.bodies.map(body => body.validation.boundsMm.min[axis]))),
-      max: [0, 1, 2].map(axis => Math.max(...model.bodies.map(body => body.validation.boundsMm.max[axis]))) },
-    surfaces: counts(model.bodies.flatMap(body => body.faces.map(face => face.surface.type))),
-    curves: counts(model.bodies.flatMap(body => body.edges.map(edge => edge.curve.type ?? edge.curve))),
-    topology: model.bodies.map(body => ({ vertices: body.vertices.length, edges: body.edges.length, faces: body.faces.length })) };
+  const bodies = exactRustBodies(model, expected.solids);
+  const actual = { solids: bodies.length,
+    volumeMm3: bodies.reduce((sum, { measured }) => sum + measured.volumeMm3, 0),
+    boundsMm: { min: [0, 1, 2].map(axis => Math.min(...bodies.map(({ measured }) => measured.bboxMm.min[axis]))),
+      max: [0, 1, 2].map(axis => Math.max(...bodies.map(({ measured }) => measured.bboxMm.max[axis]))) },
+    surfaces: counts(bodies.flatMap(({ wc0 }) => wc0.faces.map(face => surfaceFamily(wc0.surfaces[face.surface].geometry.kind)))),
+    curves: counts(bodies.flatMap(({ wc0 }) => wc0.edges.map(edge => wc0.curves[edge.curve].geometry.kind))),
+    topology: bodies.map(({ measured }) => ({ vertices: measured.topology.vertices, edges: measured.topology.edges, faces: measured.topology.faces })) };
   near(actual.volumeMm3, expected.volumeMm3, expected.relativeTolerance, 1e-5, 'Volume (mm^3)');
   for (const side of ['min', 'max']) for (let axis = 0; axis < 3; axis++)
     near(actual.boundsMm[side][axis], expected.boundsMm[side][axis], expected.relativeTolerance, expected.absoluteToleranceMm, `Bounds ${side}[${axis}] (mm)`);
@@ -62,7 +90,7 @@ export async function runCadbench({ out = join(root, 'out/cadbench/pilot'), case
     implementation: cadbenchImplementationSnapshot(), modelingPolicy: { curvedContacts: 'strict' },
     official: { benchmark: policy.dataset, version: policy.tag, contentHash: policy.dataset_content_hash,
       totalTasks: policy.task_count, attemptedTasks: 0, scoredTasks: 0, reward: null, submissionEligible: false,
-      status: 'not-run', reason: 'This local Bend pilot does not produce answer.FCStd/answer.py or run the isolated Harbor verifier.' },
+      status: 'not-run', reason: 'This local pilot does not produce answer.FCStd/answer.py or run the isolated Harbor verifier.' },
     local: { selection: pilot.selection, selectedCases: selected.length, pilotCases: pilot.cases.length, cases: [] },
     stepValidation: { status: validateStep ? 'pending' : 'not-run', reason: validateStep ? null : 'Explicitly disabled; local results lack independent STEP validation.' },
     accepted: false };
@@ -81,11 +109,11 @@ export async function runCadbench({ out = join(root, 'out/cadbench/pilot'), case
       });
       row.actual = checkCadbenchModel(model, item.expected);
       const step = toStep(model, `cadbench-${item.id}`);
-      json(prefix + '.brep.json', model); writeFileSync(prefix + '.step', step);
+      writeFileSync(prefix + '.brep.json', serializeModel(model)); writeFileSync(prefix + '.step', step);
       row.exports = ['brep.json', 'step'].map(extension => ({ path: `cadbench-${item.id}.${extension}`,
         sha256: sha256(readFileSync(`${prefix}.${extension}`)) }));
       row.operationEvidenceCount = model.operationEvidence.length;
-      row.status = 'kernel-passed'; row.validation = 'native topology, nominal volume/bounds and analytic surface types; face subdivision is recorded';
+      row.status = 'kernel-passed'; row.validation = 'exact closed Rust bodies, kernel-measured volume/bounds and analytic surface families; face subdivision is recorded';
       prefixes.push(prefix); probes.push({ prefix, points: item.expected.probes.map(({ id, pointMm }) => ({ id, pointMm })) });
     } catch (error) {
       row.status = error instanceof UnsupportedFeatureError ? 'unsupported' : 'failed'; row.error = errorRecord(error);
@@ -138,7 +166,7 @@ export async function runCadbench({ out = join(root, 'out/cadbench/pilot'), case
   report.accepted = report.implementationStable && report.stepValidation.status === 'passed' && report.local.cases.every(row => row.status === 'passed');
   report.finishedAt = new Date().toISOString();
   json(join(out, 'report.json'), report);
-  const lines = ['# CADBench local Bend pilot', '', report.scope, '',
+  const lines = ['# CADBench local pilot (Rust kernel)', '', report.scope, '',
     `Official ${policy.tag}: **0/${policy.task_count} tasks scored**; no official reward or submission.`, '',
     `Local selection: ${selected.length}/${pilot.cases.length} pilot cases. Independent STEP validation: ${report.stepValidation.status}.`, '',
     '| Local case | Source row | Status | Finding |', '|---|---|---|---|',
@@ -168,7 +196,7 @@ if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.ur
   try {
     const args = process.argv.slice(2);
     if (args.length === 1 && args[0] === '--help') {
-      console.log('Usage: node scripts/cadbench.mjs [--out <directory>] [--case <id>] [--skip-step-validation]\nRuns the local five-case Bend pilot, including unsupported cases. Default exit 1 currently reflects real capability gaps.\n--case may be repeated for diagnosis; --skip-step-validation cannot produce a validated pass. No official CADBench score, paid API calls, or uploads.');
+      console.log('Usage: node scripts/cadbench.mjs [--out <directory>] [--case <id>] [--skip-step-validation]\nRuns the local five-case pilot on the Rust kernel, including unsupported cases. Default exit 1 currently reflects real capability gaps.\n--case may be repeated for diagnosis; --skip-step-validation cannot produce a validated pass. No official CADBench score, paid API calls, or uploads.');
     } else if (args.length === 1 && args[0] === '--list') {
       for (const row of verifyCadbenchFixtures().pilot.cases) console.log(`${row.id}\t${row.upstreamId}\t${row.adaptation}`);
     } else {

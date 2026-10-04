@@ -20,7 +20,7 @@
 import { drawQuery, loadDrawKernel } from './draw.mjs';
 import { printabilityQuery } from './printability.mjs';
 import { sectionQuery } from './section.mjs';
-import { loadThicknessKernels, thicknessQuery } from './thickness.mjs';
+import { thicknessQuery } from './thickness.mjs';
 import { diffBoundsQuery } from './diff.mjs';
 
 export const QUERY_HANDLERS = Object.freeze({
@@ -58,7 +58,9 @@ export const PREPARE = Object.freeze({
   draw: () => loadDrawKernel(),
   printability: () => import('../curve-band.mjs'),
   section: () => import('../section.mjs'),
-  thickness: () => loadThicknessKernels(),
+  // The thickness query loads its ray and classifier kernels itself; on Rust it answers
+  // 'unsupported' and must not load Bend code, so nothing is prepared ahead of it.
+  thickness: () => import('./thickness.mjs'),
   diffBounds: () => import('../curve-band.mjs'),
 });
 

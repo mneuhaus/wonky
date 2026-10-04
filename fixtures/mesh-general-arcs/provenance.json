@@ -1,0 +1,12 @@
+{
+  "sources": [
+    {
+      "origin": "local-development-evidence",
+      "sha256": "a955e27ab821392fbe75f5f6ccc29ced1cf2eb457f658b69d29de390192261da"
+    },
+    {
+      "origin": "<repo>/tmp/servo-bracket/servo-slide.fs",
+      "sha256": "290f265264b5202a57a6122dd3f60d46fa703d2e66576bf65a221545f48555ac"
+    }
+  ]
+}

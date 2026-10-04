@@ -1,0 +1,121 @@
+{
+  "schema": "wonky/cad-acid-occt-frozen/1",
+  "batch": "ZF1",
+  "zonesSha256": "4dde1c353807721b9af0280c2fbecfafa3e2a04d9e066ca307019b2a4103dbd0",
+  "catalogVersion": "AC1-2026-10-02-extZF1-fillet",
+  "zones": [
+    "AC118",
+    "AC119",
+    "AC120",
+    "AC121",
+    "AC122",
+    "AC123"
+  ],
+  "cells": 30,
+  "sources": {
+    "fixtures/cad-acid/b3d/acid_fillet_zf1.py": "0a893e5dd353cec5cf265bf73a3b558738177dae218d3a69b70953c58ab3e43a"
+  },
+  "observations": "observations.json",
+  "origin": {
+    "file": "tmp/zf1-fix2/occt-native/results.json",
+    "sha256": "bdd5cae9c1257058e312a78ca0ecad7a91fbe2898099edb07771fc2986fcd6f9",
+    "code": {
+      "head": "bdce601f2607f9e49418a4abd194cd5a473efa66",
+      "treeSha256": "9e3540846d733ef5440fb815a6431a470504f46a70dda1d0aa6b4cee14eb732e"
+    },
+    "gitRevision": "bdce601f2607f9e49418a4abd194cd5a473efa66",
+    "gitTree": "e1268c935c0101964cb8a4744c3b327e0f21a503",
+    "clean": true,
+    "host": "studio/run.mjs (see retained runner log)",
+    "startedAt": "2026-10-03T01:36:19.602Z",
+    "finishedAt": "2026-10-03T01:36:46.503Z",
+    "versions": [
+      {
+        "build123d": "0.10.0",
+        "cadquery-ocp": "7.8.1.1.post1"
+      }
+    ]
+  },
+  "contractFreeze": {
+    "initialCommit": "069ae3e2",
+    "noPostObservationCorrections": true
+  },
+  "observedVerdicts": {
+    "REFUSED": 5,
+    "CORRECT": 20,
+    "ERROR": 5
+  },
+  "contradictions": [
+    {
+      "zone": "AC118",
+      "variant": "V0",
+      "status": "REFUSED",
+      "reason": "UnsupportedFeatureError: BRepFilletAPI_MakeChamfer.Add expands the selected G1 contour; tangentPropagation=false is unavailable in OCCT 7.8",
+      "strictStatus": "REFUSED"
+    },
+    {
+      "zone": "AC123",
+      "variant": "V0",
+      "status": "ERROR",
+      "reason": "BRepFilletAPI_MakeChamfer: Build not done",
+      "strictStatus": "ERROR"
+    },
+    {
+      "zone": "AC118",
+      "variant": "V1",
+      "status": "REFUSED",
+      "reason": "UnsupportedFeatureError: BRepFilletAPI_MakeChamfer.Add expands the selected G1 contour; tangentPropagation=false is unavailable in OCCT 7.8",
+      "strictStatus": "REFUSED"
+    },
+    {
+      "zone": "AC123",
+      "variant": "V1",
+      "status": "ERROR",
+      "reason": "BRepFilletAPI_MakeChamfer: Build not done",
+      "strictStatus": "ERROR"
+    },
+    {
+      "zone": "AC118",
+      "variant": "V2",
+      "status": "REFUSED",
+      "reason": "UnsupportedFeatureError: BRepFilletAPI_MakeChamfer.Add expands the selected G1 contour; tangentPropagation=false is unavailable in OCCT 7.8",
+      "strictStatus": "REFUSED"
+    },
+    {
+      "zone": "AC123",
+      "variant": "V2",
+      "status": "ERROR",
+      "reason": "BRepFilletAPI_MakeChamfer: Build not done",
+      "strictStatus": "ERROR"
+    },
+    {
+      "zone": "AC118",
+      "variant": "V3",
+      "status": "REFUSED",
+      "reason": "UnsupportedFeatureError: BRepFilletAPI_MakeChamfer.Add expands the selected G1 contour; tangentPropagation=false is unavailable in OCCT 7.8",
+      "strictStatus": "REFUSED"
+    },
+    {
+      "zone": "AC123",
+      "variant": "V3",
+      "status": "ERROR",
+      "reason": "BRepFilletAPI_MakeChamfer: Build not done",
+      "strictStatus": "ERROR"
+    },
+    {
+      "zone": "AC118",
+      "variant": "V4",
+      "status": "REFUSED",
+      "reason": "UnsupportedFeatureError: BRepFilletAPI_MakeChamfer.Add expands the selected G1 contour; tangentPropagation=false is unavailable in OCCT 7.8",
+      "strictStatus": "REFUSED"
+    },
+    {
+      "zone": "AC123",
+      "variant": "V4",
+      "status": "ERROR",
+      "reason": "BRepFilletAPI_MakeChamfer: Build not done",
+      "strictStatus": "ERROR"
+    }
+  ],
+  "note": "Replaces superseded ZF1 observations with real BRepFilletAPI_MakeChamfer outcomes. AC118 requests tangentPropagation=false; OCCT Add expands the selected G1 contour and lacks a disable switch, recorded as a named capability refusal. AC123 selects the full top rim at equal offsets width=radius; its real build outcome is retained. No primitive substitutes, changed contracts, or new Onshape captures. Other freezes remain byte-identical."
+}

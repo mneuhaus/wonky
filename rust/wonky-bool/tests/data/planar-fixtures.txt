@@ -1,0 +1,4410 @@
+# wonky/bool-planar-fixtures/1
+# consumer: rust/wonky-bool/tests/planar_fixtures.rs (boolean3d strand G2)
+# how: uv run --no-project --with sympy python rust/wonky-bool/tests/data/planar_fixtures.py > rust/wonky-bool/tests/data/planar-fixtures.txt
+# script sha256 c509a9d7f205f9fa401131d35c90328ed0db65cb3e8a0e28125fd80bfda4b4b0; sympy 1.14.0
+# configurations: 44
+config overlap-generic
+placement A 0 0 0 1 0 0 0 1 0 0 0 1
+placement B 0 0 0 1 0 0 0 1 0 0 0 1
+face A 0 0 0 0 0 4 0 0 0 -32 1 4 0 0 0 0 4 0 4 4 0 4 0 0
+face A 1 0 0 4 4 0 0 0 0 32 1 4 0 0 4 4 0 4 4 4 4 0 4 4
+face A 2 0 0 0 4 0 0 0 -32 0 1 4 0 0 0 4 0 0 4 0 4 0 0 4
+face A 3 0 4 0 0 0 4 0 32 0 1 4 0 4 0 0 4 4 4 4 4 4 4 0
+face A 4 0 0 0 0 0 4 -32 0 0 1 4 0 0 0 0 0 4 0 4 4 0 4 0
+face A 5 4 0 0 0 4 0 32 0 0 1 4 4 0 0 4 4 0 4 4 4 4 0 4
+face B 0 1 2 -1 0 4 0 0 0 -32 1 4 1 2 -1 1 6 -1 5 6 -1 5 2 -1
+face B 1 1 2 3 4 0 0 0 0 32 1 4 1 2 3 5 2 3 5 6 3 1 6 3
+face B 2 1 2 -1 4 0 0 0 -32 0 1 4 1 2 -1 5 2 -1 5 2 3 1 2 3
+face B 3 1 6 -1 0 0 4 0 32 0 1 4 1 6 -1 1 6 3 5 6 3 5 6 -1
+face B 4 1 2 -1 0 0 4 -32 0 0 1 4 1 2 -1 1 2 3 1 6 3 1 6 -1
+face B 5 5 2 -1 0 4 0 32 0 0 1 4 5 2 -1 5 6 -1 5 6 3 5 2 3
+boxmeet 0 2
+boxmeet 0 4
+boxmeet 3 1
+boxmeet 3 4
+boxmeet 5 1
+boxmeet 5 2
+ef A 0 4 0 4 4 0 4 1 4 0
+ef A 4 0 0 4 4 0 2 4 2 0
+ef A 4 4 0 4 4 4 1 4 4 3
+ef B 1 2 -1 1 2 3 0 1 2 0
+ef B 1 2 3 1 6 3 3 1 4 3
+ef B 1 2 3 5 2 3 5 4 2 3
+frame R0
+paves A 0 0 0 0 0 4 2 0 0 0 0 0 4
+paves A 0 0 0 0 4 0 2 0 0 0 0 4 0
+paves A 0 0 0 4 0 0 2 0 0 0 4 0 0
+paves A 0 0 4 0 4 4 2 0 0 4 0 4 4
+paves A 0 0 4 4 0 4 2 0 0 4 4 0 4
+paves A 0 4 0 0 4 4 2 0 4 0 0 4 4
+paves A 0 4 0 4 4 0 3 0 4 0 1 4 0 4 4 0
+paves A 0 4 4 4 4 4 2 0 4 4 4 4 4
+paves A 4 0 0 4 0 4 2 4 0 0 4 0 4
+paves A 4 0 0 4 4 0 3 4 0 0 4 2 0 4 4 0
+paves A 4 0 4 4 4 4 2 4 0 4 4 4 4
+paves A 4 4 0 4 4 4 3 4 4 0 4 4 3 4 4 4
+paves B 1 2 -1 1 2 3 3 1 2 -1 1 2 0 1 2 3
+paves B 1 2 -1 1 6 -1 2 1 2 -1 1 6 -1
+paves B 1 2 -1 5 2 -1 2 1 2 -1 5 2 -1
+paves B 1 2 3 1 6 3 3 1 2 3 1 4 3 1 6 3
+paves B 1 2 3 5 2 3 3 1 2 3 4 2 3 5 2 3
+paves B 1 6 -1 1 6 3 2 1 6 -1 1 6 3
+paves B 1 6 -1 5 6 -1 2 1 6 -1 5 6 -1
+paves B 1 6 3 5 6 3 2 1 6 3 5 6 3
+paves B 5 2 -1 5 2 3 2 5 2 -1 5 2 3
+paves B 5 2 -1 5 6 -1 2 5 2 -1 5 6 -1
+paves B 5 2 3 5 6 3 2 5 2 3 5 6 3
+paves B 5 6 -1 5 6 3 2 5 6 -1 5 6 3
+piece 0 2 4 2 0 1 2 0 0 0 1/2 1/32 1/2 1/128 3/4 1/128 0 1/128
+piece 0 4 1 2 0 1 4 0 0 0 1/2 1/128 1 1/128 1/4 0 1/4 1/64
+piece 3 1 1 4 3 4 4 3 0 0 3/4 1/128 3/4 1/32 0 1/64 3/4 1/64
+piece 3 4 1 4 0 1 4 3 0 0 0 1/128 3/4 1/128 1/4 1/64 1 1/64
+piece 5 1 4 4 3 4 2 3 0 0 1 3/128 1/2 3/128 3/4 1/64 3/4 0
+piece 5 2 4 2 3 4 2 0 0 0 1/2 3/128 1/2 0 3/4 1/32 3/4 1/128
+relation 0 0 disjoint 1 1 1
+relation 0 1 disjoint 0 0 9
+relation 0 2 transverse 0 2 0 1 0 0
+relation 0 3 transverse 0 6 0 1 0 0
+relation 0 4 transverse 1 0 0 0 1 0
+relation 0 5 transverse 5 0 0 0 1 0
+relation 1 0 disjoint 0 0 25
+relation 1 1 disjoint 1 0 1
+relation 1 2 transverse 0 2 4 1 0 0
+relation 1 3 transverse 0 6 4 1 0 0
+relation 1 4 transverse 1 0 4 0 1 0
+relation 1 5 transverse 5 0 4 0 1 0
+relation 2 0 transverse 0 0 -1 1 0 0
+relation 2 1 transverse 0 0 3 1 0 0
+relation 2 2 disjoint 1 0 4
+relation 2 3 disjoint 0 0 36
+relation 2 4 transverse 1 0 0 0 0 1
+relation 2 5 transverse 5 0 0 0 0 1
+relation 3 0 transverse 0 4 -1 1 0 0
+relation 3 1 transverse 0 4 3 1 0 0
+relation 3 2 disjoint 0 0 4
+relation 3 3 disjoint 1 1 4
+relation 3 4 transverse 1 4 0 0 0 1
+relation 3 5 transverse 5 4 0 0 0 1
+relation 4 0 transverse 0 0 -1 0 1 0
+relation 4 1 transverse 0 0 3 0 1 0
+relation 4 2 transverse 0 2 0 0 0 1
+relation 4 3 transverse 0 6 0 0 0 1
+relation 4 4 disjoint 1 0 1
+relation 4 5 disjoint 0 0 25
+relation 5 0 transverse 4 0 -1 0 1 0
+relation 5 1 transverse 4 0 3 0 1 0
+relation 5 2 transverse 4 2 0 0 0 1
+relation 5 3 transverse 4 6 0 0 0 1
+relation 5 4 disjoint 0 0 9
+relation 5 5 disjoint 1 1 1
+end
+config overlap-generic-r1
+placement A 0 0 0 1 0 0 0 1 0 0 0 1
+placement B 1/2 -3 7 1 0 0 0 1 0 0 0 1
+face A 0 0 0 0 0 4 0 0 0 -32 1 4 0 0 0 0 4 0 4 4 0 4 0 0
+face A 1 0 0 4 4 0 0 0 0 32 1 4 0 0 4 4 0 4 4 4 4 0 4 4
+face A 2 0 0 0 4 0 0 0 -32 0 1 4 0 0 0 4 0 0 4 0 4 0 0 4
+face A 3 0 4 0 0 0 4 0 32 0 1 4 0 4 0 0 4 4 4 4 4 4 4 0
+face A 4 0 0 0 0 0 4 -32 0 0 1 4 0 0 0 0 0 4 0 4 4 0 4 0
+face A 5 4 0 0 0 4 0 32 0 0 1 4 4 0 0 4 4 0 4 4 4 4 0 4
+face B 0 1/2 5 -8 0 4 0 0 0 -32 1 4 1/2 5 -8 1/2 9 -8 9/2 9 -8 9/2 5 -8
+face B 1 1/2 5 -4 4 0 0 0 0 32 1 4 1/2 5 -4 9/2 5 -4 9/2 9 -4 1/2 9 -4
+face B 2 1/2 5 -8 4 0 0 0 -32 0 1 4 1/2 5 -8 9/2 5 -8 9/2 5 -4 1/2 5 -4
+face B 3 1/2 9 -8 0 0 4 0 32 0 1 4 1/2 9 -8 1/2 9 -4 9/2 9 -4 9/2 9 -8
+face B 4 1/2 5 -8 0 0 4 -32 0 0 1 4 1/2 5 -8 1/2 5 -4 1/2 9 -4 1/2 9 -8
+face B 5 9/2 5 -8 0 4 0 32 0 0 1 4 9/2 5 -8 9/2 9 -8 9/2 9 -4 9/2 5 -4
+boxmeet 0 2
+boxmeet 0 4
+boxmeet 3 1
+boxmeet 3 4
+boxmeet 5 1
+boxmeet 5 2
+ef A 0 4 0 4 4 0 4 1 4 0
+ef A 4 0 0 4 4 0 2 4 2 0
+ef A 4 4 0 4 4 4 1 4 4 3
+ef B 1 2 -1 1 2 3 0 1 2 0
+ef B 1 2 3 1 6 3 3 1 4 3
+ef B 1 2 3 5 2 3 5 4 2 3
+frame R1
+paves A 0 0 0 0 0 4 2 0 0 0 0 0 4
+paves A 0 0 0 0 4 0 2 0 0 0 0 4 0
+paves A 0 0 0 4 0 0 2 0 0 0 4 0 0
+paves A 0 0 4 0 4 4 2 0 0 4 0 4 4
+paves A 0 0 4 4 0 4 2 0 0 4 4 0 4
+paves A 0 4 0 0 4 4 2 0 4 0 0 4 4
+paves A 0 4 0 4 4 0 3 0 4 0 1 4 0 4 4 0
+paves A 0 4 4 4 4 4 2 0 4 4 4 4 4
+paves A 4 0 0 4 0 4 2 4 0 0 4 0 4
+paves A 4 0 0 4 4 0 3 4 0 0 4 2 0 4 4 0
+paves A 4 0 4 4 4 4 2 4 0 4 4 4 4
+paves A 4 4 0 4 4 4 3 4 4 0 4 4 3 4 4 4
+paves B 1 2 -1 1 2 3 3 1 2 -1 1 2 0 1 2 3
+paves B 1 2 -1 1 6 -1 2 1 2 -1 1 6 -1
+paves B 1 2 -1 5 2 -1 2 1 2 -1 5 2 -1
+paves B 1 2 3 1 6 3 3 1 2 3 1 4 3 1 6 3
+paves B 1 2 3 5 2 3 3 1 2 3 4 2 3 5 2 3
+paves B 1 6 -1 1 6 3 2 1 6 -1 1 6 3
+paves B 1 6 -1 5 6 -1 2 1 6 -1 5 6 -1
+paves B 1 6 3 5 6 3 2 1 6 3 5 6 3
+paves B 5 2 -1 5 2 3 2 5 2 -1 5 2 3
+paves B 5 2 -1 5 6 -1 2 5 2 -1 5 6 -1
+paves B 5 2 3 5 6 3 2 5 2 3 5 6 3
+paves B 5 6 -1 5 6 3 2 5 6 -1 5 6 3
+piece 0 2 4 2 0 1 2 0 0 0 1/2 1/32 1/2 1/128 3/4 1/128 0 1/128
+piece 0 4 1 2 0 1 4 0 0 0 1/2 1/128 1 1/128 1/4 0 1/4 1/64
+piece 3 1 1 4 3 4 4 3 0 0 3/4 1/128 3/4 1/32 0 1/64 3/4 1/64
+piece 3 4 1 4 0 1 4 3 0 0 0 1/128 3/4 1/128 1/4 1/64 1 1/64
+piece 5 1 4 4 3 4 2 3 0 0 1 3/128 1/2 3/128 3/4 1/64 3/4 0
+piece 5 2 4 2 3 4 2 0 0 0 1/2 3/128 1/2 0 3/4 1/32 3/4 1/128
+relation 0 0 disjoint 1 1 1
+relation 0 1 disjoint 0 0 9
+relation 0 2 transverse 0 2 0 1 0 0
+relation 0 3 transverse 0 6 0 1 0 0
+relation 0 4 transverse 1 0 0 0 1 0
+relation 0 5 transverse 5 0 0 0 1 0
+relation 1 0 disjoint 0 0 25
+relation 1 1 disjoint 1 0 1
+relation 1 2 transverse 0 2 4 1 0 0
+relation 1 3 transverse 0 6 4 1 0 0
+relation 1 4 transverse 1 0 4 0 1 0
+relation 1 5 transverse 5 0 4 0 1 0
+relation 2 0 transverse 0 0 -1 1 0 0
+relation 2 1 transverse 0 0 3 1 0 0
+relation 2 2 disjoint 1 0 4
+relation 2 3 disjoint 0 0 36
+relation 2 4 transverse 1 0 0 0 0 1
+relation 2 5 transverse 5 0 0 0 0 1
+relation 3 0 transverse 0 4 -1 1 0 0
+relation 3 1 transverse 0 4 3 1 0 0
+relation 3 2 disjoint 0 0 4
+relation 3 3 disjoint 1 1 4
+relation 3 4 transverse 1 4 0 0 0 1
+relation 3 5 transverse 5 4 0 0 0 1
+relation 4 0 transverse 0 0 -1 0 1 0
+relation 4 1 transverse 0 0 3 0 1 0
+relation 4 2 transverse 0 2 0 0 0 1
+relation 4 3 transverse 0 6 0 0 0 1
+relation 4 4 disjoint 1 0 1
+relation 4 5 disjoint 0 0 25
+relation 5 0 transverse 4 0 -1 0 1 0
+relation 5 1 transverse 4 0 3 0 1 0
+relation 5 2 transverse 4 2 0 0 0 1
+relation 5 3 transverse 4 6 0 0 0 1
+relation 5 4 disjoint 0 0 9
+relation 5 5 disjoint 1 1 1
+end
+config overlap-generic-r2
+placement A 0 0 0 1 0 0 0 1 0 0 0 1
+placement B 1 2 3 3/5 4/5 0 -4/5 3/5 0 0 0 1
+face A 0 0 0 0 0 4 0 0 0 -32 1 4 0 0 0 0 4 0 4 4 0 4 0 0
+face A 1 0 0 4 4 0 0 0 0 32 1 4 0 0 4 4 0 4 4 4 4 0 4 4
+face A 2 0 0 0 4 0 0 0 -32 0 1 4 0 0 0 4 0 0 4 0 4 0 0 4
+face A 3 0 4 0 0 0 4 0 32 0 1 4 0 4 0 0 4 4 4 4 4 4 4 0
+face A 4 0 0 0 0 0 4 -32 0 0 1 4 0 0 0 0 0 4 0 4 4 0 4 0
+face A 5 4 0 0 0 4 0 32 0 0 1 4 4 0 0 4 4 0 4 4 4 4 0 4
+face B 0 0 0 -4 16/5 12/5 0 0 0 -32 1 4 0 0 -4 16/5 12/5 -4 28/5 -4/5 -4 12/5 -16/5 -4
+face B 1 0 0 0 12/5 -16/5 0 0 0 32 1 4 0 0 0 12/5 -16/5 0 28/5 -4/5 0 16/5 12/5 0
+face B 2 0 0 -4 12/5 -16/5 0 -128/5 -96/5 0 1 4 0 0 -4 12/5 -16/5 -4 12/5 -16/5 0 0 0 0
+face B 3 16/5 12/5 -4 0 0 4 128/5 96/5 0 1 4 16/5 12/5 -4 16/5 12/5 0 28/5 -4/5 0 28/5 -4/5 -4
+face B 4 0 0 -4 0 0 4 -96/5 128/5 0 1 4 0 0 -4 0 0 0 16/5 12/5 0 16/5 12/5 -4
+face B 5 12/5 -16/5 -4 16/5 12/5 0 96/5 -128/5 0 1 4 12/5 -16/5 -4 28/5 -4/5 -4 28/5 -4/5 0 12/5 -16/5 0
+boxmeet 0 2
+boxmeet 0 4
+boxmeet 3 1
+boxmeet 3 4
+boxmeet 5 1
+boxmeet 5 2
+ef A 0 4 0 4 4 0 4 1 4 0
+ef A 4 0 0 4 4 0 2 4 2 0
+ef A 4 4 0 4 4 4 1 4 4 3
+ef B 1 2 -1 1 2 3 0 1 2 0
+ef B 1 2 3 1 6 3 3 1 4 3
+ef B 1 2 3 5 2 3 5 4 2 3
+frame R2
+paves A 0 0 0 0 0 4 2 0 0 0 0 0 4
+paves A 0 0 0 0 4 0 2 0 0 0 0 4 0
+paves A 0 0 0 4 0 0 2 0 0 0 4 0 0
+paves A 0 0 4 0 4 4 2 0 0 4 0 4 4
+paves A 0 0 4 4 0 4 2 0 0 4 4 0 4
+paves A 0 4 0 0 4 4 2 0 4 0 0 4 4
+paves A 0 4 0 4 4 0 3 0 4 0 1 4 0 4 4 0
+paves A 0 4 4 4 4 4 2 0 4 4 4 4 4
+paves A 4 0 0 4 0 4 2 4 0 0 4 0 4
+paves A 4 0 0 4 4 0 3 4 0 0 4 2 0 4 4 0
+paves A 4 0 4 4 4 4 2 4 0 4 4 4 4
+paves A 4 4 0 4 4 4 3 4 4 0 4 4 3 4 4 4
+paves B 1 2 -1 1 2 3 3 1 2 -1 1 2 0 1 2 3
+paves B 1 2 -1 1 6 -1 2 1 2 -1 1 6 -1
+paves B 1 2 -1 5 2 -1 2 1 2 -1 5 2 -1
+paves B 1 2 3 1 6 3 3 1 2 3 1 4 3 1 6 3
+paves B 1 2 3 5 2 3 3 1 2 3 4 2 3 5 2 3
+paves B 1 6 -1 1 6 3 2 1 6 -1 1 6 3
+paves B 1 6 -1 5 6 -1 2 1 6 -1 5 6 -1
+paves B 1 6 3 5 6 3 2 1 6 3 5 6 3
+paves B 5 2 -1 5 2 3 2 5 2 -1 5 2 3
+paves B 5 2 -1 5 6 -1 2 5 2 -1 5 6 -1
+paves B 5 2 3 5 6 3 2 5 2 3 5 6 3
+paves B 5 6 -1 5 6 3 2 5 6 -1 5 6 3
+piece 0 2 4 2 0 1 2 0 0 0 1/2 1/32 1/2 1/128 3/4 1/128 0 1/128
+piece 0 4 1 2 0 1 4 0 0 0 1/2 1/128 1 1/128 1/4 0 1/4 1/64
+piece 3 1 1 4 3 4 4 3 0 0 3/4 1/128 3/4 1/32 0 1/64 3/4 1/64
+piece 3 4 1 4 0 1 4 3 0 0 0 1/128 3/4 1/128 1/4 1/64 1 1/64
+piece 5 1 4 4 3 4 2 3 0 0 1 3/128 1/2 3/128 3/4 1/64 3/4 0
+piece 5 2 4 2 3 4 2 0 0 0 1/2 3/128 1/2 0 3/4 1/32 3/4 1/128
+relation 0 0 disjoint 1 1 1
+relation 0 1 disjoint 0 0 9
+relation 0 2 transverse 0 2 0 1 0 0
+relation 0 3 transverse 0 6 0 1 0 0
+relation 0 4 transverse 1 0 0 0 1 0
+relation 0 5 transverse 5 0 0 0 1 0
+relation 1 0 disjoint 0 0 25
+relation 1 1 disjoint 1 0 1
+relation 1 2 transverse 0 2 4 1 0 0
+relation 1 3 transverse 0 6 4 1 0 0
+relation 1 4 transverse 1 0 4 0 1 0
+relation 1 5 transverse 5 0 4 0 1 0
+relation 2 0 transverse 0 0 -1 1 0 0
+relation 2 1 transverse 0 0 3 1 0 0
+relation 2 2 disjoint 1 0 4
+relation 2 3 disjoint 0 0 36
+relation 2 4 transverse 1 0 0 0 0 1
+relation 2 5 transverse 5 0 0 0 0 1
+relation 3 0 transverse 0 4 -1 1 0 0
+relation 3 1 transverse 0 4 3 1 0 0
+relation 3 2 disjoint 0 0 4
+relation 3 3 disjoint 1 1 4
+relation 3 4 transverse 1 4 0 0 0 1
+relation 3 5 transverse 5 4 0 0 0 1
+relation 4 0 transverse 0 0 -1 0 1 0
+relation 4 1 transverse 0 0 3 0 1 0
+relation 4 2 transverse 0 2 0 0 0 1
+relation 4 3 transverse 0 6 0 0 0 1
+relation 4 4 disjoint 1 0 1
+relation 4 5 disjoint 0 0 25
+relation 5 0 transverse 4 0 -1 0 1 0
+relation 5 1 transverse 4 0 3 0 1 0
+relation 5 2 transverse 4 2 0 0 0 1
+relation 5 3 transverse 4 6 0 0 0 1
+relation 5 4 disjoint 0 0 9
+relation 5 5 disjoint 1 1 1
+end
+config overlap-generic-r3
+placement A 0 0 0 1 0 0 0 1 0 0 0 1
+placement B 0 0 0 2 0 0 1 1 0 0 0 1/2
+face A 0 0 0 0 0 4 0 0 0 -32 1 4 0 0 0 0 4 0 4 4 0 4 0 0
+face A 1 0 0 4 4 0 0 0 0 32 1 4 0 0 4 4 0 4 4 4 4 0 4 4
+face A 2 0 0 0 4 0 0 0 -32 0 1 4 0 0 0 4 0 0 4 0 4 0 0 4
+face A 3 0 4 0 0 0 4 0 32 0 1 4 0 4 0 0 4 4 4 4 4 4 4 0
+face A 4 0 0 0 0 0 4 -32 0 0 1 4 0 0 0 0 0 4 0 4 4 0 4 0
+face A 5 4 0 0 0 4 0 32 0 0 1 4 4 0 0 4 4 0 4 4 4 4 0 4
+face B 0 -1/2 2 -2 -2 4 0 0 0 -16 1 4 -1/2 2 -2 -5/2 6 -2 -1/2 6 -2 3/2 2 -2
+face B 1 -1/2 2 6 2 0 0 0 0 16 1 4 -1/2 2 6 3/2 2 6 -1/2 6 6 -5/2 6 6
+face B 2 -1/2 2 -2 2 0 0 0 -32 0 1 4 -1/2 2 -2 3/2 2 -2 3/2 2 6 -1/2 2 6
+face B 3 -5/2 6 -2 0 0 8 0 32 0 1 4 -5/2 6 -2 -5/2 6 6 -1/2 6 6 -1/2 6 -2
+face B 4 -1/2 2 -2 0 0 8 -64 -32 0 1 4 -1/2 2 -2 -1/2 2 6 -5/2 6 6 -5/2 6 -2
+face B 5 3/2 2 -2 -2 4 0 64 32 0 1 4 3/2 2 -2 -1/2 6 -2 -1/2 6 6 3/2 2 6
+boxmeet 0 2
+boxmeet 0 4
+boxmeet 3 1
+boxmeet 3 4
+boxmeet 5 1
+boxmeet 5 2
+ef A 0 4 0 4 4 0 4 1 4 0
+ef A 4 0 0 4 4 0 2 4 2 0
+ef A 4 4 0 4 4 4 1 4 4 3
+ef B 1 2 -1 1 2 3 0 1 2 0
+ef B 1 2 3 1 6 3 3 1 4 3
+ef B 1 2 3 5 2 3 5 4 2 3
+frame R3
+paves A 0 0 0 0 0 4 2 0 0 0 0 0 4
+paves A 0 0 0 0 4 0 2 0 0 0 0 4 0
+paves A 0 0 0 4 0 0 2 0 0 0 4 0 0
+paves A 0 0 4 0 4 4 2 0 0 4 0 4 4
+paves A 0 0 4 4 0 4 2 0 0 4 4 0 4
+paves A 0 4 0 0 4 4 2 0 4 0 0 4 4
+paves A 0 4 0 4 4 0 3 0 4 0 1 4 0 4 4 0
+paves A 0 4 4 4 4 4 2 0 4 4 4 4 4
+paves A 4 0 0 4 0 4 2 4 0 0 4 0 4
+paves A 4 0 0 4 4 0 3 4 0 0 4 2 0 4 4 0
+paves A 4 0 4 4 4 4 2 4 0 4 4 4 4
+paves A 4 4 0 4 4 4 3 4 4 0 4 4 3 4 4 4
+paves B 1 2 -1 1 2 3 3 1 2 -1 1 2 0 1 2 3
+paves B 1 2 -1 1 6 -1 2 1 2 -1 1 6 -1
+paves B 1 2 -1 5 2 -1 2 1 2 -1 5 2 -1
+paves B 1 2 3 1 6 3 3 1 2 3 1 4 3 1 6 3
+paves B 1 2 3 5 2 3 3 1 2 3 4 2 3 5 2 3
+paves B 1 6 -1 1 6 3 2 1 6 -1 1 6 3
+paves B 1 6 -1 5 6 -1 2 1 6 -1 5 6 -1
+paves B 1 6 3 5 6 3 2 1 6 3 5 6 3
+paves B 5 2 -1 5 2 3 2 5 2 -1 5 2 3
+paves B 5 2 -1 5 6 -1 2 5 2 -1 5 6 -1
+paves B 5 2 3 5 6 3 2 5 2 3 5 6 3
+paves B 5 6 -1 5 6 3 2 5 6 -1 5 6 3
+piece 0 2 4 2 0 1 2 0 0 0 1/2 1/32 1/2 1/128 3/4 1/32 0 1/32
+piece 0 4 1 2 0 1 4 0 0 0 1/2 1/128 1 1/128 1/4 0 1/4 1/256
+piece 3 1 1 4 3 4 4 3 0 0 3/4 1/128 3/4 1/32 -1/2 1/16 1/4 1/16
+piece 3 4 1 4 0 1 4 3 0 0 0 1/128 3/4 1/128 1/4 1/256 1 1/256
+piece 5 1 4 4 3 4 2 3 0 0 1 3/128 1/2 3/128 1/4 1/16 3/4 0
+piece 5 2 4 2 3 4 2 0 0 0 1/2 3/128 1/2 0 3/4 1/8 3/4 1/32
+relation 0 0 disjoint 1 1 1
+relation 0 1 disjoint 0 0 9
+relation 0 2 transverse 0 2 0 1 0 0
+relation 0 3 transverse 0 6 0 1 0 0
+relation 0 4 transverse 1 0 0 0 1 0
+relation 0 5 transverse 5 0 0 0 1 0
+relation 1 0 disjoint 0 0 25
+relation 1 1 disjoint 1 0 1
+relation 1 2 transverse 0 2 4 1 0 0
+relation 1 3 transverse 0 6 4 1 0 0
+relation 1 4 transverse 1 0 4 0 1 0
+relation 1 5 transverse 5 0 4 0 1 0
+relation 2 0 transverse 0 0 -1 1 0 0
+relation 2 1 transverse 0 0 3 1 0 0
+relation 2 2 disjoint 1 0 4
+relation 2 3 disjoint 0 0 36
+relation 2 4 transverse 1 0 0 0 0 1
+relation 2 5 transverse 5 0 0 0 0 1
+relation 3 0 transverse 0 4 -1 1 0 0
+relation 3 1 transverse 0 4 3 1 0 0
+relation 3 2 disjoint 0 0 4
+relation 3 3 disjoint 1 1 4
+relation 3 4 transverse 1 4 0 0 0 1
+relation 3 5 transverse 5 4 0 0 0 1
+relation 4 0 transverse 0 0 -1 0 1 0
+relation 4 1 transverse 0 0 3 0 1 0
+relation 4 2 transverse 0 2 0 0 0 1
+relation 4 3 transverse 0 6 0 0 0 1
+relation 4 4 disjoint 1 0 1
+relation 4 5 disjoint 0 0 25
+relation 5 0 transverse 4 0 -1 0 1 0
+relation 5 1 transverse 4 0 3 0 1 0
+relation 5 2 transverse 4 2 0 0 0 1
+relation 5 3 transverse 4 6 0 0 0 1
+relation 5 4 disjoint 0 0 9
+relation 5 5 disjoint 1 1 1
+end
+config overlap-generic-mirror
+placement A 0 0 0 1 0 0 0 1 0 0 0 1
+placement B 0 0 0 -1 0 0 0 1 0 0 0 1
+face A 0 0 0 0 0 4 0 0 0 -32 1 4 0 0 0 0 4 0 4 4 0 4 0 0
+face A 1 0 0 4 4 0 0 0 0 32 1 4 0 0 4 4 0 4 4 4 4 0 4 4
+face A 2 0 0 0 4 0 0 0 -32 0 1 4 0 0 0 4 0 0 4 0 4 0 0 4
+face A 3 0 4 0 0 0 4 0 32 0 1 4 0 4 0 0 4 4 4 4 4 4 4 0
+face A 4 0 0 0 0 0 4 -32 0 0 1 4 0 0 0 0 0 4 0 4 4 0 4 0
+face A 5 4 0 0 0 4 0 32 0 0 1 4 4 0 0 4 4 0 4 4 4 4 0 4
+face B 0 -5 2 -1 0 4 0 0 0 -32 1 4 -5 2 -1 -5 6 -1 -1 6 -1 -1 2 -1
+face B 1 -1 6 3 -4 0 0 0 0 32 1 4 -1 6 3 -5 6 3 -5 2 3 -1 2 3
+face B 2 -1 2 3 -4 0 0 0 -32 0 1 4 -1 2 3 -5 2 3 -5 2 -1 -1 2 -1
+face B 3 -5 6 -1 0 0 4 0 32 0 1 4 -5 6 -1 -5 6 3 -1 6 3 -1 6 -1
+face B 4 -1 6 -1 0 0 4 32 0 0 1 4 -1 6 -1 -1 6 3 -1 2 3 -1 2 -1
+face B 5 -5 2 3 0 4 0 -32 0 0 1 4 -5 2 3 -5 6 3 -5 6 -1 -5 2 -1
+boxmeet 0 2
+boxmeet 0 4
+boxmeet 3 1
+boxmeet 3 4
+boxmeet 5 1
+boxmeet 5 2
+ef A 0 4 0 4 4 0 4 1 4 0
+ef A 4 0 0 4 4 0 2 4 2 0
+ef A 4 4 0 4 4 4 1 4 4 3
+ef B 1 2 -1 1 2 3 0 1 2 0
+ef B 1 2 3 1 6 3 3 1 4 3
+ef B 1 2 3 5 2 3 5 4 2 3
+frame R1
+paves A 0 0 0 0 0 4 2 0 0 0 0 0 4
+paves A 0 0 0 0 4 0 2 0 0 0 0 4 0
+paves A 0 0 0 4 0 0 2 0 0 0 4 0 0
+paves A 0 0 4 0 4 4 2 0 0 4 0 4 4
+paves A 0 0 4 4 0 4 2 0 0 4 4 0 4
+paves A 0 4 0 0 4 4 2 0 4 0 0 4 4
+paves A 0 4 0 4 4 0 3 0 4 0 1 4 0 4 4 0
+paves A 0 4 4 4 4 4 2 0 4 4 4 4 4
+paves A 4 0 0 4 0 4 2 4 0 0 4 0 4
+paves A 4 0 0 4 4 0 3 4 0 0 4 2 0 4 4 0
+paves A 4 0 4 4 4 4 2 4 0 4 4 4 4
+paves A 4 4 0 4 4 4 3 4 4 0 4 4 3 4 4 4
+paves B 1 2 -1 1 2 3 3 1 2 -1 1 2 0 1 2 3
+paves B 1 2 -1 1 6 -1 2 1 2 -1 1 6 -1
+paves B 1 2 -1 5 2 -1 2 1 2 -1 5 2 -1
+paves B 1 2 3 1 6 3 3 1 2 3 1 4 3 1 6 3
+paves B 1 2 3 5 2 3 3 1 2 3 4 2 3 5 2 3
+paves B 1 6 -1 1 6 3 2 1 6 -1 1 6 3
+paves B 1 6 -1 5 6 -1 2 1 6 -1 5 6 -1
+paves B 1 6 3 5 6 3 2 1 6 3 5 6 3
+paves B 5 2 -1 5 2 3 2 5 2 -1 5 2 3
+paves B 5 2 -1 5 6 -1 2 5 2 -1 5 6 -1
+paves B 5 2 3 5 6 3 2 5 2 3 5 6 3
+paves B 5 6 -1 5 6 3 2 5 6 -1 5 6 3
+piece 0 2 4 2 0 1 2 0 0 0 1/2 1/32 1/2 1/128 3/4 3/128 0 3/128
+piece 0 4 1 2 0 1 4 0 0 0 1/2 1/128 1 1/128 1/4 1/32 1/4 1/64
+piece 3 1 1 4 3 4 4 3 0 0 3/4 1/128 3/4 1/32 0 1/64 3/4 1/64
+piece 3 4 1 4 0 1 4 3 0 0 0 1/128 3/4 1/128 1/4 1/64 1 1/64
+piece 5 1 4 4 3 4 2 3 0 0 1 3/128 1/2 3/128 3/4 1/64 3/4 1/32
+piece 5 2 4 2 3 4 2 0 0 0 1/2 3/128 1/2 0 3/4 0 3/4 3/128
+relation 0 0 disjoint 1 1 1
+relation 0 1 disjoint 0 0 9
+relation 0 2 transverse 0 2 0 1 0 0
+relation 0 3 transverse 0 6 0 1 0 0
+relation 0 4 transverse 1 0 0 0 1 0
+relation 0 5 transverse 5 0 0 0 1 0
+relation 1 0 disjoint 0 0 25
+relation 1 1 disjoint 1 0 1
+relation 1 2 transverse 0 2 4 1 0 0
+relation 1 3 transverse 0 6 4 1 0 0
+relation 1 4 transverse 1 0 4 0 1 0
+relation 1 5 transverse 5 0 4 0 1 0
+relation 2 0 transverse 0 0 -1 1 0 0
+relation 2 1 transverse 0 0 3 1 0 0
+relation 2 2 disjoint 1 0 4
+relation 2 3 disjoint 0 0 36
+relation 2 4 transverse 1 0 0 0 0 1
+relation 2 5 transverse 5 0 0 0 0 1
+relation 3 0 transverse 0 4 -1 1 0 0
+relation 3 1 transverse 0 4 3 1 0 0
+relation 3 2 disjoint 0 0 4
+relation 3 3 disjoint 1 1 4
+relation 3 4 transverse 1 4 0 0 0 1
+relation 3 5 transverse 5 4 0 0 0 1
+relation 4 0 transverse 0 0 -1 0 1 0
+relation 4 1 transverse 0 0 3 0 1 0
+relation 4 2 transverse 0 2 0 0 0 1
+relation 4 3 transverse 0 6 0 0 0 1
+relation 4 4 disjoint 1 0 1
+relation 4 5 disjoint 0 0 25
+relation 5 0 transverse 4 0 -1 0 1 0
+relation 5 1 transverse 4 0 3 0 1 0
+relation 5 2 transverse 4 2 0 0 0 1
+relation 5 3 transverse 4 6 0 0 0 1
+relation 5 4 disjoint 0 0 9
+relation 5 5 disjoint 1 1 1
+end
+config overlap-generic-far
+placement A 33554432 33554432 33554432 1 0 0 0 1 0 0 0 1
+placement B 33554432 33554432 33554432 1 0 0 0 1 0 0 0 1
+face A 0 0 0 0 0 4 0 0 0 -32 1 4 0 0 0 0 4 0 4 4 0 4 0 0
+face A 1 0 0 4 4 0 0 0 0 32 1 4 0 0 4 4 0 4 4 4 4 0 4 4
+face A 2 0 0 0 4 0 0 0 -32 0 1 4 0 0 0 4 0 0 4 0 4 0 0 4
+face A 3 0 4 0 0 0 4 0 32 0 1 4 0 4 0 0 4 4 4 4 4 4 4 0
+face A 4 0 0 0 0 0 4 -32 0 0 1 4 0 0 0 0 0 4 0 4 4 0 4 0
+face A 5 4 0 0 0 4 0 32 0 0 1 4 4 0 0 4 4 0 4 4 4 4 0 4
+face B 0 1 2 -1 0 4 0 0 0 -32 1 4 1 2 -1 1 6 -1 5 6 -1 5 2 -1
+face B 1 1 2 3 4 0 0 0 0 32 1 4 1 2 3 5 2 3 5 6 3 1 6 3
+face B 2 1 2 -1 4 0 0 0 -32 0 1 4 1 2 -1 5 2 -1 5 2 3 1 2 3
+face B 3 1 6 -1 0 0 4 0 32 0 1 4 1 6 -1 1 6 3 5 6 3 5 6 -1
+face B 4 1 2 -1 0 0 4 -32 0 0 1 4 1 2 -1 1 2 3 1 6 3 1 6 -1
+face B 5 5 2 -1 0 4 0 32 0 0 1 4 5 2 -1 5 6 -1 5 6 3 5 2 3
+boxmeet 0 2
+boxmeet 0 4
+boxmeet 3 1
+boxmeet 3 4
+boxmeet 5 1
+boxmeet 5 2
+ef A 0 4 0 4 4 0 4 1 4 0
+ef A 4 0 0 4 4 0 2 4 2 0
+ef A 4 4 0 4 4 4 1 4 4 3
+ef B 1 2 -1 1 2 3 0 1 2 0
+ef B 1 2 3 1 6 3 3 1 4 3
+ef B 1 2 3 5 2 3 5 4 2 3
+frame R0
+paves A 0 0 0 0 0 4 2 0 0 0 0 0 4
+paves A 0 0 0 0 4 0 2 0 0 0 0 4 0
+paves A 0 0 0 4 0 0 2 0 0 0 4 0 0
+paves A 0 0 4 0 4 4 2 0 0 4 0 4 4
+paves A 0 0 4 4 0 4 2 0 0 4 4 0 4
+paves A 0 4 0 0 4 4 2 0 4 0 0 4 4
+paves A 0 4 0 4 4 0 3 0 4 0 1 4 0 4 4 0
+paves A 0 4 4 4 4 4 2 0 4 4 4 4 4
+paves A 4 0 0 4 0 4 2 4 0 0 4 0 4
+paves A 4 0 0 4 4 0 3 4 0 0 4 2 0 4 4 0
+paves A 4 0 4 4 4 4 2 4 0 4 4 4 4
+paves A 4 4 0 4 4 4 3 4 4 0 4 4 3 4 4 4
+paves B 1 2 -1 1 2 3 3 1 2 -1 1 2 0 1 2 3
+paves B 1 2 -1 1 6 -1 2 1 2 -1 1 6 -1
+paves B 1 2 -1 5 2 -1 2 1 2 -1 5 2 -1
+paves B 1 2 3 1 6 3 3 1 2 3 1 4 3 1 6 3
+paves B 1 2 3 5 2 3 3 1 2 3 4 2 3 5 2 3
+paves B 1 6 -1 1 6 3 2 1 6 -1 1 6 3
+paves B 1 6 -1 5 6 -1 2 1 6 -1 5 6 -1
+paves B 1 6 3 5 6 3 2 1 6 3 5 6 3
+paves B 5 2 -1 5 2 3 2 5 2 -1 5 2 3
+paves B 5 2 -1 5 6 -1 2 5 2 -1 5 6 -1
+paves B 5 2 3 5 6 3 2 5 2 3 5 6 3
+paves B 5 6 -1 5 6 3 2 5 6 -1 5 6 3
+piece 0 2 4 2 0 1 2 0 0 0 1/2 1/32 1/2 1/128 3/4 1/128 0 1/128
+piece 0 4 1 2 0 1 4 0 0 0 1/2 1/128 1 1/128 1/4 0 1/4 1/64
+piece 3 1 1 4 3 4 4 3 0 0 3/4 1/128 3/4 1/32 0 1/64 3/4 1/64
+piece 3 4 1 4 0 1 4 3 0 0 0 1/128 3/4 1/128 1/4 1/64 1 1/64
+piece 5 1 4 4 3 4 2 3 0 0 1 3/128 1/2 3/128 3/4 1/64 3/4 0
+piece 5 2 4 2 3 4 2 0 0 0 1/2 3/128 1/2 0 3/4 1/32 3/4 1/128
+relation 0 0 disjoint 1 1 1
+relation 0 1 disjoint 0 0 9
+relation 0 2 transverse 0 2 0 1 0 0
+relation 0 3 transverse 0 6 0 1 0 0
+relation 0 4 transverse 1 0 0 0 1 0
+relation 0 5 transverse 5 0 0 0 1 0
+relation 1 0 disjoint 0 0 25
+relation 1 1 disjoint 1 0 1
+relation 1 2 transverse 0 2 4 1 0 0
+relation 1 3 transverse 0 6 4 1 0 0
+relation 1 4 transverse 1 0 4 0 1 0
+relation 1 5 transverse 5 0 4 0 1 0
+relation 2 0 transverse 0 0 -1 1 0 0
+relation 2 1 transverse 0 0 3 1 0 0
+relation 2 2 disjoint 1 0 4
+relation 2 3 disjoint 0 0 36
+relation 2 4 transverse 1 0 0 0 0 1
+relation 2 5 transverse 5 0 0 0 0 1
+relation 3 0 transverse 0 4 -1 1 0 0
+relation 3 1 transverse 0 4 3 1 0 0
+relation 3 2 disjoint 0 0 4
+relation 3 3 disjoint 1 1 4
+relation 3 4 transverse 1 4 0 0 0 1
+relation 3 5 transverse 5 4 0 0 0 1
+relation 4 0 transverse 0 0 -1 0 1 0
+relation 4 1 transverse 0 0 3 0 1 0
+relation 4 2 transverse 0 2 0 0 0 1
+relation 4 3 transverse 0 6 0 0 0 1
+relation 4 4 disjoint 1 0 1
+relation 4 5 disjoint 0 0 25
+relation 5 0 transverse 4 0 -1 0 1 0
+relation 5 1 transverse 4 0 3 0 1 0
+relation 5 2 transverse 4 2 0 0 0 1
+relation 5 3 transverse 4 6 0 0 0 1
+relation 5 4 disjoint 0 0 9
+relation 5 5 disjoint 1 1 1
+end
+config rotated-both-frames
+placement A 1 2 3 3/5 4/5 0 -4/5 3/5 0 0 0 1
+placement B 1 2 3 3/5 4/5 0 -4/5 3/5 0 0 0 1
+face A 0 0 0 0 0 4 0 0 0 -32 1 4 0 0 0 0 4 0 4 4 0 4 0 0
+face A 1 0 0 4 4 0 0 0 0 32 1 4 0 0 4 4 0 4 4 4 4 0 4 4
+face A 2 0 0 0 4 0 0 0 -32 0 1 4 0 0 0 4 0 0 4 0 4 0 0 4
+face A 3 0 4 0 0 0 4 0 32 0 1 4 0 4 0 0 4 4 4 4 4 4 4 0
+face A 4 0 0 0 0 0 4 -32 0 0 1 4 0 0 0 0 0 4 0 4 4 0 4 0
+face A 5 4 0 0 0 4 0 32 0 0 1 4 4 0 0 4 4 0 4 4 4 4 0 4
+face B 0 1 2 -1 0 4 0 0 0 -32 1 4 1 2 -1 1 6 -1 5 6 -1 5 2 -1
+face B 1 1 2 3 4 0 0 0 0 32 1 4 1 2 3 5 2 3 5 6 3 1 6 3
+face B 2 1 2 -1 4 0 0 0 -32 0 1 4 1 2 -1 5 2 -1 5 2 3 1 2 3
+face B 3 1 6 -1 0 0 4 0 32 0 1 4 1 6 -1 1 6 3 5 6 3 5 6 -1
+face B 4 1 2 -1 0 0 4 -32 0 0 1 4 1 2 -1 1 2 3 1 6 3 1 6 -1
+face B 5 5 2 -1 0 4 0 32 0 0 1 4 5 2 -1 5 6 -1 5 6 3 5 2 3
+boxmeet 0 2
+boxmeet 0 4
+boxmeet 3 1
+boxmeet 3 4
+boxmeet 5 1
+boxmeet 5 2
+ef A 0 4 0 4 4 0 4 1 4 0
+ef A 4 0 0 4 4 0 2 4 2 0
+ef A 4 4 0 4 4 4 1 4 4 3
+ef B 1 2 -1 1 2 3 0 1 2 0
+ef B 1 2 3 1 6 3 3 1 4 3
+ef B 1 2 3 5 2 3 5 4 2 3
+frame R0
+paves A 0 0 0 0 0 4 2 0 0 0 0 0 4
+paves A 0 0 0 0 4 0 2 0 0 0 0 4 0
+paves A 0 0 0 4 0 0 2 0 0 0 4 0 0
+paves A 0 0 4 0 4 4 2 0 0 4 0 4 4
+paves A 0 0 4 4 0 4 2 0 0 4 4 0 4
+paves A 0 4 0 0 4 4 2 0 4 0 0 4 4
+paves A 0 4 0 4 4 0 3 0 4 0 1 4 0 4 4 0
+paves A 0 4 4 4 4 4 2 0 4 4 4 4 4
+paves A 4 0 0 4 0 4 2 4 0 0 4 0 4
+paves A 4 0 0 4 4 0 3 4 0 0 4 2 0 4 4 0
+paves A 4 0 4 4 4 4 2 4 0 4 4 4 4
+paves A 4 4 0 4 4 4 3 4 4 0 4 4 3 4 4 4
+paves B 1 2 -1 1 2 3 3 1 2 -1 1 2 0 1 2 3
+paves B 1 2 -1 1 6 -1 2 1 2 -1 1 6 -1
+paves B 1 2 -1 5 2 -1 2 1 2 -1 5 2 -1
+paves B 1 2 3 1 6 3 3 1 2 3 1 4 3 1 6 3
+paves B 1 2 3 5 2 3 3 1 2 3 4 2 3 5 2 3
+paves B 1 6 -1 1 6 3 2 1 6 -1 1 6 3
+paves B 1 6 -1 5 6 -1 2 1 6 -1 5 6 -1
+paves B 1 6 3 5 6 3 2 1 6 3 5 6 3
+paves B 5 2 -1 5 2 3 2 5 2 -1 5 2 3
+paves B 5 2 -1 5 6 -1 2 5 2 -1 5 6 -1
+paves B 5 2 3 5 6 3 2 5 2 3 5 6 3
+paves B 5 6 -1 5 6 3 2 5 6 -1 5 6 3
+piece 0 2 4 2 0 1 2 0 0 0 1/2 1/32 1/2 1/128 3/4 1/128 0 1/128
+piece 0 4 1 2 0 1 4 0 0 0 1/2 1/128 1 1/128 1/4 0 1/4 1/64
+piece 3 1 1 4 3 4 4 3 0 0 3/4 1/128 3/4 1/32 0 1/64 3/4 1/64
+piece 3 4 1 4 0 1 4 3 0 0 0 1/128 3/4 1/128 1/4 1/64 1 1/64
+piece 5 1 4 4 3 4 2 3 0 0 1 3/128 1/2 3/128 3/4 1/64 3/4 0
+piece 5 2 4 2 3 4 2 0 0 0 1/2 3/128 1/2 0 3/4 1/32 3/4 1/128
+relation 0 0 disjoint 1 1 1
+relation 0 1 disjoint 0 0 9
+relation 0 2 transverse 0 2 0 1 0 0
+relation 0 3 transverse 0 6 0 1 0 0
+relation 0 4 transverse 1 0 0 0 1 0
+relation 0 5 transverse 5 0 0 0 1 0
+relation 1 0 disjoint 0 0 25
+relation 1 1 disjoint 1 0 1
+relation 1 2 transverse 0 2 4 1 0 0
+relation 1 3 transverse 0 6 4 1 0 0
+relation 1 4 transverse 1 0 4 0 1 0
+relation 1 5 transverse 5 0 4 0 1 0
+relation 2 0 transverse 0 0 -1 1 0 0
+relation 2 1 transverse 0 0 3 1 0 0
+relation 2 2 disjoint 1 0 4
+relation 2 3 disjoint 0 0 36
+relation 2 4 transverse 1 0 0 0 0 1
+relation 2 5 transverse 5 0 0 0 0 1
+relation 3 0 transverse 0 4 -1 1 0 0
+relation 3 1 transverse 0 4 3 1 0 0
+relation 3 2 disjoint 0 0 4
+relation 3 3 disjoint 1 1 4
+relation 3 4 transverse 1 4 0 0 0 1
+relation 3 5 transverse 5 4 0 0 0 1
+relation 4 0 transverse 0 0 -1 0 1 0
+relation 4 1 transverse 0 0 3 0 1 0
+relation 4 2 transverse 0 2 0 0 0 1
+relation 4 3 transverse 0 6 0 0 0 1
+relation 4 4 disjoint 1 0 1
+relation 4 5 disjoint 0 0 25
+relation 5 0 transverse 4 0 -1 0 1 0
+relation 5 1 transverse 4 0 3 0 1 0
+relation 5 2 transverse 4 2 0 0 0 1
+relation 5 3 transverse 4 6 0 0 0 1
+relation 5 4 disjoint 0 0 9
+relation 5 5 disjoint 1 1 1
+end
+config contained
+placement A 0 0 0 1 0 0 0 1 0 0 0 1
+placement B 0 0 0 1 0 0 0 1 0 0 0 1
+face A 0 0 0 0 0 4 0 0 0 -32 1 4 0 0 0 0 4 0 4 4 0 4 0 0
+face A 1 0 0 4 4 0 0 0 0 32 1 4 0 0 4 4 0 4 4 4 4 0 4 4
+face A 2 0 0 0 4 0 0 0 -32 0 1 4 0 0 0 4 0 0 4 0 4 0 0 4
+face A 3 0 4 0 0 0 4 0 32 0 1 4 0 4 0 0 4 4 4 4 4 4 4 0
+face A 4 0 0 0 0 0 4 -32 0 0 1 4 0 0 0 0 0 4 0 4 4 0 4 0
+face A 5 4 0 0 0 4 0 32 0 0 1 4 4 0 0 4 4 0 4 4 4 4 0 4
+face B 0 1 1 1 0 1 0 0 0 -2 1 4 1 1 1 1 2 1 2 2 1 2 1 1
+face B 1 1 1 2 1 0 0 0 0 2 1 4 1 1 2 2 1 2 2 2 2 1 2 2
+face B 2 1 1 1 1 0 0 0 -2 0 1 4 1 1 1 2 1 1 2 1 2 1 1 2
+face B 3 1 2 1 0 0 1 0 2 0 1 4 1 2 1 1 2 2 2 2 2 2 2 1
+face B 4 1 1 1 0 0 1 -2 0 0 1 4 1 1 1 1 1 2 1 2 2 1 2 1
+face B 5 2 1 1 0 1 0 2 0 0 1 4 2 1 1 2 2 1 2 2 2 2 1 2
+frame R0
+paves A 0 0 0 0 0 4 2 0 0 0 0 0 4
+paves A 0 0 0 0 4 0 2 0 0 0 0 4 0
+paves A 0 0 0 4 0 0 2 0 0 0 4 0 0
+paves A 0 0 4 0 4 4 2 0 0 4 0 4 4
+paves A 0 0 4 4 0 4 2 0 0 4 4 0 4
+paves A 0 4 0 0 4 4 2 0 4 0 0 4 4
+paves A 0 4 0 4 4 0 2 0 4 0 4 4 0
+paves A 0 4 4 4 4 4 2 0 4 4 4 4 4
+paves A 4 0 0 4 0 4 2 4 0 0 4 0 4
+paves A 4 0 0 4 4 0 2 4 0 0 4 4 0
+paves A 4 0 4 4 4 4 2 4 0 4 4 4 4
+paves A 4 4 0 4 4 4 2 4 4 0 4 4 4
+paves B 1 1 1 1 1 2 2 1 1 1 1 1 2
+paves B 1 1 1 1 2 1 2 1 1 1 1 2 1
+paves B 1 1 1 2 1 1 2 1 1 1 2 1 1
+paves B 1 1 2 1 2 2 2 1 1 2 1 2 2
+paves B 1 1 2 2 1 2 2 1 1 2 2 1 2
+paves B 1 2 1 1 2 2 2 1 2 1 1 2 2
+paves B 1 2 1 2 2 1 2 1 2 1 2 2 1
+paves B 1 2 2 2 2 2 2 1 2 2 2 2 2
+paves B 2 1 1 2 1 2 2 2 1 1 2 1 2
+paves B 2 1 1 2 2 1 2 2 1 1 2 2 1
+paves B 2 1 2 2 2 2 2 2 1 2 2 2 2
+paves B 2 2 1 2 2 2 2 2 2 1 2 2 2
+relation 0 0 disjoint 1 0 1
+relation 0 1 disjoint 0 0 4
+relation 0 2 transverse 0 1 0 1 0 0
+relation 0 3 transverse 0 2 0 1 0 0
+relation 0 4 transverse 1 0 0 0 1 0
+relation 0 5 transverse 2 0 0 0 1 0
+relation 1 0 disjoint 0 0 9
+relation 1 1 disjoint 1 0 4
+relation 1 2 transverse 0 1 4 1 0 0
+relation 1 3 transverse 0 2 4 1 0 0
+relation 1 4 transverse 1 0 4 0 1 0
+relation 1 5 transverse 2 0 4 0 1 0
+relation 2 0 transverse 0 0 1 1 0 0
+relation 2 1 transverse 0 0 2 1 0 0
+relation 2 2 disjoint 1 0 1
+relation 2 3 disjoint 0 0 4
+relation 2 4 transverse 1 0 0 0 0 1
+relation 2 5 transverse 2 0 0 0 0 1
+relation 3 0 transverse 0 4 1 1 0 0
+relation 3 1 transverse 0 4 2 1 0 0
+relation 3 2 disjoint 0 0 9
+relation 3 3 disjoint 1 0 4
+relation 3 4 transverse 1 4 0 0 0 1
+relation 3 5 transverse 2 4 0 0 0 1
+relation 4 0 transverse 0 0 1 0 1 0
+relation 4 1 transverse 0 0 2 0 1 0
+relation 4 2 transverse 0 1 0 0 0 1
+relation 4 3 transverse 0 2 0 0 0 1
+relation 4 4 disjoint 1 0 1
+relation 4 5 disjoint 0 0 4
+relation 5 0 transverse 4 0 1 0 1 0
+relation 5 1 transverse 4 0 2 0 1 0
+relation 5 2 transverse 4 1 0 0 0 1
+relation 5 3 transverse 4 2 0 0 0 1
+relation 5 4 disjoint 0 0 9
+relation 5 5 disjoint 1 0 4
+end
+config disjoint
+placement A 0 0 0 1 0 0 0 1 0 0 0 1
+placement B 0 0 0 1 0 0 0 1 0 0 0 1
+face A 0 0 0 0 0 4 0 0 0 -32 1 4 0 0 0 0 4 0 4 4 0 4 0 0
+face A 1 0 0 4 4 0 0 0 0 32 1 4 0 0 4 4 0 4 4 4 4 0 4 4
+face A 2 0 0 0 4 0 0 0 -32 0 1 4 0 0 0 4 0 0 4 0 4 0 0 4
+face A 3 0 4 0 0 0 4 0 32 0 1 4 0 4 0 0 4 4 4 4 4 4 4 0
+face A 4 0 0 0 0 0 4 -32 0 0 1 4 0 0 0 0 0 4 0 4 4 0 4 0
+face A 5 4 0 0 0 4 0 32 0 0 1 4 4 0 0 4 4 0 4 4 4 4 0 4
+face B 0 10 10 10 0 1 0 0 0 -2 1 4 10 10 10 10 11 10 11 11 10 11 10 10
+face B 1 10 10 11 1 0 0 0 0 2 1 4 10 10 11 11 10 11 11 11 11 10 11 11
+face B 2 10 10 10 1 0 0 0 -2 0 1 4 10 10 10 11 10 10 11 10 11 10 10 11
+face B 3 10 11 10 0 0 1 0 2 0 1 4 10 11 10 10 11 11 11 11 11 11 11 10
+face B 4 10 10 10 0 0 1 -2 0 0 1 4 10 10 10 10 10 11 10 11 11 10 11 10
+face B 5 11 10 10 0 1 0 2 0 0 1 4 11 10 10 11 11 10 11 11 11 11 10 11
+frame R0
+paves A 0 0 0 0 0 4 2 0 0 0 0 0 4
+paves A 0 0 0 0 4 0 2 0 0 0 0 4 0
+paves A 0 0 0 4 0 0 2 0 0 0 4 0 0
+paves A 0 0 4 0 4 4 2 0 0 4 0 4 4
+paves A 0 0 4 4 0 4 2 0 0 4 4 0 4
+paves A 0 4 0 0 4 4 2 0 4 0 0 4 4
+paves A 0 4 0 4 4 0 2 0 4 0 4 4 0
+paves A 0 4 4 4 4 4 2 0 4 4 4 4 4
+paves A 4 0 0 4 0 4 2 4 0 0 4 0 4
+paves A 4 0 0 4 4 0 2 4 0 0 4 4 0
+paves A 4 0 4 4 4 4 2 4 0 4 4 4 4
+paves A 4 4 0 4 4 4 2 4 4 0 4 4 4
+paves B 10 10 10 10 10 11 2 10 10 10 10 10 11
+paves B 10 10 10 10 11 10 2 10 10 10 10 11 10
+paves B 10 10 10 11 10 10 2 10 10 10 11 10 10
+paves B 10 10 11 10 11 11 2 10 10 11 10 11 11
+paves B 10 10 11 11 10 11 2 10 10 11 11 10 11
+paves B 10 11 10 10 11 11 2 10 11 10 10 11 11
+paves B 10 11 10 11 11 10 2 10 11 10 11 11 10
+paves B 10 11 11 11 11 11 2 10 11 11 11 11 11
+paves B 11 10 10 11 10 11 2 11 10 10 11 10 11
+paves B 11 10 10 11 11 10 2 11 10 10 11 11 10
+paves B 11 10 11 11 11 11 2 11 10 11 11 11 11
+paves B 11 11 10 11 11 11 2 11 11 10 11 11 11
+relation 0 0 disjoint 1 0 100
+relation 0 1 disjoint 0 0 121
+relation 0 2 transverse 0 10 0 1 0 0
+relation 0 3 transverse 0 11 0 1 0 0
+relation 0 4 transverse 10 0 0 0 1 0
+relation 0 5 transverse 11 0 0 0 1 0
+relation 1 0 disjoint 0 1 36
+relation 1 1 disjoint 1 1 49
+relation 1 2 transverse 0 10 4 1 0 0
+relation 1 3 transverse 0 11 4 1 0 0
+relation 1 4 transverse 10 0 4 0 1 0
+relation 1 5 transverse 11 0 4 0 1 0
+relation 2 0 transverse 0 0 10 1 0 0
+relation 2 1 transverse 0 0 11 1 0 0
+relation 2 2 disjoint 1 0 100
+relation 2 3 disjoint 0 0 121
+relation 2 4 transverse 10 0 0 0 0 1
+relation 2 5 transverse 11 0 0 0 0 1
+relation 3 0 transverse 0 4 10 1 0 0
+relation 3 1 transverse 0 4 11 1 0 0
+relation 3 2 disjoint 0 1 36
+relation 3 3 disjoint 1 1 49
+relation 3 4 transverse 10 4 0 0 0 1
+relation 3 5 transverse 11 4 0 0 0 1
+relation 4 0 transverse 0 0 10 0 1 0
+relation 4 1 transverse 0 0 11 0 1 0
+relation 4 2 transverse 0 10 0 0 0 1
+relation 4 3 transverse 0 11 0 0 0 1
+relation 4 4 disjoint 1 0 100
+relation 4 5 disjoint 0 0 121
+relation 5 0 transverse 4 0 10 0 1 0
+relation 5 1 transverse 4 0 11 0 1 0
+relation 5 2 transverse 4 10 0 0 0 1
+relation 5 3 transverse 4 11 0 0 0 1
+relation 5 4 disjoint 0 1 36
+relation 5 5 disjoint 1 1 49
+end
+config face-contact-full-opposite
+placement A 0 0 0 1 0 0 0 1 0 0 0 1
+placement B 0 0 0 1 0 0 0 1 0 0 0 1
+face A 0 0 0 0 0 4 0 0 0 -64 1 4 0 0 0 0 4 0 8 4 0 8 0 0
+face A 1 0 0 4 8 0 0 0 0 64 1 4 0 0 4 8 0 4 8 4 4 0 4 4
+face A 2 0 0 0 8 0 0 0 -64 0 1 4 0 0 0 8 0 0 8 0 4 0 0 4
+face A 3 0 4 0 0 0 4 0 64 0 1 4 0 4 0 0 4 4 8 4 4 8 4 0
+face A 4 0 0 0 0 0 4 -32 0 0 1 4 0 0 0 0 0 4 0 4 4 0 4 0
+face A 5 8 0 0 0 4 0 32 0 0 1 4 8 0 0 8 4 0 8 4 4 8 0 4
+face B 0 8 0 0 0 4 0 0 0 -64 1 4 8 0 0 8 4 0 16 4 0 16 0 0
+face B 1 8 0 4 8 0 0 0 0 64 1 4 8 0 4 16 0 4 16 4 4 8 4 4
+face B 2 8 0 0 8 0 0 0 -64 0 1 4 8 0 0 16 0 0 16 0 4 8 0 4
+face B 3 8 4 0 0 0 4 0 64 0 1 4 8 4 0 8 4 4 16 4 4 16 4 0
+face B 4 8 0 0 0 0 4 -32 0 0 1 4 8 0 0 8 0 4 8 4 4 8 4 0
+face B 5 16 0 0 0 4 0 32 0 0 1 4 16 0 0 16 4 0 16 4 4 16 0 4
+boxmeet 0 0
+boxmeet 0 2
+boxmeet 0 3
+boxmeet 0 4
+boxmeet 1 1
+boxmeet 1 2
+boxmeet 1 3
+boxmeet 1 4
+boxmeet 2 0
+boxmeet 2 1
+boxmeet 2 2
+boxmeet 2 4
+boxmeet 3 0
+boxmeet 3 1
+boxmeet 3 3
+boxmeet 3 4
+boxmeet 5 0
+boxmeet 5 1
+boxmeet 5 2
+boxmeet 5 3
+boxmeet 5 4
+frame R0
+paves A 0 0 0 0 0 4 2 0 0 0 0 0 4
+paves A 0 0 0 0 4 0 2 0 0 0 0 4 0
+paves A 0 0 0 8 0 0 2 0 0 0 8 0 0
+paves A 0 0 4 0 4 4 2 0 0 4 0 4 4
+paves A 0 0 4 8 0 4 2 0 0 4 8 0 4
+paves A 0 4 0 0 4 4 2 0 4 0 0 4 4
+paves A 0 4 0 8 4 0 2 0 4 0 8 4 0
+paves A 0 4 4 8 4 4 2 0 4 4 8 4 4
+paves A 8 0 0 8 0 4 2 8 0 0 8 0 4
+paves A 8 0 0 8 4 0 2 8 0 0 8 4 0
+paves A 8 0 4 8 4 4 2 8 0 4 8 4 4
+paves A 8 4 0 8 4 4 2 8 4 0 8 4 4
+paves B 16 0 0 16 0 4 2 16 0 0 16 0 4
+paves B 16 0 0 16 4 0 2 16 0 0 16 4 0
+paves B 16 0 4 16 4 4 2 16 0 4 16 4 4
+paves B 16 4 0 16 4 4 2 16 4 0 16 4 4
+paves B 8 0 0 16 0 0 2 8 0 0 16 0 0
+paves B 8 0 0 8 0 4 2 8 0 0 8 0 4
+paves B 8 0 0 8 4 0 2 8 0 0 8 4 0
+paves B 8 0 4 16 0 4 2 8 0 4 16 0 4
+paves B 8 0 4 8 4 4 2 8 0 4 8 4 4
+paves B 8 4 0 16 4 0 2 8 4 0 16 4 0
+paves B 8 4 0 8 4 4 2 8 4 0 8 4 4
+paves B 8 4 4 16 4 4 2 8 4 4 16 4 4
+piece 0 4 8 0 0 8 4 0 1 1 0 1/32 1 1/32 0 0 0 1/32
+piece 1 4 8 4 4 8 0 4 1 1 1 1/128 1 0 1 1/32 1 0
+piece 2 4 8 0 4 8 0 0 1 1 1 1/128 1 0 1 0 0 0
+piece 3 4 8 4 0 8 4 4 1 1 0 1/32 1 1/32 0 1/32 1 1/32
+piece 5 0 8 0 0 8 4 0 1 1 0 0 1 0 0 0 1 0
+piece 5 1 8 4 4 8 0 4 1 1 1 1/32 0 1/32 0 1/128 0 0
+piece 5 2 8 0 4 8 0 0 1 1 0 1/32 0 0 0 1/128 0 0
+piece 5 3 8 4 0 8 4 4 1 1 1 0 1 1/32 0 0 1 0
+relation 0 0 identical
+relation 0 1 disjoint 0 0 16
+relation 0 2 transverse 0 0 0 1 0 0
+relation 0 3 transverse 0 4 0 1 0 0
+relation 0 4 transverse 8 0 0 0 1 0
+relation 0 5 transverse 16 0 0 0 1 0
+relation 1 0 disjoint 0 0 16
+relation 1 1 identical
+relation 1 2 transverse 0 0 4 1 0 0
+relation 1 3 transverse 0 4 4 1 0 0
+relation 1 4 transverse 8 0 4 0 1 0
+relation 1 5 transverse 16 0 4 0 1 0
+relation 2 0 transverse 0 0 0 1 0 0
+relation 2 1 transverse 0 0 4 1 0 0
+relation 2 2 identical
+relation 2 3 disjoint 0 0 16
+relation 2 4 transverse 8 0 0 0 0 1
+relation 2 5 transverse 16 0 0 0 0 1
+relation 3 0 transverse 0 4 0 1 0 0
+relation 3 1 transverse 0 4 4 1 0 0
+relation 3 2 disjoint 0 0 16
+relation 3 3 identical
+relation 3 4 transverse 8 4 0 0 0 1
+relation 3 5 transverse 16 4 0 0 0 1
+relation 4 0 transverse 0 0 0 0 1 0
+relation 4 1 transverse 0 0 4 0 1 0
+relation 4 2 transverse 0 0 0 0 0 1
+relation 4 3 transverse 0 4 0 0 0 1
+relation 4 4 disjoint 1 0 64
+relation 4 5 disjoint 0 0 256
+relation 5 0 transverse 8 0 0 0 1 0
+relation 5 1 transverse 8 0 4 0 1 0
+relation 5 2 transverse 8 0 0 0 0 1
+relation 5 3 transverse 8 4 0 0 0 1
+relation 5 4 opposite
+relation 5 5 disjoint 1 1 64
+touch 0 2 8 0 0
+touch 0 3 8 4 0
+touch 1 2 8 0 4
+touch 1 3 8 4 4
+touch 2 0 8 0 0
+touch 2 1 8 0 4
+touch 3 0 8 4 0
+touch 3 1 8 4 4
+vv 8 0 0
+vv 8 0 4
+vv 8 4 0
+vv 8 4 4
+end
+config face-contact-partial
+placement A 0 0 0 1 0 0 0 1 0 0 0 1
+placement B 0 0 0 1 0 0 0 1 0 0 0 1
+face A 0 0 0 0 0 4 0 0 0 -64 1 4 0 0 0 0 4 0 8 4 0 8 0 0
+face A 1 0 0 4 8 0 0 0 0 64 1 4 0 0 4 8 0 4 8 4 4 0 4 4
+face A 2 0 0 0 8 0 0 0 -64 0 1 4 0 0 0 8 0 0 8 0 4 0 0 4
+face A 3 0 4 0 0 0 4 0 64 0 1 4 0 4 0 0 4 4 8 4 4 8 4 0
+face A 4 0 0 0 0 0 4 -32 0 0 1 4 0 0 0 0 0 4 0 4 4 0 4 0
+face A 5 8 0 0 0 4 0 32 0 0 1 4 8 0 0 8 4 0 8 4 4 8 0 4
+face B 0 8 1 1 0 2 0 0 0 -32 1 4 8 1 1 8 3 1 16 3 1 16 1 1
+face B 1 8 1 5 8 0 0 0 0 32 1 4 8 1 5 16 1 5 16 3 5 8 3 5
+face B 2 8 1 1 8 0 0 0 -64 0 1 4 8 1 1 16 1 1 16 1 5 8 1 5
+face B 3 8 3 1 0 0 4 0 64 0 1 4 8 3 1 8 3 5 16 3 5 16 3 1
+face B 4 8 1 1 0 0 4 -16 0 0 1 4 8 1 1 8 1 5 8 3 5 8 3 1
+face B 5 16 1 1 0 2 0 16 0 0 1 4 16 1 1 16 3 1 16 3 5 16 1 5
+boxmeet 1 2
+boxmeet 1 3
+boxmeet 1 4
+boxmeet 5 0
+boxmeet 5 2
+boxmeet 5 3
+boxmeet 5 4
+ee 8 1 4 8 0 4 8 4 4 8 1 1 8 1 5
+ee 8 3 4 8 0 4 8 4 4 8 3 1 8 3 5
+frame R0
+paves A 0 0 0 0 0 4 2 0 0 0 0 0 4
+paves A 0 0 0 0 4 0 2 0 0 0 0 4 0
+paves A 0 0 0 8 0 0 2 0 0 0 8 0 0
+paves A 0 0 4 0 4 4 2 0 0 4 0 4 4
+paves A 0 0 4 8 0 4 2 0 0 4 8 0 4
+paves A 0 4 0 0 4 4 2 0 4 0 0 4 4
+paves A 0 4 0 8 4 0 2 0 4 0 8 4 0
+paves A 0 4 4 8 4 4 2 0 4 4 8 4 4
+paves A 8 0 0 8 0 4 2 8 0 0 8 0 4
+paves A 8 0 0 8 4 0 2 8 0 0 8 4 0
+paves A 8 0 4 8 4 4 4 8 0 4 8 1 4 8 3 4 8 4 4
+paves A 8 4 0 8 4 4 2 8 4 0 8 4 4
+paves B 16 1 1 16 1 5 2 16 1 1 16 1 5
+paves B 16 1 1 16 3 1 2 16 1 1 16 3 1
+paves B 16 1 5 16 3 5 2 16 1 5 16 3 5
+paves B 16 3 1 16 3 5 2 16 3 1 16 3 5
+paves B 8 1 1 16 1 1 2 8 1 1 16 1 1
+paves B 8 1 1 8 1 5 3 8 1 1 8 1 4 8 1 5
+paves B 8 1 1 8 3 1 2 8 1 1 8 3 1
+paves B 8 1 5 16 1 5 2 8 1 5 16 1 5
+paves B 8 1 5 8 3 5 2 8 1 5 8 3 5
+paves B 8 3 1 16 3 1 2 8 3 1 16 3 1
+paves B 8 3 1 8 3 5 3 8 3 1 8 3 4 8 3 5
+paves B 8 3 5 16 3 5 2 8 3 5 16 3 5
+piece 1 4 8 3 4 8 1 4 1 0 1 3/512 1 1/512 3/4 1/32 3/4 0
+piece 5 0 8 1 1 8 3 1 0 1 1/4 1/128 3/4 1/128 0 0 1 0
+piece 5 2 8 1 4 8 1 1 0 1 1/4 1/32 1/4 1/128 0 3/512 0 0
+piece 5 3 8 3 1 8 3 4 0 1 3/4 1/128 3/4 1/32 0 0 3/4 0
+relation 0 0 disjoint 1 0 1
+relation 0 1 disjoint 0 0 25
+relation 0 2 transverse 0 1 0 1 0 0
+relation 0 3 transverse 0 3 0 1 0 0
+relation 0 4 transverse 8 0 0 0 1 0
+relation 0 5 transverse 16 0 0 0 1 0
+relation 1 0 disjoint 0 0 9
+relation 1 1 disjoint 1 1 1
+relation 1 2 transverse 0 1 4 1 0 0
+relation 1 3 transverse 0 3 4 1 0 0
+relation 1 4 transverse 8 0 4 0 1 0
+relation 1 5 transverse 16 0 4 0 1 0
+relation 2 0 transverse 0 0 1 1 0 0
+relation 2 1 transverse 0 0 5 1 0 0
+relation 2 2 disjoint 1 0 1
+relation 2 3 disjoint 0 0 9
+relation 2 4 transverse 8 0 0 0 0 1
+relation 2 5 transverse 16 0 0 0 0 1
+relation 3 0 transverse 0 4 1 1 0 0
+relation 3 1 transverse 0 4 5 1 0 0
+relation 3 2 disjoint 0 0 9
+relation 3 3 disjoint 1 0 1
+relation 3 4 transverse 8 4 0 0 0 1
+relation 3 5 transverse 16 4 0 0 0 1
+relation 4 0 transverse 0 0 1 0 1 0
+relation 4 1 transverse 0 0 5 0 1 0
+relation 4 2 transverse 0 1 0 0 0 1
+relation 4 3 transverse 0 3 0 0 0 1
+relation 4 4 disjoint 1 0 64
+relation 4 5 disjoint 0 0 256
+relation 5 0 transverse 8 0 1 0 1 0
+relation 5 1 transverse 8 0 5 0 1 0
+relation 5 2 transverse 8 1 0 0 0 1
+relation 5 3 transverse 8 3 0 0 0 1
+relation 5 4 opposite
+relation 5 5 disjoint 1 1 64
+touch 1 2 8 1 4
+touch 1 3 8 3 4
+vf B 8 1 1 5
+vf B 8 3 1 5
+end
+config coincident-bottom-inside
+placement A 0 0 0 1 0 0 0 1 0 0 0 1
+placement B 0 0 0 1 0 0 0 1 0 0 0 1
+face A 0 0 0 0 0 4 0 0 0 -32 1 4 0 0 0 0 4 0 4 4 0 4 0 0
+face A 1 0 0 4 4 0 0 0 0 32 1 4 0 0 4 4 0 4 4 4 4 0 4 4
+face A 2 0 0 0 4 0 0 0 -32 0 1 4 0 0 0 4 0 0 4 0 4 0 0 4
+face A 3 0 4 0 0 0 4 0 32 0 1 4 0 4 0 0 4 4 4 4 4 4 4 0
+face A 4 0 0 0 0 0 4 -32 0 0 1 4 0 0 0 0 0 4 0 4 4 0 4 0
+face A 5 4 0 0 0 4 0 32 0 0 1 4 4 0 0 4 4 0 4 4 4 4 0 4
+face B 0 2 1 0 0 2 0 0 0 -16 1 4 2 1 0 2 3 0 6 3 0 6 1 0
+face B 1 2 1 2 4 0 0 0 0 16 1 4 2 1 2 6 1 2 6 3 2 2 3 2
+face B 2 2 1 0 4 0 0 0 -16 0 1 4 2 1 0 6 1 0 6 1 2 2 1 2
+face B 3 2 3 0 0 0 2 0 16 0 1 4 2 3 0 2 3 2 6 3 2 6 3 0
+face B 4 2 1 0 0 0 2 -8 0 0 1 4 2 1 0 2 1 2 2 3 2 2 3 0
+face B 5 6 1 0 0 2 0 8 0 0 1 4 6 1 0 6 3 0 6 3 2 6 1 2
+boxmeet 0 0
+boxmeet 0 2
+boxmeet 0 3
+boxmeet 0 4
+boxmeet 5 0
+boxmeet 5 1
+boxmeet 5 2
+boxmeet 5 3
+ee 4 1 0 4 0 0 4 4 0 2 1 0 6 1 0
+ee 4 3 0 4 0 0 4 4 0 2 3 0 6 3 0
+ef B 2 1 2 6 1 2 5 4 1 2
+ef B 2 3 2 6 3 2 5 4 3 2
+frame R0
+paves A 0 0 0 0 0 4 2 0 0 0 0 0 4
+paves A 0 0 0 0 4 0 2 0 0 0 0 4 0
+paves A 0 0 0 4 0 0 2 0 0 0 4 0 0
+paves A 0 0 4 0 4 4 2 0 0 4 0 4 4
+paves A 0 0 4 4 0 4 2 0 0 4 4 0 4
+paves A 0 4 0 0 4 4 2 0 4 0 0 4 4
+paves A 0 4 0 4 4 0 2 0 4 0 4 4 0
+paves A 0 4 4 4 4 4 2 0 4 4 4 4 4
+paves A 4 0 0 4 0 4 2 4 0 0 4 0 4
+paves A 4 0 0 4 4 0 4 4 0 0 4 1 0 4 3 0 4 4 0
+paves A 4 0 4 4 4 4 2 4 0 4 4 4 4
+paves A 4 4 0 4 4 4 2 4 4 0 4 4 4
+paves B 2 1 0 2 1 2 2 2 1 0 2 1 2
+paves B 2 1 0 2 3 0 2 2 1 0 2 3 0
+paves B 2 1 0 6 1 0 3 2 1 0 4 1 0 6 1 0
+paves B 2 1 2 2 3 2 2 2 1 2 2 3 2
+paves B 2 1 2 6 1 2 3 2 1 2 4 1 2 6 1 2
+paves B 2 3 0 2 3 2 2 2 3 0 2 3 2
+paves B 2 3 0 6 3 0 3 2 3 0 4 3 0 6 3 0
+paves B 2 3 2 6 3 2 3 2 3 2 4 3 2 6 3 2
+paves B 6 1 0 6 1 2 2 6 1 0 6 1 2
+paves B 6 1 0 6 3 0 2 6 1 0 6 3 0
+paves B 6 1 2 6 3 2 2 6 1 2 6 3 2
+paves B 6 3 0 6 3 2 2 6 3 0 6 3 2
+piece 0 2 4 1 0 2 1 0 0 1 1/4 1/32 1/4 1/64 1/2 0 0 0
+piece 0 3 2 3 0 4 3 0 0 1 3/4 1/64 3/4 1/32 0 0 0 1/16
+piece 0 4 2 1 0 2 3 0 0 1 1/4 1/64 3/4 1/64 0 0 0 1/8
+piece 5 0 4 1 0 4 3 0 1 0 1/4 0 3/4 0 0 1/16 1 1/16
+piece 5 1 4 3 2 4 1 2 0 0 3/4 1/64 1/4 1/64 1/2 1/32 1/2 0
+piece 5 2 4 1 2 4 1 0 0 0 1/4 1/64 1/4 0 1/2 1/32 1/2 0
+piece 5 3 4 3 0 4 3 2 0 0 3/4 0 3/4 1/64 0 1/16 1 1/16
+relation 0 0 identical
+relation 0 1 disjoint 0 0 4
+relation 0 2 transverse 0 1 0 1 0 0
+relation 0 3 transverse 0 3 0 1 0 0
+relation 0 4 transverse 2 0 0 0 1 0
+relation 0 5 transverse 6 0 0 0 1 0
+relation 1 0 disjoint 0 0 16
+relation 1 1 disjoint 1 0 4
+relation 1 2 transverse 0 1 4 1 0 0
+relation 1 3 transverse 0 3 4 1 0 0
+relation 1 4 transverse 2 0 4 0 1 0
+relation 1 5 transverse 6 0 4 0 1 0
+relation 2 0 transverse 0 0 0 1 0 0
+relation 2 1 transverse 0 0 2 1 0 0
+relation 2 2 disjoint 1 0 1
+relation 2 3 disjoint 0 0 9
+relation 2 4 transverse 2 0 0 0 0 1
+relation 2 5 transverse 6 0 0 0 0 1
+relation 3 0 transverse 0 4 0 1 0 0
+relation 3 1 transverse 0 4 2 1 0 0
+relation 3 2 disjoint 0 0 9
+relation 3 3 disjoint 1 0 1
+relation 3 4 transverse 2 4 0 0 0 1
+relation 3 5 transverse 6 4 0 0 0 1
+relation 4 0 transverse 0 0 0 0 1 0
+relation 4 1 transverse 0 0 2 0 1 0
+relation 4 2 transverse 0 1 0 0 0 1
+relation 4 3 transverse 0 3 0 0 0 1
+relation 4 4 disjoint 1 0 4
+relation 4 5 disjoint 0 0 36
+relation 5 0 transverse 4 0 0 0 1 0
+relation 5 1 transverse 4 0 2 0 1 0
+relation 5 2 transverse 4 1 0 0 0 1
+relation 5 3 transverse 4 3 0 0 0 1
+relation 5 4 disjoint 0 0 4
+relation 5 5 disjoint 1 1 4
+vf B 2 1 0 0
+vf B 2 3 0 0
+end
+config coincident-bottom-crossing-edges
+placement A 0 0 0 1 0 0 0 1 0 0 0 1
+placement B 0 0 0 1 0 0 0 1 0 0 0 1
+face A 0 0 0 0 0 4 0 0 0 -32 1 4 0 0 0 0 4 0 4 4 0 4 0 0
+face A 1 0 0 4 4 0 0 0 0 32 1 4 0 0 4 4 0 4 4 4 4 0 4 4
+face A 2 0 0 0 4 0 0 0 -32 0 1 4 0 0 0 4 0 0 4 0 4 0 0 4
+face A 3 0 4 0 0 0 4 0 32 0 1 4 0 4 0 0 4 4 4 4 4 4 4 0
+face A 4 0 0 0 0 0 4 -32 0 0 1 4 0 0 0 0 0 4 0 4 4 0 4 0
+face A 5 4 0 0 0 4 0 32 0 0 1 4 4 0 0 4 4 0 4 4 4 4 0 4
+face B 0 2 -1 0 0 3 0 0 0 -24 1 4 2 -1 0 2 2 0 6 2 0 6 -1 0
+face B 1 2 -1 3 4 0 0 0 0 24 1 4 2 -1 3 6 -1 3 6 2 3 2 2 3
+face B 2 2 -1 0 4 0 0 0 -24 0 1 4 2 -1 0 6 -1 0 6 -1 3 2 -1 3
+face B 3 2 2 0 0 0 3 0 24 0 1 4 2 2 0 2 2 3 6 2 3 6 2 0
+face B 4 2 -1 0 0 0 3 -18 0 0 1 4 2 -1 0 2 -1 3 2 2 3 2 2 0
+face B 5 6 -1 0 0 3 0 18 0 0 1 4 6 -1 0 6 2 0 6 2 3 6 -1 3
+boxmeet 0 0
+boxmeet 0 3
+boxmeet 0 4
+boxmeet 2 0
+boxmeet 2 1
+boxmeet 2 4
+boxmeet 5 0
+boxmeet 5 1
+boxmeet 5 3
+ee 2 0 0 0 0 0 4 0 0 2 -1 0 2 2 0
+ee 4 2 0 4 0 0 4 4 0 2 2 0 6 2 0
+ef A 4 0 0 4 0 4 1 4 0 3
+ef B 2 -1 3 2 2 3 2 2 0 3
+ef B 2 2 3 6 2 3 5 4 2 3
+frame R0
+paves A 0 0 0 0 0 4 2 0 0 0 0 0 4
+paves A 0 0 0 0 4 0 2 0 0 0 0 4 0
+paves A 0 0 0 4 0 0 3 0 0 0 2 0 0 4 0 0
+paves A 0 0 4 0 4 4 2 0 0 4 0 4 4
+paves A 0 0 4 4 0 4 2 0 0 4 4 0 4
+paves A 0 4 0 0 4 4 2 0 4 0 0 4 4
+paves A 0 4 0 4 4 0 2 0 4 0 4 4 0
+paves A 0 4 4 4 4 4 2 0 4 4 4 4 4
+paves A 4 0 0 4 0 4 3 4 0 0 4 0 3 4 0 4
+paves A 4 0 0 4 4 0 3 4 0 0 4 2 0 4 4 0
+paves A 4 0 4 4 4 4 2 4 0 4 4 4 4
+paves A 4 4 0 4 4 4 2 4 4 0 4 4 4
+paves B 2 -1 0 2 -1 3 2 2 -1 0 2 -1 3
+paves B 2 -1 0 2 2 0 3 2 -1 0 2 0 0 2 2 0
+paves B 2 -1 0 6 -1 0 2 2 -1 0 6 -1 0
+paves B 2 -1 3 2 2 3 3 2 -1 3 2 0 3 2 2 3
+paves B 2 -1 3 6 -1 3 2 2 -1 3 6 -1 3
+paves B 2 2 0 2 2 3 2 2 2 0 2 2 3
+paves B 2 2 0 6 2 0 3 2 2 0 4 2 0 6 2 0
+paves B 2 2 3 6 2 3 3 2 2 3 4 2 3 6 2 3
+paves B 6 -1 0 6 -1 3 2 6 -1 0 6 -1 3
+paves B 6 -1 0 6 2 0 2 6 -1 0 6 2 0
+paves B 6 -1 3 6 2 3 2 6 -1 3 6 2 3
+paves B 6 2 0 6 2 3 2 6 2 0 6 2 3
+piece 0 3 2 2 0 4 2 0 0 1 1/2 1/64 1/2 1/32 0 0 0 1/36
+piece 0 4 2 0 0 2 2 0 0 1 0 1/64 1/2 1/64 0 1/54 0 1/18
+piece 2 0 2 0 0 4 0 0 1 0 1/2 0 1 0 1/3 0 1/3 1/36
+piece 2 1 4 0 3 2 0 3 0 0 1 3/128 1/2 3/128 1/2 1/96 0 1/96
+piece 2 4 2 0 3 2 0 0 0 0 1/2 3/128 1/2 0 1 1/54 0 1/54
+piece 5 0 4 0 0 4 2 0 1 0 0 0 1/2 0 1/3 1/36 1 1/36
+piece 5 1 4 2 3 4 0 3 0 0 1/2 3/128 0 3/128 1/2 1/32 1/2 1/96
+piece 5 3 4 2 0 4 2 3 0 0 1/2 0 1/2 3/128 0 1/36 1 1/36
+relation 0 0 identical
+relation 0 1 disjoint 0 0 9
+relation 0 2 transverse 0 -1 0 1 0 0
+relation 0 3 transverse 0 2 0 1 0 0
+relation 0 4 transverse 2 0 0 0 1 0
+relation 0 5 transverse 6 0 0 0 1 0
+relation 1 0 disjoint 0 0 16
+relation 1 1 disjoint 1 0 1
+relation 1 2 transverse 0 -1 4 1 0 0
+relation 1 3 transverse 0 2 4 1 0 0
+relation 1 4 transverse 2 0 4 0 1 0
+relation 1 5 transverse 6 0 4 0 1 0
+relation 2 0 transverse 0 0 0 1 0 0
+relation 2 1 transverse 0 0 3 1 0 0
+relation 2 2 disjoint 1 1 1
+relation 2 3 disjoint 0 0 4
+relation 2 4 transverse 2 0 0 0 0 1
+relation 2 5 transverse 6 0 0 0 0 1
+relation 3 0 transverse 0 4 0 1 0 0
+relation 3 1 transverse 0 4 3 1 0 0
+relation 3 2 disjoint 0 0 25
+relation 3 3 disjoint 1 0 4
+relation 3 4 transverse 2 4 0 0 0 1
+relation 3 5 transverse 6 4 0 0 0 1
+relation 4 0 transverse 0 0 0 0 1 0
+relation 4 1 transverse 0 0 3 0 1 0
+relation 4 2 transverse 0 -1 0 0 0 1
+relation 4 3 transverse 0 2 0 0 0 1
+relation 4 4 disjoint 1 0 4
+relation 4 5 disjoint 0 0 36
+relation 5 0 transverse 4 0 0 0 1 0
+relation 5 1 transverse 4 0 3 0 1 0
+relation 5 2 transverse 4 -1 0 0 0 1
+relation 5 3 transverse 4 2 0 0 0 1
+relation 5 4 disjoint 0 0 4
+relation 5 5 disjoint 1 1 4
+vf A 4 0 0 0
+vf B 2 2 0 0
+end
+config coplanar-faces-apart
+placement A 0 0 0 1 0 0 0 1 0 0 0 1
+placement B 0 0 0 1 0 0 0 1 0 0 0 1
+face A 0 0 0 0 0 4 0 0 0 -32 1 4 0 0 0 0 4 0 4 4 0 4 0 0
+face A 1 0 0 4 4 0 0 0 0 32 1 4 0 0 4 4 0 4 4 4 4 0 4 4
+face A 2 0 0 0 4 0 0 0 -32 0 1 4 0 0 0 4 0 0 4 0 4 0 0 4
+face A 3 0 4 0 0 0 4 0 32 0 1 4 0 4 0 0 4 4 4 4 4 4 4 0
+face A 4 0 0 0 0 0 4 -32 0 0 1 4 0 0 0 0 0 4 0 4 4 0 4 0
+face A 5 4 0 0 0 4 0 32 0 0 1 4 4 0 0 4 4 0 4 4 4 4 0 4
+face B 0 0 5 4 0 1 0 0 0 -8 1 4 0 5 4 0 6 4 4 6 4 4 5 4
+face B 1 0 5 5 4 0 0 0 0 8 1 4 0 5 5 4 5 5 4 6 5 0 6 5
+face B 2 0 5 4 4 0 0 0 -8 0 1 4 0 5 4 4 5 4 4 5 5 0 5 5
+face B 3 0 6 4 0 0 1 0 8 0 1 4 0 6 4 0 6 5 4 6 5 4 6 4
+face B 4 0 5 4 0 0 1 -2 0 0 1 4 0 5 4 0 5 5 0 6 5 0 6 4
+face B 5 4 5 4 0 1 0 2 0 0 1 4 4 5 4 4 6 4 4 6 5 4 5 5
+frame R0
+paves A 0 0 0 0 0 4 2 0 0 0 0 0 4
+paves A 0 0 0 0 4 0 2 0 0 0 0 4 0
+paves A 0 0 0 4 0 0 2 0 0 0 4 0 0
+paves A 0 0 4 0 4 4 2 0 0 4 0 4 4
+paves A 0 0 4 4 0 4 2 0 0 4 4 0 4
+paves A 0 4 0 0 4 4 2 0 4 0 0 4 4
+paves A 0 4 0 4 4 0 2 0 4 0 4 4 0
+paves A 0 4 4 4 4 4 2 0 4 4 4 4 4
+paves A 4 0 0 4 0 4 2 4 0 0 4 0 4
+paves A 4 0 0 4 4 0 2 4 0 0 4 4 0
+paves A 4 0 4 4 4 4 2 4 0 4 4 4 4
+paves A 4 4 0 4 4 4 2 4 4 0 4 4 4
+paves B 0 5 4 0 5 5 2 0 5 4 0 5 5
+paves B 0 5 4 0 6 4 2 0 5 4 0 6 4
+paves B 0 5 4 4 5 4 2 0 5 4 4 5 4
+paves B 0 5 5 0 6 5 2 0 5 5 0 6 5
+paves B 0 5 5 4 5 5 2 0 5 5 4 5 5
+paves B 0 6 4 0 6 5 2 0 6 4 0 6 5
+paves B 0 6 4 4 6 4 2 0 6 4 4 6 4
+paves B 0 6 5 4 6 5 2 0 6 5 4 6 5
+paves B 4 5 4 4 5 5 2 4 5 4 4 5 5
+paves B 4 5 4 4 6 4 2 4 5 4 4 6 4
+paves B 4 5 5 4 6 5 2 4 5 5 4 6 5
+paves B 4 6 4 4 6 5 2 4 6 4 4 6 5
+relation 0 0 disjoint 1 0 16
+relation 0 1 disjoint 0 0 25
+relation 0 2 transverse 0 5 0 1 0 0
+relation 0 3 transverse 0 6 0 1 0 0
+relation 0 4 transverse 0 0 0 0 1 0
+relation 0 5 transverse 4 0 0 0 1 0
+relation 1 0 opposite
+relation 1 1 disjoint 1 1 1
+relation 1 2 transverse 0 5 4 1 0 0
+relation 1 3 transverse 0 6 4 1 0 0
+relation 1 4 transverse 0 0 4 0 1 0
+relation 1 5 transverse 4 0 4 0 1 0
+relation 2 0 transverse 0 0 4 1 0 0
+relation 2 1 transverse 0 0 5 1 0 0
+relation 2 2 disjoint 1 0 25
+relation 2 3 disjoint 0 0 36
+relation 2 4 transverse 0 0 0 0 0 1
+relation 2 5 transverse 4 0 0 0 0 1
+relation 3 0 transverse 0 4 4 1 0 0
+relation 3 1 transverse 0 4 5 1 0 0
+relation 3 2 disjoint 0 1 1
+relation 3 3 disjoint 1 1 4
+relation 3 4 transverse 0 4 0 0 0 1
+relation 3 5 transverse 4 4 0 0 0 1
+relation 4 0 transverse 0 0 4 0 1 0
+relation 4 1 transverse 0 0 5 0 1 0
+relation 4 2 transverse 0 5 0 0 0 1
+relation 4 3 transverse 0 6 0 0 0 1
+relation 4 4 identical
+relation 4 5 disjoint 0 0 16
+relation 5 0 transverse 4 0 4 0 1 0
+relation 5 1 transverse 4 0 5 0 1 0
+relation 5 2 transverse 4 5 0 0 0 1
+relation 5 3 transverse 4 6 0 0 0 1
+relation 5 4 disjoint 0 0 16
+relation 5 5 identical
+end
+config parallel-disjoint-aligned
+placement A 0 0 0 1 0 0 0 1 0 0 0 1
+placement B 0 0 0 1 0 0 0 1 0 0 0 1
+face A 0 0 0 0 0 4 0 0 0 -32 1 4 0 0 0 0 4 0 4 4 0 4 0 0
+face A 1 0 0 4 4 0 0 0 0 32 1 4 0 0 4 4 0 4 4 4 4 0 4 4
+face A 2 0 0 0 4 0 0 0 -32 0 1 4 0 0 0 4 0 0 4 0 4 0 0 4
+face A 3 0 4 0 0 0 4 0 32 0 1 4 0 4 0 0 4 4 4 4 4 4 4 0
+face A 4 0 0 0 0 0 4 -32 0 0 1 4 0 0 0 0 0 4 0 4 4 0 4 0
+face A 5 4 0 0 0 4 0 32 0 0 1 4 4 0 0 4 4 0 4 4 4 4 0 4
+face B 0 1 1 5 0 2 0 0 0 -8 1 4 1 1 5 1 3 5 3 3 5 3 1 5
+face B 1 1 1 6 2 0 0 0 0 8 1 4 1 1 6 3 1 6 3 3 6 1 3 6
+face B 2 1 1 5 2 0 0 0 -4 0 1 4 1 1 5 3 1 5 3 1 6 1 1 6
+face B 3 1 3 5 0 0 1 0 4 0 1 4 1 3 5 1 3 6 3 3 6 3 3 5
+face B 4 1 1 5 0 0 1 -4 0 0 1 4 1 1 5 1 1 6 1 3 6 1 3 5
+face B 5 3 1 5 0 2 0 4 0 0 1 4 3 1 5 3 3 5 3 3 6 3 1 6
+frame R0
+paves A 0 0 0 0 0 4 2 0 0 0 0 0 4
+paves A 0 0 0 0 4 0 2 0 0 0 0 4 0
+paves A 0 0 0 4 0 0 2 0 0 0 4 0 0
+paves A 0 0 4 0 4 4 2 0 0 4 0 4 4
+paves A 0 0 4 4 0 4 2 0 0 4 4 0 4
+paves A 0 4 0 0 4 4 2 0 4 0 0 4 4
+paves A 0 4 0 4 4 0 2 0 4 0 4 4 0
+paves A 0 4 4 4 4 4 2 0 4 4 4 4 4
+paves A 4 0 0 4 0 4 2 4 0 0 4 0 4
+paves A 4 0 0 4 4 0 2 4 0 0 4 4 0
+paves A 4 0 4 4 4 4 2 4 0 4 4 4 4
+paves A 4 4 0 4 4 4 2 4 4 0 4 4 4
+paves B 1 1 5 1 1 6 2 1 1 5 1 1 6
+paves B 1 1 5 1 3 5 2 1 1 5 1 3 5
+paves B 1 1 5 3 1 5 2 1 1 5 3 1 5
+paves B 1 1 6 1 3 6 2 1 1 6 1 3 6
+paves B 1 1 6 3 1 6 2 1 1 6 3 1 6
+paves B 1 3 5 1 3 6 2 1 3 5 1 3 6
+paves B 1 3 5 3 3 5 2 1 3 5 3 3 5
+paves B 1 3 6 3 3 6 2 1 3 6 3 3 6
+paves B 3 1 5 3 1 6 2 3 1 5 3 1 6
+paves B 3 1 5 3 3 5 2 3 1 5 3 3 5
+paves B 3 1 6 3 3 6 2 3 1 6 3 3 6
+paves B 3 3 5 3 3 6 2 3 3 5 3 3 6
+relation 0 0 disjoint 1 0 25
+relation 0 1 disjoint 0 0 36
+relation 0 2 transverse 0 1 0 1 0 0
+relation 0 3 transverse 0 3 0 1 0 0
+relation 0 4 transverse 1 0 0 0 1 0
+relation 0 5 transverse 3 0 0 0 1 0
+relation 1 0 disjoint 0 1 1
+relation 1 1 disjoint 1 1 4
+relation 1 2 transverse 0 1 4 1 0 0
+relation 1 3 transverse 0 3 4 1 0 0
+relation 1 4 transverse 1 0 4 0 1 0
+relation 1 5 transverse 3 0 4 0 1 0
+relation 2 0 transverse 0 0 5 1 0 0
+relation 2 1 transverse 0 0 6 1 0 0
+relation 2 2 disjoint 1 0 1
+relation 2 3 disjoint 0 0 9
+relation 2 4 transverse 1 0 0 0 0 1
+relation 2 5 transverse 3 0 0 0 0 1
+relation 3 0 transverse 0 4 5 1 0 0
+relation 3 1 transverse 0 4 6 1 0 0
+relation 3 2 disjoint 0 0 9
+relation 3 3 disjoint 1 0 1
+relation 3 4 transverse 1 4 0 0 0 1
+relation 3 5 transverse 3 4 0 0 0 1
+relation 4 0 transverse 0 0 5 0 1 0
+relation 4 1 transverse 0 0 6 0 1 0
+relation 4 2 transverse 0 1 0 0 0 1
+relation 4 3 transverse 0 3 0 0 0 1
+relation 4 4 disjoint 1 0 1
+relation 4 5 disjoint 0 0 9
+relation 5 0 transverse 4 0 5 0 1 0
+relation 5 1 transverse 4 0 6 0 1 0
+relation 5 2 transverse 4 1 0 0 0 1
+relation 5 3 transverse 4 3 0 0 0 1
+relation 5 4 disjoint 0 0 9
+relation 5 5 disjoint 1 0 1
+end
+config identical-copy
+placement A 0 0 0 1 0 0 0 1 0 0 0 1
+placement B 0 0 0 1 0 0 0 1 0 0 0 1
+face A 0 0 0 0 0 4 0 0 0 -32 1 4 0 0 0 0 4 0 4 4 0 4 0 0
+face A 1 0 0 4 4 0 0 0 0 32 1 4 0 0 4 4 0 4 4 4 4 0 4 4
+face A 2 0 0 0 4 0 0 0 -32 0 1 4 0 0 0 4 0 0 4 0 4 0 0 4
+face A 3 0 4 0 0 0 4 0 32 0 1 4 0 4 0 0 4 4 4 4 4 4 4 0
+face A 4 0 0 0 0 0 4 -32 0 0 1 4 0 0 0 0 0 4 0 4 4 0 4 0
+face A 5 4 0 0 0 4 0 32 0 0 1 4 4 0 0 4 4 0 4 4 4 4 0 4
+face B 0 0 0 0 0 4 0 0 0 -32 1 4 0 0 0 0 4 0 4 4 0 4 0 0
+face B 1 0 0 4 4 0 0 0 0 32 1 4 0 0 4 4 0 4 4 4 4 0 4 4
+face B 2 0 0 0 4 0 0 0 -32 0 1 4 0 0 0 4 0 0 4 0 4 0 0 4
+face B 3 0 4 0 0 0 4 0 32 0 1 4 0 4 0 0 4 4 4 4 4 4 4 0
+face B 4 0 0 0 0 0 4 -32 0 0 1 4 0 0 0 0 0 4 0 4 4 0 4 0
+face B 5 4 0 0 0 4 0 32 0 0 1 4 4 0 0 4 4 0 4 4 4 4 0 4
+boxmeet 0 0
+boxmeet 0 2
+boxmeet 0 3
+boxmeet 0 4
+boxmeet 0 5
+boxmeet 1 1
+boxmeet 1 2
+boxmeet 1 3
+boxmeet 1 4
+boxmeet 1 5
+boxmeet 2 0
+boxmeet 2 1
+boxmeet 2 2
+boxmeet 2 4
+boxmeet 2 5
+boxmeet 3 0
+boxmeet 3 1
+boxmeet 3 3
+boxmeet 3 4
+boxmeet 3 5
+boxmeet 4 0
+boxmeet 4 1
+boxmeet 4 2
+boxmeet 4 3
+boxmeet 4 4
+boxmeet 5 0
+boxmeet 5 1
+boxmeet 5 2
+boxmeet 5 3
+boxmeet 5 5
+frame R0
+paves A 0 0 0 0 0 4 2 0 0 0 0 0 4
+paves A 0 0 0 0 4 0 2 0 0 0 0 4 0
+paves A 0 0 0 4 0 0 2 0 0 0 4 0 0
+paves A 0 0 4 0 4 4 2 0 0 4 0 4 4
+paves A 0 0 4 4 0 4 2 0 0 4 4 0 4
+paves A 0 4 0 0 4 4 2 0 4 0 0 4 4
+paves A 0 4 0 4 4 0 2 0 4 0 4 4 0
+paves A 0 4 4 4 4 4 2 0 4 4 4 4 4
+paves A 4 0 0 4 0 4 2 4 0 0 4 0 4
+paves A 4 0 0 4 4 0 2 4 0 0 4 4 0
+paves A 4 0 4 4 4 4 2 4 0 4 4 4 4
+paves A 4 4 0 4 4 4 2 4 4 0 4 4 4
+paves B 0 0 0 0 0 4 2 0 0 0 0 0 4
+paves B 0 0 0 0 4 0 2 0 0 0 0 4 0
+paves B 0 0 0 4 0 0 2 0 0 0 4 0 0
+paves B 0 0 4 0 4 4 2 0 0 4 0 4 4
+paves B 0 0 4 4 0 4 2 0 0 4 4 0 4
+paves B 0 4 0 0 4 4 2 0 4 0 0 4 4
+paves B 0 4 0 4 4 0 2 0 4 0 4 4 0
+paves B 0 4 4 4 4 4 2 0 4 4 4 4 4
+paves B 4 0 0 4 0 4 2 4 0 0 4 0 4
+paves B 4 0 0 4 4 0 2 4 0 0 4 4 0
+paves B 4 0 4 4 4 4 2 4 0 4 4 4 4
+paves B 4 4 0 4 4 4 2 4 4 0 4 4 4
+piece 0 2 4 0 0 0 0 0 1 1 0 1/32 0 0 1 0 0 0
+piece 0 3 0 4 0 4 4 0 1 1 1 0 1 1/32 0 0 0 1/32
+piece 0 4 0 0 0 0 4 0 1 1 0 0 1 0 0 0 0 1/32
+piece 0 5 4 4 0 4 0 0 1 1 1 1/32 0 1/32 1 0 0 0
+piece 1 2 0 0 4 4 0 4 1 1 0 0 1 0 0 1/32 1 1/32
+piece 1 3 4 4 4 0 4 4 1 1 1 1/32 0 1/32 1 1/32 1 0
+piece 1 4 0 4 4 0 0 4 1 1 0 1/32 0 0 1 1/32 1 0
+piece 1 5 4 0 4 4 4 4 1 1 1 0 1 1/32 0 1/32 1 1/32
+piece 2 0 0 0 0 4 0 0 1 1 0 0 1 0 0 0 0 1/32
+piece 2 1 4 0 4 0 0 4 1 1 1 1/32 0 1/32 1 0 0 0
+piece 2 4 0 0 4 0 0 0 1 1 0 1/32 0 0 1 0 0 0
+piece 2 5 4 0 0 4 0 4 1 1 1 0 1 1/32 0 0 0 1/32
+piece 3 0 4 4 0 0 4 0 1 1 0 1/32 0 0 1 1/32 1 0
+piece 3 1 0 4 4 4 4 4 1 1 1 0 1 1/32 0 1/32 1 1/32
+piece 3 4 0 4 0 0 4 4 1 1 0 0 1 0 0 1/32 1 1/32
+piece 3 5 4 4 4 4 4 0 1 1 1 1/32 0 1/32 1 1/32 1 0
+piece 4 0 0 4 0 0 0 0 1 1 0 1/32 0 0 1 0 0 0
+piece 4 1 0 0 4 0 4 4 1 1 1 0 1 1/32 0 0 0 1/32
+piece 4 2 0 0 0 0 0 4 1 1 0 0 1 0 0 0 0 1/32
+piece 4 3 0 4 4 0 4 0 1 1 1 1/32 0 1/32 1 0 0 0
+piece 5 0 4 0 0 4 4 0 1 1 0 0 1 0 0 1/32 1 1/32
+piece 5 1 4 4 4 4 0 4 1 1 1 1/32 0 1/32 1 1/32 1 0
+piece 5 2 4 0 4 4 0 0 1 1 0 1/32 0 0 1 1/32 1 0
+piece 5 3 4 4 0 4 4 4 1 1 1 0 1 1/32 0 1/32 1 1/32
+relation 0 0 identical
+relation 0 1 disjoint 0 0 16
+relation 0 2 transverse 0 0 0 1 0 0
+relation 0 3 transverse 0 4 0 1 0 0
+relation 0 4 transverse 0 0 0 0 1 0
+relation 0 5 transverse 4 0 0 0 1 0
+relation 1 0 disjoint 0 0 16
+relation 1 1 identical
+relation 1 2 transverse 0 0 4 1 0 0
+relation 1 3 transverse 0 4 4 1 0 0
+relation 1 4 transverse 0 0 4 0 1 0
+relation 1 5 transverse 4 0 4 0 1 0
+relation 2 0 transverse 0 0 0 1 0 0
+relation 2 1 transverse 0 0 4 1 0 0
+relation 2 2 identical
+relation 2 3 disjoint 0 0 16
+relation 2 4 transverse 0 0 0 0 0 1
+relation 2 5 transverse 4 0 0 0 0 1
+relation 3 0 transverse 0 4 0 1 0 0
+relation 3 1 transverse 0 4 4 1 0 0
+relation 3 2 disjoint 0 0 16
+relation 3 3 identical
+relation 3 4 transverse 0 4 0 0 0 1
+relation 3 5 transverse 4 4 0 0 0 1
+relation 4 0 transverse 0 0 0 0 1 0
+relation 4 1 transverse 0 0 4 0 1 0
+relation 4 2 transverse 0 0 0 0 0 1
+relation 4 3 transverse 0 4 0 0 0 1
+relation 4 4 identical
+relation 4 5 disjoint 0 0 16
+relation 5 0 transverse 4 0 0 0 1 0
+relation 5 1 transverse 4 0 4 0 1 0
+relation 5 2 transverse 4 0 0 0 0 1
+relation 5 3 transverse 4 4 0 0 0 1
+relation 5 4 disjoint 0 0 16
+relation 5 5 identical
+vv 0 0 0
+vv 0 0 4
+vv 0 4 0
+vv 0 4 4
+vv 4 0 0
+vv 4 0 4
+vv 4 4 0
+vv 4 4 4
+end
+config identical-copy-r2
+placement A 0 0 0 1 0 0 0 1 0 0 0 1
+placement B 1 2 3 3/5 4/5 0 -4/5 3/5 0 0 0 1
+face A 0 0 0 0 0 4 0 0 0 -32 1 4 0 0 0 0 4 0 4 4 0 4 0 0
+face A 1 0 0 4 4 0 0 0 0 32 1 4 0 0 4 4 0 4 4 4 4 0 4 4
+face A 2 0 0 0 4 0 0 0 -32 0 1 4 0 0 0 4 0 0 4 0 4 0 0 4
+face A 3 0 4 0 0 0 4 0 32 0 1 4 0 4 0 0 4 4 4 4 4 4 4 0
+face A 4 0 0 0 0 0 4 -32 0 0 1 4 0 0 0 0 0 4 0 4 4 0 4 0
+face A 5 4 0 0 0 4 0 32 0 0 1 4 4 0 0 4 4 0 4 4 4 4 0 4
+face B 0 -11/5 -2/5 -3 16/5 12/5 0 0 0 -32 1 4 -11/5 -2/5 -3 1 2 -3 17/5 -6/5 -3 1/5 -18/5 -3
+face B 1 -11/5 -2/5 1 12/5 -16/5 0 0 0 32 1 4 -11/5 -2/5 1 1/5 -18/5 1 17/5 -6/5 1 1 2 1
+face B 2 -11/5 -2/5 -3 12/5 -16/5 0 -128/5 -96/5 0 1 4 -11/5 -2/5 -3 1/5 -18/5 -3 1/5 -18/5 1 -11/5 -2/5 1
+face B 3 1 2 -3 0 0 4 128/5 96/5 0 1 4 1 2 -3 1 2 1 17/5 -6/5 1 17/5 -6/5 -3
+face B 4 -11/5 -2/5 -3 0 0 4 -96/5 128/5 0 1 4 -11/5 -2/5 -3 -11/5 -2/5 1 1 2 1 1 2 -3
+face B 5 1/5 -18/5 -3 16/5 12/5 0 96/5 -128/5 0 1 4 1/5 -18/5 -3 17/5 -6/5 -3 17/5 -6/5 1 1/5 -18/5 1
+boxmeet 0 0
+boxmeet 0 2
+boxmeet 0 3
+boxmeet 0 4
+boxmeet 0 5
+boxmeet 1 1
+boxmeet 1 2
+boxmeet 1 3
+boxmeet 1 4
+boxmeet 1 5
+boxmeet 2 0
+boxmeet 2 1
+boxmeet 2 2
+boxmeet 2 4
+boxmeet 2 5
+boxmeet 3 0
+boxmeet 3 1
+boxmeet 3 3
+boxmeet 3 4
+boxmeet 3 5
+boxmeet 4 0
+boxmeet 4 1
+boxmeet 4 2
+boxmeet 4 3
+boxmeet 4 4
+boxmeet 5 0
+boxmeet 5 1
+boxmeet 5 2
+boxmeet 5 3
+boxmeet 5 5
+frame R2
+paves A 0 0 0 0 0 4 2 0 0 0 0 0 4
+paves A 0 0 0 0 4 0 2 0 0 0 0 4 0
+paves A 0 0 0 4 0 0 2 0 0 0 4 0 0
+paves A 0 0 4 0 4 4 2 0 0 4 0 4 4
+paves A 0 0 4 4 0 4 2 0 0 4 4 0 4
+paves A 0 4 0 0 4 4 2 0 4 0 0 4 4
+paves A 0 4 0 4 4 0 2 0 4 0 4 4 0
+paves A 0 4 4 4 4 4 2 0 4 4 4 4 4
+paves A 4 0 0 4 0 4 2 4 0 0 4 0 4
+paves A 4 0 0 4 4 0 2 4 0 0 4 4 0
+paves A 4 0 4 4 4 4 2 4 0 4 4 4 4
+paves A 4 4 0 4 4 4 2 4 4 0 4 4 4
+paves B 0 0 0 0 0 4 2 0 0 0 0 0 4
+paves B 0 0 0 0 4 0 2 0 0 0 0 4 0
+paves B 0 0 0 4 0 0 2 0 0 0 4 0 0
+paves B 0 0 4 0 4 4 2 0 0 4 0 4 4
+paves B 0 0 4 4 0 4 2 0 0 4 4 0 4
+paves B 0 4 0 0 4 4 2 0 4 0 0 4 4
+paves B 0 4 0 4 4 0 2 0 4 0 4 4 0
+paves B 0 4 4 4 4 4 2 0 4 4 4 4 4
+paves B 4 0 0 4 0 4 2 4 0 0 4 0 4
+paves B 4 0 0 4 4 0 2 4 0 0 4 4 0
+paves B 4 0 4 4 4 4 2 4 0 4 4 4 4
+paves B 4 4 0 4 4 4 2 4 4 0 4 4 4
+piece 0 2 4 0 0 0 0 0 1 1 0 1/32 0 0 1 0 0 0
+piece 0 3 0 4 0 4 4 0 1 1 1 0 1 1/32 0 0 0 1/32
+piece 0 4 0 0 0 0 4 0 1 1 0 0 1 0 0 0 0 1/32
+piece 0 5 4 4 0 4 0 0 1 1 1 1/32 0 1/32 1 0 0 0
+piece 1 2 0 0 4 4 0 4 1 1 0 0 1 0 0 1/32 1 1/32
+piece 1 3 4 4 4 0 4 4 1 1 1 1/32 0 1/32 1 1/32 1 0
+piece 1 4 0 4 4 0 0 4 1 1 0 1/32 0 0 1 1/32 1 0
+piece 1 5 4 0 4 4 4 4 1 1 1 0 1 1/32 0 1/32 1 1/32
+piece 2 0 0 0 0 4 0 0 1 1 0 0 1 0 0 0 0 1/32
+piece 2 1 4 0 4 0 0 4 1 1 1 1/32 0 1/32 1 0 0 0
+piece 2 4 0 0 4 0 0 0 1 1 0 1/32 0 0 1 0 0 0
+piece 2 5 4 0 0 4 0 4 1 1 1 0 1 1/32 0 0 0 1/32
+piece 3 0 4 4 0 0 4 0 1 1 0 1/32 0 0 1 1/32 1 0
+piece 3 1 0 4 4 4 4 4 1 1 1 0 1 1/32 0 1/32 1 1/32
+piece 3 4 0 4 0 0 4 4 1 1 0 0 1 0 0 1/32 1 1/32
+piece 3 5 4 4 4 4 4 0 1 1 1 1/32 0 1/32 1 1/32 1 0
+piece 4 0 0 4 0 0 0 0 1 1 0 1/32 0 0 1 0 0 0
+piece 4 1 0 0 4 0 4 4 1 1 1 0 1 1/32 0 0 0 1/32
+piece 4 2 0 0 0 0 0 4 1 1 0 0 1 0 0 0 0 1/32
+piece 4 3 0 4 4 0 4 0 1 1 1 1/32 0 1/32 1 0 0 0
+piece 5 0 4 0 0 4 4 0 1 1 0 0 1 0 0 1/32 1 1/32
+piece 5 1 4 4 4 4 0 4 1 1 1 1/32 0 1/32 1 1/32 1 0
+piece 5 2 4 0 4 4 0 0 1 1 0 1/32 0 0 1 1/32 1 0
+piece 5 3 4 4 0 4 4 4 1 1 1 0 1 1/32 0 1/32 1 1/32
+relation 0 0 identical
+relation 0 1 disjoint 0 0 16
+relation 0 2 transverse 0 0 0 1 0 0
+relation 0 3 transverse 0 4 0 1 0 0
+relation 0 4 transverse 0 0 0 0 1 0
+relation 0 5 transverse 4 0 0 0 1 0
+relation 1 0 disjoint 0 0 16
+relation 1 1 identical
+relation 1 2 transverse 0 0 4 1 0 0
+relation 1 3 transverse 0 4 4 1 0 0
+relation 1 4 transverse 0 0 4 0 1 0
+relation 1 5 transverse 4 0 4 0 1 0
+relation 2 0 transverse 0 0 0 1 0 0
+relation 2 1 transverse 0 0 4 1 0 0
+relation 2 2 identical
+relation 2 3 disjoint 0 0 16
+relation 2 4 transverse 0 0 0 0 0 1
+relation 2 5 transverse 4 0 0 0 0 1
+relation 3 0 transverse 0 4 0 1 0 0
+relation 3 1 transverse 0 4 4 1 0 0
+relation 3 2 disjoint 0 0 16
+relation 3 3 identical
+relation 3 4 transverse 0 4 0 0 0 1
+relation 3 5 transverse 4 4 0 0 0 1
+relation 4 0 transverse 0 0 0 0 1 0
+relation 4 1 transverse 0 0 4 0 1 0
+relation 4 2 transverse 0 0 0 0 0 1
+relation 4 3 transverse 0 4 0 0 0 1
+relation 4 4 identical
+relation 4 5 disjoint 0 0 16
+relation 5 0 transverse 4 0 0 0 1 0
+relation 5 1 transverse 4 0 4 0 1 0
+relation 5 2 transverse 4 0 0 0 0 1
+relation 5 3 transverse 4 4 0 0 0 1
+relation 5 4 disjoint 0 0 16
+relation 5 5 identical
+vv 0 0 0
+vv 0 0 4
+vv 0 4 0
+vv 0 4 4
+vv 4 0 0
+vv 4 0 4
+vv 4 4 0
+vv 4 4 4
+end
+config edge-on-face-inside
+placement A 0 0 0 1 0 0 0 1 0 0 0 1
+placement B 0 0 0 1 0 0 0 1 0 0 0 1
+face A 0 0 0 0 0 4 0 0 0 -32 1 4 0 0 0 0 4 0 4 4 0 4 0 0
+face A 1 0 0 4 4 0 0 0 0 32 1 4 0 0 4 4 0 4 4 4 4 0 4 4
+face A 2 0 0 0 4 0 0 0 -32 0 1 4 0 0 0 4 0 0 4 0 4 0 0 4
+face A 3 0 4 0 0 0 4 0 32 0 1 4 0 4 0 0 4 4 4 4 4 4 4 0
+face A 4 0 0 0 0 0 4 -32 0 0 1 4 0 0 0 0 0 4 0 4 4 0 4 0
+face A 5 4 0 0 0 4 0 32 0 0 1 4 4 0 0 4 4 0 4 4 4 4 0 4
+face B 0 1 1 4 2 2 0 4 -4 -2 1 3 1 1 4 3 3 4 2 1 6
+face B 1 1 3 5 2 0 -1 -2 2 -4 1 3 1 3 5 3 3 4 1 1 4
+face B 2 1 1 4 1 0 2 -4 -1 2 1 3 1 1 4 2 1 6 1 3 5
+face B 3 1 3 5 1 -2 1 2 3 4 1 3 1 3 5 2 1 6 3 3 4
+boxmeet 1 0
+boxmeet 1 1
+boxmeet 1 2
+boxmeet 1 3
+frame R0
+paves A 0 0 0 0 0 4 2 0 0 0 0 0 4
+paves A 0 0 0 0 4 0 2 0 0 0 0 4 0
+paves A 0 0 0 4 0 0 2 0 0 0 4 0 0
+paves A 0 0 4 0 4 4 2 0 0 4 0 4 4
+paves A 0 0 4 4 0 4 2 0 0 4 4 0 4
+paves A 0 4 0 0 4 4 2 0 4 0 0 4 4
+paves A 0 4 0 4 4 0 2 0 4 0 4 4 0
+paves A 0 4 4 4 4 4 2 0 4 4 4 4 4
+paves A 4 0 0 4 0 4 2 4 0 0 4 0 4
+paves A 4 0 0 4 4 0 2 4 0 0 4 4 0
+paves A 4 0 4 4 4 4 2 4 0 4 4 4 4
+paves A 4 4 0 4 4 4 2 4 4 0 4 4 4
+paves B 1 1 4 1 3 5 2 1 1 4 1 3 5
+paves B 1 1 4 2 1 6 2 1 1 4 2 1 6
+paves B 1 1 4 3 3 4 2 1 1 4 3 3 4
+paves B 1 3 5 2 1 6 2 1 3 5 2 1 6
+paves B 1 3 5 3 3 4 2 1 3 5 3 3 4
+paves B 2 1 6 3 3 4 2 2 1 6 3 3 4
+piece 1 0 1 1 4 3 3 4 0 1 1/4 1/128 3/4 3/128 0 0 1 0
+piece 1 1 3 3 4 1 1 4 0 1 3/4 3/128 1/4 1/128 1 0 1/5 1/5
+relation 0 0 transverse 0 2 0 1 1 0
+relation 0 1 transverse 0 -8 0 1 1 0
+relation 0 2 transverse 0 -3 0 1 -4 0
+relation 0 3 transverse 0 31/3 0 1 -2/3 0
+relation 1 0 transverse 0 0 4 1 1 0
+relation 1 1 transverse 0 0 4 1 1 0
+relation 1 2 transverse 0 5 4 1 -4 0
+relation 1 3 transverse 0 5 4 1 -2/3 0
+relation 2 0 transverse 0 0 4 1 0 2
+relation 2 1 transverse 0 0 4 1 0 -1/2
+relation 2 2 transverse 0 0 3/2 1 0 2
+relation 2 3 transverse 0 0 31/4 1 0 -1/2
+relation 3 0 transverse 0 4 -4 1 0 2
+relation 3 1 transverse 0 4 6 1 0 -1/2
+relation 3 2 transverse 0 4 7/2 1 0 2
+relation 3 3 transverse 0 4 19/4 1 0 -1/2
+relation 4 0 transverse 0 0 4 0 1 -2
+relation 4 1 transverse 0 0 4 0 1 1/2
+relation 4 2 transverse 0 0 3/2 0 1 1/2
+relation 4 3 transverse 0 0 31/4 0 1 -3/4
+relation 5 0 transverse 4 0 12 0 1 -2
+relation 5 1 transverse 4 0 2 0 1 1/2
+relation 5 2 transverse 4 0 19/2 0 1 1/2
+relation 5 3 transverse 4 0 23/4 0 1 -3/4
+touch 1 2 1 1 4
+touch 1 3 3 3 4
+vf B 1 1 4 1
+vf B 3 3 4 1
+end
+config edge-on-face-crossing-boundary
+placement A 0 0 0 1 0 0 0 1 0 0 0 1
+placement B 0 0 0 1 0 0 0 1 0 0 0 1
+face A 0 0 0 0 0 4 0 0 0 -32 1 4 0 0 0 0 4 0 4 4 0 4 0 0
+face A 1 0 0 4 4 0 0 0 0 32 1 4 0 0 4 4 0 4 4 4 4 0 4 4
+face A 2 0 0 0 4 0 0 0 -32 0 1 4 0 0 0 4 0 0 4 0 4 0 0 4
+face A 3 0 4 0 0 0 4 0 32 0 1 4 0 4 0 0 4 4 4 4 4 4 4 0
+face A 4 0 0 0 0 0 4 -32 0 0 1 4 0 0 0 0 0 4 0 4 4 0 4 0
+face A 5 4 0 0 0 4 0 32 0 0 1 4 4 0 0 4 4 0 4 4 4 4 0 4
+face B 0 2 2 4 4 0 0 0 -8 -4 1 3 2 2 4 6 2 4 4 1 6
+face B 1 4 3 6 2 -1 -2 0 8 -4 1 3 4 3 6 6 2 4 2 2 4
+face B 2 2 2 4 2 -1 2 -4 0 4 1 3 2 2 4 4 1 6 4 3 6
+face B 3 4 3 6 0 -2 0 4 0 4 1 3 4 3 6 4 1 6 6 2 4
+boxmeet 1 0
+boxmeet 1 1
+boxmeet 1 2
+boxmeet 1 3
+boxmeet 5 0
+boxmeet 5 1
+boxmeet 5 2
+boxmeet 5 3
+ee 4 2 4 4 0 4 4 4 4 2 2 4 6 2 4
+frame R0
+paves A 0 0 0 0 0 4 2 0 0 0 0 0 4
+paves A 0 0 0 0 4 0 2 0 0 0 0 4 0
+paves A 0 0 0 4 0 0 2 0 0 0 4 0 0
+paves A 0 0 4 0 4 4 2 0 0 4 0 4 4
+paves A 0 0 4 4 0 4 2 0 0 4 4 0 4
+paves A 0 4 0 0 4 4 2 0 4 0 0 4 4
+paves A 0 4 0 4 4 0 2 0 4 0 4 4 0
+paves A 0 4 4 4 4 4 2 0 4 4 4 4 4
+paves A 4 0 0 4 0 4 2 4 0 0 4 0 4
+paves A 4 0 0 4 4 0 2 4 0 0 4 4 0
+paves A 4 0 4 4 4 4 3 4 0 4 4 2 4 4 4 4
+paves A 4 4 0 4 4 4 2 4 4 0 4 4 4
+paves B 2 2 4 4 1 6 2 2 2 4 4 1 6
+paves B 2 2 4 4 3 6 2 2 2 4 4 3 6
+paves B 2 2 4 6 2 4 3 2 2 4 4 2 4 6 2 4
+paves B 4 1 6 4 3 6 2 4 1 6 4 3 6
+paves B 4 1 6 6 2 4 2 4 1 6 6 2 4
+paves B 4 3 6 6 2 4 2 4 3 6 6 2 4
+piece 1 0 2 2 4 4 2 4 0 1 1/2 1/64 1 1/64 0 0 1/2 0
+piece 1 1 4 2 4 2 2 4 0 1 1 1/64 1/2 1/64 5/9 1/18 1/9 1/9
+relation 0 0 transverse 0 4 0 1 0 0
+relation 0 1 transverse 0 0 0 1 0 0
+relation 0 2 transverse -2 0 0 0 1 0
+relation 0 3 transverse 10 0 0 0 1 0
+relation 1 0 transverse 0 2 4 1 0 0
+relation 1 1 transverse 0 2 4 1 0 0
+relation 1 2 transverse 2 0 4 0 1 0
+relation 1 3 transverse 6 0 4 0 1 0
+relation 2 0 transverse 0 0 8 1 0 0
+relation 2 1 transverse 0 0 0 1 0 0
+relation 2 2 transverse 0 0 2 1 0 1
+relation 2 3 transverse 0 0 10 1 0 -1
+relation 3 0 transverse 0 4 0 1 0 0
+relation 3 1 transverse 0 4 8 1 0 0
+relation 3 2 transverse 0 4 2 1 0 1
+relation 3 3 transverse 0 4 10 1 0 -1
+relation 4 0 transverse 0 0 8 0 1 -2
+relation 4 1 transverse 0 0 0 0 1 2
+relation 4 2 transverse 0 0 2 0 1 0
+relation 4 3 transverse 0 0 10 0 1 0
+relation 5 0 transverse 4 0 8 0 1 -2
+relation 5 1 transverse 4 0 0 0 1 2
+relation 5 2 transverse 4 0 6 0 1 0
+relation 5 3 transverse 4 0 6 0 1 0
+touch 1 2 2 2 4
+touch 5 0 4 2 4
+touch 5 1 4 2 4
+vf B 2 2 4 1
+end
+config vertex-on-edge
+placement A 0 0 0 1 0 0 0 1 0 0 0 1
+placement B 0 0 0 1 0 0 0 1 0 0 0 1
+face A 0 0 0 0 0 4 0 0 0 -32 1 4 0 0 0 0 4 0 4 4 0 4 0 0
+face A 1 0 0 4 4 0 0 0 0 32 1 4 0 0 4 4 0 4 4 4 4 0 4 4
+face A 2 0 0 0 4 0 0 0 -32 0 1 4 0 0 0 4 0 0 4 0 4 0 0 4
+face A 3 0 4 0 0 0 4 0 32 0 1 4 0 4 0 0 4 4 4 4 4 4 4 0
+face A 4 0 0 0 0 0 4 -32 0 0 1 4 0 0 0 0 0 4 0 4 4 0 4 0
+face A 5 4 0 0 0 4 0 32 0 0 1 4 4 0 0 4 4 0 4 4 4 4 0 4
+face B 0 1 -3 6 2 0 0 0 0 8 1 4 1 -3 6 3 -3 6 3 -1 6 1 -1 6
+face B 1 2 0 4 1 -3 2 0 -4 -6 1 3 2 0 4 3 -3 6 1 -3 6
+face B 2 2 0 4 1 -1 2 4 0 -2 1 3 2 0 4 3 -1 6 3 -3 6
+face B 3 2 0 4 -1 -1 2 0 4 2 1 3 2 0 4 1 -1 6 3 -1 6
+face B 4 2 0 4 -1 -3 2 -4 0 -2 1 3 2 0 4 1 -3 6 1 -1 6
+boxmeet 1 1
+boxmeet 1 2
+boxmeet 1 3
+boxmeet 1 4
+boxmeet 2 1
+boxmeet 2 2
+boxmeet 2 3
+boxmeet 2 4
+frame R0
+paves A 0 0 0 0 0 4 2 0 0 0 0 0 4
+paves A 0 0 0 0 4 0 2 0 0 0 0 4 0
+paves A 0 0 0 4 0 0 2 0 0 0 4 0 0
+paves A 0 0 4 0 4 4 2 0 0 4 0 4 4
+paves A 0 0 4 4 0 4 3 0 0 4 2 0 4 4 0 4
+paves A 0 4 0 0 4 4 2 0 4 0 0 4 4
+paves A 0 4 0 4 4 0 2 0 4 0 4 4 0
+paves A 0 4 4 4 4 4 2 0 4 4 4 4 4
+paves A 4 0 0 4 0 4 2 4 0 0 4 0 4
+paves A 4 0 0 4 4 0 2 4 0 0 4 4 0
+paves A 4 0 4 4 4 4 2 4 0 4 4 4 4
+paves A 4 4 0 4 4 4 2 4 4 0 4 4 4
+paves B 1 -1 6 2 0 4 2 1 -1 6 2 0 4
+paves B 1 -1 6 3 -1 6 2 1 -1 6 3 -1 6
+paves B 1 -3 6 1 -1 6 2 1 -3 6 1 -1 6
+paves B 1 -3 6 2 0 4 2 1 -3 6 2 0 4
+paves B 1 -3 6 3 -3 6 2 1 -3 6 3 -3 6
+paves B 2 0 4 3 -1 6 2 2 0 4 3 -1 6
+paves B 2 0 4 3 -3 6 2 2 0 4 3 -3 6
+paves B 3 -3 6 3 -1 6 2 3 -3 6 3 -1 6
+relation 0 0 disjoint 0 0 36
+relation 0 1 transverse 0 6 0 1 0 0
+relation 0 2 transverse 0 0 0 0 1 0
+relation 0 3 transverse 0 2 0 1 0 0
+relation 0 4 transverse 4 0 0 0 1 0
+relation 1 0 disjoint 1 1 4
+relation 1 1 transverse 0 0 4 1 0 0
+relation 1 2 transverse 2 0 4 0 1 0
+relation 1 3 transverse 0 0 4 1 0 0
+relation 1 4 transverse 2 0 4 0 1 0
+relation 2 0 transverse 0 0 6 1 0 0
+relation 2 1 transverse 0 0 4 1 0 0
+relation 2 2 transverse 0 0 0 1 0 2
+relation 2 3 transverse 0 0 4 1 0 0
+relation 2 4 transverse 0 0 8 1 0 -2
+relation 3 0 transverse 0 4 6 1 0 0
+relation 3 1 transverse 0 4 4/3 1 0 0
+relation 3 2 transverse 0 4 0 1 0 2
+relation 3 3 transverse 0 4 -4 1 0 0
+relation 3 4 transverse 0 4 8 1 0 -2
+relation 4 0 transverse 0 0 6 0 1 0
+relation 4 1 transverse 0 0 4 0 1 -2/3
+relation 4 2 transverse 0 0 0 0 1 0
+relation 4 3 transverse 0 0 4 0 1 -2
+relation 4 4 transverse 0 0 8 0 1 0
+relation 5 0 transverse 4 0 6 0 1 0
+relation 5 1 transverse 4 0 4 0 1 -2/3
+relation 5 2 transverse 4 0 8 0 1 0
+relation 5 3 transverse 4 0 4 0 1 -2
+relation 5 4 transverse 4 0 0 0 1 0
+touch 1 1 2 0 4
+touch 1 2 2 0 4
+touch 1 3 2 0 4
+touch 1 4 2 0 4
+touch 2 1 2 0 4
+touch 2 2 2 0 4
+touch 2 3 2 0 4
+touch 2 4 2 0 4
+ve B 2 0 4 0 0 4 4 0 4
+end
+config vertex-on-face
+placement A 0 0 0 1 0 0 0 1 0 0 0 1
+placement B 0 0 0 1 0 0 0 1 0 0 0 1
+face A 0 0 0 0 0 4 0 0 0 -32 1 4 0 0 0 0 4 0 4 4 0 4 0 0
+face A 1 0 0 4 4 0 0 0 0 32 1 4 0 0 4 4 0 4 4 4 4 0 4 4
+face A 2 0 0 0 4 0 0 0 -32 0 1 4 0 0 0 4 0 0 4 0 4 0 0 4
+face A 3 0 4 0 0 0 4 0 32 0 1 4 0 4 0 0 4 4 4 4 4 4 4 0
+face A 4 0 0 0 0 0 4 -32 0 0 1 4 0 0 0 0 0 4 0 4 4 0 4 0
+face A 5 4 0 0 0 4 0 32 0 0 1 4 4 0 0 4 4 0 4 4 4 4 0 4
+face B 0 1 1 6 2 0 0 0 0 8 1 4 1 1 6 3 1 6 3 3 6 1 3 6
+face B 1 2 2 4 1 -1 2 0 -4 -2 1 3 2 2 4 3 1 6 1 1 6
+face B 2 2 2 4 1 1 2 4 0 -2 1 3 2 2 4 3 3 6 3 1 6
+face B 3 2 2 4 -1 1 2 0 4 -2 1 3 2 2 4 1 3 6 3 3 6
+face B 4 2 2 4 -1 -1 2 -4 0 -2 1 3 2 2 4 1 1 6 1 3 6
+boxmeet 1 1
+boxmeet 1 2
+boxmeet 1 3
+boxmeet 1 4
+frame R0
+paves A 0 0 0 0 0 4 2 0 0 0 0 0 4
+paves A 0 0 0 0 4 0 2 0 0 0 0 4 0
+paves A 0 0 0 4 0 0 2 0 0 0 4 0 0
+paves A 0 0 4 0 4 4 2 0 0 4 0 4 4
+paves A 0 0 4 4 0 4 2 0 0 4 4 0 4
+paves A 0 4 0 0 4 4 2 0 4 0 0 4 4
+paves A 0 4 0 4 4 0 2 0 4 0 4 4 0
+paves A 0 4 4 4 4 4 2 0 4 4 4 4 4
+paves A 4 0 0 4 0 4 2 4 0 0 4 0 4
+paves A 4 0 0 4 4 0 2 4 0 0 4 4 0
+paves A 4 0 4 4 4 4 2 4 0 4 4 4 4
+paves A 4 4 0 4 4 4 2 4 4 0 4 4 4
+paves B 1 1 6 1 3 6 2 1 1 6 1 3 6
+paves B 1 1 6 2 2 4 2 1 1 6 2 2 4
+paves B 1 1 6 3 1 6 2 1 1 6 3 1 6
+paves B 1 3 6 2 2 4 2 1 3 6 2 2 4
+paves B 1 3 6 3 3 6 2 1 3 6 3 3 6
+paves B 2 2 4 3 1 6 2 2 2 4 3 1 6
+paves B 2 2 4 3 3 6 2 2 2 4 3 3 6
+paves B 3 1 6 3 3 6 2 3 1 6 3 3 6
+relation 0 0 disjoint 0 0 36
+relation 0 1 transverse 0 4 0 1 0 0
+relation 0 2 transverse 0 0 0 0 1 0
+relation 0 3 transverse 0 0 0 1 0 0
+relation 0 4 transverse 4 0 0 0 1 0
+relation 1 0 disjoint 1 1 4
+relation 1 1 transverse 0 2 4 1 0 0
+relation 1 2 transverse 2 0 4 0 1 0
+relation 1 3 transverse 0 2 4 1 0 0
+relation 1 4 transverse 2 0 4 0 1 0
+relation 2 0 transverse 0 0 6 1 0 0
+relation 2 1 transverse 0 0 8 1 0 0
+relation 2 2 transverse 0 0 0 1 0 2
+relation 2 3 transverse 0 0 0 1 0 0
+relation 2 4 transverse 0 0 8 1 0 -2
+relation 3 0 transverse 0 4 6 1 0 0
+relation 3 1 transverse 0 4 0 1 0 0
+relation 3 2 transverse 0 4 0 1 0 2
+relation 3 3 transverse 0 4 8 1 0 0
+relation 3 4 transverse 0 4 8 1 0 -2
+relation 4 0 transverse 0 0 6 0 1 0
+relation 4 1 transverse 0 0 8 0 1 -2
+relation 4 2 transverse 0 0 0 0 1 0
+relation 4 3 transverse 0 0 0 0 1 2
+relation 4 4 transverse 0 0 8 0 1 0
+relation 5 0 transverse 4 0 6 0 1 0
+relation 5 1 transverse 4 0 8 0 1 -2
+relation 5 2 transverse 4 0 8 0 1 0
+relation 5 3 transverse 4 0 0 0 1 2
+relation 5 4 transverse 4 0 0 0 1 0
+touch 1 1 2 2 4
+touch 1 2 2 2 4
+touch 1 3 2 2 4
+touch 1 4 2 2 4
+vf B 2 2 4 1
+end
+config vertex-on-vertex
+placement A 0 0 0 1 0 0 0 1 0 0 0 1
+placement B 0 0 0 1 0 0 0 1 0 0 0 1
+face A 0 0 0 0 0 4 0 0 0 -32 1 4 0 0 0 0 4 0 4 4 0 4 0 0
+face A 1 0 0 4 4 0 0 0 0 32 1 4 0 0 4 4 0 4 4 4 4 0 4 4
+face A 2 0 0 0 4 0 0 0 -32 0 1 4 0 0 0 4 0 0 4 0 4 0 0 4
+face A 3 0 4 0 0 0 4 0 32 0 1 4 0 4 0 0 4 4 4 4 4 4 4 0
+face A 4 0 0 0 0 0 4 -32 0 0 1 4 0 0 0 0 0 4 0 4 4 0 4 0
+face A 5 4 0 0 0 4 0 32 0 0 1 4 4 0 0 4 4 0 4 4 4 4 0 4
+face B 0 4 4 4 0 4 0 0 0 -32 1 4 4 4 4 4 8 4 8 8 4 8 4 4
+face B 1 4 4 8 4 0 0 0 0 32 1 4 4 4 8 8 4 8 8 8 8 4 8 8
+face B 2 4 4 4 4 0 0 0 -32 0 1 4 4 4 4 8 4 4 8 4 8 4 4 8
+face B 3 4 8 4 0 0 4 0 32 0 1 4 4 8 4 4 8 8 8 8 8 8 8 4
+face B 4 4 4 4 0 0 4 -32 0 0 1 4 4 4 4 4 4 8 4 8 8 4 8 4
+face B 5 8 4 4 0 4 0 32 0 0 1 4 8 4 4 8 8 4 8 8 8 8 4 8
+boxmeet 1 0
+boxmeet 1 2
+boxmeet 1 4
+boxmeet 3 0
+boxmeet 3 2
+boxmeet 3 4
+boxmeet 5 0
+boxmeet 5 2
+boxmeet 5 4
+frame R0
+paves A 0 0 0 0 0 4 2 0 0 0 0 0 4
+paves A 0 0 0 0 4 0 2 0 0 0 0 4 0
+paves A 0 0 0 4 0 0 2 0 0 0 4 0 0
+paves A 0 0 4 0 4 4 2 0 0 4 0 4 4
+paves A 0 0 4 4 0 4 2 0 0 4 4 0 4
+paves A 0 4 0 0 4 4 2 0 4 0 0 4 4
+paves A 0 4 0 4 4 0 2 0 4 0 4 4 0
+paves A 0 4 4 4 4 4 2 0 4 4 4 4 4
+paves A 4 0 0 4 0 4 2 4 0 0 4 0 4
+paves A 4 0 0 4 4 0 2 4 0 0 4 4 0
+paves A 4 0 4 4 4 4 2 4 0 4 4 4 4
+paves A 4 4 0 4 4 4 2 4 4 0 4 4 4
+paves B 4 4 4 4 4 8 2 4 4 4 4 4 8
+paves B 4 4 4 4 8 4 2 4 4 4 4 8 4
+paves B 4 4 4 8 4 4 2 4 4 4 8 4 4
+paves B 4 4 8 4 8 8 2 4 4 8 4 8 8
+paves B 4 4 8 8 4 8 2 4 4 8 8 4 8
+paves B 4 8 4 4 8 8 2 4 8 4 4 8 8
+paves B 4 8 4 8 8 4 2 4 8 4 8 8 4
+paves B 4 8 8 8 8 8 2 4 8 8 8 8 8
+paves B 8 4 4 8 4 8 2 8 4 4 8 4 8
+paves B 8 4 4 8 8 4 2 8 4 4 8 8 4
+paves B 8 4 8 8 8 8 2 8 4 8 8 8 8
+paves B 8 8 4 8 8 8 2 8 8 4 8 8 8
+relation 0 0 disjoint 1 0 16
+relation 0 1 disjoint 0 0 64
+relation 0 2 transverse 0 4 0 1 0 0
+relation 0 3 transverse 0 8 0 1 0 0
+relation 0 4 transverse 4 0 0 0 1 0
+relation 0 5 transverse 8 0 0 0 1 0
+relation 1 0 opposite
+relation 1 1 disjoint 1 1 16
+relation 1 2 transverse 0 4 4 1 0 0
+relation 1 3 transverse 0 8 4 1 0 0
+relation 1 4 transverse 4 0 4 0 1 0
+relation 1 5 transverse 8 0 4 0 1 0
+relation 2 0 transverse 0 0 4 1 0 0
+relation 2 1 transverse 0 0 8 1 0 0
+relation 2 2 disjoint 1 0 16
+relation 2 3 disjoint 0 0 64
+relation 2 4 transverse 4 0 0 0 0 1
+relation 2 5 transverse 8 0 0 0 0 1
+relation 3 0 transverse 0 4 4 1 0 0
+relation 3 1 transverse 0 4 8 1 0 0
+relation 3 2 opposite
+relation 3 3 disjoint 1 1 16
+relation 3 4 transverse 4 4 0 0 0 1
+relation 3 5 transverse 8 4 0 0 0 1
+relation 4 0 transverse 0 0 4 0 1 0
+relation 4 1 transverse 0 0 8 0 1 0
+relation 4 2 transverse 0 4 0 0 0 1
+relation 4 3 transverse 0 8 0 0 0 1
+relation 4 4 disjoint 1 0 16
+relation 4 5 disjoint 0 0 64
+relation 5 0 transverse 4 0 4 0 1 0
+relation 5 1 transverse 4 0 8 0 1 0
+relation 5 2 transverse 4 4 0 0 0 1
+relation 5 3 transverse 4 8 0 0 0 1
+relation 5 4 opposite
+relation 5 5 disjoint 1 1 16
+touch 1 2 4 4 4
+touch 1 4 4 4 4
+touch 3 0 4 4 4
+touch 3 4 4 4 4
+touch 5 0 4 4 4
+touch 5 2 4 4 4
+vv 4 4 4
+end
+config edge-on-edge-collinear
+placement A 0 0 0 1 0 0 0 1 0 0 0 1
+placement B 0 0 0 1 0 0 0 1 0 0 0 1
+face A 0 0 0 0 0 4 0 0 0 -32 1 4 0 0 0 0 4 0 4 4 0 4 0 0
+face A 1 0 0 4 4 0 0 0 0 32 1 4 0 0 4 4 0 4 4 4 4 0 4 4
+face A 2 0 0 0 4 0 0 0 -32 0 1 4 0 0 0 4 0 0 4 0 4 0 0 4
+face A 3 0 4 0 0 0 4 0 32 0 1 4 0 4 0 0 4 4 4 4 4 4 4 0
+face A 4 0 0 0 0 0 4 -32 0 0 1 4 0 0 0 0 0 4 0 4 4 0 4 0
+face A 5 4 0 0 0 4 0 32 0 0 1 4 4 0 0 4 4 0 4 4 4 4 0 4
+face B 0 4 4 1 0 4 0 0 0 -32 1 4 4 4 1 4 8 1 8 8 1 8 4 1
+face B 1 4 4 3 4 0 0 0 0 32 1 4 4 4 3 8 4 3 8 8 3 4 8 3
+face B 2 4 4 1 4 0 0 0 -16 0 1 4 4 4 1 8 4 1 8 4 3 4 4 3
+face B 3 4 8 1 0 0 2 0 16 0 1 4 4 8 1 4 8 3 8 8 3 8 8 1
+face B 4 4 4 1 0 0 2 -16 0 0 1 4 4 4 1 4 4 3 4 8 3 4 8 1
+face B 5 8 4 1 0 4 0 16 0 0 1 4 8 4 1 8 8 1 8 8 3 8 4 3
+boxmeet 3 0
+boxmeet 3 1
+boxmeet 3 2
+boxmeet 3 4
+boxmeet 5 0
+boxmeet 5 1
+boxmeet 5 2
+boxmeet 5 4
+frame R0
+paves A 0 0 0 0 0 4 2 0 0 0 0 0 4
+paves A 0 0 0 0 4 0 2 0 0 0 0 4 0
+paves A 0 0 0 4 0 0 2 0 0 0 4 0 0
+paves A 0 0 4 0 4 4 2 0 0 4 0 4 4
+paves A 0 0 4 4 0 4 2 0 0 4 4 0 4
+paves A 0 4 0 0 4 4 2 0 4 0 0 4 4
+paves A 0 4 0 4 4 0 2 0 4 0 4 4 0
+paves A 0 4 4 4 4 4 2 0 4 4 4 4 4
+paves A 4 0 0 4 0 4 2 4 0 0 4 0 4
+paves A 4 0 0 4 4 0 2 4 0 0 4 4 0
+paves A 4 0 4 4 4 4 2 4 0 4 4 4 4
+paves A 4 4 0 4 4 4 4 4 4 0 4 4 1 4 4 3 4 4 4
+paves B 4 4 1 4 4 3 2 4 4 1 4 4 3
+paves B 4 4 1 4 8 1 2 4 4 1 4 8 1
+paves B 4 4 1 8 4 1 2 4 4 1 8 4 1
+paves B 4 4 3 4 8 3 2 4 4 3 4 8 3
+paves B 4 4 3 8 4 3 2 4 4 3 8 4 3
+paves B 4 8 1 4 8 3 2 4 8 1 4 8 3
+paves B 4 8 1 8 8 1 2 4 8 1 8 8 1
+paves B 4 8 3 8 8 3 2 4 8 3 8 8 3
+paves B 8 4 1 8 4 3 2 8 4 1 8 4 3
+paves B 8 4 1 8 8 1 2 8 4 1 8 8 1
+paves B 8 4 3 8 8 3 2 8 4 3 8 8 3
+paves B 8 8 1 8 8 3 2 8 8 1 8 8 3
+piece 3 4 4 4 1 4 4 3 1 1 1/4 1/32 3/4 1/32 0 0 1 0
+piece 5 2 4 4 3 4 4 1 1 1 1 3/128 1 1/128 0 1/32 0 0
+relation 0 0 disjoint 1 0 1
+relation 0 1 disjoint 0 0 9
+relation 0 2 transverse 0 4 0 1 0 0
+relation 0 3 transverse 0 8 0 1 0 0
+relation 0 4 transverse 4 0 0 0 1 0
+relation 0 5 transverse 8 0 0 0 1 0
+relation 1 0 disjoint 0 0 9
+relation 1 1 disjoint 1 0 1
+relation 1 2 transverse 0 4 4 1 0 0
+relation 1 3 transverse 0 8 4 1 0 0
+relation 1 4 transverse 4 0 4 0 1 0
+relation 1 5 transverse 8 0 4 0 1 0
+relation 2 0 transverse 0 0 1 1 0 0
+relation 2 1 transverse 0 0 3 1 0 0
+relation 2 2 disjoint 1 0 16
+relation 2 3 disjoint 0 0 64
+relation 2 4 transverse 4 0 0 0 0 1
+relation 2 5 transverse 8 0 0 0 0 1
+relation 3 0 transverse 0 4 1 1 0 0
+relation 3 1 transverse 0 4 3 1 0 0
+relation 3 2 opposite
+relation 3 3 disjoint 1 1 16
+relation 3 4 transverse 4 4 0 0 0 1
+relation 3 5 transverse 8 4 0 0 0 1
+relation 4 0 transverse 0 0 1 0 1 0
+relation 4 1 transverse 0 0 3 0 1 0
+relation 4 2 transverse 0 4 0 0 0 1
+relation 4 3 transverse 0 8 0 0 0 1
+relation 4 4 disjoint 1 0 16
+relation 4 5 disjoint 0 0 64
+relation 5 0 transverse 4 0 1 0 1 0
+relation 5 1 transverse 4 0 3 0 1 0
+relation 5 2 transverse 4 4 0 0 0 1
+relation 5 3 transverse 4 8 0 0 0 1
+relation 5 4 opposite
+relation 5 5 disjoint 1 1 16
+touch 3 0 4 4 1
+touch 3 1 4 4 3
+touch 5 0 4 4 1
+touch 5 1 4 4 3
+ve B 4 4 1 4 4 0 4 4 4
+ve B 4 4 3 4 4 0 4 4 4
+end
+config edge-on-edge-t-junction
+placement A 0 0 0 1 0 0 0 1 0 0 0 1
+placement B 0 0 0 1 0 0 0 1 0 0 0 1
+face A 0 0 0 0 0 4 0 0 0 -32 1 4 0 0 0 0 4 0 4 4 0 4 0 0
+face A 1 0 0 4 4 0 0 0 0 32 1 4 0 0 4 4 0 4 4 4 4 0 4 4
+face A 2 0 0 0 4 0 0 0 -32 0 1 4 0 0 0 4 0 0 4 0 4 0 0 4
+face A 3 0 4 0 0 0 4 0 32 0 1 4 0 4 0 0 4 4 4 4 4 4 4 0
+face A 4 0 0 0 0 0 4 -32 0 0 1 4 0 0 0 0 0 4 0 4 4 0 4 0
+face A 5 4 0 0 0 4 0 32 0 0 1 4 4 0 0 4 4 0 4 4 4 4 0 4
+face B 0 1 2 4 0 2 0 0 0 -8 1 4 1 2 4 1 4 4 3 4 4 3 2 4
+face B 1 1 2 6 2 0 0 0 0 8 1 4 1 2 6 3 2 6 3 4 6 1 4 6
+face B 2 1 2 4 2 0 0 0 -8 0 1 4 1 2 4 3 2 4 3 2 6 1 2 6
+face B 3 1 4 4 0 0 2 0 8 0 1 4 1 4 4 1 4 6 3 4 6 3 4 4
+face B 4 1 2 4 0 0 2 -8 0 0 1 4 1 2 4 1 2 6 1 4 6 1 4 4
+face B 5 3 2 4 0 2 0 8 0 0 1 4 3 2 4 3 4 4 3 4 6 3 2 6
+boxmeet 1 0
+boxmeet 1 2
+boxmeet 1 3
+boxmeet 1 4
+boxmeet 1 5
+boxmeet 3 0
+boxmeet 3 3
+boxmeet 3 4
+boxmeet 3 5
+frame R0
+paves A 0 0 0 0 0 4 2 0 0 0 0 0 4
+paves A 0 0 0 0 4 0 2 0 0 0 0 4 0
+paves A 0 0 0 4 0 0 2 0 0 0 4 0 0
+paves A 0 0 4 0 4 4 2 0 0 4 0 4 4
+paves A 0 0 4 4 0 4 2 0 0 4 4 0 4
+paves A 0 4 0 0 4 4 2 0 4 0 0 4 4
+paves A 0 4 0 4 4 0 2 0 4 0 4 4 0
+paves A 0 4 4 4 4 4 4 0 4 4 1 4 4 3 4 4 4 4 4
+paves A 4 0 0 4 0 4 2 4 0 0 4 0 4
+paves A 4 0 0 4 4 0 2 4 0 0 4 4 0
+paves A 4 0 4 4 4 4 2 4 0 4 4 4 4
+paves A 4 4 0 4 4 4 2 4 4 0 4 4 4
+paves B 1 2 4 1 2 6 2 1 2 4 1 2 6
+paves B 1 2 4 1 4 4 2 1 2 4 1 4 4
+paves B 1 2 4 3 2 4 2 1 2 4 3 2 4
+paves B 1 2 6 1 4 6 2 1 2 6 1 4 6
+paves B 1 2 6 3 2 6 2 1 2 6 3 2 6
+paves B 1 4 4 1 4 6 2 1 4 4 1 4 6
+paves B 1 4 4 3 4 4 2 1 4 4 3 4 4
+paves B 1 4 6 3 4 6 2 1 4 6 3 4 6
+paves B 3 2 4 3 2 6 2 3 2 4 3 2 6
+paves B 3 2 4 3 4 4 2 3 2 4 3 4 4
+paves B 3 2 6 3 4 6 2 3 2 6 3 4 6
+paves B 3 4 4 3 4 6 2 3 4 4 3 4 6
+piece 1 2 1 2 4 3 2 4 0 1 1/4 1/64 3/4 1/64 0 0 1 0
+piece 1 3 3 4 4 1 4 4 1 1 3/4 1/32 1/4 1/32 0 1/8 0 0
+piece 1 4 1 4 4 1 2 4 0 1 1/4 1/32 1/4 1/64 0 1/8 0 0
+piece 1 5 3 2 4 3 4 4 0 1 3/4 1/64 3/4 1/32 0 0 1 0
+piece 3 0 3 4 4 1 4 4 1 1 1 3/128 1 1/128 1 1/8 1 0
+relation 0 0 disjoint 1 0 16
+relation 0 1 disjoint 0 0 36
+relation 0 2 transverse 0 2 0 1 0 0
+relation 0 3 transverse 0 4 0 1 0 0
+relation 0 4 transverse 1 0 0 0 1 0
+relation 0 5 transverse 3 0 0 0 1 0
+relation 1 0 opposite
+relation 1 1 disjoint 1 1 4
+relation 1 2 transverse 0 2 4 1 0 0
+relation 1 3 transverse 0 4 4 1 0 0
+relation 1 4 transverse 1 0 4 0 1 0
+relation 1 5 transverse 3 0 4 0 1 0
+relation 2 0 transverse 0 0 4 1 0 0
+relation 2 1 transverse 0 0 6 1 0 0
+relation 2 2 disjoint 1 0 4
+relation 2 3 disjoint 0 0 16
+relation 2 4 transverse 1 0 0 0 0 1
+relation 2 5 transverse 3 0 0 0 0 1
+relation 3 0 transverse 0 4 4 1 0 0
+relation 3 1 transverse 0 4 6 1 0 0
+relation 3 2 disjoint 0 0 4
+relation 3 3 identical
+relation 3 4 transverse 1 4 0 0 0 1
+relation 3 5 transverse 3 4 0 0 0 1
+relation 4 0 transverse 0 0 4 0 1 0
+relation 4 1 transverse 0 0 6 0 1 0
+relation 4 2 transverse 0 2 0 0 0 1
+relation 4 3 transverse 0 4 0 0 0 1
+relation 4 4 disjoint 1 0 1
+relation 4 5 disjoint 0 0 9
+relation 5 0 transverse 4 0 4 0 1 0
+relation 5 1 transverse 4 0 6 0 1 0
+relation 5 2 transverse 4 2 0 0 0 1
+relation 5 3 transverse 4 4 0 0 0 1
+relation 5 4 disjoint 0 0 9
+relation 5 5 disjoint 1 0 1
+touch 3 4 1 4 4
+touch 3 5 3 4 4
+ve B 1 4 4 0 4 4 4 4 4
+ve B 3 4 4 0 4 4 4 4 4
+vf B 1 2 4 1
+vf B 3 2 4 1
+end
+config edge-crossing-edge-penetrating
+placement A 0 0 0 1 0 0 0 1 0 0 0 1
+placement B 0 0 0 1 0 0 0 1 0 0 0 1
+face A 0 0 0 0 0 4 0 0 0 -32 1 4 0 0 0 0 4 0 4 4 0 4 0 0
+face A 1 0 0 4 4 0 0 0 0 32 1 4 0 0 4 4 0 4 4 4 4 0 4 4
+face A 2 0 0 0 4 0 0 0 -32 0 1 4 0 0 0 4 0 0 4 0 4 0 0 4
+face A 3 0 4 0 0 0 4 0 32 0 1 4 0 4 0 0 4 4 4 4 4 4 4 0
+face A 4 0 0 0 0 0 4 -32 0 0 1 4 0 0 0 0 0 4 0 4 4 0 4 0
+face A 5 4 0 0 0 4 0 32 0 0 1 4 4 0 0 4 4 0 4 4 4 4 0 4
+face B 0 0 -2 7 2 3 -4 -2 -4 -4 1 3 0 -2 7 2 1 3 2 -1 5
+face B 1 2 -1 5 0 2 -2 2 -4 -4 1 3 2 -1 5 2 1 3 4 -2 7
+face B 2 4 -2 7 -4 0 0 0 -8 -4 1 3 4 -2 7 0 -2 7 2 -1 5
+face B 3 2 1 3 -2 -3 4 0 16 12 1 3 2 1 3 0 -2 7 4 -2 7
+boxmeet 1 0
+boxmeet 1 1
+boxmeet 1 3
+boxmeet 2 0
+boxmeet 2 1
+boxmeet 2 3
+boxmeet 4 0
+boxmeet 4 3
+boxmeet 5 1
+boxmeet 5 3
+ee 2 0 4 0 0 4 4 0 4 2 -1 5 2 1 3
+ef B 0 -2 7 2 1 3 1 3/2 1/4 4
+ef B 2 1 3 4 -2 7 1 5/2 1/4 4
+frame R0
+paves A 0 0 0 0 0 4 2 0 0 0 0 0 4
+paves A 0 0 0 0 4 0 2 0 0 0 0 4 0
+paves A 0 0 0 4 0 0 2 0 0 0 4 0 0
+paves A 0 0 4 0 4 4 2 0 0 4 0 4 4
+paves A 0 0 4 4 0 4 3 0 0 4 2 0 4 4 0 4
+paves A 0 4 0 0 4 4 2 0 4 0 0 4 4
+paves A 0 4 0 4 4 0 2 0 4 0 4 4 0
+paves A 0 4 4 4 4 4 2 0 4 4 4 4 4
+paves A 4 0 0 4 0 4 2 4 0 0 4 0 4
+paves A 4 0 0 4 4 0 2 4 0 0 4 4 0
+paves A 4 0 4 4 4 4 2 4 0 4 4 4 4
+paves A 4 4 0 4 4 4 2 4 4 0 4 4 4
+paves B 0 -2 7 2 -1 5 2 0 -2 7 2 -1 5
+paves B 0 -2 7 2 1 3 3 0 -2 7 3/2 1/4 4 2 1 3
+paves B 0 -2 7 4 -2 7 2 0 -2 7 4 -2 7
+paves B 2 -1 5 2 1 3 3 2 -1 5 2 0 4 2 1 3
+paves B 2 -1 5 4 -2 7 2 2 -1 5 4 -2 7
+paves B 2 1 3 4 -2 7 3 2 1 3 5/2 1/4 4 4 -2 7
+piece 1 0 3/2 1/4 4 2 0 4 0 0 3/8 1/512 1/2 0 3/4 0 22/29 1/58
+piece 1 1 2 0 4 5/2 1/4 4 0 0 1/2 0 5/8 1/512 1/2 0 9/16 1/32
+piece 1 3 5/2 1/4 4 3/2 1/4 4 0 0 5/8 1/512 3/8 1/512 21/116 1/116 1/4 0
+relation 0 0 transverse 0 5 0 1 -1/2 0
+relation 0 1 transverse 0 3 0 1 1/2 0
+relation 0 2 transverse 0 3/2 0 1 0 0
+relation 0 3 transverse 0 13/4 0 1 0 0
+relation 1 0 transverse 0 1 4 1 -1/2 0
+relation 1 1 transverse 0 -1 4 1 1/2 0
+relation 1 2 transverse 0 -1/2 4 1 0 0
+relation 1 3 transverse 0 1/4 4 1 0 0
+relation 2 0 transverse 0 0 5 1 0 -1/2
+relation 2 1 transverse 0 0 3 1 0 1/2
+relation 2 2 transverse 0 0 3 1 0 0
+relation 2 3 transverse 0 0 13/3 1 0 0
+relation 3 0 transverse 0 4 1 1 0 -1/2
+relation 3 1 transverse 0 4 -1 1 0 1/2
+relation 3 2 transverse 0 4 -5 1 0 0
+relation 3 3 transverse 0 4 -1 1 0 0
+relation 4 0 transverse 0 0 5 0 1 -1
+relation 4 1 transverse 0 0 3 0 1 -1
+relation 4 2 transverse 0 0 3 0 1 -2
+relation 4 3 transverse 0 0 13/3 0 1 -4/3
+relation 5 0 transverse 4 0 3 0 1 -1
+relation 5 1 transverse 4 0 5 0 1 -1
+relation 5 2 transverse 4 0 3 0 1 -2
+relation 5 3 transverse 4 0 13/3 0 1 -4/3
+touch 2 0 2 0 4
+touch 2 1 2 0 4
+end
+config rod-through
+placement A 0 0 0 1 0 0 0 1 0 0 0 1
+placement B 0 0 0 1 0 0 0 1 0 0 0 1
+face A 0 0 0 0 0 4 0 0 0 -32 1 4 0 0 0 0 4 0 4 4 0 4 0 0
+face A 1 0 0 4 4 0 0 0 0 32 1 4 0 0 4 4 0 4 4 4 4 0 4 4
+face A 2 0 0 0 4 0 0 0 -32 0 1 4 0 0 0 4 0 0 4 0 4 0 0 4
+face A 3 0 4 0 0 0 4 0 32 0 1 4 0 4 0 0 4 4 4 4 4 4 4 0
+face A 4 0 0 0 0 0 4 -32 0 0 1 4 0 0 0 0 0 4 0 4 4 0 4 0
+face A 5 4 0 0 0 4 0 32 0 0 1 4 4 0 0 4 4 0 4 4 4 4 0 4
+face B 0 1 1 -2 0 2 0 0 0 -8 1 4 1 1 -2 1 3 -2 3 3 -2 3 1 -2
+face B 1 1 1 6 2 0 0 0 0 8 1 4 1 1 6 3 1 6 3 3 6 1 3 6
+face B 2 1 1 -2 2 0 0 0 -32 0 1 4 1 1 -2 3 1 -2 3 1 6 1 1 6
+face B 3 1 3 -2 0 0 8 0 32 0 1 4 1 3 -2 1 3 6 3 3 6 3 3 -2
+face B 4 1 1 -2 0 0 8 -32 0 0 1 4 1 1 -2 1 1 6 1 3 6 1 3 -2
+face B 5 3 1 -2 0 2 0 32 0 0 1 4 3 1 -2 3 3 -2 3 3 6 3 1 6
+boxmeet 0 2
+boxmeet 0 3
+boxmeet 0 4
+boxmeet 0 5
+boxmeet 1 2
+boxmeet 1 3
+boxmeet 1 4
+boxmeet 1 5
+ef B 1 1 -2 1 1 6 0 1 1 0
+ef B 1 1 -2 1 1 6 1 1 1 4
+ef B 1 3 -2 1 3 6 0 1 3 0
+ef B 1 3 -2 1 3 6 1 1 3 4
+ef B 3 1 -2 3 1 6 0 3 1 0
+ef B 3 1 -2 3 1 6 1 3 1 4
+ef B 3 3 -2 3 3 6 0 3 3 0
+ef B 3 3 -2 3 3 6 1 3 3 4
+frame R0
+paves A 0 0 0 0 0 4 2 0 0 0 0 0 4
+paves A 0 0 0 0 4 0 2 0 0 0 0 4 0
+paves A 0 0 0 4 0 0 2 0 0 0 4 0 0
+paves A 0 0 4 0 4 4 2 0 0 4 0 4 4
+paves A 0 0 4 4 0 4 2 0 0 4 4 0 4
+paves A 0 4 0 0 4 4 2 0 4 0 0 4 4
+paves A 0 4 0 4 4 0 2 0 4 0 4 4 0
+paves A 0 4 4 4 4 4 2 0 4 4 4 4 4
+paves A 4 0 0 4 0 4 2 4 0 0 4 0 4
+paves A 4 0 0 4 4 0 2 4 0 0 4 4 0
+paves A 4 0 4 4 4 4 2 4 0 4 4 4 4
+paves A 4 4 0 4 4 4 2 4 4 0 4 4 4
+paves B 1 1 -2 1 1 6 4 1 1 -2 1 1 0 1 1 4 1 1 6
+paves B 1 1 -2 1 3 -2 2 1 1 -2 1 3 -2
+paves B 1 1 -2 3 1 -2 2 1 1 -2 3 1 -2
+paves B 1 1 6 1 3 6 2 1 1 6 1 3 6
+paves B 1 1 6 3 1 6 2 1 1 6 3 1 6
+paves B 1 3 -2 1 3 6 4 1 3 -2 1 3 0 1 3 4 1 3 6
+paves B 1 3 -2 3 3 -2 2 1 3 -2 3 3 -2
+paves B 1 3 6 3 3 6 2 1 3 6 3 3 6
+paves B 3 1 -2 3 1 6 4 3 1 -2 3 1 0 3 1 4 3 1 6
+paves B 3 1 -2 3 3 -2 2 3 1 -2 3 3 -2
+paves B 3 1 6 3 3 6 2 3 1 6 3 3 6
+paves B 3 3 -2 3 3 6 4 3 3 -2 3 3 0 3 3 4 3 3 6
+piece 0 2 3 1 0 1 1 0 0 0 1/4 3/128 1/4 1/128 1 1/32 0 1/32
+piece 0 3 1 3 0 3 3 0 0 0 3/4 1/128 3/4 3/128 1/4 0 1/4 1/128
+piece 0 4 1 1 0 1 3 0 0 0 1/4 1/128 3/4 1/128 1/4 0 1/4 1/128
+piece 0 5 3 3 0 3 1 0 0 0 3/4 3/128 1/4 3/128 1 1/32 0 1/32
+piece 1 2 1 1 4 3 1 4 0 0 1/4 1/128 3/4 1/128 0 3/32 1 3/32
+piece 1 3 3 3 4 1 3 4 0 0 3/4 3/128 1/4 3/128 3/4 1/128 3/4 0
+piece 1 4 1 3 4 1 1 4 0 0 1/4 3/128 1/4 1/128 3/4 1/128 3/4 0
+piece 1 5 3 1 4 3 3 4 0 0 3/4 1/128 3/4 3/128 0 3/32 1 3/32
+relation 0 0 disjoint 1 1 4
+relation 0 1 disjoint 0 0 36
+relation 0 2 transverse 0 1 0 1 0 0
+relation 0 3 transverse 0 3 0 1 0 0
+relation 0 4 transverse 1 0 0 0 1 0
+relation 0 5 transverse 3 0 0 0 1 0
+relation 1 0 disjoint 0 0 36
+relation 1 1 disjoint 1 1 4
+relation 1 2 transverse 0 1 4 1 0 0
+relation 1 3 transverse 0 3 4 1 0 0
+relation 1 4 transverse 1 0 4 0 1 0
+relation 1 5 transverse 3 0 4 0 1 0
+relation 2 0 transverse 0 0 -2 1 0 0
+relation 2 1 transverse 0 0 6 1 0 0
+relation 2 2 disjoint 1 0 1
+relation 2 3 disjoint 0 0 9
+relation 2 4 transverse 1 0 0 0 0 1
+relation 2 5 transverse 3 0 0 0 0 1
+relation 3 0 transverse 0 4 -2 1 0 0
+relation 3 1 transverse 0 4 6 1 0 0
+relation 3 2 disjoint 0 0 9
+relation 3 3 disjoint 1 0 1
+relation 3 4 transverse 1 4 0 0 0 1
+relation 3 5 transverse 3 4 0 0 0 1
+relation 4 0 transverse 0 0 -2 0 1 0
+relation 4 1 transverse 0 0 6 0 1 0
+relation 4 2 transverse 0 1 0 0 0 1
+relation 4 3 transverse 0 3 0 0 0 1
+relation 4 4 disjoint 1 0 1
+relation 4 5 disjoint 0 0 9
+relation 5 0 transverse 4 0 -2 0 1 0
+relation 5 1 transverse 4 0 6 0 1 0
+relation 5 2 transverse 4 1 0 0 0 1
+relation 5 3 transverse 4 3 0 0 0 1
+relation 5 4 disjoint 0 0 9
+relation 5 5 disjoint 1 0 1
+end
+config rod-through-r3
+placement A 0 0 0 1 0 0 0 1 0 0 0 1
+placement B 0 0 0 2 0 0 1 1 0 0 0 1/2
+face A 0 0 0 0 0 4 0 0 0 -32 1 4 0 0 0 0 4 0 4 4 0 4 0 0
+face A 1 0 0 4 4 0 0 0 0 32 1 4 0 0 4 4 0 4 4 4 4 0 4 4
+face A 2 0 0 0 4 0 0 0 -32 0 1 4 0 0 0 4 0 0 4 0 4 0 0 4
+face A 3 0 4 0 0 0 4 0 32 0 1 4 0 4 0 0 4 4 4 4 4 4 4 0
+face A 4 0 0 0 0 0 4 -32 0 0 1 4 0 0 0 0 0 4 0 4 4 0 4 0
+face A 5 4 0 0 0 4 0 32 0 0 1 4 4 0 0 4 4 0 4 4 4 4 0 4
+face B 0 0 1 -4 -1 2 0 0 0 -4 1 4 0 1 -4 -1 3 -4 0 3 -4 1 1 -4
+face B 1 0 1 12 1 0 0 0 0 4 1 4 0 1 12 1 1 12 0 3 12 -1 3 12
+face B 2 0 1 -4 1 0 0 0 -32 0 1 4 0 1 -4 1 1 -4 1 1 12 0 1 12
+face B 3 -1 3 -4 0 0 16 0 32 0 1 4 -1 3 -4 -1 3 12 0 3 12 0 3 -4
+face B 4 0 1 -4 0 0 16 -64 -32 0 1 4 0 1 -4 0 1 12 -1 3 12 -1 3 -4
+face B 5 1 1 -4 -1 2 0 64 32 0 1 4 1 1 -4 0 3 -4 0 3 12 1 1 12
+boxmeet 0 2
+boxmeet 0 3
+boxmeet 0 4
+boxmeet 0 5
+boxmeet 1 2
+boxmeet 1 3
+boxmeet 1 4
+boxmeet 1 5
+ef B 1 1 -2 1 1 6 0 1 1 0
+ef B 1 1 -2 1 1 6 1 1 1 4
+ef B 1 3 -2 1 3 6 0 1 3 0
+ef B 1 3 -2 1 3 6 1 1 3 4
+ef B 3 1 -2 3 1 6 0 3 1 0
+ef B 3 1 -2 3 1 6 1 3 1 4
+ef B 3 3 -2 3 3 6 0 3 3 0
+ef B 3 3 -2 3 3 6 1 3 3 4
+frame R3
+paves A 0 0 0 0 0 4 2 0 0 0 0 0 4
+paves A 0 0 0 0 4 0 2 0 0 0 0 4 0
+paves A 0 0 0 4 0 0 2 0 0 0 4 0 0
+paves A 0 0 4 0 4 4 2 0 0 4 0 4 4
+paves A 0 0 4 4 0 4 2 0 0 4 4 0 4
+paves A 0 4 0 0 4 4 2 0 4 0 0 4 4
+paves A 0 4 0 4 4 0 2 0 4 0 4 4 0
+paves A 0 4 4 4 4 4 2 0 4 4 4 4 4
+paves A 4 0 0 4 0 4 2 4 0 0 4 0 4
+paves A 4 0 0 4 4 0 2 4 0 0 4 4 0
+paves A 4 0 4 4 4 4 2 4 0 4 4 4 4
+paves A 4 4 0 4 4 4 2 4 4 0 4 4 4
+paves B 1 1 -2 1 1 6 4 1 1 -2 1 1 0 1 1 4 1 1 6
+paves B 1 1 -2 1 3 -2 2 1 1 -2 1 3 -2
+paves B 1 1 -2 3 1 -2 2 1 1 -2 3 1 -2
+paves B 1 1 6 1 3 6 2 1 1 6 1 3 6
+paves B 1 1 6 3 1 6 2 1 1 6 3 1 6
+paves B 1 3 -2 1 3 6 4 1 3 -2 1 3 0 1 3 4 1 3 6
+paves B 1 3 -2 3 3 -2 2 1 3 -2 3 3 -2
+paves B 1 3 6 3 3 6 2 1 3 6 3 3 6
+paves B 3 1 -2 3 1 6 4 3 1 -2 3 1 0 3 1 4 3 1 6
+paves B 3 1 -2 3 3 -2 2 3 1 -2 3 3 -2
+paves B 3 1 6 3 3 6 2 3 1 6 3 3 6
+paves B 3 3 -2 3 3 6 4 3 3 -2 3 3 0 3 3 4 3 3 6
+piece 0 2 3 1 0 1 1 0 0 0 1/4 3/128 1/4 1/128 1 1/8 0 1/8
+piece 0 3 1 3 0 3 3 0 0 0 3/4 1/128 3/4 3/128 1/4 0 1/4 1/512
+piece 0 4 1 1 0 1 3 0 0 0 1/4 1/128 3/4 1/128 1/4 0 1/4 1/512
+piece 0 5 3 3 0 3 1 0 0 0 3/4 3/128 1/4 3/128 1 1/40 0 1/40
+piece 1 2 1 1 4 3 1 4 0 0 1/4 1/128 3/4 1/128 0 3/8 1 3/8
+piece 1 3 3 3 4 1 3 4 0 0 3/4 3/128 1/4 3/128 3/4 1/512 3/4 0
+piece 1 4 1 3 4 1 1 4 0 0 1/4 3/128 1/4 1/128 3/4 1/512 3/4 0
+piece 1 5 3 1 4 3 3 4 0 0 3/4 1/128 3/4 3/128 0 3/40 1 3/40
+relation 0 0 disjoint 1 1 4
+relation 0 1 disjoint 0 0 36
+relation 0 2 transverse 0 1 0 1 0 0
+relation 0 3 transverse 0 3 0 1 0 0
+relation 0 4 transverse 1 0 0 0 1 0
+relation 0 5 transverse 3 0 0 0 1 0
+relation 1 0 disjoint 0 0 36
+relation 1 1 disjoint 1 1 4
+relation 1 2 transverse 0 1 4 1 0 0
+relation 1 3 transverse 0 3 4 1 0 0
+relation 1 4 transverse 1 0 4 0 1 0
+relation 1 5 transverse 3 0 4 0 1 0
+relation 2 0 transverse 0 0 -2 1 0 0
+relation 2 1 transverse 0 0 6 1 0 0
+relation 2 2 disjoint 1 0 1
+relation 2 3 disjoint 0 0 9
+relation 2 4 transverse 1 0 0 0 0 1
+relation 2 5 transverse 3 0 0 0 0 1
+relation 3 0 transverse 0 4 -2 1 0 0
+relation 3 1 transverse 0 4 6 1 0 0
+relation 3 2 disjoint 0 0 9
+relation 3 3 disjoint 1 0 1
+relation 3 4 transverse 1 4 0 0 0 1
+relation 3 5 transverse 3 4 0 0 0 1
+relation 4 0 transverse 0 0 -2 0 1 0
+relation 4 1 transverse 0 0 6 0 1 0
+relation 4 2 transverse 0 1 0 0 0 1
+relation 4 3 transverse 0 3 0 0 0 1
+relation 4 4 disjoint 1 0 1
+relation 4 5 disjoint 0 0 9
+relation 5 0 transverse 4 0 -2 0 1 0
+relation 5 1 transverse 4 0 6 0 1 0
+relation 5 2 transverse 4 1 0 0 0 1
+relation 5 3 transverse 4 3 0 0 0 1
+relation 5 4 disjoint 0 0 9
+relation 5 5 disjoint 1 0 1
+end
+config cross-bars-coplanar-crossings
+placement A 0 0 0 1 0 0 0 1 0 0 0 1
+placement B 0 0 0 1 0 0 0 1 0 0 0 1
+face A 0 -4 -1 -1 0 2 0 0 0 -32 1 4 -4 -1 -1 -4 1 -1 4 1 -1 4 -1 -1
+face A 1 -4 -1 1 8 0 0 0 0 32 1 4 -4 -1 1 4 -1 1 4 1 1 -4 1 1
+face A 2 -4 -1 -1 8 0 0 0 -32 0 1 4 -4 -1 -1 4 -1 -1 4 -1 1 -4 -1 1
+face A 3 -4 1 -1 0 0 2 0 32 0 1 4 -4 1 -1 -4 1 1 4 1 1 4 1 -1
+face A 4 -4 -1 -1 0 0 2 -8 0 0 1 4 -4 -1 -1 -4 -1 1 -4 1 1 -4 1 -1
+face A 5 4 -1 -1 0 2 0 8 0 0 1 4 4 -1 -1 4 1 -1 4 1 1 4 -1 1
+face B 0 -1 -4 -1 0 8 0 0 0 -32 1 4 -1 -4 -1 -1 4 -1 1 4 -1 1 -4 -1
+face B 1 -1 -4 1 2 0 0 0 0 32 1 4 -1 -4 1 1 -4 1 1 4 1 -1 4 1
+face B 2 -1 -4 -1 2 0 0 0 -8 0 1 4 -1 -4 -1 1 -4 -1 1 -4 1 -1 -4 1
+face B 3 -1 4 -1 0 0 2 0 8 0 1 4 -1 4 -1 -1 4 1 1 4 1 1 4 -1
+face B 4 -1 -4 -1 0 0 2 -32 0 0 1 4 -1 -4 -1 -1 -4 1 -1 4 1 -1 4 -1
+face B 5 1 -4 -1 0 8 0 32 0 0 1 4 1 -4 -1 1 4 -1 1 4 1 1 -4 1
+boxmeet 0 0
+boxmeet 0 4
+boxmeet 0 5
+boxmeet 1 1
+boxmeet 1 4
+boxmeet 1 5
+boxmeet 2 0
+boxmeet 2 1
+boxmeet 2 4
+boxmeet 2 5
+boxmeet 3 0
+boxmeet 3 1
+boxmeet 3 4
+boxmeet 3 5
+ee -1 -1 -1 -4 -1 -1 4 -1 -1 -1 -4 -1 -1 4 -1
+ee -1 -1 1 -4 -1 1 4 -1 1 -1 -4 1 -1 4 1
+ee -1 1 -1 -4 1 -1 4 1 -1 -1 -4 -1 -1 4 -1
+ee -1 1 1 -4 1 1 4 1 1 -1 -4 1 -1 4 1
+ee 1 -1 -1 -4 -1 -1 4 -1 -1 1 -4 -1 1 4 -1
+ee 1 -1 1 -4 -1 1 4 -1 1 1 -4 1 1 4 1
+ee 1 1 -1 -4 1 -1 4 1 -1 1 -4 -1 1 4 -1
+ee 1 1 1 -4 1 1 4 1 1 1 -4 1 1 4 1
+frame R0
+paves A -4 -1 -1 -4 -1 1 2 -4 -1 -1 -4 -1 1
+paves A -4 -1 -1 -4 1 -1 2 -4 -1 -1 -4 1 -1
+paves A -4 -1 -1 4 -1 -1 4 -4 -1 -1 -1 -1 -1 1 -1 -1 4 -1 -1
+paves A -4 -1 1 -4 1 1 2 -4 -1 1 -4 1 1
+paves A -4 -1 1 4 -1 1 4 -4 -1 1 -1 -1 1 1 -1 1 4 -1 1
+paves A -4 1 -1 -4 1 1 2 -4 1 -1 -4 1 1
+paves A -4 1 -1 4 1 -1 4 -4 1 -1 -1 1 -1 1 1 -1 4 1 -1
+paves A -4 1 1 4 1 1 4 -4 1 1 -1 1 1 1 1 1 4 1 1
+paves A 4 -1 -1 4 -1 1 2 4 -1 -1 4 -1 1
+paves A 4 -1 -1 4 1 -1 2 4 -1 -1 4 1 -1
+paves A 4 -1 1 4 1 1 2 4 -1 1 4 1 1
+paves A 4 1 -1 4 1 1 2 4 1 -1 4 1 1
+paves B -1 -4 -1 -1 -4 1 2 -1 -4 -1 -1 -4 1
+paves B -1 -4 -1 -1 4 -1 4 -1 -4 -1 -1 -1 -1 -1 1 -1 -1 4 -1
+paves B -1 -4 -1 1 -4 -1 2 -1 -4 -1 1 -4 -1
+paves B -1 -4 1 -1 4 1 4 -1 -4 1 -1 -1 1 -1 1 1 -1 4 1
+paves B -1 -4 1 1 -4 1 2 -1 -4 1 1 -4 1
+paves B -1 4 -1 -1 4 1 2 -1 4 -1 -1 4 1
+paves B -1 4 -1 1 4 -1 2 -1 4 -1 1 4 -1
+paves B -1 4 1 1 4 1 2 -1 4 1 1 4 1
+paves B 1 -4 -1 1 -4 1 2 1 -4 -1 1 -4 1
+paves B 1 -4 -1 1 4 -1 4 1 -4 -1 1 -1 -1 1 1 -1 1 4 -1
+paves B 1 -4 1 1 4 1 4 1 -4 1 1 -1 1 1 1 1 1 4 1
+paves B 1 4 -1 1 4 1 2 1 4 -1 1 4 1
+piece 0 4 -1 -1 -1 -1 1 -1 0 1 0 3/64 1 3/64 0 3/64 0 5/64
+piece 0 5 1 1 -1 1 -1 -1 0 1 1 5/64 0 5/64 5/8 0 3/8 0
+piece 1 4 -1 1 1 -1 -1 1 0 1 3/8 1/128 3/8 0 1 5/64 1 3/64
+piece 1 5 1 -1 1 1 1 1 0 1 5/8 0 5/8 1/128 3/8 1/128 5/8 1/128
+piece 2 0 -1 -1 -1 1 -1 -1 1 0 3/8 0 5/8 0 3/8 0 3/8 1/128
+piece 2 1 1 -1 1 -1 -1 1 1 0 5/8 1/128 3/8 1/128 1 3/64 0 3/64
+piece 2 4 -1 -1 1 -1 -1 -1 0 0 3/8 1/128 3/8 0 1 3/64 0 3/64
+piece 2 5 1 -1 -1 1 -1 1 0 0 5/8 0 5/8 1/128 3/8 0 3/8 1/128
+piece 3 0 1 1 -1 -1 1 -1 1 0 0 5/64 0 3/64 5/8 1/128 5/8 0
+piece 3 1 -1 1 1 1 1 1 1 0 1 3/64 1 5/64 0 5/64 1 5/64
+piece 3 4 -1 1 -1 -1 1 1 0 0 0 3/64 1 3/64 0 5/64 1 5/64
+piece 3 5 1 1 1 1 1 -1 0 0 1 5/64 0 5/64 5/8 1/128 5/8 0
+relation 0 0 identical
+relation 0 1 disjoint 0 0 4
+relation 0 2 transverse 0 -4 -1 1 0 0
+relation 0 3 transverse 0 4 -1 1 0 0
+relation 0 4 transverse -1 0 -1 0 1 0
+relation 0 5 transverse 1 0 -1 0 1 0
+relation 1 0 disjoint 0 0 4
+relation 1 1 identical
+relation 1 2 transverse 0 -4 1 1 0 0
+relation 1 3 transverse 0 4 1 1 0 0
+relation 1 4 transverse -1 0 1 0 1 0
+relation 1 5 transverse 1 0 1 0 1 0
+relation 2 0 transverse 0 -1 -1 1 0 0
+relation 2 1 transverse 0 -1 1 1 0 0
+relation 2 2 disjoint 1 1 9
+relation 2 3 disjoint 0 0 25
+relation 2 4 transverse -1 -1 0 0 0 1
+relation 2 5 transverse 1 -1 0 0 0 1
+relation 3 0 transverse 0 1 -1 1 0 0
+relation 3 1 transverse 0 1 1 1 0 0
+relation 3 2 disjoint 0 0 25
+relation 3 3 disjoint 1 1 9
+relation 3 4 transverse -1 1 0 0 0 1
+relation 3 5 transverse 1 1 0 0 0 1
+relation 4 0 transverse -4 0 -1 0 1 0
+relation 4 1 transverse -4 0 1 0 1 0
+relation 4 2 transverse -4 -4 0 0 0 1
+relation 4 3 transverse -4 4 0 0 0 1
+relation 4 4 disjoint 1 0 9
+relation 4 5 disjoint 0 0 25
+relation 5 0 transverse 4 0 -1 0 1 0
+relation 5 1 transverse 4 0 1 0 1 0
+relation 5 2 transverse 4 -4 0 0 0 1
+relation 5 3 transverse 4 4 0 0 0 1
+relation 5 4 disjoint 0 0 25
+relation 5 5 disjoint 1 0 9
+end
+config rotated-generic
+placement A 0 0 0 1 0 0 0 1 0 0 0 1
+placement B 0 0 0 1 0 0 0 1 0 0 0 1
+face A 0 0 0 0 -16/5 12/5 0 0 0 -32 1 4 0 0 0 -16/5 12/5 0 -4/5 28/5 0 12/5 16/5 0
+face A 1 0 0 4 12/5 16/5 0 0 0 32 1 4 0 0 4 12/5 16/5 4 -4/5 28/5 4 -16/5 12/5 4
+face A 2 0 0 0 12/5 16/5 0 128/5 -96/5 0 1 4 0 0 0 12/5 16/5 0 12/5 16/5 4 0 0 4
+face A 3 -16/5 12/5 0 0 0 4 -128/5 96/5 0 1 4 -16/5 12/5 0 -16/5 12/5 4 -4/5 28/5 4 -4/5 28/5 0
+face A 4 0 0 0 0 0 4 -96/5 -128/5 0 1 4 0 0 0 0 0 4 -16/5 12/5 4 -16/5 12/5 0
+face A 5 12/5 16/5 0 -16/5 12/5 0 96/5 128/5 0 1 4 12/5 16/5 0 -4/5 28/5 0 -4/5 28/5 4 12/5 16/5 4
+face B 0 1 1 1 0 2 0 0 0 -8 1 4 1 1 1 1 3 1 3 3 1 3 1 1
+face B 1 1 1 5 2 0 0 0 0 8 1 4 1 1 5 3 1 5 3 3 5 1 3 5
+face B 2 1 1 1 2 0 0 0 -16 0 1 4 1 1 1 3 1 1 3 1 5 1 1 5
+face B 3 1 3 1 0 0 4 0 16 0 1 4 1 3 1 1 3 5 3 3 5 3 3 1
+face B 4 1 1 1 0 0 4 -16 0 0 1 4 1 1 1 1 1 5 1 3 5 1 3 1
+face B 5 3 1 1 0 2 0 16 0 0 1 4 3 1 1 3 3 1 3 3 5 3 1 5
+boxmeet 1 2
+boxmeet 1 3
+boxmeet 1 4
+boxmeet 2 0
+boxmeet 2 2
+boxmeet 2 3
+boxmeet 2 4
+ef A 0 0 4 12/5 16/5 4 3 9/4 3 4
+ef A 0 0 4 12/5 16/5 4 4 1 4/3 4
+ef B 1 1 1 1 3 1 2 1 4/3 1
+ef B 1 3 1 1 3 5 1 1 3 4
+ef B 1 3 1 3 3 1 2 9/4 3 1
+frame R0
+paves A -16/5 12/5 0 -16/5 12/5 4 2 -16/5 12/5 0 -16/5 12/5 4
+paves A -16/5 12/5 0 -4/5 28/5 0 2 -16/5 12/5 0 -4/5 28/5 0
+paves A -16/5 12/5 0 0 0 0 2 -16/5 12/5 0 0 0 0
+paves A -16/5 12/5 4 -4/5 28/5 4 2 -16/5 12/5 4 -4/5 28/5 4
+paves A -16/5 12/5 4 0 0 4 2 -16/5 12/5 4 0 0 4
+paves A -4/5 28/5 0 -4/5 28/5 4 2 -4/5 28/5 0 -4/5 28/5 4
+paves A -4/5 28/5 0 12/5 16/5 0 2 -4/5 28/5 0 12/5 16/5 0
+paves A -4/5 28/5 4 12/5 16/5 4 2 -4/5 28/5 4 12/5 16/5 4
+paves A 0 0 0 0 0 4 2 0 0 0 0 0 4
+paves A 0 0 0 12/5 16/5 0 2 0 0 0 12/5 16/5 0
+paves A 0 0 4 12/5 16/5 4 4 0 0 4 1 4/3 4 9/4 3 4 12/5 16/5 4
+paves A 12/5 16/5 0 12/5 16/5 4 2 12/5 16/5 0 12/5 16/5 4
+paves B 1 1 1 1 1 5 2 1 1 1 1 1 5
+paves B 1 1 1 1 3 1 3 1 1 1 1 4/3 1 1 3 1
+paves B 1 1 1 3 1 1 2 1 1 1 3 1 1
+paves B 1 1 5 1 3 5 2 1 1 5 1 3 5
+paves B 1 1 5 3 1 5 2 1 1 5 3 1 5
+paves B 1 3 1 1 3 5 3 1 3 1 1 3 4 1 3 5
+paves B 1 3 1 3 3 1 3 1 3 1 9/4 3 1 3 3 1
+paves B 1 3 5 3 3 5 2 1 3 5 3 3 5
+paves B 3 1 1 3 1 5 2 3 1 1 3 1 5
+paves B 3 1 1 3 3 1 2 3 1 1 3 3 1
+paves B 3 1 5 3 3 5 2 3 1 5 3 3 5
+paves B 3 3 1 3 3 5 2 3 3 1 3 3 5
+piece 1 3 9/4 3 4 1 3 4 0 0 15/16 0 3/4 1/128 3/4 5/256 3/4 0
+piece 1 4 1 3 4 1 4/3 4 0 0 3/4 1/128 5/12 0 3/4 1/32 3/4 1/192
+piece 2 0 1 4/3 1 9/4 3 1 0 0 5/12 1/128 15/16 1/128 1/6 0 1 5/64
+piece 2 3 9/4 3 1 9/4 3 4 0 0 15/16 1/128 15/16 1/32 0 5/256 3/4 5/256
+piece 2 4 1 4/3 4 1 4/3 1 0 0 5/12 1/32 5/12 1/128 3/4 1/192 0 1/192
+relation 0 0 disjoint 1 0 1
+relation 0 1 disjoint 0 0 25
+relation 0 2 transverse 0 1 0 1 0 0
+relation 0 3 transverse 0 3 0 1 0 0
+relation 0 4 transverse 1 0 0 0 1 0
+relation 0 5 transverse 3 0 0 0 1 0
+relation 1 0 disjoint 0 0 9
+relation 1 1 disjoint 1 1 1
+relation 1 2 transverse 0 1 4 1 0 0
+relation 1 3 transverse 0 3 4 1 0 0
+relation 1 4 transverse 1 0 4 0 1 0
+relation 1 5 transverse 3 0 4 0 1 0
+relation 2 0 transverse 0 0 1 1 4/3 0
+relation 2 1 transverse 0 0 5 1 4/3 0
+relation 2 2 transverse 3/4 1 0 0 0 1
+relation 2 3 transverse 9/4 3 0 0 0 1
+relation 2 4 transverse 1 4/3 0 0 0 1
+relation 2 5 transverse 3 4 0 0 0 1
+relation 3 0 transverse 0 20/3 1 1 4/3 0
+relation 3 1 transverse 0 20/3 5 1 4/3 0
+relation 3 2 transverse -17/4 1 0 0 0 1
+relation 3 3 transverse -11/4 3 0 0 0 1
+relation 3 4 transverse 1 8 0 0 0 1
+relation 3 5 transverse 3 32/3 0 0 0 1
+relation 4 0 transverse 0 0 1 1 -3/4 0
+relation 4 1 transverse 0 0 5 1 -3/4 0
+relation 4 2 transverse -4/3 1 0 0 0 1
+relation 4 3 transverse -4 3 0 0 0 1
+relation 4 4 transverse 1 -3/4 0 0 0 1
+relation 4 5 transverse 3 -9/4 0 0 0 1
+relation 5 0 transverse 0 5 1 1 -3/4 0
+relation 5 1 transverse 0 5 5 1 -3/4 0
+relation 5 2 transverse 16/3 1 0 0 0 1
+relation 5 3 transverse 8/3 3 0 0 0 1
+relation 5 4 transverse 1 17/4 0 0 0 1
+relation 5 5 transverse 3 11/4 0 0 0 1
+end
+config tilted-generic
+placement A 0 0 0 1 0 0 0 1 0 0 0 1
+placement B 0 0 0 1 0 0 0 1 0 0 0 1
+face A 0 0 0 0 0 12/5 16/5 0 128/5 -96/5 1 4 0 0 0 0 12/5 16/5 4 12/5 16/5 4 0 0
+face A 1 0 -16/5 12/5 4 0 0 0 -128/5 96/5 1 4 0 -16/5 12/5 4 -16/5 12/5 4 -4/5 28/5 0 -4/5 28/5
+face A 2 0 0 0 4 0 0 0 -96/5 -128/5 1 4 0 0 0 4 0 0 4 -16/5 12/5 0 -16/5 12/5
+face A 3 0 12/5 16/5 0 -16/5 12/5 0 96/5 128/5 1 4 0 12/5 16/5 0 -4/5 28/5 4 -4/5 28/5 4 12/5 16/5
+face A 4 0 0 0 0 -16/5 12/5 -32 0 0 1 4 0 0 0 0 -16/5 12/5 0 -4/5 28/5 0 12/5 16/5
+face A 5 4 0 0 0 12/5 16/5 32 0 0 1 4 4 0 0 4 12/5 16/5 4 -4/5 28/5 4 -16/5 12/5
+face B 0 1 -2 1 0 7 0 0 0 -28 1 4 1 -2 1 1 5 1 3 5 1 3 -2 1
+face B 1 1 -2 3 2 0 0 0 0 28 1 4 1 -2 3 3 -2 3 3 5 3 1 5 3
+face B 2 1 -2 1 2 0 0 0 -8 0 1 4 1 -2 1 3 -2 1 3 -2 3 1 -2 3
+face B 3 1 5 1 0 0 2 0 8 0 1 4 1 5 1 1 5 3 3 5 3 3 5 1
+face B 4 1 -2 1 0 0 2 -28 0 0 1 4 1 -2 1 1 -2 3 1 5 3 1 5 1
+face B 5 3 -2 1 0 7 0 28 0 0 1 4 3 -2 1 3 5 1 3 5 3 3 -2 3
+boxmeet 0 0
+boxmeet 0 1
+boxmeet 0 4
+boxmeet 0 5
+boxmeet 1 1
+boxmeet 1 2
+boxmeet 1 4
+boxmeet 1 5
+boxmeet 2 0
+boxmeet 2 2
+boxmeet 2 4
+boxmeet 2 5
+ef B 1 -2 1 1 -2 3 2 1 -2 3/2
+ef B 1 -2 1 1 5 1 0 1 3/4 1
+ef B 1 -2 1 1 5 1 2 1 -4/3 1
+ef B 1 -2 3 1 5 3 0 1 9/4 3
+ef B 3 -2 1 3 -2 3 2 3 -2 3/2
+ef B 3 -2 1 3 5 1 0 3 3/4 1
+ef B 3 -2 1 3 5 1 2 3 -4/3 1
+ef B 3 -2 3 3 5 3 0 3 9/4 3
+frame R0
+paves A 0 -16/5 12/5 0 -4/5 28/5 2 0 -16/5 12/5 0 -4/5 28/5
+paves A 0 -16/5 12/5 0 0 0 2 0 -16/5 12/5 0 0 0
+paves A 0 -16/5 12/5 4 -16/5 12/5 2 0 -16/5 12/5 4 -16/5 12/5
+paves A 0 -4/5 28/5 0 12/5 16/5 2 0 -4/5 28/5 0 12/5 16/5
+paves A 0 -4/5 28/5 4 -4/5 28/5 2 0 -4/5 28/5 4 -4/5 28/5
+paves A 0 0 0 0 12/5 16/5 2 0 0 0 0 12/5 16/5
+paves A 0 0 0 4 0 0 2 0 0 0 4 0 0
+paves A 0 12/5 16/5 4 12/5 16/5 2 0 12/5 16/5 4 12/5 16/5
+paves A 4 -16/5 12/5 4 -4/5 28/5 2 4 -16/5 12/5 4 -4/5 28/5
+paves A 4 -16/5 12/5 4 0 0 2 4 -16/5 12/5 4 0 0
+paves A 4 -4/5 28/5 4 12/5 16/5 2 4 -4/5 28/5 4 12/5 16/5
+paves A 4 0 0 4 12/5 16/5 2 4 0 0 4 12/5 16/5
+paves B 1 -2 1 1 -2 3 3 1 -2 1 1 -2 3/2 1 -2 3
+paves B 1 -2 1 1 5 1 4 1 -2 1 1 -4/3 1 1 3/4 1 1 5 1
+paves B 1 -2 1 3 -2 1 2 1 -2 1 3 -2 1
+paves B 1 -2 3 1 5 3 3 1 -2 3 1 9/4 3 1 5 3
+paves B 1 -2 3 3 -2 3 2 1 -2 3 3 -2 3
+paves B 1 5 1 1 5 3 2 1 5 1 1 5 3
+paves B 1 5 1 3 5 1 2 1 5 1 3 5 1
+paves B 1 5 3 3 5 3 2 1 5 3 3 5 3
+paves B 3 -2 1 3 -2 3 3 3 -2 1 3 -2 3/2 3 -2 3
+paves B 3 -2 1 3 5 1 4 3 -2 1 3 -4/3 1 3 3/4 1 3 5 1
+paves B 3 -2 3 3 5 3 3 3 -2 3 3 9/4 3 3 5 3
+paves B 3 5 1 3 5 3 2 3 5 1 3 5 3
+piece 0 0 3 3/4 1 1 3/4 1 0 0 5/16 3/128 5/16 1/128 11/28 1/98 11/28 0
+piece 0 1 1 9/4 3 3 9/4 3 0 0 15/16 1/128 15/16 3/128 0 17/224 1 17/224
+piece 0 4 1 3/4 1 1 9/4 3 0 0 5/16 1/128 15/16 1/128 0 11/224 1 17/224
+piece 0 5 3 9/4 3 3 3/4 1 0 0 15/16 3/128 5/16 3/128 17/28 1/98 11/28 0
+piece 2 0 1 -4/3 1 3 -4/3 1 0 0 1/4 5/384 3/4 5/384 2/21 0 2/21 1/98
+piece 2 2 3 -2 3/2 1 -2 3/2 0 0 3/4 5/256 1/4 5/256 1 1/32 0 1/32
+piece 2 4 1 -2 3/2 1 -4/3 1 0 0 1/4 5/256 1/4 5/384 1/4 0 0 1/84
+piece 2 5 3 -4/3 1 3 -2 3/2 0 0 3/4 5/384 3/4 5/256 2/21 0 0 1/392
+relation 0 0 transverse 0 3/4 1 1 0 0
+relation 0 1 transverse 0 9/4 3 1 0 0
+relation 0 2 transverse 0 -2 -8/3 1 0 0
+relation 0 3 transverse 0 5 20/3 1 0 0
+relation 0 4 transverse 1 0 0 0 1 4/3
+relation 0 5 transverse 3 0 0 0 1 4/3
+relation 1 0 transverse 0 -17/4 1 1 0 0
+relation 1 1 transverse 0 -11/4 3 1 0 0
+relation 1 2 transverse 0 -2 4 1 0 0
+relation 1 3 transverse 0 5 40/3 1 0 0
+relation 1 4 transverse 1 0 20/3 0 1 4/3
+relation 1 5 transverse 3 0 20/3 0 1 4/3
+relation 2 0 transverse 0 -4/3 1 1 0 0
+relation 2 1 transverse 0 -4 3 1 0 0
+relation 2 2 transverse 0 -2 3/2 1 0 0
+relation 2 3 transverse 0 5 -15/4 1 0 0
+relation 2 4 transverse 1 0 0 0 1 -3/4
+relation 2 5 transverse 3 0 0 0 1 -3/4
+relation 3 0 transverse 0 16/3 1 1 0 0
+relation 3 1 transverse 0 8/3 3 1 0 0
+relation 3 2 transverse 0 -2 13/2 1 0 0
+relation 3 3 transverse 0 5 5/4 1 0 0
+relation 3 4 transverse 1 0 5 0 1 -3/4
+relation 3 5 transverse 3 0 5 0 1 -3/4
+relation 4 0 transverse 0 0 1 0 1 0
+relation 4 1 transverse 0 0 3 0 1 0
+relation 4 2 transverse 0 -2 0 0 0 1
+relation 4 3 transverse 0 5 0 0 0 1
+relation 4 4 disjoint 1 0 1
+relation 4 5 disjoint 0 0 9
+relation 5 0 transverse 4 0 1 0 1 0
+relation 5 1 transverse 4 0 3 0 1 0
+relation 5 2 transverse 4 -2 0 0 0 1
+relation 5 3 transverse 4 5 0 0 0 1
+relation 5 4 disjoint 0 0 9
+relation 5 5 disjoint 1 0 1
+end
+config slanted-wedge
+placement A 0 0 0 1 0 0 0 1 0 0 0 1
+placement B 0 0 0 1 0 0 0 1 0 0 0 1
+face A 0 0 6 0 6 -6 0 0 0 -36 1 3 0 6 0 6 0 0 0 0 0
+face A 1 0 0 4 6 0 0 0 0 36 1 3 0 0 4 6 0 4 0 6 4
+face A 2 0 0 0 6 0 0 0 -48 0 1 4 0 0 0 6 0 0 6 0 4 0 0 4
+face A 3 6 0 0 -6 6 0 48 48 0 1 4 6 0 0 0 6 0 0 6 4 6 0 4
+face A 4 0 6 0 0 -6 0 -48 0 0 1 4 0 6 0 0 0 0 0 0 4 0 6 4
+face B 0 2 2 1 0 3 0 0 0 -18 1 4 2 2 1 2 5 1 5 5 1 5 2 1
+face B 1 2 2 3 3 0 0 0 0 18 1 4 2 2 3 5 2 3 5 5 3 2 5 3
+face B 2 2 2 1 3 0 0 0 -12 0 1 4 2 2 1 5 2 1 5 2 3 2 2 3
+face B 3 2 5 1 0 0 2 0 12 0 1 4 2 5 1 2 5 3 5 5 3 5 5 1
+face B 4 2 2 1 0 0 2 -12 0 0 1 4 2 2 1 2 2 3 2 5 3 2 5 1
+face B 5 5 2 1 0 3 0 12 0 0 1 4 5 2 1 5 5 1 5 5 3 5 2 3
+boxmeet 3 0
+boxmeet 3 1
+boxmeet 3 2
+boxmeet 3 3
+boxmeet 3 4
+boxmeet 3 5
+ef B 2 2 1 2 5 1 3 2 4 1
+ef B 2 2 1 5 2 1 3 4 2 1
+ef B 2 2 3 2 5 3 3 2 4 3
+ef B 2 2 3 5 2 3 3 4 2 3
+frame R0
+paves A 0 0 0 0 0 4 2 0 0 0 0 0 4
+paves A 0 0 0 0 6 0 2 0 0 0 0 6 0
+paves A 0 0 0 6 0 0 2 0 0 0 6 0 0
+paves A 0 0 4 0 6 4 2 0 0 4 0 6 4
+paves A 0 0 4 6 0 4 2 0 0 4 6 0 4
+paves A 0 6 0 0 6 4 2 0 6 0 0 6 4
+paves A 0 6 0 6 0 0 2 0 6 0 6 0 0
+paves A 0 6 4 6 0 4 2 0 6 4 6 0 4
+paves A 6 0 0 6 0 4 2 6 0 0 6 0 4
+paves B 2 2 1 2 2 3 2 2 2 1 2 2 3
+paves B 2 2 1 2 5 1 3 2 2 1 2 4 1 2 5 1
+paves B 2 2 1 5 2 1 3 2 2 1 4 2 1 5 2 1
+paves B 2 2 3 2 5 3 3 2 2 3 2 4 3 2 5 3
+paves B 2 2 3 5 2 3 3 2 2 3 4 2 3 5 2 3
+paves B 2 5 1 2 5 3 2 2 5 1 2 5 3
+paves B 2 5 1 5 5 1 2 2 5 1 5 5 1
+paves B 2 5 3 5 5 3 2 2 5 3 5 5 3
+paves B 5 2 1 5 2 3 2 5 2 1 5 2 3
+paves B 5 2 1 5 5 1 2 5 2 1 5 5 1
+paves B 5 2 3 5 5 3 2 5 2 3 5 5 3
+paves B 5 5 1 5 5 3 2 5 5 1 5 5 3
+piece 3 0 4 2 1 2 4 1 0 0 1/3 1/576 2/3 1/576 0 1/27 2/3 0
+piece 3 1 2 4 3 4 2 3 0 0 2/3 1/192 1/3 1/192 0 1/27 2/3 0
+piece 3 2 4 2 3 4 2 1 0 0 1/3 1/192 1/3 1/576 2/3 1/18 2/3 0
+piece 3 4 2 4 1 2 4 3 0 0 2/3 1/576 2/3 1/192 0 1/12 1 1/12
+relation 0 0 disjoint 1 0 1
+relation 0 1 disjoint 0 0 9
+relation 0 2 transverse 0 2 0 1 0 0
+relation 0 3 transverse 0 5 0 1 0 0
+relation 0 4 transverse 2 0 0 0 1 0
+relation 0 5 transverse 5 0 0 0 1 0
+relation 1 0 disjoint 0 0 9
+relation 1 1 disjoint 1 0 1
+relation 1 2 transverse 0 2 4 1 0 0
+relation 1 3 transverse 0 5 4 1 0 0
+relation 1 4 transverse 2 0 4 0 1 0
+relation 1 5 transverse 5 0 4 0 1 0
+relation 2 0 transverse 0 0 1 1 0 0
+relation 2 1 transverse 0 0 3 1 0 0
+relation 2 2 disjoint 1 0 4
+relation 2 3 disjoint 0 0 25
+relation 2 4 transverse 2 0 0 0 0 1
+relation 2 5 transverse 5 0 0 0 0 1
+relation 3 0 transverse 0 6 1 1 -1 0
+relation 3 1 transverse 0 6 3 1 -1 0
+relation 3 2 transverse 4 2 0 0 0 1
+relation 3 3 transverse 1 5 0 0 0 1
+relation 3 4 transverse 2 4 0 0 0 1
+relation 3 5 transverse 5 1 0 0 0 1
+relation 4 0 transverse 0 0 1 0 1 0
+relation 4 1 transverse 0 0 3 0 1 0
+relation 4 2 transverse 0 2 0 0 0 1
+relation 4 3 transverse 0 5 0 0 0 1
+relation 4 4 disjoint 1 0 4
+relation 4 5 disjoint 0 0 25
+end
+config l-prism-two-pieces
+placement A 0 0 0 1 0 0 0 1 0 0 0 1
+placement B 0 0 0 1 0 0 0 1 0 0 0 1
+face A 0 0 6 0 2 0 0 0 0 -40 1 6 0 6 0 2 6 0 2 2 0 6 2 0 6 0 0 0 0 0
+face A 1 0 0 2 6 0 0 0 0 40 1 6 0 0 2 6 0 2 6 2 2 2 2 2 2 6 2 0 6 2
+face A 2 0 0 0 6 0 0 0 -24 0 1 4 0 0 0 6 0 0 6 0 2 0 0 2
+face A 3 6 0 0 0 2 0 8 0 0 1 4 6 0 0 6 2 0 6 2 2 6 0 2
+face A 4 6 2 0 -4 0 0 0 16 0 1 4 6 2 0 2 2 0 2 2 2 6 2 2
+face A 5 2 2 0 0 4 0 16 0 0 1 4 2 2 0 2 6 0 2 6 2 2 2 2
+face A 6 2 6 0 -2 0 0 0 8 0 1 4 2 6 0 0 6 0 0 6 2 2 6 2
+face A 7 0 6 0 0 -6 0 -24 0 0 1 4 0 6 0 0 0 0 0 0 2 0 6 2
+face B 0 0 5 -1 10 5 0 0 0 -75 1 3 0 5 -1 10 10 -1 5 0 -1
+face B 1 5 0 3 5 10 0 0 0 75 1 3 5 0 3 10 10 3 0 5 3
+face B 2 5 0 -1 5 10 0 80 -40 0 1 4 5 0 -1 10 10 -1 10 10 3 5 0 3
+face B 3 10 10 -1 -10 -5 0 -40 80 0 1 4 10 10 -1 0 5 -1 0 5 3 10 10 3
+face B 4 0 5 -1 5 -5 0 -40 -40 0 1 4 0 5 -1 5 0 -1 5 0 3 0 5 3
+boxmeet 0 2
+boxmeet 0 3
+boxmeet 0 4
+boxmeet 1 2
+boxmeet 1 3
+boxmeet 1 4
+boxmeet 2 2
+boxmeet 2 4
+boxmeet 3 2
+boxmeet 4 2
+boxmeet 4 4
+boxmeet 5 3
+boxmeet 5 4
+boxmeet 6 3
+boxmeet 7 3
+boxmeet 7 4
+ee 0 5 0 0 0 0 0 6 0 0 5 -1 0 5 3
+ee 0 5 2 0 0 2 0 6 2 0 5 -1 0 5 3
+ee 5 0 0 0 0 0 6 0 0 5 0 -1 5 0 3
+ee 5 0 2 0 0 2 6 0 2 5 0 -1 5 0 3
+ef A 2 2 0 2 6 0 4 2 3 0
+ef A 2 2 0 6 2 0 4 3 2 0
+ef A 2 2 2 2 6 2 4 2 3 2
+ef A 2 2 2 6 2 2 4 3 2 2
+frame R0
+paves A 0 0 0 0 0 2 2 0 0 0 0 0 2
+paves A 0 0 0 0 6 0 3 0 0 0 0 5 0 0 6 0
+paves A 0 0 0 6 0 0 3 0 0 0 5 0 0 6 0 0
+paves A 0 0 2 0 6 2 3 0 0 2 0 5 2 0 6 2
+paves A 0 0 2 6 0 2 3 0 0 2 5 0 2 6 0 2
+paves A 0 6 0 0 6 2 2 0 6 0 0 6 2
+paves A 0 6 0 2 6 0 2 0 6 0 2 6 0
+paves A 0 6 2 2 6 2 2 0 6 2 2 6 2
+paves A 2 2 0 2 2 2 2 2 2 0 2 2 2
+paves A 2 2 0 2 6 0 3 2 2 0 2 3 0 2 6 0
+paves A 2 2 0 6 2 0 3 2 2 0 3 2 0 6 2 0
+paves A 2 2 2 2 6 2 3 2 2 2 2 3 2 2 6 2
+paves A 2 2 2 6 2 2 3 2 2 2 3 2 2 6 2 2
+paves A 2 6 0 2 6 2 2 2 6 0 2 6 2
+paves A 6 0 0 6 0 2 2 6 0 0 6 0 2
+paves A 6 0 0 6 2 0 2 6 0 0 6 2 0
+paves A 6 0 2 6 2 2 2 6 0 2 6 2 2
+paves A 6 2 0 6 2 2 2 6 2 0 6 2 2
+paves B 0 5 -1 0 5 3 4 0 5 -1 0 5 0 0 5 2 0 5 3
+paves B 0 5 -1 10 10 -1 2 0 5 -1 10 10 -1
+paves B 0 5 -1 5 0 -1 2 0 5 -1 5 0 -1
+paves B 0 5 3 10 10 3 2 0 5 3 10 10 3
+paves B 0 5 3 5 0 3 2 0 5 3 5 0 3
+paves B 10 10 -1 10 10 3 2 10 10 -1 10 10 3
+paves B 5 0 -1 10 10 -1 2 5 0 -1 10 10 -1
+paves B 5 0 -1 5 0 3 4 5 0 -1 5 0 0 5 0 2 5 0 3
+paves B 5 0 3 10 10 3 2 5 0 3 10 10 3
+piece 0 2 6 2 0 5 0 0 0 0 3 1/20 5/2 3/40 1/5 1/1000 0 1/1000
+piece 0 3 0 5 0 2 6 0 0 0 0 1/80 1 0 1 1/1000 4/5 1/1000
+piece 0 4 2 3 0 0 5 0 0 0 1 3/80 0 1/80 2/5 1/400 0 1/400
+piece 0 4 5 0 0 3 2 0 0 0 5/2 3/40 3/2 1/20 1 1/400 3/5 1/400
+piece 1 2 5 0 2 6 2 2 0 0 5/6 0 1 1/120 0 3/1000 1/5 3/1000
+piece 1 3 2 6 2 0 5 2 0 0 1/3 1/40 0 1/48 4/5 3/1000 1 3/1000
+piece 1 4 0 5 2 2 3 2 0 0 0 1/48 1/3 1/80 0 3/400 2/5 3/400
+piece 1 4 3 2 2 5 0 2 0 0 1/2 1/120 5/6 0 3/5 3/400 1 3/400
+piece 2 2 5 0 0 5 0 2 0 1 5/6 0 5/6 1/72 0 1/1000 0 3/1000
+piece 2 4 5 0 2 5 0 0 0 1 5/6 1/72 5/6 0 1 3/400 1 1/400
+piece 3 2 6 2 2 6 2 0 1 0 1 1/8 1 0 1/5 3/1000 1/5 1/1000
+piece 4 2 6 2 2 6 2 0 1 0 0 1/32 0 0 1/5 3/1000 1/5 1/1000
+piece 4 4 3 2 0 3 2 2 0 0 3/4 0 3/4 1/32 3/5 1/400 3/5 3/400
+piece 5 3 2 6 0 2 6 2 1 0 1 0 1 1/32 4/5 1/1000 4/5 3/1000
+piece 5 4 2 3 2 2 3 0 0 0 1/4 1/32 1/4 0 2/5 3/400 2/5 1/400
+piece 6 3 2 6 0 2 6 2 1 0 0 0 0 1/8 4/5 1/1000 4/5 3/1000
+piece 7 3 0 5 2 0 5 0 0 1 1/6 1/72 1/6 0 1 3/1000 1 1/1000
+piece 7 4 0 5 0 0 5 2 0 1 1/6 0 1/6 1/72 0 1/400 0 3/400
+relation 0 0 disjoint 1 1 1
+relation 0 1 disjoint 0 0 9
+relation 0 2 transverse 0 -10 0 1 2 0
+relation 0 3 transverse 0 5 0 1 1/2 0
+relation 0 4 transverse 0 5 0 1 -1 0
+relation 1 0 disjoint 0 0 9
+relation 1 1 disjoint 1 1 1
+relation 1 2 transverse 0 -10 2 1 2 0
+relation 1 3 transverse 0 5 2 1 1/2 0
+relation 1 4 transverse 0 5 2 1 -1 0
+relation 2 0 transverse 0 0 -1 1 0 0
+relation 2 1 transverse 0 0 3 1 0 0
+relation 2 2 transverse 5 0 0 0 0 1
+relation 2 3 transverse -10 0 0 0 0 1
+relation 2 4 transverse 5 0 0 0 0 1
+relation 3 0 transverse 6 0 -1 0 1 0
+relation 3 1 transverse 6 0 3 0 1 0
+relation 3 2 transverse 6 2 0 0 0 1
+relation 3 3 transverse 6 8 0 0 0 1
+relation 3 4 transverse 6 -1 0 0 0 1
+relation 4 0 transverse 0 2 -1 1 0 0
+relation 4 1 transverse 0 2 3 1 0 0
+relation 4 2 transverse 6 2 0 0 0 1
+relation 4 3 transverse -6 2 0 0 0 1
+relation 4 4 transverse 3 2 0 0 0 1
+relation 5 0 transverse 2 0 -1 0 1 0
+relation 5 1 transverse 2 0 3 0 1 0
+relation 5 2 transverse 2 -6 0 0 0 1
+relation 5 3 transverse 2 6 0 0 0 1
+relation 5 4 transverse 2 3 0 0 0 1
+relation 6 0 transverse 0 6 -1 1 0 0
+relation 6 1 transverse 0 6 3 1 0 0
+relation 6 2 transverse 8 6 0 0 0 1
+relation 6 3 transverse 2 6 0 0 0 1
+relation 6 4 transverse -1 6 0 0 0 1
+relation 7 0 transverse 0 0 -1 0 1 0
+relation 7 1 transverse 0 0 3 0 1 0
+relation 7 2 transverse 0 -10 0 0 0 1
+relation 7 3 transverse 0 5 0 0 0 1
+relation 7 4 transverse 0 5 0 0 0 1
+vf A 2 6 0 3
+vf A 2 6 2 3
+vf A 6 2 0 2
+vf A 6 2 2 2
+end
+config frame-with-hole
+placement A 0 0 0 1 0 0 0 1 0 0 0 1
+placement B 0 0 0 1 0 0 0 1 0 0 0 1
+face A 0 0 6 0 6 0 0 0 0 -72 2 4 0 6 0 6 6 0 6 0 0 0 0 0 4 2 2 0 4 2 0 4 4 0 2 4 0
+face A 1 0 0 2 6 0 0 0 0 72 2 4 0 0 2 6 0 2 6 6 2 0 6 2 4 2 4 2 4 4 2 4 2 2 2 2 2
+face A 2 0 0 0 6 0 0 0 -24 0 1 4 0 0 0 6 0 0 6 0 2 0 0 2
+face A 3 6 0 0 0 6 0 24 0 0 1 4 6 0 0 6 6 0 6 6 2 6 0 2
+face A 4 6 6 0 -6 0 0 0 24 0 1 4 6 6 0 0 6 0 0 6 2 6 6 2
+face A 5 0 6 0 0 -6 0 -24 0 0 1 4 0 6 0 0 0 0 0 0 2 0 6 2
+face A 6 2 4 0 2 0 0 0 -8 0 1 4 2 4 0 4 4 0 4 4 2 2 4 2
+face A 7 4 4 0 0 -2 0 -8 0 0 1 4 4 4 0 4 2 0 4 2 2 4 4 2
+face A 8 4 2 0 -2 0 0 0 8 0 1 4 4 2 0 2 2 0 2 2 2 4 2 2
+face A 9 2 2 0 0 2 0 8 0 0 1 4 2 2 0 2 4 0 2 4 2 2 2 2
+face B 0 3 -1 -1 0 8 0 0 0 -80 1 4 3 -1 -1 3 7 -1 8 7 -1 8 -1 -1
+face B 1 3 -1 1 5 0 0 0 0 80 1 4 3 -1 1 8 -1 1 8 7 1 3 7 1
+face B 2 3 -1 -1 5 0 0 0 -20 0 1 4 3 -1 -1 8 -1 -1 8 -1 1 3 -1 1
+face B 3 3 7 -1 0 0 2 0 20 0 1 4 3 7 -1 3 7 1 8 7 1 8 7 -1
+face B 4 3 -1 -1 0 0 2 -32 0 0 1 4 3 -1 -1 3 -1 1 3 7 1 3 7 -1
+face B 5 8 -1 -1 0 8 0 32 0 0 1 4 8 -1 -1 8 7 -1 8 7 1 8 -1 1
+boxmeet 0 4
+boxmeet 2 1
+boxmeet 2 4
+boxmeet 3 1
+boxmeet 4 1
+boxmeet 4 4
+boxmeet 6 1
+boxmeet 6 4
+boxmeet 7 1
+boxmeet 8 1
+boxmeet 8 4
+ef A 0 0 0 6 0 0 4 3 0 0
+ef A 0 6 0 6 6 0 4 3 6 0
+ef A 2 2 0 4 2 0 4 3 2 0
+ef A 2 4 0 4 4 0 4 3 4 0
+ef A 4 2 0 4 2 2 1 4 2 1
+ef A 4 4 0 4 4 2 1 4 4 1
+ef A 6 0 0 6 0 2 1 6 0 1
+ef A 6 6 0 6 6 2 1 6 6 1
+ef B 3 -1 1 3 7 1 2 3 0 1
+ef B 3 -1 1 3 7 1 4 3 6 1
+ef B 3 -1 1 3 7 1 6 3 4 1
+ef B 3 -1 1 3 7 1 8 3 2 1
+frame R0
+paves A 0 0 0 0 0 2 2 0 0 0 0 0 2
+paves A 0 0 0 0 6 0 2 0 0 0 0 6 0
+paves A 0 0 0 6 0 0 3 0 0 0 3 0 0 6 0 0
+paves A 0 0 2 0 6 2 2 0 0 2 0 6 2
+paves A 0 0 2 6 0 2 2 0 0 2 6 0 2
+paves A 0 6 0 0 6 2 2 0 6 0 0 6 2
+paves A 0 6 0 6 6 0 3 0 6 0 3 6 0 6 6 0
+paves A 0 6 2 6 6 2 2 0 6 2 6 6 2
+paves A 2 2 0 2 2 2 2 2 2 0 2 2 2
+paves A 2 2 0 2 4 0 2 2 2 0 2 4 0
+paves A 2 2 0 4 2 0 3 2 2 0 3 2 0 4 2 0
+paves A 2 2 2 2 4 2 2 2 2 2 2 4 2
+paves A 2 2 2 4 2 2 2 2 2 2 4 2 2
+paves A 2 4 0 2 4 2 2 2 4 0 2 4 2
+paves A 2 4 0 4 4 0 3 2 4 0 3 4 0 4 4 0
+paves A 2 4 2 4 4 2 2 2 4 2 4 4 2
+paves A 4 2 0 4 2 2 3 4 2 0 4 2 1 4 2 2
+paves A 4 2 0 4 4 0 2 4 2 0 4 4 0
+paves A 4 2 2 4 4 2 2 4 2 2 4 4 2
+paves A 4 4 0 4 4 2 3 4 4 0 4 4 1 4 4 2
+paves A 6 0 0 6 0 2 3 6 0 0 6 0 1 6 0 2
+paves A 6 0 0 6 6 0 2 6 0 0 6 6 0
+paves A 6 0 2 6 6 2 2 6 0 2 6 6 2
+paves A 6 6 0 6 6 2 3 6 6 0 6 6 1 6 6 2
+paves B 3 -1 -1 3 -1 1 2 3 -1 -1 3 -1 1
+paves B 3 -1 -1 3 7 -1 2 3 -1 -1 3 7 -1
+paves B 3 -1 -1 8 -1 -1 2 3 -1 -1 8 -1 -1
+paves B 3 -1 1 3 7 1 6 3 -1 1 3 0 1 3 2 1 3 4 1 3 6 1 3 7 1
+paves B 3 -1 1 8 -1 1 2 3 -1 1 8 -1 1
+paves B 3 7 -1 3 7 1 2 3 7 -1 3 7 1
+paves B 3 7 -1 8 7 -1 2 3 7 -1 8 7 -1
+paves B 3 7 1 8 7 1 2 3 7 1 8 7 1
+paves B 8 -1 -1 8 -1 1 2 8 -1 -1 8 -1 1
+paves B 8 -1 -1 8 7 -1 2 8 -1 -1 8 7 -1
+paves B 8 -1 1 8 7 1 2 8 -1 1 8 7 1
+paves B 8 7 -1 8 7 1 2 8 7 -1 8 7 1
+piece 0 4 3 0 0 3 2 0 0 0 1/2 1/72 1/2 1/108 1/2 1/64 1/2 3/64
+piece 0 4 3 4 0 3 6 0 0 0 1/2 1/216 1/2 0 1/2 5/64 1/2 7/64
+piece 2 1 6 0 1 3 0 1 0 0 1 1/144 1/2 1/144 3/5 1/400 0 1/400
+piece 2 4 3 0 1 3 0 0 0 0 1/2 1/144 1/2 0 1 1/64 1/2 1/64
+piece 3 1 6 6 1 6 0 1 0 0 1 1/144 0 1/144 3/5 7/400 3/5 1/400
+piece 4 1 3 6 1 6 6 1 0 0 1/2 1/144 0 1/144 0 7/400 3/5 7/400
+piece 4 4 3 6 0 3 6 1 0 0 1/2 0 1/2 1/144 1/2 7/64 1 7/64
+piece 6 1 4 4 1 3 4 1 0 0 1 1/16 1/2 1/16 1/5 1/80 0 1/80
+piece 6 4 3 4 1 3 4 0 0 0 1/2 1/16 1/2 0 1 5/64 1/2 5/64
+piece 7 1 4 2 1 4 4 1 0 0 1 1/16 0 1/16 1/5 3/400 1/5 1/80
+piece 8 1 3 2 1 4 2 1 0 0 1/2 1/16 0 1/16 0 3/400 1/5 3/400
+piece 8 4 3 2 0 3 2 1 0 0 1/2 0 1/2 1/16 1/2 3/64 1 3/64
+relation 0 0 disjoint 1 1 1
+relation 0 1 disjoint 0 0 1
+relation 0 2 transverse 0 -1 0 1 0 0
+relation 0 3 transverse 0 7 0 1 0 0
+relation 0 4 transverse 3 0 0 0 1 0
+relation 0 5 transverse 8 0 0 0 1 0
+relation 1 0 disjoint 0 0 9
+relation 1 1 disjoint 1 0 1
+relation 1 2 transverse 0 -1 2 1 0 0
+relation 1 3 transverse 0 7 2 1 0 0
+relation 1 4 transverse 3 0 2 0 1 0
+relation 1 5 transverse 8 0 2 0 1 0
+relation 2 0 transverse 0 0 -1 1 0 0
+relation 2 1 transverse 0 0 1 1 0 0
+relation 2 2 disjoint 1 1 1
+relation 2 3 disjoint 0 0 49
+relation 2 4 transverse 3 0 0 0 0 1
+relation 2 5 transverse 8 0 0 0 0 1
+relation 3 0 transverse 6 0 -1 0 1 0
+relation 3 1 transverse 6 0 1 0 1 0
+relation 3 2 transverse 6 -1 0 0 0 1
+relation 3 3 transverse 6 7 0 0 0 1
+relation 3 4 disjoint 0 0 9
+relation 3 5 disjoint 1 1 4
+relation 4 0 transverse 0 6 -1 1 0 0
+relation 4 1 transverse 0 6 1 1 0 0
+relation 4 2 disjoint 0 0 49
+relation 4 3 disjoint 1 1 1
+relation 4 4 transverse 3 6 0 0 0 1
+relation 4 5 transverse 8 6 0 0 0 1
+relation 5 0 transverse 0 0 -1 0 1 0
+relation 5 1 transverse 0 0 1 0 1 0
+relation 5 2 transverse 0 -1 0 0 0 1
+relation 5 3 transverse 0 7 0 0 0 1
+relation 5 4 disjoint 1 0 9
+relation 5 5 disjoint 0 0 64
+relation 6 0 transverse 0 4 -1 1 0 0
+relation 6 1 transverse 0 4 1 1 0 0
+relation 6 2 disjoint 1 1 25
+relation 6 3 disjoint 0 0 9
+relation 6 4 transverse 3 4 0 0 0 1
+relation 6 5 transverse 8 4 0 0 0 1
+relation 7 0 transverse 4 0 -1 0 1 0
+relation 7 1 transverse 4 0 1 0 1 0
+relation 7 2 transverse 4 -1 0 0 0 1
+relation 7 3 transverse 4 7 0 0 0 1
+relation 7 4 disjoint 1 1 1
+relation 7 5 disjoint 0 0 16
+relation 8 0 transverse 0 2 -1 1 0 0
+relation 8 1 transverse 0 2 1 1 0 0
+relation 8 2 disjoint 0 0 9
+relation 8 3 disjoint 1 1 25
+relation 8 4 transverse 3 2 0 0 0 1
+relation 8 5 transverse 8 2 0 0 0 1
+relation 9 0 transverse 2 0 -1 0 1 0
+relation 9 1 transverse 2 0 1 0 1 0
+relation 9 2 transverse 2 -1 0 0 0 1
+relation 9 3 transverse 2 7 0 0 0 1
+relation 9 4 disjoint 0 1 1
+relation 9 5 disjoint 1 1 36
+end
+config inside-hole
+placement A 0 0 0 1 0 0 0 1 0 0 0 1
+placement B 0 0 0 1 0 0 0 1 0 0 0 1
+face A 0 0 6 0 6 0 0 0 0 -72 2 4 0 6 0 6 6 0 6 0 0 0 0 0 4 2 2 0 4 2 0 4 4 0 2 4 0
+face A 1 0 0 2 6 0 0 0 0 72 2 4 0 0 2 6 0 2 6 6 2 0 6 2 4 2 4 2 4 4 2 4 2 2 2 2 2
+face A 2 0 0 0 6 0 0 0 -24 0 1 4 0 0 0 6 0 0 6 0 2 0 0 2
+face A 3 6 0 0 0 6 0 24 0 0 1 4 6 0 0 6 6 0 6 6 2 6 0 2
+face A 4 6 6 0 -6 0 0 0 24 0 1 4 6 6 0 0 6 0 0 6 2 6 6 2
+face A 5 0 6 0 0 -6 0 -24 0 0 1 4 0 6 0 0 0 0 0 0 2 0 6 2
+face A 6 2 4 0 2 0 0 0 -8 0 1 4 2 4 0 4 4 0 4 4 2 2 4 2
+face A 7 4 4 0 0 -2 0 -8 0 0 1 4 4 4 0 4 2 0 4 2 2 4 4 2
+face A 8 4 2 0 -2 0 0 0 8 0 1 4 4 2 0 2 2 0 2 2 2 4 2 2
+face A 9 2 2 0 0 2 0 8 0 0 1 4 2 2 0 2 4 0 2 4 2 2 2 2
+face B 0 5/2 5/2 1/2 0 1 0 0 0 -2 1 4 5/2 5/2 1/2 5/2 7/2 1/2 7/2 7/2 1/2 7/2 5/2 1/2
+face B 1 5/2 5/2 3/2 1 0 0 0 0 2 1 4 5/2 5/2 3/2 7/2 5/2 3/2 7/2 7/2 3/2 5/2 7/2 3/2
+face B 2 5/2 5/2 1/2 1 0 0 0 -2 0 1 4 5/2 5/2 1/2 7/2 5/2 1/2 7/2 5/2 3/2 5/2 5/2 3/2
+face B 3 5/2 7/2 1/2 0 0 1 0 2 0 1 4 5/2 7/2 1/2 5/2 7/2 3/2 7/2 7/2 3/2 7/2 7/2 1/2
+face B 4 5/2 5/2 1/2 0 0 1 -2 0 0 1 4 5/2 5/2 1/2 5/2 5/2 3/2 5/2 7/2 3/2 5/2 7/2 1/2
+face B 5 7/2 5/2 1/2 0 1 0 2 0 0 1 4 7/2 5/2 1/2 7/2 7/2 1/2 7/2 7/2 3/2 7/2 5/2 3/2
+frame R0
+paves A 0 0 0 0 0 2 2 0 0 0 0 0 2
+paves A 0 0 0 0 6 0 2 0 0 0 0 6 0
+paves A 0 0 0 6 0 0 2 0 0 0 6 0 0
+paves A 0 0 2 0 6 2 2 0 0 2 0 6 2
+paves A 0 0 2 6 0 2 2 0 0 2 6 0 2
+paves A 0 6 0 0 6 2 2 0 6 0 0 6 2
+paves A 0 6 0 6 6 0 2 0 6 0 6 6 0
+paves A 0 6 2 6 6 2 2 0 6 2 6 6 2
+paves A 2 2 0 2 2 2 2 2 2 0 2 2 2
+paves A 2 2 0 2 4 0 2 2 2 0 2 4 0
+paves A 2 2 0 4 2 0 2 2 2 0 4 2 0
+paves A 2 2 2 2 4 2 2 2 2 2 2 4 2
+paves A 2 2 2 4 2 2 2 2 2 2 4 2 2
+paves A 2 4 0 2 4 2 2 2 4 0 2 4 2
+paves A 2 4 0 4 4 0 2 2 4 0 4 4 0
+paves A 2 4 2 4 4 2 2 2 4 2 4 4 2
+paves A 4 2 0 4 2 2 2 4 2 0 4 2 2
+paves A 4 2 0 4 4 0 2 4 2 0 4 4 0
+paves A 4 2 2 4 4 2 2 4 2 2 4 4 2
+paves A 4 4 0 4 4 2 2 4 4 0 4 4 2
+paves A 6 0 0 6 0 2 2 6 0 0 6 0 2
+paves A 6 0 0 6 6 0 2 6 0 0 6 6 0
+paves A 6 0 2 6 6 2 2 6 0 2 6 6 2
+paves A 6 6 0 6 6 2 2 6 6 0 6 6 2
+paves B 5/2 5/2 1/2 5/2 5/2 3/2 2 5/2 5/2 1/2 5/2 5/2 3/2
+paves B 5/2 5/2 1/2 5/2 7/2 1/2 2 5/2 5/2 1/2 5/2 7/2 1/2
+paves B 5/2 5/2 1/2 7/2 5/2 1/2 2 5/2 5/2 1/2 7/2 5/2 1/2
+paves B 5/2 5/2 3/2 5/2 7/2 3/2 2 5/2 5/2 3/2 5/2 7/2 3/2
+paves B 5/2 5/2 3/2 7/2 5/2 3/2 2 5/2 5/2 3/2 7/2 5/2 3/2
+paves B 5/2 7/2 1/2 5/2 7/2 3/2 2 5/2 7/2 1/2 5/2 7/2 3/2
+paves B 5/2 7/2 1/2 7/2 7/2 1/2 2 5/2 7/2 1/2 7/2 7/2 1/2
+paves B 5/2 7/2 3/2 7/2 7/2 3/2 2 5/2 7/2 3/2 7/2 7/2 3/2
+paves B 7/2 5/2 1/2 7/2 5/2 3/2 2 7/2 5/2 1/2 7/2 5/2 3/2
+paves B 7/2 5/2 1/2 7/2 7/2 1/2 2 7/2 5/2 1/2 7/2 7/2 1/2
+paves B 7/2 5/2 3/2 7/2 7/2 3/2 2 7/2 5/2 3/2 7/2 7/2 3/2
+paves B 7/2 7/2 1/2 7/2 7/2 3/2 2 7/2 7/2 1/2 7/2 7/2 3/2
+relation 0 0 disjoint 1 0 1/4
+relation 0 1 disjoint 0 0 9/4
+relation 0 2 transverse 0 5/2 0 1 0 0
+relation 0 3 transverse 0 7/2 0 1 0 0
+relation 0 4 transverse 5/2 0 0 0 1 0
+relation 0 5 transverse 7/2 0 0 0 1 0
+relation 1 0 disjoint 0 0 9/4
+relation 1 1 disjoint 1 0 1/4
+relation 1 2 transverse 0 5/2 2 1 0 0
+relation 1 3 transverse 0 7/2 2 1 0 0
+relation 1 4 transverse 5/2 0 2 0 1 0
+relation 1 5 transverse 7/2 0 2 0 1 0
+relation 2 0 transverse 0 0 1/2 1 0 0
+relation 2 1 transverse 0 0 3/2 1 0 0
+relation 2 2 disjoint 1 0 25/4
+relation 2 3 disjoint 0 0 49/4
+relation 2 4 transverse 5/2 0 0 0 0 1
+relation 2 5 transverse 7/2 0 0 0 0 1
+relation 3 0 transverse 6 0 1/2 0 1 0
+relation 3 1 transverse 6 0 3/2 0 1 0
+relation 3 2 transverse 6 5/2 0 0 0 1
+relation 3 3 transverse 6 7/2 0 0 0 1
+relation 3 4 disjoint 0 0 49/4
+relation 3 5 disjoint 1 0 25/4
+relation 4 0 transverse 0 6 1/2 1 0 0
+relation 4 1 transverse 0 6 3/2 1 0 0
+relation 4 2 disjoint 0 0 49/4
+relation 4 3 disjoint 1 0 25/4
+relation 4 4 transverse 5/2 6 0 0 0 1
+relation 4 5 transverse 7/2 6 0 0 0 1
+relation 5 0 transverse 0 0 1/2 0 1 0
+relation 5 1 transverse 0 0 3/2 0 1 0
+relation 5 2 transverse 0 5/2 0 0 0 1
+relation 5 3 transverse 0 7/2 0 0 0 1
+relation 5 4 disjoint 1 0 25/4
+relation 5 5 disjoint 0 0 49/4
+relation 6 0 transverse 0 4 1/2 1 0 0
+relation 6 1 transverse 0 4 3/2 1 0 0
+relation 6 2 disjoint 1 1 9/4
+relation 6 3 disjoint 0 1 1/4
+relation 6 4 transverse 5/2 4 0 0 0 1
+relation 6 5 transverse 7/2 4 0 0 0 1
+relation 7 0 transverse 4 0 1/2 0 1 0
+relation 7 1 transverse 4 0 3/2 0 1 0
+relation 7 2 transverse 4 5/2 0 0 0 1
+relation 7 3 transverse 4 7/2 0 0 0 1
+relation 7 4 disjoint 1 1 9/4
+relation 7 5 disjoint 0 1 1/4
+relation 8 0 transverse 0 2 1/2 1 0 0
+relation 8 1 transverse 0 2 3/2 1 0 0
+relation 8 2 disjoint 0 1 1/4
+relation 8 3 disjoint 1 1 9/4
+relation 8 4 transverse 5/2 2 0 0 0 1
+relation 8 5 transverse 7/2 2 0 0 0 1
+relation 9 0 transverse 2 0 1/2 0 1 0
+relation 9 1 transverse 2 0 3/2 0 1 0
+relation 9 2 transverse 2 5/2 0 0 0 1
+relation 9 3 transverse 2 7/2 0 0 0 1
+relation 9 4 disjoint 0 1 1/4
+relation 9 5 disjoint 1 1 9/4
+end
+config hole-wall-contact
+placement A 0 0 0 1 0 0 0 1 0 0 0 1
+placement B 0 0 0 1 0 0 0 1 0 0 0 1
+face A 0 0 6 0 6 0 0 0 0 -72 2 4 0 6 0 6 6 0 6 0 0 0 0 0 4 2 2 0 4 2 0 4 4 0 2 4 0
+face A 1 0 0 2 6 0 0 0 0 72 2 4 0 0 2 6 0 2 6 6 2 0 6 2 4 2 4 2 4 4 2 4 2 2 2 2 2
+face A 2 0 0 0 6 0 0 0 -24 0 1 4 0 0 0 6 0 0 6 0 2 0 0 2
+face A 3 6 0 0 0 6 0 24 0 0 1 4 6 0 0 6 6 0 6 6 2 6 0 2
+face A 4 6 6 0 -6 0 0 0 24 0 1 4 6 6 0 0 6 0 0 6 2 6 6 2
+face A 5 0 6 0 0 -6 0 -24 0 0 1 4 0 6 0 0 0 0 0 0 2 0 6 2
+face A 6 2 4 0 2 0 0 0 -8 0 1 4 2 4 0 4 4 0 4 4 2 2 4 2
+face A 7 4 4 0 0 -2 0 -8 0 0 1 4 4 4 0 4 2 0 4 2 2 4 4 2
+face A 8 4 2 0 -2 0 0 0 8 0 1 4 4 2 0 2 2 0 2 2 2 4 2 2
+face A 9 2 2 0 0 2 0 8 0 0 1 4 2 2 0 2 4 0 2 4 2 2 2 2
+face B 0 2 5/2 1/2 0 1 0 0 0 -2 1 4 2 5/2 1/2 2 7/2 1/2 3 7/2 1/2 3 5/2 1/2
+face B 1 2 5/2 3/2 1 0 0 0 0 2 1 4 2 5/2 3/2 3 5/2 3/2 3 7/2 3/2 2 7/2 3/2
+face B 2 2 5/2 1/2 1 0 0 0 -2 0 1 4 2 5/2 1/2 3 5/2 1/2 3 5/2 3/2 2 5/2 3/2
+face B 3 2 7/2 1/2 0 0 1 0 2 0 1 4 2 7/2 1/2 2 7/2 3/2 3 7/2 3/2 3 7/2 1/2
+face B 4 2 5/2 1/2 0 0 1 -2 0 0 1 4 2 5/2 1/2 2 5/2 3/2 2 7/2 3/2 2 7/2 1/2
+face B 5 3 5/2 1/2 0 1 0 2 0 0 1 4 3 5/2 1/2 3 7/2 1/2 3 7/2 3/2 3 5/2 3/2
+boxmeet 9 0
+boxmeet 9 1
+boxmeet 9 2
+boxmeet 9 3
+boxmeet 9 4
+frame R0
+paves A 0 0 0 0 0 2 2 0 0 0 0 0 2
+paves A 0 0 0 0 6 0 2 0 0 0 0 6 0
+paves A 0 0 0 6 0 0 2 0 0 0 6 0 0
+paves A 0 0 2 0 6 2 2 0 0 2 0 6 2
+paves A 0 0 2 6 0 2 2 0 0 2 6 0 2
+paves A 0 6 0 0 6 2 2 0 6 0 0 6 2
+paves A 0 6 0 6 6 0 2 0 6 0 6 6 0
+paves A 0 6 2 6 6 2 2 0 6 2 6 6 2
+paves A 2 2 0 2 2 2 2 2 2 0 2 2 2
+paves A 2 2 0 2 4 0 2 2 2 0 2 4 0
+paves A 2 2 0 4 2 0 2 2 2 0 4 2 0
+paves A 2 2 2 2 4 2 2 2 2 2 2 4 2
+paves A 2 2 2 4 2 2 2 2 2 2 4 2 2
+paves A 2 4 0 2 4 2 2 2 4 0 2 4 2
+paves A 2 4 0 4 4 0 2 2 4 0 4 4 0
+paves A 2 4 2 4 4 2 2 2 4 2 4 4 2
+paves A 4 2 0 4 2 2 2 4 2 0 4 2 2
+paves A 4 2 0 4 4 0 2 4 2 0 4 4 0
+paves A 4 2 2 4 4 2 2 4 2 2 4 4 2
+paves A 4 4 0 4 4 2 2 4 4 0 4 4 2
+paves A 6 0 0 6 0 2 2 6 0 0 6 0 2
+paves A 6 0 0 6 6 0 2 6 0 0 6 6 0
+paves A 6 0 2 6 6 2 2 6 0 2 6 6 2
+paves A 6 6 0 6 6 2 2 6 6 0 6 6 2
+paves B 2 5/2 1/2 2 5/2 3/2 2 2 5/2 1/2 2 5/2 3/2
+paves B 2 5/2 1/2 2 7/2 1/2 2 2 5/2 1/2 2 7/2 1/2
+paves B 2 5/2 1/2 3 5/2 1/2 2 2 5/2 1/2 3 5/2 1/2
+paves B 2 5/2 3/2 2 7/2 3/2 2 2 5/2 3/2 2 7/2 3/2
+paves B 2 5/2 3/2 3 5/2 3/2 2 2 5/2 3/2 3 5/2 3/2
+paves B 2 7/2 1/2 2 7/2 3/2 2 2 7/2 1/2 2 7/2 3/2
+paves B 2 7/2 1/2 3 7/2 1/2 2 2 7/2 1/2 3 7/2 1/2
+paves B 2 7/2 3/2 3 7/2 3/2 2 2 7/2 3/2 3 7/2 3/2
+paves B 3 5/2 1/2 3 5/2 3/2 2 3 5/2 1/2 3 5/2 3/2
+paves B 3 5/2 1/2 3 7/2 1/2 2 3 5/2 1/2 3 7/2 1/2
+paves B 3 5/2 3/2 3 7/2 3/2 2 3 5/2 3/2 3 7/2 3/2
+paves B 3 7/2 1/2 3 7/2 3/2 2 3 7/2 1/2 3 7/2 3/2
+piece 9 0 2 5/2 1/2 2 7/2 1/2 0 1 1/4 1/32 3/4 1/32 0 0 1 0
+piece 9 1 2 7/2 3/2 2 5/2 3/2 0 1 3/4 3/32 1/4 3/32 0 1/2 0 0
+piece 9 2 2 5/2 3/2 2 5/2 1/2 0 1 1/4 3/32 1/4 1/32 0 1/2 0 0
+piece 9 3 2 7/2 1/2 2 7/2 3/2 0 1 3/4 1/32 3/4 3/32 0 0 1 0
+relation 0 0 disjoint 1 0 1/4
+relation 0 1 disjoint 0 0 9/4
+relation 0 2 transverse 0 5/2 0 1 0 0
+relation 0 3 transverse 0 7/2 0 1 0 0
+relation 0 4 transverse 2 0 0 0 1 0
+relation 0 5 transverse 3 0 0 0 1 0
+relation 1 0 disjoint 0 0 9/4
+relation 1 1 disjoint 1 0 1/4
+relation 1 2 transverse 0 5/2 2 1 0 0
+relation 1 3 transverse 0 7/2 2 1 0 0
+relation 1 4 transverse 2 0 2 0 1 0
+relation 1 5 transverse 3 0 2 0 1 0
+relation 2 0 transverse 0 0 1/2 1 0 0
+relation 2 1 transverse 0 0 3/2 1 0 0
+relation 2 2 disjoint 1 0 25/4
+relation 2 3 disjoint 0 0 49/4
+relation 2 4 transverse 2 0 0 0 0 1
+relation 2 5 transverse 3 0 0 0 0 1
+relation 3 0 transverse 6 0 1/2 0 1 0
+relation 3 1 transverse 6 0 3/2 0 1 0
+relation 3 2 transverse 6 5/2 0 0 0 1
+relation 3 3 transverse 6 7/2 0 0 0 1
+relation 3 4 disjoint 0 0 16
+relation 3 5 disjoint 1 0 9
+relation 4 0 transverse 0 6 1/2 1 0 0
+relation 4 1 transverse 0 6 3/2 1 0 0
+relation 4 2 disjoint 0 0 49/4
+relation 4 3 disjoint 1 0 25/4
+relation 4 4 transverse 2 6 0 0 0 1
+relation 4 5 transverse 3 6 0 0 0 1
+relation 5 0 transverse 0 0 1/2 0 1 0
+relation 5 1 transverse 0 0 3/2 0 1 0
+relation 5 2 transverse 0 5/2 0 0 0 1
+relation 5 3 transverse 0 7/2 0 0 0 1
+relation 5 4 disjoint 1 0 4
+relation 5 5 disjoint 0 0 9
+relation 6 0 transverse 0 4 1/2 1 0 0
+relation 6 1 transverse 0 4 3/2 1 0 0
+relation 6 2 disjoint 1 1 9/4
+relation 6 3 disjoint 0 1 1/4
+relation 6 4 transverse 2 4 0 0 0 1
+relation 6 5 transverse 3 4 0 0 0 1
+relation 7 0 transverse 4 0 1/2 0 1 0
+relation 7 1 transverse 4 0 3/2 0 1 0
+relation 7 2 transverse 4 5/2 0 0 0 1
+relation 7 3 transverse 4 7/2 0 0 0 1
+relation 7 4 disjoint 1 1 4
+relation 7 5 disjoint 0 1 1
+relation 8 0 transverse 0 2 1/2 1 0 0
+relation 8 1 transverse 0 2 3/2 1 0 0
+relation 8 2 disjoint 0 1 1/4
+relation 8 3 disjoint 1 1 9/4
+relation 8 4 transverse 2 2 0 0 0 1
+relation 8 5 transverse 3 2 0 0 0 1
+relation 9 0 transverse 2 0 1/2 0 1 0
+relation 9 1 transverse 2 0 3/2 0 1 0
+relation 9 2 transverse 2 5/2 0 0 0 1
+relation 9 3 transverse 2 7/2 0 0 0 1
+relation 9 4 opposite
+relation 9 5 disjoint 1 1 1
+vf B 2 5/2 1/2 9
+vf B 2 5/2 3/2 9
+vf B 2 7/2 1/2 9
+vf B 2 7/2 3/2 9
+end
+config two-holes-three-pieces
+placement A 0 0 0 1 0 0 0 1 0 0 0 1
+placement B 0 0 0 1 0 0 0 1 0 0 0 1
+face A 0 0 4 0 10 0 0 0 0 -80 3 4 0 4 0 10 4 0 10 0 0 0 0 0 4 2 1 0 4 1 0 4 3 0 2 3 0 4 6 1 0 8 1 0 8 3 0 6 3 0
+face A 1 0 0 2 10 0 0 0 0 80 3 4 0 0 2 10 0 2 10 4 2 0 4 2 4 2 3 2 4 3 2 4 1 2 2 1 2 4 6 3 2 8 3 2 8 1 2 6 1 2
+face A 2 0 0 0 10 0 0 0 -40 0 1 4 0 0 0 10 0 0 10 0 2 0 0 2
+face A 3 10 0 0 0 4 0 16 0 0 1 4 10 0 0 10 4 0 10 4 2 10 0 2
+face A 4 10 4 0 -10 0 0 0 40 0 1 4 10 4 0 0 4 0 0 4 2 10 4 2
+face A 5 0 4 0 0 -4 0 -16 0 0 1 4 0 4 0 0 0 0 0 0 2 0 4 2
+face A 6 2 3 0 2 0 0 0 -8 0 1 4 2 3 0 4 3 0 4 3 2 2 3 2
+face A 7 4 3 0 0 -2 0 -8 0 0 1 4 4 3 0 4 1 0 4 1 2 4 3 2
+face A 8 4 1 0 -2 0 0 0 8 0 1 4 4 1 0 2 1 0 2 1 2 4 1 2
+face A 9 2 1 0 0 2 0 8 0 0 1 4 2 1 0 2 3 0 2 3 2 2 1 2
+face A 10 6 3 0 2 0 0 0 -8 0 1 4 6 3 0 8 3 0 8 3 2 6 3 2
+face A 11 8 3 0 0 -2 0 -8 0 0 1 4 8 3 0 8 1 0 8 1 2 8 3 2
+face A 12 8 1 0 -2 0 0 0 8 0 1 4 8 1 0 6 1 0 6 1 2 8 1 2
+face A 13 6 1 0 0 2 0 8 0 0 1 4 6 1 0 6 3 0 6 3 2 6 1 2
+face B 0 -1 3/2 -1 0 1 0 0 0 -24 1 4 -1 3/2 -1 -1 5/2 -1 11 5/2 -1 11 3/2 -1
+face B 1 -1 3/2 1 12 0 0 0 0 24 1 4 -1 3/2 1 11 3/2 1 11 5/2 1 -1 5/2 1
+face B 2 -1 3/2 -1 12 0 0 0 -48 0 1 4 -1 3/2 -1 11 3/2 -1 11 3/2 1 -1 3/2 1
+face B 3 -1 5/2 -1 0 0 2 0 48 0 1 4 -1 5/2 -1 -1 5/2 1 11 5/2 1 11 5/2 -1
+face B 4 -1 3/2 -1 0 0 2 -4 0 0 1 4 -1 3/2 -1 -1 3/2 1 -1 5/2 1 -1 5/2 -1
+face B 5 11 3/2 -1 0 1 0 4 0 0 1 4 11 3/2 -1 11 5/2 -1 11 5/2 1 11 3/2 1
+boxmeet 0 2
+boxmeet 0 3
+boxmeet 11 1
+boxmeet 11 2
+boxmeet 11 3
+boxmeet 13 1
+boxmeet 13 2
+boxmeet 13 3
+boxmeet 3 1
+boxmeet 3 2
+boxmeet 3 3
+boxmeet 5 1
+boxmeet 5 2
+boxmeet 5 3
+boxmeet 7 1
+boxmeet 7 2
+boxmeet 7 3
+boxmeet 9 1
+boxmeet 9 2
+boxmeet 9 3
+ef A 0 0 0 0 4 0 2 0 3/2 0
+ef A 0 0 0 0 4 0 3 0 5/2 0
+ef A 10 0 0 10 4 0 2 10 3/2 0
+ef A 10 0 0 10 4 0 3 10 5/2 0
+ef A 2 1 0 2 3 0 2 2 3/2 0
+ef A 2 1 0 2 3 0 3 2 5/2 0
+ef A 4 1 0 4 3 0 2 4 3/2 0
+ef A 4 1 0 4 3 0 3 4 5/2 0
+ef A 6 1 0 6 3 0 2 6 3/2 0
+ef A 6 1 0 6 3 0 3 6 5/2 0
+ef A 8 1 0 8 3 0 2 8 3/2 0
+ef A 8 1 0 8 3 0 3 8 5/2 0
+ef B -1 3/2 1 11 3/2 1 11 8 3/2 1
+ef B -1 3/2 1 11 3/2 1 13 6 3/2 1
+ef B -1 3/2 1 11 3/2 1 3 10 3/2 1
+ef B -1 3/2 1 11 3/2 1 5 0 3/2 1
+ef B -1 3/2 1 11 3/2 1 7 4 3/2 1
+ef B -1 3/2 1 11 3/2 1 9 2 3/2 1
+ef B -1 5/2 1 11 5/2 1 11 8 5/2 1
+ef B -1 5/2 1 11 5/2 1 13 6 5/2 1
+ef B -1 5/2 1 11 5/2 1 3 10 5/2 1
+ef B -1 5/2 1 11 5/2 1 5 0 5/2 1
+ef B -1 5/2 1 11 5/2 1 7 4 5/2 1
+ef B -1 5/2 1 11 5/2 1 9 2 5/2 1
+frame R0
+paves A 0 0 0 0 0 2 2 0 0 0 0 0 2
+paves A 0 0 0 0 4 0 4 0 0 0 0 3/2 0 0 5/2 0 0 4 0
+paves A 0 0 0 10 0 0 2 0 0 0 10 0 0
+paves A 0 0 2 0 4 2 2 0 0 2 0 4 2
+paves A 0 0 2 10 0 2 2 0 0 2 10 0 2
+paves A 0 4 0 0 4 2 2 0 4 0 0 4 2
+paves A 0 4 0 10 4 0 2 0 4 0 10 4 0
+paves A 0 4 2 10 4 2 2 0 4 2 10 4 2
+paves A 10 0 0 10 0 2 2 10 0 0 10 0 2
+paves A 10 0 0 10 4 0 4 10 0 0 10 3/2 0 10 5/2 0 10 4 0
+paves A 10 0 2 10 4 2 2 10 0 2 10 4 2
+paves A 10 4 0 10 4 2 2 10 4 0 10 4 2
+paves A 2 1 0 2 1 2 2 2 1 0 2 1 2
+paves A 2 1 0 2 3 0 4 2 1 0 2 3/2 0 2 5/2 0 2 3 0
+paves A 2 1 0 4 1 0 2 2 1 0 4 1 0
+paves A 2 1 2 2 3 2 2 2 1 2 2 3 2
+paves A 2 1 2 4 1 2 2 2 1 2 4 1 2
+paves A 2 3 0 2 3 2 2 2 3 0 2 3 2
+paves A 2 3 0 4 3 0 2 2 3 0 4 3 0
+paves A 2 3 2 4 3 2 2 2 3 2 4 3 2
+paves A 4 1 0 4 1 2 2 4 1 0 4 1 2
+paves A 4 1 0 4 3 0 4 4 1 0 4 3/2 0 4 5/2 0 4 3 0
+paves A 4 1 2 4 3 2 2 4 1 2 4 3 2
+paves A 4 3 0 4 3 2 2 4 3 0 4 3 2
+paves A 6 1 0 6 1 2 2 6 1 0 6 1 2
+paves A 6 1 0 6 3 0 4 6 1 0 6 3/2 0 6 5/2 0 6 3 0
+paves A 6 1 0 8 1 0 2 6 1 0 8 1 0
+paves A 6 1 2 6 3 2 2 6 1 2 6 3 2
+paves A 6 1 2 8 1 2 2 6 1 2 8 1 2
+paves A 6 3 0 6 3 2 2 6 3 0 6 3 2
+paves A 6 3 0 8 3 0 2 6 3 0 8 3 0
+paves A 6 3 2 8 3 2 2 6 3 2 8 3 2
+paves A 8 1 0 8 1 2 2 8 1 0 8 1 2
+paves A 8 1 0 8 3 0 4 8 1 0 8 3/2 0 8 5/2 0 8 3 0
+paves A 8 1 2 8 3 2 2 8 1 2 8 3 2
+paves A 8 3 0 8 3 2 2 8 3 0 8 3 2
+paves B -1 3/2 -1 -1 3/2 1 2 -1 3/2 -1 -1 3/2 1
+paves B -1 3/2 -1 -1 5/2 -1 2 -1 3/2 -1 -1 5/2 -1
+paves B -1 3/2 -1 11 3/2 -1 2 -1 3/2 -1 11 3/2 -1
+paves B -1 3/2 1 -1 5/2 1 2 -1 3/2 1 -1 5/2 1
+paves B -1 3/2 1 11 3/2 1 8 -1 3/2 1 0 3/2 1 2 3/2 1 4 3/2 1 6 3/2 1 8 3/2 1 10 3/2 1 11 3/2 1
+paves B -1 5/2 -1 -1 5/2 1 2 -1 5/2 -1 -1 5/2 1
+paves B -1 5/2 -1 11 5/2 -1 2 -1 5/2 -1 11 5/2 -1
+paves B -1 5/2 1 11 5/2 1 8 -1 5/2 1 0 5/2 1 2 5/2 1 4 5/2 1 6 5/2 1 8 5/2 1 10 5/2 1 11 5/2 1
+paves B 11 3/2 -1 11 3/2 1 2 11 3/2 -1 11 3/2 1
+paves B 11 3/2 -1 11 5/2 -1 2 11 3/2 -1 11 5/2 -1
+paves B 11 3/2 1 11 5/2 1 2 11 3/2 1 11 5/2 1
+paves B 11 5/2 -1 11 5/2 1 2 11 5/2 -1 11 5/2 1
+piece 0 2 10 3/2 0 8 3/2 0 0 0 1 1/320 4/5 1/320 11/12 1/576 3/4 1/576
+piece 0 2 2 3/2 0 0 3/2 0 0 0 1/5 1/320 0 1/320 1/4 1/576 1/12 1/576
+piece 0 2 6 3/2 0 4 3/2 0 0 0 3/5 1/320 2/5 1/320 7/12 1/576 5/12 1/576
+piece 0 3 0 5/2 0 2 5/2 0 0 0 0 3/1600 1/5 3/1600 1/2 1/96 1/2 1/32
+piece 0 3 4 5/2 0 6 5/2 0 0 0 2/5 3/1600 3/5 3/1600 1/2 5/96 1/2 7/96
+piece 0 3 8 5/2 0 10 5/2 0 0 0 4/5 3/1600 1 3/1600 1/2 3/32 1/2 11/96
+piece 11 1 8 3/2 1 8 5/2 1 0 0 3/4 1/16 1/4 1/16 3/4 0 3/4 1/288
+piece 11 2 8 3/2 0 8 3/2 1 0 0 3/4 0 3/4 1/16 3/4 1/576 3/4 1/288
+piece 11 3 8 5/2 1 8 5/2 0 0 0 1/4 1/16 1/4 0 1 3/32 1/2 3/32
+piece 13 1 6 5/2 1 6 3/2 1 0 0 3/4 1/16 1/4 1/16 7/12 1/288 7/12 0
+piece 13 2 6 3/2 1 6 3/2 0 0 0 1/4 1/16 1/4 0 7/12 1/288 7/12 1/576
+piece 13 3 6 5/2 0 6 5/2 1 0 0 3/4 0 3/4 1/16 1/2 7/96 1 7/96
+piece 3 1 10 5/2 1 10 3/2 1 0 0 5/8 1/64 3/8 1/64 11/12 1/288 11/12 0
+piece 3 2 10 3/2 1 10 3/2 0 0 0 3/8 1/64 3/8 0 11/12 1/288 11/12 1/576
+piece 3 3 10 5/2 0 10 5/2 1 0 0 5/8 0 5/8 1/64 1/2 11/96 1 11/96
+piece 5 1 0 3/2 1 0 5/2 1 0 0 5/8 1/64 3/8 1/64 1/12 0 1/12 1/288
+piece 5 2 0 3/2 0 0 3/2 1 0 0 5/8 0 5/8 1/64 1/12 1/576 1/12 1/288
+piece 5 3 0 5/2 1 0 5/2 0 0 0 3/8 1/64 3/8 0 1 1/96 1/2 1/96
+piece 7 1 4 3/2 1 4 5/2 1 0 0 3/4 1/16 1/4 1/16 5/12 0 5/12 1/288
+piece 7 2 4 3/2 0 4 3/2 1 0 0 3/4 0 3/4 1/16 5/12 1/576 5/12 1/288
+piece 7 3 4 5/2 1 4 5/2 0 0 0 1/4 1/16 1/4 0 1 5/96 1/2 5/96
+piece 9 1 2 5/2 1 2 3/2 1 0 0 3/4 1/16 1/4 1/16 1/4 1/288 1/4 0
+piece 9 2 2 3/2 1 2 3/2 0 0 0 1/4 1/16 1/4 0 1/4 1/288 1/4 1/576
+piece 9 3 2 5/2 0 2 5/2 1 0 0 3/4 0 3/4 1/16 1/2 1/32 1 1/32
+relation 0 0 disjoint 1 1 1
+relation 0 1 disjoint 0 0 1
+relation 0 2 transverse 0 3/2 0 1 0 0
+relation 0 3 transverse 0 5/2 0 1 0 0
+relation 0 4 transverse -1 0 0 0 1 0
+relation 0 5 transverse 11 0 0 0 1 0
+relation 1 0 disjoint 0 0 9
+relation 1 1 disjoint 1 0 1
+relation 1 2 transverse 0 3/2 2 1 0 0
+relation 1 3 transverse 0 5/2 2 1 0 0
+relation 1 4 transverse -1 0 2 0 1 0
+relation 1 5 transverse 11 0 2 0 1 0
+relation 10 0 transverse 0 3 -1 1 0 0
+relation 10 1 transverse 0 3 1 1 0 0
+relation 10 2 disjoint 1 1 9/4
+relation 10 3 disjoint 0 1 1/4
+relation 10 4 transverse -1 3 0 0 0 1
+relation 10 5 transverse 11 3 0 0 0 1
+relation 11 0 transverse 8 0 -1 0 1 0
+relation 11 1 transverse 8 0 1 0 1 0
+relation 11 2 transverse 8 3/2 0 0 0 1
+relation 11 3 transverse 8 5/2 0 0 0 1
+relation 11 4 disjoint 1 1 81
+relation 11 5 disjoint 0 0 9
+relation 12 0 transverse 0 1 -1 1 0 0
+relation 12 1 transverse 0 1 1 1 0 0
+relation 12 2 disjoint 0 1 1/4
+relation 12 3 disjoint 1 1 9/4
+relation 12 4 transverse -1 1 0 0 0 1
+relation 12 5 transverse 11 1 0 0 0 1
+relation 13 0 transverse 6 0 -1 0 1 0
+relation 13 1 transverse 6 0 1 0 1 0
+relation 13 2 transverse 6 3/2 0 0 0 1
+relation 13 3 transverse 6 5/2 0 0 0 1
+relation 13 4 disjoint 0 0 49
+relation 13 5 disjoint 1 1 25
+relation 2 0 transverse 0 0 -1 1 0 0
+relation 2 1 transverse 0 0 1 1 0 0
+relation 2 2 disjoint 1 0 9/4
+relation 2 3 disjoint 0 0 25/4
+relation 2 4 transverse -1 0 0 0 0 1
+relation 2 5 transverse 11 0 0 0 0 1
+relation 3 0 transverse 10 0 -1 0 1 0
+relation 3 1 transverse 10 0 1 0 1 0
+relation 3 2 transverse 10 3/2 0 0 0 1
+relation 3 3 transverse 10 5/2 0 0 0 1
+relation 3 4 disjoint 0 0 121
+relation 3 5 disjoint 1 1 1
+relation 4 0 transverse 0 4 -1 1 0 0
+relation 4 1 transverse 0 4 1 1 0 0
+relation 4 2 disjoint 0 0 25/4
+relation 4 3 disjoint 1 0 9/4
+relation 4 4 transverse -1 4 0 0 0 1
+relation 4 5 transverse 11 4 0 0 0 1
+relation 5 0 transverse 0 0 -1 0 1 0
+relation 5 1 transverse 0 0 1 0 1 0
+relation 5 2 transverse 0 3/2 0 0 0 1
+relation 5 3 transverse 0 5/2 0 0 0 1
+relation 5 4 disjoint 1 1 1
+relation 5 5 disjoint 0 0 121
+relation 6 0 transverse 0 3 -1 1 0 0
+relation 6 1 transverse 0 3 1 1 0 0
+relation 6 2 disjoint 1 1 9/4
+relation 6 3 disjoint 0 1 1/4
+relation 6 4 transverse -1 3 0 0 0 1
+relation 6 5 transverse 11 3 0 0 0 1
+relation 7 0 transverse 4 0 -1 0 1 0
+relation 7 1 transverse 4 0 1 0 1 0
+relation 7 2 transverse 4 3/2 0 0 0 1
+relation 7 3 transverse 4 5/2 0 0 0 1
+relation 7 4 disjoint 1 1 25
+relation 7 5 disjoint 0 0 49
+relation 8 0 transverse 0 1 -1 1 0 0
+relation 8 1 transverse 0 1 1 1 0 0
+relation 8 2 disjoint 0 1 1/4
+relation 8 3 disjoint 1 1 9/4
+relation 8 4 transverse -1 1 0 0 0 1
+relation 8 5 transverse 11 1 0 0 0 1
+relation 9 0 transverse 2 0 -1 0 1 0
+relation 9 1 transverse 2 0 1 0 1 0
+relation 9 2 transverse 2 3/2 0 0 0 1
+relation 9 3 transverse 2 5/2 0 0 0 1
+relation 9 4 disjoint 0 0 9
+relation 9 5 disjoint 1 1 81
+end
+config non-dyadic-tetra
+placement A 0 0 0 1 0 0 0 1 0 0 0 1
+placement B 0 0 0 1 0 0 0 1 0 0 0 1
+face A 0 0 3 0 3 -3 0 0 0 -9 1 3 0 3 0 3 0 0 0 0 0
+face A 1 0 0 0 3 0 0 0 -9 0 1 3 0 0 0 3 0 0 0 0 3
+face A 2 0 0 3 0 3 -3 -9 0 0 1 3 0 0 3 0 3 0 0 0 0
+face A 3 3 0 0 -3 3 0 9 9 9 1 3 3 0 0 0 3 0 0 0 3
+face B 0 1/3 1/3 -1 0 2 0 0 0 -16/3 1 4 1/3 1/3 -1 1/3 7/3 -1 5/3 7/3 -1 5/3 1/3 -1
+face B 1 1/3 1/3 2/3 4/3 0 0 0 0 16/3 1 4 1/3 1/3 2/3 5/3 1/3 2/3 5/3 7/3 2/3 1/3 7/3 2/3
+face B 2 1/3 1/3 -1 4/3 0 0 0 -40/9 0 1 4 1/3 1/3 -1 5/3 1/3 -1 5/3 1/3 2/3 1/3 1/3 2/3
+face B 3 1/3 7/3 -1 0 0 5/3 0 40/9 0 1 4 1/3 7/3 -1 1/3 7/3 2/3 5/3 7/3 2/3 5/3 7/3 -1
+face B 4 1/3 1/3 -1 0 0 5/3 -20/3 0 0 1 4 1/3 1/3 -1 1/3 1/3 2/3 1/3 7/3 2/3 1/3 7/3 -1
+face B 5 5/3 1/3 -1 0 2 0 20/3 0 0 1 4 5/3 1/3 -1 5/3 7/3 -1 5/3 7/3 2/3 5/3 1/3 2/3
+boxmeet 0 2
+boxmeet 0 3
+boxmeet 0 4
+boxmeet 0 5
+boxmeet 3 1
+boxmeet 3 2
+boxmeet 3 3
+boxmeet 3 4
+boxmeet 3 5
+ef A 0 3 0 3 0 0 3 2/3 7/3 0
+ef A 0 3 0 3 0 0 5 5/3 4/3 0
+ef B 1/3 1/3 -1 1/3 1/3 2/3 0 1/3 1/3 0
+ef B 1/3 1/3 2/3 1/3 7/3 2/3 3 1/3 2 2/3
+ef B 1/3 7/3 -1 1/3 7/3 2/3 0 1/3 7/3 0
+ef B 1/3 7/3 -1 1/3 7/3 2/3 3 1/3 7/3 1/3
+ef B 5/3 1/3 -1 5/3 1/3 2/3 0 5/3 1/3 0
+ef B 5/3 1/3 2/3 5/3 7/3 2/3 3 5/3 2/3 2/3
+frame R0
+paves A 0 0 0 0 0 3 2 0 0 0 0 0 3
+paves A 0 0 0 0 3 0 2 0 0 0 0 3 0
+paves A 0 0 0 3 0 0 2 0 0 0 3 0 0
+paves A 0 0 3 0 3 0 2 0 0 3 0 3 0
+paves A 0 0 3 3 0 0 2 0 0 3 3 0 0
+paves A 0 3 0 3 0 0 4 0 3 0 2/3 7/3 0 5/3 4/3 0 3 0 0
+paves B 1/3 1/3 -1 1/3 1/3 2/3 3 1/3 1/3 -1 1/3 1/3 0 1/3 1/3 2/3
+paves B 1/3 1/3 -1 1/3 7/3 -1 2 1/3 1/3 -1 1/3 7/3 -1
+paves B 1/3 1/3 -1 5/3 1/3 -1 2 1/3 1/3 -1 5/3 1/3 -1
+paves B 1/3 1/3 2/3 1/3 7/3 2/3 3 1/3 1/3 2/3 1/3 2 2/3 1/3 7/3 2/3
+paves B 1/3 1/3 2/3 5/3 1/3 2/3 2 1/3 1/3 2/3 5/3 1/3 2/3
+paves B 1/3 7/3 -1 1/3 7/3 2/3 4 1/3 7/3 -1 1/3 7/3 0 1/3 7/3 1/3 1/3 7/3 2/3
+paves B 1/3 7/3 -1 5/3 7/3 -1 2 1/3 7/3 -1 5/3 7/3 -1
+paves B 1/3 7/3 2/3 5/3 7/3 2/3 2 1/3 7/3 2/3 5/3 7/3 2/3
+paves B 5/3 1/3 -1 5/3 1/3 2/3 3 5/3 1/3 -1 5/3 1/3 0 5/3 1/3 2/3
+paves B 5/3 1/3 -1 5/3 7/3 -1 2 5/3 1/3 -1 5/3 7/3 -1
+paves B 5/3 1/3 2/3 5/3 7/3 2/3 3 5/3 1/3 2/3 5/3 2/3 2/3 5/3 7/3 2/3
+paves B 5/3 7/3 -1 5/3 7/3 2/3 2 5/3 7/3 -1 5/3 7/3 2/3
+piece 0 2 5/3 1/3 0 1/3 1/3 0 0 0 13/18 1/54 1/2 7/162 1 27/160 0 27/160
+piece 0 3 1/3 7/3 0 2/3 7/3 0 0 0 1/6 1/162 2/9 0 3/5 0 3/5 9/200
+piece 0 4 1/3 1/3 0 1/3 7/3 0 0 0 1/2 7/162 1/6 1/162 3/5 0 3/5 9/50
+piece 0 5 5/3 4/3 0 5/3 1/3 0 0 0 5/9 0 13/18 1/54 1/2 3/40 0 3/40
+piece 3 1 1/3 2 2/3 5/3 2/3 2/3 0 0 7/9 1/81 1/3 1/81 0 15/64 1 3/64
+piece 3 3 2/3 7/3 0 1/3 7/3 1/3 0 0 7/9 0 5/6 1/162 3/5 9/200 4/5 0
+piece 3 4 1/3 7/3 1/3 1/3 2 2/3 0 0 5/6 1/162 7/9 1/81 4/5 9/50 1 3/20
+piece 3 5 5/3 2/3 2/3 5/3 4/3 0 0 0 1/3 1/81 4/9 0 1/6 1/8 1/2 3/40
+relation 0 0 disjoint 1 1 1
+relation 0 1 disjoint 0 0 4/9
+relation 0 2 transverse 0 1/3 0 1 0 0
+relation 0 3 transverse 0 7/3 0 1 0 0
+relation 0 4 transverse 1/3 0 0 0 1 0
+relation 0 5 transverse 5/3 0 0 0 1 0
+relation 1 0 transverse 0 0 -1 1 0 0
+relation 1 1 transverse 0 0 2/3 1 0 0
+relation 1 2 disjoint 1 0 1/9
+relation 1 3 disjoint 0 0 49/9
+relation 1 4 transverse 1/3 0 0 0 0 1
+relation 1 5 transverse 5/3 0 0 0 0 1
+relation 2 0 transverse 0 0 -1 0 1 0
+relation 2 1 transverse 0 0 2/3 0 1 0
+relation 2 2 transverse 0 1/3 0 0 0 1
+relation 2 3 transverse 0 7/3 0 0 0 1
+relation 2 4 disjoint 1 0 1/9
+relation 2 5 disjoint 0 0 25/9
+relation 3 0 transverse 0 4 -1 1 -1 0
+relation 3 1 transverse 0 7/3 2/3 1 -1 0
+relation 3 2 transverse 0 1/3 8/3 1 0 -1
+relation 3 3 transverse 0 7/3 2/3 1 0 -1
+relation 3 4 transverse 1/3 0 8/3 0 1 -1
+relation 3 5 transverse 5/3 0 4/3 0 1 -1
+end
+config diagonal-through-vertices
+placement A 0 0 0 1 0 0 0 1 0 0 0 1
+placement B 0 0 0 1 0 0 0 1 0 0 0 1
+face A 0 0 0 0 0 4 0 0 0 -32 1 4 0 0 0 0 4 0 4 4 0 4 0 0
+face A 1 0 0 4 4 0 0 0 0 32 1 4 0 0 4 4 0 4 4 4 4 0 4 4
+face A 2 0 0 0 4 0 0 0 -32 0 1 4 0 0 0 4 0 0 4 0 4 0 0 4
+face A 3 0 4 0 0 0 4 0 32 0 1 4 0 4 0 0 4 4 4 4 4 4 4 0
+face A 4 0 0 0 0 0 4 -32 0 0 1 4 0 0 0 0 0 4 0 4 4 0 4 0
+face A 5 4 0 0 0 4 0 32 0 0 1 4 4 0 0 4 4 0 4 4 4 4 0 4
+face B 0 -2 6 1 8 0 0 0 0 -64 1 3 -2 6 1 6 6 1 -2 -2 1
+face B 1 -2 -2 3 8 8 0 0 0 64 1 3 -2 -2 3 6 6 3 -2 6 3
+face B 2 -2 -2 1 8 8 0 32 -32 0 1 4 -2 -2 1 6 6 1 6 6 3 -2 -2 3
+face B 3 6 6 1 -8 0 0 0 32 0 1 4 6 6 1 -2 6 1 -2 6 3 6 6 3
+face B 4 -2 6 1 0 -8 0 -32 0 0 1 4 -2 6 1 -2 -2 1 -2 -2 3 -2 6 3
+boxmeet 2 0
+boxmeet 2 1
+boxmeet 2 2
+boxmeet 3 0
+boxmeet 3 1
+boxmeet 3 2
+boxmeet 4 0
+boxmeet 4 1
+boxmeet 4 2
+boxmeet 5 0
+boxmeet 5 1
+boxmeet 5 2
+ee 0 0 1 0 0 0 0 0 4 -2 -2 1 6 6 1
+ee 0 0 3 0 0 0 0 0 4 -2 -2 3 6 6 3
+ee 4 4 1 4 4 0 4 4 4 -2 -2 1 6 6 1
+ee 4 4 3 4 4 0 4 4 4 -2 -2 3 6 6 3
+ef A 0 4 0 0 4 4 0 0 4 1
+ef A 0 4 0 0 4 4 1 0 4 3
+frame R0
+paves A 0 0 0 0 0 4 4 0 0 0 0 0 1 0 0 3 0 0 4
+paves A 0 0 0 0 4 0 2 0 0 0 0 4 0
+paves A 0 0 0 4 0 0 2 0 0 0 4 0 0
+paves A 0 0 4 0 4 4 2 0 0 4 0 4 4
+paves A 0 0 4 4 0 4 2 0 0 4 4 0 4
+paves A 0 4 0 0 4 4 4 0 4 0 0 4 1 0 4 3 0 4 4
+paves A 0 4 0 4 4 0 2 0 4 0 4 4 0
+paves A 0 4 4 4 4 4 2 0 4 4 4 4 4
+paves A 4 0 0 4 0 4 2 4 0 0 4 0 4
+paves A 4 0 0 4 4 0 2 4 0 0 4 4 0
+paves A 4 0 4 4 4 4 2 4 0 4 4 4 4
+paves A 4 4 0 4 4 4 4 4 4 0 4 4 1 4 4 3 4 4 4
+paves B -2 -2 1 -2 -2 3 2 -2 -2 1 -2 -2 3
+paves B -2 -2 1 -2 6 1 2 -2 -2 1 -2 6 1
+paves B -2 -2 1 6 6 1 4 -2 -2 1 0 0 1 4 4 1 6 6 1
+paves B -2 -2 3 -2 6 3 2 -2 -2 3 -2 6 3
+paves B -2 -2 3 6 6 3 4 -2 -2 3 0 0 3 4 4 3 6 6 3
+paves B -2 6 1 -2 6 3 2 -2 6 1 -2 6 3
+paves B -2 6 1 6 6 1 2 -2 6 1 6 6 1
+paves B -2 6 3 6 6 3 2 -2 6 3 6 6 3
+paves B 6 6 1 6 6 3 2 6 6 1 6 6 3
+piece 2 2 0 0 1 0 0 3 1 0 0 1/128 0 3/128 1/4 0 1/4 1/256
+piece 3 0 4 4 1 0 4 1 0 0 1/4 1/32 1/4 0 3/4 1/256 1/4 1/256
+piece 3 1 0 4 3 4 4 3 0 0 3/4 0 3/4 1/32 1/2 1/256 3/4 0
+piece 3 2 4 4 3 4 4 1 1 0 3/4 1/32 1/4 1/32 3/4 1/256 3/4 0
+piece 4 0 0 4 1 0 0 1 0 0 1/4 1/32 1/4 0 1/4 1/256 1/4 3/256
+piece 4 1 0 0 3 0 4 3 0 0 3/4 0 3/4 1/32 1/4 0 1/2 1/256
+piece 4 2 0 0 1 0 0 3 1 0 1/4 0 3/4 0 1/4 0 1/4 1/256
+piece 5 2 4 4 3 4 4 1 1 0 1 3/128 1 1/128 3/4 1/256 3/4 0
+relation 0 0 disjoint 1 0 1
+relation 0 1 disjoint 0 0 9
+relation 0 2 transverse 0 0 0 1 1 0
+relation 0 3 transverse 0 6 0 1 0 0
+relation 0 4 transverse -2 0 0 0 1 0
+relation 1 0 disjoint 0 0 9
+relation 1 1 disjoint 1 0 1
+relation 1 2 transverse 0 0 4 1 1 0
+relation 1 3 transverse 0 6 4 1 0 0
+relation 1 4 transverse -2 0 4 0 1 0
+relation 2 0 transverse 0 0 1 1 0 0
+relation 2 1 transverse 0 0 3 1 0 0
+relation 2 2 transverse 0 0 0 0 0 1
+relation 2 3 disjoint 0 0 36
+relation 2 4 transverse -2 0 0 0 0 1
+relation 3 0 transverse 0 4 1 1 0 0
+relation 3 1 transverse 0 4 3 1 0 0
+relation 3 2 transverse 4 4 0 0 0 1
+relation 3 3 disjoint 1 1 4
+relation 3 4 transverse -2 4 0 0 0 1
+relation 4 0 transverse 0 0 1 0 1 0
+relation 4 1 transverse 0 0 3 0 1 0
+relation 4 2 transverse 0 0 0 0 0 1
+relation 4 3 transverse 0 6 0 0 0 1
+relation 4 4 disjoint 1 1 4
+relation 5 0 transverse 4 0 1 0 1 0
+relation 5 1 transverse 4 0 3 0 1 0
+relation 5 2 transverse 4 4 0 0 0 1
+relation 5 3 transverse 4 6 0 0 0 1
+relation 5 4 disjoint 0 0 36
+touch 2 0 0 0 1
+touch 2 1 0 0 3
+touch 5 0 4 4 1
+touch 5 1 4 4 3
+end
+config near-gap-2^-30
+placement A 33554432 33554432 33554432 1 0 0 0 1 0 0 0 1
+placement B 33554432 33554432 33554432 1 0 0 0 1 0 0 0 1
+face A 0 0 0 0 0 4 0 0 0 -64 1 4 0 0 0 0 4 0 8 4 0 8 0 0
+face A 1 0 0 4 8 0 0 0 0 64 1 4 0 0 4 8 0 4 8 4 4 0 4 4
+face A 2 0 0 0 8 0 0 0 -64 0 1 4 0 0 0 8 0 0 8 0 4 0 0 4
+face A 3 0 4 0 0 0 4 0 64 0 1 4 0 4 0 0 4 4 8 4 4 8 4 0
+face A 4 0 0 0 0 0 4 -32 0 0 1 4 0 0 0 0 0 4 0 4 4 0 4 0
+face A 5 8 0 0 0 4 0 32 0 0 1 4 8 0 0 8 4 0 8 4 4 8 0 4
+face B 0 8589934593/1073741824 0 0 0 4 0 0 0 -8589934591/134217728 1 4 8589934593/1073741824 0 0 8589934593/1073741824 4 0 16 4 0 16 0 0
+face B 1 8589934593/1073741824 0 4 8589934591/1073741824 0 0 0 0 8589934591/134217728 1 4 8589934593/1073741824 0 4 16 0 4 16 4 4 8589934593/1073741824 4 4
+face B 2 8589934593/1073741824 0 0 8589934591/1073741824 0 0 0 -8589934591/134217728 0 1 4 8589934593/1073741824 0 0 16 0 0 16 0 4 8589934593/1073741824 0 4
+face B 3 8589934593/1073741824 4 0 0 0 4 0 8589934591/134217728 0 1 4 8589934593/1073741824 4 0 8589934593/1073741824 4 4 16 4 4 16 4 0
+face B 4 8589934593/1073741824 0 0 0 0 4 -32 0 0 1 4 8589934593/1073741824 0 0 8589934593/1073741824 0 4 8589934593/1073741824 4 4 8589934593/1073741824 4 0
+face B 5 16 0 0 0 4 0 32 0 0 1 4 16 0 0 16 4 0 16 4 4 16 0 4
+frame R0
+paves A 0 0 0 0 0 4 2 0 0 0 0 0 4
+paves A 0 0 0 0 4 0 2 0 0 0 0 4 0
+paves A 0 0 0 8 0 0 2 0 0 0 8 0 0
+paves A 0 0 4 0 4 4 2 0 0 4 0 4 4
+paves A 0 0 4 8 0 4 2 0 0 4 8 0 4
+paves A 0 4 0 0 4 4 2 0 4 0 0 4 4
+paves A 0 4 0 8 4 0 2 0 4 0 8 4 0
+paves A 0 4 4 8 4 4 2 0 4 4 8 4 4
+paves A 8 0 0 8 0 4 2 8 0 0 8 0 4
+paves A 8 0 0 8 4 0 2 8 0 0 8 4 0
+paves A 8 0 4 8 4 4 2 8 0 4 8 4 4
+paves A 8 4 0 8 4 4 2 8 4 0 8 4 4
+paves B 16 0 0 16 0 4 2 16 0 0 16 0 4
+paves B 16 0 0 16 4 0 2 16 0 0 16 4 0
+paves B 16 0 4 16 4 4 2 16 0 4 16 4 4
+paves B 16 4 0 16 4 4 2 16 4 0 16 4 4
+paves B 8589934593/1073741824 0 0 16 0 0 2 8589934593/1073741824 0 0 16 0 0
+paves B 8589934593/1073741824 0 0 8589934593/1073741824 0 4 2 8589934593/1073741824 0 0 8589934593/1073741824 0 4
+paves B 8589934593/1073741824 0 0 8589934593/1073741824 4 0 2 8589934593/1073741824 0 0 8589934593/1073741824 4 0
+paves B 8589934593/1073741824 0 4 16 0 4 2 8589934593/1073741824 0 4 16 0 4
+paves B 8589934593/1073741824 0 4 8589934593/1073741824 4 4 2 8589934593/1073741824 0 4 8589934593/1073741824 4 4
+paves B 8589934593/1073741824 4 0 16 4 0 2 8589934593/1073741824 4 0 16 4 0
+paves B 8589934593/1073741824 4 0 8589934593/1073741824 4 4 2 8589934593/1073741824 4 0 8589934593/1073741824 4 4
+paves B 8589934593/1073741824 4 4 16 4 4 2 8589934593/1073741824 4 4 16 4 4
+relation 0 0 identical
+relation 0 1 disjoint 0 0 16
+relation 0 2 transverse 0 0 0 1 0 0
+relation 0 3 transverse 0 4 0 1 0 0
+relation 0 4 transverse 8589934593/1073741824 0 0 0 1 0
+relation 0 5 transverse 16 0 0 0 1 0
+relation 1 0 disjoint 0 0 16
+relation 1 1 identical
+relation 1 2 transverse 0 0 4 1 0 0
+relation 1 3 transverse 0 4 4 1 0 0
+relation 1 4 transverse 8589934593/1073741824 0 4 0 1 0
+relation 1 5 transverse 16 0 4 0 1 0
+relation 2 0 transverse 0 0 0 1 0 0
+relation 2 1 transverse 0 0 4 1 0 0
+relation 2 2 identical
+relation 2 3 disjoint 0 0 16
+relation 2 4 transverse 8589934593/1073741824 0 0 0 0 1
+relation 2 5 transverse 16 0 0 0 0 1
+relation 3 0 transverse 0 4 0 1 0 0
+relation 3 1 transverse 0 4 4 1 0 0
+relation 3 2 disjoint 0 0 16
+relation 3 3 identical
+relation 3 4 transverse 8589934593/1073741824 4 0 0 0 1
+relation 3 5 transverse 16 4 0 0 0 1
+relation 4 0 transverse 0 0 0 0 1 0
+relation 4 1 transverse 0 0 4 0 1 0
+relation 4 2 transverse 0 0 0 0 0 1
+relation 4 3 transverse 0 4 0 0 0 1
+relation 4 4 disjoint 1 0 73786976312018075649/1152921504606846976
+relation 4 5 disjoint 0 0 256
+relation 5 0 transverse 8 0 0 0 1 0
+relation 5 1 transverse 8 0 4 0 1 0
+relation 5 2 transverse 8 0 0 0 0 1
+relation 5 3 transverse 8 4 0 0 0 1
+relation 5 4 disjoint 0 1 1/1152921504606846976
+relation 5 5 disjoint 1 1 64
+end
+config near-overlap-2^-30
+placement A 33554432 33554432 33554432 1 0 0 0 1 0 0 0 1
+placement B 33554432 33554432 33554432 1 0 0 0 1 0 0 0 1
+face A 0 0 0 0 0 4 0 0 0 -64 1 4 0 0 0 0 4 0 8 4 0 8 0 0
+face A 1 0 0 4 8 0 0 0 0 64 1 4 0 0 4 8 0 4 8 4 4 0 4 4
+face A 2 0 0 0 8 0 0 0 -64 0 1 4 0 0 0 8 0 0 8 0 4 0 0 4
+face A 3 0 4 0 0 0 4 0 64 0 1 4 0 4 0 0 4 4 8 4 4 8 4 0
+face A 4 0 0 0 0 0 4 -32 0 0 1 4 0 0 0 0 0 4 0 4 4 0 4 0
+face A 5 8 0 0 0 4 0 32 0 0 1 4 8 0 0 8 4 0 8 4 4 8 0 4
+face B 0 8589934591/1073741824 0 0 0 4 0 0 0 -8589934593/134217728 1 4 8589934591/1073741824 0 0 8589934591/1073741824 4 0 16 4 0 16 0 0
+face B 1 8589934591/1073741824 0 4 8589934593/1073741824 0 0 0 0 8589934593/134217728 1 4 8589934591/1073741824 0 4 16 0 4 16 4 4 8589934591/1073741824 4 4
+face B 2 8589934591/1073741824 0 0 8589934593/1073741824 0 0 0 -8589934593/134217728 0 1 4 8589934591/1073741824 0 0 16 0 0 16 0 4 8589934591/1073741824 0 4
+face B 3 8589934591/1073741824 4 0 0 0 4 0 8589934593/134217728 0 1 4 8589934591/1073741824 4 0 8589934591/1073741824 4 4 16 4 4 16 4 0
+face B 4 8589934591/1073741824 0 0 0 0 4 -32 0 0 1 4 8589934591/1073741824 0 0 8589934591/1073741824 0 4 8589934591/1073741824 4 4 8589934591/1073741824 4 0
+face B 5 16 0 0 0 4 0 32 0 0 1 4 16 0 0 16 4 0 16 4 4 16 0 4
+boxmeet 0 0
+boxmeet 0 2
+boxmeet 0 3
+boxmeet 0 4
+boxmeet 1 1
+boxmeet 1 2
+boxmeet 1 3
+boxmeet 1 4
+boxmeet 2 0
+boxmeet 2 1
+boxmeet 2 2
+boxmeet 2 4
+boxmeet 3 0
+boxmeet 3 1
+boxmeet 3 3
+boxmeet 3 4
+boxmeet 5 0
+boxmeet 5 1
+boxmeet 5 2
+boxmeet 5 3
+frame R0
+paves A 0 0 0 0 0 4 2 0 0 0 0 0 4
+paves A 0 0 0 0 4 0 2 0 0 0 0 4 0
+paves A 0 0 0 8 0 0 3 0 0 0 8589934591/1073741824 0 0 8 0 0
+paves A 0 0 4 0 4 4 2 0 0 4 0 4 4
+paves A 0 0 4 8 0 4 3 0 0 4 8589934591/1073741824 0 4 8 0 4
+paves A 0 4 0 0 4 4 2 0 4 0 0 4 4
+paves A 0 4 0 8 4 0 3 0 4 0 8589934591/1073741824 4 0 8 4 0
+paves A 0 4 4 8 4 4 3 0 4 4 8589934591/1073741824 4 4 8 4 4
+paves A 8 0 0 8 0 4 2 8 0 0 8 0 4
+paves A 8 0 0 8 4 0 2 8 0 0 8 4 0
+paves A 8 0 4 8 4 4 2 8 0 4 8 4 4
+paves A 8 4 0 8 4 4 2 8 4 0 8 4 4
+paves B 16 0 0 16 0 4 2 16 0 0 16 0 4
+paves B 16 0 0 16 4 0 2 16 0 0 16 4 0
+paves B 16 0 4 16 4 4 2 16 0 4 16 4 4
+paves B 16 4 0 16 4 4 2 16 4 0 16 4 4
+paves B 8589934591/1073741824 0 0 16 0 0 3 8589934591/1073741824 0 0 8 0 0 16 0 0
+paves B 8589934591/1073741824 0 0 8589934591/1073741824 0 4 2 8589934591/1073741824 0 0 8589934591/1073741824 0 4
+paves B 8589934591/1073741824 0 0 8589934591/1073741824 4 0 2 8589934591/1073741824 0 0 8589934591/1073741824 4 0
+paves B 8589934591/1073741824 0 4 16 0 4 3 8589934591/1073741824 0 4 8 0 4 16 0 4
+paves B 8589934591/1073741824 0 4 8589934591/1073741824 4 4 2 8589934591/1073741824 0 4 8589934591/1073741824 4 4
+paves B 8589934591/1073741824 4 0 16 4 0 3 8589934591/1073741824 4 0 8 4 0 16 4 0
+paves B 8589934591/1073741824 4 0 8589934591/1073741824 4 4 2 8589934591/1073741824 4 0 8589934591/1073741824 4 4
+paves B 8589934591/1073741824 4 4 16 4 4 3 8589934591/1073741824 4 4 8 4 4 16 4 4
+piece 0 2 8 0 0 8589934591/1073741824 0 0 1 1 0 1/32 0 8589934591/274877906944 1/8589934593 0 0 0
+piece 0 3 8589934591/1073741824 4 0 8 4 0 1 1 1 8589934591/274877906944 1 1/32 0 0 0 1/274877906976
+piece 0 4 8589934591/1073741824 0 0 8589934591/1073741824 4 0 0 1 0 8589934591/274877906944 1 8589934591/274877906944 0 0 0 1/32
+piece 1 2 8589934591/1073741824 0 4 8 0 4 1 1 8589934591/8589934592 0 1 0 0 576460752303423488/73786976312018075649 1/8589934593 576460752303423488/73786976312018075649
+piece 1 3 8 4 4 8589934591/1073741824 4 4 1 1 1 1/128 8589934591/8589934592 1/128 1 1/274877906976 1 0
+piece 1 4 8589934591/1073741824 4 4 8589934591/1073741824 0 4 0 1 8589934591/8589934592 1/128 8589934591/8589934592 0 1 1/32 1 0
+piece 2 0 8589934591/1073741824 0 0 8 0 0 1 1 8589934591/8589934592 0 1 0 0 0 0 1/274877906976
+piece 2 1 8 0 4 8589934591/1073741824 0 4 1 1 1 1/128 8589934591/8589934592 1/128 1/8589934593 0 0 0
+piece 2 4 8589934591/1073741824 0 4 8589934591/1073741824 0 0 0 1 8589934591/8589934592 1/128 8589934591/8589934592 0 1 0 0 0
+piece 3 0 8 4 0 8589934591/1073741824 4 0 1 1 0 1/32 0 8589934591/274877906944 1 1/274877906976 1 0
+piece 3 1 8589934591/1073741824 4 4 8 4 4 1 1 1 8589934591/274877906944 1 1/32 0 576460752303423488/73786976312018075649 1/8589934593 576460752303423488/73786976312018075649
+piece 3 4 8589934591/1073741824 4 0 8589934591/1073741824 4 4 0 1 0 8589934591/274877906944 1 8589934591/274877906944 0 1/32 1 1/32
+piece 5 0 8 0 0 8 4 0 1 0 0 0 1 0 0 1/274877906976 1 1/274877906976
+piece 5 1 8 4 4 8 0 4 1 0 1 1/32 0 1/32 1/8589934593 576460752303423488/73786976312018075649 1/8589934593 0
+piece 5 2 8 0 4 8 0 0 1 0 0 1/32 0 0 1/8589934593 576460752303423488/73786976312018075649 1/8589934593 0
+piece 5 3 8 4 0 8 4 4 1 0 1 0 1 1/32 0 1/274877906976 1 1/274877906976
+relation 0 0 identical
+relation 0 1 disjoint 0 0 16
+relation 0 2 transverse 0 0 0 1 0 0
+relation 0 3 transverse 0 4 0 1 0 0
+relation 0 4 transverse 8589934591/1073741824 0 0 0 1 0
+relation 0 5 transverse 16 0 0 0 1 0
+relation 1 0 disjoint 0 0 16
+relation 1 1 identical
+relation 1 2 transverse 0 0 4 1 0 0
+relation 1 3 transverse 0 4 4 1 0 0
+relation 1 4 transverse 8589934591/1073741824 0 4 0 1 0
+relation 1 5 transverse 16 0 4 0 1 0
+relation 2 0 transverse 0 0 0 1 0 0
+relation 2 1 transverse 0 0 4 1 0 0
+relation 2 2 identical
+relation 2 3 disjoint 0 0 16
+relation 2 4 transverse 8589934591/1073741824 0 0 0 0 1
+relation 2 5 transverse 16 0 0 0 0 1
+relation 3 0 transverse 0 4 0 1 0 0
+relation 3 1 transverse 0 4 4 1 0 0
+relation 3 2 disjoint 0 0 16
+relation 3 3 identical
+relation 3 4 transverse 8589934591/1073741824 4 0 0 0 1
+relation 3 5 transverse 16 4 0 0 0 1
+relation 4 0 transverse 0 0 0 0 1 0
+relation 4 1 transverse 0 0 4 0 1 0
+relation 4 2 transverse 0 0 0 0 0 1
+relation 4 3 transverse 0 4 0 0 0 1
+relation 4 4 disjoint 1 0 73786976277658337281/1152921504606846976
+relation 4 5 disjoint 0 0 256
+relation 5 0 transverse 8 0 0 0 1 0
+relation 5 1 transverse 8 0 4 0 1 0
+relation 5 2 transverse 8 0 0 0 0 1
+relation 5 3 transverse 8 4 0 0 0 1
+relation 5 4 disjoint 0 0 1/1152921504606846976
+relation 5 5 disjoint 1 1 64
+ve A 8 0 0 8589934591/1073741824 0 0 16 0 0
+ve A 8 0 4 8589934591/1073741824 0 4 16 0 4
+ve A 8 4 0 8589934591/1073741824 4 0 16 4 0
+ve A 8 4 4 8589934591/1073741824 4 4 16 4 4
+ve B 8589934591/1073741824 0 0 0 0 0 8 0 0
+ve B 8589934591/1073741824 0 4 0 0 4 8 0 4
+ve B 8589934591/1073741824 4 0 0 4 0 8 4 0
+ve B 8589934591/1073741824 4 4 0 4 4 8 4 4
+end
+config near-vertex-2^-30
+placement A 33554432 33554432 33554432 1 0 0 0 1 0 0 0 1
+placement B 33554432 33554432 33554432 1 0 0 0 1 0 0 0 1
+face A 0 0 0 0 0 4 0 0 0 -32 1 4 0 0 0 0 4 0 4 4 0 4 0 0
+face A 1 0 0 4 4 0 0 0 0 32 1 4 0 0 4 4 0 4 4 4 4 0 4 4
+face A 2 0 0 0 4 0 0 0 -32 0 1 4 0 0 0 4 0 0 4 0 4 0 0 4
+face A 3 0 4 0 0 0 4 0 32 0 1 4 0 4 0 0 4 4 4 4 4 4 4 0
+face A 4 0 0 0 0 0 4 -32 0 0 1 4 0 0 0 0 0 4 0 4 4 0 4 0
+face A 5 4 0 0 0 4 0 32 0 0 1 4 4 0 0 4 4 0 4 4 4 4 0 4
+face B 0 4294967297/1073741824 4294967297/1073741824 4294967297/1073741824 0 4294967295/1073741824 0 0 0 -18446744065119617025/576460752303423488 1 4 4294967297/1073741824 4294967297/1073741824 4294967297/1073741824 4294967297/1073741824 8 4294967297/1073741824 8 8 4294967297/1073741824 8 4294967297/1073741824 4294967297/1073741824
+face B 1 4294967297/1073741824 4294967297/1073741824 8 4294967295/1073741824 0 0 0 0 18446744065119617025/576460752303423488 1 4 4294967297/1073741824 4294967297/1073741824 8 8 4294967297/1073741824 8 8 8 8 4294967297/1073741824 8 8
+face B 2 4294967297/1073741824 4294967297/1073741824 4294967297/1073741824 4294967295/1073741824 0 0 0 -18446744065119617025/576460752303423488 0 1 4 4294967297/1073741824 4294967297/1073741824 4294967297/1073741824 8 4294967297/1073741824 4294967297/1073741824 8 4294967297/1073741824 8 4294967297/1073741824 4294967297/1073741824 8
+face B 3 4294967297/1073741824 8 4294967297/1073741824 0 0 4294967295/1073741824 0 18446744065119617025/576460752303423488 0 1 4 4294967297/1073741824 8 4294967297/1073741824 4294967297/1073741824 8 8 8 8 8 8 8 4294967297/1073741824
+face B 4 4294967297/1073741824 4294967297/1073741824 4294967297/1073741824 0 0 4294967295/1073741824 -18446744065119617025/576460752303423488 0 0 1 4 4294967297/1073741824 4294967297/1073741824 4294967297/1073741824 4294967297/1073741824 4294967297/1073741824 8 4294967297/1073741824 8 8 4294967297/1073741824 8 4294967297/1073741824
+face B 5 8 4294967297/1073741824 4294967297/1073741824 0 4294967295/1073741824 0 18446744065119617025/576460752303423488 0 0 1 4 8 4294967297/1073741824 4294967297/1073741824 8 8 4294967297/1073741824 8 8 8 8 4294967297/1073741824 8
+frame R0
+paves A 0 0 0 0 0 4 2 0 0 0 0 0 4
+paves A 0 0 0 0 4 0 2 0 0 0 0 4 0
+paves A 0 0 0 4 0 0 2 0 0 0 4 0 0
+paves A 0 0 4 0 4 4 2 0 0 4 0 4 4
+paves A 0 0 4 4 0 4 2 0 0 4 4 0 4
+paves A 0 4 0 0 4 4 2 0 4 0 0 4 4
+paves A 0 4 0 4 4 0 2 0 4 0 4 4 0
+paves A 0 4 4 4 4 4 2 0 4 4 4 4 4
+paves A 4 0 0 4 0 4 2 4 0 0 4 0 4
+paves A 4 0 0 4 4 0 2 4 0 0 4 4 0
+paves A 4 0 4 4 4 4 2 4 0 4 4 4 4
+paves A 4 4 0 4 4 4 2 4 4 0 4 4 4
+paves B 4294967297/1073741824 4294967297/1073741824 4294967297/1073741824 4294967297/1073741824 4294967297/1073741824 8 2 4294967297/1073741824 4294967297/1073741824 4294967297/1073741824 4294967297/1073741824 4294967297/1073741824 8
+paves B 4294967297/1073741824 4294967297/1073741824 4294967297/1073741824 4294967297/1073741824 8 4294967297/1073741824 2 4294967297/1073741824 4294967297/1073741824 4294967297/1073741824 4294967297/1073741824 8 4294967297/1073741824
+paves B 4294967297/1073741824 4294967297/1073741824 4294967297/1073741824 8 4294967297/1073741824 4294967297/1073741824 2 4294967297/1073741824 4294967297/1073741824 4294967297/1073741824 8 4294967297/1073741824 4294967297/1073741824
+paves B 4294967297/1073741824 4294967297/1073741824 8 4294967297/1073741824 8 8 2 4294967297/1073741824 4294967297/1073741824 8 4294967297/1073741824 8 8
+paves B 4294967297/1073741824 4294967297/1073741824 8 8 4294967297/1073741824 8 2 4294967297/1073741824 4294967297/1073741824 8 8 4294967297/1073741824 8
+paves B 4294967297/1073741824 8 4294967297/1073741824 4294967297/1073741824 8 8 2 4294967297/1073741824 8 4294967297/1073741824 4294967297/1073741824 8 8
+paves B 4294967297/1073741824 8 4294967297/1073741824 8 8 4294967297/1073741824 2 4294967297/1073741824 8 4294967297/1073741824 8 8 4294967297/1073741824
+paves B 4294967297/1073741824 8 8 8 8 8 2 4294967297/1073741824 8 8 8 8 8
+paves B 8 4294967297/1073741824 4294967297/1073741824 8 4294967297/1073741824 8 2 8 4294967297/1073741824 4294967297/1073741824 8 4294967297/1073741824 8
+paves B 8 4294967297/1073741824 4294967297/1073741824 8 8 4294967297/1073741824 2 8 4294967297/1073741824 4294967297/1073741824 8 8 4294967297/1073741824
+paves B 8 4294967297/1073741824 8 8 8 8 2 8 4294967297/1073741824 8 8 8 8
+paves B 8 8 4294967297/1073741824 8 8 8 2 8 8 4294967297/1073741824 8 8 8
+relation 0 0 disjoint 1 0 18446744082299486209/1152921504606846976
+relation 0 1 disjoint 0 0 64
+relation 0 2 transverse 0 4294967297/1073741824 0 1 0 0
+relation 0 3 transverse 0 8 0 1 0 0
+relation 0 4 transverse 4294967297/1073741824 0 0 0 1 0
+relation 0 5 transverse 8 0 0 0 1 0
+relation 1 0 disjoint 0 1 1/1152921504606846976
+relation 1 1 disjoint 1 1 16
+relation 1 2 transverse 0 4294967297/1073741824 4 1 0 0
+relation 1 3 transverse 0 8 4 1 0 0
+relation 1 4 transverse 4294967297/1073741824 0 4 0 1 0
+relation 1 5 transverse 8 0 4 0 1 0
+relation 2 0 transverse 0 0 4294967297/1073741824 1 0 0
+relation 2 1 transverse 0 0 8 1 0 0
+relation 2 2 disjoint 1 0 18446744082299486209/1152921504606846976
+relation 2 3 disjoint 0 0 64
+relation 2 4 transverse 4294967297/1073741824 0 0 0 0 1
+relation 2 5 transverse 8 0 0 0 0 1
+relation 3 0 transverse 0 4 4294967297/1073741824 1 0 0
+relation 3 1 transverse 0 4 8 1 0 0
+relation 3 2 disjoint 0 1 1/1152921504606846976
+relation 3 3 disjoint 1 1 16
+relation 3 4 transverse 4294967297/1073741824 4 0 0 0 1
+relation 3 5 transverse 8 4 0 0 0 1
+relation 4 0 transverse 0 0 4294967297/1073741824 0 1 0
+relation 4 1 transverse 0 0 8 0 1 0
+relation 4 2 transverse 0 4294967297/1073741824 0 0 0 1
+relation 4 3 transverse 0 8 0 0 0 1
+relation 4 4 disjoint 1 0 18446744082299486209/1152921504606846976
+relation 4 5 disjoint 0 0 64
+relation 5 0 transverse 4 0 4294967297/1073741824 0 1 0
+relation 5 1 transverse 4 0 8 0 1 0
+relation 5 2 transverse 4 4294967297/1073741824 0 0 0 1
+relation 5 3 transverse 4 8 0 0 0 1
+relation 5 4 disjoint 0 1 1/1152921504606846976
+relation 5 5 disjoint 1 1 16
+end
+config near-apex-2^-30-deep
+placement A 33554432 33554432 33554432 1 0 0 0 1 0 0 0 1
+placement B 33554432 33554432 33554432 1 0 0 0 1 0 0 0 1
+face A 0 0 0 0 0 4 0 0 0 -32 1 4 0 0 0 0 4 0 4 4 0 4 0 0
+face A 1 0 0 4 4 0 0 0 0 32 1 4 0 0 4 4 0 4 4 4 4 0 4 4
+face A 2 0 0 0 4 0 0 0 -32 0 1 4 0 0 0 4 0 0 4 0 4 0 0 4
+face A 3 0 4 0 0 0 4 0 32 0 1 4 0 4 0 0 4 4 4 4 4 4 4 0
+face A 4 0 0 0 0 0 4 -32 0 0 1 4 0 0 0 0 0 4 0 4 4 0 4 0
+face A 5 4 0 0 0 4 0 32 0 0 1 4 4 0 0 4 4 0 4 4 4 4 0 4
+face B 0 1 1 6 2 0 0 0 0 8 1 4 1 1 6 3 1 6 3 3 6 1 3 6
+face B 1 2 2 4294967295/1073741824 1 -1 2147483649/1073741824 0 -2147483649/536870912 -2 1 3 2 2 4294967295/1073741824 3 1 6 1 1 6
+face B 2 2 2 4294967295/1073741824 1 1 2147483649/1073741824 2147483649/536870912 0 -2 1 3 2 2 4294967295/1073741824 3 3 6 3 1 6
+face B 3 2 2 4294967295/1073741824 -1 1 2147483649/1073741824 0 2147483649/536870912 -2 1 3 2 2 4294967295/1073741824 1 3 6 3 3 6
+face B 4 2 2 4294967295/1073741824 -1 -1 2147483649/1073741824 -2147483649/536870912 0 -2 1 3 2 2 4294967295/1073741824 1 1 6 1 3 6
+boxmeet 1 1
+boxmeet 1 2
+boxmeet 1 3
+boxmeet 1 4
+ef B 1 1 6 2 2 4294967295/1073741824 1 4294967297/2147483649 4294967297/2147483649 4
+ef B 1 3 6 2 2 4294967295/1073741824 1 4294967297/2147483649 4294967299/2147483649 4
+ef B 2 2 4294967295/1073741824 3 1 6 1 4294967299/2147483649 4294967297/2147483649 4
+ef B 2 2 4294967295/1073741824 3 3 6 1 4294967299/2147483649 4294967299/2147483649 4
+frame R0
+paves A 0 0 0 0 0 4 2 0 0 0 0 0 4
+paves A 0 0 0 0 4 0 2 0 0 0 0 4 0
+paves A 0 0 0 4 0 0 2 0 0 0 4 0 0
+paves A 0 0 4 0 4 4 2 0 0 4 0 4 4
+paves A 0 0 4 4 0 4 2 0 0 4 4 0 4
+paves A 0 4 0 0 4 4 2 0 4 0 0 4 4
+paves A 0 4 0 4 4 0 2 0 4 0 4 4 0
+paves A 0 4 4 4 4 4 2 0 4 4 4 4 4
+paves A 4 0 0 4 0 4 2 4 0 0 4 0 4
+paves A 4 0 0 4 4 0 2 4 0 0 4 4 0
+paves A 4 0 4 4 4 4 2 4 0 4 4 4 4
+paves A 4 4 0 4 4 4 2 4 4 0 4 4 4
+paves B 1 1 6 1 3 6 2 1 1 6 1 3 6
+paves B 1 1 6 2 2 4294967295/1073741824 3 1 1 6 4294967297/2147483649 4294967297/2147483649 4 2 2 4294967295/1073741824
+paves B 1 1 6 3 1 6 2 1 1 6 3 1 6
+paves B 1 3 6 2 2 4294967295/1073741824 3 1 3 6 4294967297/2147483649 4294967299/2147483649 4 2 2 4294967295/1073741824
+paves B 1 3 6 3 3 6 2 1 3 6 3 3 6
+paves B 2 2 4294967295/1073741824 3 1 6 3 2 2 4294967295/1073741824 4294967299/2147483649 4294967297/2147483649 4 3 1 6
+paves B 2 2 4294967295/1073741824 3 3 6 3 2 2 4294967295/1073741824 4294967299/2147483649 4294967299/2147483649 4 3 3 6
+paves B 3 1 6 3 3 6 2 3 1 6 3 3 6
+piece 1 1 4294967297/2147483649 4294967297/2147483649 4 4294967299/2147483649 4294967297/2147483649 4 0 0 4294967297/8589934596 4294967297/274877907072 4294967299/8589934596 4294967297/274877907072 2147483649/6917529031936049153 1152921504606846976/14855280487565464369727799297 1/2147483649 0
+piece 1 2 4294967299/2147483649 4294967297/2147483649 4 4294967299/2147483649 4294967299/2147483649 4 0 0 4294967299/8589934596 4294967297/274877907072 4294967299/8589934596 4294967299/274877907072 2147483649/6917529031936049153 1152921504606846976/14855280487565464369727799297 1/2147483649 0
+piece 1 3 4294967299/2147483649 4294967299/2147483649 4 4294967297/2147483649 4294967299/2147483649 4 0 0 4294967299/8589934596 4294967299/274877907072 4294967297/8589934596 4294967299/274877907072 2147483649/6917529031936049153 1152921504606846976/14855280487565464369727799297 1/2147483649 0
+piece 1 4 4294967297/2147483649 4294967299/2147483649 4 4294967297/2147483649 4294967297/2147483649 4 0 0 4294967297/8589934596 4294967299/274877907072 4294967297/8589934596 4294967297/274877907072 2147483649/6917529031936049153 1152921504606846976/14855280487565464369727799297 1/2147483649 0
+relation 0 0 disjoint 0 0 36
+relation 0 1 transverse 0 2863311531/715827883 0 1 0 0
+relation 0 2 transverse 1/715827883 0 0 0 1 0
+relation 0 3 transverse 0 1/715827883 0 1 0 0
+relation 0 4 transverse 2863311531/715827883 0 0 0 1 0
+relation 1 0 disjoint 1 1 4
+relation 1 1 transverse 0 4294967297/2147483649 4 1 0 0
+relation 1 2 transverse 4294967299/2147483649 0 4 0 1 0
+relation 1 3 transverse 0 4294967299/2147483649 4 1 0 0
+relation 1 4 transverse 4294967297/2147483649 0 4 0 1 0
+relation 2 0 transverse 0 0 6 1 0 0
+relation 2 1 transverse 0 0 8589934593/1073741824 1 0 0
+relation 2 2 transverse 0 0 -3/1073741824 1 0 2147483649/1073741824
+relation 2 3 transverse 0 0 -3/1073741824 1 0 0
+relation 2 4 transverse 0 0 8589934593/1073741824 1 0 -2147483649/1073741824
+relation 3 0 transverse 0 4 6 1 0 0
+relation 3 1 transverse 0 4 -3/1073741824 1 0 0
+relation 3 2 transverse 0 4 -3/1073741824 1 0 2147483649/1073741824
+relation 3 3 transverse 0 4 8589934593/1073741824 1 0 0
+relation 3 4 transverse 0 4 8589934593/1073741824 1 0 -2147483649/1073741824
+relation 4 0 transverse 0 0 6 0 1 0
+relation 4 1 transverse 0 0 8589934593/1073741824 0 1 -2147483649/1073741824
+relation 4 2 transverse 0 0 -3/1073741824 0 1 0
+relation 4 3 transverse 0 0 -3/1073741824 0 1 2147483649/1073741824
+relation 4 4 transverse 0 0 8589934593/1073741824 0 1 0
+relation 5 0 transverse 4 0 6 0 1 0
+relation 5 1 transverse 4 0 8589934593/1073741824 0 1 -2147483649/1073741824
+relation 5 2 transverse 4 0 8589934593/1073741824 0 1 0
+relation 5 3 transverse 4 0 -3/1073741824 0 1 2147483649/1073741824
+relation 5 4 transverse 4 0 -3/1073741824 0 1 0
+end
+config near-shifted-copy-2^-30
+placement A 33554432 33554432 33554432 1 0 0 0 1 0 0 0 1
+placement B 33554432 33554432 33554432 1 0 0 0 1 0 0 0 1
+face A 0 0 0 0 0 4 0 0 0 -32 1 4 0 0 0 0 4 0 4 4 0 4 0 0
+face A 1 0 0 4 4 0 0 0 0 32 1 4 0 0 4 4 0 4 4 4 4 0 4 4
+face A 2 0 0 0 4 0 0 0 -32 0 1 4 0 0 0 4 0 0 4 0 4 0 0 4
+face A 3 0 4 0 0 0 4 0 32 0 1 4 0 4 0 0 4 4 4 4 4 4 4 0
+face A 4 0 0 0 0 0 4 -32 0 0 1 4 0 0 0 0 0 4 0 4 4 0 4 0
+face A 5 4 0 0 0 4 0 32 0 0 1 4 4 0 0 4 4 0 4 4 4 4 0 4
+face B 0 1/1073741824 1/1073741824 0 0 4 0 0 0 -32 1 4 1/1073741824 1/1073741824 0 1/1073741824 4294967297/1073741824 0 4294967297/1073741824 4294967297/1073741824 0 4294967297/1073741824 1/1073741824 0
+face B 1 1/1073741824 1/1073741824 4 4 0 0 0 0 32 1 4 1/1073741824 1/1073741824 4 4294967297/1073741824 1/1073741824 4 4294967297/1073741824 4294967297/1073741824 4 1/1073741824 4294967297/1073741824 4
+face B 2 1/1073741824 1/1073741824 0 4 0 0 0 -32 0 1 4 1/1073741824 1/1073741824 0 4294967297/1073741824 1/1073741824 0 4294967297/1073741824 1/1073741824 4 1/1073741824 1/1073741824 4
+face B 3 1/1073741824 4294967297/1073741824 0 0 0 4 0 32 0 1 4 1/1073741824 4294967297/1073741824 0 1/1073741824 4294967297/1073741824 4 4294967297/1073741824 4294967297/1073741824 4 4294967297/1073741824 4294967297/1073741824 0
+face B 4 1/1073741824 1/1073741824 0 0 0 4 -32 0 0 1 4 1/1073741824 1/1073741824 0 1/1073741824 1/1073741824 4 1/1073741824 4294967297/1073741824 4 1/1073741824 4294967297/1073741824 0
+face B 5 4294967297/1073741824 1/1073741824 0 0 4 0 32 0 0 1 4 4294967297/1073741824 1/1073741824 0 4294967297/1073741824 4294967297/1073741824 0 4294967297/1073741824 4294967297/1073741824 4 4294967297/1073741824 1/1073741824 4
+boxmeet 0 0
+boxmeet 0 2
+boxmeet 0 4
+boxmeet 1 1
+boxmeet 1 2
+boxmeet 1 4
+boxmeet 3 0
+boxmeet 3 1
+boxmeet 3 4
+boxmeet 5 0
+boxmeet 5 1
+boxmeet 5 2
+ee 1/1073741824 4 0 0 4 0 4 4 0 1/1073741824 1/1073741824 0 1/1073741824 4294967297/1073741824 0
+ee 1/1073741824 4 4 0 4 4 4 4 4 1/1073741824 1/1073741824 4 1/1073741824 4294967297/1073741824 4
+ee 4 1/1073741824 0 4 0 0 4 4 0 1/1073741824 1/1073741824 0 4294967297/1073741824 1/1073741824 0
+ee 4 1/1073741824 4 4 0 4 4 4 4 1/1073741824 1/1073741824 4 4294967297/1073741824 1/1073741824 4
+frame R0
+paves A 0 0 0 0 0 4 2 0 0 0 0 0 4
+paves A 0 0 0 0 4 0 2 0 0 0 0 4 0
+paves A 0 0 0 4 0 0 2 0 0 0 4 0 0
+paves A 0 0 4 0 4 4 2 0 0 4 0 4 4
+paves A 0 0 4 4 0 4 2 0 0 4 4 0 4
+paves A 0 4 0 0 4 4 2 0 4 0 0 4 4
+paves A 0 4 0 4 4 0 3 0 4 0 1/1073741824 4 0 4 4 0
+paves A 0 4 4 4 4 4 3 0 4 4 1/1073741824 4 4 4 4 4
+paves A 4 0 0 4 0 4 2 4 0 0 4 0 4
+paves A 4 0 0 4 4 0 3 4 0 0 4 1/1073741824 0 4 4 0
+paves A 4 0 4 4 4 4 3 4 0 4 4 1/1073741824 4 4 4 4
+paves A 4 4 0 4 4 4 2 4 4 0 4 4 4
+paves B 1/1073741824 1/1073741824 0 1/1073741824 1/1073741824 4 2 1/1073741824 1/1073741824 0 1/1073741824 1/1073741824 4
+paves B 1/1073741824 1/1073741824 0 1/1073741824 4294967297/1073741824 0 3 1/1073741824 1/1073741824 0 1/1073741824 4 0 1/1073741824 4294967297/1073741824 0
+paves B 1/1073741824 1/1073741824 0 4294967297/1073741824 1/1073741824 0 3 1/1073741824 1/1073741824 0 4 1/1073741824 0 4294967297/1073741824 1/1073741824 0
+paves B 1/1073741824 1/1073741824 4 1/1073741824 4294967297/1073741824 4 3 1/1073741824 1/1073741824 4 1/1073741824 4 4 1/1073741824 4294967297/1073741824 4
+paves B 1/1073741824 1/1073741824 4 4294967297/1073741824 1/1073741824 4 3 1/1073741824 1/1073741824 4 4 1/1073741824 4 4294967297/1073741824 1/1073741824 4
+paves B 1/1073741824 4294967297/1073741824 0 1/1073741824 4294967297/1073741824 4 2 1/1073741824 4294967297/1073741824 0 1/1073741824 4294967297/1073741824 4
+paves B 1/1073741824 4294967297/1073741824 0 4294967297/1073741824 4294967297/1073741824 0 2 1/1073741824 4294967297/1073741824 0 4294967297/1073741824 4294967297/1073741824 0
+paves B 1/1073741824 4294967297/1073741824 4 4294967297/1073741824 4294967297/1073741824 4 2 1/1073741824 4294967297/1073741824 4 4294967297/1073741824 4294967297/1073741824 4
+paves B 4294967297/1073741824 1/1073741824 0 4294967297/1073741824 1/1073741824 4 2 4294967297/1073741824 1/1073741824 0 4294967297/1073741824 1/1073741824 4
+paves B 4294967297/1073741824 1/1073741824 0 4294967297/1073741824 4294967297/1073741824 0 2 4294967297/1073741824 1/1073741824 0 4294967297/1073741824 4294967297/1073741824 0
+paves B 4294967297/1073741824 1/1073741824 4 4294967297/1073741824 4294967297/1073741824 4 2 4294967297/1073741824 1/1073741824 4 4294967297/1073741824 4294967297/1073741824 4
+paves B 4294967297/1073741824 4294967297/1073741824 0 4294967297/1073741824 4294967297/1073741824 4 2 4294967297/1073741824 4294967297/1073741824 0 4294967297/1073741824 4294967297/1073741824 4
+piece 0 2 4 1/1073741824 0 1/1073741824 1/1073741824 0 0 1 1/4294967296 1/32 1/4294967296 1/137438953472 4294967295/4294967296 0 0 0
+piece 0 4 1/1073741824 1/1073741824 0 1/1073741824 4 0 0 1 1/4294967296 1/137438953472 1 1/137438953472 0 0 0 4294967295/137438953472
+piece 1 2 1/1073741824 1/1073741824 4 4 1/1073741824 4 0 1 1/4294967296 1/137438953472 1 1/137438953472 0 1/32 4294967295/4294967296 1/32
+piece 1 4 1/1073741824 4 4 1/1073741824 1/1073741824 4 0 1 1/4294967296 1/32 1/4294967296 1/137438953472 1 4294967295/137438953472 1 0
+piece 3 0 4 4 0 1/1073741824 4 0 1 0 0 1/32 0 1/137438953472 4294967295/4294967296 4294967295/137438953472 4294967295/4294967296 0
+piece 3 1 1/1073741824 4 4 4 4 4 1 0 1 1/137438953472 1 1/32 0 4294967295/137438953472 4294967295/4294967296 4294967295/137438953472
+piece 3 4 1/1073741824 4 0 1/1073741824 4 4 0 0 0 1/137438953472 1 1/137438953472 0 4294967295/137438953472 1 4294967295/137438953472
+piece 5 0 4 1/1073741824 0 4 4 0 1 0 1/4294967296 0 1 0 0 4294967295/137438953472 4294967295/4294967296 4294967295/137438953472
+piece 5 1 4 4 4 4 1/1073741824 4 1 0 1 1/32 1/4294967296 1/32 4294967295/4294967296 4294967295/137438953472 4294967295/4294967296 0
+piece 5 2 4 1/1073741824 4 4 1/1073741824 0 0 0 1/4294967296 1/32 1/4294967296 0 4294967295/4294967296 1/32 4294967295/4294967296 0
+relation 0 0 identical
+relation 0 1 disjoint 0 0 16
+relation 0 2 transverse 0 1/1073741824 0 1 0 0
+relation 0 3 transverse 0 4294967297/1073741824 0 1 0 0
+relation 0 4 transverse 1/1073741824 0 0 0 1 0
+relation 0 5 transverse 4294967297/1073741824 0 0 0 1 0
+relation 1 0 disjoint 0 0 16
+relation 1 1 identical
+relation 1 2 transverse 0 1/1073741824 4 1 0 0
+relation 1 3 transverse 0 4294967297/1073741824 4 1 0 0
+relation 1 4 transverse 1/1073741824 0 4 0 1 0
+relation 1 5 transverse 4294967297/1073741824 0 4 0 1 0
+relation 2 0 transverse 0 0 0 1 0 0
+relation 2 1 transverse 0 0 4 1 0 0
+relation 2 2 disjoint 1 0 1/1152921504606846976
+relation 2 3 disjoint 0 0 18446744082299486209/1152921504606846976
+relation 2 4 transverse 1/1073741824 0 0 0 0 1
+relation 2 5 transverse 4294967297/1073741824 0 0 0 0 1
+relation 3 0 transverse 0 4 0 1 0 0
+relation 3 1 transverse 0 4 4 1 0 0
+relation 3 2 disjoint 0 0 18446744065119617025/1152921504606846976
+relation 3 3 disjoint 1 1 1/1152921504606846976
+relation 3 4 transverse 1/1073741824 4 0 0 0 1
+relation 3 5 transverse 4294967297/1073741824 4 0 0 0 1
+relation 4 0 transverse 0 0 0 0 1 0
+relation 4 1 transverse 0 0 4 0 1 0
+relation 4 2 transverse 0 1/1073741824 0 0 0 1
+relation 4 3 transverse 0 4294967297/1073741824 0 0 0 1
+relation 4 4 disjoint 1 0 1/1152921504606846976
+relation 4 5 disjoint 0 0 18446744082299486209/1152921504606846976
+relation 5 0 transverse 4 0 0 0 1 0
+relation 5 1 transverse 4 0 4 0 1 0
+relation 5 2 transverse 4 1/1073741824 0 0 0 1
+relation 5 3 transverse 4 4294967297/1073741824 0 0 0 1
+relation 5 4 disjoint 0 0 18446744065119617025/1152921504606846976
+relation 5 5 disjoint 1 1 1/1152921504606846976
+vf A 4 4 0 0
+vf A 4 4 4 1
+vf B 1/1073741824 1/1073741824 0 0
+vf B 1/1073741824 1/1073741824 4 1
+end
+config near-cross-bars-2^-30
+placement A 33554432 33554432 33554432 1 0 0 0 1 0 0 0 1
+placement B 33554432 33554432 33554432 1 0 0 0 1 0 0 0 1
+face A 0 -4 -1 -1 0 2 0 0 0 -32 1 4 -4 -1 -1 -4 1 -1 4 1 -1 4 -1 -1
+face A 1 -4 -1 1 8 0 0 0 0 32 1 4 -4 -1 1 4 -1 1 4 1 1 -4 1 1
+face A 2 -4 -1 -1 8 0 0 0 -32 0 1 4 -4 -1 -1 4 -1 -1 4 -1 1 -4 -1 1
+face A 3 -4 1 -1 0 0 2 0 32 0 1 4 -4 1 -1 -4 1 1 4 1 1 4 1 -1
+face A 4 -4 -1 -1 0 0 2 -8 0 0 1 4 -4 -1 -1 -4 -1 1 -4 1 1 -4 1 -1
+face A 5 4 -1 -1 0 2 0 8 0 0 1 4 4 -1 -1 4 1 -1 4 1 1 4 -1 1
+face B 0 -1 -4 -1073741823/1073741824 0 8 0 0 0 -32 1 4 -1 -4 -1073741823/1073741824 -1 4 -1073741823/1073741824 1 4 -1073741823/1073741824 1 -4 -1073741823/1073741824
+face B 1 -1 -4 1073741825/1073741824 2 0 0 0 0 32 1 4 -1 -4 1073741825/1073741824 1 -4 1073741825/1073741824 1 4 1073741825/1073741824 -1 4 1073741825/1073741824
+face B 2 -1 -4 -1073741823/1073741824 2 0 0 0 -8 0 1 4 -1 -4 -1073741823/1073741824 1 -4 -1073741823/1073741824 1 -4 1073741825/1073741824 -1 -4 1073741825/1073741824
+face B 3 -1 4 -1073741823/1073741824 0 0 2 0 8 0 1 4 -1 4 -1073741823/1073741824 -1 4 1073741825/1073741824 1 4 1073741825/1073741824 1 4 -1073741823/1073741824
+face B 4 -1 -4 -1073741823/1073741824 0 0 2 -32 0 0 1 4 -1 -4 -1073741823/1073741824 -1 -4 1073741825/1073741824 -1 4 1073741825/1073741824 -1 4 -1073741823/1073741824
+face B 5 1 -4 -1073741823/1073741824 0 8 0 32 0 0 1 4 1 -4 -1073741823/1073741824 1 4 -1073741823/1073741824 1 4 1073741825/1073741824 1 -4 1073741825/1073741824
+boxmeet 1 4
+boxmeet 1 5
+boxmeet 2 0
+boxmeet 2 4
+boxmeet 2 5
+boxmeet 3 0
+boxmeet 3 4
+boxmeet 3 5
+ef A -4 -1 1 4 -1 1 4 -1 -1 1
+ef A -4 -1 1 4 -1 1 5 1 -1 1
+ef A -4 1 1 4 1 1 4 -1 1 1
+ef A -4 1 1 4 1 1 5 1 1 1
+ef B -1 -4 -1073741823/1073741824 -1 4 -1073741823/1073741824 2 -1 -1 -1073741823/1073741824
+ef B -1 -4 -1073741823/1073741824 -1 4 -1073741823/1073741824 3 -1 1 -1073741823/1073741824
+ef B 1 -4 -1073741823/1073741824 1 4 -1073741823/1073741824 2 1 -1 -1073741823/1073741824
+ef B 1 -4 -1073741823/1073741824 1 4 -1073741823/1073741824 3 1 1 -1073741823/1073741824
+frame R0
+paves A -4 -1 -1 -4 -1 1 2 -4 -1 -1 -4 -1 1
+paves A -4 -1 -1 -4 1 -1 2 -4 -1 -1 -4 1 -1
+paves A -4 -1 -1 4 -1 -1 2 -4 -1 -1 4 -1 -1
+paves A -4 -1 1 -4 1 1 2 -4 -1 1 -4 1 1
+paves A -4 -1 1 4 -1 1 4 -4 -1 1 -1 -1 1 1 -1 1 4 -1 1
+paves A -4 1 -1 -4 1 1 2 -4 1 -1 -4 1 1
+paves A -4 1 -1 4 1 -1 2 -4 1 -1 4 1 -1
+paves A -4 1 1 4 1 1 4 -4 1 1 -1 1 1 1 1 1 4 1 1
+paves A 4 -1 -1 4 -1 1 2 4 -1 -1 4 -1 1
+paves A 4 -1 -1 4 1 -1 2 4 -1 -1 4 1 -1
+paves A 4 -1 1 4 1 1 2 4 -1 1 4 1 1
+paves A 4 1 -1 4 1 1 2 4 1 -1 4 1 1
+paves B -1 -4 -1073741823/1073741824 -1 -4 1073741825/1073741824 2 -1 -4 -1073741823/1073741824 -1 -4 1073741825/1073741824
+paves B -1 -4 -1073741823/1073741824 -1 4 -1073741823/1073741824 4 -1 -4 -1073741823/1073741824 -1 -1 -1073741823/1073741824 -1 1 -1073741823/1073741824 -1 4 -1073741823/1073741824
+paves B -1 -4 -1073741823/1073741824 1 -4 -1073741823/1073741824 2 -1 -4 -1073741823/1073741824 1 -4 -1073741823/1073741824
+paves B -1 -4 1073741825/1073741824 -1 4 1073741825/1073741824 2 -1 -4 1073741825/1073741824 -1 4 1073741825/1073741824
+paves B -1 -4 1073741825/1073741824 1 -4 1073741825/1073741824 2 -1 -4 1073741825/1073741824 1 -4 1073741825/1073741824
+paves B -1 4 -1073741823/1073741824 -1 4 1073741825/1073741824 2 -1 4 -1073741823/1073741824 -1 4 1073741825/1073741824
+paves B -1 4 -1073741823/1073741824 1 4 -1073741823/1073741824 2 -1 4 -1073741823/1073741824 1 4 -1073741823/1073741824
+paves B -1 4 1073741825/1073741824 1 4 1073741825/1073741824 2 -1 4 1073741825/1073741824 1 4 1073741825/1073741824
+paves B 1 -4 -1073741823/1073741824 1 -4 1073741825/1073741824 2 1 -4 -1073741823/1073741824 1 -4 1073741825/1073741824
+paves B 1 -4 -1073741823/1073741824 1 4 -1073741823/1073741824 4 1 -4 -1073741823/1073741824 1 -1 -1073741823/1073741824 1 1 -1073741823/1073741824 1 4 -1073741823/1073741824
+paves B 1 -4 1073741825/1073741824 1 4 1073741825/1073741824 2 1 -4 1073741825/1073741824 1 4 1073741825/1073741824
+paves B 1 4 -1073741823/1073741824 1 4 1073741825/1073741824 2 1 4 -1073741823/1073741824 1 4 1073741825/1073741824
+piece 1 4 -1 1 1 -1 -1 1 0 0 3/8 1/128 3/8 0 2147483647/2147483648 5/64 2147483647/2147483648 3/64
+piece 1 5 1 -1 1 1 1 1 0 0 5/8 0 5/8 1/128 3/8 2147483647/274877906944 5/8 2147483647/274877906944
+piece 2 0 -1 -1 -1073741823/1073741824 1 -1 -1073741823/1073741824 0 0 3/8 1/274877906944 5/8 1/274877906944 3/8 0 3/8 1/128
+piece 2 4 -1 -1 1 -1 -1 -1073741823/1073741824 0 0 3/8 1/128 3/8 1/274877906944 2147483647/2147483648 3/64 0 3/64
+piece 2 5 1 -1 -1073741823/1073741824 1 -1 1 0 0 5/8 1/274877906944 5/8 1/128 3/8 0 3/8 2147483647/274877906944
+piece 3 0 1 1 -1073741823/1073741824 -1 1 -1073741823/1073741824 0 0 1/2147483648 5/64 1/2147483648 3/64 5/8 1/128 5/8 0
+piece 3 4 -1 1 -1073741823/1073741824 -1 1 1 0 0 1/2147483648 3/64 1 3/64 0 5/64 2147483647/2147483648 5/64
+piece 3 5 1 1 1 1 1 -1073741823/1073741824 0 0 1 5/64 1/2147483648 5/64 5/8 2147483647/274877906944 5/8 0
+relation 0 0 disjoint 1 0 1/1152921504606846976
+relation 0 1 disjoint 0 0 4611686022722355201/1152921504606846976
+relation 0 2 transverse 0 -4 -1 1 0 0
+relation 0 3 transverse 0 4 -1 1 0 0
+relation 0 4 transverse -1 0 -1 0 1 0
+relation 0 5 transverse 1 0 -1 0 1 0
+relation 1 0 disjoint 0 0 4611686014132420609/1152921504606846976
+relation 1 1 disjoint 1 1 1/1152921504606846976
+relation 1 2 transverse 0 -4 1 1 0 0
+relation 1 3 transverse 0 4 1 1 0 0
+relation 1 4 transverse -1 0 1 0 1 0
+relation 1 5 transverse 1 0 1 0 1 0
+relation 2 0 transverse 0 -1 -1073741823/1073741824 1 0 0
+relation 2 1 transverse 0 -1 1073741825/1073741824 1 0 0
+relation 2 2 disjoint 1 1 9
+relation 2 3 disjoint 0 0 25
+relation 2 4 transverse -1 -1 0 0 0 1
+relation 2 5 transverse 1 -1 0 0 0 1
+relation 3 0 transverse 0 1 -1073741823/1073741824 1 0 0
+relation 3 1 transverse 0 1 1073741825/1073741824 1 0 0
+relation 3 2 disjoint 0 0 25
+relation 3 3 disjoint 1 1 9
+relation 3 4 transverse -1 1 0 0 0 1
+relation 3 5 transverse 1 1 0 0 0 1
+relation 4 0 transverse -4 0 -1073741823/1073741824 0 1 0
+relation 4 1 transverse -4 0 1073741825/1073741824 0 1 0
+relation 4 2 transverse -4 -4 0 0 0 1
+relation 4 3 transverse -4 4 0 0 0 1
+relation 4 4 disjoint 1 0 9
+relation 4 5 disjoint 0 0 25
+relation 5 0 transverse 4 0 -1073741823/1073741824 0 1 0
+relation 5 1 transverse 4 0 1073741825/1073741824 0 1 0
+relation 5 2 transverse 4 -4 0 0 0 1
+relation 5 3 transverse 4 4 0 0 0 1
+relation 5 4 disjoint 0 0 25
+relation 5 5 disjoint 1 0 9
+end

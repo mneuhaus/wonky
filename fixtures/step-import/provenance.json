@@ -1,0 +1,18 @@
+{
+  "schema": "wonky-import-fixture/1",
+  "origin": "Repository-authored tetrahedron: vertices (0,0,0), (1984.375,0,0), (0,1984.375,0), (0,0,1984.375) millimetres; no external CAD kernel.",
+  "generator": "owned fixture writer/1",
+  "captureSchema": "Onshape bodydetails frozen-context records (synthetic test artifact, not an Onshape capture)",
+  "unitRationale": "1984.375 mm = 78.125 inch = 1.984375 metre; all coordinate binary64 words and exact unit conversions agree.",
+  "files": {
+    "tetra-inch.step": {
+      "sha256": "a4d4924bc1d3d39201a42350cc1ea988f0f76d897f31046ad7387aa3e96047bf"
+    },
+    "tetra-si.step": {
+      "sha256": "6ab96b3253d27920c1250f3343b58b022d94a53d6843acbe7d5c52e05681a7c8"
+    },
+    "tetra.capture.json": {
+      "sha256": "74ff5699ddefb6ee7ef30c58bf996190d54a51ad7ac43d18f3396da791cf5d98"
+    }
+  }
+}

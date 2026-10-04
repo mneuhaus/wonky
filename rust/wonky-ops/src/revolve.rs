@@ -74,7 +74,7 @@ fn admit(input: &CircleRevolve) -> R<Disk> {
         e.into_refusal();
         no("numeric-range")
     })?;
-    if input.angle != std::f64::consts::TAU {
+    if !wonky_geom::turn::sentinel(input.angle, 360) {
         return Err(no("partial-circle-angle"));
     }
     if input.axis == [0.0; 3] {

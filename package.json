@@ -11,6 +11,7 @@
   "bin": {
     "wonky": "bin/wonky.mjs",
     "wonky-compare": "bin/wonky-compare.mjs",
+    "wonky-motion": "bin/wonky-motion.mjs",
     "wonky-python": "bin/wonky-python.mjs",
     "wonky-view": "bin/wonky-view.mjs",
     "wonky-inspect": "bin/wonky-inspect.mjs"
@@ -20,6 +21,7 @@
     "check:bend": "node scripts/check-bend.mjs",
     "test": "npm run check:bend && node --test test/*.test.mjs",
     "test:rust": "node scripts/test-rust.mjs",
+    "test:rust:gate": "node scripts/rust/gate-tests.mjs",
     "test:fast": "node scripts/test-lane.mjs fast --fail-fast",
     "test:changed": "node scripts/test-lane.mjs changed --fail-fast",
     "test:slow": "node scripts/test-lane.mjs slow",
@@ -39,5 +41,8 @@
   },
   "dependencies": {
     "earcut": "3.0.2"
+  },
+  "devDependencies": {
+    "playwright-core": "1.58.2"
   }
 }

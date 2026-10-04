@@ -76,12 +76,22 @@ jobs:
             ~/.cargo/registry
             ~/.cargo/git
             rust/target
-          key: ${{ runner.os }}-${{ runner.arch }}-rust-node-${{ hashFiles('rust/rust-toolchain.toml', 'rust/Cargo.lock', 'rust/**/Cargo.toml') }}-${{ github.sha }}
+            render/wonky-render/target
+          key: ${{ runner.os }}-${{ runner.arch }}-rust-node-${{ hashFiles('rust/rust-toolchain.toml', 'rust/Cargo.lock', 'rust/**/Cargo.toml', 'render/wonky-render/Cargo.toml', 'render/wonky-render/Cargo.lock', 'render/wonky-render/rust-toolchain.toml') }}-${{ github.sha }}
           restore-keys: |
-            ${{ runner.os }}-${{ runner.arch }}-rust-node-${{ hashFiles('rust/rust-toolchain.toml', 'rust/Cargo.lock', 'rust/**/Cargo.toml') }}-
+            ${{ runner.os }}-${{ runner.arch }}-rust-node-${{ hashFiles('rust/rust-toolchain.toml', 'rust/Cargo.lock', 'rust/**/Cargo.toml', 'render/wonky-render/Cargo.toml', 'render/wonky-render/Cargo.lock', 'render/wonky-render/rust-toolchain.toml') }}-
       - run: pnpm install --frozen-lockfile
       - name: Build native Rust addon
         run: node scripts/rust/build-node.mjs
+      - name: Prepare headless Vulkan renderer
+        run: |
+          sudo apt-get update
+          sudo apt-get install --yes libvulkan1 mesa-vulkan-drivers
+      - name: Build native PNG renderer
+        run: node scripts/rust/build-render.mjs
+      - name: Check native renderer structure
+        working-directory: render/wonky-render
+        run: cargo test --release --locked
       - uses: astral-sh/setup-uv@d0d8abe699bfb85fec6de9f7adb5ae17292296ff # v6
         with:
           version: '0.9.8'
@@ -92,7 +102,7 @@ jobs:
       # Private R20/r10b fixtures and the optional OCCT reference venv are not
       # present in this public lane. Existing tests report those skips explicitly.
       - name: Run Bend-free Rust and JavaScript tests
-        run: pnpm test:rust
+        run: pnpm test:rust --gate
       - name: Check CAD-Acid status page rendering
         run: uv run --no-project python scripts/acid/test_status_page.py
 

@@ -82,9 +82,9 @@ test('live blended references verify: 15 configured parts and three unchanged G0
   assert.equal(base.ok, true);
   const result = verifyBlendFixture(base);
   assert.equal(result.ok, true, JSON.stringify(result.problems) + JSON.stringify(result.modules));
-  assert.equal(result.provenance.microversion, 'onshape-id-2cd631ae');
-  assert.equal(result.provenance.restoreVersion, 'onshape-id-2dad9be7');
-  assert.equal(result.provenance.patch.name, 'm3-shared-points');
+  assert.equal(result.provenance.microversion, 'onshape-id-410ad4a6');
+  assert.equal(result.provenance.restoreVersion, 'onshape-id-34cd8bc5');
+  assert.equal(result.provenance.patch.name, 'topplate-mouth-corner-fix');
   assert.deepEqual(Object.fromEntries(Object.entries(result.refs).map(([m, refs]) => [m, refs.length])),
     { datums: 4, context: 12, probe: 2, tray: 3, edge: 1, return: 4, cores: 5, feed: 2 });
   for (const m of ['tray', 'edge', 'return', 'cores', 'feed'])
@@ -93,9 +93,13 @@ test('live blended references verify: 15 configured parts and three unchanged G0
 
 test('recorded Bend JS blended baseline: 5 passing modules, 3 named refusals, 24 checked parts', () => {
   const baseline = JSON.parse(fs.readFileSync(path.join(FIXTURE_DIR, 'blends/baseline-bend-js.json')));
-  const source = fs.readFileSync(path.join(FIXTURE_DIR, 'blends/provenance.json'));
   assert.equal(baseline.blends, true);
-  assert.equal(baseline.fixture.blendsProvenanceSha256, sha256(source));
+  // Bend is retired (no re-runs, ever): this baseline is frozen history, measured
+  // against the pre-G4 blended fixture (microversion onshape-id-2cd631ae), not
+  // the current one (microversion onshape-id-8d240508). The hash below is that
+  // old blends/provenance.json's sha256, kept as a historical binding, not a live check.
+  assert.equal(baseline.fixture.blendsProvenanceSha256, 'ab0cf3329626336ac45099c8b64e698e8e350a2e81657aac2c7660352736244f',
+    'the baseline is bound to the pre-G4 blended fixture it was actually measured on (Bend is retired; never re-run)');
   assert.equal(baseline.summary.modules.pass, 5);
   assert.equal(baseline.summary.modules.refused, 3);
   assert.equal(baseline.summary.parts.allChecks, 24);

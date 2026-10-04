@@ -4,9 +4,10 @@ import { join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { buildPython } from '../src/python.mjs';
 import { toStep } from '../src/exporters.mjs';
+import { serializeModel } from '../src/construction-history.mjs';
 import { UnsupportedFeatureError } from '../src/errors.mjs';
 import { cadbenchFixtures, cadbenchRoot, fixturePath, sha256 } from './cadbench-sources.mjs';
-import { cadbenchImplementationSnapshot } from './cadbench.mjs';
+import { cadbenchImplementationSnapshot, exactRustBodies } from './cadbench.mjs';
 
 const base = join(cadbenchFixtures, 'build123d');
 const json = (path, value) => writeFileSync(path, JSON.stringify(value, null, 2) + '\n');
@@ -18,7 +19,12 @@ export function verifyBuild123dProbes() {
   return manifest;
 }
 
+// not-ported: a legacy kernel entry the Rust kernel does not serve
+// (NativeCapabilityError, code BX_UNAVAILABLE). The Python frontend still calls
+// that legacy op table instead of the Rust host boundary; it is parked
+// (docs/python-frontend.md), so every probe ends here today.
 export function classifyBuild123dFailure(error) {
+  if (error instanceof UnsupportedFeatureError && error.code === 'BX_UNAVAILABLE') return 'not-ported';
   if (error instanceof UnsupportedFeatureError)
     return /Python frontend|build123d\./.test(error.message) ? 'unsupported-api' : 'unsupported-geometry';
   return error.name === 'GeometryCheckError' ? 'wrong-geometry' : 'execution-error';
@@ -26,23 +32,16 @@ export function classifyBuild123dFailure(error) {
 
 function check(model, expected) {
   const fail = message => { const error = new Error(message); error.name = 'GeometryCheckError'; throw error; };
-  if (model.backend?.language !== 'Bend' || model.bodies.some(body => !body.validation.closed)) fail('Expected real validated Bend solids');
-  if (expected.solids !== undefined && model.bodies.length !== expected.solids) fail(`Solid count ${model.bodies.length} != ${expected.solids}`);
-  const values = model.bodies.map(body => body.validation.volumeMm3);
-  const actual = { solids: model.bodies.length, volumeMm3: values.every(Number.isFinite) ? values.reduce((a, b) => a + b, 0) : null,
-    boundsMm: model.bodies.every(body => body.validation.boundsMm) ? {
-      min: [0, 1, 2].map(axis => Math.min(...model.bodies.map(body => body.validation.boundsMm.min[axis]))),
-      max: [0, 1, 2].map(axis => Math.max(...model.bodies.map(body => body.validation.boundsMm.max[axis]))),
-    } : null };
+  let bodies;
+  try { bodies = exactRustBodies(model, expected.solids); } catch (error) { fail(error.message); }
+  const actual = { solids: bodies.length, volumeMm3: bodies.reduce((sum, { measured }) => sum + measured.volumeMm3, 0),
+    boundsMm: { min: [0, 1, 2].map(axis => Math.min(...bodies.map(({ measured }) => measured.bboxMm.min[axis]))),
+      max: [0, 1, 2].map(axis => Math.max(...bodies.map(({ measured }) => measured.bboxMm.max[axis]))) } };
   const missing = [];
   if (expected.volumeMm3 === undefined) missing.push('reference volume and original equivalence oracle');
-  else if (actual.volumeMm3 === null) missing.push('native volume');
   else if (Math.abs(actual.volumeMm3 - expected.volumeMm3) > (expected.volumeAbsoluteTolerance ?? 1e-6)) fail(`Volume ${actual.volumeMm3} != ${expected.volumeMm3}`);
-  if (expected.boundsMm) {
-    if (!actual.boundsMm) missing.push('native tight bounding box');
-    else for (const side of ['min', 'max']) for (let axis = 0; axis < 3; axis++)
-      if (Math.abs(actual.boundsMm[side][axis] - expected.boundsMm[side][axis]) > 1e-6) fail(`Bounding box ${side}[${axis}] differs`);
-  }
+  if (expected.boundsMm) for (const side of ['min', 'max']) for (let axis = 0; axis < 3; axis++)
+    if (Math.abs(actual.boundsMm[side][axis] - expected.boundsMm[side][axis]) > 1e-6) fail(`Bounding box ${side}[${axis}] differs`);
   return { actual, missing };
 }
 
@@ -55,7 +54,7 @@ export async function runBuild123dProbes({ out = join(cadbenchRoot, 'out/cadbenc
     upstream: { repository: manifest.repository, revision: manifest.revision, license: manifest.license,
       methodsInPinnedFile: manifest.upstreamTestMethodsInFile, selectedMethods: manifest.cases.length,
       originalSuiteExecuted: false, originalTestsPassed: null },
-    runtime: 'Wonky Python compatibility shim -> actual Bend kernel; external build123d/OCCT construction is not used.',
+    runtime: 'Wonky Python compatibility shim (parked: not ported to the Rust kernel, docs/python-frontend.md); external build123d/OCCT construction is not used.',
     cases: [], stepValidation: { status: 'not-run' }, accepted: false };
   const prefixes = [];
   for (const item of manifest.cases) {
@@ -64,7 +63,7 @@ export async function runBuild123dProbes({ out = join(cadbenchRoot, 'out/cadbenc
       const model = await buildPython(readFileSync(fixturePath(base, item.source), 'utf8'), { filename: fixturePath(base, item.source) });
       Object.assign(row, check(model, item.expected));
       const prefix = join(out, item.id), step = toStep(model, item.id);
-      json(prefix + '.brep.json', model); writeFileSync(prefix + '.step', step); prefixes.push(prefix);
+      writeFileSync(prefix + '.brep.json', serializeModel(model)); writeFileSync(prefix + '.step', step); prefixes.push(prefix);
       row.exports = ['brep.json', 'step'].map(extension => ({ path: `${item.id}.${extension}`, sha256: sha256(readFileSync(`${prefix}.${extension}`)) }));
       row.status = row.missing.length ? 'incomplete-oracle' : 'kernel-passed';
     } catch (error) {
@@ -105,12 +104,23 @@ export async function runBuild123dProbes({ out = join(cadbenchRoot, 'out/cadbenc
   return report;
 }
 
+export function build123dOptions(args) {
+  const options = {};
+  for (let i = 0; i < args.length; i++) {
+    if (args[i] === '--skip-step-validation') options.validateStep = false;
+    else if (args[i] === '--out') {
+      const value = args[++i];
+      if (!value || value.startsWith('--')) throw new Error('--out requires a value');
+      options.out = resolve(value);
+    } else throw new Error('Usage: node scripts/cadbench-build123d.mjs [--out <directory>] [--skip-step-validation]');
+  }
+  return options;
+}
+
 if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
   try {
-    const args = process.argv.slice(2);
-    if (args.length > 1 || (args.length && args[0] !== '--skip-step-validation')) throw new Error('Usage: node scripts/cadbench-build123d.mjs [--skip-step-validation]');
-    const report = await runBuild123dProbes({ validateStep: !args.length });
+    const options = build123dOptions(process.argv.slice(2)), report = await runBuild123dProbes(options);
     console.log(`build123d adapted probes: ${JSON.stringify(report.counts)}. Original suite not executed; no CADBench score.`);
-    console.log(join(cadbenchRoot, 'out/cadbench/build123d/report.json')); process.exitCode = report.accepted ? 0 : 1;
+    console.log(join(options.out ?? join(cadbenchRoot, 'out/cadbench/build123d'), 'report.json')); process.exitCode = report.accepted ? 0 : 1;
   } catch (error) { console.error(error.message); process.exitCode = 1; }
 }

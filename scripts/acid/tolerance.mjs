@@ -1,8 +1,7 @@
 // Measured practical contracts. No audit classification is an acceptance input.
 import fs from 'node:fs';
 import path from 'node:path';
-import {ROOT, readJSON, sha256} from './common.mjs';
-import {canonical} from './evidence.mjs';
+import {ROOT, readJSON, sha256, canonical, requireZonesBound} from './common.mjs';
 
 export function loadToleranceRules(file=path.join(ROOT,'fixtures/cad-acid/tolerance-rules.json')) {
   const rules=readJSON(file), ids=new Set();
@@ -33,6 +32,15 @@ function cylinders(zone) {
   if(result.some(c=>c.center.length!==2||!c.center.every(Number.isFinite)||!(c.radius>0)||c.z?.length!==2||!c.z.every(Number.isFinite)||!(c.z[1]>c.z[0])))return null;
   if(result[0].z.some((x,i)=>x!==result[1].z[i]))return null;
   return result;
+}
+
+// Rules select zones by construction predicates, but their evidence is per zone:
+// the witnessed rows and the pending-evidence notes. Both stay bound across a
+// catalog extension only while those zones are unchanged; a new zone that
+// matches a rule's predicate has no witness and fails closed.
+export function bindToleranceRules(rules,catalog) {
+  const zones=[...(rules.pendingEvidence??[]).flatMap(p=>p.zones??[]),...evidence().rows.map(r=>r.zone)];
+  requireZonesBound(catalog,rules.zonesSha256,zones,'TOLERANCE_ZONES_SHA_MISMATCH',`tolerance rules ${rules.version}`);
 }
 
 let frozenEvidence;
@@ -77,7 +85,8 @@ function supportMatches(body,c,a,zone) {
   const height=c.z[1]-c.z[0], volume=Math.PI*c.radius*c.radius*height, area=2*Math.PI*c.radius*(height+c.radius);
   if(body.valid!==true||body.closed!==true||body.nondegenerateEdges!==true||rawGenus(body)!==0||body.rawGenus!==0||body.rawEuler!==2||
     !relative(body.volume,volume,zone.tolerance.volumeRel.tolerance)||!relative(body.area,area,zone.tolerance.areaRel.tolerance))return false;
-  if(!body.cylinders?.length||!body.planes?.length||body.otherSurfaces?.length!==0||body.allFacesSingleWire!==true)return false;
+  // Only planes and cylinders support a two-cylinder witness: measure.py files extrusion and B-spline faces in their own buckets.
+  if(!body.cylinders?.length||!body.planes?.length||body.otherSurfaces?.length!==0||body.extrusions?.length||body.bsplines?.length||body.allFacesSingleWire!==true)return false;
   if(body.cylinders.some(s=>!near(s.radius,c.radius,a.supportAbsMm)||
     ![0,1].every(i=>near(s.axisOrigin?.[i],c.center[i],a.supportAbsMm))||
     !near(s.axisDirection?.[0],0,a.angularAbs)||!near(s.axisDirection?.[1],0,a.angularAbs)||!near(Math.abs(s.axisDirection?.[2]),1,a.angularAbs)||

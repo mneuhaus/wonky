@@ -1,0 +1,19 @@
+$ uv run --no-project /Volumes/SSD/wonky-remote/wt/cat-ce9-ce10-22cd729bf5/out/build123d-performance/reference-venv/bin/python -B /Volumes/SSD/wonky-remote/wt/cat-ce9-ce10-22cd729bf5/scripts/acid/build-occt.py /Volumes/SSD/wonky-remote/wt/cat-ce9-ce10-22cd729bf5/out/ce9-ce10-corrected-clean/occt/blend/V2/AC36/request.json
+status=0 signal=null error=
+--- stdout
+[32;1m
+*******************************************************************
+******        Statistics on Transfer (Write)                 ******[0m
+[32;1m
+*******************************************************************
+******        Transfer Mode = 0  I.E.  As Is       ******[0m
+[32;1m******        Transferring Shape, ShapeType = 0                      ******[0m
+[32;1m
+*******************************************************************
+******        Statistics on Transfer (Write)                 ******[0m
+[32;1m
+*******************************************************************
+******        Transfer Mode = 0  I.E.  As Is       ******[0m
+[32;1m******        Transferring Shape, ShapeType = 2                      ******[0m
+
+--- stderr

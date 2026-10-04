@@ -38,7 +38,7 @@ mod quadrature;
 mod transcendental;
 
 use interval::{down, up, I};
-pub use quadrature::{integrate, Expr, Integral};
+pub use quadrature::{cubic, integrate, Cubic, Expr, Integral};
 use std::fmt;
 pub use transcendental::{acos, atan2, cos, exp, log, pi, sin, sin_cos};
 use wonky_num::{in_range, Iv};

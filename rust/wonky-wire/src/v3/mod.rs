@@ -8,7 +8,7 @@ mod legacy;
 pub use legacy::{import_v2, LegacyImport};
 
 pub const MAGIC: u32 = 0x33564b57; // little-endian bytes "WKV3"
-pub const SCHEMA_VERSION: u32 = 4;
+pub const SCHEMA_VERSION: u32 = 8;
 /// Resource ceiling, not a geometric tolerance. Enforced before decoding counts.
 pub const MAX_WORDS: usize = 4 * 1024 * 1024;
 #[derive(Clone, Debug, PartialEq)]
@@ -53,7 +53,10 @@ pub fn decode(words: &[u32]) -> Result<CheckedBody> {
         return Err(malformed("v3 magic"));
     }
     let version = r.take()?;
-    if version != SCHEMA_VERSION {
+    // Revision 7 has the identical layout except RationalImage. Read frozen
+    // source snapshots losslessly; all new writes use revision 8. Never admit a
+    // new tag under the old envelope (checked below before contract admission).
+    if version != SCHEMA_VERSION && version != 7 {
         return Err(Error::UnknownVersion(version));
     }
     if r.take()? as usize != r.left() {
@@ -61,6 +64,9 @@ pub fn decode(words: &[u32]) -> Result<CheckedBody> {
     }
     let body = Body::get(&mut r)?;
     r.finish()?;
+    if version == 7 && body.frames.iter().any(|f| matches!(f, Frame::RationalImage { .. })) {
+        return Err(Error::UnknownVersion(version));
+    }
     Ok(body.check()?)
 }
 /// JSON diagnostic/export form. Schema describes this form; transport remains
@@ -68,12 +74,12 @@ pub fn decode(words: &[u32]) -> Result<CheckedBody> {
 pub fn to_json(body: &Body) -> Result<String> {
     body.clone().check()?;
     Ok(format!(
-        "{{\"magic\":\"WKV3\",\"schemaVersion\":4,\"body\":{}}}",
+        "{{\"magic\":\"WKV3\",\"schemaVersion\":8,\"body\":{}}}",
         body.json()
     ))
 }
 pub fn json_schema() -> String {
-    format!("{{\"$schema\":\"https://json-schema.org/draft/2020-12/schema\",\"title\":\"Wonky wire v3 (WC0)\",\"type\":\"object\",\"additionalProperties\":false,\"required\":[\"magic\",\"schemaVersion\",\"body\"],\"properties\":{{\"magic\":{{\"const\":\"WKV3\"}},\"schemaVersion\":{{\"const\":4}},\"body\":{{\"$ref\":\"#/$defs/Body\"}}}},\"$defs\":{{{}}}}}", layout::definitions())
+    format!("{{\"$schema\":\"https://json-schema.org/draft/2020-12/schema\",\"title\":\"Wonky wire v3 (WC0)\",\"type\":\"object\",\"additionalProperties\":false,\"required\":[\"magic\",\"schemaVersion\",\"body\"],\"properties\":{{\"magic\":{{\"const\":\"WKV3\"}},\"schemaVersion\":{{\"const\":8}},\"body\":{{\"$ref\":\"#/$defs/Body\"}}}},\"$defs\":{{{}}}}}", layout::definitions())
 }
 trait Value: Sized {
     fn put(&self, out: &mut Vec<u32>) -> Result<()>;
@@ -212,6 +218,20 @@ macro_rules! record {
 }
 macro_rules! choice {
     ($name:ident { $($tag:literal => $variant:ident { $($field:ident : $ty:ty),* $(,)? }),* $(,)? }) => {
+        // A colliding tag can encode successfully but decode as another kind.
+        // Reject that schema at compile time, including after branch merges.
+        const _: () = {
+            let tags = [$($tag as u32),*];
+            let mut i = 0;
+            while i < tags.len() {
+                let mut j = i + 1;
+                while j < tags.len() {
+                    assert!(tags[i] != tags[j], "duplicate wire choice tag");
+                    j += 1;
+                }
+                i += 1;
+            }
+        };
         impl Value for $name {
             fn put(&self, out: &mut Vec<u32>) -> Result<()> {
                 match self { $(Self::$variant { $($field,)* } => { out.push($tag); $($field.put(out)?;)* })* }

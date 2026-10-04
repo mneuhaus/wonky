@@ -3,7 +3,11 @@ import { dirname, resolve, sep } from 'node:path';
 import { createHash } from 'node:crypto';
 import { fail, unsupported } from './errors.mjs';
 import { importOnshapeBody, transformAnalytic } from './analytic.mjs';
-import { EnumValue, Id, isMap, Matrix, Transform, vectorNumbers } from './values.mjs';
+import { EnumValue, Id, isMap, map, Matrix, Transform, vectorNumbers } from './values.mjs';
+import { parse } from './parser.mjs';
+import { Interpreter } from './interpreter.mjs';
+import { isStrictRustKernel } from './native/backend.mjs';
+import { copyRustBody, RustCapabilityError } from './native/rust-host.mjs';
 import { TopologyQuery, resolveTopology } from './queries.mjs';
 
 const hash = data => createHash('sha256').update(data).digest('hex');
@@ -99,7 +103,7 @@ function readManifest(manifestPath, manifest = JSON.parse(readFileSync(manifestP
 // viewer's watcher does); otherwise it is read from disk.
 export function manifestInputFiles(manifestPath, manifest) {
   const { root, entries } = readManifest(manifestPath, manifest);
-  const files = entries.flatMap(({ entry, parts }) => [parts?.file, ...(entry.bodies ?? []).map(b => b.file)]).filter(f => typeof f === 'string');
+  const files = entries.flatMap(({ entry, parts }) => [entry.source?.file, parts?.file, ...(entry.bodies ?? []).map(b => b.file)]).filter(f => typeof f === 'string');
   return [...new Set(files.map(f => resolve(root, f)))];
 }
 
@@ -110,23 +114,29 @@ export function manifestInputFiles(manifestPath, manifest) {
 // mismatch is recorded on the resolver and on each imported body, never
 // refused. Part lists and bodies stay SHA-256-checked. Loading never makes
 // network requests.
-export function frozenModules(manifestPath, source, createContext) {
+export function frozenModules(manifestPath, source, createContext, { executionBudget, onWarning } = {}) {
   const { manifest, root, entries } = readManifest(manifestPath);
   const sourceSha256 = hash(source);
   const sourceBinding = !manifest.sourceSha256 ? 'absent' : manifest.sourceSha256 === sourceSha256 ? 'match' : 'mismatch';
-  const verified = (file, expected) => {
+  const verified = (file, expected, json = true) => {
     if (typeof file !== 'string' || typeof expected !== 'string') fail('Frozen module file entry needs a path and a SHA-256');
     const path = resolve(root, file);
     if (!path.startsWith(root + sep)) fail('Frozen module file is outside its manifest directory');
     const data = readFileSync(path);
     if (hash(data) !== expected) fail(`Frozen module checksum mismatch: ${file}`);
-    return JSON.parse(data);
+    return json ? JSON.parse(data) : data.toString('utf8');
   };
-  const resolver = spec => {
+  // One build function per immutable revision, independent of namespace aliases.
+  // Source contexts remain immutable; deriving always copies their geometry.
+  const builds = new Map();
+  const host = { document: manifest.hostDocument ?? manifest.document ?? null, documentVersion: null };
+  const resolver = (spec, importing = host) => {
     const target = parseImportPath(spec.path);
     if (!target) return undefined;
+    const targetDocument = target.document ?? importing.document;
+    const targetVersion = target.document ? target.documentVersion : importing.documentVersion;
     const sameRevision = ({ entry, document, documentVersion }) => entry.element === target.element && entry.microversion === spec.version
-      && (target.document ? document === target.document && documentVersion === target.documentVersion : !documentVersion);
+      && (!targetDocument || document === targetDocument) && documentVersion === targetVersion;
     const found = entries.find(sameRevision);
     if (!found) {
       const other = entries.find(({ entry }) => entry.element === target.element);
@@ -134,11 +144,36 @@ export function frozenModules(manifestPath, source, createContext) {
       return undefined;
     }
     const { entry, document, documentVersion, pinned, parts: partsFile } = found;
-    let context;
+    const revision = JSON.stringify([document, documentVersion, entry.element, entry.microversion]);
+    if (builds.has(revision)) return { build: builds.get(revision) };
+    let context, building = false;
     const build = builtin(`${spec.namespace}::build`, 1, 1, ([configuration], loc) => {
       if (!isMap(configuration) || Object.keys(configuration).length) unsupported('Frozen source-body imports support only their captured default configuration', loc);
       if (context) return context;
-      const engine = createContext(); engine.readOnly = true;
+      if (building) unsupported(`Cyclic frozen Part Studio import '${spec.namespace}' (${entry.element}@${entry.microversion})`, loc);
+      const engine = createContext();
+      if (entry.source) {
+        // A captured regeneration source is evaluated in its own real context,
+        // not spliced into the target. Dependencies use this same frozen store.
+        if (manifest.schema !== 'wonky-onshape-inputs/2' || partsFile || entry.bodies) {
+          fail('Frozen Part Studio entry must use either a schema-2 regeneration source or captured parts/bodies, not both', loc);
+        }
+        if (typeof entry.source.feature !== 'string' || !entry.source.feature) fail('Frozen Part Studio source needs its exported build feature', loc);
+        const text = verified(entry.source.file, entry.source.sha256, false);
+        building = true;
+        try {
+          const interpreter = new Interpreter(engine.builtins(), { executionBudget, onWarning,
+            moduleResolver: spec => resolver(spec, { document, documentVersion }) });
+          executionBudget ??= interpreter.executionBudget;
+          interpreter.run(parse(text), entry.source.feature, engine.context, new Id([entry.element]), map({}));
+          for (const body of engine.bodies) body.provenance = { ...body.provenance, document, documentVersion,
+            element: entry.element, microversion: entry.microversion, sourceSha256: entry.source.sha256, sourceBinding };
+        } finally { building = false; }
+        engine.readOnly = true;
+        context = engine.context; context.moduleBuild = build;
+        return context;
+      }
+      engine.readOnly = true;
       const parts = verified(partsFile?.file, partsFile?.sha256);
       if (!Array.isArray(parts)) fail('Frozen module part list is not an array', loc);
       for (const part of parts) {
@@ -163,6 +198,9 @@ export function frozenModules(manifestPath, source, createContext) {
             if (documentVersion) provenance.documentVersion = documentVersion;
             if (pinned !== entry.microversion) provenance.documentMicroversion = pinned;
             if (sourceBinding !== 'match') provenance.sourceBinding = sourceBinding;
+            if (isStrictRustKernel(engine.kernel)) {
+              throw new RustCapabilityError('Part Studio import', `import/onshape-brep-conversion-unavailable: '${spec.namespace}' part '${part.name}' (${part.partId}); frozen analytic snapshots require a native B-rep importer`, loc);
+            }
             body = importOnshapeBody(engine.kernel, raw.bodies[0], `${spec.namespace}/${part.partId}`, provenance);
             body.name = part.name; body.appearance = part.appearance;
           }
@@ -173,6 +211,7 @@ export function frozenModules(manifestPath, source, createContext) {
       context = engine.context; context.moduleBuild = build;
       return context;
     });
+    builds.set(revision, build);
     return { build };
   };
   resolver.binding = { manifest: resolve(manifestPath), schema: manifest.schema, sourceSha256, manifestSourceSha256: manifest.sourceSha256 ?? null, sourceBinding };
@@ -208,7 +247,13 @@ export function instantiatorBuiltins(engine) {
     addInstance: builtin('addInstance', 3, 3, ([instantiator, build, definition], loc) => {
       if (!(instantiator instanceof Instantiator) || instantiator.done || !isMap(definition)) fail('Invalid instantiator', loc);
       for (const key of Object.keys(definition)) if (!ADD_INSTANCE_FIELDS.includes(key)) unsupported(`addInstance field '${key}' is not implemented`, loc);
-      const { name, partQuery, configuration, transform } = definition;
+      const { partQuery, configuration, transform } = definition;
+      let name = definition.name;
+      if (name === undefined) {
+        let count = instantiator.instances.length;
+        while (instantiator.instances.some(i => i.name === `Auto${count}`)) count++;
+        name = `Auto${count}`;
+      }
       if (typeof name !== 'string' || !name || name.includes('/') || instantiator.instances.some(i => i.name === name)) fail('Instance names must be nonempty and unique', loc);
       if (configuration !== undefined && (!isMap(configuration) || Object.keys(configuration).length)) unsupported('addInstance configuration is not implemented; frozen imports hold only their captured default configuration', loc);
       if (build?.type !== 'builtin' || !build.name?.endsWith('::build')) fail('addInstance expects a frozen module build function', loc);
@@ -217,27 +262,42 @@ export function instantiatorBuiltins(engine) {
       const loadedContext = definition.loadedContext ?? build.call([Object.create(null)], loc);
       if (!loadedContext?.engine || loadedContext.moduleBuild !== build) fail('loadedContext must belong to the specified frozen module build', loc);
       const placement = transform === undefined ? { rows: identity, offset: [0, 0, 0] } : rigidTransform(transform, loc);
-      const rows = resolveTopology(loadedContext.engine, partQuery, loc);
+      const rows = resolveTopology(loadedContext.engine, partQuery ?? new TopologyQuery('allSolid', {}), loc);
       const composite = rows.find(row => isCompositeRecord(row.record));
       if (composite) refuseComposite(composite.record, loc);
       if (!rows.length || rows.some(row => row.kind !== 'body')) fail('An instance requires source solid bodies', loc);
       const id = new Id([...instantiator.id.parts, name]);
-      instantiator.instances.push({ name, id, rows, placement });
+      instantiator.instances.push({ name, id, rows, placement, transform });
       return new TopologyQuery('created', { id, entityType: new EnumValue('EntityType', 'BODY') });
     }),
     instantiate: builtin('instantiate', 2, 2, ([context, instantiator], loc) => {
       if (!(instantiator instanceof Instantiator) || instantiator.done) fail('Invalid or already evaluated instantiator', loc);
-      // Materialize every source before changing the target context.
-      const instances = instantiator.instances.flatMap(i => i.rows.map(row => ({ id: i.id, body: row.record.body, placement: i.placement,
-        name: i.rows.length === 1 ? i.id.toString() : `${i.id}/${row.record.sourcePartId ?? row.record.key}` })));
+      // Build every copy before changing the target: a failure in a later
+      // transform must not publish earlier instances (std derive + opPattern).
+      const instances = instantiator.instances.flatMap(i => i.rows.map(row => {
+        let body;
+        try { body = row.record.body; }
+        catch (error) {
+          // Lazy captures were built earlier. Report the operation that now
+          // requires their geometry, not the metadata-only build call.
+          if (error instanceof RustCapabilityError) throw new RustCapabilityError(error.builtin, error.reason, loc);
+          throw error;
+        }
+        const name = i.rows.length === 1 ? i.id.toString() : `${i.id}/${row.record.sourcePartId ?? row.record.key}`;
+        const copy = isStrictRustKernel(engine.kernel)
+          ? copyRustBody(engine.kernel, body, name, i.transform, loc)
+          : transformAnalytic(engine.kernel, body, name, i.placement.rows, i.placement.offset);
+        return { id: i.id, body: copy };
+      }));
       engine.claim(context, instantiator.id, loc);
-      for (const { id, body, placement, name } of instances) {
-        engine.addSolid(id, transformAnalytic(engine.kernel, body, name, placement.rows, placement.offset));
-        // Onshape counts instance bodies as created by the instantiator too,
-        // so qCreatedBy(<instantiator id>) finds them (exact id match).
+      for (const { id, body } of instances) {
+        engine.addSolid(id, body);
+        // BODY aliases include both ids. Native subentity history remains
+        // tied to the instance feature, not the discarded source context.
         const record = engine.records.get(String(engine.nextRecord - 1));
-        if (!record?.createdBy.has(id.key())) fail('Instantiated body record was not found', loc);
         record.createdBy.add(instantiator.id.key());
+        record.bodyCreatedBy?.add(instantiator.id.key());
+        record.topologyCreatedBy = id.key();
       }
       instantiator.done = true;
     }),

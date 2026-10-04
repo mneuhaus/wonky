@@ -730,6 +730,59 @@ fn host_op_requests() {
     assert_eq!(host_op(&g)[0], STATUS_MALFORMED);
 }
 
+#[test]
+fn host_prism_replays_nonrepresentable_side_carriers() {
+    // Two disjoint regions: only the selected triangle may be extruded. Its
+    // sloped side has a non-binary64 coordinate difference, not a gap or fit.
+    let segments = [
+        [0.04, 0.04, 0.05, 0.04], [0.05, 0.04, 0.05, 0.05],
+        [0.05, 0.05, 0.04, 0.05], [0.04, 0.05, 0.04, 0.04],
+        [0.001, 0.001, 0.011, 0.013], [0.011, 0.013, 0.001, 0.013],
+        [0.001, 0.013, 0.001, 0.001],
+    ];
+    let loops = region(&segments);
+    let index = loops.iter().position(|r| r.points.len() == 3).unwrap();
+    let source = [4, 3, 2, 1];
+    let mut req = request(OP_PRISM);
+    req.extend([1, 2, 3, 4, 7]);
+    req.extend(source);
+    for x in [0., 0., 0., 1., 0., 0., 0., 0., 1.] { push_f64(&mut req, x); }
+    push_f64(&mut req, 0.004);
+    req.extend([1, index as u32, segments.len() as u32]);
+    for x in segments.iter().flatten() { push_f64(&mut req, *x); }
+    let reply = host_op(&req);
+    assert_eq!(reply[0], STATUS_OK, "{}", text(&reply));
+    let checked = wonky_wire::v3::decode(&reply[1..]).unwrap();
+    let a = audit(&checked).unwrap();
+    assert_eq!(a.body.key.revision, 7);
+    assert!(matches!(a.body.frames[0], Frame::Source { source: s } if s == source));
+    assert_eq!((a.topology().faces, a.topology().edges, a.topology().vertices), (5, 9, 6));
+    let expected = oracle_area(&loops[index].points) * exact(0.004).unwrap() * R::from_integer(1_000_000_000.into());
+    let measured = exact(a.volume_mm3().unwrap()).unwrap();
+    assert!((&measured - &expected).abs() <= expected * exact(2. * f64::EPSILON).unwrap());
+    assert!(matches!(a.distance_mm([2., 12., -2.]), Probe::Measured { inside: true, .. }));
+    assert!(matches!(a.distance_mm([10., 2., -2.]), Probe::Measured { inside: false, .. }));
+    let exported = step::write(&[("triangle".into(), &a)], "triangle").unwrap();
+    assert_eq!(exported.matches("ADVANCED_FACE(").count(), 5);
+    assert!(!exported.contains("CYLINDRICAL_SURFACE("));
+    // The exact source line, not a rounded cached side normal, decides plane
+    // coincidence. A forged cache also fails reconstruction after wire decode.
+    let side = a.body.surfaces.iter().enumerate().skip(2).find_map(|(k, s)| {
+        if let SurfaceGeometry::Plane { origin, normal, .. } = &s.geometry {
+            (normal[0].get() != 0. && normal[1].get() != 0.)
+                .then_some((k, origin.map(|x| x.get()), normal.map(|x| x.get())))
+        } else { None }
+    }).unwrap();
+    let selected = [wonky_ops::query::Entity { kind: wonky_ops::query::FACE, index: side.0 as u32 }];
+    let coincidence = wonky_ops::query::coincides(&wonky_ops::analytic::Solid::Planar(a.clone()), &selected, side.1, side.2);
+    assert_eq!(coincidence.unwrap_err().0, "planar-boolean/query-near-parallel-unproved");
+    let mut corrupt = a.body;
+    if let SurfaceGeometry::Plane { origin, .. } = &mut corrupt.surfaces[side.0].geometry {
+        origin[0] = Binary64::new(origin[0].get().next_up()).unwrap();
+    }
+    assert!(audit(&corrupt.check().unwrap()).is_err());
+}
+
 // ------------------------------------------------------------------ frame numerics
 
 fn oracle_inverse(f: &Affine, q: [f64; 3]) -> [R; 3] {

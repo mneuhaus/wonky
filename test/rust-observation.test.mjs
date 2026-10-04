@@ -36,8 +36,8 @@ ${Array.from({ length: count }, (_, i) => `fCuboid(context, id + "box${i}", {"co
         cwd: ROOT, encoding: 'utf8', timeout: 30000,
         env: { ...process.env, WONKY_BACKEND: 'rust', WONKY_BEND_GUARD_LOG: guard },
       });
-      const built = JSON.parse(fs.readFileSync(path.join(out, 'build.json')));
       assert.equal(child.status, 0, child.stderr);
+      const built = JSON.parse(fs.readFileSync(path.join(out, 'build.json')));
       assert.equal(built.outcome, 'built', built.error?.message);
       const metrics = built.nativeObservation.metrics;
       assert.equal(metrics.bodies.length, count);
@@ -66,6 +66,7 @@ test('live gap and extent evidence bind native operands and preserve the catalog
       cwd: ROOT, encoding: 'utf8', timeout: 120000, maxBuffer: 1 << 22,
       env: { ...process.env, WONKY_BACKEND: 'rust' },
     });
+    assert.ok(fs.existsSync(path.join(dir, 'scoreboard.json')), run.stderr || run.error?.message);
     const report = JSON.parse(fs.readFileSync(path.join(dir, 'scoreboard.json')));
     const results = JSON.parse(fs.readFileSync(path.join(dir, 'results.json')));
     for (const id of ['AC39', 'AC41']) {
@@ -104,4 +105,19 @@ test('live gap and extent evidence bind native operands and preserve the catalog
     }
     assert.equal(run.status, 0, run.stderr);
   } finally { fs.rmSync(dir, { recursive: true, force: true }); }
+});
+
+test('native observation collects swept-curve face classes from the real checked boundary', async () => {
+  process.env.WONKY_BACKEND = 'rust';
+  const {build} = await import('../src/index.mjs');
+  const rust = await import('../src/native/rust-host.mjs');
+  const {nativeObservation} = await import('../scripts/acid/native-observation.mjs');
+  const arch = catalog.zones.find(z => z.id === 'AC100');
+  const group = catalog.groups.find(g => g.id === arch.group);
+  const text = fs.readFileSync(path.join(ROOT, group.fs), 'utf8');
+  const model = await build(text, {feature:group.featureScript.customFeature,
+    parameters:{variant:'AcidVariant.V0',zone:'AcidSplinesAZone.AC100'}});
+  const result = nativeObservation(model,rust,catalog,arch,'V0');
+  assert.deepEqual(result.metrics.surfaceTypes,{Plane:3,SurfaceOfExtrusion:1});
+  assert.equal(result.metrics.topology.faces,4);
 });

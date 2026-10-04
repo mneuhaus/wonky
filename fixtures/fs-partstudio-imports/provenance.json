@@ -1,0 +1,38 @@
+{
+  "schema": "wonky-frozen-synthetic-inputs/1",
+  "origin": "repository-authored synthetic two-Part-Studio FeatureScript regression; no external document or capture",
+  "frozenAt": "2026-09-29T20:32:59.729Z",
+  "identity": "The 24-digit document/element/microversion labels are synthetic immutable fixture keys, not real Onshape identifiers.",
+  "semantics": "onshape/std/instantiator.fs default instance names, source-context selection, immutable derivation and native pattern transport",
+  "independentOracle": {
+    "units": "mm^3",
+    "source": "Two disjoint 8 x 4 x 4 rails: 256.",
+    "derived": "Translate both rails by 8 mm in X. Union first rail [8,16] with local [4,12]: (8+8-4)*4*4 = 192. Spare stays 128. Total 320."
+  },
+  "files": [
+    {
+      "path": "source.fs",
+      "origin": "repository:fixtures/fs-partstudio-imports/source.fs",
+      "sha256": "30f926d5013666c1ffc3992d4153abff1454ea00467d205b3588440fc53ad835",
+      "bytes": 1681
+    },
+    {
+      "path": "derived.fs",
+      "origin": "repository:fixtures/fs-partstudio-imports/derived.fs",
+      "sha256": "9bd305f6a9d42696705d15e8553271e528ccb0042c5a5695e12a94009d975d00",
+      "bytes": 2879
+    },
+    {
+      "path": "missing.fs",
+      "origin": "repository:fixtures/fs-partstudio-imports/missing.fs",
+      "sha256": "cda3ba9c130127aa8abaf62cca620b5d7aca08bca0ebad8e582235c66efc7eff",
+      "bytes": 565
+    },
+    {
+      "path": "modules.json",
+      "origin": "repository:fixtures/fs-partstudio-imports/modules.json",
+      "sha256": "d1ce568e9ddd35729a3f18d2aa5adc887bb8d2ab8ea3ee8ab5199afcb3ee6ad8",
+      "bytes": 581
+    }
+  ]
+}

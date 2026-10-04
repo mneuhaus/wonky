@@ -1,4 +1,5 @@
-import { FeatureScriptException, raise, unsupported } from './errors.mjs';
+import { attachAngleWitness, degreeWitness } from './angle-witness.mjs';
+import { FeatureScriptException, raise, raiseNamed, refuseNamed, unsupported } from './errors.mjs';
 import { rememberCross, rememberLine } from './construction-frame.mjs';
 import { binary, BOUND_SPEC_TYPES, cast, EnumValue, isMap, KeyedMap, map, Matrix, Quantity, quantity, tagged, Transform, Vector, vectorNumbers } from './values.mjs';
 
@@ -25,7 +26,7 @@ export function lengthBoundRows(bounds, loc) {
 
 const meter = new Quantity(1), centimeter = new Quantity(0.01), millimeter = new Quantity(0.001);
 const inch = new Quantity(0.0254), foot = new Quantity(0.3048), yard = new Quantity(0.9144);
-const degree = new Quantity(Math.PI / 180, 0, 1), radian = new Quantity(1, 0, 1);
+const degree = attachAngleWitness(new Quantity(Math.PI / 180, 0, 1), degreeWitness()), radian = new Quantity(1, 0, 1);
 const spec = (type, entries) => new KeyedMap(entries, type);
 const lengthSpec = (row, cm, mm, inches, feet, yards) => spec('LengthBoundSpec', [[meter, row], [centimeter, cm], [millimeter, mm], [inch, inches], [foot, feet], [yard, yards]]);
 const angleSpec = (row, radians) => spec('AngleBoundSpec', [[degree, row], [radian, radians]]);
@@ -88,7 +89,9 @@ export function verifyBounds(value, bounds, type, loc) {
   const resolved = resolveBoundSpec(bounds);
   if (resolved?.tag !== type) raise(`Expected ${type}`, loc);
   const [unit, row] = resolved.entries.find(([, r]) => Array.isArray(r));
-  if (binary('<', value, binary('*', row[0], unit, loc), loc) || binary('>', value, binary('*', row[2], unit, loc), loc)) raise('Parameter is out of range (PARAMETER_OUT_OF_RANGE)', loc);
+  if (binary('<', value, binary('*', row[0], unit, loc), loc) || binary('>', value, binary('*', row[2], unit, loc), loc)) raiseNamed('fs/parameter-out-of-range',
+    'Parameter is out of range (PARAMETER_OUT_OF_RANGE)',
+    'Choose a parameter value between the minimum and maximum in its bound specification, using the specified units.', loc);
   return true;
 }
 const isAngleValue = value => value instanceof Quantity && value.dimension === 0 && value.angle === 1 && Number.isFinite(value.value);
@@ -146,11 +149,36 @@ export function scalarBuiltins() {
       if (!Array.isArray(rows)) raise('matrix expects rectangular numeric rows', loc);
       return cast(rows, 'Matrix', loc);
     }),
+    // vector.fs:395 delegates axis + angle to @matrixRotation3d(axis, angle.value).
+    // This is a numeric Matrix, like std sin/cos, not an exact rigid-placement
+    // witness. Geometry consumers must retain their exact isometry checks.
+    rotationMatrix3d: builtin('rotationMatrix3d', 2, 2, ([axis, angle], loc) => {
+      if (angle instanceof Vector) refuseNamed('rotationMatrix3d', 'rotation/from-to-overload',
+        'the from/to vector overload is not implemented', 'Use the axis and angle overload.', loc);
+      const components = vectorNumbers(axis, 0, 3, loc);
+      // Match the std wrapper literally: ValueWithUnits, then angle.value;
+      // unlike isAngle(), it does not check the quantity's unit dimension.
+      if (!(angle instanceof Quantity) || !Number.isFinite(angle.value)) raise('rotationMatrix3d expects a finite ValueWithUnits', loc);
+      // Scale first so any finite nonzero axis can be normalized without
+      // overflowing its norm or underflowing all its squared components.
+      const magnitude = Math.max(...components.map(Math.abs));
+      if (magnitude === 0) raise('rotationMatrix3d axis must be nonzero', loc);
+      const scaled = components.map(v => v / magnitude), n = Math.hypot(...scaled);
+      const [x, y, z] = scaled.map(v => v / n);
+      const c = Math.cos(angle.value), s = Math.sin(angle.value), t = 1 - c;
+      const rows = [[t * x * x + c, t * x * y - s * z, t * x * z + s * y],
+        [t * x * y + s * z, t * y * y + c, t * y * z - s * x],
+        [t * x * z - s * y, t * y * z + s * x, t * z * z + c]];
+      // The input is a binary64 radian value, not an exact degree/turn
+      // witness. Only zero is admitted as an exact rotation here; even PI/2
+      // is rounded. Do not infer a special angle from rounded coefficients.
+      return new Matrix(rows, angle.value !== 0);
+    }),
     transform: builtin('transform', 1, 2, (args, loc) => {
       const [linear, translation] = args.length === 1 ? [identityMatrix(), args[0]] : args;
       if (!(linear instanceof Matrix) || linear.rows.length !== 3 || linear.rows[0].length !== 3) raise('transform expects a 3×3 Matrix', loc);
       vectorNumbers(translation, 1, 3, loc);
-      return new Transform(linear, translation);
+      return new Transform(linear, translation, loc);
     }),
     identityTransform: builtin('identityTransform', 0, 0, () => new Transform(identityMatrix(), zeroLengthVector())),
     inverse: builtin('inverse', 1, 1, ([value], loc) => {
@@ -159,7 +187,7 @@ export function scalarBuiltins() {
       const [[a, b, c], [d, e, f], [g, h, i]] = input.rows;
       const det = a * (e * i - f * h) - b * (d * i - f * g) + c * (d * h - e * g);
       if (Math.abs(det) < 1e-14) raise('Cannot invert a singular transform', loc);
-      const result = new Matrix([[e * i - f * h, c * h - b * i, b * f - c * e], [f * g - d * i, a * i - c * g, c * d - a * f], [d * h - e * g, b * g - a * h, a * e - b * d]].map(row => row.map(v => v / det)));
+      const result = new Matrix([[e * i - f * h, c * h - b * i, b * f - c * e], [f * g - d * i, a * i - c * g, c * d - a * f], [d * h - e * g, b * g - a * h, a * e - b * d]].map(row => row.map(v => v / det)), input.rotationRefusal);
       return value instanceof Transform ? new Transform(result, binary('*', -1, binary('*', result, value.translation, loc), loc)) : result;
     }),
     dot: builtin('dot', 2, 2, ([a, b], loc) => {

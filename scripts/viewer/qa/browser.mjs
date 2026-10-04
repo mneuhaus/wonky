@@ -1,25 +1,22 @@
-// Browser helpers for viewer QA (Playwright, loaded from outside the repo).
-//
-// Playwright is not a dependency of this repository. The helpers import
-// playwright-core from $WONKY_PLAYWRIGHT, or from ~/.dev-browser/node_modules.
+// Browser helpers for viewer QA. The default Playwright and Chromium are pinned
+// and provisioned in the checkout, independent of HOME and global installs.
 // Headless Chromium runs with --use-angle=metal --enable-gpu so WebGL works.
 //
 //   import { launch, openViewer, stageShot, diffImages } from './browser.mjs';
 import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
-import { homedir } from 'node:os';
-import { dirname, join } from 'node:path';
+import { dirname } from 'node:path';
+import { provisionBrowser } from './provision-browser.mjs';
 
-const defaultPlaywright = join(homedir(), '.dev-browser/node_modules/playwright-core/index.mjs');
-
-export async function launch({
-  playwright = process.env.WONKY_PLAYWRIGHT ?? defaultPlaywright,
-  args = [],
-} = {}) {
-  const { chromium } = await import(playwright);
-  return chromium.launch({
-    headless: true,
-    args: ['--use-angle=metal', '--enable-gpu', '--ignore-gpu-blocklist', ...args],
-  });
+export async function launch({ playwright, args = [] } = {}) {
+  try {
+    const { chromium } = await import(playwright ?? await provisionBrowser());
+    return await chromium.launch({
+      headless: true,
+      args: ['--use-angle=metal', '--enable-gpu', '--ignore-gpu-blocklist', ...args],
+    });
+  } catch (cause) {
+    throw new Error('BROWSER_LAUNCH_FAILED: viewer QA requires working Chromium/WebGL; no skips', { cause });
+  }
 }
 
 export async function openViewer(browser, url, {

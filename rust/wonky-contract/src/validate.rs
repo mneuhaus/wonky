@@ -77,6 +77,43 @@ fn arc_domain(arc: &ArcKind, d: &Domain) -> Result<()> {
     }
     Ok(())
 }
+/// Shared B-spline structure of a curve or pcurve carrier: degree 1..=7, a
+/// clamped non-decreasing knot vector of length controls + degree + 1 (every
+/// interior knot of multiplicity at most degree), and no weights or one positive
+/// weight per control. Returns the closed knot interval, the carrier's domain.
+fn bspline(degree: u32, knots: &[Binary64], controls: usize, weights: &[Binary64]) -> Result<Domain> {
+    let p = degree as usize;
+    require((1..=sketch3::MAX_DEGREE).contains(&p), "bspline degree")?;
+    require(controls > p && knots.len() == controls + p + 1, "bspline knot count")?;
+    for pair in knots.windows(2) {
+        require(compare(pair[0], pair[1])? != Sign::Positive, "bspline knots decrease")?;
+    }
+    let (first, last) = (knots[0], knots[knots.len() - 1]);
+    require(compare(first, last)? == Sign::Negative, "bspline empty knot interval")?;
+    // Clamped ends (multiplicity degree + 1, so never more) and interior
+    // multiplicity at most degree: the curve is defined, continuous and starts
+    // and ends on its first and last control.
+    for (i, k) in knots.iter().enumerate() {
+        let end = if i <= p { first } else if i >= knots.len() - p - 1 { last } else { continue };
+        require(compare(*k, end)? == Sign::Zero, "bspline not clamped")?;
+    }
+    let interior = &knots[p + 1..knots.len() - p - 1];
+    let mut run = 0;
+    for i in 0..interior.len() {
+        // An interior knot equal to an end knot would raise that end's multiplicity above degree + 1.
+        require(
+            compare(interior[i], first)? == Sign::Positive && compare(interior[i], last)? == Sign::Negative,
+            "bspline interior knot at an end",
+        )?;
+        run = if i > 0 && compare(interior[i], interior[i - 1])? == Sign::Zero { run + 1 } else { 1 };
+        require(run <= p, "bspline interior knot multiplicity")?;
+    }
+    require(weights.is_empty() || weights.len() == controls, "bspline weight count")?;
+    for w in weights {
+        positive(*w)?;
+    }
+    Ok(Domain { lower: Limit::Finite { value: first, closed: true }, upper: Limit::Finite { value: last, closed: true } })
+}
 fn endpoint(l: &Limit) -> Option<Binary64> {
     match l {
         Limit::Finite { value, .. } => Some(*value),
@@ -211,12 +248,30 @@ impl Body {
                 require((parent.0 as usize) < i, "frame cycle/forward reference")?;
             }
             match frame {
+                Frame::RationalImage { base, rows, denominator } => {
+                    require((base.0 as usize) < i, "rational image cycle/forward reference")?;
+                    require(denominator.get() > 0., "rational image denominator")?;
+                    let [a,b,c] = rows.map(point);
+                    let determinant = wonky_num::orient3d(a,b,c,wonky_num::v3(0.,0.,0.),"rational image determinant").map_err(|e| ContractError::Numeric(e.into_refusal()))?;
+                    require(determinant != wonky_num::Sign::Zero, "singular rational image")?;
+                }
                 Frame::AffineImage { base, rows, .. } => {
                     require((base.0 as usize) < i, "affine image cycle/forward reference")?;
                     let [a, b, c] = rows.map(point);
                     let determinant = wonky_num::orient3d(a, b, c, wonky_num::v3(0., 0., 0.), "affine image determinant")
                         .map_err(|e| ContractError::Numeric(e.into_refusal()))?;
                     require(determinant != wonky_num::Sign::Zero, "singular affine image")?;
+                }
+                Frame::InterpreterImage { base, x, z, .. } => {
+                    require((base.0 as usize) < i, "interpreter image cycle/forward reference")?;
+                    direction(*x)?;
+                    direction(*z)?;
+                    // Same exact non-degeneracy as an interpreter frame: the
+                    // determinant is |z cross x|^2, so parallel axes are singular.
+                    require(
+                        !numeric::parallel(point(*x), point(*z)).map_err(ContractError::Numeric)?,
+                        "interpreter image axes parallel",
+                    )?;
                 }
                 Frame::Source { .. } => {}
                 Frame::Rigid { axis, .. } => direction(*axis)?,
@@ -243,7 +298,123 @@ impl Body {
             let planar_chamfer = n.rule_version == 2
                 && n.operation == (Operation::Intersection {})
                 && n.parents.len() == 1 && n.parameters.len() >= 2;
-            if n.rule_version != 1 && !planar_chamfer {
+            // Rule 3 clips circular cap rims with exact slope-cone bands.
+            let circular_chamfer = n.rule_version == 3
+                && n.operation == (Operation::Intersection {})
+                && n.parents.len() == 1 && n.parameters.len() == 3;
+            // Rule 4 chamfers a perforated box in one operation: planar setbacks
+            // on straight edges and two-ring cones on hole rims. [width, edges...]
+            let perforated_chamfer = n.rule_version == 4
+                && n.operation == (Operation::Intersection {})
+                && n.parents.len() == 1 && n.parameters.len() >= 2;
+            // Perforated-box replay retains independent operand frame DAGs.
+            // Each triple is (source kind, frame count, construction count);
+            // the operation auditor authenticates and clips the exact sources.
+            let perforated_sources = n.rule_version == 2 && n.operation == (Operation::Boolean {})
+                && (2..=65).contains(&n.parents.len())
+                && n.parameters.len() == 3 * n.parents.len();
+            // Replayed axial hole arrangement: operation plus one source-layout
+            // triple per operand. Geometric admission remains the op auditor's job.
+            let axial_holes = n.rule_version == 3 && n.operation == (Operation::Boolean {})
+                && (2..=65).contains(&n.parents.len())
+                && n.parameters.len() == 1 + 3 * n.parents.len()
+                && n.parameters[0].get() == 1.;
+            // Sketch rule 2 declares bounded circular-carrier regularization:
+            // [selected region, cap in mm]. The operation audit recomputes the
+            // exact displacement proof from the unchanged interpreter inputs.
+            let regularized_sketch = n.rule_version == 2 && n.operation == (Operation::Sketch {})
+                && n.parents.len() == 1 && n.parameters.len() == 2
+                && n.parameters[0].get() >= 0. && n.parameters[0].get() <= u32::MAX as f64
+                && n.parameters[0].get().fract() == 0. && n.parameters[1].get() >= 0.;
+            // Sketch rule 3: the tagged entity list (sketch3.rs). Structure only;
+            // the operation that replays the sketch owns geometric admission.
+            let tagged_sketch = n.rule_version == 3 && n.operation == (Operation::Sketch {})
+                && n.parents.len() == 1
+                && sketch3::parse(&n.parameters.iter().map(|p| p.get()).collect::<Vec<_>>()).is_ok();
+            // Sketch rule 4: a cell of the shared exact arrangement. Its
+            // parent interpreter retains lines, arcs and circles; audit replays
+            // contacts and region selection, never rounded split vertices.
+            let arranged_sketch = n.rule_version == 4 && n.operation == (Operation::Sketch {})
+                && n.parents.len() == 1 && n.parameters.len() == 1
+                && n.parameters[0].get() >= 0. && n.parameters[0].get() <= u32::MAX as f64
+                && n.parameters[0].get().fract() == 0.;
+            // Coaxial meridian Boolean: exact rational arrangement, with original
+            // source DAGs retained and replayed by the revolution auditor.
+            let meridian_boolean = n.rule_version == 4 && n.operation == (Operation::Boolean {})
+                && (2..=32).contains(&n.parents.len())
+                && n.parameters.len() == 1 + 3 * n.parents.len()
+                && [0., 1., 2.].contains(&n.parameters[0].get());
+            // Stacked-prism Boolean: same operand layout; the prism-stack audit
+            // replays every source and rebuilds the rational arrangement.
+            let stacked_boolean = n.rule_version == 5 && n.operation == (Operation::Boolean {})
+                && (2..=64).contains(&n.parents.len())
+                && n.parameters.len() == 1 + 3 * n.parents.len()
+                && [0., 1., 2.].contains(&n.parameters[0].get());
+            // General Model replay: [operation, -6, optional exact solid index].
+            // The older axial-column rule 6 layout remains unchanged.
+            let model_chamfer = [11,12].contains(&n.rule_version) && n.operation == (Operation::Intersection {})
+                && n.parents.len() == 1 && n.parameters.len() >= if n.rule_version==12 {3} else {2}
+                && n.parameters[0].get() > 0.
+                && (n.rule_version!=12 || [0.,1.].contains(&n.parameters[1].get()))
+                && n.parameters[if n.rule_version==12 {2} else {1}..].iter().all(|p| p.get() >= 0. && p.get() <= u32::MAX as f64 && p.get().fract() == 0.);
+            // Source-replayed plane/plane generator surgery. Geometry admission
+            // belongs to the shared Model audit; this only admits its DAG header.
+            let model_fillet = n.rule_version == 13 && n.operation == (Operation::Fillet {})
+                && n.parents.len() == 1 && n.parameters.len() >= 2
+                && n.parameters[0].get() > 0.
+                && n.parameters[1..].iter().all(|p| p.get() >= 0. && p.get() <= u32::MAX as f64 && p.get().fract() == 0.);
+            let model_boolean = n.rule_version == 6 && n.operation == (Operation::Boolean {})
+                && (2..=64).contains(&n.parents.len()) && (2..=3).contains(&n.parameters.len())
+                && [0., 1., 2.].contains(&n.parameters[0].get()) && n.parameters[1].get() == -6.
+                && (n.parameters.len() == 2 || (n.parameters[2].get() >= 0.
+                    && n.parameters[2].get() <= u32::MAX as f64 && n.parameters[2].get().fract() == 0.));
+            // Model placement (rule 6): one exact image of a replayed Model.
+            // The affine arm below checks that its frame images the parent's.
+            let model_placement = n.rule_version == 6 && n.operation == (Operation::AffineTransform {})
+                && n.parents.len() == 1 && n.parameters.is_empty();
+            // General Boolean source leaf (rule 7): [kind, first frame counted
+            // back from the node's frame, frame count, node count] of one
+            // operand's own source DAG, whose last
+            // node is the single parent. Structural admission only: Model
+            // replay rebuilds and audits the operand from that DAG alone.
+            let model_source = n.rule_version == 7 && n.operation == (Operation::Boolean {})
+                && n.parents.len() == 1 && n.parameters.len() == 4
+                && n.parameters.iter().all(|p| p.get() >= 0. && p.get() <= u32::MAX as f64 && p.get().fract() == 0.);
+            // Replayed axial column arrangement: one source-layout triple per
+            // operand, then one operation (0 union, 1 difference) per tool.
+            let axial_columns = n.rule_version == 6 && n.operation == (Operation::Boolean {})
+                && (2..=65).contains(&n.parents.len())
+                && n.parameters.len() == 4 * n.parents.len() - 1
+                && n.parameters[3 * n.parents.len()..].iter().all(|p| [0., 1.].contains(&p.get()));
+            // Profile-generator rule 8 retains a source extrusion and records
+            // [size, corner indices...]. The profile-blend auditor replays the
+            // rational offsets and authenticates the complete carrier cache.
+            let profile_blend = n.rule_version == 8
+                && matches!(n.operation, Operation::Fillet {} | Operation::Intersection {})
+                && n.parents.len() == 1 && n.parameters.len() >= 2
+                && n.parameters[0].get() > 0.
+                && n.parameters[1..].iter().all(|p| {
+                    let v = p.get();
+                    v >= 0. && v <= u32::MAX as f64 && v.fract() == 0.
+                });
+            let stack_blend = n.rule_version == 9
+                && matches!(n.operation, Operation::Fillet {} | Operation::Intersection {})
+                && n.parents.len() == 1 && n.parameters.len() >= 2
+                && n.parameters[0].get() > 0.
+                && n.parameters[1..].iter().all(|p| {
+                    let v = p.get(); v >= 0. && v <= u32::MAX as f64 && v.fract() == 0.
+                });
+            // Stacked generator rule 10 records [size, source edge indices...].
+            // This is structural admission only: the stack auditor replays the
+            // slab trims and compares every carrier and incidence to the cache.
+            let stack_generator = n.rule_version == 10
+                && matches!(n.operation, Operation::Fillet {} | Operation::Intersection {})
+                && n.parents.len() == 1 && n.parameters.len() >= 2
+                && n.parameters[0].get() > 0.
+                && n.parameters[1..].iter().all(|p| {
+                    let v = p.get(); v >= 0. && v <= u32::MAX as f64 && v.fract() == 0.
+                });
+            if n.rule_version != 1 && !stack_generator && !stack_blend && !regularized_sketch && !tagged_sketch && !arranged_sketch && !planar_chamfer && !circular_chamfer && !perforated_chamfer && !axial_holes && !perforated_sources && !meridian_boolean && !stacked_boolean && !axial_columns && !model_boolean && !model_placement && !model_source && !model_chamfer && !model_fillet && !profile_blend && !(n.rule_version == 2 && n.operation == (Operation::Revolve {})) {
                 return Err(ContractError::UnsupportedWitness(n.rule_version));
             }
             for parent in &n.parents {
@@ -281,7 +452,7 @@ impl Body {
                 Operation::AffineTransform {} => {
                     require(n.parents.len() == 1 && n.parameters.is_empty(), "affine rule arity")?;
                     let input = &self.constructions[n.parents[0].0 as usize];
-                    require(matches!(&self.frames[n.frame.0 as usize], Frame::AffineImage { base, .. } if *base == input.frame), "affine frame chain")?;
+                    require(matches!(&self.frames[n.frame.0 as usize], Frame::AffineImage { base, .. } | Frame::InterpreterImage { base, .. } | Frame::RationalImage { base, .. } | Frame::Rigid { parent: base, .. } if *base == input.frame), "affine frame chain")?;
                 }
                 Operation::RigidTransform {} => {
                     require(
@@ -304,6 +475,12 @@ impl Body {
             self.origin(s.frame, &s.provenance)?;
             match s.geometry {
                 SurfaceGeometry::Plane { normal, x, .. } => axes(normal, x)?,
+                SurfaceGeometry::ConeMeridian { axis, x, start, end, .. } => {
+                    // One meridian point may lie on the axis: it is the apex.
+                    // Distinct radii exclude a zero-radius (both-apex) carrier.
+                    axes(axis,x)?; nonnegative(start[0])?; nonnegative(end[0])?;
+                    require(start[0] != end[0] && start[1] != end[1], "degenerate cone meridian")?;
+                },
                 SurfaceGeometry::Cylinder {
                     axis, x, radius, ..
                 }
@@ -312,6 +489,11 @@ impl Body {
                 } => {
                     axes(axis, x)?;
                     positive(radius)?;
+                }
+                SurfaceGeometry::ConeSlope { axis, x, radius, slope, .. } => {
+                    axes(axis, x)?;
+                    nonnegative(radius)?;
+                    positive(slope)?;
                 }
                 SurfaceGeometry::Cone {
                     axis,
@@ -335,12 +517,47 @@ impl Body {
                     positive(major)?;
                     positive(minor)?;
                 }
+                SurfaceGeometry::LinearExtrusion { curve, direction: d } => {
+                    direction(d)?;
+                    let swept = at(&self.curves, curve.0, "extrusion curve")?;
+                    // The generator direction lives in the frame of the swept
+                    // curve; a curve in another frame is a different surface.
+                    require(swept.frame == s.frame, "extrusion curve frame")?;
+                    // One representation per surface: a circle swept along its
+                    // axis is a Cylinder, a line a Plane. Only a spline is swept.
+                    let sweepable = match swept.geometry {
+                        CurveGeometry::BSpline { .. } => true,
+                        CurveGeometry::ConstructionLine { .. }
+                        | CurveGeometry::ConstructionCurve { .. }
+                        | CurveGeometry::CylinderIntersection { .. }
+                        | CurveGeometry::VectorEllipse { .. }
+                        | CurveGeometry::SphereCircle { .. }
+                        | CurveGeometry::Line { .. }
+                        | CurveGeometry::Circle { .. }
+                        | CurveGeometry::Ellipse { .. }
+                        | CurveGeometry::Parabola { .. }
+                        | CurveGeometry::Hyperbola { .. }
+                        | CurveGeometry::Trace { .. } => false,
+                    };
+                    require(sweepable, "extrusion of a non-spline curve")?;
+                }
             }
         }
         for (i, c) in self.curves.iter().enumerate() {
             self.origin(c.frame, &c.provenance)?;
             domain(&c.domain)?;
             match &c.geometry {
+                CurveGeometry::ConstructionCurve { .. } => {
+                    let Provenance::Construction { node } = c.provenance else {
+                        return Err(ContractError::Invalid("construction curve provenance"));
+                    };
+                    let n=at(&self.constructions,node.0,"construction curve node")?;
+                    // A general Boolean Model, its exact placement (G13), or
+                    // a replayed blend of either (F2c chain chamfer).
+                    let blend = n.operation == (Operation::Intersection {}) && [11, 12].contains(&n.rule_version) && n.parents.len() == 1;
+                    require(blend || n.rule_version == 6 && (n.operation == (Operation::AffineTransform {}) && n.parameters.is_empty()
+                        || n.operation == (Operation::Boolean {}) && (2..=3).contains(&n.parameters.len()) && n.parameters[1].get() == -6.), "construction curve rule")?;
+                }
                 CurveGeometry::ConstructionLine { edge } => {
                     let e = at(&self.edges, edge.0, "construction line edge")?;
                     require(e.curve.0 as usize == i, "construction line backreference")?;
@@ -348,13 +565,19 @@ impl Body {
                     let Provenance::Construction { node } = &c.provenance else {
                         return Err(ContractError::Invalid("construction line provenance"));
                     };
-                    let n = at(&self.constructions, node.0, "construction line node")?;
-                    require(n.operation == (Operation::Boolean {}) && n.rule_version == 1
-                        && n.parameters.len() == 2 && n.parameters[1].get() == 2., "construction line rule")?;
+                    // Affine wrappers preserve the exact replay-owned carrier.
+                    let n = self.source(&Provenance::Construction { node: *node })?;
+                    require(n.replayed_planar_boundary(), "construction line rule")?;
                     for v in &e.vertices {
                         let v = at(&self.vertices, v.0, "construction line vertex")?;
                         require(v.frame == c.frame && v.provenance == c.provenance, "construction line binding")?;
                     }
+                }
+                CurveGeometry::CylinderIntersection { large_axis, small_axis, large_radius, small_radius, .. } => {
+                    axes(*large_axis, *small_axis)?;
+                    positive(*small_radius)?;
+                    require(compare(*large_radius, *small_radius)? == Sign::Positive, "cylinder intersection transverse radii")?;
+                    arc_domain(&ArcKind::Full {}, &c.domain)?;
                 }
                 CurveGeometry::VectorEllipse { cosine, sine, arc, .. } => {
                     axes(*cosine, *sine)?;
@@ -430,6 +653,15 @@ impl Body {
                     axes(*axis, *x)?;
                     positive(*major)?;
                     positive(*minor)?;
+                }
+                CurveGeometry::BSpline { degree, knots, controls, weights, periodic } => {
+                    require(!periodic, "periodic bspline")?;
+                    let span = bspline(*degree, knots, controls.len(), weights)?;
+                    in_domain(&c.domain, &span)?;
+                    require(
+                        endpoint(&c.domain.lower).is_some() && endpoint(&c.domain.upper).is_some(),
+                        "unbounded bspline domain",
+                    )?;
                 }
                 CurveGeometry::Trace { surfaces, tube } => {
                     require(surfaces[0] != surfaces[1], "trace repeated carrier")?;
@@ -524,6 +756,24 @@ impl Body {
             )?;
             in_domain(&pc.domain, &curve.domain)?;
             match &pc.geometry {
+                PcurveGeometry::CylinderIntersection {} => {
+                    let CurveGeometry::CylinderIntersection { origin, large_axis, small_axis, large_radius, small_radius } = curve.geometry else {
+                        return Err(ContractError::Invalid("intersection pcurve carrier"));
+                    };
+                    let SurfaceGeometry::Cylinder { origin: base, axis, radius, .. } = self.surfaces[pc.surface.0 as usize].geometry else {
+                        return Err(ContractError::Invalid("intersection pcurve support"));
+                    };
+                    // The support is one of the two source cylinders: the same
+                    // binary64 radius input and an exactly parallel axis through
+                    // the ring origin. No rounded radius can stand in for it.
+                    let source = if compare(radius, large_radius)? == Sign::Zero { large_axis } else { small_axis };
+                    require(
+                        (compare(radius, large_radius)? == Sign::Zero || compare(radius, small_radius)? == Sign::Zero)
+                            && numeric::parallel(point(axis), point(source)).map_err(ContractError::Numeric)?
+                            && numeric::on_axis(point(origin), point(base), point(axis)).map_err(ContractError::Numeric)?,
+                        "intersection pcurve support",
+                    )?;
+                }
                 PcurveGeometry::SphereLatitude { height } => {
                     let SurfaceGeometry::Sphere { radius, .. } = self.surfaces[pc.surface.0 as usize].geometry else {
                         return Err(ContractError::Invalid("latitude pcurve requires sphere"));
@@ -546,6 +796,14 @@ impl Body {
                     for w in weights {
                         positive(*w)?;
                     }
+                }
+                PcurveGeometry::BSpline { degree, knots, controls, weights } => {
+                    let span = bspline(*degree, knots, controls.len(), weights)?;
+                    in_domain(&pc.domain, &span)?;
+                    require(
+                        endpoint(&pc.domain.lower).is_some() && endpoint(&pc.domain.upper).is_some(),
+                        "unbounded bspline pcurve",
+                    )?;
                 }
                 PcurveGeometry::Samples {
                     parameters,
@@ -575,8 +833,8 @@ impl Body {
             let c = at(&self.curves, e.curve.0, "edge curve")?;
             in_domain(&e.domain, &c.domain)?;
             require(e.vertices.len() == 2 || (e.vertices.is_empty()
-                && matches!(c.geometry, CurveGeometry::SphereCircle { .. })
-                && e.domain == c.domain), "edge endpoints")?;
+                && e.domain == c.domain
+                && self.endpoint_free(c)?), "edge endpoints")?;
             for v in &e.vertices {
                 let frame = at(&self.vertices, v.0, "edge vertex")?.frame;
                 require(
@@ -629,6 +887,44 @@ impl Body {
         }
         Ok(CheckedBody { body: self })
     }
+    /// A vertex-free closed edge needs a carrier that is an exact construction:
+    /// the radical sphere ring, the quartic cylinder ring, or a full circle that
+    /// IS a cross-section of one of its supporting cylinders (the same binary64
+    /// radius input, an exactly parallel normal, its centre exactly on the axis,
+    /// and a constant-height one-turn chart line). A free binary64 circle, e.g. a
+    /// rounded radical radius replacing an exact ring, has no such support.
+    fn endpoint_free(&self, c: &Curve) -> Result<bool> {
+        if let CurveGeometry::ConstructionCurve { closed, .. } = c.geometry {
+            // Structural admission only: Model replay must prove both this
+            // closure claim and every slot/support/topology association.
+            return Ok(closed);
+        }
+        let CurveGeometry::Circle { origin, normal, radius, arc: ArcKind::Full {}, .. } = c.geometry else {
+            return Ok(matches!(
+                c.geometry,
+                CurveGeometry::SphereCircle { .. } | CurveGeometry::CylinderIntersection { .. }
+            ));
+        };
+        for s in &c.supports {
+            let SurfaceGeometry::Cylinder { origin: base, axis, radius: r, .. } =
+                at(&self.surfaces, s.surface.0, "support surface")?.geometry
+            else {
+                continue;
+            };
+            let PcurveGeometry::Line { a, b } = at(&self.pcurves, s.pcurve.0, "support pcurve")?.geometry else {
+                continue;
+            };
+            if compare(radius, r)? == Sign::Zero
+                && compare(a[1], b[1])? == Sign::Zero
+                && numeric::unit_span(a[0].get(), b[0].get()).map_err(ContractError::Numeric)?
+                && numeric::parallel(point(normal), point(axis)).map_err(ContractError::Numeric)?
+                && numeric::on_axis(point(origin), point(base), point(axis)).map_err(ContractError::Numeric)?
+            {
+                return Ok(true);
+            }
+        }
+        Ok(false)
+    }
     fn translation_chart(&self, child: FrameId, parent_frame: FrameId) -> bool {
         matches!(self.frames.get(child.0 as usize), Some(Frame::Rigid {parent, angle, ..})
             if *parent == parent_frame && angle.get() == 0.)
@@ -649,7 +945,7 @@ impl Body {
         };
         loop {
             let n = at(&self.constructions, node.0, "source node")?;
-            if !matches!(n.operation, Operation::RigidTransform {}) {
+            if !matches!(n.operation, Operation::RigidTransform {} | Operation::AffineTransform {}) {
                 return Ok(n);
             }
             node = n.parents[0]; // already checked decreasing DAG, hence bounded

@@ -60,12 +60,12 @@ fn generated_all_variant_roundtrips_are_bit_exact() {
 #[test]
 fn decoder_rejects_noncanonical_messages_and_unknown_versions() {
     let words = codec::encode(&source()).unwrap();
-    assert_eq!(&words[..3], &[codec::MAGIC, 4, (words.len() - 3) as u32]);
+    assert_eq!(&words[..3], &[codec::MAGIC, 8, (words.len() - 3) as u32]);
     let mut changed = words.clone();
-    changed[1] = 3;
+    changed[1] = 4;
     assert_eq!(
         codec::decode(&changed).unwrap_err(),
-        codec::Error::UnknownVersion(3)
+        codec::Error::UnknownVersion(4)
     );
     changed = words.clone();
     changed[0] = 0;

@@ -8,8 +8,27 @@ import { exactQueryPlane } from './rust-placement.mjs';
 const kinds = ['body', 'face', 'edge', 'vertex'];
 const rowKey = row => `${row.record.key}:${row.kind}:${row.index ?? ''}`;
 const unique = rows => [...new Map(rows.map(row => [rowKey(row), row])).values()];
+// Feature Ids aggregate their operation subtree; registered operation Ids
+// select only that operation, not e.g. a nested profile sketch. Compare Id
+// components, not display strings: helper must not select helperSibling.
+const withinId = (creator, id, operation) => {
+  if (typeof creator !== 'string') return false;
+  const parts = JSON.parse(creator);
+  return (!operation || parts.length === id.parts.length) && id.parts.every((component, index) => parts[index] === component);
+};
+const createdWithin = (creators, id, operation) => [...creators].some(creator => withinId(creator, id, operation));
+
+// Read-only native evaluation may use a frozen source context, but never an
+// unrelated context or another kernel. Mutating callers keep their own owner.
+export function rustContextOwner(engine, context, loc, allowImported = false) {
+  if (context === engine.context) return engine;
+  if (allowImported && context?.moduleBuild && context.engine?.context === context
+      && context.engine.kernel === engine.kernel && context.engine.readOnly) return context.engine;
+  raise('Invalid modeling context', loc);
+}
+
 export function rustQueryBuiltins(engine, api) {
-  const { Request, OP, call, words, RustBody, RustCapabilityError, point3, direction3, closestEdges } = api;
+  const { Request, OP, call, words, RustBody, RustCapabilityError, point3, direction3, closestEdges, fieldMap } = api;
   const refuse = (reason, loc) => { throw new RustCapabilityError('query', reason, loc); };
   const kind = (value, loc) => {
     if (!(value instanceof EnumValue) || value.enumType !== 'EntityType') raise('Expected an EntityType', loc);
@@ -40,7 +59,11 @@ export function rustQueryBuiltins(engine, api) {
   const owned = (rows, entityType, loc) => {
     const target = kind(entityType, loc);
     if (target === 0) refuse('owned-body-semantics', loc);
-    return native(unique(rows.filter(r => r.record.kind === 'solid').map(r => ({ record: r.record, kind: 'body' }))), 0, r => r.u32(target), loc);
+    // Sketch wire/point/face topology is not transported as WC0 yet. Dropping
+    // its owners here would turn an unsupported selection into an empty set,
+    // including when opDeleteBodies consumes a mixed sketch/solid query.
+    if (rows.some(row => row.record.kind === 'sketch')) refuse('query/owned-sketch-topology', loc);
+    return native(unique(rows.map(row => ({ record: row.record, kind: 'body' }))), 0, r => r.u32(target), loc);
   };
   // Returning undefined delegates set operations and body bookkeeping to the
   // shared resolver. Only native geometry access is intercepted here.
@@ -49,13 +72,16 @@ export function rustQueryBuiltins(engine, api) {
     switch (q.kind) {
       case 'owned': return owned(resolve(q.query), q.entityType, loc);
       case 'created': {
-        const k = kind(q.entityType, loc);
-        if (k === 0) return undefined;
-        const records = [...engine.records.values()].filter(r => r.createdBy.has(q.id.key()));
+        const k = kind(q.entityType, loc), operation = engine.ids.has(q.id.key());
+        if (k === 0) {
+          return [...engine.records.values()].filter(record => createdWithin(record.bodyCreatedBy ?? record.createdBy, q.id, operation))
+            .map(record => ({ record, kind: 'body' }));
+        }
+        const records = [...engine.records.values()].filter(record => createdWithin(record.createdBy, q.id, operation));
         for (const r of records) {
           if (r.kind !== 'solid') refuse('created-sketch-topology', loc);
           const creator = r.topologyCreatedBy ?? (r.createdBy.size === 1 ? [...r.createdBy][0] : null);
-          if (creator !== q.id.key()) refuse('created-topology-identity-untracked', loc);
+          if (!withinId(creator, q.id, operation)) refuse('created-topology-identity-untracked', loc);
         }
         return owned(records.map(record => ({ record, kind: 'body' })), q.entityType, loc);
       }
@@ -116,13 +142,31 @@ export function rustQueryBuiltins(engine, api) {
     qAdjacent: constructors.qAdjacent.call,
     qCoincidesWithPlane: constructors.qCoincidesWithPlane.call,
     qParallelEdges: constructors.qParallelEdges.call,
+    opDeleteBodies: ([context, id, definition], loc) => {
+      const { entities } = fieldMap(definition, ['entities'], [], loc);
+      engine.claim(context, id, loc);
+      // Onshape deletes the owner of any selected non-body entity. Resolve the
+      // whole query before mutating: an unsupported union operand must refuse,
+      // not partially delete the owners selected by an earlier operand.
+      const owners = new Set(resolveTopology(engine, entities, loc).map(row => row.record));
+      for (const record of owners) {
+        engine.records.delete(record.key);
+        if (record.kind === 'sketch') record.sketch.deleted = true;
+      }
+    },
     evaluateQuery: ([context, query], loc) => {
-      if (context !== engine.context) raise('Invalid modeling context', loc);
-      const selected = resolveTopology(engine, query, loc);
-      if (selected.some(row => row.record.kind !== 'solid' || !(row.record.body instanceof RustBody))) {
+      // Context-relative queries keep their actual owner. Listing frozen parts
+      // needs metadata only; it must not materialize every lazy B-rep merely to
+      // select one named part. Topology and downstream geometry still require
+      // real native bodies and fail closed at that boundary.
+      const owner = rustContextOwner(engine, context, loc, true);
+      const imported = owner !== engine;
+      const selected = resolveTopology(owner, query, loc);
+      if (selected.some(row => row.record.kind !== 'solid' ||
+        (!(imported && row.kind === 'body') && !(row.record.body instanceof RustBody)))) {
         throw new RustCapabilityError('evaluateQuery', 'requires Rust solid topology', loc);
       }
-      return selected.map(row => new TopologyQuery('reference', { rows: [row], owner: engine }));
+      return selected.map(row => new TopologyQuery('reference', { rows: [row], owner }));
     },
   };
 }

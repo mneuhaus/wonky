@@ -1,0 +1,32 @@
+$ uv run --no-project local-development-evidence -B local-development-evidence local-development-evidence
+status=0 signal=null error=
+--- stdout
+
+--- stderr
+Traceback (most recent call last):
+  File "local-development-evidence", line 345, in fillet
+    new_shape = self.__class__(fillet_builder.Shape())
+                               ~~~~~~~~~~~~~~~~~~~~^^
+OCP.OCP.Standard.Standard_Failure: BRep_API: command not done
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "local-development-evidence", line 13, in build
+    result = plate.fillet(params["radius"], [edge])
+  File "local-development-evidence", line 349, in fillet
+    raise ValueError(
+    ...<2 lines>...
+    ) from err
+ValueError: Failed creating a fillet with radius of 4, try a smaller value or use max_fillet() to find the largest valid fillet radius
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "local-development-evidence", line 32, in main
+    built = module.build(req['variant'],zone=req['zone'])
+  File "local-development-evidence", line 15, in build
+    raise NotImplementedError(
+    ...<2 lines>...
+    ) from error
+NotImplementedError: OCCT opFillet edge overflow, radius 4 mm on a 2 mm plate, unsupported by this twin: Failed creating a fillet with radius of 4, try a smaller value or use max_fillet() to find the largest valid fillet radius

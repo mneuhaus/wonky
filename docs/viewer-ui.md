@@ -11,16 +11,85 @@ Aufbau und Erweiterungspunkte stehen in
 Beschreibung in [`docs/viewer/spec.md`](viewer/spec.md), die Referenz je
 Bereich in `docs/viewer/<bereich>.md`.
 
-Grundsatz: Jede Geometrie und jeder Messwert kommt aus Bend oder aus
-aufgezeichneten Modelldaten. Werte aus dem Darstellungsnetz tragen ihre
+Grundsatz: Jede Geometrie und jeder Messwert kommt aus dem Rust-Kernel oder
+aus aufgezeichneten Modelldaten. Werte aus dem Darstellungsnetz tragen ihre
 Toleranz („display ±0.02“). Was der Kernel nicht kann, erscheint als
 ausdrückliche Fähigkeitsgrenze („unsupported: …“, „unresolved“), nie als
 Schätzung. Ein fehlgeschlagener, abgebrochener oder überholter Build wird nie
 als aktuell angezeigt.
 
-Stand: 23. September 2026, nach der Integration aller Umbau-Pakete und zwei
-Regression reviewn (Spec Abschnitt 12). Die Nachweise stehen im Abschnitt
-[Prüfungen und Nachweise](#prüfungen-und-nachweise).
+Stand: 29. September 2026, Rust-Kernel (Bend ist seit dem 26. September
+stillgelegt). Der Viewer arbeitet mit dem, was der Rust-Kernel heute kann,
+und wird mit ihm nachgeführt. Die Prüfungen aus der Bend-Zeit (Stand
+23. September 2026, Abschnitt [Prüfungen und Nachweise](#prüfungen-und-nachweise))
+sind historisch und nicht neu gelaufen.
+
+### Stand auf dem Rust-Kernel
+
+Was auf Rust-Körpern (WC0 v3) funktioniert:
+
+- **Live-Neubau beim Speichern**, Workspace mit mehreren Teilen und
+  Baugruppen, Bauteilbaum, Reviews und Annotationen, Vergleich zweier
+  Revisionen (Modell gegen Modell), LLM-Kontext.
+- **Darstellung** aus dem Rust-Netz (`wonky-mesh/1`, Host-Operation
+  `OP_MESH`), jede Fläche mit ihrer benannten Abweichung
+  (`displayTessellation.maxChordalErrorBoundMm`, im Viewer „display
+  ±0.02“). Kann das Netz einen Körper nicht bauen, bleibt er ohne Dreiecke
+  mit benannter `displayWarning`; es gibt keine Ersatz-Tesselierung. Passen
+  Aufzeichnung und WC0-Wörter nicht mehr zusammen, meldet der Viewer „Stale
+  geometry revision“. Das gilt auch für Prismenstapel (Platte oder Flansch
+  mit Bohrungen, `scripts/viewer/qa/fixtures/bolt-flange.fs`): jedes Dreieck
+  gehört zu seiner Fläche, jede Kante ist abgetastet.
+- **Kernel-Fakten** (Volumen, Oberfläche, Bounding-Box, Flächeninhalt und
+  Umfang je Fläche) kommen aus `OP_MEASURE` (`src/viewer/rust-facts.mjs`,
+  Quelle `rust-kernel-measure`), nie aus dem Darstellungsnetz. Der
+  Nachweis `test/viewer-rust-e2e.test.mjs` vergleicht sie mit
+  `bin/wonky.mjs --json` auf Gleichheit und lässt eine aus dem Netz
+  berechnete Größe fehlschlagen.
+- **Exaktes Messen** (Abstände, Winkel, Parallelität, Zylinderpaare) mit
+  binary64-Mathematik über den Rust-Trägern (`src/viewer/binary64-math.mjs`,
+  Methode „binary64 over the Rust carriers“, Exaktheit
+  „exact-parameters“); Pick von Flächen und Kanten mit exakten
+  Trägerdaten (`OP_CARRIERS`).
+- **Druck-Export** (`print.stl`/`print.json`) aus demselben Rust-Netz, mit
+  der angeforderten Abweichung als Schranke (Standard 0.02 mm, ebene Körper
+  0 mm). Verweigert das Netz einen Körper, antwortet der Export mit 422 und
+  der benannten Verweigerung.
+- **Druckbarkeit (FDM)**: Überhang, Bettflächen und kleine Bohrungen mit
+  binary64 über den Rust-Trägern.
+- **HTML-Export**: `node bin/wonky.mjs examples/box.fs --format html`
+  schreibt eine eigenständige Seite aus dem Rust-Netz (Abweichung höchstens
+  0.02 mm, Volumen aus der Rust-Kernel-Messung, keine externen Ressourcen).
+
+Was auf Rust ausdrücklich nicht geht (Antwort „unsupported on Rust: …“,
+kein stiller Ersatz):
+
+- **Exakter Schnitt** („Exact contour“) und **Wandstärke** (501): der
+  Rust-Host hat keine Schnitt- und keine Strahl-Operation. Sie kommen, sobald
+  der Host eine allgemeine Abfrage dafür anbietet. Die Schnittansicht selbst
+  (Clip-Ebene über dem Darstellungsnetz, „display section ±0.02 mm“) läuft.
+- **Quellbezüge je Fläche und Kante**, Identitätsübernahme zwischen
+  Revisionen und Verlauf je Fläche: Rust-Körper tragen noch keine
+  dauerhafte Topologie-Identität. Der Verlauf (`GET /history`) liefert
+  Operationen, Spannen, Aufrufpfade und die Operation je Körper; je Körper
+  steht „unsupported on Rust: per-face and per-edge sketch-entity links …“.
+- Zahlen stehen auf die Dekade ihrer Toleranz genau („Wert ±Toleranz“). Auf
+  Rust sind das bei Toleranzen um 1e-12 mm zwölf bis dreizehn
+  Nachkommastellen; eine Kürzung auf vier Stellen würde die Angabe falsch
+  machen (19.0526 ±0.000000000001 für 19.05255888…).
+
+Nicht nachgewiesen (Kernel-Lücken, nicht Viewer): Fixtures, die
+`opBoolean` mit Prismenlöchern, Zylinder-Zylinder-Schnitte, `opLoft` mit
+gekrümmtem Profil oder `evDistance` mit gemischten Trägern brauchen, lassen
+sich auf Rust nicht bauen (`viewer-reviews-context` Stift-in-Bohrung,
+`viewer-diff-overlay` mit Prismenlöchern, `viewer-fdm`, `viewer-measure`,
+`viewer-section`, `viewer-thickness`, `viewer-render-transport`,
+`section`). Tests mit Bend-Topologie-Erwartungen (`viewer-parts` mit 28
+statt 63 Flächen, `viewer-topology`, `viewer-topology-classes`,
+`viewer-render-look` mit Nahtkanten, `viewer-source-links` mit Identität,
+`display-export`) sind nicht in `scripts/test-rust.list` eingetragen; ihre
+Rust-Gegenstücke sind `display-export-rust` und `viewer-source-links-rust`.
+Keine Bewegungssimulation.
 
 ## Starten
 

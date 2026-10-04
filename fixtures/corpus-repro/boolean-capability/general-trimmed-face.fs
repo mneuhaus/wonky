@@ -99,10 +99,10 @@ annotation { "Feature Type Name" : "Housing with round end" }
 export const bossUnion = defineFeature(function(context is Context, id is Id, definition is map)
     precondition {}
     {
-        var box = prism(context, id + "box", plane(vector(0, -61.8, 0) * millimeter, vector(0, -1, 0), vector(1, 0, 0)),
+        var boxBody = prism(context, id + "box", plane(vector(0, -61.8, 0) * millimeter, vector(0, -1, 0), vector(1, 0, 0)),
             [[0, -22.4], [178, -22.4], [178, 22.4], [0, 22.4]], 15.2);
         var end = cyl(context, id + "end", vector(0, -61.8, 0), vector(0, -1, 0), 22.4, 15.2);
-        unite(context, id + "join", [box, end]);
+        unite(context, id + "join", [boxBody, end]);
     });
 
 annotation { "Feature Type Name" : "Screw boss on a ring wall" }

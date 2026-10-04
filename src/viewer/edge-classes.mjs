@@ -32,6 +32,8 @@
 // bounding-box diagonal from its vertices and curve extents: two normals
 // closer than that deviate by less than the tolerance across the whole body.
 
+import { viewerRecord } from './model-record.mjs';
+
 export const EDGE_CLASSES = Object.freeze([
   'sharp', 'tangent', 'seam', 'subdivision', 'unresolved',
 ]);
@@ -75,7 +77,9 @@ const isVector = value => Array.isArray(value) && value.length === 3
 // Angle between two unit vectors, robust near 0 and pi.
 const angleBetween = (a, b) => Math.atan2(norm(cross(a, b)), dot(a, b));
 
-export const isLegacyBody = body => body.geometry !== 'analytic';
+// Analytic bodies and Rust WC0 records carry oriented carriers: `sameSense` says
+// whether the outward normal is the carrier normal. Other bodies store outward carriers.
+export const isLegacyBody = body => body.geometry !== 'analytic' && !String(body.geometry).startsWith('rust-wc0');
 export const faceSign = (body, face) => (isLegacyBody(body) || face.sameSense !== false ? 1 : -1);
 const curveType = edge => (typeof edge.curve === 'string' ? edge.curve : edge.curve?.type);
 
@@ -512,6 +516,7 @@ const cache = new WeakMap();
 // `scene` is accepted for the frozen signature; classes come from the exact
 // model only. Results are cached per model object; treat them as read-only.
 export function classifyEdges(model, _scene) {
+  model = viewerRecord(model);
   if (cache.has(model)) return cache.get(model);
   const result = {
     schema: EDGE_CLASSES_SCHEMA,

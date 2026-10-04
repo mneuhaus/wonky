@@ -1,0 +1,10 @@
+{
+  "origin": "Rust CAD-Acid AC20 V0 export; frozen regression input, not live evidence",
+  "sourceGit": {
+    "head": "9fd58d11c958eae1cf9f87dcde48268a446e0464",
+    "tree": "7181c580294f80cfa69e5eafb9a5eb6ebf250c00"
+  },
+  "sourceArtifact": "tmp/mini/tmp/cat-z3-fix1/full/wonky-rust/curved/V0/AC20/model.step",
+  "sha256": "a3e11fb76a105c34dcd367e9ea3e8d46f5958fd9361ff58dd902fbe2f0609fec",
+  "defect": "Unconditional write.surfacecurve.mode=0 changed imported trimmed-cylinder volume and area while remaining B-rep-valid."
+}

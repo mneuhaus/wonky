@@ -6,7 +6,9 @@
 // before anything is loaded, recomputes the build key from the files on disk
 // and the toolchain (src/native/rust-build-key.mjs), checks the binary's
 // sha256 and that it carries the source hash. Any difference is a
-// NativeKernelStaleError and nothing loads. Then process.dlopen(), init(), and
+// NativeKernelStaleError and nothing loads. A check whose stat fingerprint
+// equals that of the last full check reuses its result (src/native/rust-verified.mjs).
+// Then process.dlopen(), init(), and
 // info() must carry this source hash, the wire hash and op table of the
 // generated JS codecs (src/native/rust-wire.mjs) and no planted feature.
 //
@@ -43,6 +45,7 @@ import { performance } from 'node:perf_hooks';
 import { BackendDivergenceError, NativeCapabilityError, NativeKernelError, NativeKernelStaleError } from './errors.mjs';
 import { NODE_FILE, buildCommand, computeKey, keyChanges, pointerName, sha256 } from './rust-build-key.mjs';
 import { kernelWiring } from './kernel-wiring.mjs';
+import { readVerified, verificationFingerprint, writeVerified } from './rust-verified.mjs';
 import * as rustWire from './rust-wire.mjs';
 import { registerRustHost } from './rust-host.mjs';
 
@@ -77,6 +80,10 @@ export function rustStaleCheck({ dir, manifest, pointer, features }, { root = pr
   if (pointer.sourceHash !== manifest.sourceHash || basename(dir) !== manifest.sourceHash || JSON.stringify(manifest.features) !== JSON.stringify([...features].sort())) {
     throw stale({ reason: `manifest ${join(dir, 'manifest.json')} is not the build its pointer names` });
   }
+  // An unchanged fingerprint since the last full check skips the rehash and the toolchain probes (src/native/rust-verified.mjs).
+  const fingerprint = verificationFingerprint({ dir, features }, root);
+  const recorded = readVerified({ dir, features, manifest }, fingerprint);
+  if (recorded) return recorded;
   const now = computeKey(root, { features });
   if (now.sourceHash !== manifest.sourceHash) {
     const changes = keyChanges(manifest, now);
@@ -88,7 +95,9 @@ export function rustStaleCheck({ dir, manifest, pointer, features }, { root = pr
   catch (error) { throw stale({ reason: `${path} is unreadable (${error.code ?? error.message})` }); }
   if (sha256(bytes) !== manifest.node?.sha256) throw stale({ reason: `${path} (${bytes.length} bytes) is not the binary the build recorded (sha256 differs)` });
   if (!bytes.includes(manifest.sourceHash, 0, 'latin1')) throw stale({ reason: `${path} does not carry source hash ${manifest.sourceHash.slice(0, 12)}` });
-  return { sourceHash: now.sourceHash, path };
+  const verified = { sourceHash: now.sourceHash, path };
+  writeVerified({ dir, features }, fingerprint, verified);
+  return verified;
 }
 
 function threadCount(value = process.env.WONKY_NATIVE_THREADS ?? '1') {
@@ -105,10 +114,18 @@ export function replyMessage(reply) {
 }
 
 const opened = new Map();
+// Builds this process has checked, by build directory and root. A loaded
+// addon's bytes cannot change, and build() keeps its kernel for the process
+// lifetime (src/kernel.mjs loadKernel), so a later open of the same build (an
+// acid cell opens it before build() does) reuses the check. A rebuild is a new
+// directory and is checked; rustStaleCheck() itself always checks.
+const checked = new Map();
 
 export async function openRustBackend(options = {}) {
   const located = locateRustBuild(options);
-  const verified = rustStaleCheck(located, options);
+  const key = `${located.dir}\0${options.root ?? projectRoot}`;
+  const verified = checked.get(key) ?? rustStaleCheck(located, options);
+  checked.set(key, verified);
   const threads = threadCount(options.threads);
   if (!opened.has(verified.path)) opened.set(verified.path, openAddon(located, verified, threads));
   return opened.get(verified.path);

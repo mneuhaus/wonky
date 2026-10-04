@@ -1,0 +1,16 @@
+[package]
+name = "wonky-node"
+version = "0.1.0"
+edition = "2021"
+publish = false
+build = "build.rs"
+
+[lib]
+crate-type = ["cdylib"]
+
+[features]
+plant-panic = []
+plant-count = []
+
+[dependencies]
+wonky-wire = { path = "../wonky-wire" }

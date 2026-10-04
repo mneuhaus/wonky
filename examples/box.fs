@@ -2,7 +2,7 @@ FeatureScript 3000;
 import(path : "onshape/std/geometry.fs", version : "3000.0");
 
 annotation { "Feature Type Name" : "Wonky box" }
-export const box = defineFeature(function(context is Context, id is Id, definition is map)
+export const boxBody = defineFeature(function(context is Context, id is Id, definition is map)
     precondition
     {
         annotation { "Name" : "Width" }

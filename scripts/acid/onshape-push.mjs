@@ -5,18 +5,32 @@ import path from 'node:path';
 import {execFileSync} from 'node:child_process';
 import {PRIVATE_POTS, publicDocument, publicRuns} from './public-capture.mjs';
 import {setTimeout as wait} from 'node:timers/promises';
-import {ROOT,VARIANTS,loadCatalog,sourceHashes,sha256,writeJSON,isMain} from './common.mjs';
+import {ROOT,ALL_VARIANTS,loadCatalog,sourceHashes,sha256,writeJSON,isMain,zoneVariants} from './common.mjs';
 const BASE='http://127.0.0.1:8317';
+const V1_DOCUMENT='wonky CAD-Acid v1';
 // One Part Studio per variant holds every group feature: the STEP translation pot is tiny
 // so one translation per variant, not per group.
 // Failed features are diagnosed with one getFeatureError evaluation per variant at most.
-const FS_EVAL_MAX=VARIANTS.length;
+const FS_EVAL_MAX=ALL_VARIANTS.length;
 const FEATURE_ID=/^[A-Za-z0-9_]+$/;
 export function assertBridge(base) { if(base!==BASE)throw new Error('BRIDGE_BASE_REFUSED: only http://127.0.0.1:8317 is allowed'); }
-export function callPlan(catalog,base=BASE) {
+// A catalog-extension capture (onshape-ext/<batch>/) pushes only the named groups; its source
+// hashes cover only their twins, so it can never claim a row of a zone outside those groups.
+export function selectGroups(catalog,ids) {
+  if(!ids)return catalog;
+  const unknown=ids.filter(id=>!catalog.groups.some(g=>g.id===id));
+  if(!ids.length||unknown.length)throw new Error(`UNKNOWN_GROUPS: ${unknown.join(',')||'(none named)'}`);
+  return {...catalog,groups:catalog.groups.filter(g=>ids.includes(g.id)),zones:catalog.zones.filter(z=>ids.includes(z.group))};
+}
+// Variants that at least one selected zone declares (base zones: V0-V3), in catalog order.
+export const declaredVariants=catalog=>ALL_VARIANTS.filter(v=>catalog.zones.some(z=>zoneVariants(z).includes(v)));
+const zonesDeclaring=(catalog,group,variant)=>group.zoneIds.filter(id=>zoneVariants(catalog.zones.find(z=>z.id===id)).includes(variant));
+export function callPlan(catalog,base=BASE,document=V1_DOCUMENT) {
   assertBridge(base);
-  const groups=catalog.groups.length,variants=VARIANTS.length,states=groups*variants,zones=catalog.zones.length*variants;
-  return {dryRun:true,networkRequests:0,base,document:{name:'wonky CAD-Acid v1',isPublic:true},
+  const all=declaredVariants(catalog),variants=all.length,groups=catalog.groups.length;
+  const states=all.reduce((n,v)=>n+catalog.groups.filter(g=>zonesDeclaring(catalog,g,v).length).length,0);
+  const zones=catalog.zones.reduce((n,z)=>n+zoneVariants(z).length,0);
+  return {dryRun:true,networkRequests:0,base,document:{name:document,isPublic:true},groupIds:catalog.groups.map(g=>g.id),variants:all,
     calls:[
       {pot:'local',method:'GET',path:'/_bridge/health',count:1},
       {pot:'sessioninfo',method:'GET',path:'/api/users/sessioninfo',count:1},
@@ -62,6 +76,7 @@ async function live(catalog,zonesSha256,opts) {
     state=JSON.parse(fs.readFileSync(statePath,'utf8'));
     if(state.pending)throw new Error(`PENDING_WRITE_UNRESOLVED: ${state.pending.method} ${state.pending.path}; reconcile the live state before resuming`);
     if(state.zonesSha256!==zonesSha256||JSON.stringify(state.sources)!==JSON.stringify(sources))throw new Error('SOURCE_CHANGED_SINCE_FREEZE_START');
+    if(JSON.stringify(state.groups??null)!==JSON.stringify(opts.groups??null))throw new Error('GROUPS_CHANGED_SINCE_FREEZE_START');
     const open=state.partStudios.find(p=>!p.complete);
     if(open)throw new Error(`VARIANT_INCOMPLETE: ${open.variant} Part Studio ${open.element}; reconcile before resuming`);
   } else {
@@ -69,7 +84,7 @@ async function live(catalog,zonesSha256,opts) {
     fs.mkdirSync(path.join(out,'inputs'),{recursive:true});
     fs.copyFileSync(path.join(ROOT,'fixtures/cad-acid/zones.json'),path.join(out,'inputs/zones.json'));
     for(const group of catalog.groups)fs.copyFileSync(path.join(ROOT,group.fs),path.join(out,'inputs',path.basename(group.fs)));
-    state={schema:'wonky/cad-acid-onshape/1',zonesSha256,sources,featureStudios:[],partStudios:[],studios:[],runs:[],fsEvals:0,calls:[],pending:null};
+    state={schema:'wonky/cad-acid-onshape/1',zonesSha256,...(opts.groups?{groups:opts.groups}:{}),sources,featureStudios:[],partStudios:[],studios:[],runs:[],fsEvals:0,calls:[],pending:null};
   }
   state.publicFiles ??= ['inputs/zones.json', ...catalog.groups.map(g=>'inputs/'+path.basename(g.fs))];
   const save=()=>writeJSON(statePath,state);
@@ -115,7 +130,7 @@ async function live(catalog,zonesSha256,opts) {
     before=counters(await call('GET',meterPath,'metering'));run.meterBefore=before;
     run.limitsBefore=await call('GET','/_bridge/limits','local');
     if(!state.document) {
-      const doc=await call('POST','/api/documents','documents',{name:'wonky CAD-Acid v1',isPublic:true});
+      const doc=await call('POST','/api/documents','documents',{name:opts.document,isPublic:true});
       state.document=doc.id;state.workspace=doc.defaultWorkspace?.id;
       if(!state.document||!state.workspace)throw new Error('DOCUMENT_IDS_MISSING');save();
     }
@@ -147,7 +162,12 @@ async function live(catalog,zonesSha256,opts) {
         if(record.featureStatus==='ERROR')record.failure='FEATURE_STATUS_ERROR';
         return record;
       }
-      for(const group of catalog.groups)if((await addFeature(group,'ALL')).featureStatus!=='OK')for(const zone of group.zoneIds)await addFeature(group,zone);
+      // zone = ALL builds only the zones that declare this variant; so does the per-zone fallback
+      // (an explicit request for an undeclared cell is an error in the twin, not a cell).
+      for(const group of catalog.groups) {
+        const zones=zonesDeclaring(catalog,group,variant);
+        if(zones.length&&(await addFeature(group,'ALL')).featureStatus!=='OK')for(const zone of zones)await addFeature(group,zone);
+      }
       const dir=path.join(out,'studios',`acid-${variant}`);fs.mkdirSync(dir,{recursive:true});
       const freeze=(file,value)=>{publicJSON(path.join(dir,file),value);return path.relative(out,path.join(dir,file));};
       const records=state.studios.filter(s=>s.element===ps.id),failed=records.filter(s=>s.featureStatus!=='OK');
@@ -184,7 +204,7 @@ async function live(catalog,zonesSha256,opts) {
       studio.complete=true;save();
     }
     for(const variant of opts.variants)if(!state.partStudios.some(p=>p.variant===variant))await buildVariant(variant);
-    state.complete=VARIANTS.every(v=>state.partStudios.some(p=>p.variant===v&&p.complete));
+    state.complete=declaredVariants(catalog).every(v=>state.partStudios.some(p=>p.variant===v&&p.complete));
   } finally {
     if(before) {
       const after=counters(await call('GET',meterPath,'metering'));run.meterAfter=after;
@@ -203,12 +223,20 @@ async function live(catalog,zonesSha256,opts) {
 }
 if(isMain(import.meta.url)) {
   try {
-    const args=process.argv.slice(2),opts={live:false,resume:false,base:BASE,out:path.join(ROOT,'fixtures/cad-acid/onshape'),variants:VARIANTS};
+    const args=process.argv.slice(2),opts={live:false,resume:false,base:BASE,out:path.join(ROOT,'fixtures/cad-acid/onshape')};
+    const flags={'--base':'base','--out':'out','--meter-start':'meterStart','--variants':'variants','--groups':'groups'};
     for(let i=0;i<args.length;i++){const a=args[i];if(a==='--live')opts.live=true;else if(a==='--dry-run')opts.live=false;else if(a==='--resume')opts.resume=true;
-      else if(['--base','--out','--meter-start','--variants'].includes(a)){if(!args[i+1])throw new Error(`${a} needs a value`);opts[{'--base':'base','--out':'out','--meter-start':'meterStart','--variants':'variants'}[a]]=args[++i];}else throw new Error(`Unknown argument ${a}`);}
-    if(typeof opts.variants==='string')opts.variants=opts.variants.split(',');
-    if(!opts.variants.length||opts.variants.some(v=>!VARIANTS.includes(v)))throw new Error('INVALID_VARIANTS');
-    const {catalog,zonesSha256}=loadCatalog();assertBridge(opts.base);
-    if(!opts.live)console.log(JSON.stringify(callPlan(catalog,opts.base),null,2));else await live(catalog,zonesSha256,opts);
+      else if(flags[a]){if(!args[i+1])throw new Error(`${a} needs a value`);opts[flags[a]]=args[++i];}else throw new Error(`Unknown argument ${a}`);}
+    // --groups selects an extension capture: it must go to its own onshape-ext/<batch>/ directory and document.
+    if(opts.groups!==undefined) {
+      opts.groups=opts.groups.split(',');
+      if(path.dirname(path.resolve(opts.out))!==path.join(ROOT,'fixtures/cad-acid/onshape-ext'))throw new Error('GROUPS_OUT_REFUSED: --groups writes to fixtures/cad-acid/onshape-ext/<batch>');
+    }
+    opts.document=opts.groups?`wonky CAD-Acid ext ${path.basename(opts.out)}`:V1_DOCUMENT;
+    const loaded=loadCatalog(),catalog=selectGroups(loaded.catalog,opts.groups),declared=declaredVariants(catalog);
+    opts.variants=typeof opts.variants==='string'?opts.variants.split(','):declared;
+    if(!opts.variants.length||opts.variants.some(v=>!declared.includes(v)))throw new Error(`INVALID_VARIANTS: declared ${declared.join(',')}`);
+    assertBridge(opts.base);
+    if(!opts.live)console.log(JSON.stringify(callPlan(catalog,opts.base,opts.document),null,2));else await live(catalog,loaded.zonesSha256,opts);
   }catch(error){console.error(error.stack);process.exitCode=1;}
 }

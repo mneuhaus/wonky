@@ -30,7 +30,7 @@ export const rotatedBoxCut = defineFeature(function(context is Context, id is Id
         var u = normalize(vector(1, 0, k));
         var v = cross(n, u);
         var r = matrix([[u[0], v[0], n[0]], [u[1], v[1], n[1]], [u[2], v[2], n[2]]]);
-        var box = block(context, id + "box", vector(-300, -300, 0), vector(300, 300, 300));
-        opPattern(context, id + "place", { "entities" : box, "transforms" : [transform(r, vector(0, 4, 121.03 - 90.2 * k) * millimeter)], "instanceNames" : ["upper"] });
+        var boxBody = block(context, id + "box", vector(-300, -300, 0), vector(300, 300, 300));
+        opPattern(context, id + "place", { "entities" : boxBody, "transforms" : [transform(r, vector(0, 4, 121.03 - 90.2 * k) * millimeter)], "instanceNames" : ["upper"] });
         opBoolean(context, id + "cut", { "targets" : wall, "tools" : qCreatedBy(id + "place", EntityType.BODY), "operationType" : BooleanOperationType.SUBTRACTION });
     });

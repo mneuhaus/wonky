@@ -1,0 +1,30 @@
+[package]
+name = "wonky-geom"
+version = "0.1.0"
+edition = "2021"
+publish = false
+description = "Exact rational construction frames and analytic surface intersections"
+
+[dependencies]
+wonky-num = { path = "../wonky-num" }
+wonky-alg = { path = "../wonky-alg" }
+wonky-radical3 = { path = "../wonky-radical3" }
+# Chart pieces of the Model's coedges are exact 2D curve pieces (plan: every
+# chart-level object is a wonky-curve object).
+wonky-curve = { path = "../wonky-curve" }
+num-rational = "0.4"
+num-traits = "0.2"
+
+[features]
+# Planted negative of strand G1: the canonical form orders vertices by their
+# binary64 world caches. The acid identity test (wonky-ops tests/model_planar.rs,
+# via wonky-ops feature plant_canonical_cache_order) must then fail on V0 vs V3.
+# Never in a production build.
+plant_canonical_cache_order = []
+
+# Planted T0 negative: observation caches must never order OnCurve vertices.
+plant_oncurve_cache_order = []
+
+# F2c planted negative: a cone patch measured with its apex on the other side;
+# the tea box volume by two routes (wonky-ops tests/model_rim.rs) must fail.
+plant_cone_patch_apex_flip = []

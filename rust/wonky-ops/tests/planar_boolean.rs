@@ -319,6 +319,125 @@ fn edge_contact_is_refused_instead_of_publishing_a_pinched_union() {
 }
 
 #[test]
+fn through_hole_and_bridge_keep_signed_loops_and_face_observations() {
+    use wonky_ops::query;
+    let block = cube([-4., -4., 0.], [4., 4., 2.]);
+    let tool = prism(
+        Affine::IDENTITY,
+        &[[-1., 0.], [0., -1.], [1., 0.], [0., 1.]],
+        2.,
+    );
+    let ring = run(1, &block, &tool);
+    volume(&ring, 124.);
+    assert_eq!(ring.topology().genus, 1);
+    let crossbar = cube([-1., -0.25, 0.], [1., 0.25, 2.]);
+    let bridged = run(0, &ring, &crossbar);
+    // The strip fills integral[-1/4,1/4] 2(1-|y|) dy = 7/8 of
+    // the diamond. The remaining two triangular holes are not extra faces.
+    volume(&bridged, 125.75);
+    assert_eq!(bridged.topology().genus, 2);
+    for (body, area, perimeter, hole_count) in [
+        (&ring, 62., 32. + 4. * 2f64.sqrt(), 1),
+        (&bridged, 62.875, 35. + 3. * 2f64.sqrt(), 2),
+    ] {
+        let solid = Solid::Planar(body.clone());
+        let faces = query::owned(&solid, query::FACE).unwrap();
+        let areas = body.face_areas_mm2().unwrap();
+        let perimeters = body.face_perimeters_mm().unwrap();
+        assert_eq!(areas.len(), body.body.faces.len());
+        assert_eq!(perimeters.len(), body.body.faces.len());
+        for z in [0., 2.] {
+            let cap = query::coincides(&solid, &faces, [0., 0., z], [0., 0., 1.]).unwrap();
+            assert_eq!(cap.len(), 1);
+            let i = cap[0].index as usize;
+            assert_eq!(body.body.faces[i].loops.len(), 1 + hole_count);
+            near(areas[i], area * 1e6);
+            near(perimeters[i], perimeter * 1000.);
+        }
+        let center = body.centroid_mm().unwrap();
+        assert!(center[0].abs() < 1e-12 && center[1].abs() < 1e-12);
+        near(center[2], 1000.);
+        // A multiply-connected result must remain a Boolean operand after WC0
+        // replay, without turning a hole into a filled polygon or convex hull.
+        let filled = run(0, body, &tool);
+        volume(&filled, 128.);
+        assert_eq!(filled.topology().genus, 0);
+        assert_eq!(filled.topology().faces, 6);
+    }
+}
+
+#[test]
+fn nested_coplanar_island_attaches_holes_to_the_containing_face_only() {
+    use wonky_ops::query;
+    let block = cube([-4., -4., 0.], [4., 4., 2.]);
+    let tool = prism(
+        Affine {
+            origin: [0., 0., 1.],
+            ..Affine::IDENTITY
+        },
+        &[[-2., 0.], [0., -2.], [2., 0.], [0., 2.]],
+        2.,
+    );
+    let pocket = run(1, &block, &tool);
+    let post = cube([-0.5, -0.5, 1.], [0.5, 0.5, 2.]);
+    let island = run(0, &pocket, &post);
+    // The post joins the pocket floor by a shared face, adding its entire
+    // volume. Its top is an island nested inside the larger top face's hole.
+    volume(&island, 121.);
+    near(
+        island.volume_mm3().unwrap(),
+        pocket.volume_mm3().unwrap() + post.volume_mm3().unwrap(),
+    );
+    assert_eq!(island.topology().genus, 0);
+    let solid = Solid::Planar(island.clone());
+    let faces = query::owned(&solid, query::FACE).unwrap();
+    let top = query::coincides(&solid, &faces, [0., 0., 2.], [0., 0., 1.]).unwrap();
+    assert_eq!(top.len(), 2);
+    let areas = island.face_areas_mm2().unwrap();
+    let mut caps: Vec<_> = top.iter().map(|e| e.index as usize).collect();
+    caps.sort_by(|&i, &j| areas[i].total_cmp(&areas[j]));
+    near(areas[caps[0]], 1e6);
+    near(areas[caps[1]], 56e6);
+    assert_eq!(island.body.faces[caps[0]].loops.len(), 1);
+    assert_eq!(island.body.faces[caps[1]].loops.len(), 2);
+}
+
+#[test]
+fn random_rotated_box_holes_match_exact_removed_volume() {
+    let mut seed = 0x349271abu64;
+    for i in 0..12 {
+        seed = seed.wrapping_mul(6364136223846793005).wrapping_add(1);
+        let r = 1. + ((seed >> 32) % 5) as f64 / 4.;
+        let h = 1. + ((seed >> 40) % 8) as f64;
+        let angle = (1. + ((seed >> 16) % 88) as f64).to_radians();
+        let (s, c) = angle.sin_cos();
+        // Cycle all three drilling axes: loop containment cannot assume XY.
+        let axis = i % 3;
+        let permute = |p: [f64; 3]| std::array::from_fn(|k| p[(k + 5 - axis) % 3]);
+        let block = cube(permute([-8., -8., 0.]), permute([8., 8., h]));
+        let cutter = prism(
+            Affine {
+                origin: permute([0.5, -0.25, -1.]),
+                x: permute([c, s, 0.]),
+                z: permute([0., 0., 1.]),
+            },
+            &[[-r, -r], [r, -r], [r, r], [-r, r]],
+            h + 2.,
+        );
+        let result = run(1, &block, &cutter);
+        let determinant =
+            exact(c).unwrap() * exact(c).unwrap() + exact(s).unwrap() * exact(s).unwrap();
+        let removed_area = exact(4.).unwrap() * exact(r).unwrap() * exact(r).unwrap() * determinant;
+        let expected =
+            (exact(256.).unwrap() - removed_area) * exact(h).unwrap() * exact(1e9).unwrap();
+        near(result.volume_mm3().unwrap(), expected.to_f64().unwrap());
+        assert_eq!(result.topology().genus, 1);
+        assert_eq!(result.topology().faces, 10);
+        assert_eq!(result.topology().loops, 12);
+    }
+}
+
+#[test]
 fn independent_random_rotations_match_exact_half_plane_integrals() {
     // Unlike the shared-frame property above, these independent operand frames
     // create genuinely non-dyadic intersections and non-dyadic plane normals.
@@ -370,18 +489,105 @@ fn independent_random_rotations_match_exact_half_plane_integrals() {
     }
 }
 
+/// Exact probes on a nonconvex arrangement with a through hole: the void
+/// centre is nearest to the sloped hole walls, a point over the hole to the
+/// hole's top rim; a convex hull or filled hole would read 0 or 1000 there.
 #[test]
-fn curved_prism_operands_refuse_instead_of_becoming_planar_chords() {
-    let arc = checked(wonky_ops::arc_profile::build(
-        key(), Affine::IDENTITY,
-        &[[0., 5., 0., 0.], [0., 0., 5., 0.]],
-        &[[5., 0., 3., 4., 0., 5.]], 2., false,
-    ).unwrap());
-    let box_body = cube([0.; 3], [2.; 3]);
-    for op in 0..=2 {
-        let result = analytic::boolean(key(), op,
-            &[Solid::Planar(arc.clone()), Solid::Planar(box_body.clone())]);
-        assert_eq!(result.err().expect("curved operand accepted as planar chords").0,
-            "planar-boolean/curved-operand");
+fn arrangement_probes_decide_membership_and_distance_exactly() {
+    use wonky_ops::polyhedron::Probe;
+    let block = cube([-4., -4., 0.], [4., 4., 2.]);
+    let tool = prism(Affine::IDENTITY, &[[-1., 0.], [0., -1.], [1., 0.], [0., 1.]], 2.);
+    let ring = run(1, &block, &tool);
+    for (point, expected) in [
+        ([0., 0., 1000.], Some(1000. / 2f64.sqrt())),
+        ([0., 0., 3000.], Some(1000. * 1.5f64.sqrt())),
+        ([200., 100., 1000.], Some(700. / 2f64.sqrt())),
+        ([5000., 0., 1000.], Some(1000.)),
+        ([5000., 5000., 3000.], Some(1000. * 3f64.sqrt())),
+        ([3000., 3000., 1000.], None),
+        ([4000., 0., 1000.], None),
+    ] {
+        match (ring.distance_mm(point), expected) {
+            (Probe::Measured { distance_mm, inside, bound_mm }, Some(d)) => {
+                assert!(!inside, "{point:?}");
+                assert!((distance_mm - d).abs() <= bound_mm + d * 4. * f64::EPSILON, "{point:?}: {distance_mm} != {d}");
+            }
+            (Probe::Measured { distance_mm, inside, .. }, None) => assert!(inside && distance_mm == 0., "{point:?}"),
+            (Probe::Refused(r), _) => panic!("{point:?}: {r}"),
+        }
     }
+}
+
+#[test]
+fn equal_composed_frames_reenter_every_boolean_without_rounding() {
+    use wonky_ops::{pattern, placement::Post};
+    let a = cube([0.; 3], [2.; 3]);
+    let b = cube([1.; 3], [3.; 3]);
+    for post in [
+        Post::Rational { rows: [[12., -5., 0.], [5., 12., 0.], [0., 0., 13.]], denominator: 13. },
+        Post::Rows { rows: [[1., 0., 0.], [0., 1., 0.], [0., 0., 1.]], translation: [65536.25, -32768.5, 16384.125] },
+    ] {
+        let a = pattern::place(&a, key(), &post).unwrap();
+        let b = pattern::place(&b, key(), &post).unwrap();
+        assert_eq!(a.frame, b.frame);
+        assert!(a.frame.as_affine().is_err());
+        for (op, expected) in [(0, 15.), (1, 7.), (2, 1.)] {
+            let result = run(op, &a, &b);
+            volume(&result, expected);
+            let wonky_contract::Provenance::Construction { node } = result.body.vertices[0].provenance else { panic!("missing Boolean lineage") };
+            let root = &result.body.constructions[node.0 as usize];
+            assert_eq!(root.operation, wonky_contract::Operation::Boolean {});
+            assert_eq!(root.parameters.len(), 2, "general plane-arrangement replay");
+            assert!(result.bound_to_construction);
+            assert_eq!(result.topology().genus, 0);
+        }
+    }
+}
+
+#[test]
+fn placed_construction_lines_keep_source_boolean_binding_and_replay() {
+    use wonky_contract::{Binary64, CurveGeometry, FrameId, NodeId, Operation, Provenance};
+    use wonky_ops::{pattern, placement::Post};
+    let a = prism(Affine { origin: [0.; 3], x: [12./13., 5./13., 0.], z: [0., 0., 1.] },
+        &[[0.,0.], [2.,0.], [2.,2.], [0.,2.]], 2.);
+    let b = cube([1.,1.,0.], [3.,3.,2.]);
+    let source = run(0, &a, &b);
+    assert!(source.body.curves.iter().any(|c| matches!(c.geometry, CurveGeometry::ConstructionLine { .. })));
+    let move_by = Post::Rows { rows: [[1.,0.,0.], [0.,1.,0.], [0.,0.,1.]], translation: [1.,0.,0.] };
+    let rotate_by = Post::Rational { rows: [[4.,-3.,0.], [3.,4.,0.], [0.,0.,5.]], denominator: 5. };
+    let first = pattern::place(&source, key(), &move_by).unwrap();
+    let placed = pattern::place(&first, key(), &rotate_by).unwrap();
+    let replayed = checked(placed.body.clone());
+    let original = source.world_vertices_mm().unwrap();
+    for (actual, point) in replayed.world_vertices_mm().unwrap().iter().zip(original) {
+        let translated = [point[0] + 1000., point[1], point[2]];
+        let expected = [(4. * translated[0] - 3. * translated[1]) / 5.,
+            (3. * translated[0] + 4. * translated[1]) / 5., translated[2]];
+        for k in 0..3 {
+            assert!((actual[k] - expected[k]).abs() <= 1e-9, "placement vertex order: {actual:?} != {expected:?}");
+        }
+    }
+    near(replayed.volume_mm3().unwrap(), source.volume_mm3().unwrap());
+    assert!(replayed.bound_to_construction);
+    // Positive admission must not turn source facts or the display cache into
+    // authority. Every forged wrapper/binding is rejected at its owner.
+    let mut forged = placed.body.clone();
+    forged.constructions.last_mut().unwrap().parents = vec![NodeId(0)];
+    assert!(forged.check().is_err(), "wrong affine base frame");
+    let mut forged = placed.body.clone();
+    forged.constructions.last_mut().unwrap().parameters.push(Binary64::new(1.).unwrap());
+    assert!(forged.check().is_err(), "affine wrapper parameters");
+    let mut forged = placed.body.clone();
+    forged.vertices[0].frame = FrameId(0);
+    assert!(forged.check().is_err(), "construction endpoint frame");
+    let mut forged = placed.body.clone();
+    let Provenance::Construction { mut node } = forged.curves[0].provenance else { panic!() };
+    while forged.constructions[node.0 as usize].operation == (Operation::AffineTransform {}) {
+        node = forged.constructions[node.0 as usize].parents[0];
+    }
+    forged.constructions[node.0 as usize].parameters[1] = Binary64::new(1.).unwrap();
+    assert!(forged.check().is_err(), "source Boolean is not a construction-line rule");
+    let mut forged = placed.body.clone();
+    forged.vertices[0].point[0] = Binary64::new(forged.vertices[0].point[0].get().next_up()).unwrap();
+    assert!(audit(&forged.check().unwrap()).is_err(), "rounded cache must still replay exactly");
 }

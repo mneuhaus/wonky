@@ -1,0 +1,7 @@
+{
+  "origin": "git:0e2021c98e81ac1c39a22765681669a86d238486:scripts/acid/closed-forms.py",
+  "sha256": "6284d9bcb13692dbd20497551435fd3b03faaa6310984a3be56a5215bb2586b3",
+  "catalogSha256": "52771c0fae55085ad80858ee3ea4446b3b7117fa1929e1020b91b531d5f420cf",
+  "consumer": "unchanged wonky-curve gear_outlines.json generator replay",
+  "reason": "catalog extensions change checker hash; retain historical oracle dependency without regenerating golden"
+}

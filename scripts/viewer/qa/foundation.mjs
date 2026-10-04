@@ -4,10 +4,9 @@
 //   node scripts/viewer/qa/foundation.mjs --url http://127.0.0.1:4350/viewer/ \
 //     --out out/viewer/foundation/after [--only flows,views,breakpoints]
 //
-// Drives the UI only through the DOM (clicks, keys, drags), so the same walk
-// runs against the pre-foundation code (baseline) and the restructured code
-// (after). Pointer targets are computed from the served scene with the
-// pre-foundation projection, which the foundation keeps numerically identical.
+// Drives the UI through the DOM (clicks, keys, drags). Pointer targets use
+// the live viewer's current pane camera, including fit and projection, not
+// the reflected pre-foundation formula. No stage-only camera correction.
 // Writes PNGs plus results.json (inspector headings, texts, computed styles).
 import { mkdirSync, writeFileSync } from 'node:fs';
 import { join, resolve } from 'node:path';
@@ -31,31 +30,10 @@ const record = (name, value) => {
   console.log(`${name}: ${text}`);
 };
 
-// Pre-foundation projection (viewer/app.js `project`), single pane.
+// Project through the camera that actually drew this single-pane scene.
 const projectTargets = async (page, modelId) => page.evaluate(async id => {
   const scene = await (await fetch(`/api/models/${id}`)).json();
-  const canvas = document.querySelector('#model-canvas');
-  const width = canvas.clientWidth;
-  const height = canvas.clientHeight;
-  const min = scene.bounds.min;
-  const max = scene.bounds.max;
-  const center = min.map((value, axis) => (value + max[axis]) / 2);
-  const extent = Math.max(1e-6, ...max.map((value, axis) => value - min[axis]));
-  const yaw = -0.65;
-  const pitch = -0.55;
-  const factor = Math.min(width, height) * 0.67 / extent;
-  const project = point => {
-    const [x, y, z] = point.map((value, axis) => value - center[axis]);
-    const c = Math.cos(yaw);
-    const s = Math.sin(yaw);
-    const a = x * c - y * s;
-    const b = x * s + y * c;
-    return {
-      x: width / 2 + a * factor,
-      y: height / 2 - (b * Math.sin(pitch) + z * Math.cos(pitch)) * factor,
-      depth: b * Math.cos(pitch) - z * Math.sin(pitch),
-    };
-  };
+  const project = point => window.wonkyViewer.project(point);
   const nearest = items => items.reduce((best, item) => (!best || item.depth > best.depth
     ? item : best), null);
   const vertices = scene.bodies.flatMap(body => body.vertices.map(vertex => project(vertex.point)));

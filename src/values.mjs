@@ -1,5 +1,7 @@
-import { fail, raise, unsupported } from './errors.mjs';
+import { propagateAngleWitness } from './angle-witness.mjs';
+import { fail, raise, raiseNamed, refuseNamed, unsupported } from './errors.mjs';
 import { rememberScale } from './construction-frame.mjs';
+import { rememberWorldDirection } from './native/rust-placement.mjs';
 
 export class Quantity {
   constructor(value, dimension = 1, angle = 0) { this.value = value; this.dimension = dimension; this.angle = angle; }
@@ -15,10 +17,17 @@ export class KeyedMap {
   get(key) { return this.entries.find(([candidate]) => equal(candidate, key))?.[1]; }
 }
 export class Matrix {
-  constructor(rows) { this.rows = rows; }
+  // Numeric rotation intent survives matrix-valued arithmetic; it is never
+  // promoted into a rigid-placement witness by a rounded coefficient cache.
+  constructor(rows, rotationRefusal = false) { this.rows = rows; this.rotationRefusal = rotationRefusal; }
 }
 export class Transform {
-  constructor(linear, translation) { Object.assign(this, { linear, translation }); }
+  constructor(linear, translation, loc) {
+    if (linear.rotationRefusal) refuseNamed('transform', 'rotation/non-exact-matrix',
+      'rotationMatrix3d coefficients do not represent an exact rotation',
+      'Use numeric matrix/vector evaluation for input coordinates; an exact rigid placement requires exactly representable coefficients.', loc);
+    Object.assign(this, { linear, translation });
+  }
 }
 export class Vector {
   constructor(items) { this.items = items; }
@@ -119,11 +128,12 @@ export function binary(op, a, b, loc) {
   if (op === '~') return display(a) + display(b);
   if (a instanceof Matrix && b instanceof Vector && op === '*') {
     if (a.rows.some(row => row.length !== b.items.length)) raise('Matrix and vector dimensions do not match', loc);
-    return new Vector(a.rows.map(row => row.map((v, i) => binary('*', v, b.items[i], loc)).reduce((s, v) => binary('+', s, v, loc))));
+    const result = new Vector(a.rows.map(row => row.map((v, i) => binary('*', v, b.items[i], loc)).reduce((s, v) => binary('+', s, v, loc))));
+    return rememberWorldDirection(result, a, b);
   }
   if (a instanceof Matrix && b instanceof Matrix && op === '*') {
     if (a.rows[0].length !== b.rows.length) raise('Matrix dimensions do not match', loc);
-    return new Matrix(a.rows.map(row => b.rows[0].map((_, j) => row.reduce((s, v, k) => s + v * b.rows[k][j], 0))));
+    return new Matrix(a.rows.map(row => b.rows[0].map((_, j) => row.reduce((s, v, k) => s + v * b.rows[k][j], 0))), a.rotationRefusal || b.rotationRefusal);
   }
   if (a instanceof Matrix || b instanceof Matrix) return matrixOperation(op, a, b, loc);
   if (a instanceof Transform && b instanceof Vector && op === '*') return binary('+', binary('*', a.linear, b, loc), a.translation, loc);
@@ -180,7 +190,7 @@ export function binary(op, a, b, loc) {
     default: unsupported(`Operator '${op}' is not implemented`, loc);
   }
   if (!Number.isFinite(raw(result))) raise('Numeric result is not finite', loc);
-  return result;
+  return propagateAngleWitness(result, op, a, b);
 }
 
 // A FeatureScript function value: a user function, a builtin or a feature.
@@ -210,7 +220,7 @@ function matrixOperation(op, a, b, loc) {
   else if (typeof a === 'number' && b instanceof Matrix && op === '*') rows = entries(b.rows).map(row => row.map(v => a * v));
   else unsupported(`Operator '${op}' with a Matrix and these operands is not implemented`, loc);
   if (!rows.every(row => row.every(Number.isFinite))) raise('Numeric result is not finite', loc);
-  return new Matrix(rows);
+  return new Matrix(rows, a?.rotationRefusal || b?.rotationRefusal);
 }
 
 const numbers3 = (vector, lengths, loc) => {
@@ -314,7 +324,8 @@ export function matchesType(value, type, loc) {
   }
 }
 export function checkType(value, type, loc) {
-  if (type && !matchesType(value, type, loc)) raise(`Expected ${type}`, loc);
+  if (type && !matchesType(value, type, loc)) raiseNamed('fs/type-mismatch', `Expected ${type}`,
+    `Supply a value of type ${type}; check the parameter, assignment or return value at this location.`, loc);
   return value;
 }
 // valueBounds.fs canBeBoundSpec: every value is either a number (the UI

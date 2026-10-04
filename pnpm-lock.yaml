@@ -11,12 +11,23 @@ importers:
       earcut:
         specifier: 3.0.2
         version: 3.0.2
+    devDependencies:
+      playwright-core:
+        specifier: 1.58.2
+        version: 1.58.2
 
 packages:
 
   earcut@3.0.2:
     resolution: {integrity: sha512-X7hshQbLyMJ/3RPhyObLARM2sNxxmRALLKx1+NVFFnQ9gKzmCrxm9+uLIAdBcvc8FNLpctqlQ2V6AE92Ol9UDQ==}
 
+  playwright-core@1.58.2:
+    resolution: {integrity: sha512-yZkEtftgwS8CsfYo7nm0KE8jsvm6i/PTgVtB8DL726wNf6H2IMsDuxCpJj59KDaxCtSnrWan2AeDqM7JBaultg==}
+    engines: {node: '>=18'}
+    hasBin: true
+
 snapshots:
 
   earcut@3.0.2: {}
+
+  playwright-core@1.58.2: {}

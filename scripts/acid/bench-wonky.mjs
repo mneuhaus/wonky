@@ -1,6 +1,7 @@
 // Warm-process worker. Only bench.mjs selects/scorers cases; this never mints PASS evidence.
 import fs from 'node:fs';
 import path from 'node:path';
+import {nativeTimer} from './perf.mjs';
 import {performance} from 'node:perf_hooks';
 import {readJSON, writeJSON} from './common.mjs';
 import {geometryDigest} from './bench-report.mjs';
@@ -21,26 +22,7 @@ const zone = catalog.zones.find(z => z.id === request.zone);
 
 // Time the actual synchronous N-API entry points, not the JS host adapters.
 // Includes N-API copying, decode, audits and encode; NOT pure Rust algorithm time.
-let boundary = null;
-const originals = new Map();
-for (const key of ['hostOp', 'call']) {
-  if (typeof addon[key] !== 'function') continue;
-  const original = addon[key];
-  originals.set(key, original);
-  const wrapper = function (...args) {
-    if (!boundary) return original.apply(addon, args);
-    const label = `${key}:${key === 'hostOp' ? args[0][2] : args[0]}`;
-    const start = performance.now();
-    try { return original.apply(addon, args); }
-    finally {
-      const entry = boundary[label] ??= {calls: 0, ms: 0};
-      entry.calls++;
-      entry.ms += performance.now() - start;
-    }
-  };
-  addon[key] = wrapper;
-  if (addon[key] !== wrapper) throw new Error(`NATIVE_TIMING_WRAPPER_UNAVAILABLE: ${key}`);
-}
+const timer=nativeTimer(addon,true);
 
 // Scored and timed builds share their native observation; only timing and
 // repeat binding happen here, never catalog expected-answer scoring.
@@ -52,15 +34,15 @@ try {
   const samples = [];
   let warmup;
   for (let i = -1; i < request.reps; i++) {
-    boundary = {};
+    timer.start();
     const start = performance.now();
     const model = await build(source, {
       feature: request.feature, parameters: request.parameters, sourcePath: request.source,
       moduleManifest: request.moduleManifest, maxSteps: 20_000_000,
     });
     const constructionMs = performance.now() - start;
-    const nativeCalls = boundary;
-    boundary = null;
+    const nativeBoundary=timer.stop();
+    const nativeCalls=timer.nativeCalls;
     const measurementStart = performance.now();
     const observed = observe(model);
     const measurementMs = performance.now() - measurementStart;
@@ -77,7 +59,7 @@ try {
       observationSha256: geometryDigest(observation), observation,
       constructionMs, measurementMs, exportMs,
       warmPipelineMs: constructionMs + measurementMs + exportMs,
-      nativeBoundaryMs: Object.values(nativeCalls).reduce((sum, x) => sum + x.ms, 0),
+      nativeBoundaryMs: nativeBoundary.wallMs,
       kernelOnlyMs: null, nativeCalls,
       peakRssMiB: process.resourceUsage().maxRSS / 1024,
       bodies: model.bodies.length,
@@ -90,6 +72,5 @@ try {
   if (guardSummary().bendLoaded) throw new Error('STRICT_BACKEND_BEND_LEAK');
   writeJSON(request.result, {kernel: 'wonky-rust', backend: {sourceHash: backend.sourceHash}, warmup, samples, guard: guardSummary()});
 } finally {
-  boundary = null;
-  for (const [key, original] of originals) addon[key] = original;
+  timer.restore();
 }

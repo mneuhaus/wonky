@@ -419,10 +419,21 @@ export function createBuildPool({
       stderrTail: worker.stderr.trim() || null,
     });
     clearTimeout(backoffTimer);
-    backoffTimer = setTimeout(() => {
-      backoffTimer = null;
-      ensure();
-    }, delay);
+    backoffTimer = setTimeout(retryStart, delay);
+  }
+
+  function retryStart() {
+    backoffTimer = null;
+    if (closed || failed) return;
+    // A timer can fire before the wall-clock deadline (timer rounding or a
+    // clock adjustment). ensure() would then return without scheduling another
+    // wake-up, leaving a queued build stuck forever. Keep the retry armed.
+    const remaining = blockedUntil - Date.now();
+    if (remaining > 0) {
+      backoffTimer = setTimeout(retryStart, remaining);
+      return;
+    }
+    ensure();
   }
 
   function onMessage(worker, message) {

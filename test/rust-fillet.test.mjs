@@ -84,7 +84,7 @@ test('a real fillet replaces the native body and preserves creator queries and m
     setProperty(context,{"entities":body,"propertyType":PropertyType.DESCRIPTION,"value":"kept-description"});
     opFillet(context,id+"blend",{"entities":${edge},"radius":4*millimeter});
     if(size(evaluateQuery(context,body))!=1)throw "old creator body lost";
-    if(size(evaluateQuery(context,qCreatedBy(id+"blend",EntityType.BODY)))!=1)throw "new creator body lost";
+    if(size(evaluateQuery(context,qCreatedBy(id+"blend",EntityType.BODY)))!=0)throw "modifying feature incorrectly created a body";
     if(size(evaluateQuery(context,${edges}))!=15)throw "old topology retained";
   `);
   assert.equal(model.bodies.length, 1);
@@ -110,4 +110,21 @@ test('binary64 sketch placement preserves source-radius blends and declares its 
     assert.ok(Math.abs(validation.volumeMm3 - volume) < 1e-8);
     assert.ok(validation.toleranceMm > 0 && validation.toleranceMm < 1e-8);
   }
+});
+
+test('non-binary64 offsets preserve native metadata and invalidate captured topology', async () => {
+  const statements = `
+    setProperty(context,{"entities":body,"propertyType":PropertyType.NAME,"value":"rational fillet"});
+    opFillet(context,id+"blend",{"entities":${edge},"radius":0.1*millimeter});
+    if(size(evaluateQuery(context,body))!=1)throw "creator body lost";
+    if(size(evaluateQuery(context,qOwnedByBody(body,EntityType.FACE)))!=7)throw "missing rational blend";
+  `;
+  const model = await run(statements);
+  assert.equal(model.bodies[0].name,'rational fillet');
+  const {measureRustBody,rustModelKernel} = await import('../src/native/rust-host.mjs');
+  const m = measureRustBody(rustModelKernel(model),model.bodies[0]);
+  const want = (16*12-0.1**2*(1-Math.PI/4))*8;
+  assert.ok(Math.abs(m.volumeMm3-want)<1e-9);
+  await assert.rejects(run(`const captured=evaluateQuery(context,${edge})[0]; ${statements} evaluateQuery(context,captured);`),
+    e=>e instanceof RustCapabilityError && e.reason==='stale-topology-reference');
 });

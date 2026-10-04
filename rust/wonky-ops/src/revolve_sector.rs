@@ -54,7 +54,7 @@ pub struct Sector {
     pub(crate) top: f64,
 }
 fn parameters(frame: Affine, segments: &[[f64; 4]], angle: f64) -> R<Sector> {
-    if angle != std::f64::consts::FRAC_PI_2 {
+    if !wonky_geom::turn::sentinel(angle, 90) {
         return Err(no("partial-angle-not-quarter-turn"));
     }
     let values: Vec<_> = frame
@@ -395,14 +395,14 @@ pub const USES: [[(usize, bool); 4]; 6] = [
     [(11, true), (7, true), (8, false), (3, false)],
 ];
 fn carriers(s: &Sector) -> R<Vec<SurfaceGeometry>> {
-    let plane = |o, n, x| {
+    let plane = |o, n, x| -> R<SurfaceGeometry> {
         Ok(SurfaceGeometry::Plane {
             origin: v(o)?,
             normal: v(n)?,
             x: v(x)?,
         })
     };
-    let cylinder = |r| {
+    let cylinder = |r| -> R<SurfaceGeometry> {
         Ok(SurfaceGeometry::Cylinder {
             origin: v([0.; 3])?,
             axis: v([0., 0., 1.])?,

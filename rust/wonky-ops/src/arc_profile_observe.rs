@@ -1,17 +1,15 @@
 //! Enclosed Green integrals, analytic extrema and exact point membership for
 //! the source-witness arc prism. No polygonization or libm angle decisions.
 use crate::{
-    arc_profile::{cross, dot, enclose, finite, no, pt, q, sub, ArcPrism, Segment, P, R},
+    arc_profile::{enclose, finite, no, q, ArcPrism, R},
     polyhedron::{Audited, Probe},
 };
 use num_rational::BigRational as Q;
 use num_traits::Zero;
+use wonky_curve as wc;
 use wonky_num::{Iv, Scalar};
 fn i(x: f64) -> Iv {
     Iv::point(x)
-}
-fn norm(v: &P) -> R<Iv> {
-    finite(enclose(&dot(v, v))?.sqrt())
 }
 fn stretch(a: &Audited, power: f64) -> R<Iv> {
     let d = a.frame.orthonormality_defect().map_err(|_| no("frame"))?;
@@ -28,6 +26,19 @@ impl ArcPrism {
         i(self.levels[1]) - i(self.levels[0])
     }
     pub(crate) fn volume(&self, a: &Audited) -> R<Iv> {
+        if let Some(rim) = &self.rim {
+            return rim.volume(self, a);
+        }
+        // A curve profile of lines and polynomial splines has an exact rational
+        // Green area, so its volume is one exact rational rounded once. (Rule 1
+        // arc profiles keep their enclosed route below, byte for byte.)
+        if crate::curve_profile::candidate(&a.body) {
+            if let Some(area) = self.profile.cycle().area_exact()? {
+                let det: Q = a.frame.det_exact().map_err(|_| no("frame"))?.iter().map(|&v| q(v)).sum();
+                let height = q(self.levels[1]) - q(self.levels[0]);
+                return finite(enclose(&(area * height * det * q(1e9)))?);
+            }
+        }
         let det = a
             .frame
             .det_exact()
@@ -36,22 +47,20 @@ impl ArcPrism {
             .fold(i(0.), |s, &v| s + i(v));
         finite(self.profile.area()? * self.height() * det * i(1e9))
     }
-    fn lengths(&self) -> R<Vec<Iv>> {
-        self.profile
-            .segments
-            .iter()
-            .map(|s| {
-                if let Some(c) = &s.circle {
-                    finite(enclose(&c.r2)?.sqrt() * c.angle.abs())
-                } else {
-                    norm(&sub(&pt(s.b), &pt(s.a)))
-                }
-            })
-            .collect()
+    pub(crate) fn lengths(&self) -> R<Vec<Iv>> {
+        Ok(self.profile.segments().iter().map(wc::Trimmed::length).collect::<std::result::Result<Vec<_>, _>>()?)
     }
     pub(crate) fn areas(&self, a: &Audited) -> R<Vec<Iv>> {
+        if let Some(rim) = &self.rim {
+            return rim.areas(self, a);
+        }
         let scale = stretch(a, 3.)?;
-        let cap = finite(self.profile.area()? * scale * i(1e6))?;
+        let exact = if crate::curve_profile::candidate(&a.body) { self.profile.cycle().area_exact()? } else { None };
+        let area = match exact {
+            Some(exact) => enclose(&exact)?,
+            None => self.profile.area()?,
+        };
+        let cap = finite(area * scale * i(1e6))?;
         let mut out = vec![cap, cap];
         for l in self.lengths()? {
             out.push(finite(l * self.height() * scale * i(1e6))?);
@@ -59,6 +68,9 @@ impl ArcPrism {
         Ok(out)
     }
     pub(crate) fn perimeters(&self, a: &Audited) -> R<Vec<f64>> {
+        if let Some(rim) = &self.rim {
+            return rim.perimeters(self, a);
+        }
         let scale = stretch(a, 2.)? * i(1000.);
         let ls = self.lengths()?;
         let cap = finite(ls.iter().fold(i(0.), |s, &l| s + l) * scale)?.mid();
@@ -69,25 +81,10 @@ impl ArcPrism {
         Ok(out)
     }
     pub(crate) fn centroid(&self, a: &Audited) -> R<([f64; 3], [f64; 3])> {
-        let mut m = [i(0.); 2];
-        for s in &self.profile.segments {
-            let (ap, bp) = (pt(s.a), pt(s.b));
-            let wedge = cross(&ap, &bp);
-            for k in 0..2 {
-                m[k] = m[k] + enclose(&(&wedge * (&ap[k] + &bp[k]) / q(6.)))?;
-            }
-            if let Some(c) = &s.circle {
-                let (u, v) = (sub(&ap, &c.c), sub(&bp, &c.c));
-                let uv = cross(&u, &v);
-                let area = (enclose(&c.r2)? * c.angle - enclose(&uv)?) / i(2.);
-                let sector = [&v[1] - &u[1], &u[0] - &v[0]];
-                for k in 0..2 {
-                    m[k] = m[k]
-                        + enclose(&c.c[k])? * area
-                        + enclose(&(&c.r2 * &sector[k] / q(3.) - &uv * (&u[k] + &v[k]) / q(6.)))?;
-                }
-            }
+        if let Some(rim) = &self.rim {
+            return rim.centroid(self, a);
         }
+        let m = self.profile.cycle().moments()?;
         let area = self.profile.area()?;
         let local = [
             m[0] / area,
@@ -110,6 +107,9 @@ impl ArcPrism {
         Ok((out.map(|x| x.mid()), out.map(|x| x.r)))
     }
     pub(crate) fn bbox(&self, a: &Audited, map: Option<[[f64; 4]; 3]>) -> R<([f64; 3], [f64; 3])> {
+        if let Some(rim) = &self.rim {
+            return rim.bbox(self, a, map);
+        }
         let mapping = map.unwrap_or([[1., 0., 0., 0.], [0., 1., 0., 0.], [0., 0., 1., 0.]]);
         let (origin, cols) = exact_map(a)?;
         let mut lo = [f64::INFINITY; 3];
@@ -125,25 +125,18 @@ impl ArcPrism {
             }
             for z in self.levels {
                 let base = &offset + &linear[2] * q(z);
-                for s in &self.profile.segments {
-                    for p in [s.a, s.b] {
-                        let v = enclose(&(&base + &linear[0] * q(p[0]) + &linear[1] * q(p[1])))?;
+                for s in self.profile.segments() {
+                    for p in s.ends() {
+                        let v = p.linear_form(&base, [&linear[0], &linear[1]])?;
                         lo[k] = lo[k].min(v.lo());
                         hi[k] = hi[k].max(v.hi());
                     }
-                    if let Some(c) = &s.circle {
-                        let direction = [linear[0].clone(), linear[1].clone()];
-                        let center =
-                            enclose(&(&base + &linear[0] * &c.c[0] + &linear[1] * &c.c[1]))?;
-                        let reach =
-                            finite(enclose(&(&c.r2 * dot(&direction, &direction)))?.sqrt())?;
-                        if s.angular(&direction, false) {
-                            hi[k] = hi[k].max(finite(center + reach)?.hi());
-                        }
-                        let negative = direction.map(|x| -x);
-                        if s.angular(&negative, false) {
-                            lo[k] = lo[k].min(finite(center - reach)?.lo());
-                        }
+                    let reach = s.extrema(&base, [&linear[0], &linear[1]])?;
+                    if let Some(h) = reach.hi {
+                        hi[k] = hi[k].max(h);
+                    }
+                    if let Some(l) = reach.lo {
+                        lo[k] = lo[k].min(l);
                     }
                 }
             }
@@ -154,27 +147,51 @@ impl ArcPrism {
         let (lo, hi) = self.bbox(a, None)?;
         let mut magnitude = lo.into_iter().chain(hi).fold(0.0f64, |m, v| m.max(v.abs()));
         let mut cache_error = 0.0f64;
-        for s in &self.profile.segments {
-            if let Some(c) = &s.circle {
-                let radius = finite(enclose(&c.r2)?.sqrt())?;
-                magnitude = magnitude.max(radius.hi() * 1000.);
-                for k in 0..2 {
-                    let center = enclose(&c.c[k])?;
-                    magnitude = magnitude.max(center.abs().hi() * 1000.);
-                    cache_error = cache_error.max((center.r + radius.r) * 1000.);
-                }
+        for s in self.profile.segments() {
+            for p in s.ends() {
+                cache_error = cache_error.max(p.rounding()? * 1000.);
             }
+            let extent = s.extent()?;
+            magnitude = magnitude.max(extent.magnitude * 1000.);
+            cache_error = cache_error.max(extent.rounding * 1000.);
         }
         let defect = a.frame.orthonormality_defect().map_err(|_| no("frame"))?;
-        let error =
+        let mut error =
             finite(i(128. * f64::EPSILON + 16. * defect) * i(magnitude) + i(8.) * i(cache_error))?
                 .hi();
+        if let Some(rim) = &self.rim {
+            // A toroidal carrier normalizes two angular directions. Reuse the
+            // source-metric export bound, including its core and minor radii.
+            let mut reach = a
+                .body
+                .vertices
+                .iter()
+                .map(|v| v.point.iter().fold(i(0.), |s, x| s + i(x.get().abs())))
+                .fold(i(0.), |s, x| s.max(x));
+            for segment in self.profile.segments() {
+                if let Some(carrier) = segment.reach()? {
+                    reach = reach.max(carrier + i(rim.center_z.abs()) + i(rim.radius));
+                }
+            }
+            error = error.max(
+                crate::source_frame::SourceMetric::new(&a.frame)?
+                    .export_budget(finite(reach * i(1000.))?.hi(), magnitude)?,
+            );
+        }
+        if crate::curve_profile::candidate(&a.body) {
+            // The STEP writer of spline carriers declares the partition-of-unity
+            // bound of its rounded controls; the published tolerance covers it.
+            error = error.max(crate::step_carrier::budget_of(&a.body, &a.frame)?);
+        }
         if error <= 0. || !error.is_finite() {
             return Err(no("export-budget-range"));
         }
         Ok(error)
     }
     pub(crate) fn probe(&self, a: &Audited, world: [f64; 3]) -> Probe {
+        if let Some(rim) = &self.rim {
+            return rim.probe(self, a, world);
+        }
         let run = || -> R<Probe> {
             if !world.iter().all(|v| v.is_finite()) {
                 return Err(no("probe-range"));
@@ -192,7 +209,8 @@ impl ArcPrism {
             }
             let p = cofactor.map(|v| dot3(&delta, &v) / &det);
             let planar = [p[0].clone(), p[1].clone()];
-            let inside_planar = self.contains(&planar);
+            let planar = wc::ExactPoint::from_rational(planar);
+            let inside_planar = self.contains(&planar)?;
             let dz = (q(self.levels[0]) - &p[2])
                 .max(&p[2] - q(self.levels[1]))
                 .max(Q::zero());
@@ -205,8 +223,8 @@ impl ArcPrism {
             }
             let mut dist = None;
             if !inside_planar {
-                for s in &self.profile.segments {
-                    let d = segment_distance(s, &planar)?;
+                for s in self.profile.segments() {
+                    let d = s.distance(&planar)?;
                     dist = Some(dist.map_or(d, |old: Iv| old.min(d)));
                 }
             }
@@ -223,66 +241,9 @@ impl ArcPrism {
         };
         run().unwrap_or_else(|e| Probe::Refused(e.0))
     }
-    fn contains(&self, p: &P) -> bool {
-        let mut winding = 0i32;
-        let mut chord_boundary = false;
-        let mut chord_area = Q::zero();
-        for s in &self.profile.segments {
-            let (a, b) = (pt(s.a), pt(s.b));
-            chord_area += cross(&a, &b);
-            let d = sub(&b, &a);
-            let v = sub(p, &a);
-            let sign = cross(&d, &v);
-            if sign.is_zero() && dot(&v, &d) >= Q::zero() && dot(&sub(p, &b), &d) <= Q::zero() {
-                chord_boundary = true;
-                if s.circle.is_none() {
-                    return true;
-                }
-            }
-            if a[1] <= p[1] && b[1] > p[1] && sign > Q::zero() {
-                winding += 1;
-            }
-            if b[1] <= p[1] && a[1] > p[1] && sign < Q::zero() {
-                winding -= 1;
-            }
-        }
-        if chord_boundary && winding == 0 {
-            winding = if chord_area > Q::zero() { 1 } else { -1 };
-        }
-        for s in &self.profile.segments {
-            if let Some(c) = &s.circle {
-                let v = sub(p, &c.c);
-                let radial = dot(&v, &v) - &c.r2;
-                if radial.is_zero() && s.angular(&v, false) {
-                    return true;
-                }
-                let side = cross(&sub(&pt(s.b), &pt(s.a)), &sub(p, &pt(s.a)));
-                if radial <= Q::zero() {
-                    if c.ccw && side <= Q::zero() {
-                        winding += 1;
-                    } else if !c.ccw && side >= Q::zero() {
-                        winding -= 1;
-                    }
-                }
-            }
-        }
-        winding != 0
+    pub(crate) fn contains(&self, p: &wc::ExactPoint) -> R<bool> {
+        Ok(self.profile.cycle().contains(p)?)
     }
-}
-fn segment_distance(s: &Segment, p: &P) -> R<Iv> {
-    let (a, b) = (pt(s.a), pt(s.b));
-    if let Some(c) = &s.circle {
-        let v = sub(p, &c.c);
-        if s.angular(&v, false) {
-            return finite((norm(&v)? - finite(enclose(&c.r2)?.sqrt())?).abs());
-        }
-        return Ok(norm(&sub(p, &a))?.min(norm(&sub(p, &b))?));
-    }
-    let d = sub(&b, &a);
-    let t = (dot(&sub(p, &a), &d) / dot(&d, &d))
-        .max(Q::zero())
-        .min(q(1.));
-    norm(&[&p[0] - &a[0] - &t * &d[0], &p[1] - &a[1] - &t * &d[1]])
 }
 type P3 = [Q; 3];
 fn cross3(a: &P3, b: &P3) -> P3 {
@@ -291,7 +252,7 @@ fn cross3(a: &P3, b: &P3) -> P3 {
 fn dot3(a: &P3, b: &P3) -> Q {
     (0..3).map(|k| &a[k] * &b[k]).sum()
 }
-fn exact_map(a: &Audited) -> R<(P3, [P3; 3])> {
+pub(crate) fn exact_map(a: &Audited) -> R<(P3, [P3; 3])> {
     let map = |p, translate| -> R<P3> {
         let e = a
             .frame

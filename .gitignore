@@ -11,3 +11,6 @@ tmp/
 !.claude/skills/
 kernel/proto/*/.bakeoff-*
 var/
+
+# Independent native rendering crate outputs
+/render/wonky-render/target/

@@ -1,0 +1,24 @@
+{
+  "id": "5ea9628bcb47486c881ec806",
+  "name": "wonky CAD-Acid ext N24",
+  "href": "https://cad.onshape.com/api/v1/documents/5ea9628bcb47486c881ec806",
+  "public": true,
+  "publicLinkable": false,
+  "anonymousAccessAllowed": false,
+  "jsonType": "document",
+  "resourceType": "document",
+  "documentType": 0,
+  "createdAt": "2026-10-04T08:33:22.592+00:00",
+  "modifiedAt": "2026-10-04T08:33:22.592+00:00",
+  "defaultElementId": null,
+  "defaultWorkspace": {
+    "id": "82be0d9885f16f9775e592a5",
+    "documentId": "5ea9628bcb47486c881ec806",
+    "microversion": "66e201b84678d3897c6db683",
+    "name": "Main",
+    "href": "https://cad.onshape.com/api/v1/documents/d/5ea9628bcb47486c881ec806/workspaces/82be0d9885f16f9775e592a5",
+    "type": "workspace",
+    "createdAt": "2026-10-04T08:33:23.960+00:00",
+    "modifiedAt": "2026-10-04T08:33:23.842+00:00"
+  }
+}

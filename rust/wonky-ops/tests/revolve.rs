@@ -710,3 +710,97 @@ fn sector_affine_support_probes_and_refusals_cover_nonidentity_observation() {
     let skew=[[r,low,outer,low],[outer,low,outer+1.,high],[outer+1.,high,r,high],[r,high,r,low]];assert!(make(Affine::IDENTITY,&skew).is_err());
     let diamond=[[r,0.,2.*r,r],[2.*r,r,r,2.*r],[r,2.*r,r/2.,r],[r/2.,r,r,0.]];assert!(make(Affine::IDENTITY,&diamond).is_err());
 }
+
+// Full-profile geometry owner. Rational washer/frustum decompositions are
+// independent of the builder's Green integral. Corruptions exercise re-audit,
+// a risk the frontend transport test cannot produce through valid FS input.
+#[test]
+fn full_polygon_rational_measures_frames_and_corrupted_carriers() {
+    use wonky_ops::revolve_full::{build, audit};
+    let scale=1.0/1024.;
+    let pi_lo=Q::new(314159265358979323846i128.into(),100000000000000000000i128.into());
+    let pi_hi=Q::new(314159265358979323847i128.into(),100000000000000000000i128.into());
+    for mode in 0..3 {
+        for hole in [false,true] {
+            let inner=if hole{1.}else{0.};
+            let points=[[inner,-2.],[5.,-2.],[5.,0.],[2.,4.],[2.,10.],[inner,10.]];
+            let segments=(0..6).map(|i|{let(a,b)=(points[i],points[(i+1)%6]);[a[0]*scale,a[1]*scale,b[0]*scale,b[1]*scale]}).collect::<Vec<_>>();
+            let frame=Affine{origin:[64.,-32.,16.],x:[1.,0.,0.],z:[0.,0.6,0.8]};
+            let body=build(BodyKey{id:[9,8,7,6],revision:0},[0;4],frame,mode,&segments,std::f64::consts::TAU).unwrap();
+            let checked=wonky_wire::v3::decode(&wonky_wire::v3::encode(&body).unwrap()).unwrap();
+            let solid=audit(&checked).unwrap();
+            let (volume,area,faces,height)=solid.measures().unwrap();
+            let metric=q(0.6)*q(0.6)+q(0.8)*q(0.8);
+            let factor=q(if hole{114.}else{126.})*q(scale).pow(3)*q(1e9)*metric;
+            assert!(q(volume.lo())<=&factor*&pi_lo && q(volume.hi())>=&factor*&pi_hi);
+            let area_factor=q(if hole{130.}else{108.})*q(scale).pow(2)*q(1e6);
+            assert!(q(area.lo())<=&area_factor*&pi_lo && q(area.hi())>=&area_factor*&pi_hi);
+            assert_eq!(faces.len(),if hole{6}else{5});
+            // First axial moment: bottom cylinder -50, taper 76, upper cylinder 168.
+            // Taper integral: integral_0^4 z*(5-3*z/4)^2 dz = 200-160+36.
+            let expected=q(if hole{146.}else{194.})/q(if hole{114.}else{126.})*q(scale)*q(1000.);
+            assert!(q(height.lo())<=expected && q(height.hi())>=expected);
+            let mut altered=vec![];
+            let mut b=body.clone();b.faces[0].forward=!b.faces[0].forward;altered.push(b);
+            let mut b=body.clone();b.coedges[0].forward=!b.coedges[0].forward;altered.push(b);
+            let mut b=body.clone();b.loops[0].outer=!b.loops[0].outer;altered.push(b);
+            let mut b=body.clone();
+            let cone=b.surfaces.iter_mut().find(|s|matches!(s.geometry,SurfaceGeometry::ConeMeridian{..})).unwrap();
+            if let SurfaceGeometry::ConeMeridian{end,..}=&mut cone.geometry {end[0]=Binary64::new(end[0].get().next_up()).unwrap();}
+            altered.push(b);
+            let mut b=body.clone();
+            if let CurveGeometry::Circle{radius,..}=&mut b.curves[0].geometry {*radius=Binary64::new(radius.get().next_up()).unwrap();}
+            altered.push(b);
+            for b in altered {assert!(audit(&b.check().unwrap()).is_err());}
+        }
+    }
+}
+
+#[test]
+fn full_polygon_exact_axis_rebase_and_adjacent_refusals() {
+    use wonky_ops::revolve_full::{build,in_sketch};
+    let f=Affine{origin:[4.,8.,16.],x:[0.,0.6,0.8],z:[0.,0.8,-0.6]};
+    let segments=[[0.,0.,2.,0.],[2.,0.,2.,1.],[2.,1.,0.,1.],[0.,1.,0.,0.]];
+    let key=BodyKey{id:[1,0,0,0],revision:0};
+    assert!(in_sketch(key.clone(),[0;4],f,f.origin,f.x,&segments,std::f64::consts::TAU).is_ok());
+    let mut origin=f.origin;origin[1]=origin[1].next_up();
+    let mut axis=f.x;axis[1]=axis[1].next_up();
+    for (o,z) in [(origin,f.x),(f.origin,axis)] {
+        assert_eq!(in_sketch(key.clone(),[0;4],f,o,z,&segments,std::f64::consts::TAU).unwrap_err().0,"revolve/full/axis-frame-proof-unavailable");
+    }
+    for a in [std::f64::consts::TAU.next_down(),std::f64::consts::TAU.next_up()] {
+        assert_eq!(build(key.clone(),[0;4],Affine::IDENTITY,2,&segments,a).unwrap_err().0,"revolve/full/angle-not-full-turn");
+    }
+    // A displaced axis is not a near-coincident axis: admit its exact source
+    // coordinates and independently check the annular washer and centroid.
+    // Existing origin-only cases cannot catch a rounded inverse/subtraction.
+    for frame in [Affine::IDENTITY, Affine { z: [0.,0.6,0.8], ..Affine::IDENTITY }] {
+        for mode in 0..2 {
+            let mut points=[[2.,5.],[4.,5.],[4.,6.],[2.,6.]];
+            let mut offset=[1.,4.,0.];
+            if mode==1 { for p in &mut points { p.swap(0,1); } offset.swap(0,1); }
+            let segments=std::array::from_fn::<_,4,_>(|i| {let(a,b)=(points[i],points[(i+1)%4]);[a[0],a[1],b[0],b[1]]});
+            let origin=frame.apply(offset,1.,true).unwrap();
+            let axis=frame.columns().unwrap()[mode];
+            let body=in_sketch(key.clone(),[0;4],frame,origin,axis,&segments,std::f64::consts::TAU).unwrap();
+            let solid=wonky_ops::revolve_full::audit(&body.check().unwrap()).unwrap();
+            let volume=solid.measures().unwrap().0;
+            let determinant=q(frame.z[1]).pow(2)+q(frame.z[2]).pow(2);
+            let expected=q(6.)*q(std::f64::consts::PI)*q(1e9)*determinant;
+            assert!(q(volume.lo())<=expected && expected<=q(volume.hi()));
+            let (lo,hi)=solid.bbox(None).unwrap();
+            let center=frame.apply(if mode==0 {[3.,4.,0.]} else {[4.,3.,0.]},1000.,true).unwrap();
+            for k in 0..3 { assert!(((lo[k]+hi[k])/2.-center[k]).abs()<1e-9); }
+        }
+    }
+    let annulus=[[0.,1.,1.,1.],[1.,1.,1.,2.],[1.,2.,0.,2.],[0.,2.,0.,1.]];
+    for (origin,reason) in [
+        ([0.,2f64.powi(-54),0.],"axis-coordinate-not-representable"),
+        ([0.,0.,2f64.powi(-52)],"axis-frame-proof-unavailable"),
+        ([0.,1.5,0.],"axis-crossing-profile"),
+    ] {
+        assert_eq!(in_sketch(key.clone(),[0;4],Affine::IDENTITY,origin,[1.,0.,0.],&annulus,std::f64::consts::TAU).unwrap_err().0,format!("revolve/full/{reason}"));
+    }
+    let crossed=[[-1.,0.,2.,0.],[2.,0.,2.,1.],[2.,1.,-1.,1.],[-1.,1.,-1.,0.]];
+    assert_eq!(build(key,[0;4],Affine::IDENTITY,2,&crossed,std::f64::consts::TAU).unwrap_err().0,"revolve/full/axis-crossing-profile");
+}

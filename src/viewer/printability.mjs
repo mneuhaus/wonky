@@ -32,6 +32,8 @@ import {
   aliasOf, bodyTolerance, cachedLogicalFaces, curveRange, faceTolerance, precisionAngularGuard,
 } from './geometry.mjs';
 import { HttpError } from './http.mjs';
+import { rustHostOf } from '../native/rust-host.mjs';
+import { circlePoint } from './binary64-math.mjs';
 
 export const PRINTABILITY_SCHEMA = 'wonky.viewer-printability/1';
 export const DEFAULT_ALPHA_DEG = 45;
@@ -223,8 +225,10 @@ export function edgeCoverage(kernel, body, edges, frame) {
   for (const edge of circles) {
     const [first, last] = curveRange(kernel, body, edge);
     if (last - first >= 2 * Math.PI - 1e-12) return [[0, FULL_TURN_DEG]];
-    const curve = encodeCircle(edge.curve);
+    const rust = rustHostOf(kernel);
+    const curve = rust ? edge.curve : encodeCircle(edge.curve);
     const point = t => {
+      if (rust) return circlePoint(curve, t);
       const value = kernel.analytic.curve_point(curve, real(t));
       return [number(value.x), number(value.y), number(value.z)];
     };
